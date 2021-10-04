@@ -11,7 +11,7 @@
          {if_else
             {modifier_mgr is_modifier_active mod_demomode}
             1.0
-            0.1}))
+            0.1}))		
    (load
       {set_loader_period 14})
    (unload
@@ -153,7 +153,8 @@
    (game_won_tie
       {$this game_won_common}
       kDataUnhandled)
-   (game_lost_disable
+   (game_lost
+      {beatmatch set_realtime TRUE}
       {beatmatch
          foreach_active_player
          $p
@@ -161,10 +162,7 @@
       {if
          {gamecfg multiplayer}
          {{beatmatch main_performer}
-            on_game_lost}})
-   (game_lost
-      {beatmatch set_realtime TRUE}
-      {$this game_lost_disable}
+            on_game_lost}}
       {script_task
          kTaskBeats
          (delay LOSE_MUSIC_SLOW_SEC)
@@ -204,7 +202,7 @@
                   pause_screen
                   {ui current_screen}}
                {'||'
-                  {gamemode get allow_any_controller_to_pause_in_game}
+                  {gamemode get is_jukebox}
                   {&&
                      {gamecfg is_player_participating $user_num}
                      {beatmatch player $user_num}
@@ -224,23 +222,7 @@
             {net_sync set_ui_state kNetUI_Pause}
             {ui
                push_screen
-               {gamemode get pause_screen}}}})
-   (on_end_demo
-      {if
-         {&&
-            {!
-               {ui in_transition}}
-            {==
-               game
-               {ui focus_panel}}
-            {==
-               {session state}
-               kNetInGame}
-            {!
-               {game is_game_over}}}
-         {pause_panel set end_demo TRUE}
-         {net_sync set_ui_state kNetUI_Pause}
-         {ui push_screen pause_screen}})}
+               {gamemode get pause_screen}}}})}
 {new
    UIPanel
    sync_audio_net_panel
@@ -397,9 +379,7 @@
    (microphones_changed
       ($vocalists_mic_changed)
       {if
-         {&&
-            $vocalists_mic_changed
-            {any_non_autoplay_vocalists}}
+         $vocalists_mic_changed
          {$this pause_for_mic_check_mid_game}})
    (pause_for_mic
       {set
@@ -470,9 +450,10 @@
             {profile_mgr update_mic_gain $player_num}}}
       {handle
          ($this my_enter)}
-      {input_mgr
-         set_limit
-         {gamemode get game_input_limit_type}})
+      {if_else
+         {gamemode get is_jukebox}
+         {input_mgr set_limit kLimitNone}
+         {input_mgr set_limit kLimitSession}})
    (exit
       {platform_mgr remove_sink $this ui_changed}
       {synth stop_playback_all_mics}
@@ -485,6 +466,40 @@
       {input_mgr check_controllers})
    (UI_CHANGED_MSG
       {$this on_guide_change})
+   (player_missing_mic
+      {do
+         ($ret FALSE)
+         ($player_num)
+         ($user)
+         {game
+            foreach_local_player
+            $p
+            {set
+               $player_num
+               {$p player_num}}
+            {set
+               $user
+               {user_mgr get_band_user $player_num}}
+            {if
+               {&&
+                  {!= $player_num -1}
+                  {$user is_participating}
+                  {==
+                     {$user get_track_sym}
+                     vocals}
+                  #ifndef _SHIP
+                  {==
+                     {user_mgr
+                        debug_get_controller_type_override
+                        {$user get_pad_num}}
+                     kControllerNone}
+                  #endif
+                  {!
+                     {synth
+                        is_mic_connected
+                        {joypad_get_players_padnum $player_num}}}}
+               {set $ret TRUE}}}
+         $ret})
    (TRANSITION_COMPLETE_MSG
       {if
          {'||'
@@ -505,19 +520,10 @@
             {if
                {'||'
                   {synth did_mics_change}
+                  {$this player_missing_mic}
                   {!
                      {are_all_mics_connected}}}
-               {$this pause_for_mic_check}}}}
-      {if
-         {&&
-            {song_mgr
-               is_demo
-               {meta_performer song}}
-            {'||'
-               {!
-                  {gamemode get local_network}}
-               {gamemode is_tour}}}
-         {band_ui content_file_read_failed '' FALSE}})
+               {$this pause_for_mic_check}}}})
    (on_guide_change
       {if
          {&&
