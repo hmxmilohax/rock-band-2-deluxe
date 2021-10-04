@@ -26,4 +26,9 @@
       (disables
          (modifier_saving_feature modifier_achievements_feature modifier_online_feature)))
    (mod_awesome)
+   (mod_roygb
+   (activate
+		{set $roygb TRUE})
+   (deactivate
+		{set $roygb FALSE}))
    (mod_autostrum))
