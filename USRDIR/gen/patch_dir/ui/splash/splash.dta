@@ -97,6 +97,7 @@
          {int
             [alpha_threshold]}})
    (enter
+	  {modifier_mgr activate_modifier mod_doublespeed}
       {set
          [alpha_threshold_fading]
          FALSE}
