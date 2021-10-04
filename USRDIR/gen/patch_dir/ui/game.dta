@@ -90,6 +90,16 @@
          (script
             {handle
                ($this intro_end)})}
+		
+		;;Black Venue Mod
+		
+		{if
+			{modifier_mgr is_modifier_active mod_blackvenue}
+				{do
+					{$world iterate PostProc $p
+					{$p set brightness -800}}
+				}
+		}     
       kDataUnhandled)
    (intro_skip
       {if
