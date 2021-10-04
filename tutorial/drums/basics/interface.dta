@@ -1,0 +1,60 @@
+SETUP_DRUM_TUTORIAL
+DRUM_TV_WHITE
+STOP_BG_MUSIC
+{setup_lesson_banner tutorial_drum_basics_interface_part}
+{play_vo tute_drum1_kickoutro}
+{meta_performer set_song drum_basics_interface}
+LOAD_NEW_DRUMS_SONG_NO_FADE
+HIDE_TRACK_PLAYER_UI
+UNPAUSE_TRACK
+SYNC_PAUSE
+DRUM_TV_ZOOM_IN
+WAIT_FOR_VO
+AUTOPLAY_ON
+UNPAUSE_TRACK
+{play_vo tute_drum1_crowdmeter}
+{set_crowd_rating CROWD_METER_MIDDLE}
+SHOW_CROWD_METER
+SHOW_DRUM_CROWD_METER_ARROW
+{$task sleep TUTORIAL_DRUM_BASICS_INTERFACE_PAUSE1}
+{$task sleep TUTORIAL_DRUM_BASICS_INTERFACE_PAUSE2}
+{set_crowd_rating CROWD_METER_HIGH}
+{$task sleep TUTORIAL_DRUM_BASICS_INTERFACE_PAUSE3}
+{set_crowd_rating CROWD_METER_LOW}
+AUTOPLAY_OFF
+{$task sleep TUTORIAL_DRUM_BASICS_INTERFACE_PAUSE4}
+{set_crowd_rating CROWD_METER_REAL_LOW}
+{$task sleep TUTORIAL_DRUM_BASICS_INTERFACE_PAUSE5}
+{set_crowd_rating CROWD_METER_MIDDLE}
+WAIT_FOR_VO
+HIDE_DRUM_CROWD_METER_ARROW
+LONG_VO_GAP
+{play_vo tute_drum1_scoremeter}
+AUTOPLAY_ON
+UNHIDE_SCORE_METER
+SHOW_DRUM_SCORE_METER_ARROW
+WAIT_FOR_VO
+{$task sleep TUTORIAL_DRUM_BASICS_INTERFACE_PAUSE6}
+HIDE_DRUM_SCORE_METER_ARROW
+LONG_VO_GAP
+{play_vo tute_drum1_rockmeter}
+SHOW_DRUM_ENERGY_METER_ARROW
+SHOW_BAND_ENERGY
+FILL_BAND_ENERGY
+WAIT_FOR_VO
+HIDE_DRUM_ENERGY_METER_ARROW
+LONG_VO_GAP
+TRACK_OUT
+HIDE_BAND_ENERGY
+HIDE_SCORE_METER
+HIDE_CROWD_METER
+PAUSE_TRACK
+{set_banner_text
+   {localize tutorial_drum_basics_interface_done}}
+{show_info_text FALSE}
+{show_part_text FALSE}
+{show_score_text FALSE}
+{show_banner_text TRUE}
+DRUM_TV_ZOOM_OUT
+{$task sleep 3.5}
+{tutorials_state_panel switch_to_next_state}

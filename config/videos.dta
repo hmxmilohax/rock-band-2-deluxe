@@ -1,0 +1,17 @@
+(stream_begin
+   {char_cache cache_enable FALSE}
+   {char_cache cache_clear})
+(stream_end
+   {char_cache cache_enable TRUE}
+   {char_cache cache_update})
+(intro
+   (files
+      "rb2_cinematic.bik")
+   (fill_width TRUE))
+(attract
+   (files
+      "letthereberock.bik"
+      "rb2_cinematic.bik"))
+(win_credits
+   (files
+      "rb2_endcredits.bik"))

@@ -1,0 +1,235 @@
+{new
+   UIPanel
+   modifiers_panel
+   (file
+      "modifiers.milo")
+   (focus modifiers.lst)
+   (is_autoloading FALSE)
+   (enter
+      {$this set is_autoloading FALSE}
+      {modifiers.lst set_provider modifier_mgr}
+      {profile_mgr
+         add_sink
+         $this
+         (profile_changed_msg)}
+      {memcardmgr
+         add_sink
+         $this
+         (save_load_all_complete_msg)})
+   (exit
+      {profile_mgr remove_sink $this profile_changed_msg}
+      {memcardmgr remove_sink $this save_load_all_complete_msg})
+   (SELECT_MSG
+      {if
+         (== $component modifiers.lst)
+         {do
+            {if_else
+               {==
+                  {modifiers.lst selected_pos}
+                  0}
+               {do
+                  {modifier_enter_screen set player_num $player_num}
+                  {ui push_screen modifier_enter_screen}}
+               {do
+                  ($modifier
+                     {modifiers.lst selected_sym})
+                  {if
+                     {modifier_mgr is_modifier_unlocked $modifier}
+                     {if_else
+                        {modifier_mgr is_modifier_active $modifier}
+                        {do
+                           ($saving_was_enabled
+                              {modifier_mgr is_feature_enabled modifier_saving_feature})
+                           {modifier_mgr deactivate_modifier $modifier}
+                           {if_else
+                              {&&
+                                 {! $saving_was_enabled}
+                                 {modifier_mgr is_feature_enabled modifier_saving_feature}}
+                              {if
+                                 {&&
+                                    {!
+                                       {ui in_transition}}
+                                    {==
+                                       {ui current_screen}
+                                       modifiers_screen}
+                                    {!
+                                       {net_sync has_destination_screen}}}
+                                 {$this set is_autoloading TRUE}
+                                 {autoload}}
+                              {modifiers.lst set_dirty}}}
+                        {do
+                           {if_else
+                              {modifier_mgr does_disable_features $modifier}
+                              {do
+                                 {modifier_confirm_screen set modifier $modifier}
+                                 {ui push_screen modifier_confirm_screen}}
+                              {do
+                                 {modifier_mgr activate_modifier $modifier}
+                                 {modifiers.lst set_dirty}}}}}}}}}})
+   (update_helpbar
+      {if_else
+         {==
+            {modifiers.lst selected_pos}
+            0}
+         {helpbar
+            set_config
+            ((cancel helpbar_back)
+               (confirm helpbar_select))}
+         {do
+            ($modifier
+               {modifiers.lst selected_sym})
+            {if_else
+               {modifier_mgr is_modifier_unlocked $modifier}
+               {helpbar
+                  set_config
+                  ((cancel helpbar_back)
+                     (confirm helpbar_toggleoption))}
+               {helpbar
+                  set_config
+                  ((cancel helpbar_back))}}}})
+   (SCROLL_MSG
+      {$this update_helpbar})
+   (BUTTON_DOWN_MSG
+      {if_else
+         {== $action kAction_Confirm}
+         {if_else
+            {==
+               {modifiers.lst selected_pos}
+               0}
+            kDataUnhandled
+            {do
+               ($modifier
+                  {modifiers.lst selected_sym})
+               {if_else
+                  {modifier_mgr is_modifier_unlocked $modifier}
+                  kDataUnhandled
+                  {do
+                     {synth play button_error}
+                     0}}}}
+         kDataUnhandled})
+   (profile_changed_msg
+      ($profile)
+      {if
+         {!
+            [is_autoloading]}
+         {modifiers.lst set_dirty}}
+      {$this update_helpbar})
+   (save_load_all_complete_msg
+      {$this set is_autoloading FALSE}
+      {modifiers.lst set_dirty})
+   (TRANSITION_COMPLETE_MSG
+      {if
+         {!
+            [is_autoloading]}
+         {if
+            ('||'
+               (== $old_screen modifier_unlocked_screen)
+               (== $old_screen modifier_confirm_screen))
+            {modifiers.lst set_dirty}}}
+      {$this update_helpbar})}
+{new
+   AutoloadScreen
+   modifiers_screen
+   (panels meta movie_panel options_background_panel modifiers_panel)
+   (focus modifiers_panel)
+   (back main_community_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}
+{new
+   BandScreen
+   modifier_unlocked_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (modifier
+      "")
+   (enter
+      {do
+         ($description
+            {sprintf
+               "%s_desc"
+               [modifier]})
+         {dialog_panel
+            set_ok
+            {localize $description}}
+         {dialog_panel
+            set_title
+            {localize modifier_unlocked_title}}})
+   (SELECT_MSG
+      {if
+         {&&
+            {!
+               {net_sync has_destination_screen}}
+            {!
+               {ui in_transition}}
+            {==
+               {ui current_screen}
+               $this}}
+         {autosave_goto
+            ""}})}
+{new
+   BandScreen
+   modifier_enter_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (player_num 0)
+   (enter
+      {do
+         {dialog_panel
+            set_ok
+            {localize modifier_enter_msg}}})
+   (modifier_unlocked
+      ($modifier)
+      {modifier_mgr
+         unlock_modifier
+         $modifier
+         [player_num]}
+      {modifier_unlocked_screen set modifier $modifier}
+      {ui goto_screen modifier_unlocked_screen})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   modifier_confirm_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (modifier
+      "")
+   (enter
+      {do
+         ($featurelist
+            {modifier_mgr
+               get_disabled_features
+               [modifier]})
+         ($featurestring
+            "")
+         {foreach
+            $feature
+            $featurelist
+            {if_else
+               {==
+                  $featurestring
+                  ""}
+               {set
+                  $featurestring
+                  {localize $feature}}
+               {set
+                  $featurestring
+                  {sprintf
+                     "%s, %s"
+                     $featurestring
+                     {localize $feature}}}}}
+         {dialog_panel
+            set_yesno
+            {sprintf
+               {localize modifier_confirm_msg}
+               $featurestring}
+            no.btn}})
+   (SELECT_MSG
+      {switch
+         $component
+         (yes.btn
+            {modifier_mgr
+               activate_modifier
+               [modifier]})}
+      {ui pop_screen})}

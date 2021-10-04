@@ -1,0 +1,96 @@
+#define MINIMAL_OUTFITS_BASE_CHAR
+((gender male)
+   (attitude kGenreDramatic)
+   (weight 0.4)
+   (height 1.0)
+   (skin_color_index 0)
+   (eye_color_index 3)
+   (eyebrow_color_index 0))
+#define MINIMAL_OUTFITS_BASE_OUTFIT
+((hair
+      mop_resource
+      (colors 2))
+   (heads head_3)
+   (eyes none)
+   (lips none)
+   (facehair none)
+   (glasses none)
+   (torso
+      loosedapperjacket_vintage
+      (colors 3 4))
+   (hands naked)
+   (legs
+      darkriderpants_cotton
+      (colors 0))
+   (feet
+      dressshoes_leather
+      (colors 0 0))
+   (wrist none)
+   (rings none)
+   (earrings none))
+#define MINIMAL_OUTFITS_GUITAR
+((instrument guitar)
+   (gender male)
+   (attitude kGenreDramatic)
+   (weight 1.0)
+   (height 0.8)
+   (skin_color_index 0)
+   (eye_color_index 3)
+   (eyebrow_color_index 0)
+   (outfit
+      MINIMAL_OUTFITS_BASE_OUTFIT
+      (mic none)
+      (bass
+         precision01_triburstwhite
+         (colors 0 0))
+      (drum none)
+      (guitar
+         kelly01_sunburst
+         (colors 0 0))))
+#define MINIMAL_OUTFITS_VOCALS
+((instrument vocals)
+   (gender male)
+   (attitude kGenreDramatic)
+   (weight 0.6)
+   (height 0.5)
+   (skin_color_index 4)
+   (eye_color_index 2)
+   (eyebrow_color_index 0)
+   (outfit
+      MINIMAL_OUTFITS_BASE_OUTFIT
+      (mic sm58_resource)
+      (bass none)
+      (drum none)
+      (guitar none)))
+#define MINIMAL_OUTFITS_DRUM
+((instrument drum)
+   (gender male)
+   (attitude kGenreDramatic)
+   (weight 0.4)
+   (height 1.0)
+   (skin_color_index 2)
+   (eye_color_index 1)
+   (eyebrow_color_index 0)
+   (outfit
+      MINIMAL_OUTFITS_BASE_OUTFIT
+      (mic none)
+      (bass none)
+      (drum
+         blackoyster
+         (colors 0 0))
+      (guitar none)))
+(prefab
+   (drum0 MINIMAL_OUTFITS_DRUM)
+   (drum1 MINIMAL_OUTFITS_DRUM)
+   (drum2 MINIMAL_OUTFITS_DRUM)
+   (guitar0 MINIMAL_OUTFITS_GUITAR)
+   (guitar1 MINIMAL_OUTFITS_GUITAR)
+   (guitar2 MINIMAL_OUTFITS_GUITAR)
+   (guitar3 MINIMAL_OUTFITS_GUITAR)
+   (guitar4 MINIMAL_OUTFITS_GUITAR)
+   (guitar5 MINIMAL_OUTFITS_GUITAR)
+   (vocals0 MINIMAL_OUTFITS_VOCALS)
+   (vocals1 MINIMAL_OUTFITS_VOCALS)
+   (vocals2 MINIMAL_OUTFITS_VOCALS)
+   (vocals3 MINIMAL_OUTFITS_VOCALS)
+   (vocals4 MINIMAL_OUTFITS_VOCALS))

@@ -1,0 +1,206 @@
+{func
+   player_on_instrument
+   ($player_num $controller_type)
+   {==
+      {{user_mgr get_band_user $player_num}
+         connected_controller_type}
+      $controller_type}}
+{new
+   SessionPanel
+   training_menu_panel
+   (finish_load
+      {$this
+         set_loaded_dir
+         {main_panel loaded_dir}})
+   (unload
+      {$this unset_loaded_dir})
+   (is_loaded
+      {main_panel is_loaded})
+   (reset_focus TRUE)
+   (enter
+      {session clear}
+      {input_mgr set_limit kLimitNone}
+      {$this update_available_inst})
+   (SELECT_MSG
+      {switch
+         $component
+         (tutorials.btn
+            {if_else
+               {&&
+                  {player_on_instrument $player_num kControllerVocals}
+                  {gamecfg is_missing_mic $player_num FALSE}}
+               {do
+                  {vocalist_must_have_mic_screen set message tutorial_vocalist_needs_mic}
+                  {ui push_screen vocalist_must_have_mic_screen}}
+               {do
+                  {set
+                     [slot]
+                     0}
+                  {set
+                     [player_num]
+                     $player_num}
+                  {do
+                     ($controller_type kControllerNone)
+                     ($mode
+                        "")
+                     ($slot 0)
+                     {if
+                        {player_on_instrument $player_num kControllerDrum}
+                        {set $controller_type kControllerDrum}}
+                     {if
+                        {player_on_instrument $player_num kControllerGuitar}
+                        {set $controller_type kControllerGuitar}}
+                     {if
+                        {player_on_instrument $player_num kControllerVocals}
+                        {set $controller_type kControllerVocals}}
+                     {switch
+                        $controller_type
+                        (kControllerDrum
+                           {set $mode tutorial_drums}
+                           {set $slot kGameCoopSlotDrum})
+                        (kControllerGuitar
+                           {set $mode tutorial_guitar}
+                           {set $slot kGameCoopSlotGuitar0})
+                        (kControllerVocals
+                           {set $mode tutorial_vocals}
+                           {set $slot kGameCoopSlotVocals})
+                        (TRUE
+                           {notify
+                              "player selected a tutorial with an unknown controller type!"})}
+                     {gamemode set_mode $mode}
+                     {{gamemode get main_panel}
+                        set_tutorial_player
+                        $player_num}
+                     {session_mgr
+                        add_sink
+                        $this
+                        (add_local_user_result_msg)}
+                     {session_mgr add_local_user $player}}}})
+         (practice.btn
+            {if_else
+               {&&
+                  {player_on_instrument $player_num kControllerVocals}
+                  {gamecfg is_missing_mic $player_num FALSE}}
+               {do
+                  {vocalist_must_have_mic_screen set message solo_vocalist_needs_mic}
+                  {ui push_screen vocalist_must_have_mic_screen}}
+               {do
+                  {gamemode set_mode practice}
+                  {set
+                     [player_num]
+                     $player_num}
+                  {if
+                     {player_on_instrument $player_num kControllerDrum}
+                     {set $controller_type kControllerDrum}}
+                  {if
+                     {player_on_instrument $player_num kControllerGuitar}
+                     {set $controller_type kControllerGuitar}}
+                  {if
+                     {player_on_instrument $player_num kControllerVocals}
+                     {set $controller_type kControllerVocals}}
+                  {switch
+                     $controller_type
+                     (kControllerDrum
+                        {set
+                           [slot]
+                           kGameCoopSlotDrum})
+                     (kControllerGuitar
+                        {set
+                           [slot]
+                           kGameCoopSlotGuitar0})
+                     (kControllerVocals
+                        {set
+                           [slot]
+                           kGameCoopSlotVocals})
+                     (TRUE
+                        {notify
+                           "player selected a tutorial with an unknown controller type!"})}
+                  {session_mgr
+                     add_sink
+                     $this
+                     (add_local_user_result_msg)}
+                  {session_mgr add_local_user $player}}})
+         (drum_freestyle.btn
+            {if_else
+               {player_on_instrument $player_num kControllerDrum}
+               {do
+                  {gamemode set_mode drum_trainer_mode}
+                  {ui
+                     goto_screen
+                     {gamemode get first_screen}}}
+               {ui push_screen drum_trainer_non_drum_warning_screen}})})
+   (update_available_inst
+      {if_else
+         {gamecfg is_instrument_connected drum}
+         {if
+            {!=
+               {$this focus_name}
+               drum_freestyle.btn}
+            {drum_freestyle.btn set_state kComponentNormal}}
+         {do
+            {if
+               {==
+                  {$this focus_name}
+                  drum_freestyle.btn}
+               {$this set_focus practice.btn}}
+            {drum_freestyle.btn set_state kComponentDisabled}}})
+   (JOYPAD_CONNECT_MSG
+      {$this update_available_inst})
+   (add_local_user_result_msg
+      ($success $user)
+      {if
+         {! $success}
+         {fail
+            "add_local_user_result_msg success is false (should be impossible in local game, so something's broken...)\n"}}
+      {session_mgr remove_sink $this add_local_user_result_msg}
+      {game
+         set_player_slot_num
+         [player_num]
+         [slot]}
+      {game
+         foreach_user
+         $pcfg
+         {$pcfg
+            set_char
+            {available_prefab
+               {$pcfg get player_num}}}
+         {$pcfg
+            set_track_type
+            {$pcfg get_controller_sym}}}
+      {input_mgr set_limit kLimitSession}
+      {ui
+         goto_screen
+         {gamemode get first_screen}})
+   (slot 0)
+   (player_num 0)}
+{new
+   BandScreen
+   training_menu_screen
+   (panels meta main_panel training_menu_panel)
+   (focus training_menu_panel)
+   (back main_screen)
+   MAIN_SCREEN_HANDLERS}
+{new
+   BandScreen
+   drum_trainer_non_drum_warning_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (enter
+      {dialog_panel
+         set_ok
+         {localize drum_trainer_non_drum_warning}}
+      {platform_mgr
+         add_sink
+         $this
+         (signin_changed)})
+   (exit
+      {platform_mgr remove_sink $this signin_changed})
+   (SIGNIN_CHANGED_MSG
+      {ui pop_screen})
+   (SELECT_MSG
+      {ui pop_screen})}
+#include ../../tutorial/tutorial.dta
+#include ../../drum_trainer/drum_trainer.dta
+#include practice.dta

@@ -1,0 +1,290 @@
+#define SHOP_OUTFIT_HANDLERS
+((update_lists
+      ($focus)
+      {$this
+         iterate
+         UIList
+         $l
+         {$l
+            set_showing
+            {== $focus $l}}})
+   (FOCUS_MSG
+      {$this update_lists $new_focus})
+   (TRANSITION_COMPLETE_MSG
+      {$this update}
+      {$this
+         update_lists
+         {$this focus_name}})
+   (SELECT_MSG
+      {unless
+         {==
+            {$this focus_category}
+            ''}
+         {$this store_outfit}})
+   (SCROLL_MSG
+      {$this update})
+   (BUTTON_DOWN_MSG
+      {do
+         ($category
+            {$this focus_category})
+         ($selected
+            {$this focus_outfit})
+         ($tour_char
+            {$this tour_char})
+         {if_else
+            {!= $selected ''}
+            {switch
+               $action
+               (kAction_Confirm
+                  {do
+                     ($has_outfit
+                        {$tour_char has_outfit $category $selected})
+                     ($cost
+                        {{$this focus_provider}
+                           cost
+                           $selected})
+                     {synth play button_select}
+                     {cond
+                        ({&&
+                              {! $has_outfit}
+                              {>
+                                 $cost
+                                 {$tour_char money}}}
+                           {ui push_screen shop_error_money_screen})
+                        ({$tour_char has_group_selection $category $selected}
+                           {group_select_panel init $this}
+                           {ui push_screen group_select_screen})
+                        ({!=
+                              {$this find_outfit_config}
+                              ''}
+                           {color_select_panel init $this}
+                           {ui push_screen color_select_screen})
+                        ({==
+                              {$this selected_outfit}
+                              $selected}
+                           {ui push_screen shop_error_selected_screen})
+                        ({&&
+                              {! $has_outfit}
+                              $cost}
+                           {color_select_panel init $this}
+                           {ui push_screen shop_confirm_screen})
+                        (TRUE
+                           {$this confirm_outfit})}})
+               (kAction_Option
+                  {if
+                     {&&
+                        {!=
+                           {$this find_patch_renderer}
+                           ''}
+                        {$tour_char has_outfit $category $selected}}
+                     {synth play button_select}
+                     {patch_select_panel set outfit_panel $this}
+                     {patch_panel
+                        set
+                        bg_color
+                        {$this find_patch_color}}
+                     {patch_select_panel
+                        set
+                        confirm_screen
+                        {ui current_screen}}
+                     {patch_select_panel store}
+                     {ui push_screen patch_select_screen}})
+               (kAction_Cancel
+                  {if
+                     {!=
+                        {ui current_screen}
+                        shop_instrument_screen}
+                     {synth play button_back}}
+                  {$this undo_outfit})
+               (kAction_ViewModify
+                  {synth play button_toggle}
+                  {shop_char_panel select_next_cam})
+               kDataUnhandled}
+            kDataUnhandled}})
+   (change_char_config
+      {$this update}))
+#define SHOP_CLOTHING_HANDLERS
+(SHOP_OUTFIT_HANDLERS
+   (file
+      {if_else
+         [closet]
+         "shop_clothing_punk.milo"
+         {switch
+            [genre]
+            (shell_shop_punkstore
+               "shop_clothing_punk.milo")
+            (shell_shop_rockstore
+               "shop_clothing_rock.milo")
+            (shell_shop_gothstore
+               "shop_clothing_goth.milo")
+            (shell_shop_metalstore
+               "shop_clothing_metal.milo")
+            (shell_shop_thriftstore
+               "shop_clothing_thrift.milo")}})
+   (focus torso.btn)
+   (reset FALSE)
+   (enter
+      {if
+         [reset]
+         {$this set_focus torso.btn}}
+      {set
+         [reset]
+         FALSE}
+      {title.lbl
+         set
+         text_token
+         [title]}
+      {$this update})
+   (undo_outfit
+      {shop_char_panel
+         select_cam
+         "closeup_idle"})
+   (confirm_outfit
+      {shop_char_panel
+         select_cam
+         "closeup_idle"}))
+#define SHOP_ACCESSORIES_HANDLERS
+(SHOP_OUTFIT_HANDLERS
+   (file
+      {if_else
+         [closet]
+         "shop_accessories_closet.milo"
+         "shop_accessories.milo"})
+   (focus glasses.btn)
+   (reset_focus TRUE)
+   (enter
+      {title.lbl
+         set
+         text_token
+         [title]}
+      {$this update})
+   (undo_outfit
+      {shop_char_panel
+         select_cam
+         "closeup_idle"})
+   (confirm_outfit
+      {shop_char_panel
+         select_cam
+         "closeup_idle"}))
+{new
+   OutfitPanel
+   shop_clothing_genre_panel
+   SHOP_CLOTHING_HANDLERS
+   (genre shell_shop_punkstore)
+   (outfit_char shop_char_panel)
+   (closet FALSE)
+   (title
+      [genre])}
+{new
+   BandScreen
+   shop_clothing_genre_screen
+   (panels meta shop_char_panel shop_clothing_genre_panel shop_money_panel)
+   (focus shop_clothing_genre_panel)
+   (back shop_clothing_screen)}
+{new
+   OutfitPanel
+   shop_clothing_closet_panel
+   SHOP_CLOTHING_HANDLERS
+   (outfit_char shop_char_panel)
+   (closet TRUE)
+   (genre '')
+   (title shop_clothing)}
+{new
+   BandScreen
+   shop_clothing_closet_screen
+   (panels meta shop_char_panel shop_clothing_closet_panel)
+   (focus shop_clothing_closet_panel)
+   (back charcloset_screen)}
+{new
+   OutfitPanel
+   charcloset_panel
+   (file
+      "shop_closet.milo")
+   (focus clothing.btn)
+   (reset FALSE)
+   (enter
+      {if
+         [reset]
+         {$this set_focus clothing.btn}}
+      {set
+         [reset]
+         FALSE}
+      {title.lbl
+         set
+         text_token
+         [title]}
+      {$this update})
+   SHOP_OUTFIT_HANDLERS
+   (outfit_char shop_char_panel)
+   (closet TRUE)
+   (genre '')
+   (title shell_my_closet)}
+{new
+   BandScreen
+   charcloset_screen
+   (panels meta shop_char_panel charcloset_panel)
+   (focus charcloset_panel)
+   (back shop_screen)
+   (SELECT_MSG
+      {switch
+         $component
+         (clothing.btn
+            {shop_clothing_closet_panel set reset TRUE}
+            {ui goto_screen shop_clothing_closet_screen})
+         (accessories.btn
+            {charcloset_accessories_panel set reset TRUE}
+            {ui goto_screen charcloset_accessories_screen})
+         (instruments.btn
+            {do
+               ($inst
+                  {{input_mgr get_user}
+                     get_controller_sym})
+               {switch
+                  $inst
+                  (guitar
+                     {charcloset_guitarbass_panel set reset TRUE}
+                     {ui goto_screen charcloset_guitarbass_screen})
+                  (vocals
+                     {charcloset_instrument_panel set instrument mic}
+                     {ui goto_screen charcloset_instrument_screen})
+                  (drum
+                     {charcloset_instrument_panel set instrument $inst}
+                     {ui goto_screen charcloset_instrument_screen})}})
+         {if_else
+            {==
+               {{shop_char_panel get tour_char}
+                  get_gender}
+               female}
+            {do
+               {ui goto_screen charcloset_hair_screen}}
+            {do
+               {charcloset_hair_panel set reset TRUE}
+               {ui goto_screen charcloset_hair_screen}}}})}
+{new
+   OutfitPanel
+   shop_accessories_panel
+   SHOP_ACCESSORIES_HANDLERS
+   (closet FALSE)
+   (genre '')
+   (outfit_char shop_char_panel)
+   (title shop_accessories)}
+{new
+   BandScreen
+   shop_accessories_screen
+   (panels meta shop_char_panel shop_accessories_panel shop_money_panel)
+   (focus shop_accessories_panel)
+   (back shop_clothing_screen)}
+{new
+   OutfitPanel
+   charcloset_accessories_panel
+   SHOP_ACCESSORIES_HANDLERS
+   (outfit_char shop_char_panel)
+   (closet TRUE)
+   (genre '')
+   (title shop_accessories)}
+{new
+   BandScreen
+   charcloset_accessories_screen
+   (panels meta shop_char_panel charcloset_accessories_panel)
+   (focus charcloset_accessories_panel)
+   (back charcloset_screen)}

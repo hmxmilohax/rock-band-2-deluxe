@@ -1,0 +1,583 @@
+{new
+   UIPanel
+   shop_tattoo_panel
+   (file
+      "shop_tattoo.milo")
+   (focus patch_chest.btn)
+   (reset_focus TRUE)
+   (current_torso 0)
+   (current_wrist 0)
+   (current_hands 0)
+   (enter
+      {set
+         [current_torso]
+         {{shop_char_panel get tour_char}
+            selected_outfit
+            torso}}
+      {set
+         [current_wrist]
+         {{shop_char_panel get tour_char}
+            selected_outfit
+            wrist}}
+      {set
+         [current_hands]
+         {{shop_char_panel get tour_char}
+            selected_outfit
+            hands}}
+      {{$this outfit_loader}
+         select
+         torso
+         naked}
+      {{$this outfit_loader}
+         select
+         wrist
+         none}
+      {{$this outfit_loader}
+         select
+         hands
+         naked}
+      {{$this outfit_loader}
+         start_load}
+      {shop_char_panel
+         select_cam
+         "tattoo_idle"})
+   (TRANSITION_COMPLETE_MSG
+      {shop_char_panel
+         select_cam
+         "tattoo_idle"}
+      {patch_panel set_size 1 1 0})
+   (exit
+      {{$this outfit_loader}
+         select
+         torso
+         [current_torso]}
+      {{$this outfit_loader}
+         select
+         wrist
+         [current_wrist]}
+      {{$this outfit_loader}
+         select
+         hands
+         [current_hands]}
+      {{$this outfit_loader}
+         start_load})
+   (outfit_loader
+      {{shop_char_panel get char}
+         find
+         OutfitLoader.outfit})
+   (SELECT_MSG
+      {tattoo_select_panel
+         set
+         location
+         {basename
+            {$component name}}}
+      {do
+         ($char
+            {shop_char_panel get char})
+         {patch_panel
+            set
+            bg_color
+            {{$char get skin_color_palette}
+               get
+               (colors
+                  {$char get skin_color_index})}}}
+      {tattoo_select_panel store}
+      {ui push_screen tattoo_select_screen})}
+{new
+   BandScreen
+   shop_tattoo_screen
+   (panels meta shop_char_panel shop_tattoo_panel shop_money_panel)
+   (focus shop_tattoo_panel)
+   (back shop_ink_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}
+#define PATCH_SELECT_PANEL_HANDLERS
+((file
+      {if_else
+         {==
+            [set]
+            arm}
+         "patch_select_arm.milo"
+         "patch_select.milo"})
+   (focus patch.lst)
+   (stored_patch_idx -2)
+   (enter
+      {{shop_char_panel get char}
+         set_force_patch
+         {$this patch_renderer_name}
+         TRUE}
+      {$this select_patch_cam}
+      {patch.lst store}
+      {shop_char_panel set_ui_showing FALSE}
+      {$this set_focus patch.lst})
+   (go_back
+      {$this
+         set_patch_index
+         [stored_patch_idx]}
+      {handle
+         ($this back_to_shop)}
+      {do
+         ($char
+            {shop_char_panel get char})
+         {$char
+            set_force_patch
+            {$this patch_renderer_name}
+            FALSE}
+         {$char make_patches_dirty}}
+      {ui
+         pop_screen
+         [confirm_screen]})
+   (unload
+      {shop_char_panel set_ui_showing TRUE})
+   (confirm
+      {$this store}
+      {if
+         {patch_panel get patch}
+         {unless
+            {{patch_panel get patch}
+               has_layers}
+            {$this set_patch_index -1}
+            {set
+               [stored_patch_idx]
+               -1}}}
+      {shop_char_panel save}
+      {{shop_char_panel get tour_char}
+         set_dirty
+         TRUE
+         {'|' kTourDirtySave kTourDirtyUpload}}
+      {$this go_back})
+   (store
+      {set
+         [stored_patch_idx]
+         {$this patch_index}})
+   (BUTTON_DOWN_MSG
+      {switch
+         $action
+         (kAction_ViewModify
+            {synth play button_toggle}
+            {shop_char_panel select_next_cam})}
+      {do
+         ($pos
+            {patch.lst selected_pos})
+         {switch
+            $action
+            (kAction_Cancel
+               {if_else
+                  {==
+                     {patch.lst get_state}
+                     kComponentFocused}
+                  {do
+                     {patch.lst undo $player}
+                     {$this go_back}}
+                  {do
+                     {synth play button_back}
+                     {edit.grp set_showing FALSE}
+                     {patch.lst set_showing TRUE}
+                     {$this set_focus patch.lst}}})
+            kDataUnhandled}})
+   (is_patch
+      {patch.lst selected_pos})
+   (has_layers
+      {&&
+         {$this is_patch}
+         {{$this
+               patch_dir
+               {patch.lst selected_pos}}
+            has_layers}})
+   (selected_patch
+      {$this
+         patch_dir
+         {patch.lst selected_pos}})
+   (edit_patch
+      {patch_panel
+         set
+         patch
+         {$this selected_patch}}
+      {patch_panel
+         set
+         set
+         [set]}
+      {patch_panel
+         set
+         exit_screen
+         {ui current_screen}}
+      {if_else
+         {patch_panel get help_shown}
+         {ui goto_screen shop_patch_screen}
+         {ui goto_screen shop_patch_help_screen}})
+   (SELECT_MSG
+      {switch
+         $component
+         (patch.lst
+            {if_else
+               {$this is_patch}
+               {do
+                  {if_else
+                     {$this has_layers}
+                     {do
+                        {edit.grp set_showing TRUE}
+                        {patch.lst set_showing FALSE}
+                        {$this set_focus apply.btn}}
+                     {$this edit_patch}}}
+               {$this confirm}})
+         (edit.btn
+            {$this edit_patch})
+         (apply.btn
+            {patch.lst confirm}
+            {$this confirm})
+         (delete.btn
+            {ui
+               goto_screen
+               [delete_screen]})}))
+#define PATCH_DELETE_SCREEN_HANDLERS
+((focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_select)
+         (view_modify shop_hb_change_camera)))
+   (enter
+      {dialog_panel
+         set_yesno
+         {localize shell_delete_patch}
+         no.btn})
+   (SELECT_MSG
+      {if
+         {== $component yes.btn}
+         {with
+            [panel]
+            {{$this selected_patch}
+               clear}
+            {$this set_patch_index -1}
+            {set
+               [stored_patch_idx]
+               -1}
+            {$this set_focus patch.lst}
+            {edit.grp set_showing FALSE}
+            {patch.lst set_showing TRUE}
+            {patch.lst set_selected 0}
+            {{shop_char_panel get tour_char}
+               set_dirty
+               TRUE
+               {'|' kTourDirtySave kTourDirtyUpload}}}
+         {shop_char_panel save}}
+      {ui
+         goto_screen
+         [screen]}))
+{new
+   PatchSelectPanel
+   patch_select_panel
+   PATCH_SELECT_PANEL_HANDLERS
+   (outfit_panel 0)
+   (confirm_screen 0)
+   (delete_screen patch_delete_screen)
+   (set general)
+   (finish_load
+      {if_else
+         {$this has_any_patches}
+         {patch.lst
+            set_selected
+            {'+'
+               1
+               {$this patch_index}}}
+         {patch.lst set_selected 1}}
+      {$this
+         set_patch_index
+         {-
+            {patch.lst selected_pos}
+            1}})
+   (select_patch_cam
+      {shop_char_panel
+         select_cam
+         {if_else
+            {==
+               {[outfit_panel]
+                  focus_category}
+               "mic"}
+            "mic"
+            {sprintf
+               "%s_%s"
+               {[outfit_panel]
+                  cam_base_name
+                  {[outfit_panel]
+                     focus_category}}
+               {{[outfit_panel]
+                     find_patch_renderer}
+                  get
+                  position}}}})
+   (patch_renderer_name
+      {sprint
+         {[outfit_panel]
+            focus_category}
+         ".patch"})
+   (back_to_shop
+      {shop_char_panel
+         select_cam
+         {[outfit_panel]
+            cam_base_name
+            {[outfit_panel]
+               focus_category}}})
+   (SCROLL_MSG
+      {$this
+         set_patch_index
+         {-
+            {$component selected_pos}
+            1}})
+   (patch_index
+      {do
+         ($tour_char
+            {[outfit_panel]
+               tour_char})
+         ($category
+            {[outfit_panel]
+               focus_category})
+         ($selected
+            {[outfit_panel]
+               focus_outfit})
+         {$tour_char patch $category $selected}})
+   (set_patch_index
+      ($idx)
+      {do
+         ($tour_char
+            {[outfit_panel]
+               tour_char})
+         ($char
+            {[outfit_panel]
+               char})
+         ($category
+            {[outfit_panel]
+               focus_category})
+         ($selected
+            {[outfit_panel]
+               focus_outfit})
+         {$tour_char set_patch $char $category $selected $idx}})}
+{new
+   BandScreen
+   patch_delete_screen
+   PATCH_DELETE_SCREEN_HANDLERS
+   (panels patch_select_panel dialog_panel)
+   (panel patch_select_panel)
+   (screen patch_select_screen)}
+{new
+   BandScreen
+   patch_select_screen
+   (panels patch_select_panel)
+   (focus patch_select_panel)
+   (helpbar
+      {if_else
+         {shop_char_panel has_multiple_cameras}
+         ((cancel helpbar_back)
+            (confirm helpbar_select)
+            (view_modify shop_hb_change_camera))
+         ((cancel helpbar_back)
+            (confirm helpbar_select))})}
+{new
+   PatchSelectPanel
+   tattoo_select_panel
+   PATCH_SELECT_PANEL_HANDLERS
+   (location '')
+   (confirm_screen shop_tattoo_screen)
+   (delete_screen tattoo_delete_screen)
+   (set
+      {if_else
+         {==
+            {tattoo_select_panel get location}
+            patch_chest}
+         chest
+         arm})
+   (patch_renderer_name
+      {sprint
+         [location]
+         ".patch"})
+   (finish_load
+      {if_else
+         {$this has_any_patches}
+         {patch.lst
+            set_selected
+            {'+'
+               1
+               {$this patch_index}}}
+         {patch.lst set_selected 1}}
+      {$this
+         set_patch_index
+         {-
+            {patch.lst selected_pos}
+            1}})
+   (select_patch_cam
+      {shop_char_panel
+         select_cam
+         {switch
+            [location]
+            (patch_left_arm
+               "tattoo_left")
+            (patch_right_arm
+               "tattoo_right")
+            (patch_chest
+               "tattoo_front")}}
+      {switch
+         [location]
+         (patch_left_arm
+            {patch_panel set_size 1 4 10})
+         (patch_right_arm
+            {patch_panel set_size 1 4 10})
+         (patch_chest
+            {patch_panel set_size 1 1 0})})
+   (SCROLL_MSG
+      {$this
+         set_patch_index
+         {-
+            {$component selected_pos}
+            1}})
+   (patch_index
+      {do
+         ($tour_char
+            {shop_char_panel get tour_char})
+         {$tour_char
+            tattoo_patch
+            [location]}})
+   (set_patch_index
+      ($idx)
+      {do
+         ($tour_char
+            {shop_char_panel get tour_char})
+         ($char
+            {shop_char_panel get char})
+         {$tour_char
+            set_tattoo_patch
+            $char
+            [location]
+            $idx}})}
+{new
+   BandScreen
+   tattoo_delete_screen
+   PATCH_DELETE_SCREEN_HANDLERS
+   (panels tattoo_select_panel dialog_panel)
+   (panel tattoo_select_panel)
+   (screen tattoo_select_screen)}
+{new
+   BandScreen
+   tattoo_select_screen
+   (panels tattoo_select_panel)
+   (focus tattoo_select_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)
+         (view_modify shop_hb_change_camera)))}
+{new
+   PatchSelectPanel
+   facepaint_select_panel
+   PATCH_SELECT_PANEL_HANDLERS
+   (location patch_facepaint)
+   (confirm_screen shop_ink_screen)
+   (delete_screen facepaint_delete_screen)
+   (set general)
+   (current_facehair 0)
+   (current_glasses 0)
+   (patch_renderer_name
+      {sprint
+         [location]
+         ".patch"})
+   (finish_load
+      {if_else
+         {$this has_any_patches}
+         {patch.lst
+            set_selected
+            {'+'
+               1
+               {$this patch_index}}}
+         {patch.lst set_selected 1}}
+      {$this
+         set_patch_index
+         {-
+            {patch.lst selected_pos}
+            1}})
+   (outfit_loader
+      {{shop_char_panel get char}
+         find
+         OutfitLoader.outfit})
+   (select_patch_cam
+      {shop_char_panel
+         select_cam
+         "makeup"}
+      {set
+         [current_facehair]
+         {{shop_char_panel get tour_char}
+            selected_outfit
+            facehair}}
+      {set
+         [current_glasses]
+         {{shop_char_panel get tour_char}
+            selected_outfit
+            glasses}}
+      {{$this outfit_loader}
+         select
+         glasses
+         none}
+      {if
+         {'||'
+            {has_substr
+               [current_facehair]
+               bandana}
+            {has_substr
+               [current_facehair]
+               medical}}
+         {{$this outfit_loader}
+            select
+            facehair
+            none}}
+      {{$this outfit_loader}
+         start_load})
+   (back_to_shop
+      {shop_char_panel
+         select_cam
+         "tattoo_idle"}
+      {{$this outfit_loader}
+         select
+         facehair
+         [current_facehair]}
+      {{$this outfit_loader}
+         select
+         glasses
+         [current_glasses]}
+      {{$this outfit_loader}
+         start_load})
+   (SCROLL_MSG
+      {$this
+         set_patch_index
+         {-
+            {$component selected_pos}
+            1}})
+   (patch_index
+      {do
+         ($tour_char
+            {shop_char_panel get tour_char})
+         {$tour_char
+            tattoo_patch
+            [location]}})
+   (set_patch_index
+      ($idx)
+      {do
+         ($tour_char
+            {shop_char_panel get tour_char})
+         ($char
+            {shop_char_panel get char})
+         {$tour_char
+            set_tattoo_patch
+            $char
+            [location]
+            $idx}})}
+{new
+   BandScreen
+   facepaint_delete_screen
+   PATCH_DELETE_SCREEN_HANDLERS
+   (panels facepaint_select_panel dialog_panel)
+   (panel facepaint_select_panel)
+   (screen facepaint_select_screen)}
+{new
+   BandScreen
+   facepaint_select_screen
+   (panels facepaint_select_panel)
+   (focus facepaint_select_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)
+         (view_modify shop_hb_change_camera)))}

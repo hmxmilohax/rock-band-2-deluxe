@@ -1,0 +1,114 @@
+#undef METER_MOVE_MS
+#define METER_MOVE_MS
+(4000)
+#define STAR_PHRASES_TO_CAPTURE
+(2)
+SETUP_GUITAR_TUTORIAL
+START_BG_MUSIC
+GUITAR_TV_WHITE
+{setup_lesson_banner tutorial_guitar_medium_combos_part}
+{play_vo tute_guitar2_rockintro}
+WAIT_FOR_VO
+STOP_BG_MUSIC
+{meta_performer set_song guitar_medium_combos}
+LOAD_NEW_GUITAR_SONG_NO_FADE
+HIDE_TRACK_PLAYER_UI
+HIDE_SOLO_FEEDBACK
+SHOW_BAND_ENERGY
+UNPAUSE_TRACK
+SYNC_PAUSE
+{play_vo tute_guitar2_rockmeter}
+SHOW_ENERGY_METER_ARROW
+WAIT_FOR_VO
+HIDE_ENERGY_METER_ARROW
+LONG_VO_GAP
+UNPAUSE_TRACK
+SYNC_PAUSE
+{play_vo tute_guitar2_starphrases}
+SHOW_LONG_NOTE_ARROW
+WAIT_FOR_VO
+HIDE_LONG_NOTE_ARROW
+SHOW_ENERGY_METER_ARROW
+SHOW_FILLING_BAND_ENERGY
+{$task sleep 1.5}
+SHOW_DRAINING_BAND_ENERGY
+HIDE_ENERGY_METER_ARROW
+SHORT_VO_GAP
+{new
+   Object
+   tutorial_guitar_medium_combos_callback
+   (unison_hit
+      {set
+         [star_phrases_captured]
+         {'+'
+            [star_phrases_captured]
+            1}})
+   (lesson_running
+      {&&
+         {<
+            [star_phrases_captured]
+            STAR_PHRASES_TO_CAPTURE}
+         {<
+            {{beatmatch active_player 0}
+               percent_complete}
+            END_OF_SONG_PERCENT}})
+   (passed
+      {>=
+         [star_phrases_captured]
+         STAR_PHRASES_TO_CAPTURE})
+   (failed
+      {!
+         {$this passed}})
+   (star_phrases_captured 0)}
+{{beatmatch active_player 0}
+   set_whammystarpowerenabled
+   FALSE}
+{{beatmatch active_player 0}
+   set_mercuryswitchenabled
+   FALSE}
+{play_vo tute_guitar2_startask}
+GUITAR_TV_OFF
+WAIT_FOR_VO
+LONG_VO_GAP
+{set_info_text
+   {localize tutorial_guitar_medium_combos_task}}
+{show_info_text TRUE}
+{{beatmatch active_player 0}
+   add_sink
+   tutorial_guitar_medium_combos_callback}
+FADE_SONG_IN_FAST
+UNPAUSE_TRACK
+{$task
+   wait
+   {tutorial_guitar_medium_combos_callback lesson_running}}
+FREEZE_SCORE_TEXT
+{if
+   {!
+      {tutorial_guitar_medium_combos_callback failed}}
+   {$task sleep 2}}
+TRACK_OUT
+PAUSE_TRACK
+HIDE_TRACK_PLAYER_UI
+WAIT_FOR_VO
+{if_else
+   {tutorial_guitar_medium_combos_callback failed}
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_medium_combos_failed}}
+      {play_vo tute_guitar2_stylefail}}
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_medium_combos_done}}
+      {play_vo tute_guitar2_starwin}}}
+{show_info_text FALSE}
+{show_part_text FALSE}
+{show_banner_text TRUE}
+HIDE_SCORE
+START_BG_MUSIC
+GUITAR_TV_WHITE
+WAIT_FOR_VO
+SHORT_VO_GAP
+{do_fail_menu
+   {tutorial_guitar_medium_combos_callback failed}}
+RETURN_FROM_FAIL_MENU
+{tutorials_state_panel switch_to_next_state}

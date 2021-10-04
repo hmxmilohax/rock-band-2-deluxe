@@ -1,0 +1,184 @@
+#define RESULTS
+(failed_solo bad_solo okay_solo solid_solo great_solo awesome_solo perfect_solo vox_lousy vox_poor vox_ok vox_good vox_great)
+#define INSTRUMENT_NAMES
+(guitar bass drum vocals)
+(RndDir
+   (types
+      (player_feedback
+         (editor
+            (reset
+               script
+               (script
+                  {$this reset}))
+            (player_name
+               string
+               (post_sync
+                  {$this
+                     setup_player
+                     [player_name]
+                     vocals}))
+            (start_solo
+               script
+               (script
+                  {$this start_solo}))
+            (end_solo
+               script
+               (script
+                  {$this end_solo}))
+            (test_val
+               int
+               (post_sync
+                  {$this
+                     set_percent
+                     [test_val]}))
+            (test_result
+               symbol
+               (list
+                  (RESULTS))
+               (post_sync
+                  {$this
+                     set_result
+                     [test_result]}))
+            (start_super_streak
+               script
+               (script
+                  {$this start_super_streak}))
+            (end_super_streak
+               script
+               (script
+                  {$this end_super_streak})))
+         (player_name
+            "")
+         (test_val 0)
+         (test_result vox_lousy)
+         (in_solo FALSE)
+         (start_solo
+            {reset.trig trigger}
+            {solo_start.trig trigger}
+            {$this set_percent 0}
+            {set
+               [in_solo]
+               TRUE})
+         (end_solo
+            {if
+               [in_solo]
+               {solo_end.trig trigger}
+               {set
+                  [in_solo]
+                  FALSE}})
+         (start_super_streak
+            {reset.trig trigger}
+            {super_streak_start.trig trigger}
+            {script_task
+               kTaskSeconds
+               (delay 4.0)
+               (script
+                  {$this end_super_streak})})
+         (end_super_streak
+            {super_streak_end.trig trigger})
+         (reset
+            {reset.trig trigger}
+            {set
+               [in_solo]
+               FALSE})
+         (set_result
+            ($sym)
+            {solo_rating.lbl set text_token $sym})
+         (set_award
+            ($in_val)
+            {score.txt
+               set_text
+               {fmt_score
+                  {int $in_val}}})
+         (solo_end
+            ($sym $in_val)
+            {$this set_result $sym}
+            {$this set_award $in_val}
+            {$this end_solo})
+         (set_percent
+            ($in_val)
+            {do
+               ($val
+                  {int $in_val})
+               ($string
+                  {sprintf
+                     "%d%%"
+                     $val})
+               {solo_percent.txt set_text $string}
+               {percent_growth.tnm
+                  set_frame
+                  {'*'
+                     {/ $val 100}
+                     {percent_growth.tnm end_frame}}}
+               {pop.tnm animate}})
+         (setup_player
+            ($name $instrument)
+            {switch
+               $instrument
+               (bass
+                  {icon.lbl set text_token B})
+               (drum
+                  {icon.lbl set text_token D})
+               (guitar
+                  {icon.lbl set text_token G})
+               (vocals
+                  {icon.lbl set text_token V})}
+            {player_name.lbl set_localized $name}
+            {do
+               ($icon_width
+                  {icon.lbl
+                     get_string_width
+                     {icon.lbl get text_token}})
+               ($name_width
+                  {player_name.lbl
+                     get_string_width
+                     {player_name.lbl get text_token}})
+               ($total_width
+                  {'+' $icon_width $name_width})
+               ($x)
+               ($y)
+               ($z)
+               {icon.lbl get_local_pos $x $y $z}
+               {icon.lbl
+                  set_local_pos
+                  {/
+                     {'+'
+                        {- $total_width}
+                        $icon_width}
+                     2}
+                  $y
+                  $z}}))
+      (endgame_feedback
+         (editor
+            (end_game_start
+               script
+               (script
+                  {$this
+                     end_game_start_inst
+                     [test_instrument]}))
+            (end_game_end
+               script
+               (script
+                  {$this end_game_end}))
+            (test_instrument
+               symbol
+               (list
+                  (INSTRUMENT_NAMES))
+               no_test))
+         (test_instrument guitar)
+         (end_game_start_inst
+            ($instrument)
+            {switch
+               $instrument
+               (guitar
+                  {end_game_start_guitar.trig trigger})
+               (bass
+                  {end_game_start_guitar.trig trigger})
+               (drum
+                  {end_game_start_drum.trig trigger})
+               (vocals
+                  {end_game_start_vox.trig trigger})})
+         (end_game_start
+            {$this end_game_start_inst guitar})
+         (end_game_end
+            {end_game_end.trig trigger}))))

@@ -1,0 +1,127 @@
+(RndDir
+   (types
+      (powermeter
+         (editor
+            (initialize
+               script
+               (script
+                  {$this reset}
+                  {$this set_showing TRUE}))
+            (test_energy
+               float
+               (post_sync
+                  {$this
+                     set_energy
+                     [test_energy]
+                     [state]
+                     guitar}))
+            (energy_added
+               script
+               (script
+                  {$this energy_added}))
+            (energy_ready
+               script
+               (script
+                  {$this energy_ready guitar}))
+            (stop
+               script
+               (script
+                  {$this stop_deploy}))
+            (disable_overdrive
+               script
+               (script
+                  {$this set_no_overdrive}))
+            (vocal_meter
+               bool
+               (read_only TRUE)))
+         (test_energy 0)
+         (energy 0)
+         (state uninitialized)
+         (vocal_meter FALSE)
+         (beat_task
+            "")
+         (set_energy
+            ($in_val $state $instrument)
+            {if_else
+               [vocal_meter]
+               {set
+                  [energy]
+                  {band_meter_fill.mnm frame}}
+               {set
+                  [energy]
+                  {band_meter_fill.anim frame}}}
+            {if
+               {!=
+                  $in_val
+                  [energy]}
+               {extend_anim.grp set_frame $in_val}
+               {set
+                  [energy]
+                  $in_val}}
+            {if
+               {!=
+                  $state
+                  [state]}
+               {switch
+                  $state
+                  (none
+                     {$this stop_deploy})
+                  (ready
+                     {$this energy_ready $instrument})
+                  (deploying
+                     {$this deploy})}
+               {set
+                  [state]
+                  $state}})
+         (reset
+            {reset.trig trigger}
+            {$this set_energy 0 none guitar})
+         (energy_ready
+            ($instrument)
+            {do
+               ($time_til_next
+                  {-
+                     {taskmgr time_til_next 1 1.0e-3}
+                     0.2})
+               ($cue
+                  {sprintf
+                     "rp_available_%s.cue"
+                     $instrument})
+               {if
+                  {< $time_til_next 0}
+                  {set
+                     $time_til_next
+                     {'+' $time_til_next 1}}}
+               {$this kill_beat_task}
+               {set
+                  [beat_task]
+                  {script_task
+                     kTaskBeats
+                     (name meterbeattask)
+                     (delay $time_til_next)
+                     (script
+                        {be_ready.trig trigger})}}
+               {synth play $cue}})
+         (deploy
+            {$this kill_beat_task}
+            {be_deploying.trig trigger})
+         (stop_deploy
+            {$this kill_beat_task}
+            {be_filling.trig trigger}
+            {extend_anim.grp
+               set_frame
+               [energy]})
+         (energy_added
+            {spotlight_phrase_success.trig trigger})
+         (kill_beat_task
+            {if
+               {!=
+                  [beat_task]
+                  ""}
+               {delete
+                  [beat_task]}}
+            {set
+               [beat_task]
+               ""})
+         (set_no_overdrive
+            {no_overdrive.trig trigger}))))

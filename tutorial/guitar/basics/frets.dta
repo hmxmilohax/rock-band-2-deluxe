@@ -1,0 +1,56 @@
+SETUP_GUITAR_TUTORIAL
+GUITAR_TV_WHITE
+START_BG_MUSIC
+{setup_lesson_banner tutorial_guitar_basics_frets_part}
+{new
+   Object
+   tutorial_guitar_basics_frets_callback
+   (fret_played)
+   (miss_tune
+      {play_game_seq_player miss_gtr.cue miss_gtr.cue 0})}
+{play_vo tute_guitar1_tuning}
+STOP_BG_MUSIC
+{$task sleep TUTORIAL_GUITAR_BASICS_FRETS_PAUSE1}
+UNHIDE_CHECKMARKS
+SHOW_TUNE_GUITAR
+WAIT_FOR_VO
+{set_info_text
+   {localize tutorial_guitar_basics_frets_task}}
+{show_info_text TRUE}
+{{gamemode get main_panel}
+   enable_controller}
+{$this start_tuning_mode tutorial_guitar_basics_frets_callback}
+{$task
+   wait_timeout
+   {$this is_tuning}
+   TUTORIAL_GUITAR_BASICS_FRETS_TIMEOUT
+   $timeout}
+FREEZE_SCORE_TEXT
+{if_else
+   $timeout
+   {$this end_tuning_mode}
+   {tuningcomplete.cue play}}
+{$this all_frets_off}
+{$task sleep TUTORIAL_GUITAR_BASICS_FRETS_PAUSE2}
+HIDE_CHECKMARKS
+HIDE_TUNE_GUITAR
+{if_else
+   $timeout
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_basics_frets_failed}}
+      {play_vo tute_guitar1_fail}}
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_basics_frets_done}}
+      {play_vo tute_guitar1_tunefinished}}}
+{show_info_text FALSE}
+{show_part_text FALSE}
+{show_banner_text TRUE}
+HIDE_SCORE
+START_BG_MUSIC
+WAIT_FOR_VO
+SHORT_VO_GAP
+{do_fail_menu $timeout}
+RETURN_FROM_FAIL_MENU
+{tutorials_state_panel switch_to_next_state}

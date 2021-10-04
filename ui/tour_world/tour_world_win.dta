@@ -1,0 +1,132 @@
+#define BAND_WIN_SCREEN_HANDLERS
+((helpbar
+      {if_else
+         {is_leader_local}
+         ((confirm helpbar_continue))
+         ()}))
+{new
+   UIPanel
+   tour_world_congrats_panel
+   (file
+      "win/tour_world_congrats.milo")
+   (focus continue.btn)
+   (BUTTON_DOWN_MSG
+      {if
+         {== $action kAction_Confirm}
+         {synth play button_select}
+         {ui goto_screen tour_world_video_credits_screen}})}
+{new
+   BandScreen
+   tour_world_win_screen
+   BAND_WIN_SCREEN_HANDLERS
+   (panels meta tour_world_congrats_panel)
+   (focus tour_world_congrats_panel)}
+{new
+   MoviePanel
+   tour_world_video_credits_panel
+   (preload FALSE)
+   (audio TRUE)
+   (loop FALSE)
+   (update_presence TRUE)
+   (videos win_credits)
+   (movie_done
+      {ui goto_screen tour_world_text_credits_screen})
+   (BUTTON_DOWN_MSG
+      {if
+         {'||'
+            {== $action kAction_Start}
+            {== $action kAction_Confirm}}
+         {synth play button_select}
+         {ui goto_screen tour_world_text_credits_screen}})}
+{new
+   BandScreen
+   tour_world_video_credits_screen
+   BAND_WIN_SCREEN_HANDLERS
+   (panels meta tour_world_video_credits_panel)
+   (focus tour_world_video_credits_panel)}
+{new
+   BandScreen
+   tour_world_text_credits_screen
+   BAND_WIN_SCREEN_HANDLERS
+   (panels meta credits_panel)
+   (scroll_sfx FALSE)
+   (credits_done
+      {ui
+         goto_screen
+         {gamemode get continue_screen}})
+   (BUTTON_DOWN_MSG
+      {if
+         {'||'
+            {== $action kAction_Start}
+            {== $action kAction_Confirm}}
+         {synth play button_select}
+         {ui
+            goto_screen
+            {gamemode get continue_screen}}})}
+{new
+   UIPanel
+   tour_world_item_reward_panel
+   (file
+      "win/tour_world_item_rewards.milo")
+   (enter
+      {foreach_int
+         $slot
+         0
+         4
+         {do
+            ($player_num
+               {game get_player_num_from_slot_num $slot})
+            ($active_label
+               {sprintf
+                  "instrument%i.lbl"
+                  $slot})
+            ($inactive_label
+               {sprintf
+                  "inactive%i.lbl"
+                  $slot})
+            ($char_label
+               {sprintf
+                  "char%i.lbl"
+                  $slot})
+            {$active_label
+               set_showing
+               {!= $player_num -1}}
+            {$char_label
+               set_showing
+               {!= $player_num -1}}
+            {$inactive_label
+               set_showing
+               {== $player_num -1}}
+            {if_else
+               {== $player_num -1}
+               {$inactive_label
+                  set_localized
+                  {missing_slot_to_track_icon $slot}}
+               {do
+                  ($pcfg
+                     {game get_player_config $player_num})
+                  ($char
+                     {$pcfg get_char})
+                  {$char_label
+                     set_localized
+                     {$char get_char_name}}
+                  {$active_label
+                     set_localized
+                     {$char
+                        track_icon
+                        {$pcfg get_track_sym}}}}}}})
+   (BUTTON_DOWN_MSG
+      {if
+         {'||'
+            {== $action kAction_Start}
+            {== $action kAction_Confirm}}
+         {synth play button_select}
+         {ui
+            goto_screen
+            {gamemode get continue_screen}}})}
+{new
+   BandScreen
+   tour_world_item_reward_screen
+   BAND_WIN_SCREEN_HANDLERS
+   (panels meta tour_world_item_reward_panel)
+   (focus tour_world_item_reward_panel)}

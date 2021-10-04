@@ -1,0 +1,214 @@
+#define kExcitementIdle
+(-1)
+#define kExcitementWon
+(-2)
+#define kExcitementLost
+(-3)
+#define kExcitementInvalid
+(-4)
+(game_excitement kExcitementOkay)
+(authored_excitement kExcitementIdle)
+(old_excitement kExcitementInvalid)
+(override_group '')
+(authored_action '')
+(enter
+   {{$this dir}
+      add_sink
+      $this
+      (excitement game_over game_lost game_won game_won_finale game_won_band0 game_won_band1 game_won_tie playing_final_cam crowd_realtime crowd_mellow crowd_normal crowd_intense crowd_fists_on crowd_fists_off crowd_horns_on crowd_horns_off crowd_lighters_on crowd_lighters_off)
+      kSinkModeType}
+   {set
+      [game_excitement]
+      kExcitementOkay}
+   {set
+      [authored_excitement]
+      kExcitementIdle}
+   {set
+      [old_excitement]
+      kExcitementInvalid}
+   {set
+      [override_group]
+      ''}
+   {set
+      [authored_action]
+      ''}
+   {$this set_fullness 1 1}
+   {set
+      $crowd.idle_flags
+      {'|' kPlayNoBlend kPlayGraphLoop kPlayRealTime}}
+   {set
+      $crowd.play_flags
+      {'|' kPlayNoBlend kPlayGraphLoop}})
+(game_over
+   {{$this dir}
+      remove_sink
+      $this
+      excitement
+      crowd_realtime
+      crowd_mellow
+      crowd_normal
+      crowd_intense
+      crowd_fists_on
+      crowd_fists_off
+      crowd_horns_on
+      crowd_horns_off
+      crowd_lighters_on
+      crowd_lighters_off})
+(game_outro
+   {{$this dir}
+      remove_sink
+      $this})
+(game_lost
+   {set
+      [game_excitement]
+      kExcitementLost})
+(game_won
+   {set
+      [game_excitement]
+      kExcitementWon})
+(game_won_band0
+   {set
+      [game_excitement]
+      kExcitementWon})
+(game_won_band1
+   {set
+      [game_excitement]
+      kExcitementWon})
+(game_won_tie
+   {set
+      [game_excitement]
+      kExcitementWon})
+(game_won_finale
+   {set
+      [game_excitement]
+      kExcitementWon})
+(playing_final_cam
+   {set
+      $crowd.play_flags
+      {'|' kPlayNoBlend kPlayGraphLoop kPlayRealTime}})
+(animate
+   ($bad $ok $great)
+   {$this
+      iterate_frac
+      ($bad
+         {main.drv play_group_flags bad 0 $crowd.play_flags})
+      ($ok
+         {main.drv play_group_flags ok 0 $crowd.play_flags})
+      ($great
+         {main.drv play_group_flags great 0 $crowd.play_flags})})
+(override_anim
+   ($group_name)
+   {set
+      [override_group]
+      $group_name})
+(crowd_update
+   {if_else
+      [override_group]
+      {do
+         ($over
+            [override_group])
+         {$this
+            iterate_frac
+            (1
+               {main.drv play_group_flags $over 0 $crowd.play_flags})}
+         {set
+            [old_excitement]
+            kExcitementInvalid}}
+      {if_else
+         [authored_action]
+         {do
+            ($action
+               [authored_action])
+            {$this
+               iterate_frac
+               (1
+                  {main.drv play_group_flags $action 0 $crowd.play_flags})}
+            {set
+               [old_excitement]
+               kExcitementInvalid}}
+         {do
+            ($level
+               {min
+                  [authored_excitement]
+                  [game_excitement]})
+            {if
+               {!=
+                  $level
+                  [old_excitement]}
+               {set
+                  [old_excitement]
+                  $level}
+               {$this set show_3d_only FALSE}
+               {switch
+                  $level
+                  (kExcitementIdle
+                     {$this
+                        iterate_frac
+                        (1
+                           {main.drv play_group_flags realtime_idle 0 $crowd.idle_flags})})
+                  (kExcitementLost
+                     {$this
+                        iterate_frac
+                        (1
+                           {main.drv play_group_flags lose 0 $crowd.idle_flags})})
+                  (kExcitementBoot
+                     {$this animate 1.0 0.0 0.0})
+                  (kExcitementBad
+                     {$this animate 0.8 0.2 0.0})
+                  (kExcitementOkay
+                     {$this animate 0.0 0.8 0.2})
+                  (kExcitementGreat
+                     {$this animate 0.0 0.0 1.0})
+                  (kExcitementWon
+                     {$this
+                        iterate_frac
+                        (1
+                           {main.drv play_group_flags win 0 $crowd.idle_flags})})
+                  {notify
+                     "unknown excitement level "
+                     $level}}}}}})
+(excitement
+   ($level)
+   {set
+      [game_excitement]
+      $level})
+(crowd_realtime
+   {set
+      [authored_excitement]
+      kExcitementIdle})
+(crowd_mellow
+   {set
+      [authored_excitement]
+      kExcitementBad})
+(crowd_normal
+   {set
+      [authored_excitement]
+      kExcitementOkay})
+(crowd_intense
+   {set
+      [authored_excitement]
+      kExcitementGreat})
+(crowd_lighters_on
+   {set
+      [authored_action]
+      lighters})
+(crowd_lighters_off
+   {set
+      [authored_action]
+      ''})
+(crowd_horns_on
+   {set
+      [authored_action]
+      horns})
+(crowd_horns_off
+   {set
+      [authored_action]
+      ''})
+(crowd_fists_on
+   {set
+      [authored_action]
+      fists})
+(crowd_fists_off
+   {set
+      [authored_action]
+      ''})

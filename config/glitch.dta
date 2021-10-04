@@ -1,0 +1,65 @@
+#include macros.dta
+(glitch_songs cherrybomb)
+(glitch_venues arena_01 arena_03 arena_04 arena_05 arena_06 big_club_01 big_club_03 big_club_06 small_club_01 small_club_02 small_club_03 small_club_04 small_club_05 small_club_06 small_club_07 small_club_08 theater_01 theater_02 theater_03 theater_04 theater_06 theater_07 theater_08)
+(objects
+   (GlitchReport
+      (init
+         {$this set_type band})
+      (types
+         (band
+            (frame_ms 40)
+            (glitch_ms 4)
+            (num_glitches 200)
+            (run_session
+               {setup_game
+                  $glitch_song
+                  $glitch_venue
+                  ((drum kDifficultyExpert)
+                     (bass kDifficultyExpert)
+                     (guitar kDifficultyExpert)
+                     (vocals kDifficultyExpert))}
+               {game add_sink $this}
+               {ui goto_screen loading_screen})
+            (downbeat
+               {beatmatch
+                  foreach_active_player
+                  $player
+                  {unless
+                     {mod $measure 4}
+                     {$player deploy_if_possible}}
+                  {$player
+                     set_auto_play
+                     {!= $measure 20}}})
+            (intro_start
+               {$world add_sink $this}
+               {$this start_report})
+            (game_outro
+               {$world remove_sink $this}
+               {$this stop_report}
+               {ui reset_screen restart_glitch})))))
+(ui
+   (init
+      #include ../ui/init.dta
+      {new
+         UIScreen
+         restart_glitch
+         (panels)
+         (TRANSITION_COMPLETE_MSG
+            {session clear})}
+      {set $fake_controllers TRUE}
+      {make_glitch_report}))
+(synth
+   (mute TRUE))
+(rnd
+   (maximize FALSE)
+   (force_hd TRUE))
+(shader_files
+   "ui/world/tour_worldmap.milo"
+   "ui/practice_space.milo"
+   "ui/stores/store.milo")
+(shaders
+   (manual
+      #include shaders.dta)
+   (auto
+      #include shaders_auto.dta))
+#merge band.dta

@@ -1,0 +1,11 @@
+#include macros.dta
+(synth
+   (use_null_synth TRUE))
+(mem
+   (disable_mgr TRUE))
+(bink
+   (basic_params
+      "/l2")
+   (mixin_params
+      "/l2"))
+#merge default.dta

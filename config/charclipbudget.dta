@@ -1,0 +1,99 @@
+#include macros.dta
+#define DEBUG_SONGS
+(1)
+(charbudget_songs 3sand7s action allthesmallthings andjusticeforall attack bangagong beethovensc blackened blindedbyfear bloodstone brassinpocket breed buddyholly callingdrlove callme cantstandlosingyou caseyjones cherrybomb chinacatsunflower collector completecontrol crushcrushcrush datewiththenight devilschild dieallright dirtylittlesecret doa dontchastop dontlookbackinanger elscorcho everfalleninlove fever fortunateson franklinstower gimmethreesteps goodtimesroll hardtohandle hellionelectriceye heroes hitcharide ifoughtthelaw ineedamiracle interstatelovesong intouch ithurts jokerandthe jukeboxhero koolthing lasttraintoclarksville limelight littlesister liveforever marchofthepigs messageinabottle moonagedaydream morethanafeeling movealong movinginstereo myironlung mysharona nib numberofthebeast painandpleasure peaceofmind perfectdrug queenbitch redtandy ridethelightning ridingonthewind roam rockandrollband rockawaybeach roxanne screamingfor sextypething shockwave sicksicksick simpleman siva smokin somethingaboutyou songwithamission stillalive sugarmagnolia sweetleaf synchronicity2 takethesechains teenagelobotomy tenspeed thekill thisaintascene thrasher timesickson traininvain truckin truthhitseverybody warpigs wecarealot whydoyouloveme wonderwall workingman wrathchild yougotanotherthingcoming zero)
+(objects
+   (Object
+      (types
+         (charbudget
+            (done FALSE)
+            (active FALSE)
+            (run_session
+               ($song)
+               {set
+                  [done]
+                  FALSE}
+               {set
+                  [active]
+                  FALSE}
+               {gamemode set_mode qp_solo}
+               {setup_game
+                  $song
+                  arena_01
+                  ((drum kDifficultyExpert drum0)
+                     (bass kDifficultyExpert guitar0)
+                     (guitar kDifficultyExpert guitar1)
+                     (vocals kDifficultyExpert vocals0))}
+               {game add_sink $this}
+               {{game get_player_config 0}
+                  set
+                  autoplay
+                  TRUE}
+               {{game get_player_config 1}
+                  set
+                  autoplay
+                  TRUE}
+               {{game get_player_config 2}
+                  set
+                  autoplay
+                  TRUE}
+               {{game get_player_config 3}
+                  set
+                  autoplay
+                  TRUE}
+               {ui goto_screen loading_screen})
+            (intro_start
+               {set
+                  [done]
+                  FALSE}
+               {set
+                  [active]
+                  TRUE}
+               {$world add_sink $this}
+               kDataUnhandled)
+            (game_outro
+               {set
+                  [done]
+                  TRUE}
+               {set
+                  [active]
+                  FALSE}
+               {$world remove_sink $this}
+               {ui reset_screen restart_charbudget}
+               kDataUnhandled)
+            (is_done
+               [done])
+            (is_active
+               [active])
+            (is_valid_group
+               ($group_name)
+               {find_elem
+                  (REQUIRED_CLIP_GROUPS)
+                  $group_name})))))
+(ui
+   (my_init
+      {new
+         UIPanel
+         meta_configure_chars
+         (is_loaded
+            {char_cache meta_configure_done})}
+      {new
+         UIScreen
+         restart_charbudget
+         (panels)
+         (TRANSITION_COMPLETE_MSG
+            {ui reset_screen restart_charbudget2})}
+      {new
+         UIScreen
+         restart_charbudget2
+         (panels meta_configure_chars)
+         (TRANSITION_COMPLETE_MSG
+            {session clear})}
+      {set $fake_controllers TRUE}
+      {make_charbudget}))
+(synth
+   (mute TRUE))
+(rnd
+   (maximize FALSE)
+   (force_hd TRUE))
+#merge band.dta

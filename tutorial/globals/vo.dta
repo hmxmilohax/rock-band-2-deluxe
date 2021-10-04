@@ -1,0 +1,21 @@
+{func
+   play_vo
+   ($vo)
+   {tutorials_state_panel play_vo $vo}}
+#define WAIT_FOR_VO
+({$task
+      wait
+      {{gamemode get main_panel}
+         is_vo_playing}}
+   {$task
+      wait
+      {{gamemode get main_panel}
+         is_vo_playing}}
+   {$task
+      wait
+      {{gamemode get main_panel}
+         is_vo_playing}})
+#define LONG_VO_GAP
+({$task sleep 0.6})
+#define SHORT_VO_GAP
+({$task sleep 0.5})

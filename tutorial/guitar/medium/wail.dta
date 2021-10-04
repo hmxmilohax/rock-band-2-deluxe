@@ -1,0 +1,154 @@
+#define GUITAR_WAIL_SEC
+(1)
+#define STAR_GEMS_TO_HIT
+(8)
+SETUP_GUITAR_TUTORIAL
+GUITAR_TV_WHITE
+START_BG_MUSIC
+{setup_lesson_banner tutorial_guitar_medium_wail_part}
+{meta_performer set_song guitar_medium_deploy}
+LOAD_NEW_GUITAR_SONG_NO_FADE
+HIDE_TRACK_PLAYER_UI
+HIDE_SOLO_FEEDBACK
+SHOW_BAND_ENERGY
+{GET_STAR_POWER_METER set_frame 0.5}
+{{beatmatch active_player 0}
+   set_mercuryswitchenabled
+   FALSE}
+UNPAUSE_TRACK
+SHOW_FILLING_BAND_ENERGY_HALF
+SYNC_PAUSE
+DISABLE_SYNC_PAUSE
+{play_vo tute_guitar2_deployintro}
+WAIT_FOR_VO
+LONG_VO_GAP
+{play_vo tute_guitar2_deploy}
+{$task sleep 4}
+ENABLE_TRACK_POPUP_HELP_GAME
+SHOW_POPUP_HELP_STARPOWER
+DISABLE_TRACK_POPUP_HELP_GAME
+AUTOPLAY_ON
+UNPAUSE_TRACK
+{$this disable_controller}
+WAIT_FOR_VO
+STOP_POPUP_HELP_STARPOWER
+LONG_VO_GAP
+SHORT_VO_GAP
+PAUSE_TRACK
+AUTOPLAY_OFF
+{play_vo tute_guitar2_deploybonus}
+WAIT_FOR_VO
+LONG_VO_GAP
+{play_vo tute_guitar2_deployend}
+SHOW_ENERGY_METER_ARROW
+SHOW_DRAINING_BAND_ENERGY_HALF
+WAIT_FOR_VO
+LONG_VO_GAP
+SHOW_FILLING_BAND_ENERGY_HALF
+HIDE_ENERGY_METER_ARROW
+LONG_VO_GAP
+{new
+   Object
+   tutorial_guitar_medium_wail_callback
+   (check_warning
+      {set
+         [num_gems_missed]
+         {'+'
+            [num_gems_missed]
+            1}}
+      {if
+         {&&
+            {!
+               [has_won]}
+            {'||'
+               {==
+                  [num_gems_missed]
+                  8}
+               {==
+                  [num_gems_missed]
+                  16}}}
+         {play_vo tute_guitar2_deployhint}})
+   (miss
+      {$this check_warning})
+   (pass
+      {$this check_warning})
+   (deploy
+      {set
+         [has_won]
+         TRUE}
+      STOP_POPUP_HELP_STARPOWER)
+   (failed
+      {!
+         [has_won]})
+   (lesson_running
+      {&&
+         {$this failed}
+         {<
+            {{beatmatch active_player 0}
+               percent_complete}
+            END_OF_SONG_PERCENT}})
+   (num_gems_missed 0)
+   (has_won FALSE)}
+{{beatmatch active_player 0}
+   set_mercuryswitchenabled
+   TRUE}
+{play_vo tute_guitar2_deploytask}
+STOP_BG_MUSIC
+GUITAR_TV_OFF
+WAIT_FOR_VO
+LONG_VO_GAP
+ENABLE_TRACK_POPUP_HELP_GAME
+SHOW_POPUP_HELP_STARPOWER
+DISABLE_TRACK_POPUP_HELP_GAME
+{set_info_text
+   {localize tutorial_guitar_medium_wail_task}}
+{show_info_text TRUE}
+{{beatmatch active_player 0}
+   add_sink
+   tutorial_guitar_medium_wail_callback}
+FADE_SONG_IN
+READY_BAND_ENERGY
+UNPAUSE_TRACK
+{$task
+   wait
+   {tutorial_guitar_medium_wail_callback lesson_running}}
+FREEZE_SCORE_TEXT
+STOP_POPUP_HELP_STARPOWER
+{set $sleep_time 0.5}
+{if
+   {!
+      {tutorial_guitar_medium_wail_callback failed}}
+   {set $sleep_time 3.0}}
+{$task sleep $sleep_time}
+HIDE_GEM_TAILS
+TRACK_OUT
+PAUSE_TRACK
+HIDE_TRACK_PLAYER_UI
+WAIT_FOR_VO
+{if_else
+   {tutorial_guitar_medium_wail_callback failed}
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_medium_wail_failed}}
+      {play_vo tute_guitar2_deployfail}}
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_medium_wail_done}}
+      {play_vo tute_guitar2_deploywin}}}
+{show_info_text FALSE}
+{show_part_text FALSE}
+{show_banner_text TRUE}
+HIDE_SCORE
+START_BG_MUSIC
+GUITAR_TV_WHITE
+WAIT_FOR_VO
+SHORT_VO_GAP
+{do_fail_menu
+   {tutorial_guitar_medium_wail_callback failed}}
+RETURN_FROM_FAIL_MENU_NOSKIP
+{play_vo tute_guitar2_deployrecover}
+GUITAR_TV_WHITE
+WAIT_FOR_VO
+LONG_VO_GAP
+ENABLE_SYNC_PAUSE
+{tutorials_state_panel switch_to_next_state}

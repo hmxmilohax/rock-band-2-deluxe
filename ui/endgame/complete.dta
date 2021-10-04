@@ -1,0 +1,109 @@
+{new
+   UIPanel
+   complete_panel
+   (file complete.milo)
+   (enter
+      {platform_mgr set_notify_ui_location kOSNotifyBottomCenter}
+      {$this set_focus 0.btn}
+      {session
+         add_sink
+         $this
+         (remote_player_left)}
+      {$this set_up_buttons})
+   (exit
+      {platform_mgr set_notify_ui_location kOSNotifyTopRight}
+      {session remove_sink $this remote_player_left})
+   (set_up_buttons
+      {0.btn set text_token comp_selsong}
+      {if_else
+         {>
+            {meta_performer num_songs}
+            1}
+         {do
+            {1.btn set text_token comp_quit}
+            {$this disable 2.btn}
+            {2.btn set text_token ''}
+            {2.btn set_showing FALSE}}
+         {do
+            {1.btn set text_token comp_restart}
+            {2.btn set text_token comp_quit}}}
+      {if
+         {<
+            {session num_players}
+            {gamemode get min_players}}
+         {$this disable_by_token comp_restart}
+         {$this disable_by_token comp_selsong}
+         {$this set_focus_by_token comp_quit}})
+   (disable_by_token
+      ($token)
+      {$this
+         iterate
+         BandButton
+         $b
+         {if
+            {==
+               {$b get text_token}
+               $token}
+            {$this disable $b}}})
+   (set_focus_by_token
+      ($token)
+      {$this
+         iterate
+         BandButton
+         $b
+         {if
+            {==
+               {$b get text_token}
+               $token}
+            {$this set_focus $b}}})
+   (REMOTE_PLAYER_LEFT_MSG
+      {$this set_up_buttons})
+   (SELECT_MSG
+      {switch
+         {$component get text_token}
+         (comp_restart
+            {meta_performer restart}
+            {game send_restart_game_net_msg}
+            {game_restart})
+         (comp_selsong
+            {ui goto_screen meta_loading_continue_screen})
+         (comp_quit
+            {net_sync set_ui_state kNetUI_MetaLoading}
+            {ui goto_screen meta_loading_main_screen})})}
+{new
+   BandScreen
+   complete_screen
+   (panels complete_panel)
+   (focus complete_panel)
+   (helpbar
+      {if_else
+         {is_leader_local}
+         ((confirm helpbar_select))
+         ()})}
+{new
+   UIPanel
+   complete_ranked_panel
+   (file complete_ranked.milo)
+   (block_event
+      ($event)
+      {== $event disband})
+   (enter
+      {platform_mgr set_notify_ui_location kOSNotifyBottomCenter}
+      {$this set_focus comp_new_match.btn})
+   (exit
+      {platform_mgr set_notify_ui_location kOSNotifyTopRight})
+   (SELECT_MSG
+      {switch
+         $component
+         (comp_new_match.btn
+            {finding_screen set_joining_user $player}
+            {ui goto_screen meta_loading_new_match_screen})
+         (comp_quit.btn
+            {ui goto_screen meta_loading_main_screen})})}
+{new
+   BandScreen
+   complete_ranked_screen
+   (panels complete_ranked_panel)
+   (focus complete_ranked_panel)
+   (helpbar
+      ((confirm helpbar_select)))}

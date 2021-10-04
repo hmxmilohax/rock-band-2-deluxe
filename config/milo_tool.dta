@@ -1,0 +1,77 @@
+(objects
+   #include objects.dta
+   #merge ../test/gem_smasher_test.dta)
+(locale ../ui/eng/locale_milo.dta ../ui/eng/locale.dta ../ui/eng/locale_updates.dta)
+(ui
+   #include ../ui/cam.dta
+   (project_init
+      #include ../ui/global.dta)
+   (color_presets
+      #include ../ui/color_presets.dta))
+(beatmatcher
+   #include beatmatcher.dta)
+(mem
+   (enable_tracking TRUE)
+   #merge mem.dta)
+(songs
+   #include ../songs/songs_debug.dta
+   #include ../songs/songs.dta)
+(timer
+   (anim)
+   (draw)
+   ('anim+draw')
+   (world
+      (enable TRUE)
+      (draw FALSE))
+   (world_regular
+      (enable TRUE)
+      (budget 9))
+   (world_postproc
+      (enable TRUE)
+      (budget 9))
+   (gs
+      (draw FALSE))
+   (gs_regular
+      (enable TRUE)
+      (budget 10.3))
+   (gs_postproc
+      (enable TRUE)
+      (budget 10.3)))
+(rnd
+   (timer_script
+      {switch
+         {rnd last_proc_cmds}
+         (kProcessPost
+            {set
+               $world_postproc
+               {timer_ms world}}
+            {set
+               $gs_postproc
+               {timer_ms gs}})
+         (kProcessWorld
+            {set
+               $world_regular
+               {timer_ms world}}
+            {set
+               $gs_regular
+               {timer_ms gs}})
+         (kProcessAll
+            {set $world_postproc 0}
+            {set $gs_postproc 0}
+            {set
+               $world_regular
+               {timer_ms world}}
+            {set
+               $gs_regular
+               {timer_ms gs}})}
+      {set_timer_ms world_postproc $world_postproc}
+      {set_timer_ms gs_postproc $gs_postproc}
+      {set_timer_ms world_regular $world_regular}
+      {set_timer_ms gs_regular $gs_regular})
+   (text_superscript_scale 0.42))
+(characters
+   #include prefabs.dta)
+(tour
+   (world
+      #include tour_world.dta))
+#merge ../../../system/run/config/milo_tool.dta

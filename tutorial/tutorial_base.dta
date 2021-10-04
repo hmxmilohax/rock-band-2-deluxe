@@ -1,0 +1,106 @@
+#define TUTORIALS_MAIN_SCREEN_GENERAL_PANELS
+(game coop_track_panel tutorials_state_panel)
+#define TUTORIALS_MAIN_SCREEN_GENERAL_PROPERTIES
+((allow_back FALSE)
+   (animate_transition FALSE)
+   (disable_screen_saver TRUE)
+   (unpause_on_transition FALSE)
+   (helpbar
+      ((min_height 0)))
+   (TRANSITION_COMPLETE_MSG
+      {if
+         [unpause_on_transition]
+         {set
+            [unpause_on_transition]
+            FALSE}
+         {tutorials_state_panel unpause}}
+      {tutorials_state_panel on_guide_change}
+      {tutorials_state_panel on_mics_change}
+      {tutorials_state_panel on_controllers_change})
+   (microphones_changed
+      ($vocalists_mic_changed)
+      {tutorials_state_panel on_mics_change})
+   (JOYPAD_CONNECT_MSG
+      {tutorials_state_panel on_controllers_change})
+   (show_event FALSE))
+#define TUTORIALS_MAIN_SCREEN_HANDLERS_BUTTON_DOWN_MSG
+({if
+      {&&
+         {&&
+            {==
+               $player_num
+               {{gamemode get main_panel}
+                  get_tutorial_player}}
+            {== $action kAction_Start}}
+         {!
+            {tutorials_state_panel get is_paused}}}
+      {tutorials_pause_screen pre_enter}
+      {ui push_screen tutorials_pause_screen}}
+   kDataUnhandled)
+#define TUTORIALS_MAIN_PANEL_GENERAL_FUNCTIONS
+((hide_all_ui
+      {HideAll.trig trigger}
+      {{coop_track_panel find tutorial_setup.trig}
+         trigger})
+   (finish_load
+      {$this
+         add_names
+         [num_tutorial_names]})
+   (lesson_num 0))
+#define TUTORIALS_MAIN_PANEL_REDIRECTED_FUNCTIONS
+((set_state
+      ($state)
+      {tutorials_state_panel set_state $state})
+   (get_next_state
+      ($inc)
+      {tutorials_state_panel get_next_state $inc})
+   (switch_to_state
+      ($state)
+      {tutorials_state_panel switch_to_state $state})
+   (set_next_state
+      ($state)
+      {tutorials_state_panel set_next_state $state})
+   (tutorial_inc
+      ($num)
+      {tutorials_state_panel tutorial_inc $num})
+   (tutorial_dec
+      ($num)
+      {tutorials_state_panel tutorial_dec $num}))
+#define TUTORIALS_MAIN_SCREEN_ENTER
+({if
+      {!
+         {tutorials_state_panel get is_paused}}
+      {{gamemode get main_panel}
+         set_paused
+         FALSE}})
+#define TUTORIALS_MAIN_PANEL_ENTER
+({beatmatch set_time_paused TRUE}
+   {game set_showing FALSE}
+   {{get_track_panel}
+      set_showing
+      FALSE}
+   {tutorials_state_panel set_showing FALSE}
+   {tutorials_state_panel start_tutorial})
+#define TUTORIALS_MAIN_PANEL_EXIT
+({taskmgr clear_tasks}
+   {$this set_song_volume 0.0}
+   {game set_start_paused FALSE}
+   {reset_all_callbacks})
+#define TUTORIALS_MAIN_PANEL_FILE
+((file
+      {if_else
+         {gamemode get tutorial_has_no_lefty}
+         {if_else
+            {==
+               {{{session_mgr get_leader_user}
+                     get_gameplay_options}
+                  get_vocal_style}
+               kVocalStyleStatic}
+            {gamemode get static_assets}
+            {gamemode get mixed_assets}}
+         {if_else
+            {{{session_mgr get_leader_user}
+                  get_gameplay_options}
+               get_lefty}
+            {gamemode get lefty_assets}
+            {gamemode get righty_assets}}}))

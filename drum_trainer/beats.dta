@@ -1,0 +1,35 @@
+{new
+   DrumTrainerPanel
+   drum_trainer_beats_panel
+   (delay_change_beat FALSE)
+   (has_score TRUE)
+   (score_only_fills FALSE)
+   (fills_always_on FALSE)
+   (fills_forced FALSE)
+   (hide_beat_markers FALSE)
+   (enable_button_up TRUE)
+   (enable_button_down TRUE)
+   (enable_button_left TRUE)
+   (enable_button_right TRUE)
+   (enable_button_drums TRUE)
+   (show_tab_data TRUE)
+   (fills_only_tab FALSE)
+   (metronome_state TRUE)
+   (has_beats TRUE)
+   (greeting_group beat_practice.grp)
+   (has_count_in TRUE)
+   (hide_bpm FALSE)
+   (bpm_interval 20)
+   (render_beat_mask TRUE)
+   (unmute_all_drums FALSE)
+   (default_bpm 80)
+   (default_drums 0)
+   (default_beat 0)
+   (default_metronome 1)
+   DRUM_TRAINER_MAIN_PANEL_BASE}
+{new
+   BandScreen
+   drum_trainer_beats_screen
+   (panels DRUM_TRAINER_MAIN_SCREEN_PANELS drum_trainer_beats_panel)
+   (focus drum_trainer_beats_panel)
+   DRUM_TRAINER_MAIN_SCREEN_BASE}

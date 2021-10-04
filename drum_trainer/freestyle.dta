@@ -1,0 +1,35 @@
+{new
+   DrumTrainerPanel
+   drum_trainer_freestyle_panel
+   (delay_change_beat FALSE)
+   (has_score FALSE)
+   (score_only_fills FALSE)
+   (fills_always_on TRUE)
+   (fills_forced TRUE)
+   (hide_beat_markers TRUE)
+   (enable_button_up TRUE)
+   (enable_button_down TRUE)
+   (enable_button_left FALSE)
+   (enable_button_right FALSE)
+   (enable_button_drums TRUE)
+   (show_tab_data FALSE)
+   (fills_only_tab FALSE)
+   (metronome_state FALSE)
+   (has_beats FALSE)
+   (greeting_group freeplay.grp)
+   (has_count_in FALSE)
+   (hide_bpm TRUE)
+   (bpm_interval 5)
+   (render_beat_mask FALSE)
+   (unmute_all_drums TRUE)
+   (default_bpm 80)
+   (default_drums 0)
+   (default_beat 0)
+   (default_metronome 0)
+   DRUM_TRAINER_MAIN_PANEL_BASE}
+{new
+   BandScreen
+   drum_trainer_freestyle_screen
+   (panels DRUM_TRAINER_MAIN_SCREEN_PANELS drum_trainer_freestyle_panel)
+   (focus drum_trainer_freestyle_panel)
+   DRUM_TRAINER_MAIN_SCREEN_BASE}

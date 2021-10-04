@@ -1,0 +1,483 @@
+{new
+   MetaPanel
+   meta
+   (file meta_panel.milo)
+   (playing_post_set FALSE)
+   (is_crowd_playing FALSE)
+   (unload
+      {char_cache cache_clear}
+      {char_cache cache_enable FALSE})
+   (finish_load
+      {char_cache cache_enable TRUE}
+      {char_cache cache_update})
+   (enter
+      {platform_mgr enable_xmp}
+      {set
+         [playing_post_set]
+         FALSE})
+   (exit
+      {set
+         [is_crowd_playing]
+         FALSE})
+   (music_start
+      {if
+         {&&
+            {$this is_up}
+            {!
+               {postsong_sfx_panel get active}}}
+         {{$this meta_music}
+            start}
+         {unless
+            [is_crowd_playing]
+            {synth play shell_crowd.cue}
+            {set
+               [is_crowd_playing]
+               TRUE}}
+         {platform_mgr enable_xmp}})
+   (music_stop
+      {{$this meta_music}
+         stop}
+      {synth stop shell_crowd.cue}
+      {set
+         [is_crowd_playing]
+         FALSE})
+   (play_postset_loop
+      ($play)
+      {if_else
+         $play
+         {unless
+            [playing_post_set]
+            {synth play shell_crowd_muffled.cue}}
+         {synth stop shell_crowd_muffled.cue}}
+      {set
+         [playing_post_set]
+         $play})}
+{new
+   UIPanel
+   postsong_sfx_panel
+   (active FALSE)
+   (load
+      {set
+         [active]
+         TRUE})
+   (enter
+      {set
+         [active]
+         TRUE}
+      {meta music_stop}
+      {synth play shell_crowd_muffled.cue})
+   (exit
+      {set
+         [active]
+         FALSE}
+      {synth stop shell_crowd_muffled.cue})}
+#define COMMON_DIALOG_PANEL_HANDLERS
+((set_custom
+      ($msg $opt1 $opt2 $focus)
+      {dialog_title.lbl set_showing FALSE}
+      {msg.lbl set_localized $msg}
+      {opt1.btn set_localized $opt1}
+      {opt2.btn set_localized $opt2}
+      {opt1.btn set_showing TRUE}
+      {opt2.btn set_showing TRUE}
+      {yes.btn set_showing FALSE}
+      {no.btn set_showing FALSE}
+      {ok.btn set_showing FALSE}
+      {set
+         [helpbar_state]
+         ((confirm helpbar_select))}
+      {$this set_focus $focus})
+   (set_yesno
+      ($msg $focus)
+      {dialog_title.lbl set_showing FALSE}
+      {msg.lbl set_localized $msg}
+      {opt1.btn set_showing FALSE}
+      {opt2.btn set_showing FALSE}
+      {yes.btn set_showing TRUE}
+      {no.btn set_showing TRUE}
+      {ok.btn set_showing FALSE}
+      {set
+         [helpbar_state]
+         ((confirm helpbar_select))}
+      {$this set_focus $focus})
+   (set_ok
+      ($msg)
+      {dialog_title.lbl set_showing FALSE}
+      {msg.lbl set_localized $msg}
+      {opt1.btn set_showing FALSE}
+      {opt2.btn set_showing FALSE}
+      {yes.btn set_showing FALSE}
+      {no.btn set_showing FALSE}
+      {ok.btn set_showing TRUE}
+      {set
+         [helpbar_state]
+         ((confirm helpbar_confirm))}
+      {$this set_focus ok.btn})
+   (set_msg
+      ($msg)
+      {dialog_title.lbl set_showing FALSE}
+      {msg.lbl set_localized $msg}
+      {msg.lbl set_showing TRUE}
+      {opt1.btn set_showing FALSE}
+      {opt2.btn set_showing FALSE}
+      {yes.btn set_showing FALSE}
+      {no.btn set_showing FALSE}
+      {ok.btn set_showing FALSE}
+      {set
+         [helpbar_state]
+         ((confirm helpbar_confirm))}
+      {$this set_focus msg.lbl})
+   (set_title
+      ($msg)
+      {dialog_title.lbl set_showing TRUE}
+      {dialog_title.lbl set_localized $msg}))
+#define DIALOG_PANEL_HANDLERS
+(COMMON_DIALOG_PANEL_HANDLERS
+   (TRANSITION_COMPLETE_MSG
+      {helpbar
+         set_config
+         [helpbar_state]}))
+{new
+   UIPanel
+   dialog_panel
+   DIALOG_PANEL_HANDLERS
+   (file
+      "dialog.milo")}
+{new
+   EventDialogPanel
+   event_dialog_panel
+   (file
+      "event_dialog.milo")}
+{new
+   NetworkBusyPanel
+   network_busy_panel
+   (file
+      "network_busy.milo")
+   (min_duration 1000)}
+{new
+   ContentLoadingPanel
+   content_loading_panel
+   (file content_loading.milo)}
+{new
+   PassiveMessagesPanel
+   passive_messages_panel
+   (file
+      "passive_messages.milo")
+   (msg_duration 6000)}
+{new
+   HelpBarPanel
+   helpbar
+   (switch_frames 240)
+   (fade_anim_speed 5)
+   (file
+      "helpbar.milo")}
+{new
+   UIPanel
+   movie_panel
+   (file
+      "movie.milo")}
+#ifndef _SHIP
+{new
+   UIPanel
+   helpbar_test_panel
+   (confirm_state 3)
+   (cancel_state 3)
+   (option_state 3)
+   (start_state 3)
+   (view_state 3)
+   (up_state 3)
+   (right_state 3)
+   (left_state 3)
+   (down_state 3)
+   (update
+      {do
+         ($config
+            {array 0})
+         {if_else
+            {==
+               [confirm_state]
+               1}
+            {push_back
+               $config
+               (confirm helpbar_select)}
+            {if
+               {==
+                  [confirm_state]
+                  2}
+               {push_back
+                  $config
+                  (confirm helpbar_chosediff)}}}
+         {if_else
+            {==
+               [cancel_state]
+               1}
+            {push_back
+               $config
+               (cancel helpbar_select)}
+            {if
+               {==
+                  [cancel_state]
+                  2}
+               {push_back
+                  $config
+                  (cancel helpbar_chosediff)}}}
+         {if_else
+            {==
+               [option_state]
+               1}
+            {push_back
+               $config
+               (option helpbar_select)}
+            {if
+               {==
+                  [option_state]
+                  2}
+               {push_back
+                  $config
+                  (option helpbar_chosediff)}}}
+         {if_else
+            {==
+               [start_state]
+               1}
+            {push_back
+               $config
+               (state_confirm helpbar_select)}
+            {if
+               {==
+                  [start_state]
+                  2}
+               {push_back
+                  $config
+                  (state_confirm helpbar_chosediff)}}}
+         {if_else
+            {==
+               [view_state]
+               1}
+            {push_back
+               $config
+               (view_modify helpbar_select)}
+            {if
+               {==
+                  [view_state]
+                  2}
+               {push_back
+                  $config
+                  (view_modify helpbar_chosediff)}}}
+         {if_else
+            {==
+               [up_state]
+               1}
+            {push_back
+               $config
+               (option2 helpbar_select)}
+            {if
+               {==
+                  [up_state]
+                  2}
+               {push_back
+                  $config
+                  (option2 helpbar_chosediff)}}}
+         {if_else
+            {==
+               [down_state]
+               1}
+            {push_back
+               $config
+               (option1 helpbar_select)}
+            {if
+               {==
+                  [down_state]
+                  2}
+               {push_back
+                  $config
+                  (option1 helpbar_chosediff)}}}
+         {if_else
+            {==
+               [left_state]
+               1}
+            {push_back
+               $config
+               (waiting helpbar_select)}
+            {if
+               {==
+                  [left_state]
+                  2}
+               {push_back
+                  $config
+                  (waiting helpbar_chosediff)}}}
+         {helpbar set_config $config}})
+   (BUTTON_DOWN_MSG
+      {do
+         {switch
+            $action
+            ((kAction_Confirm)
+               {if_else
+                  {==
+                     [confirm_state]
+                     1}
+                  {set
+                     [confirm_state]
+                     2}
+                  {if_else
+                     {==
+                        [confirm_state]
+                        2}
+                     {set
+                        [confirm_state]
+                        3}
+                     {set
+                        [confirm_state]
+                        1}}})
+            ((kAction_Cancel)
+               {if_else
+                  {==
+                     [cancel_state]
+                     1}
+                  {set
+                     [cancel_state]
+                     2}
+                  {if_else
+                     {==
+                        [cancel_state]
+                        2}
+                     {set
+                        [cancel_state]
+                        3}
+                     {set
+                        [cancel_state]
+                        1}}})
+            ((kAction_Option)
+               {if_else
+                  {==
+                     [option_state]
+                     1}
+                  {set
+                     [option_state]
+                     2}
+                  {if_else
+                     {==
+                        [option_state]
+                        2}
+                     {set
+                        [option_state]
+                        3}
+                     {set
+                        [option_state]
+                        1}}})
+            ((kAction_Start)
+               {if_else
+                  {==
+                     [start_state]
+                     1}
+                  {set
+                     [start_state]
+                     2}
+                  {if_else
+                     {==
+                        [start_state]
+                        2}
+                     {set
+                        [start_state]
+                        3}
+                     {set
+                        [start_state]
+                        1}}})
+            ((kAction_ViewModify)
+               {if_else
+                  {==
+                     [view_state]
+                     1}
+                  {set
+                     [view_state]
+                     2}
+                  {if_else
+                     {==
+                        [view_state]
+                        2}
+                     {set
+                        [view_state]
+                        3}
+                     {set
+                        [view_state]
+                        1}}})
+            ((kAction_Up)
+               {if_else
+                  {==
+                     [up_state]
+                     1}
+                  {set
+                     [up_state]
+                     2}
+                  {if_else
+                     {==
+                        [up_state]
+                        2}
+                     {set
+                        [up_state]
+                        3}
+                     {set
+                        [up_state]
+                        1}}})
+            ((kAction_Right)
+               {if_else
+                  {==
+                     [right_state]
+                     1}
+                  {set
+                     [right_state]
+                     2}
+                  {if_else
+                     {==
+                        [right_state]
+                        2}
+                     {set
+                        [right_state]
+                        3}
+                     {set
+                        [right_state]
+                        1}}})
+            ((kAction_Down)
+               {if_else
+                  {==
+                     [down_state]
+                     1}
+                  {set
+                     [down_state]
+                     2}
+                  {if_else
+                     {==
+                        [down_state]
+                        2}
+                     {set
+                        [down_state]
+                        3}
+                     {set
+                        [down_state]
+                        1}}})
+            ((kAction_Left)
+               {if_else
+                  {==
+                     [left_state]
+                     1}
+                  {set
+                     [left_state]
+                     2}
+                  {if_else
+                     {==
+                        [left_state]
+                        2}
+                     {set
+                        [left_state]
+                        3}
+                     {set
+                        [left_state]
+                        1}}})
+            TRUE}
+         {$this update}})}
+{new
+   BandScreen
+   helpbar_test_screen
+   (panels meta helpbar_test_panel)
+   (focus helpbar_test_panel)
+   (back tour_hub_screen)}
+#endif

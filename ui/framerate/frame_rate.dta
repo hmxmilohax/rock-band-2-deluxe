@@ -1,0 +1,309 @@
+{func
+   base_venue
+   ($venue)
+   {cond
+      ({has_substr $venue arena}
+         arena)
+      ({has_substr $venue big_club}
+         big_club)
+      ({has_substr $venue theater}
+         theater)
+      ({has_substr $venue small_club}
+         small_club)
+      ({has_substr $venue video}
+         video)
+      unknown}}
+{new
+   UIPanel
+   frame_rate_panel
+   (file
+      "frame_rate.milo")
+   (focus venue.lst)
+   (load
+      {content_mgr start_refresh})
+   (is_loaded
+      {content_mgr refresh_done})
+   (enter
+      {venue.lst
+         set_data
+         (arena_01 arena_02 arena_03 arena_04 arena_05 arena_06 arena_07 arena_08 arena_09 arena_10 arena_11 arena_12 big_club_01 big_club_02 big_club_03 big_club_04 big_club_05 big_club_06 big_club_07 big_club_08 big_club_09 big_club_10 big_club_11 big_club_12 big_club_13 big_club_14 big_club_15 big_club_16 big_club_17 small_club_01 small_club_02 small_club_03 small_club_04 small_club_05 small_club_06 small_club_07 small_club_08 small_club_09 small_club_10 small_club_11 small_club_12 small_club_13 small_club_14 small_club_15 small_club_16 theater_01 theater_02 theater_03 theater_04 theater_05 theater_06 theater_07 theater_08 theater_09 theater_10 theater_11 video_01 video_02 video_03 video_04)}
+      {song.lst
+         set_data
+         (panicattack framerate testify lump spoonman everlong)}
+      {char.lst
+         set_data
+         (worst budget)}
+      {measure.lst
+         set_data
+         (gs cpu)})
+   (get_char_prefix
+      {cond
+         ({==
+               {char.lst selected_sym}
+               budget}
+            {if_else
+               {==
+                  {measure.lst selected_sym}
+                  gs}
+               "budget_gs_"
+               "budget_cpu_"})
+         ({==
+               {measure.lst selected_sym}
+               gs}
+            "expensive_gs_")
+         (default
+            "expensive_cpu_")})
+   (char_select
+      ($modifier)
+      {symbol
+         {sprint
+            {$this get_char_prefix}
+            $modifier}})
+   (SELECT_MSG
+      {gamemode set_mode frame_rate}
+      #ifdef HX_XBOX
+      {set
+         $shots
+         {read_file
+            {sprint
+               "ui/framerate/venue_cams/"
+               {venue.lst selected_sym}
+               "_"
+               {measure.lst selected_sym}
+               "_xbox.dta"}}}
+      #else
+      #ifdef HX_PS3
+      {set
+         $shots
+         {read_file
+            {sprint
+               "ui/framerate/venue_cams/"
+               {venue.lst selected_sym}
+               "_"
+               {measure.lst selected_sym}
+               "_ps3.dta"}}}
+      #else
+      {set
+         $shots
+         {read_file
+            {sprint
+               "ui/framerate/venue_cams/"
+               {venue.lst selected_sym}
+               "_"
+               {measure.lst selected_sym}
+               "_xbox.dta"}}}
+      #endif
+      #endif
+      {set $composite_character_demand_load TRUE}
+      {set $composite_character_swap_gender TRUE}
+      {set
+         $framerate_use_budget
+         {==
+            {char.lst selected_sym}
+            budget}}
+      {set
+         $framerate_type
+         {measure.lst selected_sym}}
+      {do
+         ($gender
+            "male")
+         ($female_cost 0)
+         ($male_cost 0)
+         {if
+            {! $framerate_use_budget}
+            {do
+               {set
+                  $female_cost
+                  {elem
+                     {find
+                        $syscfg
+                        characters
+                        prefab
+                        {$this
+                           char_select
+                           "female"}
+                        cost}
+                     1}}
+               {set
+                  $male_cost
+                  {elem
+                     {find
+                        $syscfg
+                        characters
+                        prefab
+                        {$this
+                           char_select
+                           "male"}
+                        cost}
+                     1}}
+               {if
+                  {> $female_cost $male_cost}
+                  {set
+                     $gender
+                     "female"}}}}
+         {setup_game
+            {song.lst selected_sym}
+            {venue.lst selected_sym}
+            ((vocals
+                  3
+                  {$this char_select $gender})
+               (drum
+                  3
+                  {$this char_select $gender})
+               (bass
+                  3
+                  {$this char_select $gender})
+               (guitar
+                  3
+                  {$this char_select $gender}))}
+         {set $framerate_gender $gender}}
+      {{game get_player_config 0}
+         set
+         autoplay
+         TRUE}
+      {{game get_player_config 1}
+         set
+         autoplay
+         TRUE}
+      {{game get_player_config 2}
+         set
+         autoplay
+         TRUE}
+      {{game get_player_config 3}
+         set
+         autoplay
+         TRUE}
+      {set $fake_controllers TRUE}
+      {ui goto_screen loading_screen})}
+{new
+   BandScreen
+   frame_rate_screen
+   (panels frame_rate_panel)
+   (enter
+      {fx set_showing FALSE})}
+{new
+   UIPanel
+   frame_rate_game_panel
+   (enter
+      {set $camera.disable_picking 1}
+      {set $shot 1}
+      {set $bad_shot 0}
+      {frame_rate_game_screen update_shot}
+      {beatmatch
+         foreach_active_player
+         $p
+         {handle
+            ($p set_auto_play_error 34)}
+         {handle
+            ($p set_permanent_overdrive TRUE)}}
+      {set $composite_character_demand_load TRUE}
+      {set $composite_character_swap_gender TRUE})
+   (exit
+      {set $composite_character_demand_load FALSE}
+      {set $composite_character_swap_gender FALSE})}
+{new
+   BandScreen
+   frame_rate_game_screen
+   (panels game world_panel coop_track_panel frame_rate_game_panel sync_audio_net_panel)
+   GAME_SCREEN_HANDLERS
+   (back splash_screen)
+   (BUTTON_DOWN_MSG
+      {switch
+         $raw_button
+         (kPad_X
+            {set $bad_shot 1}
+            {while
+               {== $bad_shot 1}
+               {'++' $shot}
+               {if
+                  {==
+                     $shot
+                     {size $shots}}
+                  {set $shot 1}}
+               {$this update_shot}})
+         (kPad_Tri
+            {set $bad_shot 1}
+            {while
+               {== $bad_shot 1}
+               {-- $shot}
+               {if
+                  {== $shot 0}
+                  {set
+                     $shot
+                     {-
+                        {size $shots}
+                        1}}}
+               {$this update_shot}})
+         (kPad_Circle
+            {'+=' $shot 10}
+            {if
+               {>=
+                  $shot
+                  {size $shots}}
+               {set $shot 1}}
+            {$this update_shot})
+         (kPad_Square
+            {-= $shot 10}
+            {if
+               {<= $shot 0}
+               {set
+                  $shot
+                  {-
+                     {size $shots}
+                     1}}}
+            {$this update_shot})
+         kDataUnhandled})
+   (update_shot
+      {do
+         ($i
+            {elem $shots $shot})
+         {if_else
+            {$world exists $i}
+            {do
+               ($world_shot
+                  {$world find $i})
+               {cond
+                  ({!
+                        {$world_shot platform_ok}}
+                     {cheat_display
+                        show
+                        {sprint
+                           "wrong platform: "
+                           $i}}
+                     {set $bad_shot 1})
+                  ({!
+                        {$world_shot get enabled}}
+                     {cheat_display
+                        show
+                        {sprint
+                           "shot disabled: "
+                           $i}}
+                     {set $bad_shot 1})
+                  ({find_elem
+                        (LOSE WIN WIN_PRE WIN_POST WIN_P1 WIN_P2 WIN_TIE WIN_QUICK INTRO INTRO_VENUE INTRO_QUICK INTRO_MULTI OUTRO OUTRO_MULTI)
+                        {$world_shot get category}}
+                     {cheat_display
+                        show
+                        {sprint
+                           "skipping shot category "
+                           {$world_shot get category}
+                           " "
+                           $world_shot}}
+                     {set $bad_shot 1})
+                  {handle
+                     ($world start)}
+                  {handle
+                     ($world intro_start)}
+                  {$world force_shot $world_shot}
+                  {cheat_display
+                     show
+                     {sprint
+                        $shot
+                        ": "
+                        $i}}
+                  {set $bad_shot 0}}}
+            {cheat_display
+               show
+               {sprint
+                  "couldn't find: "
+                  $i}}}})}

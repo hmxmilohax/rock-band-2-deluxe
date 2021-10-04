@@ -1,0 +1,20 @@
+#include macros.dta
+#define TEST_VAL
+('/*one*/' two '/*three*/')
+(sysutl
+   (precache
+      (dirs
+         SYSTEM_SUBDIRS
+         "systest")
+      (exclude
+         "facefx"
+         "gen")
+      (platforms xbox ps3)
+      (shaders))
+   (test_script
+      {print
+         TEST_VAL
+         "\n"}))
+(mem
+   (disable_mgr TRUE))
+#merge default.dta

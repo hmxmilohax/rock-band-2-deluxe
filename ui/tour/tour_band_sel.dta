@@ -1,0 +1,396 @@
+{new
+   BandSelectPanel
+   tour_band_sel_panel
+   (file
+      "tour_band_sel.milo")
+   (focus band.lst)
+   (band_provider 0)
+   (enter
+      {session clear}
+      {tour clear_band}
+      {practice_space_panel refresh}
+      {set
+         [band_provider]
+         {get_band_provider}}
+      {band.lst
+         set_provider
+         [band_provider]}
+      {$this reset_list_position}
+      {session
+         add_sink
+         $this
+         (signin_changed)}
+      {memcardmgr
+         add_sink
+         $this
+         (save_load_all_complete_msg)})
+   (TRANSITION_COMPLETE_MSG
+      {$this refresh_helpbar}
+      {if
+         {&&
+            {!
+               {ui in_transition}}
+            {==
+               {ui current_screen}
+               tour_band_sel_screen}
+            {!
+               {net_sync has_destination_screen}}}
+         {autosave}})
+   (exit
+      {session remove_sink $this signin_changed}
+      {memcardmgr remove_sink $this save_load_all_complete_msg})
+   (reset_list_position
+      {do
+         ($default_pos
+            {[band_provider]
+               get_default_pos})
+         {band.lst
+            set_selected
+            $default_pos
+            {max
+               0
+               {- $default_pos 2}}}
+         {if
+            {[band_provider]
+               is_pos_band
+               $default_pos}
+            {[band_provider]
+               set_default_band_pos
+               $default_pos}}})
+   (BUTTON_DOWN_MSG
+      {switch
+         $action
+         (kAction_Option
+            {if
+               {[band_provider]
+                  is_pos_band
+                  {band.lst selected_pos}}
+               {tour_profile_panel
+                  set_band_data
+                  {[band_provider]
+                     get_band_data
+                     {band.lst selected_pos}}}
+               {ui goto_screen tour_profile_screen}})
+         (kAction_ViewModify
+            {if
+               {$this
+                  can_show_gamercard
+                  {band.lst selected_pos}}
+               {do
+                  ($result
+                     {[band_provider]
+                        show_gamercard
+                        {band.lst selected_pos}
+                        $player_num})
+                  {switch
+                     $result
+                     (kGamercardSuccessful)
+                     (kGamercardPrivilegeError
+                        {ui push_screen tour_band_display_gamercard_privilege_screen})
+                     {ui push_screen tour_band_display_gamercard_failed_screen}}}})
+         kDataUnhandled})
+   (can_show_gamercard
+      ($pos)
+      #ifdef HX_XBOX
+      {&&
+         {[band_provider]
+            is_pos_band
+            $pos}
+         {!
+            {[band_provider]
+               is_band_local
+               $pos}}}
+      #else
+      FALSE
+      #endif)
+   (refresh_helpbar
+      {helpbar
+         set_config
+         {cond
+            ({$this
+                  can_show_gamercard
+                  {band.lst selected_pos}}
+               ((cancel helpbar_back)
+                  (option tour_hb_view_profile)
+                  (view_modify helpbar_show_gamercard)))
+            ({[band_provider]
+                  is_pos_band
+                  {band.lst selected_pos}}
+               ((cancel helpbar_back)
+                  (option tour_hb_view_profile)))
+            (TRUE
+               ((cancel helpbar_back)))}}
+      {if_else
+         {[band_provider]
+            is_pos_band
+            {band.lst selected_pos}}
+         {helpbar confirm tour_hb_selband}
+         {helpbar confirm helpbar_select}})
+   (SCROLL_MSG
+      {do
+         ($pos
+            {band.lst selected_pos})
+         {if
+            {[band_provider]
+               is_pos_band
+               $pos}
+            {[band_provider]
+               set_default_band_pos
+               $pos}}}
+      {$this refresh_helpbar})
+   (SELECT_MSG
+      {switch
+         $component
+         (band.lst
+            {do
+               ($pos
+                  {band.lst selected_pos})
+               {cond
+                  ({[band_provider]
+                        is_pos_create_band
+                        $pos}
+                     {if_else
+                        {profile_mgr can_any_profile_own_a_new_band}
+                        {do
+                           #ifdef HX_PS3
+                           {tour
+                              set_band
+                              {tour create_new_band $player}}
+                           {ui
+                              goto_screen
+                              {gamemode get matchmaking_screen}}
+                           #else
+                           {ui push_screen tour_band_choose_owner_screen}
+                           #endif}
+                        {ui push_screen tour_band_no_owner_screen}})
+                  ({[band_provider]
+                        is_pos_join_band
+                        $pos}
+                     {cond
+                        ({gamecfg is_missing_mic $player_num FALSE}
+                           {vocalist_must_have_mic_screen set message solo_vocalist_needs_mic}
+                           {ui push_screen vocalist_must_have_mic_screen})
+                        ({!
+                              {platform_mgr player_has_online_privilege $player_num}}
+                           {ui push_screen tour_band_need_online_profile_screen})
+                        ({platform_mgr is_player_a_guest $player_num}
+                           {ui push_screen tour_band_guest_cannot_select_screen})
+                        (TRUE
+                           {tour set_remote_band}
+                           {finding_panel set_joining_user $player}
+                           {ui goto_screen finding_screen})})
+                  ({[band_provider]
+                        is_pos_band
+                        $pos}
+                     {if_else
+                        {[band_provider]
+                           is_band_local
+                           $pos}
+                        {do
+                           {tour
+                              set_band
+                              {[band_provider]
+                                 get_band
+                                 $pos}}
+                           {ui
+                              goto_screen
+                              {gamemode get matchmaking_screen}}}
+                        {cond
+                           ({gamecfg is_missing_mic $player_num FALSE}
+                              {vocalist_must_have_mic_screen set message solo_vocalist_needs_mic}
+                              {ui push_screen vocalist_must_have_mic_screen})
+                           ({!
+                                 {platform_mgr player_has_online_privilege $player_num}}
+                              {ui push_screen tour_band_need_online_profile_screen})
+                           ({platform_mgr is_player_a_guest $player_num}
+                              {ui push_screen tour_band_guest_cannot_select_screen})
+                           (TRUE
+                              {[band_provider]
+                                 select_remote_band
+                                 $pos}
+                              {finding_panel set_joining_user $player}
+                              {ui goto_screen finding_screen})}})
+                  ({[band_provider]
+                        is_pos_sign_in_instruction
+                        $pos}
+                     {platform_mgr signin 1})
+                  (TRUE
+                     {ui push_screen band_chooser_non_active_select_screen})}})}
+      {practice_space_panel refresh})
+   (JOYPAD_CONNECT_MSG
+      {band.lst
+         set_provider
+         [band_provider]}
+      {$this reset_list_position}
+      {$this refresh_helpbar})
+   (signin_changed
+      {band.lst
+         set_provider
+         [band_provider]}
+      {$this reset_list_position}
+      {$this refresh_helpbar})
+   (save_load_all_complete_msg
+      {band.lst
+         set_provider
+         [band_provider]}
+      {$this reset_list_position}
+      {$this refresh_helpbar})
+   (presence_info_received
+      {band.lst set_dirty})}
+{new
+   AutoloadScreen
+   tour_band_sel_screen
+   (panels meta practice_space_panel tour_band_sel_panel tour_lower3rd_panel)
+   (focus tour_band_sel_panel)
+   (ignore_activated_button_press TRUE)
+   (back main_tour_screen)
+   (enter
+      {presence_mgr set_assembling_band}
+      {practice_space_panel
+         select_cam
+         "coop_enter"}
+      {char_cache cache_update})
+   (exit
+      {presence_mgr set_prepare_to_rock})}
+{new
+   BandScreen
+   tour_band_need_online_profile_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize tour_band_need_online_profile}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   tour_band_guest_cannot_select_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize tour_band_guest_cannot_select}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   tour_band_display_gamercard_failed_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize on_select_gamertag_error}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   tour_band_display_gamercard_privilege_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize tour_band_display_gamercard_failed}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   band_chooser_non_active_select_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize band_chooser_non_active_select}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   tour_band_no_available_owners_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((cancel helpbar_cancel)
+         (confirm helpbar_confirm)))
+   (enter
+      {dialog_panel
+         set_ok
+         {localize tour_band_no_owners_available}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   UIPanel
+   tour_band_owner_panel
+   (file
+      "../matchmaking/choose_char_owner.milo")
+   (focus players.lst)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (BUTTON_DOWN_MSG
+      {if_else
+         {== $action kAction_Cancel}
+         {do
+            {ui pop_screen}}
+         kDataUnhandled})
+   (SELECT_MSG
+      {do
+         ($user
+            {user_provider
+               get_user
+               {players.lst selected_pos}})
+         {if_else
+            $user
+            {do
+               {tour
+                  set_band
+                  {tour create_new_band $user}}
+               {ui
+                  pop_screen
+                  {gamemode get matchmaking_screen}}}
+            {do
+               {ui pop_screen}}}})
+   (enter
+      {user_provider set_state kGameBUPS_LocalBandOwners}
+      {players.lst set_provider user_provider}
+      {players.lst
+         set_selected
+         {user_provider first_active}}
+      {title.lbl set text_token tour_band_create_band_choose_owner_title}
+      {msg.lbl set text_token tour_band_create_band_choose_owner}
+      {platform_mgr add_sink $this})
+   (exit
+      {platform_mgr remove_sink $this})
+   (signin_changed
+      {ui pop_screen})}
+{new
+   BandScreen
+   tour_band_choose_owner_screen
+   (panels tour_band_owner_panel)
+   (focus tour_band_owner_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_confirm)))}
+{new
+   BandScreen
+   tour_band_no_owner_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (enter
+      {dialog_panel
+         set_ok
+         {sprintf
+            {localize tour_band_create_band_no_owner_fmt}
+            {profile_mgr get_max_bands}}}
+      {platform_mgr add_sink $this})
+   (exit
+      {platform_mgr remove_sink $this})
+   (SELECT_MSG
+      {ui pop_screen})
+   (signin_changed
+      {ui pop_screen})}

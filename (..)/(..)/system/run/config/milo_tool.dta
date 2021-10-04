@@ -1,0 +1,124 @@
+#include macros.dta
+(system
+   (xbox_map_file
+      "%s/milo_tool_%s.map"))
+(spew)
+(ui
+   #include milo_ui.dta)
+(timer
+   (anim
+      (enable TRUE))
+   (draw
+      (enable TRUE))
+   ('anim+draw'
+      (enable TRUE)))
+(rnd
+   (timer_script
+      {set_timer_ms
+         'anim+draw'
+         {'+'
+            {timer_ms anim}
+            {timer_ms draw}}}))
+(objects
+   #include milo_objects.dta)
+(mem
+   (heaps
+      #ifdef HX_EE
+      (main
+         (size 19000000))
+      (rnd
+         (size 8000000)
+         (handle TRUE))
+      #else
+      #ifdef HX_PS3
+      (main
+         (size 161900000))
+      (local
+         (size 0)
+         (debug 0))
+      #else
+      #ifdef HX_XBOX
+      (main
+         (size 135000000))
+      #else
+      #ifdef HX_WII
+      (main
+         (size 15000000))
+      (face_fx
+         (size 10000000)
+         (region 1))
+      (rnd
+         (size 50000000)
+         (region 1))
+      #else
+      (main
+         (size 268435456))
+      #endif
+      #endif
+      #endif
+      #endif)
+   (pool
+      (big_hunk 3100000)
+      (small_hunk 50000))
+   #ifdef HX_EE
+   (track_stl TRUE)
+   (enable_tracking TRUE)
+   #else
+   #ifdef HX_XBOX
+   (track_stl TRUE)
+   (enable_tracking TRUE)
+   #else
+   (track_stl FALSE)
+   (enable_tracking FALSE)
+   #endif
+   #endif)
+(milo_tool
+   (memtrack
+      #ifdef HX_EE
+      (mesh_rnd mFacePacket mEdgePacket)
+      (mesh '*Mesh' Vert RndBones TransListNode)
+      (bsp BSPNode)
+      (tex_mov Resource Bitmap_buf PsMat PsTex)
+      (part Particle ParticleSys)
+      (keys '*Key')
+      (other '*Rnd' '*Anim' View Cam Light Environ)
+      #else
+      #ifdef HX_XBOX
+      ("mesh(phys)"
+         "D3D(phys):Mesh")
+      ("tex/mov(phys)"
+         "D3D(phys):Tex"
+         "D3D(phys):CubeTex"
+         "Tex(phys)")
+      ("mesh(main)"
+         '*Mesh'
+         Vert
+         RndBones
+         TransListNode)
+      ("particles(main)"
+         Particle
+         ParticleSys)
+      ("anim keys(main)"
+         '*Key')
+      ("lighting(main)"
+         '*LightPreset'
+         '*Spotlight')
+      #ifdef _DEBUG
+      ("char clips(main)"
+         CharClipSamples)
+      ("char(main)"
+         '*Char'
+         Trans)
+      ("shadow map"
+         "D3D(phys): Shadow Map")
+      ("other d3d(main)"
+         "XTL:D3D")
+      ("other phys"
+         "*(phys)")
+      ("other main"
+         '*')
+      #endif
+      #endif
+      #endif))
+(videos)
+#merge default.dta

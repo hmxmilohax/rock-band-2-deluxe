@@ -1,0 +1,35 @@
+(heaps
+   #ifdef HX_EE
+   (main
+      (size 20300000))
+   (rnd
+      (size 5500000)
+      (handle TRUE))
+   #else
+   #ifdef HX_PS3
+   (main
+      (size 166900000))
+   (local
+      (size 0)
+      (debug 0))
+   (server_login
+      (size 100000))
+   #else
+   #ifdef HX_PC
+   (main
+      (size 390900000))
+   (server_login
+      (size 100000))
+   #else
+   (main
+      (size 140000000))
+   (server_login
+      (size 100000))
+   #endif
+   #endif
+   #endif)
+(pool
+   (big_hunk 8000000)
+   (small_hunk 50000))
+(enable_tracking FALSE)
+(track_stl FALSE)

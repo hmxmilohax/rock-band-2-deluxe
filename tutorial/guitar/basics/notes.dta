@@ -1,0 +1,137 @@
+#define GEMS_TO_HIT
+(6)
+#define GEMS_TO_MISS_ENCOURAGE
+(8)
+SETUP_GUITAR_TUTORIAL
+GUITAR_TV_WHITE
+START_BG_MUSIC
+{setup_lesson_banner tutorial_guitar_basics_notes_part}
+{play_vo tute_guitar1_fretboard}
+{$task sleep TUTORIAL_GUITAR_BASICS_NOTES_PAUSE1}
+{meta_performer set_song guitar_basics_notes}
+LOAD_NEW_GUITAR_SONG_NO_FADE
+HIDE_TRACK_PLAYER_UI
+UNPAUSE_TRACK
+SYNC_PAUSE
+WAIT_FOR_VO
+SHORT_VO_GAP
+{play_vo tute_guitar1_notes}
+SHOW_GREEN_TWO_ARROW
+WAIT_FOR_VO
+{play_vo tute_guitar1_notetarget}
+SHOW_NOWBAR_ARROW
+WAIT_FOR_VO
+HIDE_GREEN_TWO_ARROW
+HIDE_NOWBAR_ARROW
+SHORT_VO_GAP
+UNPAUSE_TRACK
+AUTOPLAY_ON
+SYNC_PAUSE
+AUTOPLAY_OFF
+{new
+   Object
+   tutorial_guitar_basics_notes_callback
+   (hit
+      {set
+         [num_gems_hit]
+         {'+'
+            [num_gems_hit]
+            1}}
+      {update_task_score
+         {localize tutorial_guitar_basics_notes_score}
+         [num_gems_hit]
+         GEMS_TO_HIT}
+      ANIMATE_SCORE)
+   (lesson_running
+      {&&
+         {<
+            [num_gems_hit]
+            GEMS_TO_HIT}
+         {<
+            {{beatmatch active_player 0}
+               percent_complete}
+            END_OF_SONG_PERCENT}})
+   (miss
+      {set
+         [num_gems_miss]
+         {'+'
+            [num_gems_miss]
+            1}}
+      {$this check_give_encouragement})
+   (pass
+      {set
+         [num_gems_pass]
+         {'+'
+            [num_gems_pass]
+            1}}
+      {$this check_give_encouragement})
+   (check_give_encouragement
+      {if
+         {==
+            {'+'
+               [num_gems_miss]
+               [num_gems_pass]}
+            GEMS_TO_MISS_ENCOURAGE}
+         {play_vo tute_guitar1_notehelp}})
+   (passed
+      {>=
+         [num_gems_hit]
+         GEMS_TO_HIT})
+   (failed
+      {!
+         {$this passed}})
+   (num_gems_hit 0)
+   (num_gems_miss 0)
+   (num_gems_pass 0)}
+{play_vo tute_guitar1_notetask}
+STOP_BG_MUSIC
+GUITAR_TV_OFF
+WAIT_FOR_VO
+LONG_VO_GAP
+{set_info_text
+   {localize tutorial_guitar_basics_notes_task}}
+{show_info_text TRUE}
+{{beatmatch active_player 0}
+   add_sink
+   tutorial_guitar_basics_notes_callback}
+{update_task_score
+   {localize tutorial_guitar_basics_notes_score}
+   0
+   GEMS_TO_HIT}
+SHOW_SCORE
+FADE_SONG_IN
+UNPAUSE_TRACK
+FADE_SONG_IN
+{$task
+   wait
+   {tutorial_guitar_basics_notes_callback lesson_running}}
+FREEZE_SCORE_TEXT
+{if
+   {!
+      {tutorial_guitar_basics_notes_callback failed}}
+   {$task sleep 1}}
+TRACK_OUT
+PAUSE_TRACK
+WAIT_FOR_VO
+{if_else
+   {tutorial_guitar_basics_notes_callback failed}
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_basics_notes_failed}}
+      {play_vo tute_guitar1_notefail}}
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_basics_notes_done}}
+      {play_vo tute_guitar1_notefinish}}}
+{show_info_text FALSE}
+{show_part_text FALSE}
+{show_banner_text TRUE}
+HIDE_SCORE
+START_BG_MUSIC
+GUITAR_TV_WHITE
+WAIT_FOR_VO
+SHORT_VO_GAP
+{do_fail_menu
+   {tutorial_guitar_basics_notes_callback failed}}
+RETURN_FROM_FAIL_MENU
+{tutorials_state_panel switch_to_next_state}

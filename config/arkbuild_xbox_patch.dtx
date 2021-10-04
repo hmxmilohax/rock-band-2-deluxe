@@ -1,0 +1,69 @@
+; Configuration file for Arkbuild application
+
+#include macros.dta
+
+(ark_build
+   (name patch)
+
+   (checksum_file "../src/band/ChecksumData.cpp")
+
+   (reference_ark "ark/main_xbox")
+
+   (dirs
+      "."
+      "../../system/run/band"
+      SYSTEM_SUBDIRS
+   )
+
+   (file_exts
+      STD_EXTS
+
+      ; all XBOX_EXTS but xbox_shaders
+      .milo_xbox _keep*.png_xbox _keep*.bmp_xbox .xbv .hxma .mogg 
+   )
+      
+   (platform _xbox)
+      
+   ; Any file with a cache ext will automatically
+   ; get the platform extension put onto it.      
+   (cache_exts
+      milo png bmp
+   )
+      
+   ; list of file patterns to skip, like "&/bl??g.*" that kind of thing
+   (skip_files
+      "config/gen/budget.dtb"
+      "config/gen/midi_verify.dtb"
+      "config/gen/rndexp.dtb"         
+      "config/gen/milo.dtb"         
+      "config/gen/systest.dtb"         
+      "config/gen/sysutl.dtb"         
+      "config/gen/unittest.dtb"         
+      "config/gen/arkorder.dtb"
+      "config/arkbuild_xbox.dtx"
+      "config/arkbuild_xbox_patch.dtx"
+      "config/arkbuild_ps3.dtx"  
+      "config/arkbuild_ps3_patch.dtx"  
+      "char/male/anim/src/&" ; source for generated files
+      "char/female/anim/src/&" 
+      "char/crowd/anims/src/&"
+      "songs/gen/songs_debug.dtb"   ; no debugging songs
+      "test/&" 
+      "ui/eng/gen/locale.dtb" ; all new local should go into locale_updates.dta
+   )
+
+   (skip_dirs
+      "char"
+      "patchcreator"
+      "sfx/streams"
+      "songs"
+      "songs_download"
+      "videos"
+      "world"
+   )
+
+   ;; file order in archive (app should specify)
+   ;(order #include arkorder.dta )
+)
+
+#merge ../../../system/run/config/arkbuild.dta

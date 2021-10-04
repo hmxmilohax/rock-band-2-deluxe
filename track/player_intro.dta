@@ -1,0 +1,104 @@
+(RndDir
+   (types
+      (player_intro
+         (editor
+            (reset
+               script
+               (script
+                  {$this reset}))
+            (bass_intro
+               script
+               (script
+                  {$this
+                     setup_player
+                     "B"
+                     "GamerTag"}
+                  {$this intro}))
+            (drum_intro
+               script
+               (script
+                  {$this
+                     setup_player
+                     "D"
+                     "GamerTag"}
+                  {$this intro}))
+            (guitar_intro
+               script
+               (script
+                  {$this
+                     setup_player
+                     "G"
+                     "GamerTag"}
+                  {$this intro}))
+            (vocals_intro
+               script
+               (script
+                  {$this
+                     setup_player
+                     "V"
+                     "GamerTag"}
+                  {$this intro}))
+            (talk
+               script
+               (script
+                  {$this talk}))
+            (talk_stop
+               script
+               (script
+                  {$this talk_stop}))
+            (fade
+               script
+               (script
+                  {$this fade}))
+            (hide
+               script
+               (script
+                  {$this hide}))
+            (player_name
+               string
+               (post_sync
+                  {$this
+                     setup_player
+                     "B"
+                     [player_name]})))
+         (player_name
+            "")
+         (enabled TRUE)
+         (reset
+            {reset.trig trigger})
+         (intro
+            {if
+               {&&
+                  [enabled]
+                  {!
+                     {&&
+                        {exists gamemode}
+                        {gamemode get disable_player_intro}}}}
+               {script_task
+                  kTaskSeconds
+                  (delay 1.0e-2)
+                  (script
+                     {intro.trig trigger})}})
+         (setup_player
+            ($icon $name)
+            {icon.lbl set_localized $icon}
+            {player_name.lbl set_localized $name})
+         (set_talking
+            ($talking)
+            {if_else
+               $talking
+               {$this talk}
+               {$this talk_stop}})
+         (set_enabled
+            ($enabled)
+            {set
+               [enabled]
+               $enabled})
+         (talk
+            {talk.trig trigger})
+         (talk_stop
+            {talk_stop.trig trigger})
+         (fade
+            {fade.env set fade_max 0.5})
+         (hide
+            {hide.trig trigger}))))

@@ -1,0 +1,842 @@
+{new
+   PatchPanel
+   patch_panel
+   (file
+      "patchcreator.milo")
+   (bg_color
+      {pack_color 1 1 1})
+   (exit_screen 0)
+   (mode modify_menu)
+   (mode_cache modify_menu)
+   (show_modify_menu FALSE)
+   (show_color FALSE)
+   (show_category FALSE)
+   (show_sticker FALSE)
+   (show_layer FALSE)
+   (show_nav FALSE)
+   (show_layer_menu FALSE)
+   (show_quit_menu FALSE)
+   (layer_first FALSE)
+   (edit_layer_idx_cache 0)
+   (size_x 1)
+   (size_y 1)
+   (preview_frame 0)
+   (help_shown 0)
+   (init_to_new TRUE)
+   (delete_confirm_screen
+      "")
+   (patch_player '')
+   (unload
+      {shop_char_panel set_ui_showing TRUE}
+      {if
+         {practice_space_panel is_up}
+         {practice_space_panel refresh}})
+   (update_helpbar
+      ($cancel $confirm)
+      {set
+         $config
+         {array 0}}
+      {push_back
+         $config
+         (confirm $confirm)}
+      {if
+         {!=
+            $cancel
+            ""}
+         {push_back
+            $config
+            (cancel $cancel)}}
+      {if
+         {shop_char_panel has_multiple_cameras}
+         {push_back
+            $config
+            (view_modify shop_hb_change_camera)}}
+      {helpbar set_config $config})
+   (set_size
+      ($x $y $f)
+      {set
+         [size_x]
+         $x}
+      {set
+         [size_y]
+         $y}
+      {$this set_base_size $x $y}
+      {set
+         [preview_frame]
+         $f})
+   (block_event
+      ($event)
+      {'||'
+         {== $event lost_connection}
+         {== $event disband}})
+   (on_set_mode
+      {set
+         [show_color]
+         FALSE}
+      {set
+         [show_modify_menu]
+         FALSE}
+      {set
+         [show_sticker]
+         FALSE}
+      {set
+         [show_layer]
+         FALSE}
+      {set
+         [show_nav]
+         FALSE}
+      {set
+         [show_category]
+         FALSE}
+      {set
+         [layer_first]
+         FALSE}
+      {set
+         [show_layer_menu]
+         FALSE}
+      {set
+         [show_quit_menu]
+         FALSE}
+      {$this update_helpbar helpbar_back patch_hb_menu}
+      {unless
+         {'||'
+            {==
+               [mode]
+               category}
+            {==
+               [mode]
+               sticker}}
+         {$this store_undo}}
+      {switch
+         [mode]
+         (modify_menu
+            {layer-modify.lst
+               set_selected
+               {layer.lst selected_pos}}
+            {dpad.grp set_showing FALSE}
+            {$this set_focus move.btn}
+            {set
+               [show_modify_menu]
+               TRUE}
+            {color.btn
+               set_state
+               {if_else
+                  {{$this edit_layer}
+                     allow_color}
+                  kComponentNormal
+                  kComponentDisabled}}
+            {set
+               [show_nav]
+               TRUE}
+            {$this update_helpbar helpbar_back patch_hb_modifysticker})
+         (quit
+            {dpad.grp set_showing FALSE}
+            {quit.grp set_showing TRUE}
+            {$this set_focus cnf_save.btn}
+            {set
+               [show_quit_menu]
+               TRUE}
+            {set
+               [show_nav]
+               TRUE}
+            {$this
+               update_helpbar
+               ""
+               helpbar_select})
+         (move
+            {dpad.grp set_showing TRUE}
+            {help_editing.lbl
+               set_localized
+               {localize patch_help_editing_move}}
+            {$this update_helpbar helpbar_cancel helpbar_confirm})
+         (flip
+            {dpad.grp set_showing TRUE}
+            {help_editing.lbl
+               set_localized
+               {localize patch_help_editing_flip}}
+            {$this update_helpbar helpbar_cancel helpbar_confirm})
+         (rotate
+            {dpad.grp set_showing TRUE}
+            {help_editing.lbl
+               set_localized
+               {localize patch_help_editing_rotate}}
+            {$this update_helpbar helpbar_cancel helpbar_confirm})
+         (scale
+            {dpad.grp set_showing TRUE}
+            {help_editing.lbl
+               set_localized
+               {localize patch_help_editing_scale}}
+            {$this update_helpbar helpbar_cancel helpbar_confirm})
+         (warp
+            {dpad.grp set_showing TRUE}
+            {help_editing.lbl
+               set_localized
+               {localize patch_help_editing_warp}}
+            {$this update_helpbar helpbar_cancel helpbar_confirm})
+         (color
+            {dpad.grp set_showing FALSE}
+            {$this set_focus color.lst}
+            {set
+               [show_color]
+               TRUE}
+            {color.lst
+               set_selected
+               {{$this edit_layer}
+                  get
+                  color_idx}}
+            {$this update_helpbar helpbar_cancel helpbar_confirm})
+         (category
+            {dpad.grp set_showing FALSE}
+            {$this set_focus category.lst}
+            {set
+               [show_category]
+               TRUE}
+            {set
+               [show_nav]
+               TRUE}
+            {$this set_focus category.lst}
+            {$this update_helpbar helpbar_back helpbar_choose})
+         (sticker
+            {sticker.lst
+               set_provider
+               {$this
+                  sticker_provider
+                  {category.lst selected_pos}}}
+            {dpad.grp set_showing FALSE}
+            {set
+               [show_sticker]
+               TRUE}
+            {set
+               [show_nav]
+               TRUE}
+            {$this set_focus sticker.lst}
+            {$this update_helpbar helpbar_back helpbar_choose})
+         (layer
+            {if
+               {!=
+                  [mode]
+                  [mode_cache]}
+               {set
+                  [edit_layer_idx_cache]
+                  {$this
+                     convert_to_layer_index
+                     {layer.lst selected_pos}}}}
+            {if
+               [init_to_new]
+               {if_else
+                  {!=
+                     -1
+                     {$this empty_layer_ix}}
+                  {do
+                     {set
+                        [edit_layer_idx]
+                        {$this empty_layer_ix}}
+                     {layer.lst set_selected 0}}
+                  {do
+                     {set
+                        [edit_layer_idx]
+                        {$this convert_to_layer_index 1}}
+                     {layer.lst set_selected 1}}}
+               {$this set init_to_new FALSE}}
+            {layer.lst set_dirty}
+            {set
+               [show_layer]
+               TRUE}
+            {set
+               [show_nav]
+               TRUE}
+            {$this set_focus layer.lst}
+            {dpad.grp set_showing FALSE}
+            {$this update_helpbar helpbar_back helpbar_choose})
+         (layer_menu
+            {layer-menu.lst
+               set_selected
+               {layer.lst selected_pos}}
+            {set
+               [show_nav]
+               TRUE}
+            {dpad.grp set_showing FALSE}
+            {set
+               [show_layer_menu]
+               TRUE}
+            {$this set_focus layer_edit.btn}
+            {$this update_helpbar helpbar_back helpbar_choose}
+            {if_else
+               {==
+                  -1
+                  {$this empty_layer_ix}}
+               {do
+                  {if
+                     {!=
+                        kComponentDisabled
+                        {layer_copy.btn get_state}}
+                     {$this disable layer_copy.btn}}
+                  {if
+                     {!=
+                        kComponentDisabled
+                        {layer_new.btn get_state}}
+                     {$this disable layer_new.btn}}}
+               {do
+                  {if
+                     {==
+                        kComponentDisabled
+                        {layer_copy.btn get_state}}
+                     {$this enable layer_copy.btn}}
+                  {if
+                     {==
+                        kComponentDisabled
+                        {layer_new.btn get_state}}
+                     {$this enable layer_new.btn}}}})
+         (layer_move
+            {layer.lst set_dirty}
+            {set
+               [show_layer]
+               TRUE}
+            {set
+               [show_nav]
+               TRUE}
+            {$this set_focus layer.lst}
+            {dpad.grp set_showing FALSE}
+            {$this update_helpbar helpbar_cancel patch_hb_reorderlayer})}
+      {if_else
+         [show_modify_menu]
+         {modify_menu.grp set_showing TRUE}
+         {modify_menu.grp set_showing FALSE}}
+      {if_else
+         [show_color]
+         {color.grp set_showing TRUE}
+         {color.grp set_showing FALSE}}
+      {if_else
+         [show_nav]
+         {do
+            {layers.grp
+               set_showing
+               [show_layer]}
+            {layers_menu.grp
+               set_showing
+               [show_layer_menu]}
+            {category.grp
+               set_showing
+               [show_category]}
+            {stickers.grp
+               set_showing
+               [show_sticker]}}
+         {do
+            {layers.grp set_showing FALSE}
+            {layers_menu.grp set_showing FALSE}
+            {category.grp set_showing FALSE}
+            {stickers.grp set_showing FALSE}}}
+      {set
+         [mode_cache]
+         [mode]})
+   (enter
+      {shop_char_panel set_ui_showing FALSE}
+      {switch
+         {rnd aspect}
+         (kWidescreenAspect
+            {aspect.tnm set_frame 10}
+            {aspectright.tnm set_frame 10})
+         {aspect.tnm set_frame 0}
+         {aspectright.tnm set_frame 0}}
+      {preview.grp
+         set_frame
+         [preview_frame]}
+      {arm_layout.grp
+         set_frame
+         [preview_frame]}
+      {canvas.mat
+         set
+         color
+         [bg_color]}
+      {color.grp set_showing FALSE}
+      {modify_menu.grp set_showing FALSE}
+      {stickers.grp set_showing FALSE}
+      {layers.grp set_showing FALSE}
+      {quit.grp set_showing FALSE}
+      {category.lst
+         set_provider
+         {$this category_provider}}
+      {do
+         ($layer
+            {$this edit_layer})
+         {color.lst
+            set
+            color_palette
+            {$layer color_palette}}
+         {color.lst
+            set_selected
+            {$layer get color_idx}}}
+      {layer.lst
+         set_provider
+         {$this layer_provider}}
+      {$this set init_to_new TRUE}
+      {layer-modify.lst
+         set_provider
+         {$this layer_provider}}
+      {layer-menu.lst
+         set_provider
+         {$this layer_provider}}
+      {$this
+         set
+         edit_layer_idx
+         {$this
+            convert_to_layer_index
+            {layer.lst selected_pos}}}
+      {$this set mode layer}
+      {$this cache_patch})
+   (TRANSITION_COMPLETE_MSG
+      {if
+         {[delete_confirm_screen]
+            get
+            delete}
+         {[delete_confirm_screen]
+            set
+            delete
+            FALSE}
+         {do
+            {$this
+               clear_layer
+               {$this
+                  convert_to_layer_index
+                  {layer.lst selected_pos}}}
+            {layer.lst
+               set_selected
+               {$this get_edit_layer_list_index}}}
+         {layer.lst set_dirty}
+         {$this set mode layer}})
+   (SELECT_MSG
+      {switch
+         $component
+         (layer.btn
+            {$this set mode layer})
+         (move.btn
+            {$this set mode move})
+         (color.btn
+            {$this set mode color})
+         (rotate.btn
+            {$this set mode rotate})
+         (sticker.lst
+            {$this set mode layer})
+         (warp.btn
+            {$this set mode warp})
+         (scale.btn
+            {$this set mode scale})
+         (done.btn
+            {$this set mode layer_menu})
+         (color.lst
+            {$this set mode modify_menu})
+         (layer_edit.btn
+            {$this set mode modify_menu})
+         (layer_new.btn
+            {do
+               ($empty_layer_ix
+                  {$this empty_layer_ix})
+               {if
+                  {!= $empty_layer_ix -1}
+                  {$this set edit_layer_idx $empty_layer_ix}
+                  {layer.lst
+                     set_selected
+                     {$this get_edit_layer_list_index}}
+                  {$this set mode category}}})
+         (layer_sticker.btn
+            {$this set mode category})
+         (layer_move.btn
+            {$this set mode layer_move})
+         (layer_clear.btn
+            {ui
+               goto_screen
+               [delete_confirm_screen]})
+         (layer_copy.btn
+            {do
+               ($empty_layer_ix
+                  {$this empty_layer_ix})
+               {$this
+                  dupe_layer
+                  {$this
+                     convert_to_layer_index
+                     {layer.lst selected_pos}}}
+               {if
+                  {!= $empty_layer_ix -1}
+                  {$this set edit_layer_idx $empty_layer_ix}}
+               {layer.lst set_dirty}
+               {layer.lst
+                  set_selected
+                  {$this get_edit_layer_list_index}}
+               {$this set mode layer}})
+         (layer_done.btn
+            {$this set mode quit})
+         (category.lst
+            {{$this edit_layer}
+               set
+               sticker_category
+               {category.lst selected_sym}}
+            {$this set mode sticker}
+            {{$this edit_layer}
+               set_scale
+               [size_x]
+               [size_y]}
+            {{$this edit_layer}
+               set_default_color}
+            {layer.lst set_dirty}
+            {layer.lst
+               set_selected
+               {$this get_edit_layer_list_index}})
+         (layer.lst
+            {$this set mode category})
+         (flip.btn
+            {$this set mode flip})
+         (cnf_discard.btn
+            {$this restore_patch}
+            {ui
+               goto_screen
+               [exit_screen]})
+         (cnf_save.btn
+            {[exit_screen]
+               confirm}
+            {handle
+               ([exit_screen]
+                  patch_saved
+                  $player)})
+         (cnf_return.btn
+            {preview.grp set_showing TRUE}
+            {quit.grp set_showing FALSE}
+            {$this set mode layer})})
+   (SCROLL_MSG
+      {switch
+         [mode]
+         (layer
+            {$this
+               set
+               edit_layer_idx
+               {$this
+                  convert_to_layer_index
+                  {layer.lst selected_pos}}}
+            {{$this edit_layer}
+               select_fx}
+            {$this set mode layer})
+         (sticker
+            {{$this edit_layer}
+               set
+               sticker_idx
+               {sticker.lst selected_pos}}
+            {{$this edit_layer}
+               set_default_color})
+         {switch
+            $component
+            (color.lst
+               {if
+                  {==
+                     {$this get mode}
+                     color}
+                  {{$this edit_layer}
+                     set
+                     color_idx
+                     {$component selected_pos}}})}})
+   (BUTTON_DOWN_MSG
+      {switch
+         $action
+         (kAction_ViewModify
+            {synth play button_toggle}
+            {shop_char_panel select_next_cam})}
+      {switch
+         [mode]
+         (modify_menu
+            {if_else
+               {== $action kAction_Cancel}
+               {$this set mode layer_menu}
+               kDataUnhandled})
+         (quit kDataUnhandled)
+         (color
+            {switch
+               $action
+               (kAction_Cancel
+                  {$this restore_undo}
+                  {synth play button_back}
+                  {$this set mode modify_menu})
+               (kAction_Confirm
+                  {$this set mode modify_menu}
+                  {synth play button_select})
+               kDataUnhandled})
+         (category
+            {switch
+               $action
+               (kAction_Cancel
+                  {$this restore_undo}
+                  {synth play button_back}
+                  {$this set mode layer}
+                  {layer.lst
+                     set_selected
+                     {$this get_edit_layer_list_index}})
+               kDataUnhandled})
+         (layer_menu
+            {if_else
+               {== $action kAction_Cancel}
+               {$this set mode layer}
+               kDataUnhandled})
+         (layer
+            {switch
+               $action
+               (kAction_Confirm
+                  {if_else
+                     {{$this edit_layer}
+                        has_sticker}
+                     {$this set mode layer_menu}
+                     {$this set mode category}})
+               (kAction_Cancel
+                  {$this set mode quit})
+               (kAction_Up
+                  {layer.lst scroll -1 $player})
+               (kAction_Down
+                  {layer.lst scroll 1 $player})
+               kDataUnhandled})
+         (flip
+            {switch
+               $raw_button
+               (kPad_DUp
+                  {synth play button_select}
+                  {{$this edit_layer}
+                     flip_y})
+               (kPad_DDown
+                  {synth play button_select}
+                  {{$this edit_layer}
+                     flip_y})
+               (kPad_DLeft
+                  {synth play button_select}
+                  {{$this edit_layer}
+                     flip_x})
+               (kPad_DRight
+                  {synth play button_select}
+                  {{$this edit_layer}
+                     flip_x})
+               (kPad_Tri
+                  {$this restore_undo}
+                  {synth play button_back}
+                  {$this set mode modify_menu})
+               (kPad_Xbox_A
+                  {$this set mode modify_menu})
+               (kPad_Xbox_B
+                  {$this restore_undo}
+                  {synth play button_back}
+                  {$this set mode modify_menu})
+               kDataUnhandled})
+         (layer_move
+            {switch
+               $action
+               (kAction_Confirm
+                  {synth play button_select}
+                  {$this
+                     set
+                     edit_layer_idx
+                     {$this
+                        convert_to_layer_index
+                        {layer.lst selected_pos}}}
+                  {{$this edit_layer}
+                     select_fx}
+                  {$this set mode layer_menu})
+               (kAction_Cancel
+                  {synth play button_back}
+                  {$this set mode layer_menu})
+               (kAction_Up
+                  {if
+                     {$this
+                        swap_layers
+                        {$this
+                           convert_to_layer_index
+                           {layer.lst selected_pos}}
+                        {$this
+                           convert_to_layer_index
+                           {-
+                              {layer.lst selected_pos}
+                              1}}}
+                     {layer.lst
+                        scroll
+                        -1
+                        [patch_player]}
+                     {layer.lst set_dirty}})
+               (kAction_Down
+                  {if
+                     {$this
+                        swap_layers
+                        {$this
+                           convert_to_layer_index
+                           {layer.lst selected_pos}}
+                        {$this
+                           convert_to_layer_index
+                           {'+'
+                              {layer.lst selected_pos}
+                              1}}}
+                     {layer.lst
+                        scroll
+                        1
+                        [patch_player]}
+                     {layer.lst set_dirty}})})
+         (sticker
+            {switch
+               $action
+               (kAction_Cancel
+                  {$this restore_undo}
+                  {synth play button_back}
+                  {$this set mode category})
+               (kAction_Confirm
+                  {$this set mode layer_menu})
+               kDataUnhandled})
+         {switch
+            $raw_button
+            (kPad_Xbox_A
+               {$this reset_velocities}
+               {$this reset_directions}
+               {synth play button_select}
+               {if_else
+                  {{$this edit_layer}
+                     has_sticker}
+                  {do
+                     {set
+                        [show_modify_menu]
+                        TRUE}
+                     {set
+                        [mode]
+                        modify_menu}}
+                  {set
+                     [mode]
+                     layer}})
+            (kPad_Xbox_B
+               {$this restore_undo}
+               {synth play button_back}
+               {$this set mode modify_menu})}})
+   (cheat_fill_patch_layers
+      {while
+         {!=
+            {$this empty_layer_ix}
+            -1}
+         {$this
+            set
+            edit_layer_idx
+            {$this empty_layer_ix}}
+         {$this randomize_layer}}
+      {if
+         {==
+            {layer.lst selected_pos}
+            0}
+         {layer.lst set_selected 1}}
+      {layer.lst set_dirty})}
+{new
+   BandScreen
+   shop_patch_screen
+   (panels patch_panel)
+   (focus patch_panel)
+   (helpbar
+      {if_else
+         {shop_char_panel has_multiple_cameras}
+         ((cancel helpbar_back)
+            (confirm helpbar_select)
+            (view_modify shop_hb_change_camera))
+         ((cancel helpbar_back)
+            (confirm helpbar_select))})
+   (enter
+      {patch_panel set delete_confirm_screen delete_patch_layer_confirm_screen})}
+{new
+   BandScreen
+   bandlogo_patch_screen
+   (panels meta practice_space_panel patch_panel)
+   (focus patch_panel)
+   (show_char
+      ($player_num)
+      FALSE)
+   (enter
+      {patch_panel set delete_confirm_screen delete_logo_patch_layer_confirm_screen})
+   (unload
+      {practice_space_panel refresh}
+      {patch_panel restore_patch})
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_continue)))}
+{new
+   UIPanel
+   patch_help_panel
+   (file
+      "patchcreator_help.milo")
+   (focus continue.btn)
+   (block_event
+      ($event)
+      {'||'
+         {== $event lost_connection}
+         {== $event disband}})
+   (unload
+      {shop_char_panel set_ui_showing TRUE})
+   (enter
+      {shop_char_panel set_ui_showing FALSE}
+      {switch
+         {rnd aspect}
+         (kWidescreenAspect
+            {aspect.tnm set_frame 10})
+         {aspect.tnm set_frame 0}}
+      {patch_panel set help_shown TRUE})}
+#define PATCH_HELP_SCREEN_HANDLERS
+((focus patch_help_panel)
+   (helpbar
+      ((confirm helpbar_continue)))
+   (BUTTON_DOWN_MSG
+      {if
+         {== $action kAction_Confirm}
+         {synth play button_select}
+         {patch_panel set help_shown TRUE}
+         {ui
+            goto_screen
+            [patch_screen]}}))
+{new
+   BandScreen
+   shop_patch_help_screen
+   (panels patch_help_panel)
+   (patch_screen shop_patch_screen)
+   PATCH_HELP_SCREEN_HANDLERS}
+{new
+   BandScreen
+   bandlogo_help_screen
+   (panels meta practice_space_panel patch_help_panel)
+   (patch_screen bandlogo_patch_screen)
+   (show_char
+      ($player_num)
+      FALSE)
+   PATCH_HELP_SCREEN_HANDLERS}
+#define DELETE_LAYER_HANDLERS
+((enter
+      {dialog_panel
+         set_yesno
+         {localize patch_delete_layer_confirm}
+         no.btn}
+      {set
+         [delete]
+         FALSE})
+   (TRANSITION_COMPLETE_MSG
+      {set
+         [returnscreen]
+         $old_screen})
+   (SELECT_MSG
+      {switch
+         $component
+         (yes.btn
+            {set
+               [delete]
+               TRUE}
+            {ui
+               goto_screen
+               [returnscreen]})
+         (no.btn
+            {ui
+               goto_screen
+               [returnscreen]})})
+   (delete FALSE)
+   (returnscreen
+      ""))
+{new
+   BandScreen
+   delete_patch_layer_confirm_screen
+   (panels patch_panel dialog_panel)
+   (focus dialog_panel)
+   DELETE_LAYER_HANDLERS}
+{new
+   BandScreen
+   delete_logo_patch_layer_confirm_screen
+   (panels meta practice_space_panel patch_panel dialog_panel)
+   (focus dialog_panel)
+   DELETE_LAYER_HANDLERS}

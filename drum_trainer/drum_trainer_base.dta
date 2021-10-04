@@ -1,0 +1,1191 @@
+#define DRUM_TRAINER_MAIN_PANEL_BASE
+((file
+      {gamemode get assets})
+   (bpm_max 200)
+   (bpm_min 40)
+   (track_speed_0 0.0)
+   (track_speed_1 50.0)
+   (drum_faders
+      (1.fade 2.fade 3.fade 4.fade 5.fade 6.fade 7.fade))
+   (drum_sfx
+      ((Kit_01_kick.cue Kit_01_snare.cue Kit_01_hat.cue Kit_01_ride.cue Kit_01_crash.cue Kit_01_tom1.cue Kit_01_tom2.cue Kit_01_tom3.cue drum_trainer_kit_01)
+         (Kit_02_kick.cue Kit_02_snare.cue Kit_02_hat.cue Kit_02_ride.cue Kit_02_crash.cue Kit_02_tom1.cue Kit_02_tom2.cue Kit_02_tom3.cue drum_trainer_kit_02)
+         (Kit_03_kick.cue Kit_03_snare.cue Kit_03_hat.cue Kit_03_ride.cue Kit_03_crash.cue Kit_03_tom1.cue Kit_03_tom2.cue Kit_03_tom3.cue drum_trainer_kit_03)
+         (Kit_04_kick.cue Kit_04_snare.cue Kit_04_hat.cue Kit_04_ride.cue Kit_04_crash.cue Kit_04_tom1.cue Kit_04_tom2.cue Kit_04_tom3.cue drum_trainer_kit_04)
+         (Kit_05_kick.cue Kit_05_snare.cue Kit_05_hat.cue Kit_05_ride.cue Kit_05_crash.cue Kit_05_tom1.cue Kit_05_tom2.cue Kit_05_tom3.cue drum_trainer_kit_05)
+         (Kit_06_kick.cue Kit_06_snare.cue Kit_06_hat.cue Kit_06_ride.cue Kit_06_crash.cue Kit_06_tom1.cue Kit_06_tom2.cue Kit_06_tom3.cue drum_trainer_kit_06)))
+   (drum_fill_sfx
+      (Kit_01_kick.cue Kit_01_kick.cue Kit_01_kick.cue Kit_01_kick.cue Kit_01_kick.cue Kit_01_kick.cue Kit_01_kick.cue Kit_01_kick.cue Kit_01_kick.cue))
+   (count_in
+      (countin_1.cue countin.cue countin.cue countin.cue))
+   (goal_speed
+      (60 100 140 180))
+   (goal_icons
+      (goal_60 goal_100 goal_140 goal_180))
+   (goal_trigger
+      (bpm_goal_60.trig bpm_goal_100.trig bpm_goal_140.trig bpm_goal_180.trig))
+   (goal_label
+      (BandLabel04.lbl BandLabel03.lbl BandLabel02.lbl BandLabel01.lbl))
+   (dpad_up FALSE)
+   (dpad_down FALSE)
+   (dpad_left FALSE)
+   (dpad_right FALSE)
+   (enter
+      {beatmatch set_realtime TRUE}
+      {{{get_track_panel}
+            find
+            scoreboard}
+         set_showing
+         FALSE}
+      {{{get_track_panel}
+            find
+            crowd_meter}
+         set_showing
+         FALSE}
+      {{{get_track_panel}
+            find
+            player_hud_top.grp}
+         set_showing
+         FALSE}
+      {{{get_track_panel}
+            find
+            popup_help_01}
+         set
+         intro_disabled
+         TRUE}
+      {{{get_track_panel}
+            find
+            popup_help_01}
+         set
+         popup_help_disabled
+         TRUE}
+      {{{$this get_track}
+            find
+            streak.grp}
+         set_showing
+         FALSE}
+      {set
+         [current_bpm]
+         [default_bpm]}
+      {set
+         [current_beat]
+         [default_beat]}
+      {set
+         [current_running_beat]
+         [default_beat]}
+      {set
+         [current_drums]
+         [default_drums]}
+      {set
+         [mute_metronome]
+         TRUE}
+      {$this change_drums 0}
+      {$this
+         set_render_beat_mask
+         [render_beat_mask]}
+      {$this
+         set_has_beats
+         [has_beats]}
+      {if
+         [unmute_all_drums]
+         {$this drum_trainer_unmute_all}}
+      {set
+         [current_metronome]
+         [default_metronome]}
+      {set
+         [current_score]
+         0}
+      {if
+         [show_tab_data]
+         {$this
+            populate_tab_data
+            [current_beat]
+            [fills_only_tab]}}
+      {if
+         [has_beats]
+         {$this
+            start_beat
+            [current_bpm]
+            [current_beat]}}
+      {if
+         [has_score]
+         {$this start_score}}
+      {$this update_all_labels}
+      {{beatmatch active_player 0}
+         add_sink
+         $this}
+      {{beatmatch active_player 0}
+         set_crowd_rating_active
+         FALSE}
+      {if
+         [fills_always_on]
+         {do
+            ($player
+               {beatmatch active_player 0})
+            {$player fill_band_energy}
+            {script_task
+               kTaskSeconds
+               (delay 0)
+               (script
+                  {synth stop_all_sfx})}
+            {$player disable_fills_deploy_band_energy}
+            {if
+               [score_only_fills]
+               {$player set_fill_audio FALSE}}}}
+      {if
+         [fills_forced]
+         {{beatmatch active_player 0}
+            force_fill
+            TRUE}
+         {platform_mgr enable_xmp}
+         {{beatmatch active_player 0}
+            set_alternate_fill_mapping
+            TRUE}}
+      {if
+         {!
+            {gamemode get dont_show_gems_in_fills}}
+         {beatmatch set_fake_hit_gems_in_fill TRUE}}
+      {switch
+         {$this name}
+         (drum_trainer_beats_panel
+            {if
+               {exists trainer_beats.trig}
+               {trainer_beats.trig trigger}})
+         (drum_trainer_fills_panel
+            {if
+               {exists trainer_fills.trig}
+               {trainer_fills.trig trigger}})
+         (drum_trainer_freestyle_panel
+            {if
+               {exists trainer_freestyle.trig}
+               {trainer_freestyle.trig trigger}})}
+      {drum_trainer_background_panel select_camera_shot}
+      {$this
+         script_set_metronome
+         [metronome_state]}
+      {if_else
+         {==
+            {rnd aspect}
+            kWidescreenAspect}
+         {do
+            {aspectleft.tnm set_frame 1}
+            {aspectright.tnm set_frame 1}}
+         {do
+            {aspectleft.tnm set_frame 0}
+            {aspectright.tnm set_frame 0}}}
+      {if
+         {exists show_score.anim}
+         {show_score.anim set_frame 0}}
+      {if
+         {&&
+            [has_score]
+            {!
+               [score_only_fills]}}
+         {show_score.trig trigger}}
+      {$this
+         set_track_speed_0
+         [track_speed_0]}
+      {$this
+         set_track_speed_1
+         [track_speed_1]}
+      {best.lbl set_showing FALSE}
+      {best_percentage.lbl set_showing FALSE}
+      {drum_trainer_greeting_panel
+         set
+         curr_group
+         [greeting_group]}
+      {ui push_screen drum_trainer_greeting_screen})
+   (pre_exit
+      {{beatmatch active_player 0}
+         remove_sink
+         $this}
+      {{beatmatch active_player 0}
+         set_crowd_rating_active
+         TRUE}
+      {if
+         [fills_always_on]
+         {{beatmatch active_player 0}
+            empty_band_energy}
+         {{beatmatch active_player 0}
+            enable_fills_deploy_band_energy}}
+      {if
+         [fills_forced]
+         {{beatmatch active_player 0}
+            force_fill
+            FALSE}}
+      {if
+         {!
+            {gamemode get dont_show_gems_in_fills}}
+         {beatmatch set_fake_hit_gems_in_fill FALSE}})
+   (exit
+      {synth stop_all_sfx})
+   (pause
+      {beatmatch set_time_paused TRUE}
+      {game set_paused TRUE}
+      {{gamemode get game_panel}
+         set_paused
+         TRUE})
+   (unpause
+      {beatmatch set_time_paused FALSE}
+      {game set_paused FALSE}
+      {{gamemode get game_panel}
+         set_paused
+         FALSE})
+   (set_score
+      ($score)
+      {if
+         [has_score]
+         {score.lbl
+            set_localized
+            {sprintf
+               {localize drum_trainer_score}
+               $score}}
+         {set
+            [current_score]
+            $score}
+         {update_score.trig trigger}})
+   (check_achievements
+      {do
+         ($profile
+            {profile_mgr
+               get_profile
+               {session_mgr get_leader_num}})
+         ($num_patterns
+            {$this get_num_beats})
+         ($half_num_patterns
+            {/ $num_patterns 2})
+         ($completions
+            (0 0 0 0))
+         {foreach_int
+            $i
+            0
+            {size $completions}
+            {set_elem $completions $i 0}}
+         {foreach_int
+            $i
+            0
+            $num_patterns
+            {do
+               ($name
+                  {$this get_beat_name $i})
+               {foreach_int
+                  $j
+                  0
+                  {size $completions}
+                  {if
+                     {$profile
+                        is_beat_complete
+                        $name
+                        {elem
+                           [goal_speed]
+                           $j}}
+                     {set_elem
+                        $completions
+                        $j
+                        {'+'
+                           1
+                           {elem $completions $j}}}}}}}
+         {if
+            {'||'
+               {>=
+                  {elem $completions 0}
+                  $num_patterns}
+               {>=
+                  {elem $completions 2}
+                  $half_num_patterns}}
+            {if_else
+               [score_only_fills]
+               {$this award_achievement ach_drum_trainer_fills_60bpm}
+               {$this award_achievement ach_drum_trainer_beats_60bpm}}}
+         {if
+            {'||'
+               {>=
+                  {elem $completions 1}
+                  $num_patterns}
+               {>=
+                  {elem $completions 3}
+                  $half_num_patterns}}
+            {if_else
+               [score_only_fills]
+               {$this award_achievement ach_drum_trainer_fills_100bpm}
+               {$this award_achievement ach_drum_trainer_beats_100bpm}}}})
+   (award_achievement
+      ($val)
+      {game
+         foreach_local_user
+         $user
+         {achievements
+            submit
+            {$user get_user_num}
+            $val}})
+   (get_current_score
+      {int
+         {/
+            {'*'
+               100.0
+               [current_hits]}
+            [current_notes]}})
+   (update_score
+      {do
+         ($score
+            {$this get_current_score})
+         {if
+            {< $score 0}
+            {set $score 0}
+            {set
+               [current_hits]
+               0}
+            {set
+               [current_misses]
+               0}}
+         {$this set_score $score}})
+   (loop_score
+      {set
+         [current_hits]
+         0}
+      {set
+         [current_misses]
+         0}
+      {if
+         {exists fill_score_delay}
+         {delete fill_score_delay}}
+      {$this update_score}
+      {if
+         {!
+            [score_only_fills]}
+         {if
+            {exists loop_reset.trig}
+            {loop_reset.trig trigger}}})
+   (start_score
+      {if
+         [has_score]
+         {if_else
+            [score_only_fills]
+            {set
+               [current_notes]
+               {$this
+                  get_num_fill_notes
+                  [current_beat]}}
+            {set
+               [current_notes]
+               {$this
+                  get_num_notes
+                  [current_beat]}}}
+         {$this loop_score}})
+   (get_score_range
+      ($bpm)
+      {set
+         $range
+         [bpm_min]}
+      {foreach_int
+         $i
+         0
+         {size
+            [goal_speed]}
+         {set
+            $goal
+            {elem
+               [goal_speed]
+               $i}}
+         {if
+            {>= $bpm $goal}
+            {set $range $goal}}}
+      $range)
+   (get_score_index
+      ($bpm)
+      {set $index -1}
+      {foreach_int
+         $i
+         0
+         {size
+            [goal_speed]}
+         {set
+            $goal
+            {elem
+               [goal_speed]
+               $i}}
+         {if
+            {>= $bpm $goal}
+            {set $index $i}}}
+      $index)
+   (update_goal_icons
+      {if
+         [has_beats]
+         {do
+            {foreach_int
+               $i
+               0
+               {size
+                  [goal_speed]}
+               {do
+                  ($goal
+                     {elem
+                        [goal_speed]
+                        $i})
+                  {if_else
+                     {{profile_mgr
+                           get_profile
+                           {session_mgr get_leader_num}}
+                        is_beat_complete
+                        {$this
+                           get_beat_name
+                           [current_beat]}
+                        $goal}
+                     {{elem
+                           [goal_icons]
+                           $i}
+                        set_complete
+                        TRUE}
+                     {{elem
+                           [goal_icons]
+                           $i}
+                        set_complete
+                        FALSE}}}}}})
+   (drum_trainer_mute
+      ($slot)
+      {{elem
+            [drum_faders]
+            {$this slot_to_sample $slot}}
+         set_val
+         kDbSilence})
+   (drum_trainer_unmute
+      ($slot)
+      {{elem
+            [drum_faders]
+            {$this slot_to_sample $slot}}
+         set_val
+         0.0})
+   (drum_trainer_play
+      ($slot)
+      {if
+         {!
+            [fills_forced]}
+         {{elem
+               {elem
+                  [drum_sfx]
+                  [current_drums]}
+               {$this slot_to_sample $slot}}
+            play}})
+   (drum_trainer_unmute_all
+      {$this drum_trainer_unmute 0}
+      {$this drum_trainer_unmute 1}
+      {$this drum_trainer_unmute 2}
+      {$this drum_trainer_unmute 3}
+      {$this drum_trainer_unmute 4}
+      {$this drum_trainer_unmute 5}
+      {$this drum_trainer_unmute 6})
+   (drum_trainer_mute_all
+      {$this drum_trainer_mute 0}
+      {$this drum_trainer_mute 1}
+      {$this drum_trainer_mute 2}
+      {$this drum_trainer_mute 3}
+      {$this drum_trainer_mute 4}
+      {$this drum_trainer_mute 5}
+      {$this drum_trainer_mute 6})
+   (drum_trainer_mute_all_but_kick
+      {$this drum_trainer_mute_all}
+      {$this drum_trainer_unmute 0})
+   (play_metronome
+      ($beat)
+      {if
+         {!
+            [mute_metronome]}
+         {if_else
+            {== $beat 0}
+            {metronome_1.cue play}
+            {metronome.cue play}}})
+   (play_count_in
+      ($beat)
+      {{elem
+            [count_in]
+            $beat}
+         play})
+   (update_name_label
+      {name.lbl
+         set_localized
+         {localize
+            {$this
+               get_beat_name
+               [current_beat]}}}
+      {name_fraction.lbl
+         set_localized
+         {sprintf
+            {localize drum_trainer_fraction_format}
+            {'+'
+               [current_beat]
+               1}
+            {$this get_num_beats}}}
+      {$this update_goal_icons})
+   (update_kit_label
+      {kit.lbl
+         set_localized
+         {localize
+            {$this get_current_kit_name}}})
+   (update_bpm_label
+      {bpm.lbl
+         set_localized
+         {sprintf
+            {localize drum_trainer_bpm}
+            [current_bpm]}}
+      {if
+         {exists beat_thermometer.anim}
+         {beat_thermometer.anim
+            animate
+            (dest
+               [current_bpm])
+            (period 0.2)}})
+   (update_all_labels
+      {$this update_name_label}
+      {$this update_kit_label}
+      {$this update_bpm_label}
+      {$this
+         update_goal_labels
+         [current_bpm]})
+   (hit
+      ($slot $gem_id)
+      {if
+         [has_score]
+         {if
+            {!
+               [score_only_fills]}
+            {'++'
+               [current_hits]}
+            {$this update_score}}}
+      {$this encounter_gem $gem_id})
+   (miss
+      ($user $slot $gem_id)
+      {if
+         {!
+            [score_only_fills]}
+         {if
+            {exists miss.trig}
+            {miss.trig trigger}}
+         {'++'
+            [current_misses]}}
+      {$this encounter_gem $gem_id})
+   (pass
+      ($gem_id)
+      {if
+         {!
+            [score_only_fills]}
+         {if
+            {exists miss.trig}
+            {miss.trig trigger}}
+         {'++'
+            [current_misses]}}
+      {$this encounter_gem $gem_id})
+   (fill_miss
+      {if
+         [has_score]
+         {'++'
+            [current_misses]}
+         {$this update_score}}
+      {if
+         [score_only_fills]
+         {if
+            {exists miss.trig}
+            {miss.trig trigger}}})
+   (fill_hit
+      {if
+         {&&
+            [has_score]
+            [score_only_fills]}
+         {set
+            [current_hits]
+            {min
+               {'+'
+                  [current_hits]
+                  1}
+               [current_notes]}}
+         {$this update_score}})
+   (fill_pass
+      {if
+         {&&
+            [has_score]
+            [score_only_fills]}
+         {if
+            {exists miss.trig}
+            {miss.trig trigger}}
+         {'++'
+            [current_misses]}})
+   (trainer_crash_fill
+      {$this fill_hit}
+      {{{$this get_track}
+            find
+            dynamic_crash_gem.wid}
+         clear}
+      {{{$this get_track}
+            find
+            dynamic_crash_gem_lefty.wid}
+         clear})
+   (trainer_enter_fill
+      {if
+         {!
+            {exists fill_score_delay}}
+         {$this drum_trainer_unmute_all}
+         {$this loop_score}
+         {if
+            [has_score]
+            {show_score.trig trigger}}})
+   (trainer_exit_fill
+      {if_else
+         {&&
+            [has_score]
+            {>=
+               {'+'
+                  [current_hits]
+                  [current_misses]}
+               {-
+                  [current_notes]
+                  1}}}
+         {do
+            {if
+               {exists fill_score_delay}
+               {delete fill_score_delay}}
+            {script_task
+               kTaskSeconds
+               (delay 0.25)
+               (name fill_score_delay)
+               (script
+                  {hide_score.trig trigger}
+                  {$this score_it})}}
+         {hide_score.trig trigger}})
+   (beat_pattern_complete
+      {if
+         {&&
+            [has_score]
+            {!
+               [score_only_fills]}}
+         {$this score_it}})
+   (score_it
+      {if
+         {exists score_complete.lbl}
+         {score_complete.lbl
+            set_localized
+            {sprintf
+               {localize drum_trainer_score}
+               {$this get_current_score}}}
+         {if
+            {exists score_complete.trig}
+            {score_complete.trig trigger}}}
+      {if
+         {&&
+            {==
+               {$this get_current_score}
+               100}
+            &&
+            {<=
+               [current_misses]
+               0}}
+         {do
+            ($profile
+               {profile_mgr
+                  get_profile
+                  {session_mgr get_leader_num}})
+            ($name
+               {$this
+                  get_beat_name
+                  [current_beat]})
+            ($index
+               {$this
+                  get_score_index
+                  [current_bpm]})
+            ($high_range
+               {$this
+                  get_score_range
+                  [current_bpm]})
+            ($beat_was_complete
+               {$profile is_beat_complete $name $high_range})
+            {if
+               {>= $index 0}
+               {if
+                  {! $beat_was_complete}
+                  {foreach_int
+                     $i
+                     0
+                     {'+' $index 1}
+                     {$profile
+                        set_beat_complete
+                        $name
+                        {elem
+                           [goal_speed]
+                           $i}}
+                     {{elem
+                           [goal_icons]
+                           $i}
+                        set_complete
+                        TRUE}}
+                  {{elem
+                        [goal_trigger]
+                        $index}
+                     trigger}
+                  {$this check_achievements}}}
+            {if
+               $beat_was_complete
+               {if
+                  {exists bpm_goal_cycle.trig}
+                  {bpm_goal_cycle.trig trigger}}}}}
+      {if
+         {!
+            [score_only_fills]}
+         {$this loop_score}})
+   (button_down_msg
+      ($player_num $player $raw_button $action)
+      {if
+         {==
+            $player_num
+            [player_num]}
+         {switch
+            $raw_button
+            (kPad_DLeft
+               {if
+                  {&&
+                     [enable_button_left]
+                     {&&
+                        {!
+                           [dpad_up]}
+                        {!
+                           [dpad_down]}}}
+                  {button_left.trig trigger}
+                  {set
+                     [dpad_left]
+                     TRUE}
+                  {script_task
+                     kTaskSeconds
+                     (delay 0.1)
+                     (script
+                        {$this change_beat -1})}})
+            (kPad_DRight
+               {if
+                  {&&
+                     [enable_button_right]
+                     {&&
+                        {!
+                           [dpad_up]}
+                        {!
+                           [dpad_down]}}}
+                  {button_right.trig trigger}
+                  {set
+                     [dpad_right]
+                     TRUE}
+                  {script_task
+                     kTaskSeconds
+                     (delay 0.1)
+                     (script
+                        {$this change_beat 1})}})
+            (kPad_DUp
+               {if
+                  {&&
+                     [enable_button_up]
+                     {&&
+                        {!
+                           [dpad_left]}
+                        {!
+                           [dpad_right]}}}
+                  {button_up.trig trigger}
+                  {set
+                     [dpad_up]
+                     TRUE}
+                  {script_task
+                     kTaskSeconds
+                     (delay 0.1)
+                     (script
+                        {$this inc_bpm})}})
+            (kPad_DDown
+               {if
+                  {&&
+                     [enable_button_down]
+                     {&&
+                        {!
+                           [dpad_left]}
+                        {!
+                           [dpad_right]}}}
+                  {button_down.trig trigger}
+                  {set
+                     [dpad_down]
+                     TRUE}
+                  {script_task
+                     kTaskSeconds
+                     (delay 0.1)
+                     (script
+                        {$this dec_bpm})}})
+            (kPad_Select
+               {if
+                  [enable_button_drums]
+                  {button_drums.trig trigger}
+                  {script_task
+                     kTaskSeconds
+                     (delay 0.2)
+                     (script
+                        {$this inc_drums})}})}})
+   (button_up_msg
+      {if
+         {==
+            $player_num
+            [player_num]}
+         {switch
+            $raw_button
+            (kPad_DLeft
+               {set
+                  [dpad_left]
+                  FALSE})
+            (kPad_DRight
+               {set
+                  [dpad_right]
+                  FALSE})
+            (kPad_DUp
+               {set
+                  [dpad_up]
+                  FALSE})
+            (kPad_DDown
+               {set
+                  [dpad_down]
+                  FALSE})}})
+   (change_bpm
+      ($amount)
+      {'+='
+         [current_bpm]
+         $amount}
+      {clamp_eq
+         [current_bpm]
+         [bpm_min]
+         [bpm_max]}
+      {$this update_bpm_label}
+      {$this
+         update_goal_labels
+         [current_bpm]}
+      {$this loop_score}
+      {$this restart_pattern})
+   (change_beat
+      ($amount)
+      {set
+         [current_beat]
+         {'+'
+            [current_beat]
+            $amount}}
+      {do
+         ($num_beats
+            {$this get_num_beats})
+         {while
+            {<
+               [current_beat]
+               0}
+            {'+='
+               [current_beat]
+               $num_beats}}
+         {while
+            {>=
+               [current_beat]
+               $num_beats}
+            {-=
+               [current_beat]
+               $num_beats}}}
+      {if
+         [show_tab_data]
+         {$this
+            populate_tab_data
+            [current_beat]
+            [fills_only_tab]}}
+      {$this update_name_label}
+      {$this start_score}
+      {$this restart_pattern})
+   (restart_pattern
+      {$this clear_gems}
+      {if_else
+         [has_beats]
+         {$this
+            start_beat
+            [current_bpm]
+            [current_beat]}
+         {$this
+            set_bpm
+            [current_bpm]}}
+      {if
+         [score_only_fills]
+         {hide_score.trig trigger}}
+      {$this drum_trainer_unmute_all})
+   (inc_bpm
+      {if
+         {<
+            [current_bpm]
+            [bpm_max]}
+         {$this
+            change_bpm
+            [bpm_interval]}})
+   (dec_bpm
+      {if
+         {>
+            [current_bpm]
+            [bpm_min]}
+         {$this
+            change_bpm
+            {-
+               [bpm_interval]}}})
+   (update_goal_labels
+      ($bpm)
+      {do
+         ($index
+            {$this get_score_index $bpm})
+         {foreach_int
+            $i
+            0
+            {size
+               [goal_label]}
+            {if_else
+               {== $i $index}
+               {{elem
+                     [goal_label]
+                     $i}
+                  set_state
+                  0}
+               {{elem
+                     [goal_label]
+                     $i}
+                  set_state
+                  2}}}})
+   (get_kit_name
+      ($index)
+      {elem
+         {elem
+            [drum_sfx]
+            $index}
+         {-
+            {size
+               {elem
+                  [drum_sfx]
+                  $index}}
+            1}})
+   (get_current_kit_name
+      {$this
+         get_kit_name
+         [current_drums]})
+   (change_drums
+      ($amount)
+      {set
+         [current_drums]
+         {mod
+            {'+'
+               [current_drums]
+               $amount}
+            {size
+               [drum_sfx]}}}
+      {$this update_kit_label}
+      {set_elem
+         [drum_fill_sfx]
+         0
+         {elem
+            {elem
+               [drum_sfx]
+               [current_drums]}
+            0}}
+      {set_elem
+         [drum_fill_sfx]
+         1
+         {elem
+            {elem
+               [drum_sfx]
+               [current_drums]}
+            1}}
+      {set_elem
+         [drum_fill_sfx]
+         2
+         {elem
+            {elem
+               [drum_sfx]
+               [current_drums]}
+            5}}
+      {set_elem
+         [drum_fill_sfx]
+         3
+         {elem
+            {elem
+               [drum_sfx]
+               [current_drums]}
+            6}}
+      {set_elem
+         [drum_fill_sfx]
+         4
+         {elem
+            {elem
+               [drum_sfx]
+               [current_drums]}
+            4}}
+      {set_elem
+         [drum_fill_sfx]
+         5
+         {elem
+            {elem
+               [drum_sfx]
+               [current_drums]}
+            2}}
+      {set_elem
+         [drum_fill_sfx]
+         7
+         {elem
+            {elem
+               [drum_sfx]
+               [current_drums]}
+            3}}
+      {set_elem
+         [drum_fill_sfx]
+         8
+         {elem
+            {elem
+               [drum_sfx]
+               [current_drums]}
+            7}}
+      {$this
+         set_drum_kit
+         [drum_fill_sfx]})
+   (inc_drums
+      {$this change_drums 1})
+   (script_set_metronome
+      ($state)
+      {if_else
+         $state
+         {do
+            {show_metronome.trig trigger}}
+         {do
+            {if
+               {!
+                  [has_beats]}
+               {hide_metronome.trig trigger}}}}
+      {do
+         ($beats
+            {'||'
+               {!
+                  [hide_beat_markers]}
+               $state})
+         {{{$this get_track}
+               find
+               beat_markers.grp}
+            set_showing
+            $beats}
+         {bpm_labels.grp set_showing $beats}}
+      {set
+         [metronome]
+         $state}
+      {$this set_metronome $state})
+   (current_beat -1)
+   (current_drums -1)
+   (current_bpm -1)
+   (current_notes -1)
+   (current_hits 0)
+   (current_misses 0)
+   (current_score 0)
+   (metronome FALSE)
+   (mute_metronome TRUE))
+#define DRUM_TRAINER_MAIN_SCREEN_PANELS
+(game sync_audio_net_panel drum_trainer_background_panel coop_track_panel)
+#define DRUM_TRAINER_MAIN_SCREEN_BASE
+((drum_trainer_button_down_msg
+      ($player_num $player $raw_button $action)
+      {{gamemode get game_panel}
+         button_down_msg
+         $player_num
+         $player
+         $raw_button
+         $action})
+   (drum_trainer_button_up_msg
+      ($player_num $player $raw_button $action)
+      {{gamemode get game_panel}
+         button_up_msg
+         $player_num
+         $player
+         $raw_button
+         $action})
+   GAME_SCREEN_HANDLERS
+   (BUTTON_DOWN_MSG
+      {do
+         ($track_sym
+            {{game get_player_config $player_num}
+               get_track_sym})
+         ($my_player
+            {beatmatch player $player_num})
+         {if
+            {&&
+               {== $action kAction_Start}
+               {!= none $track_sym}
+               {!
+                  {game is_game_over}}
+               {==
+                  {session state}
+                  kNetInGame}
+               $my_player
+               {$my_player can_pause}}
+            {input_mgr
+               set_user
+               {user_mgr get_band_user $player_num}}
+            {ui
+               push_screen
+               {gamemode get pause_screen}}}}
+      {$this drum_trainer_button_down_msg $player_num $player $raw_button $action}
+      kDataUnhandled)
+   (BUTTON_UP_MSG
+      {$this drum_trainer_button_up_msg $player_num $player $raw_button $action}
+      kDataUnhandled))
+{new
+   PracticeBackgroundPanel
+   drum_trainer_background_panel
+   (file
+      "drum_trainer_space.milo")
+   (enter)
+   (select_camera_shot)}
+{new
+   UIPanel
+   drum_trainer_greeting_panel
+   (file
+      "welcome_dialog.milo")
+   (enter
+      {beat_practice.grp
+         set_showing
+         {==
+            [curr_group]
+            beat_practice.grp}}
+      {fills_practice.grp
+         set_showing
+         {==
+            [curr_group]
+            fills_practice.grp}}
+      {freeplay.grp
+         set_showing
+         {==
+            [curr_group]
+            freeplay.grp}}
+      {$this
+         set_focus
+         ""})
+   (BUTTON_DOWN_MSG
+      {if
+         {'||'
+            {== $action kAction_Start}
+            {== $action kAction_Confirm}}
+         {script_task
+            kTaskUISeconds
+            (delay 0)
+            (script
+               {ui pop_screen})}}
+      kDataUnhandled)
+   (curr_group beat_practice.grp)}
+{new
+   BandScreen
+   drum_trainer_greeting_screen
+   (panels drum_trainer_greeting_panel)
+   (focus drum_trainer_greeting_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (enter
+      {platform_mgr
+         add_sink
+         $this
+         (signin_changed)}
+      {{gamemode get game_panel}
+         pause})
+   (exit
+      {platform_mgr remove_sink $this signin_changed}
+      {{gamemode get game_panel}
+         set
+         mute_metronome
+         FALSE}
+      {{gamemode get game_panel}
+         unpause})}

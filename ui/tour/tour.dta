@@ -1,0 +1,1611 @@
+#define kKeyboardModeName
+(0)
+#define kKeyboardModeMotto
+(1)
+{new
+   BandProfilePanel
+   tour_profile_panel
+   (file tour_profile.milo)
+   (keyboard_mode kKeyboardModeName)
+   (unselect_lineup_list FALSE)
+   (finish_load
+      {enter.grp set_frame 0})
+   (enter
+      {session add_sink $this}
+      {$this set_focus summary.btn}
+      {$this update_data}
+      {select_roster.grp set_showing FALSE}
+      {select_roster_standins.grp set_showing FALSE}
+      {members_states.anim set_frame 0}
+      {standin_states.anim set_frame 0}
+      {standin.lst set highlight_showing kListNever}
+      {standin.lst set arrow_showing kListNever}
+      {if_else
+         {{$this get_band_data}
+            has_write_permission}
+         {do
+            {lineup.lst set select_to_scroll TRUE}
+            {lineup.lst set arrow_showing kListNever}
+            {lineup.lst set highlight_showing kListNever}}
+         {do
+            {lineup.lst set select_to_scroll FALSE}
+            {lineup.lst set arrow_showing kListOnlyFocused}
+            {lineup.lst set highlight_showing kListOnlyFocused}}})
+   (TRANSITION_COMPLETE_MSG
+      {if_else
+         {server is_connected}
+         {$this enable battle_history.btn}
+         {$this disable battle_history.btn}}
+      {$this refresh_tab}
+      {$this update_data}
+      {if
+         [unselect_lineup_list]
+         {set
+            [unselect_lineup_list]
+            FALSE}
+         {lineup.lst reset}
+         {members_states.anim set_frame 1}
+         {lineup.lst set highlight_showing kListNever}
+         {lineup.lst set arrow_showing kListNever}})
+   (refresh
+      {$this update_data})
+   (update_data
+      {do
+         ($band
+            {$this get_band_data})
+         {$this update_header}
+         {creation_info.lbl
+            set_localized
+            {$band get_creation_info}}
+         {quote.lbl
+            set_localized
+            {$band get_motto}}
+         {logo.rndtex
+            set
+            draw
+            {$band logo_patch}}
+         {change_name_box.grp
+            set_showing
+            {$band has_write_permission}}
+         {$this refresh_roster_data}
+         {fans.lbl
+            set_localized
+            {sprintf
+               {localize band_profile_fans}
+               {fmt_score
+                  {$band fans}}}}
+         {stars.lbl
+            set_localized
+            {sprintf
+               {localize band_profile_stars}
+               {$band world_fame}}}
+         {total_score.lbl
+            set_localized
+            {sprintf
+               {localize band_profile_total_score}
+               {fmt_score
+                  {$band tour_score TRUE}}}}
+         {{$this get_top_songs_provider}
+            init_from_band
+            $band}
+         {top_songs.lst
+            set_provider
+            {$this get_top_songs_provider}}
+         {$this update_battles}})
+   (update_header
+      {do
+         ($band
+            {$this get_band_data})
+         {band_name.btn
+            set_localized
+            {$band band_name}}
+         {career_score.lbl
+            set_localized
+            {sprintf
+               {localize band_profile_career_score}
+               {fmt_score
+                  {$band tour_score FALSE}}}}
+         {career_score.lbl
+            set_showing
+            {$band tour_score FALSE}}
+         {rating_stars.lbl
+            set_localized
+            {$band star_rating_formatted}}
+         {rating.pdiff
+            set
+            num_players
+            {$band roster_size}}
+         {rating.pdiff
+            set
+            diff
+            {$band difficulty_rating}}})
+   (update_battles
+      {battles.lst
+         set_provider
+         {$this get_battle_history_provider}}
+      {do
+         ($battle_pos
+            {{$this get_battle_history_provider}
+               get_battle_id_pos
+               {$this get last_battle_id}})
+         {battles.lst
+            set_selected
+            $battle_pos
+            {'+'
+               $battle_pos
+               {$this get first_showing_battle_offset}}}}
+      {battles.lst
+         set_showing
+         {$this has_battle_data}}
+      {if
+         {&&
+            {==
+               {$this current_tab}
+               battle_history}
+            {$this has_selectable_battle_data}
+            {$this displaying_tour_band}}
+         {helpbar confirm helpbar_select}})
+   (refresh_roster_data
+      {do
+         ($band_data
+            {$this get_band_data})
+         {do
+            ($provider
+               {$this get_lineup_provider})
+            ($selected
+               {lineup.lst selected_pos})
+            {$provider
+               init_from_band
+               $band_data
+               {$this displaying_tour_band}}
+            {lineup.lst set_provider $provider}
+            {lineup.lst set_selected $selected}}
+         {if_else
+            {$band_data has_write_permission}
+            {do
+               ($provider
+                  {$this get_standin_provider})
+               ($selected
+                  {standin.lst selected_pos})
+               {standin.grp set_showing TRUE}
+               {$this enable standin.lst}
+               {$provider init_from_band $band_data}
+               {standin.lst set_provider $provider}
+               {standin.lst set_selected $selected}}
+            {do
+               {standin.grp set_showing FALSE}
+               {$this disable standin.lst}}}}
+      {$this
+         set_roster_helpbar
+         {$this focus_name}})
+   (NEW_REMOTE_PLAYER_MSG
+      {$this refresh_roster_data})
+   (REMOTE_PLAYER_LEFT_MSG
+      {$this refresh_roster_data})
+   (REMOTE_PLAYER_CHANGED_MSG
+      {$this refresh_roster_data})
+   (SIGNIN_CHANGED_MSG
+      {$this refresh_roster_data})
+   (exit
+      {network_busy_panel set_busy FALSE}
+      {session remove_sink $this})
+   (is_roster_selectable
+      {&&
+         {tour_profile_panel displaying_tour_band}
+         {'||'
+            {{tour_profile_panel get_lineup_provider}
+               num_data}
+            {{tour_profile_panel get_band_data}
+               has_write_permission}}})
+   (tabs
+      (summary
+         (helpbar
+            ((cancel helpbar_back)))
+         (on_focus
+            {if
+               {{$this get_band_data}
+                  has_write_permission}
+               {helpbar confirm helpbar_select}})
+         (allow_select
+            {{tour_profile_panel get_band_data}
+               has_write_permission})
+         (on_select
+            {$this set_focus logo.btn}
+            {$this on_enter_tab}))
+      (roster
+         (helpbar
+            {if_else
+               {tour_profile_panel is_roster_selectable}
+               ((cancel helpbar_back)
+                  (confirm helpbar_select))
+               ((cancel helpbar_back))})
+         (allow_select
+            {tour_profile_panel is_roster_selectable})
+         (on_select
+            {$this set_focus lineup.lst}
+            {$this on_enter_tab}))
+      (stats
+         (helpbar
+            ((cancel helpbar_back)))
+         (allow_select FALSE)
+         (on_focus
+            {$this set last_battle_id -1}
+            {$this set first_showing_battle_offset 0}))
+      (battle_history
+         (helpbar
+            ((cancel helpbar_back)))
+         (on_focus
+            {if
+               {$this has_selectable_battle_data}
+               {helpbar confirm helpbar_select}}
+            {unless
+               {$this has_battle_data}
+               {$this request_battle_data}})
+         (allow_select
+            {tour_profile_panel has_selectable_battle_data})
+         (on_select
+            {$this set_focus battles.lst}
+            {$this on_enter_tab}
+            {unless
+               {$this displaying_tour_band}
+               {helpbar confirm ''}})))
+   (on_enter_tab
+      {line_fade_top.mnm
+         animate
+         (range 0 1)})
+   (on_exit_tab
+      {line_fade_top.mnm
+         animate
+         (range 1 0)}
+      {synth play button_back})
+   (SELECT_MSG
+      {switch
+         $component
+         (change_name.btn
+            {$this set keyboard_mode kKeyboardModeName}
+            {virtual_keyboard
+               show_keyboard
+               $player_num
+               {get_band_name_length}
+               {localize create_band_vk_title}
+               {localize create_band_vk_desc}
+               {{$this get_band_data}
+                  band_name}
+               $this})
+         (logo.btn
+            {patch_panel set patch_player $player}
+            {patch_panel
+               set
+               patch
+               {{$this get_band_data}
+                  edit_logo_patch}}
+            {patch_panel set exit_screen tour_profile_screen}
+            {patch_panel
+               set
+               bg_color
+               {pack_color 1 1 1}}
+            {patch_panel set set general}
+            {practice_space_panel
+               select_cam
+               "logo"}
+            {{practice_space_panel find logo.rndtex}
+               set
+               draw
+               {{$this get_band_data}
+                  edit_logo_patch}}
+            {{practice_space_panel find logo.rndtex}
+               set
+               force
+               TRUE}
+            {{practice_space_panel find logo.mesh}
+               set_showing
+               TRUE}
+            {if_else
+               {patch_panel get help_shown}
+               {ui goto_screen bandlogo_patch_screen}
+               {ui goto_screen bandlogo_help_screen}})
+         (quote.btn
+            {$this set keyboard_mode kKeyboardModeMotto}
+            {virtual_keyboard
+               show_keyboard
+               $player_num
+               {get_motto_length}
+               {localize band_profile_vk_motto_title}
+               {localize band_profile_vk_motto_desc}
+               {{$this get_band_data}
+                  get_motto}
+               $this})
+         (battles.lst
+            {$this
+               set
+               last_battle_id
+               {{$this get_battle_history_provider}
+                  get_battle_id
+                  {battles.lst selected_pos}}}
+            {$this
+               set
+               first_showing_battle_offset
+               {-
+                  {battles.lst first_showing}
+                  {battles.lst selected_pos}}}
+            {botb_details_panel
+               set_battle_data
+               {$this get last_battle_id}
+               {$this get_band_data}}
+            {ui goto_screen botb_details_screen})})
+   (can_show_gamercard
+      ($focus_component)
+      #ifdef HX_XBOX
+      {'||'
+         {==
+            {$this current_tab}
+            summary}
+         {&&
+            {== $focus_component lineup.lst}
+            {'||'
+               {!
+                  {lineup.lst get select_to_scroll}}
+               {lineup.lst is_scroll_selected}}
+            {{$this get_lineup_provider}
+               num_data}
+            {!
+               {{$this get_lineup_provider}
+                  is_absent
+                  {lineup.lst selected_pos}}}}}
+      #else
+      FALSE
+      #endif)
+   (allow_non_leader_option_button_down TRUE)
+   (BUTTON_DOWN_MSG
+      {switch
+         $action
+         (kAction_Option
+            {if_else
+               {$this
+                  can_show_gamercard
+                  {$this focus_name}}
+               {do
+                  ($result
+                     {if_else
+                        {==
+                           {$this current_tab}
+                           summary}
+                        {$this show_owner_gamercard $player_num}
+                        {{$this get_lineup_provider}
+                           show_gamercard
+                           {lineup.lst selected_pos}
+                           $player_num}})
+                  {switch
+                     $result
+                     (kGamercardSuccessful)
+                     (kGamercardPrivilegeError
+                        {ui push_screen tour_band_display_gamercard_privilege_screen})
+                     {ui push_screen tour_band_display_gamercard_failed_screen}}}
+               kDataUnhandled})
+         (kAction_Confirm
+            {switch
+               {$this focus_name}
+               (lineup.lst
+                  {if_else
+                     {&&
+                        {lineup.lst is_scroll_selected}
+                        {{$this get_band_data}
+                           has_write_permission}}
+                     {do
+                        {synth play button_select}
+                        {if_else
+                           {{$this get_lineup_provider}
+                              is_band_member
+                              {lineup.lst selected_pos}}
+                           {do
+                              {tour_lineup_promote_demote_confirm_screen
+                                 set
+                                 member_pos
+                                 {lineup.lst selected_pos}}
+                              {$this
+                                 set_toggle_candidate
+                                 {lineup.lst selected_pos}}
+                              {ui push_screen tour_lineup_promote_demote_confirm_screen}}
+                           {if_else
+                              {$this
+                                 can_toggle_member_status
+                                 {lineup.lst selected_pos}}
+                              {do
+                                 {tour_lineup_promote_demote_confirm_screen
+                                    set
+                                    member_pos
+                                    {lineup.lst selected_pos}}
+                                 {$this
+                                    set_toggle_candidate
+                                    {lineup.lst selected_pos}}
+                                 {ui push_screen tour_lineup_promote_demote_confirm_screen}}
+                              {ui push_screen tour_lineup_band_full_screen}}}}
+                     {if_else
+                        {&&
+                           {!
+                              {lineup.lst is_scroll_selected}}
+                           {!
+                              {{$this get_lineup_provider}
+                                 num_data}}}
+                        {synth play button_error}
+                        kDataUnhandled}})
+               (standin.lst
+                  {if_else
+                     {standin.lst is_scroll_selected}
+                     {do
+                        ($provider
+                           {$this get_standin_provider})
+                        {synth play button_select}
+                        {tour_standin_panel
+                           set
+                           track
+                           {$provider
+                              track_type
+                              {standin.lst selected_pos}}}
+                        {tour_standin_panel
+                           set
+                           band
+                           {$this get_band_data}}
+                        {ui push_screen tour_standin_screen}}
+                     kDataUnhandled})
+               (battles.lst
+                  {if_else
+                     {$this displaying_tour_band}
+                     kDataUnhandled
+                     TRUE})
+               kDataUnhandled})
+         kDataUnhandled})
+   (FOCUS_MSG
+      {$this set_roster_helpbar $new_focus}
+      {select_roster.grp
+         set_showing
+         {&&
+            {== $new_focus lineup.lst}
+            {lineup.lst get select_to_scroll}}}
+      {members_states.anim
+         set_frame
+         {if_else
+            {== $new_focus lineup.lst}
+            {if_else
+               {lineup.lst get select_to_scroll}
+               1
+               2}
+            0}}
+      {select_roster_standins.grp
+         set_showing
+         {== $new_focus standin.lst}}
+      {standin_states.anim
+         set_frame
+         {if_else
+            {== $new_focus standin.lst}
+            1
+            0}}
+      {logo_states.anim
+         set_frame
+         {if_else
+            {== $new_focus logo.btn}
+            1
+            0}}
+      {quote_states.anim
+         set_frame
+         {if_else
+            {== $new_focus quote.btn}
+            1
+            0}}
+      {changename_states.anim
+         set_frame
+         {if_else
+            {== $new_focus change_name.btn}
+            1
+            0}})
+   (SCROLL_SELECT_MSG
+      {$this set_roster_helpbar $component}
+      {do
+         ($showing
+            {if_else $selected kListAlways kListNever})
+         {switch
+            $component
+            (lineup.lst
+               {select_roster.grp
+                  set_showing
+                  {! $selected}}
+               {members_states.anim
+                  set_frame
+                  {if_else $selected 2 1}}
+               {lineup.lst set highlight_showing $showing}
+               {lineup.lst set arrow_showing $showing})
+            (standin.lst
+               {select_roster_standins.grp
+                  set_showing
+                  {! $selected}}
+               {standin_states.anim
+                  set_frame
+                  {if_else $selected 2 1}}
+               {standin.lst set highlight_showing $showing}
+               {standin.lst set arrow_showing $showing})}})
+   (SCROLL_MSG
+      {$this set_roster_helpbar $component})
+   (set_roster_helpbar
+      ($component)
+      {if
+         {&&
+            {ui current_screen}
+            {==
+               {{ui current_screen}
+                  focus_panel}
+               $this}}
+         {switch
+            $component
+            (lineup.lst
+               {helpbar
+                  set_config
+                  ((cancel helpbar_back))}
+               {if_else
+                  {'||'
+                     {lineup.lst is_scroll_selected}
+                     {!
+                        {lineup.lst get select_to_scroll}}}
+                  {if
+                     {{$this get_band_data}
+                        has_write_permission}
+                     {helpbar confirm helpbar_promote_demote}}
+                  {if
+                     {{$this get_lineup_provider}
+                        num_data}
+                     {helpbar confirm helpbar_edit_roster}}})
+            (standin.lst
+               {helpbar
+                  set_config
+                  {if_else
+                     {standin.lst is_scroll_selected}
+                     ((cancel helpbar_back)
+                        (confirm helpbar_choose_standin))
+                     ((cancel helpbar_back)
+                        (confirm helpbar_edit_standins))}})}
+         {if_else
+            {$this can_show_gamercard $component}
+            {helpbar option helpbar_show_gamercard}
+            {helpbar option}}})
+   (VIRTUAL_KEYBOARD_RESULT_MSG
+      {if
+         {&&
+            $ok
+            $this
+            {ui focus_panel}
+            {==
+               {ui focus_panel}
+               $this}}
+         {switch
+            {$this get keyboard_mode}
+            (kKeyboardModeName
+               {if
+                  {!=
+                     $text
+                     ""}
+                  {if_else
+                     {!
+                        {{{$this get_band_data}
+                              get_owner}
+                           is_band_name_unique
+                           $text}}
+                     {ui push_screen tour_band_create_name_not_unique_screen}
+                     {do
+                        {$this set_band_name $text}
+                        {band_name.btn set_localized $text}
+                        {network_busy_panel set_busy TRUE}
+                        {entity_uploader
+                           verify_band_name
+                           $text
+                           $this
+                           {$this get_band_data}}}}})
+            (kKeyboardModeMotto
+               {$this set_motto $text}
+               {quote.lbl set_localized $text}
+               {network_busy_panel set_busy TRUE}
+               {entity_uploader
+                  verify_band_motto
+                  $text
+                  $this
+                  {$this get_band_data}})}})
+   (ROCK_CENTRAL_OP_COMPLETE_MSG
+      {network_busy_panel set_busy FALSE}
+      {switch
+         {$this get keyboard_mode}
+         (kKeyboardModeName
+            {switch
+               $arg1
+               (RB_RETCODE_BAND_NAME_PROFANE
+                  {ui push_screen tour_band_rename_profane_screen})
+               (RB_RETCODE_BAND_NAME_DUP
+                  {ui push_screen tour_band_rename_dup_screen})
+               (RB_RETCODE_BAND_NAME_IP
+                  {ui push_screen tour_band_rename_ip_screen})})
+         (kKeyboardModeMotto
+            {switch
+               $arg1
+               (RB_RETCODE_BAND_MOTTO_PROFANE
+                  {ui push_screen tour_band_motto_profane_screen})
+               (RB_RETCODE_BAND_MOTTO_IP
+                  {ui push_screen tour_band_motto_ip_screen})})})}
+#define TOUR_PROFILE_SCREEN_HANDLERS
+((back
+      {cond
+         ({==
+               {tour mode}
+               kMetaTour_Nil}
+            tour_band_sel_screen)
+         ({==
+               {tour band}
+               {tour_profile_panel get_band_data}}
+            tour_hub_screen)
+         (TRUE
+            {{ui current_screen}
+               get
+               botb_screen})})
+   (enter
+      {if
+         {practice_space_panel is_up}
+         {practice_space_panel
+            select_cam
+            "coop_hub"}}
+      {with
+         tour_profile_panel
+         {tour_profile_panel update_tab_focus}
+         {if_else
+            {==
+               {tour band}
+               {tour_profile_panel get_band_data}}
+            {extend.trg trigger}
+            {enter.grp
+               set_frame
+               {enter.grp end_frame}}}})
+   (exit
+      {if
+         {==
+            {tour band}
+            {tour_profile_panel get_band_data}}
+         {{tour_profile_panel find retract.trg}
+            trigger}
+         {helpbar
+            set_config
+            ()}})
+   (confirm
+      {patch_panel cache_patch}
+      {{tour_profile_panel get_band_data}
+         set_dirty
+         TRUE
+         {'|' kTourDirtySave kTourDirtyUpload}}
+      {{tour_profile_panel get_band_data}
+         set_sync_dirty
+         kTourSyncLogoDirty}
+      {if
+         {&&
+            {tour_profile_panel displaying_tour_band}
+            {{tour_profile_panel get_band_data}
+               has_logo_patch}}
+         {game
+            foreach_local_user
+            $user
+            {if
+               {$user can_get_achievements}
+               {achievements
+                  submit
+                  {$user get_user_num}
+                  ach_explore_logo}}}}
+      {ui goto_screen tour_profile_screen})
+   (patch_saved
+      ($user)
+      {if
+         {&&
+            {!
+               {tour_profile_panel displaying_tour_band}}
+            {{tour_profile_panel get_band_data}
+               has_logo_patch}
+            {$user can_get_achievements}}
+         {achievements
+            submit
+            {$user get_user_num}
+            ach_explore_logo}}))
+{new
+   BandScreen
+   tour_profile_screen
+   (panels meta practice_space_panel tour_profile_panel tour_lower3rd_panel)
+   (focus tour_profile_panel)
+   (botb_screen botb_details_screen)
+   TOUR_PROFILE_SCREEN_HANDLERS}
+{new
+   BandScreen
+   tour_profile_world_screen
+   (panels meta tour_world_bg_panel tour_profile_panel tour_world_lower3rd_panel)
+   (focus tour_profile_panel)
+   (botb_screen botb_world_details_screen)
+   TOUR_PROFILE_SCREEN_HANDLERS}
+{new
+   UIPanel
+   tour_standin_panel
+   (file
+      "tour_standin.milo")
+   (focus char.lst)
+   (track kTrackNone)
+   (band '')
+   (enter
+      {do
+         ($provider
+            {tour_profile_panel get_standin_char_provider})
+         ($selected
+            {$provider
+               init_from_band
+               [band]
+               [track]})
+         {char.lst set_provider $provider}
+         {char.lst
+            set_selected
+            $selected
+            {max
+               0
+               {- $selected 2}}}}
+      {track.lbl
+         set_localized
+         {get_font_char_from_track_type
+            [track]}})
+   (BUTTON_DOWN_MSG
+      {if_else
+         {== $action kAction_Cancel}
+         {do
+            {synth play button_back}
+            {ui pop_screen}}
+         kDataUnhandled})
+   (SELECT_MSG
+      {do
+         ($provider
+            {tour_profile_panel get_standin_char_provider})
+         {$provider
+            set_stand_in
+            [band]
+            [track]
+            {char.lst selected_pos}}}
+      {ui pop_screen})}
+{new
+   BandScreen
+   tour_standin_screen
+   (panels tour_standin_panel)
+   (focus tour_standin_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}
+{new
+   CharLoadingPanel
+   tour_hub_panel
+   (file
+      "tour_hub.milo")
+   (reset TRUE)
+   (enter
+      {if
+         [reset]
+         {$this set_focus gigguide.btn}}
+      {set
+         [reset]
+         FALSE}
+      {if
+         {==
+            {session_mgr get_leader_num}
+            -1}
+         {$this disable gigguide.btn}
+         {$this disable bandprofile.btn}
+         {$this disable setchallenges.btn}
+         {$this set_focus rokkshoppe.btn}}
+      {$this refresh}
+      {gamecfg set_joining_allowed TRUE}
+      {gamecfg set coop_intro_category INTRO}
+      {practice_space_panel refresh}
+      {session
+         add_sink
+         $this
+         (remote_player_left)}
+      {band_ui trigger_disband_if_necessary FALSE})
+   (exit
+      {band_ui reset_disband}
+      {session remove_sink $this remote_player_left})
+   (REMOTE_PLAYER_LEFT_MSG
+      {if
+         {==
+            $player_num
+            {session_mgr get_leader_num}}
+         {band_ui
+            trigger_disband_if_necessary
+            {!
+               {session disabled}}}})
+   (TRANSITION_COMPLETE_MSG
+      {net_sync set_ui_state kNetUI_TourMenu}
+      {input_mgr set_limit kLimitSession}
+      {input_mgr set_user ''}
+      {if
+         {&&
+            {!
+               {ui in_transition}}
+            {==
+               {ui current_screen}
+               tour_hub_screen}
+            {!
+               {net_sync has_destination_screen}}}
+         {autosave}})
+   (poll
+      {if
+         {&&
+            {==
+               {ui current_screen}
+               tour_hub_screen}
+            {!
+               {ui in_transition}}}
+         {botb_challenge_loader check_load}})
+   (refresh
+      {if_else
+         {==
+            {{tour band}
+               world_fame}
+            0}
+         {gigguide.btn set text_token tour_gigguide_start}
+         {gigguide.btn set text_token tour_gigguide_continue}})
+   (SELECT_MSG
+      {switch
+         $component
+         (gigguide.btn
+            {$this enter_tour kNetUI_ReadyWorldTour})
+         (rokkshoppe.btn
+            {net_sync set_ui_state kNetUI_RockShop}
+            {shop_panel set reset_on_enter TRUE}
+            {fx fade_out}
+            {input_mgr
+               set_user
+               {user_mgr get_band_user $player_num}}
+            {ui goto_screen shop_screen})
+         (bandprofile.btn
+            {net_sync set_ui_state kNetUI_BandProfile}
+            {ui goto_screen tour_profile_screen})
+         (setchallenges.btn
+            {$this enter_tour kNetUI_ReadySetChallenges})
+         (botb.btn
+            {cond
+               ({==
+                     {tour mode}
+                     kMetaTour_BrowsingRemote}
+                  {ui push_screen tour_band_no_leader_screen})
+               #ifdef HX_PS3
+               ({!
+                     {platform_mgr is_connected}}
+                  {platform_mgr run_net_start_utility})
+               #endif
+               ({&&
+                     {is_leader_local}
+                     {'||'
+                        {==
+                           {rock_central state}
+                           kRCConnecting}
+                        {&&
+                           {server is_connected}
+                           {!
+                              {tour has_botb_challenges}}}}}
+                  {ui push_screen tour_no_botb_connecting_screen})
+               ({'||'
+                     {!
+                        {is_leader_local}}
+                     {&&
+                        {tour has_botb_challenges}
+                        {server is_connected}}}
+                  {$this enter_tour kNetUI_ReadyBotb})
+               (TRUE
+                  {ui push_screen tour_no_botb_screen})})
+         (community.btn
+            {net_sync set_ui_state kNetUI_Leaderboards}
+            {leaderboards_netwatcher_panel set return_screen tour_hub_screen}
+            {input_mgr
+               set_user
+               {user_mgr get_band_user $player_num}}
+            {if_else
+               {server is_connected}
+               {do
+                  {leaderboards set_offline FALSE}
+                  {ui goto_screen tour_hub_community_screen}}
+               {do
+                  {leaderboards set_offline TRUE}
+                  {ui push_screen tour_leaderboard_offline_screen}}})})
+   (enter_tour
+      ($ui_state)
+      {if_else
+         {==
+            {tour mode}
+            kMetaTour_BrowsingRemote}
+         {ui push_screen tour_band_no_leader_screen}
+         {if_else
+            {== $ui_state kNetUI_ReadyBotb}
+            {ui goto_screen botb_news_feed_screen}
+            {do
+               {tour_waiting_screen set tour_mode_ui_state $ui_state}
+               {if_else
+                  {session is_local}
+                  {tour_waiting_screen advance}
+                  {ui goto_screen tour_waiting_screen}}}}})}
+{new
+   BandScreen
+   tour_hub_screen
+   (panels meta practice_space_panel tour_hub_panel tour_profile_panel tour_lower3rd_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (focus tour_hub_panel)
+   (back
+      {gamemode get matchmaking_screen})
+   (enter
+      {presence_mgr set_prepare_to_rock}
+      {presence_mgr set_past_tour_hub FALSE}
+      {practice_space_panel
+         select_cam
+         "coop_hub"})}
+{new
+   BandScreen
+   tour_no_botb_screen
+   (panels dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize
+            {if_else
+               {modifier_mgr is_feature_enabled modifier_online_feature}
+               tour_no_botb
+               modifer_mode_denied}}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   tour_no_botb_connecting_screen
+   (panels dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize tour_no_botb_connecting}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   UIPanel
+   tour_waiting_panel
+   (file
+      "tour_waiting.milo")}
+{new
+   MultiFocusScreen
+   tour_waiting_screen
+   (panels meta practice_space_panel tour_waiting_panel tour_lower3rd_panel)
+   (focus tour_waiting_panel)
+   (helpbar
+      ((cancel helpbar_back)))
+   (back tour_hub_screen)
+   (poll
+      {botb_challenge_loader check_load})
+   (player_panels
+      (panel tour_waiting_panel)
+      (slots COOP_SLOTS_ORDER)
+      (type
+         (player_num
+            {gamecfg
+               get_player_num_from_slot_num
+               [slot_num]})
+         (slot_num 0)
+         (slot none)
+         (option '')
+         (current_option
+            {cond
+               ({!
+                     {$this is_active}}
+                  inactive)
+               display_status})
+         (update
+            {waiting.grp
+               set_showing
+               {$this is_active}}
+            {if
+               {waiting.grp showing}
+               {do
+                  ($user
+                     {user_mgr
+                        get_band_user
+                        [player_num]})
+                  {player.lbl
+                     set_localized
+                     {$user intro_name}}
+                  {status.lbl
+                     set
+                     text_token
+                     {switch
+                        {$user get_net_ui_state}
+                        (kNetUI_ReadyWorldTour waiting_ready_world_tour)
+                        (kNetUI_ReadySetChallenges waiting_ready_set_challenges)
+                        (kNetUI_ReadyBotb waiting_ready_botb)
+                        (kNetUI_Matchmaking waiting_matchmaking)
+                        (kNetUI_TourMenu waiting_tour_menu)
+                        (kNetUI_RockShop waiting_rock_shop)
+                        (kNetUI_CreatingArt waiting_creating_art)
+                        (kNetUI_BandProfile waiting_band_profile)
+                        (kNetUI_Leaderboards waiting_leaderboards)
+                        waiting_tour_menu}}}}
+            {if
+               {&&
+                  {!
+                     {session disabled}}
+                  {is_leader_local}
+                  {net_sync all_users_ready}
+                  {'||'
+                     {!=
+                        {tour_waiting_screen get tour_mode_ui_state}
+                        kNetUI_ReadyBotb}
+                     {tour has_botb_challenges}}
+                  {!
+                     {lock_step_mgr in_lock}}
+                  {==
+                     {tour mode}
+                     kMetaTour_KnownLocal}}
+               {lock_step_mgr start_lock}})
+         (is_active
+            {&&
+               {!=
+                  [player_num]
+                  -1}
+               {gamecfg
+                  is_player_participating
+                  [player_num]}}))
+      (options
+         (inactive)
+         (display_status)))
+   (TRANSITION_COMPLETE_MSG
+      {net_sync
+         set_ui_state
+         [tour_mode_ui_state]}
+      {passive_messages_panel broadcast_ready_for_tour_msg}
+      {$this export_all update})
+   (is_lock_step_ready TRUE)
+   (lock_step_complete
+      ($success)
+      {if
+         $success
+         {$this advance}})
+   (advance
+      {if
+         {==
+            [tour_mode_ui_state]
+            kNetUI_ReadyWorldTour}
+         {fx fade_out}}
+      {input_mgr set_limit kLimitSessionLeader}
+      {gamecfg set_joining_allowed FALSE}
+      {if
+         {{tour band}
+            has_write_permission}
+         {{tour band}
+            set_event_type
+            {if_else
+               {==
+                  [tour_mode_ui_state]
+                  kNetUI_ReadyWorldTour}
+               kTourEventWorld
+               kTourEventChallenge}}
+         {tour send_shared_battles}
+         {{tour band}
+            init_tour
+            {==
+               [tour_mode_ui_state]
+               kNetUI_ReadyBotb}}
+         {session
+            send_msg_to_all
+            (tour_waiting_screen advance)
+            kNetReliable}
+         {ui
+            sync_screen
+            {tour tour_screen FALSE}
+            0}}
+      {presence_mgr set_past_tour_hub TRUE})}
+{new
+   BandScreen
+   tour_band_name_error_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize shell_no_band_name_error}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   tour_band_create_name_not_unique_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize tour_band_name_not_unique}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandCreatePanel
+   tour_band_create_panel
+   (file tour_name_band.milo)
+   (focus name.btn)
+   (reset_focus TRUE)
+   (enter
+      {hometown.lst
+         set_provider
+         {tour hometown_provider}}
+      {$this update_band})
+   (exit
+      {network_busy_panel set_busy FALSE})
+   (refresh
+      {$this update_band})
+   (update_band
+      {cond
+         ({==
+               {{tour band}
+                  band_name}
+               ''}
+            {name.lbl set text_token shell_enter_name})
+         ({!
+               {{tour band}
+                  has_write_permission}}
+            {name.lbl set text_token shell_band_name_chosen})
+         {name.lbl
+            set_localized
+            {{tour band}
+               band_name}}}
+      {hometown.lst
+         set_selected
+         {{tour band}
+            hometown}})
+   (SCROLL_MSG
+      {switch
+         $component
+         (hometown.lst
+            {{tour band}
+               set_hometown
+               {hometown.lst selected_sym}})})
+   (SELECT_MSG
+      {switch
+         $component
+         (name.btn
+            {virtual_keyboard
+               show_keyboard
+               $player_num
+               {get_band_name_length}
+               {localize create_band_vk_title}
+               {localize create_band_vk_desc}
+               {if_else
+                  {==
+                     {{tour band}
+                        band_name}
+                     ''}
+                  {$this random_band_name}
+                  {{tour band}
+                     band_name}}
+               $this})
+         (hometown.btn
+            {hometown.lst store}
+            {$this set_focus hometown.lst})
+         (hometown.lst
+            {hometown.lst confirm}
+            {$this set_focus hometown.btn})
+         (accept.btn
+            {cond
+               ({==
+                     {{tour band}
+                        band_name}
+                     ""}
+                  {ui push_screen tour_band_name_error_screen})
+               ({!
+                     {{{tour band}
+                           get_owner}
+                        is_band_name_unique
+                        {{tour band}
+                           band_name}}}
+                  {ui push_screen tour_band_create_name_not_unique_screen})
+               (TRUE
+                  {{tour band}
+                     init}
+                  {tour give_new_band_to_user}
+                  {if_else
+                     {profile_mgr get_all_unlocked}
+                     {do
+                        {tour_hub_panel set reset TRUE}
+                        {ui goto_screen tour_hub_screen}}
+                     {do
+                        {network_busy_panel set_busy TRUE}
+                        {entity_uploader
+                           update_band
+                           {tour band}
+                           $this
+                           {$this get_band_data}}}})})
+         (cancel.btn
+            {ui
+               goto_screen
+               {gamemode get matchmaking_screen}})})
+   (VIRTUAL_KEYBOARD_RESULT_MSG
+      {if
+         {&&
+            $ok
+            $this
+            {ui focus_panel}
+            {==
+               {ui focus_panel}
+               $this}}
+         {{tour band}
+            set_band_name
+            $text}
+         {$this update_band}})
+   (ROCK_CENTRAL_OP_COMPLETE_MSG
+      {network_busy_panel set_busy FALSE}
+      {if
+         {&&
+            {!
+               {ui in_transition}}
+            {==
+               {ui current_screen}
+               tour_band_create_screen}}
+         {switch
+            $arg1
+            (RB_RETCODE_BAND_NAME_PROFANE
+               {ui push_screen tour_band_name_profane_screen})
+            (RB_RETCODE_BAND_NAME_DUP
+               {ui push_screen tour_band_name_dup_screen})
+            (RB_RETCODE_BAND_NAME_IP
+               {ui push_screen tour_band_name_ip_screen})
+            {tour_hub_panel set reset TRUE}
+            {ui goto_screen tour_hub_screen}}})
+   (BUTTON_DOWN_MSG
+      {cond
+         ({== $action kAction_Cancel}
+            {switch
+               {$this focus_name}
+               (hometown.lst
+                  {hometown.lst undo $player}
+                  {$this set_focus hometown.btn})
+               kDataUnhandled})
+         (TRUE kDataUnhandled)})}
+{new
+   BandScreen
+   tour_band_create_screen
+   (panels meta practice_space_panel tour_band_create_panel tour_lower3rd_panel)
+   (back
+      {gamemode get matchmaking_screen})
+   (focus tour_band_create_panel)
+   (helpbar
+      {if_else
+         {is_leader_local}
+         ((cancel helpbar_back)
+            (confirm helpbar_select))
+         ()})
+   (show_char
+      ($player_num)
+      FALSE)
+   (enter
+      {practice_space_panel
+         select_cam
+         "createband"})}
+{new
+   BandScreen
+   tour_band_name_profane_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize tour_profile_create_band_name_profane}})
+   (SELECT_MSG
+      {tour_hub_panel set reset TRUE}
+      {ui pop_screen tour_hub_screen})}
+{new
+   BandScreen
+   tour_band_name_dup_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize tour_profile_create_band_name_dup}})
+   (SELECT_MSG
+      {tour_hub_panel set reset TRUE}
+      {ui pop_screen tour_hub_screen})}
+{new
+   BandScreen
+   tour_band_name_ip_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize tour_profile_create_band_name_ip}})
+   (SELECT_MSG
+      {tour_hub_panel set reset TRUE}
+      {ui pop_screen tour_hub_screen})}
+{new
+   BandScreen
+   tour_band_no_leader_screen
+   (panels dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize tour_band_no_leader}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   tour_lineup_promote_demote_confirm_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (member_pos -1)
+   (enter
+      {do
+         ($provider
+            {tour_profile_panel get_lineup_provider})
+         ($is_member
+            {$provider
+               is_band_member
+               [member_pos]})
+         ($is_absent
+            {$provider
+               is_absent
+               [member_pos]})
+         ($char_name
+            {$provider
+               get_char_name
+               [member_pos]})
+         {dialog_panel
+            set_yesno
+            {sprintf
+               {cond
+                  ({! $is_member}
+                     {localize band_profile_confirm_promote})
+                  ($is_absent
+                     {localize band_profile_confirm_demote_missing})
+                  {localize band_profile_confirm_demote}}
+               $char_name}
+            no.btn}})
+   (exit
+      {set
+         [member_pos]
+         -1})
+   (SELECT_MSG
+      {switch
+         $component
+         (yes.btn
+            {tour_profile_panel
+               toggle_member_status
+               [member_pos]}
+            {tour_profile_panel update_header})}
+      {unless
+         {{tour_profile_panel get_lineup_provider}
+            num_data}
+         {tour_profile_panel set unselect_lineup_list TRUE}}
+      {ui pop_screen})}
+{new
+   BandScreen
+   tour_lineup_band_full_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize tour_profile_band_full}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   tour_band_rename_profane_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize tour_profile_rename_band_name_profane}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   tour_band_rename_dup_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize tour_profile_rename_band_name_dup}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   tour_band_rename_ip_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize tour_profile_rename_band_name_ip}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   tour_band_motto_profane_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize tour_profile_motto_profane}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   tour_band_motto_ip_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize tour_profile_motto_ip}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   UIPanel
+   tour_retry_panel
+   (file
+      "tour_retry.milo")
+   (focus retry.btn)
+   (reset_focus TRUE)
+   (enter
+      {song.lbl
+         set_localized
+         {song_mgr
+            song_name
+            {meta_performer song}}}
+      {do
+         ($mp
+            {beatmatch main_performer})
+         {song_progress.lbl
+            set_localized
+            {sprintf
+               {localize percent_complete_format}
+               {$mp percent_complete}}}
+         {song_section.lbl
+            set
+            text_token
+            {beatmatch
+               get_section_at_ms
+               {$mp progress_ms}}}}
+      {if_else
+         {&&
+            {==
+               {{tour band}
+                  event_type}
+               kTourEventWorld}
+            {!
+               {{tour event}
+                  is_battle}}}
+         {do
+            ($change
+               {{tour band}
+                  fans_change
+                  TRUE})
+            {if
+               {> $change 0}
+               {notify
+                  "Song lost, but fans gained??? "
+                  $change}}
+            {buzz.lbl set_showing $change}
+            {buzz.lbl
+               set_localized
+               {sprintf
+                  {localize tour_band_fans_lost}
+                  {localize_separated_int
+                     {abs $change}}}}}
+         {buzz.lbl set_showing FALSE}}
+      {if_else
+         {gamemode get show_practice_on_lose}
+         {do
+            {practice.btn set_showing TRUE}
+            {$this enable practice.btn}}
+         {do
+            {practice.btn set_showing FALSE}
+            {$this disable practice.btn}}})
+   (SELECT_MSG
+      {switch
+         $component
+         (retry.btn
+            {game send_restart_game_net_msg}
+            {game_restart})
+         (quit.btn
+            {tour_lose_confirm_quit_screen set quitting FALSE}
+            {tour_lose_confirm_quit_screen
+               set
+               return_screen
+               {ui current_screen}}
+            {tour_lose_confirm_quit_screen set confirm_screen meta_loading_continue_screen}
+            {ui goto_screen tour_lose_confirm_quit_screen})
+         (practice.btn
+            {tour_lose_confirm_quit_screen set quitting TRUE}
+            {tour_lose_confirm_quit_screen
+               set
+               return_screen
+               {ui current_screen}}
+            {tour_lose_confirm_quit_screen set confirm_screen meta_loading_practice_screen}
+            {ui goto_screen tour_lose_confirm_quit_screen})})}
+{new
+   BandScreen
+   tour_retry_screen
+   (panels tour_retry_panel)
+   (focus tour_retry_panel)
+   (helpbar
+      {if_else
+         {is_leader_local}
+         ((confirm helpbar_select))
+         ()})
+   (enter
+      {input_mgr set_limit kLimitSessionLeader})}
+{new
+   BandScreen
+   tour_lose_confirm_quit_screen
+   (panels tour_retry_panel dialog_panel)
+   COMMON_LOSE_QUIT_CONFIRM}
+{new
+   TourChallengeCompletePanel
+   tour_botb_complete_panel
+   (file
+      "../tour_challenge/tour_challenge_complete.milo")
+   (focus
+      "")
+   (BUTTON_DOWN_MSG
+      {if
+         {== $action kAction_Confirm}
+         {synth play button_select}
+         {unless
+            {$this skip}
+            {ui goto_screen meta_loading_continue_screen}}}
+      kDataUnhandled)
+   (enter
+      {do
+         ($band
+            {tour band})
+         {do
+            ($pre_moment
+               {$band reward TRUE})
+            {$this
+               add_item
+               "$"
+               {if_else
+                  $pre_moment
+                  {localize tour_band_reward}
+                  {localize tour_band_reward_no_money}}
+               get_cash.cue
+               0
+               $pre_moment}}
+         {$band submit_band_achievement ach_explore_battle_of_bands}})}
+{new
+   BandScreen
+   tour_botb_complete_screen
+   (panels tour_botb_complete_panel)
+   (focus tour_botb_complete_panel)
+   (helpbar
+      {if_else
+         {is_leader_local}
+         ((confirm
+               {if_else
+                  {==
+                     {{tour band}
+                        event_type}
+                     kTourEventChallenge}
+                  tour_challenge_return
+                  tour_hb_returntomap}))
+         ()})
+   (scroll_sfx FALSE)}
+{new
+   BandScreen
+   tour_botb_expired_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize botb_expired}})
+   (SELECT_MSG
+      {ui pop_screen})}

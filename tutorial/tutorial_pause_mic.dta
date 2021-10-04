@@ -1,0 +1,135 @@
+{new
+   UIPanel
+   tutorials_pause_mic_panel
+   (file
+      "tutorial_pause_mic_real.milo")
+   (enter
+      {$this set_focus pause_resume.btn}
+      {talk.mnm set_frame 1}
+      {$this on_mics_change})
+   (poll
+      {print
+         "poll\n"}
+      {if_else
+         {tutorials_state_panel is_mic_talking}
+         {do
+            {print
+               {tutorials_state_panel mic_percent_talking}
+               "\n"}
+            #ifdef HX_XBOX
+            {talk.mnm
+               set_frame
+               {tutorials_state_panel mic_percent_talking}}
+            #else
+            {talk.mnm set_frame 1}
+            #endif}
+         {talk.mnm set_frame 0}})
+   (on_mics_change
+      {if_else
+         {tutorials_state_panel is_mic_disconnected}
+         {do
+            {$this disable pause_resume.btn}
+            {$this set_focus pause_quit.btn}}
+         {do
+            {$this enable pause_resume.btn}
+            {$this set_focus pause_resume.btn}}})}
+{new
+   BandScreen
+   tutorials_pause_mic_screen
+   (panels tutorials_pause_mic_panel)
+   (focus tutorials_pause_mic_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (allow_back FALSE)
+   (animate_transition FALSE)
+   (microphones_changed
+      ($vocalists_mic_changed)
+      {tutorials_pause_mic_panel on_mics_change})
+   (pre_enter
+      {set
+         [is_quitting]
+         FALSE}
+      {tutorials_state_panel pause})
+   (enter
+      {set
+         [is_quitting]
+         FALSE}
+      {set
+         [is_done]
+         FALSE})
+   (exit
+      {if
+         {!
+            [is_quitting]}
+         {tutorials_state_panel unpause}})
+   (resume_tutorial
+      {ui pop_screen})
+   (quit_tutorial
+      {set
+         [is_quitting]
+         TRUE}
+      {tutorials_state_panel reset_tutorial}
+      {gamemode set main_screen main_screen}
+      {ui
+         goto_screen
+         {gamemode get quit_screen}})
+   (SELECT_MSG
+      {if
+         {&&
+            {==
+               $player_num
+               {{gamemode get main_panel}
+                  get_tutorial_player}}
+            {!
+               [is_done]}}
+         {switch
+            $component
+            (pause_quit.btn
+               {set
+                  [is_done]
+                  TRUE}
+               {$this quit_tutorial})}})
+   (SELECT_DONE_MSG
+      {if
+         {&&
+            {==
+               $player_num
+               {{gamemode get main_panel}
+                  get_tutorial_player}}
+            {!
+               [is_done]}
+            {!
+               {band_ui has_event}}
+            {!
+               {ui in_transition}}}
+         {switch
+            $component
+            (pause_resume.btn
+               {set
+                  [is_done]
+                  TRUE}
+               {$this resume_tutorial})}})
+   (BUTTON_DOWN_MSG
+      {if_else
+         {&&
+            {==
+               $player_num
+               {{gamemode get main_panel}
+                  get_tutorial_player}}
+            {!
+               [is_done]}}
+         {do kDataUnhandled}
+         TRUE})
+   (BUTTON_UP_MSG
+      {if_else
+         {&&
+            {==
+               $player_num
+               {{gamemode get main_panel}
+                  get_tutorial_player}}
+            {!
+               [is_done]}}
+         {do kDataUnhandled}
+         TRUE})
+   (is_quitting FALSE)
+   (is_done FALSE)}

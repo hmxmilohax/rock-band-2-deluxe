@@ -1,0 +1,355 @@
+#define TOUR_HINT_PANEL_HANDLERS
+((force_exit TRUE)
+   (BUTTON_DOWN_MSG
+      {if
+         {&&
+            {is_leader_local}
+            {== $action kAction_Confirm}}
+         {{tour band}
+            hint_advance}
+         {synth play button_select}
+         {ui
+            goto_screen
+            {tour tour_screen FALSE}
+            TRUE}}))
+#define TOUR_HINT_PANEL_LOAD_HANDLERS
+({tour_world_bg_panel load}
+   {tour_world_lower3rd_panel load}
+   {tour_world_status_panel load})
+#define TOUR_HINT_PANEL_UNLOAD_HANDLERS
+({tour_world_bg_panel unload}
+   {tour_world_lower3rd_panel unload}
+   {tour_world_status_panel unload})
+#define STANDARD_TOUR_HINT_PANEL_HANDLERS
+(TOUR_HINT_PANEL_HANDLERS
+   (load TOUR_HINT_PANEL_LOAD_HANDLERS)
+   (unload TOUR_HINT_PANEL_UNLOAD_HANDLERS))
+#define TOUR_HINT_SCREEN_HANDLERS
+((helpbar
+      {if_else
+         {is_leader_local}
+         ((confirm helpbar_continue))
+         ()})
+   (enter
+      {input_mgr set_limit kLimitSessionLeader}))
+{new
+   UIPanel
+   tour_world_welcome_panel
+   (file
+      "hints/tour_world_welcome.milo")
+   STANDARD_TOUR_HINT_PANEL_HANDLERS
+   (enter
+      {welcome.lbl
+         set_localized
+         {sprintf
+            {localize tour_band_welcome}
+            {localize
+               {tour venue_token}}}})}
+{new
+   BandScreen
+   tour_world_welcome_screen
+   (panels meta tour_world_welcome_panel)
+   (focus tour_world_welcome_panel)
+   TOUR_HINT_SCREEN_HANDLERS}
+{new
+   UIPanel
+   tour_world_firstgig_panel
+   (file
+      "hints/tour_world_firstgig.milo")
+   STANDARD_TOUR_HINT_PANEL_HANDLERS}
+{new
+   BandScreen
+   tour_world_firstgig_screen
+   (panels meta tour_world_firstgig_panel)
+   (focus tour_world_firstgig_panel)
+   TOUR_HINT_SCREEN_HANDLERS}
+{new
+   UIPanel
+   tour_world_firstvenue_panel
+   (file
+      "hints/tour_world_firstvenue.milo")
+   STANDARD_TOUR_HINT_PANEL_HANDLERS
+   (enter
+      {venue.lbl
+         set_localized
+         {sprintf
+            {localize tour_band_firstvenue}
+            {localize
+               {{tour hint}
+                  venue_token}}}})}
+{new
+   BandScreen
+   tour_world_firstvenue_screen
+   (panels meta tour_world_firstvenue_panel)
+   (focus tour_world_firstvenue_panel)
+   TOUR_HINT_SCREEN_HANDLERS}
+{new
+   UIPanel
+   tour_world_firstmanager_panel
+   (file
+      "hints/tour_world_firstmanager.milo")
+   STANDARD_TOUR_HINT_PANEL_HANDLERS}
+{new
+   BandScreen
+   tour_world_firstmanager_screen
+   (panels meta tour_world_firstmanager_panel)
+   (focus tour_world_firstmanager_panel)
+   TOUR_HINT_SCREEN_HANDLERS}
+{new
+   TexLoadPanel
+   tour_world_item_available_panel
+   (file
+      "hints/tour_world_canwinitem.milo")
+   TOUR_HINT_PANEL_HANDLERS
+   (load
+      {do
+         ($hint
+            {tour hint})
+         {$this
+            add_tex
+            {sprintf
+               "ui/tour_world/items/%s_available_keep.png"
+               {$hint item}}
+            "moment.mat"}}
+      TOUR_HINT_PANEL_LOAD_HANDLERS)
+   (unload TOUR_HINT_PANEL_UNLOAD_HANDLERS)
+   (enter
+      {do
+         ($hint
+            {tour hint})
+         ($item
+            {$hint item})
+         {event.lbl
+            set_localized
+            {sprintf
+               {localize tour_band_canwin_event}
+               {$hint event_display_name}
+               {localize
+                  {$hint venue_token}}
+               {localize
+                  {$hint town}}}}
+         {desc.lbl
+            set
+            text_token
+            {sprint
+               "tour_band_canwin_"
+               $item}}
+         {item.lbl set text_token $item}
+         {icon.lbl
+            set_localized
+            {{tour band}
+               item_to_str
+               $item}}})}
+{new
+   BandScreen
+   tour_world_item_available_screen
+   (panels meta tour_world_item_available_panel)
+   (focus tour_world_item_available_panel)
+   TOUR_HINT_SCREEN_HANDLERS}
+{new
+   TexLoadPanel
+   tour_world_new_item_panel
+   (file
+      "hints/tour_world_newitem.milo")
+   TOUR_HINT_PANEL_HANDLERS
+   (load
+      {do
+         ($hint
+            {tour hint})
+         {$this
+            add_tex
+            {sprintf
+               "ui/tour_world/items/%s_won_keep.png"
+               {$hint item}}
+            "moment.mat"}}
+      TOUR_HINT_PANEL_LOAD_HANDLERS)
+   (unload TOUR_HINT_PANEL_UNLOAD_HANDLERS)
+   (enter
+      {do
+         ($item
+            {{tour hint}
+               item})
+         {item.lbl set text_token $item}
+         {item_desc.lbl
+            set
+            text_token
+            {sprint
+               "tour_hint_new_"
+               $item}}}
+      {achieve_misc.cue play})}
+#define TOUR_HINT_NEW_ITEM_SCREEN_HANDLERS
+((panels meta tour_world_new_item_panel)
+   (focus tour_world_new_item_panel)
+   TOUR_HINT_SCREEN_HANDLERS)
+{new BandScreen tour_staff1_screen TOUR_HINT_NEW_ITEM_SCREEN_HANDLERS}
+{new BandScreen tour_staff2_screen TOUR_HINT_NEW_ITEM_SCREEN_HANDLERS}
+{new BandScreen tour_staff3_screen TOUR_HINT_NEW_ITEM_SCREEN_HANDLERS}
+{new BandScreen tour_staff_worldblock_screen TOUR_HINT_NEW_ITEM_SCREEN_HANDLERS}
+{new BandScreen tour_halloffame_complete_screen TOUR_HINT_NEW_ITEM_SCREEN_HANDLERS}
+{new BandScreen tour_bwt_complete_screen TOUR_HINT_NEW_ITEM_SCREEN_HANDLERS}
+{new
+   UIPanel
+   tour_vehicle_van_panel
+   (file
+      "hints/tour_world_newvan.milo")
+   STANDARD_TOUR_HINT_PANEL_HANDLERS
+   (enter
+      {achieve_van.cue play})}
+{new
+   BandScreen
+   tour_vehicle_van_screen
+   (panels meta tour_vehicle_van_panel)
+   (focus tour_vehicle_van_panel)
+   TOUR_HINT_SCREEN_HANDLERS}
+{new
+   UIPanel
+   tour_vehicle_bus_panel
+   (file
+      "hints/tour_world_newbus.milo")
+   STANDARD_TOUR_HINT_PANEL_HANDLERS
+   (enter
+      {achieve_bus.cue play})}
+{new
+   BandScreen
+   tour_vehicle_bus_screen
+   (panels meta tour_vehicle_bus_panel)
+   (focus tour_vehicle_bus_panel)
+   TOUR_HINT_SCREEN_HANDLERS}
+{new
+   UIPanel
+   tour_vehicle_jet_panel
+   (file
+      "hints/tour_world_newjet.milo")
+   STANDARD_TOUR_HINT_PANEL_HANDLERS
+   (enter
+      {achieve_plane.cue play})}
+{new
+   BandScreen
+   tour_vehicle_jet_screen
+   (panels meta tour_vehicle_jet_panel)
+   (focus tour_vehicle_jet_panel)
+   TOUR_HINT_SCREEN_HANDLERS}
+{new
+   UIPanel
+   tour_world_buzzcap_panel
+   (file
+      "hints/tour_world_buzzcap.milo")
+   STANDARD_TOUR_HINT_PANEL_HANDLERS}
+{new
+   BandScreen
+   tour_world_buzzcap_screen
+   (panels meta tour_world_buzzcap_panel)
+   (focus tour_world_buzzcap_panel)
+   TOUR_HINT_SCREEN_HANDLERS}
+{new
+   UIPanel
+   tour_world_buzzmaxcap_panel
+   (file
+      "hints/tour_world_buzzmaxcap.milo")
+   STANDARD_TOUR_HINT_PANEL_HANDLERS}
+{new
+   BandScreen
+   tour_world_buzzmaxcap_screen
+   (panels meta tour_world_buzzmaxcap_panel)
+   (focus tour_world_buzzmaxcap_panel)
+   TOUR_HINT_SCREEN_HANDLERS}
+{new
+   UIPanel
+   tour_world_fanslost_panel
+   (file
+      "hints/tour_world_fanslost.milo")
+   STANDARD_TOUR_HINT_PANEL_HANDLERS}
+{new
+   BandScreen
+   tour_world_fanslost_screen
+   (panels meta tour_world_fanslost_panel)
+   (focus tour_world_fanslost_panel)
+   TOUR_HINT_SCREEN_HANDLERS}
+{new
+   UIPanel
+   tour_world_lose_staff_panel
+   (file
+      "hints/tour_world_lose_staff.milo")
+   STANDARD_TOUR_HINT_PANEL_HANDLERS
+   (enter
+      {if
+         {{tour band}
+            is_local}
+         {{tour band}
+            revert_staff}})}
+{new
+   BandScreen
+   tour_world_lose_staff_screen
+   (panels meta tour_world_lose_staff_panel)
+   (focus tour_world_lose_staff_panel)
+   TOUR_HINT_SCREEN_HANDLERS}
+{new
+   UIPanel
+   tour_world_new_staff_panel
+   (file
+      {if_else
+         {{tour hint}
+            is_first}
+         "hints/tour_world_first_staff.milo"
+         "hints/tour_world_new_staff.milo"})
+   (focus hire.btn)
+   (reset_focus TRUE)
+   (force_exit TRUE)
+   (enter
+      {do
+         ($hint
+            {tour hint})
+         ($num
+            {if_else
+               {>
+                  {$hint num_staff}
+                  1}
+               plural
+               singular})
+         {desc.lbl
+            set_localized
+            {sprintf
+               {localize
+                  {sprintf
+                     "tour_world_%s_staff_%s"
+                     {if_else
+                        {{tour hint}
+                           is_first}
+                        first
+                        new}
+                     $num}}
+               {if_else
+                  {== $num plural}
+                  {$hint num_staff}
+                  {localize
+                     {$hint staff}}}}}})
+   (SELECT_MSG
+      {{tour band}
+         hint_advance}
+      #ifndef _SHIP
+      {if
+         {tour hint}
+         {notify
+            "More hints after new staff hint"}}
+      {unless
+         {{tour band}
+            can_leave_hometown}
+         {notify
+            "Unlocked new staff, but can't leave hometown!"}}
+      #endif
+      {switch
+         $component
+         (hire.btn
+            {tour_world_staff_panel set back_screen tour_world_town_screen}
+            {ui goto_screen tour_world_staff_screen})
+         (continue.btn
+            {ui
+               goto_screen
+               {tour tour_screen FALSE}
+               TRUE})})}
+{new
+   BandScreen
+   tour_world_new_staff_screen
+   (panels meta tour_world_new_staff_panel)
+   (focus tour_world_new_staff_panel)
+   TOUR_HINT_SCREEN_HANDLERS}

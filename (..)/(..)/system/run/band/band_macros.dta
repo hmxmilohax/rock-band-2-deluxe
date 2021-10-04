@@ -1,0 +1,387 @@
+#ifdef BAND_MACROS_DTA
+#else
+#define BAND_MACROS_DTA
+(1)
+#define kPlayIdleRealtime
+(4096)
+#define kPlayIdle
+(8192)
+#define kPlayIdleIntense
+(16384)
+#define kPlayMellow
+(32768)
+#define kPlayNormal
+(65536)
+#define kPlayIntense
+(131072)
+#define kPlaySolo
+(262144)
+#define kPlayDirectedCut
+(520192)
+#define BAND_COOP_CHARS
+((player_bass0 player_drum0 player_guitar0 player_vocals0))
+#define BAND_H2H_BASS_CHARS
+((player_bass0 player_bass1 player_drum0 player_vocals0))
+#define BAND_H2H_DRUM_CHARS
+((player_drum0 player_drum1 player_guitar0 player_vocals0))
+#define BAND_H2H_GUITAR_CHARS
+((player_guitar0 player_guitar1 player_drum0 player_vocals0))
+#define BAND_H2H_VOCALS_CHARS
+((player_vocals0 player_vocals1 player_drum0 player_guitar0))
+#define kClipModeNone
+(0)
+#define kClipModeMeta
+(1)
+#define kClipModeLoadingScreen
+(2)
+#define kClipModeRealtime
+(3)
+#define kClipModeWorld
+(4)
+#define kClipModeFinale
+(5)
+#define kTempoSlow
+(16)
+#define kTempoMedium
+(32)
+#define kTempoFast
+(64)
+#define kTempoAll
+(112)
+#define kTempoMediumSlow
+(48)
+#define kTempoMediumFast
+(96)
+#define kGenreRocker
+(256)
+#define kGenreDramatic
+(512)
+#define kGenreBanger
+(1024)
+#define kGenreSpazz
+(2048)
+#define kGenreAll
+(3840)
+#define kValidGuitar
+(1048576)
+#define kValidBass
+(2097152)
+#define kValidMale
+(1)
+#define kValidFemale
+(2)
+#define kValidAllGender
+(3)
+#define kBCSBDistNull
+(4)
+#define kBCSBDistNear
+(8)
+#define kBCSBDistFar
+(16)
+#define kBCSBDistCloseup
+(32)
+#define kBCSBDistBehind
+(64)
+#define kBCSBAllDist
+(124)
+#define kBCSBOneTimePlayed
+(128)
+#define kValidRocker
+(256)
+#define kValidDramatic
+(512)
+#define kValidBanger
+(1024)
+#define kValidSpazz
+(2048)
+#define kValidAllAttitude
+(3840)
+#define kValidAll
+(3843)
+#define kBCSBFacingNull
+(4096)
+#define kBCSBFacingLeft
+(8192)
+#define kBCSBFacingRight
+(16384)
+#define kBCSBAllFacing
+(28672)
+#define kBCSBBreakNextShot
+(32768)
+#define kPlayAndAttitudeFlags
+(524032)
+#define kPlayAttitudeTempoFlags
+(524272)
+#autorun
+{do
+   {func
+      dircut_gender_genre_focus_name
+      ($shot)
+      {with
+         $shot
+         {if_else
+            {==
+               [category]
+               NORMAL}
+            ""
+            {do
+               ($count
+                  {'+'
+                     [bass_focus]
+                     [drums_focus]
+                     [guitar_focus]
+                     [vocal_focus]
+                     [drums2_focus]
+                     [guitar2_focus]
+                     [vocal2_focus]})
+               {if_else
+                  {== $count 1}
+                  {cond
+                     ([bass_focus]
+                        player_bass0)
+                     ([drums_focus]
+                        player_drum0)
+                     ([guitar_focus]
+                        player_guitar0)
+                     ([vocal_focus]
+                        player_vocals0)
+                     ([drums2_focus]
+                        player_drum1)
+                     ([guitar2_focus]
+                        player_guitar1)
+                     ([vocal2_focus]
+                        player_vocals1)
+                     {notify
+                        "How did we get here!"}}
+                  ""}}}}}
+   {func
+      dircut_gender_genre_focus
+      ($shot)
+      {find_obj
+         $world
+         {dircut_gender_genre_focus_name $shot}}}
+   {func
+      facing_string
+      ($facing)
+      {sprint
+         {if_else
+            {& $facing kBCSBFacingLeft}
+            "kBCSBFacingLeft"
+            ""}
+         {if_else
+            {& $facing kBCSBFacingRight}
+            "kBCSBFacingRight"
+            ""}
+         {if_else
+            {& $facing kBCSBFacingNull}
+            "kBCSBFacingNull"
+            ""}}}
+   {func
+      dist_string
+      ($dist)
+      {sprint
+         {if_else
+            {& $dist kBCSBDistNull}
+            "kBCSBDistNull"
+            ""}
+         {if_else
+            {& $dist kBCSBDistNear}
+            "kBCSBDistNear"
+            ""}
+         {if_else
+            {& $dist kBCSBDistFar}
+            "kBCSBDistFar"
+            ""}
+         {if_else
+            {& $dist kBCSBDistCloseup}
+            "kBCSBDistCloseup"
+            ""}
+         {if_else
+            {& $dist kBCSBDistBehind}
+            "kBCSBDistBehind"
+            ""}}}}
+#define SHELL_EDITOR
+((focus_scale
+      float
+      (range 1 10)
+      (help
+         "Scale factor when buttons are focused"))
+   (postprocess
+      object
+      (class PostProc)
+      (help
+         "Post process object to use when this panel is on screen")
+      (post_sync
+         {$this update_postproc}))
+   (refresh_postproc
+      script
+      (script
+         {$this update_postproc})
+      (help
+         "Refresh postprocessor selection on the tool")))
+#define SHELL_TYPE
+((focus_scale 1)
+   (postprocess
+      "")
+   (update_postproc
+      {if
+         $edit_mode
+         {if_else
+            [postprocess]
+            {[postprocess]
+               select}
+            {rnd reset_postproc}}})
+   (play_cascade
+      ($start_button $delay)
+      {if
+         $start_button
+         {do
+            ($comp)
+            {$start_button
+               stop_anim
+               "enter_anim"}
+            {$start_button
+               stop_anim
+               "exit_anim"}
+            {set
+               $comp
+               {$start_button get nav_down}}
+            {while
+               {&&
+                  {!=
+                     $comp
+                     ""}
+                  {!= $comp $start_button}}
+               {$comp
+                  stop_anim
+                  "enter_anim"}
+               {$comp
+                  stop_anim
+                  "exit_anim"}
+               {set
+                  $comp
+                  {$comp get nav_down}}}
+            {if
+               {exists cascade_intro}
+               {delete cascade_intro}}
+            {$start_button play_anim enter_anim}
+            {set
+               $comp
+               {$start_button get nav_down}}
+            {thread_task
+               kTaskSeconds
+               (name cascade_intro)
+               (script
+                  {set $i 0}
+                  {if
+                     {'||'
+                        {==
+                           $comp
+                           ""}
+                        {== $comp $start_button}}
+                     {$task exit}}
+                  {$task sleep $delay}
+                  {$comp play_anim enter_anim}
+                  {set
+                     $comp
+                     {$comp get nav_down}}
+                  {$task loop})}}})
+   (play_exit
+      ($start_button)
+      {if
+         $start_button
+         {do
+            ($comp)
+            {if
+               {exists cascade_intro}
+               {delete cascade_intro}}
+            {if
+               {$start_button
+                  is_anim_playing
+                  "enter_anim"}
+               {$start_button
+                  play_anim
+                  "exit_anim"}}
+            {set
+               $comp
+               {$start_button get nav_down}}
+            {while
+               {&&
+                  {!=
+                     $comp
+                     ""}
+                  {!= $comp $start_button}}
+               {if
+                  {$comp
+                     is_anim_playing
+                     "enter_anim"}
+                  {$comp
+                     play_anim
+                     "exit_anim"}}
+               {set
+                  $comp
+                  {$comp get nav_down}}}}})
+   (kill_cascade
+      ($start_button)
+      {if
+         $start_button
+         {do
+            ($comp)
+            {if
+               {exists cascade_intro}
+               {delete cascade_intro}}
+            {if_else
+               {$start_button
+                  is_anim_playing
+                  "enter_anim"}
+               {$start_button
+                  stop_anim
+                  "enter_anim"}
+               {if_else
+                  {$start_button
+                     is_anim_playing
+                     "exit_anim"}
+                  {$start_button
+                     stop_anim
+                     "exit_anim"}
+                  {do
+                     {$comp
+                        play_anim
+                        "exit_anim"}
+                     {$comp
+                        stop_anim
+                        "exit_anim"}}}}
+            {set
+               $comp
+               {$start_button get nav_down}}
+            {while
+               {&&
+                  {!=
+                     $comp
+                     ""}
+                  {!= $comp $start_button}}
+               {if_else
+                  {$comp
+                     is_anim_playing
+                     "enter_anim"}
+                  {$comp
+                     stop_anim
+                     "enter_anim"}
+                  {if_else
+                     {$comp
+                        is_anim_playing
+                        "exit_anim"}
+                     {$comp
+                        stop_anim
+                        "exit_anim"}
+                     {do
+                        {$comp
+                           play_anim
+                           "exit_anim"}
+                        {$comp
+                           stop_anim
+                           "exit_anim"}}}}
+               {set
+                  $comp
+                  {$comp get nav_down}}}}}))
+#endif

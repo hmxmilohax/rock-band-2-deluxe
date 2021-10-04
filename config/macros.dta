@@ -1,0 +1,693 @@
+#ifdef APP_MACROS_DTA
+#else
+#define APP_MACROS_DTA
+(1)
+#define INIT_BAND
+(1)
+#include sfx_macros.dta
+#include ../../../system/run/config/macros.dta
+#include ../../../system/run/band/band_macros.dta
+#define kLeftArm
+(1)
+#define kRightArm
+(2)
+#define kLeftLeg
+(4)
+#define kRightLeg
+(8)
+#define kMicStandLeftHand
+(524288)
+#define kExpressionFirst
+(4194304)
+#define kIgnoreAccent
+(8388608)
+#define kAnimateEyes
+(16777216)
+#define kDisableLipSync
+(33554432)
+#define kMicStandRightHand
+(67108864)
+#define kMicStandAll
+(67633152)
+#define kSaveMe
+(134217728)
+#define kLookAtCam
+(268435456)
+#define kH2hLookingLeft
+(536870912)
+#define kH2hLookingRight
+(1073741824)
+#define kUseInCoop
+(-2147483648)
+#define kGroupSplitByGenre
+(1)
+#define kGroupSplitByTempo
+(2)
+#define CHAR_CLIP_GROUP_FLAGS
+("kGroupSplitByGenre"
+   "kGroupSplitByTempo")
+#define kHairBack
+(1)
+#define kHairChest
+(2)
+#define kHairForehead
+(4)
+#define kHairHead
+(8)
+#define kHairLeftShoulder
+(16)
+#define kHairRightShoulder
+(32)
+#define kHairFace
+(64)
+#define kHairNeck
+(128)
+#define kHairLeftThigh
+(256)
+#define kHairRightThigh
+(512)
+#define kHairLeftHip
+(1024)
+#define kHairRigh2hip
+(2048)
+#define CHAR_HAIR_FLAGS
+("kHairBack"
+   "kHairChest"
+   "kHairFace"
+   "kHairForehead"
+   "kHairHead"
+   "kHairLeftShoulder"
+   "kHairRightShoulder"
+   "kHairNeck"
+   "kHairLeftThigh"
+   "kHairRightThigh"
+   "kHairLeftHip"
+   "kHairRigh2hip")
+#define kHideLongCoat
+(1)
+#define kHideLongDress
+(2)
+#define kHideLongSleeve
+(4)
+#define kHideMidSleeve
+(8)
+#define kHideFullSleeve
+(16)
+#define kHideHead
+(32)
+#define kHideLongGlove
+(64)
+#define kHideMask
+(128)
+#define kHideLongBoot
+(256)
+#define kHideShortSleeve
+(512)
+#define kHideShortBoot
+(1024)
+#define kHideLongPants
+(2048)
+#define kHideGlasses
+(4096)
+#define CHAR_HIDE_FLAGS
+("kHideLongCoat"
+   "kHideLongDress"
+   "kHideLongSleeve"
+   "kHideMidSleeve"
+   "kHideFullSleeve"
+   "kHideHead"
+   "kHideLongGlove"
+   "kHideMask"
+   "kHideLongBoot"
+   "kHideShortSleeve"
+   "kHideShortBoot"
+   "kHideLongPants"
+   "kHideGlasses")
+#define kMottoLength
+(64)
+#define kDifficultyEasy
+(0)
+#define kDifficultyMedium
+(1)
+#define kDifficultyHard
+(2)
+#define kDifficultyExpert
+(3)
+#define DIFF_SYMBOLS
+(easy medium hard expert)
+#define kTrackDrum
+(0)
+#define kTrackBass
+(1)
+#define kTrackGuitar
+(2)
+#define kTrackVocals
+(3)
+#define kTrackNone
+(4)
+#define TRACK_SYMBOLS
+(drum bass guitar vocals none)
+#define kTrackOff
+(0)
+#define kTrackLocal
+(1)
+#define kTrackNet
+(2)
+#define kControllerDrum
+(0)
+#define kControllerGuitar
+(1)
+#define kControllerVocals
+(2)
+#define kControllerNone
+(3)
+#define CHAR_INSTRUMENT_SYMBOLS
+(drum guitar vocals none)
+#define kMetricScore
+(0)
+#define kMetricStreak
+(1)
+#define kMetricStars
+(2)
+#define kStreakMultiplier
+(0)
+#define kStreakBandEnergy
+(1)
+#define kPlayerEnabled
+(0)
+#define kPlayerDisabled
+(1)
+#define kPlayerBeingSaved
+(2)
+#define kPlayerDisconnected
+(3)
+#define kBassPluck
+(16777216)
+#define kBassSlap
+(33554432)
+#define kArrangeBand
+(0)
+#define kArrangeH2h
+(1)
+#define kGameJoinCanJoin
+(0)
+#define kGameJoinNoInstrument
+(1)
+#define kGameJoinNotSignedIn
+(2)
+#define kGameJoinGuestWithoutOwner
+(3)
+#define kGameJoinNoRoomForLocal
+(4)
+#define kGameJoinRemoteOnly
+(5)
+#define kGameJoinSearching
+(6)
+#define kNetUI_None
+(0)
+#define kNetUI_Synchronized
+(1)
+#define kNetUI_ReadyWorldTour
+(2)
+#define kNetUI_ReadySetChallenges
+(3)
+#define kNetUI_ReadyBotb
+(4)
+#define kNetUI_Matchmaking
+(5)
+#define kNetUI_TourMenu
+(6)
+#define kNetUI_RockShop
+(7)
+#define kNetUI_CreatingArt
+(8)
+#define kNetUI_BandProfile
+(9)
+#define kNetUI_Leaderboards
+(10)
+#define kNetUI_Pause
+(11)
+#define kNetUI_Loading
+(12)
+#define kNetUI_MetaLoading
+(13)
+#define kNetUI_SaveLoad
+(14)
+#define kNetUI_PreAutoSave
+(15)
+#define kNetUI_PostAutoSave
+(16)
+#define kUIWaitNone
+(0)
+#define kUIWaitPreAutosave
+(1)
+#define kUIWaitPostAutosave
+(2)
+#define kGameBUPS_LocalCharOwners
+(0)
+#define kGameBUPS_LocalBandOwners
+(1)
+#define COOP_SLOTS_ORDER
+(guitar drum vocals guitar)
+#define kGameCoopSlotGuitar0
+(0)
+#define kGameCoopSlotDrum
+(1)
+#define kGameCoopSlotVocals
+(2)
+#define kGameCoopSlotGuitar1
+(3)
+#define kGameH2hSlot0
+(0)
+#define kGameH2hSlot1
+(1)
+#define kGameH2hNumSlots
+(2)
+#define kGameControllerAll
+(0)
+#define kGameControllerParticipating
+(1)
+#define kGameControllerNotParticipating
+(2)
+#define kMetaLineupEmpty
+(0)
+#define kMetaLineupPlaying
+(1)
+#define kMetaLineupOffline
+(2)
+#define kMetaLineupSubOnly
+(3)
+#define kMetaLineupSubForOffline
+(4)
+#define kMeta_SaveAutoload
+(0)
+#define kMeta_SaveAutosave
+(1)
+#define kMeta_SaveManualSave
+(2)
+#define kMeta_SaveManualLoad
+(3)
+#define kCamLeft
+(1)
+#define kCamRight
+(2)
+#define kCamCloseup
+(4)
+#define kCamNear
+(8)
+#define kCamFar
+(16)
+#define kCamBehind
+(32)
+#define kCamSolo
+(64)
+#define kCamNoSolo
+(128)
+#define kCamSpecial
+(256)
+#define INPUT_STATUS_CHANGED_MSG
+(input_status_changed)
+#define kLimitNone
+(0)
+#define kLimitSession
+(1)
+#define kLimitSessionLeader
+(2)
+#define kLimitMax
+(3)
+#define kMissingSelectCoop
+(0)
+#define kMissingSelectH2H
+(1)
+#define kMissingRankedH2H
+(2)
+#define kMissingJukebox
+(3)
+#define kStoreErrorSuccess
+(0)
+#define kStoreErrorNoContent
+(1)
+#define kStoreErrorCacheNoSpace
+(2)
+#define kStoreErrorCacheRemoved
+(3)
+#define kStoreErrorLiveServer
+(4)
+#define kStoreErrorStoreServer
+(5)
+#define kStoreErrorSignedOut
+(6)
+#define kMetaTour_StartNew
+(0)
+#define kMetaTour_UnknownRemote
+(1)
+#define kMetaTour_KnownLocal
+(2)
+#define kMetaTour_KnownRemote
+(3)
+#define kMetaTour_BrowsingRemote
+(4)
+#define kMetaTour_Nil
+(-1)
+#define kNoHopoTutorial
+(0)
+#define kHammerOnTutorial
+(1)
+#define kPullOffTutorial
+(2)
+#define kPlayerSong
+(0)
+#define kBandFans
+(1)
+#define kBandSong
+(2)
+#define kTugOfWar
+(3)
+#define kScoreDuel
+(4)
+#define kByAll
+(0)
+#define kByFriends
+(1)
+#define kByLocal
+(2)
+#define kRCOffline
+(0)
+#define kRCConnecting
+(1)
+#define kRCOnline
+(2)
+#define kRCDisconnecting
+(3)
+#define kRCFailed
+(4)
+#define ROCK_CENTRAL_OP_COMPLETE_MSG
+(rock_central_op_complete_msg
+   ($success $arg1 $arg2))
+#define RB_RETCODE_SUCCESS
+(0)
+#define RB_RETCODE_SERVER_DOWN
+(1)
+#define RB_RETCODE_BAND_NAME_PROFANE
+(2)
+#define RB_RETCODE_BAND_MOTTO_PROFANE
+(3)
+#define RB_RETCODE_CHAR_NAME_PROFANE
+(4)
+#define RB_RETCODE_BAND_NAME_DUP
+(5)
+#define RB_RETCODE_BAND_NAME_IP
+(6)
+#define RB_RETCODE_BAND_MOTTO_IP
+(7)
+#define RB_RETCODE_CHAR_NAME_IP
+(8)
+#define RB_RETCODE_CHAR_MOTTO_PROFANE
+(9)
+#define RB_RETCODE_CHAR_MOTTO_IP
+(10)
+#define RB_RETCODE_OUT_OF_CONTEXTS
+(11)
+#define kLoneHeadToHead
+(0)
+#define kNoLeader
+(1)
+#define kKicked
+(2)
+#define kAbandoned
+(3)
+#define kQuickplayMMNoLeader
+(4)
+#define kLostConnection
+(0)
+#define kLostServer
+(1)
+#define kEthernetUnplugged
+(2)
+#define kLocalUserSignedOut
+(0)
+#define kBandOwnerSignedOut
+(1)
+#define kProfileOwnerSignedOut
+(2)
+#define kMeshGem
+(0)
+#define kMeshGemGlow
+(1)
+#define kMeshGemMiss
+(2)
+#define kMeshTop
+(3)
+#define kMeshHopoTop
+(4)
+#define kMeshStar
+(5)
+#define kMeshStarTop
+(6)
+#define kMeshBonus
+(7)
+#define kMeshBonus2
+(8)
+#define WIN_MESSAGE_SECS
+(3)
+#define kRestart
+(0)
+#define kLost
+(1)
+#define kWon
+(2)
+#define kWonBand0
+(3)
+#define kWonBand1
+(4)
+#define kWonTie
+(5)
+#define kWonFinale
+(6)
+#define kQuit
+(7)
+#define MAX_WIN_LOSE_SEC
+(10.8)
+#define MAX_INTRO_SEC
+(0)
+#include xlast_macros.dta
+#include ps3_macros.dta
+#define kVideoVenueProbability
+(0.5)
+#define VENUES
+(#ifndef MINIMAL_VENUES
+   small_club_01
+   small_club_02
+   small_club_03
+   small_club_04
+   small_club_05
+   small_club_06
+   small_club_07
+   small_club_08
+   small_club_09
+   small_club_10
+   small_club_11
+   small_club_12
+   small_club_13
+   small_club_14
+   small_club_15
+   small_club_16
+   #endif
+   big_club_01
+   big_club_02
+   big_club_03
+   big_club_04
+   big_club_05
+   big_club_06
+   big_club_07
+   big_club_08
+   big_club_09
+   big_club_10
+   big_club_11
+   big_club_12
+   big_club_13
+   big_club_14
+   big_club_15
+   big_club_16
+   big_club_17
+   #ifndef MINIMAL_VENUES
+   theater_01
+   theater_02
+   theater_03
+   theater_04
+   theater_05
+   theater_06
+   theater_07
+   theater_08
+   theater_09
+   theater_10
+   theater_11
+   #endif
+   arena_01
+   arena_02
+   arena_03
+   arena_04
+   arena_05
+   arena_06
+   arena_07
+   arena_08
+   arena_09
+   arena_10
+   arena_11
+   arena_12)
+#define VIDEO_VENUES
+(video_01 video_02 video_03 video_04)
+#define H2H_VENUES
+(big_club_01 big_club_02 big_club_03 big_club_04 big_club_05 big_club_06 big_club_07 big_club_09 big_club_10 big_club_11 big_club_12 big_club_13 big_club_15 big_club_16 big_club_17)
+#define NEW_VENUES
+(small_club_13 small_club_14 small_club_15 small_club_16 big_club_14 big_club_15 big_club_16 big_club_17 theater_10 theater_11 arena_09 arena_10 arena_11 arena_12)
+#define NEW_H2H_VENUES
+(big_club_15 big_club_16 big_club_17)
+#define kGamercardPadError
+(-3)
+#define kGamercardPrivilegeError
+(-2)
+#define kGamercardShowError
+(-1)
+#define kGamercardSuccessful
+(0)
+#define kRemoteHit
+(0)
+#define kRemotePenalize
+(1)
+#define kRemoteWhammy
+(2)
+#define kRemoteStreak
+(3)
+#define kRemoteScore
+(4)
+#define kRemoteCrowd
+(5)
+#define kRemoteEnergy
+(6)
+#define kRemoteDeploy
+(7)
+#define kRemoteEnabled
+(8)
+#define kRemoteFill
+(9)
+#define kRemoteFillHit
+(10)
+#define kRemoteSoloStart
+(11)
+#define kRemoteSoloHit
+(12)
+#define kRemoteSoloEnd
+(13)
+#define kRemoteVocalState
+(14)
+#define kRemoteTambourine
+(15)
+#define kRemoteCodaHit
+(16)
+#define kRemoteCodaLastGem
+(17)
+#define kRemoteBlowCoda
+(18)
+#define kRemoteAlreadySaved
+(19)
+#define kRemoteGuitarFx
+(20)
+#define kRemoteVocalPhraseOver
+(21)
+#define kRemoteHitUnison
+(22)
+#define kRemoteFailUnison
+(23)
+#define kRemoteFinishedSong
+(24)
+#define kRemoteScorePhrase
+(25)
+#define kRemoteFinaleHit
+(26)
+#define kRemoteVocalEnergy
+(27)
+#define kTourDirtySave
+(1)
+#define kTourDirtyUpload
+(2)
+#define kTourEventWorld
+(0)
+#define kTourEventChallenge
+(1)
+#define kTourLocked
+(0)
+#define kTourUnlocked
+(1)
+#define kTourPlayed
+(2)
+#define kTourNew
+(3)
+#define kTourBuzzNone
+(0)
+#define kTourBuzzCap
+(1)
+#define kTourBuzzMaxCap
+(2)
+#define kTourSyncMiscDataDirty
+(15)
+#define kTourSyncRosterDirty
+(240)
+#define kTourSyncLogoDirty
+(3840)
+#define kTourSyncSongStatusDirty
+(61440)
+#define kTourSyncStandInsDirty
+(983040)
+#define kVocalStyleStatic
+(0)
+#define kVocalStyleScrolling
+(1)
+#define WORLD_OFFSET_SEC
+(-5.0e-2)
+#define PLAY_CLIP_GROUPS
+(clap closeup cowbell extreme_closeup sit stand tambourine walk_back walk_fwd walk_sideways)
+#define REQUIRED_CLIP_GROUPS
+(PLAY_CLIP_GROUPS bftb_fail bftb_revive h2h_lose h2h_win lose lose_sit realtime_idle realtime_idle_sit win win_sit)
+#define REQUIRED_DRUM_RHAND_GROUPS
+(snare_sticktwirl_long snare_sticktwirl_med snare_sticktwirl_short snare_big snare snare_tap snare_hover hihat hihat_tap hihat_hover cowbell_r cowbell_r_hover crash_l_side crash_l_hover crash_l_big crash_l_soft crash_l_hover crash_l_big crash_l_soft crash_l_hover crash_l crash_l_hover crash_r_side crash_r_hover crash_r_big crash_r_soft crash_r_hover crash_r_big crash_r_soft crash_r_hover crash_r crash_r_hover crash_r_grab crash_l_grab ride_side_r ride_side_l ride_tap ride_tap ride_hover tom_l_big tom_l tom_l_tap tom_l_hover tom_r_big tom_r tom_r_tap tom_r_hover floortom_big floortom floortom_tap floortom_hover)
+#define REQUIRED_DRUM_LHAND_GROUPS
+(snare_sticktwirl_long snare_sticktwirl_med snare_sticktwirl_short snare_big snare snare_tap snare_hover hihat hihat_tap hihat_hover crash_l_big crash_l_soft crash_l_hover crash_l crash_l_hover crash_r_grab crash_l_grab tom_l_big tom_l tom_l_tap tom_l_hover tom_r_big tom_r tom_r_tap tom_r_hover floortom_big floortom floortom_tap floortom_hover)
+#define FREE_DIRCUTS
+(directed_bass_cls directed_guitar_cls directed_drums_lt directed_drums_kd directed_all_lt)
+#define MAX_DIRCUTS
+(19)
+#define FACIAL_MESHES
+(("eye-L.mesh"
+      "eye-R.mesh"
+      "lowerteeth.mesh"
+      "tongue.mesh"
+      "upperteeth.mesh"))
+#define NET_FOCUS_MSG
+(net_component_focus
+   ($user $component))
+#define NET_SELECT_MSG
+(net_component_select
+   ($user $component))
+#define NET_SCROLL_MSG
+(net_component_scroll
+   ($user $component $selected_pos $first_showing))
+#define kSTArtist
+(0)
+#define kSTPackName
+(1)
+#define kSTName
+(2)
+#define kSTYearReleased
+(3)
+#define kSTDecade
+(4)
+#define kSTRank
+(5)
+#define kSTGenre
+(6)
+#define kSTOrigin
+(7)
+#define kSTLeftSide
+(8)
+#endif

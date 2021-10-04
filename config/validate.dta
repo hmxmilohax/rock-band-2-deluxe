@@ -1,0 +1,11 @@
+#include macros.dta
+(ui
+   (init
+      #include ../ui/init.dta
+      {rb2_validate}))
+(synth
+   (mute TRUE))
+(rnd
+   (maximize FALSE)
+   (force_hd TRUE))
+#merge band.dta

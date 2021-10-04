@@ -1,0 +1,467 @@
+#define kMetaSaveLoadPush
+(0)
+#define kMetaSaveLoadGoto
+(1)
+{func
+   autoload
+   {profile_mgr purge_old_data}
+   {if_else
+      {&&
+         {!
+            {save_screen get is_active}}
+         {save_screen is_reason_to_autoload}}
+      {do
+         {save_screen saveload_init ''}
+         {save_screen set mode kMeta_SaveAutoload}
+         {ui push_screen save_screen}}
+      {memcardmgr saveload_all_complete}}}
+{func
+   autosave
+   {autosave_push ''}}
+{func
+   autosave_push
+   ($next_screen)
+   {autosave_start kMetaSaveLoadPush $next_screen}}
+{func
+   autosave_goto
+   ($next_screen)
+   {autosave_start kMetaSaveLoadGoto $next_screen}}
+{func
+   autosave_start
+   ($goto_type $next_screen)
+   {if_else
+      {&&
+         {!
+            {save_screen get is_active}}
+         {save_screen is_reason_to_autosave}}
+      {do
+         {save_screen saveload_init $next_screen}
+         {save_screen set mode kMeta_SaveAutosave}
+         {if_else
+            {== $goto_type kMetaSaveLoadGoto}
+            {ui goto_screen save_screen}
+            {ui push_screen save_screen}}}
+      {do
+         {if_else
+            {== $goto_type kMetaSaveLoadGoto}
+            {ui pop_screen $next_screen}
+            {if
+               $next_screen
+               {ui goto_screen $next_screen}}}
+         {memcardmgr saveload_all_complete}}}}
+{func
+   manual_save
+   ($player_num)
+   {if_else
+      {!
+         {save_screen get is_active}}
+      {do
+         {save_screen saveload_init ''}
+         #ifdef HX_XBOX
+         {input_mgr
+            set_user
+            {user_mgr get_band_user $player_num}}
+         #endif
+         {save_screen set mode kMeta_SaveManualSave}
+         {ui push_screen save_screen}}
+      {memcardmgr saveload_all_complete}}}
+{func
+   manual_load
+   ($player_num)
+   {if_else
+      {!
+         {save_screen get is_active}}
+      {do
+         {save_screen saveload_init ''}
+         #ifdef HX_XBOX
+         {input_mgr
+            set_user
+            {user_mgr get_band_user $player_num}}
+         #endif
+         {save_screen set mode kMeta_SaveManualLoad}
+         {ui push_screen save_screen}}
+      {memcardmgr saveload_all_complete}}}
+{new
+   UIPanel
+   saveload_dialog_panel
+   (file
+      "saveload_dialog_3btn.milo")
+   (block_event
+      ($event)
+      TRUE)
+   (set_button_text
+      ($button $text)
+      {$button set_showing TRUE}
+      {$this enable $button}
+      {$button set text_token $text})
+   (set_label_string
+      ($button $text)
+      {$button set_showing TRUE}
+      {$this enable $button}
+      {$button set_localized $text})
+   (set_button_focus
+      ($button)
+      {$this enable $button}
+      {$this set_focus $button})
+   (hide_button
+      ($button)
+      {$this disable $button}
+      {$button set_showing FALSE})
+   (enable_button
+      ($button)
+      {$this enable $button})
+   (disable_button
+      ($button)
+      {$this disable $button})
+   (set_username
+      {username.lbl
+         set_localized
+         {save_screen get_dialog_title}})
+   (setup_2btn
+      ($msg_token $opt1_token $opt2_token $default_option)
+      {switch
+         $default_option
+         ((opt1 opt2 none)
+            0)
+         {fail
+            "Expected opt1/opt2/none, got: "
+            $default_option}}
+      {$this setup_3btn $msg_token $opt1_token $opt2_token '' $default_option FALSE})
+   (setup_2btn_localized
+      ($msg $opt1_token $opt2_token $default_option)
+      {$this setup_2btn '' $opt1_token $opt2_token $default_option}
+      {msg.lbl set_localized $msg})
+   (setup_3btn
+      ($msg_token $opt1_token $opt2_token $opt3_token $default_option $show_waiting)
+      {waiting.grp set_showing $show_waiting}
+      {$this set_username}
+      {msg.lbl set text_token $msg_token}
+      {do
+         ($b1 option1.btn)
+         ($b2 option2.btn)
+         ($b3 option3.btn)
+         ($max_opt 0)
+         {if_else
+            {!= $opt1_token ''}
+            {do
+               {$this set_button_text $b1 $opt1_token}
+               {set $max_opt 1}}
+            {$this hide_button $b1}}
+         {if_else
+            {!= $opt2_token ''}
+            {do
+               {$this set_button_text $b2 $opt2_token}
+               {set $max_opt 2}}
+            {$this hide_button $b2}}
+         {if_else
+            {!= $opt3_token ''}
+            {do
+               {$this set_button_text $b3 $opt3_token}
+               {set $max_opt 3}}
+            {$this hide_button $b3}}
+         {if
+            {!= $default_option none}
+            {helpbar
+               set_config
+               ((confirm helpbar_select))}}
+         {switch
+            $default_option
+            (opt1
+               {$this set_button_focus $b1})
+            (opt2
+               {$this set_button_focus $b2})
+            (opt3
+               {$this set_button_focus $b3})
+            (none
+               {helpbar
+                  set_config
+                  ()})
+            {fail
+               "Expected opt1/opt2/opt3/none, got: "
+               $default_option}}
+         {if_else
+            {> $max_opt 0}
+            {save_screen lock_to_current_user}
+            {save_screen restore_user_lock}}
+         {$this update_height $max_opt}})
+   (setup_3btn_localized
+      ($msg $opt1_token $opt2_token $opt3_token $default_option)
+      {$this setup_3btn '' $opt1_token $opt2_token $opt3_token $default_option FALSE}
+      {msg.lbl set_localized $msg})
+   (setup_msg
+      ($msg)
+      {$this setup_3btn $msg '' '' '' none FALSE})
+   (setup_msg_localized
+      ($msg)
+      {$this setup_3btn_localized $msg '' '' '' none FALSE})
+   (setup_continue
+      ($msg)
+      {$this setup_3btn $msg mc_button_continue '' '' opt1 FALSE})
+   (setup_msg_waiting
+      ($msg)
+      {$this setup_3btn $msg '' '' '' none TRUE})
+   (update_height
+      ($option_count)
+      {do
+         ($end_frame 0)
+         {set
+            $end_frame
+            {switch
+               $option_count
+               (0 10.81)
+               (1 11.66)
+               (2 12.7)
+               (3 15.0)
+               {fail
+                  "saveload - update_height cannot handle "
+                  $option_count
+                  " options (max 3)\n"}}}
+         {shit2.tnm
+            animate
+            (dest $end_frame)}})}
+{new
+   SaveScreen
+   save_screen
+   (panels saveload_dialog_panel)
+   (focus saveload_dialog_panel)
+   (allow_event
+      ($event)
+      {&&
+         {!= $event pad_lost}
+         {!= $event invite_accepted}})
+   (block_null_event TRUE)
+   (helpbar
+      ((min_height 0)))
+   (mode -1)
+   (is_active FALSE)
+   (next_screen '')
+   (sync_state 0)
+   (user_state 0)
+   (is_meta_loading FALSE)
+   (update_clear
+      {saveload_dialog_panel setup_msg_localized ''})
+   (on_done
+      {if_else
+         [next_screen]
+         {ui
+            pop_screen
+            [next_screen]}
+         {ui pop_screen}})
+   (saveload_init
+      ($next_screen)
+      {if
+         [is_active]
+         {fail
+            "saveload_init called, but [is_active] is true.\n"}}
+      {set
+         [is_active]
+         TRUE}
+      {set
+         [next_screen]
+         $next_screen}
+      {set
+         [sync_state]
+         {net_sync get_ui_state}}
+      {set
+         [user_state]
+         {input_mgr get_user}}
+      {input_mgr clear_user}
+      {net_sync set_ui_state kNetUI_SaveLoad})
+   (enter
+      {if
+         {!
+            [is_active]}
+         {fail
+            "save_screen entered, but [is_active] is false.\n"}}
+      {if
+         {==
+            {band_ui current_event}
+            pad_lost}
+         {band_ui dismiss_event}})
+   (exit
+      {if
+         {!
+            [is_active]}
+         {fail
+            "save_screen exit called, but [is_active] is false.\n"}}
+      {$this set is_meta_loading FALSE}
+      {net_sync
+         set_ui_state
+         [sync_state]}
+      {input_mgr
+         set_user
+         [user_state]}
+      {set
+         [is_active]
+         FALSE}
+      {input_mgr check_controllers})
+   (update_autoload_autosave_warning
+      {saveload_dialog_panel setup_continue mc_auto_warning})
+   (update_autoload_search
+      {saveload_dialog_panel setup_msg mc_auto_load_looking})
+   (update_autoload_no_save_found
+      {saveload_dialog_panel setup_2btn mc_auto_load_no_save_found mc_button_choose_device mc_button_cancel opt1})
+   (update_autoload_multiple_saves_found
+      {saveload_dialog_panel setup_2btn mc_auto_load_multiple_saves_found mc_button_choose_device mc_button_cancel opt1})
+   (update_autoload_load
+      {saveload_dialog_panel setup_msg mc_auto_load_looking})
+   (update_autoload_device_missing
+      {saveload_dialog_panel setup_2btn mc_load_device_missing mc_button_choose_device mc_button_cancel opt1})
+   (update_autoload_corrupt
+      {saveload_dialog_panel setup_2btn mc_auto_load_corrupt mc_button_overwrite mc_button_continue_no_save opt1})
+   (update_autoload_obsolete
+      {saveload_dialog_panel setup_2btn mc_auto_load_obsolete_version mc_button_overwrite mc_button_continue_no_save opt1})
+   (update_autoload_future
+      {saveload_dialog_panel setup_2btn mc_auto_load_newer_version mc_button_overwrite mc_button_continue_no_save opt2})
+   (update_song_cache_search
+      {saveload_dialog_panel setup_msg song_info_cache_search})
+   (update_song_cache_not_found
+      {saveload_dialog_panel setup_2btn song_info_cache_create song_info_cache_button_create song_info_cache_button_cancel opt1})
+   (update_song_cache_missing
+      {saveload_dialog_panel setup_2btn song_info_cache_missing song_info_cache_button_create song_info_cache_button_cancel opt1})
+   (update_song_cache_write
+      {saveload_dialog_panel setup_msg song_info_cache_saving})
+   (update_song_cache_write_long
+      {saveload_dialog_panel setup_msg song_info_cache_saving_long})
+   (update_song_cache_read
+      {saveload_dialog_panel setup_msg song_info_cache_loading})
+   (update_song_cache_corrupt
+      {saveload_dialog_panel setup_2btn song_info_cache_corrupt song_info_cache_button_corrupt_overwrite song_info_cache_button_cancel opt1})
+   (update_global_options_search
+      {saveload_dialog_panel setup_msg global_options_search})
+   (update_global_options_not_found
+      {saveload_dialog_panel setup_2btn global_options_create global_options_button_create global_options_button_cancel opt1})
+   (update_global_options_missing
+      {saveload_dialog_panel setup_2btn global_options_missing global_options_button_create global_options_button_cancel opt1})
+   (update_global_options_write
+      {saveload_dialog_panel setup_msg global_options_saving})
+   (update_global_options_write_long
+      {saveload_dialog_panel setup_msg global_options_saving_long})
+   (update_global_options_read
+      {saveload_dialog_panel setup_msg global_options_loading})
+   (update_global_options_corrupt
+      {saveload_dialog_panel setup_2btn global_options_corrupt global_options_button_corrupt_overwrite global_options_button_cancel opt1})
+   (update_save_look_for_file
+      {saveload_dialog_panel setup_msg mc_save_preparing})
+   (update_save_game
+      {saveload_dialog_panel setup_msg mc_save})
+   (update_save_game_long
+      {saveload_dialog_panel setup_msg mc_save_long})
+   (update_save_confirm_overwrite
+      {saveload_dialog_panel setup_2btn mc_save_confirm_overwrite mc_button_overwrite mc_button_cancel opt1})
+   (update_save_not_enough_space
+      {saveload_dialog_panel setup_continue mc_save_not_enough_space})
+   (update_save_not_enough_space_ps3
+      {saveload_dialog_panel
+         setup_3btn_localized
+         {localize mc_save_not_enough_space}
+         mc_button_delete_saves
+         mc_button_retry
+         mc_button_continue_no_save
+         opt1}
+      {saveload_dialog_panel
+         set_label_string
+         msg.lbl
+         {sprintf
+            {localize mc_save_not_enough_space}
+            {-
+               {memcardmgr save_game_space_needed}}}})
+   (update_save_device_invalid
+      {saveload_dialog_panel setup_2btn mc_save_device_missing mc_button_choose_device mc_button_disable_autosave opt1})
+   (update_save_failed
+      {saveload_dialog_panel setup_continue mc_save_failed})
+   (update_save_disabled_by_cheat
+      {saveload_dialog_panel setup_continue mc_save_disabled_by_cheat})
+   (update_load_failed
+      {saveload_dialog_panel setup_continue mc_load_failed})
+   (update_autosave_disabled
+      {saveload_dialog_panel setup_continue mc_autosave_disabled})
+   (update_upload
+      {saveload_dialog_panel setup_msg_waiting upload_uploading})
+   (update_upload_error_start
+      ($count)
+      {saveload_dialog_panel
+         setup_2btn_localized
+         {if_else
+            {== $count 1}
+            {localize upload_error_start_single}
+            {sprintf
+               {localize upload_error_start_fmt}
+               $count}}
+         upload_button_view_first
+         upload_button_return
+         opt1})
+   (update_upload_error_view
+      ($error_array $error_num $error_count)
+      {do
+         ($current_error_msg_token
+            {switch
+               {elem $error_array 0}
+               (RB_RETCODE_SERVER_DOWN upload_error_server_down)
+               (RB_RETCODE_BAND_NAME_PROFANE upload_error_band_name_profane)
+               (RB_RETCODE_BAND_MOTTO_PROFANE upload_error_band_motto_profane)
+               (RB_RETCODE_CHAR_NAME_PROFANE upload_error_char_name_profane)
+               (RB_RETCODE_BAND_NAME_DUP upload_error_band_name_dup)
+               (RB_RETCODE_BAND_NAME_IP upload_error_band_name_ip)
+               (RB_RETCODE_BAND_MOTTO_IP upload_error_band_motto_ip)
+               (RB_RETCODE_CHAR_NAME_IP upload_error_char_name_ip)
+               (RB_RETCODE_CHAR_MOTTO_PROFANE upload_error_char_motto_profane)
+               (RB_RETCODE_CHAR_MOTTO_IP upload_error_char_motto_ip)
+               (RB_RETCODE_OUT_OF_CONTEXTS upload_error_server_down)
+               {fail
+                  "Unknown RB_RETCODE error: "
+                  {elem $error_array 0}
+                  "\n"}})
+         ($current_error_msg
+            {if_else
+               {== $current_error_msg_token upload_error_server_down}
+               {localize $current_error_msg_token}
+               {sprintf
+                  {localize $current_error_msg_token}
+                  {elem $error_array 1}}})
+         {if_else
+            {== $error_count 1}
+            {saveload_dialog_panel setup_3btn_localized $current_error_msg '' '' upload_button_return opt3}
+            {do
+               {saveload_dialog_panel
+                  setup_3btn_localized
+                  {sprintf
+                     {localize upload_error_next_fmt}
+                     {'+' $error_num 1}
+                     $error_count
+                     $current_error_msg}
+                  upload_button_view_prev
+                  upload_button_view_next
+                  upload_button_return
+                  opt1}
+               {if
+                  {== $error_num 0}
+                  {saveload_dialog_panel disable_button option1.btn}}
+               {if
+                  {==
+                     $error_num
+                     {- $error_count 1}}
+                  {saveload_dialog_panel disable_button option2.btn}
+                  {saveload_dialog_panel set_button_focus option3.btn}}}}})
+   (update_manualsave_choose_device
+      {saveload_dialog_panel setup_msg mc_manual_save_start})
+   (update_manualsave_no_device
+      {saveload_dialog_panel setup_2btn mc_manual_save_no_selection mc_button_choose_device mc_button_cancel opt1})
+   (update_manualload_confirm_unsaved
+      {saveload_dialog_panel setup_2btn mc_manual_load_confirm_unsaved mc_button_continue mc_button_cancel opt1})
+   (update_manualload_confirm
+      {saveload_dialog_panel setup_2btn mc_manual_load_confirm mc_button_yes mc_button_no opt2})
+   (update_manualload_choose_device
+      {saveload_dialog_panel setup_msg mc_manual_load_start})
+   (update_manualload_no_device
+      {saveload_dialog_panel setup_2btn mc_manual_load_no_selection mc_button_choose_device mc_button_cancel opt1})
+   (update_manualload_missing
+      {saveload_dialog_panel setup_continue mc_manual_load_storage_missing})
+   (update_manualload_load
+      {saveload_dialog_panel setup_msg mc_manual_load})
+   (update_manualload_no_file
+      {$this setup_continue mc_manual_load_no_file})
+   (update_manualload_corrupt
+      {$this setup_continue mc_manual_load_corrupt})
+   (update_manualload_done
+      {$this setup_msg mc_manual_load_complete})}

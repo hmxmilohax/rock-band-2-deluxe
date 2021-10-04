@@ -1,0 +1,45 @@
+(RndDir
+   (types
+      (drum_trainer_icon
+         (editor
+            (intensity
+               float
+               (range 0 1)
+               (post_sync
+                  {$this enter})
+               (help
+                  "How intense the effect is."))
+            (trigger_goal
+               script
+               (script
+                  {if
+                     {exists bpm_goal.trig}
+                     {bpm_goal.trig trigger}}))
+            (set_complete
+               script
+               (script
+                  {$this set_complete TRUE}))
+            (set_incomplete
+               script
+               (script
+                  {$this set_complete FALSE})))
+         (intensity 0 proxy_save)
+         (enter
+            {if
+               {$this exists intensity.anim}
+               {intensity.anim
+                  set_frame
+                  [intensity]}})
+         (set_complete
+            ($val)
+            {if
+               {exists goal.anim}
+               {do
+                  ($frame
+                     {if_else
+                        $val
+                        {goal.anim end_frame}
+                        0})
+                  {goal.anim
+                     animate
+                     (range $frame $frame)}}}))))

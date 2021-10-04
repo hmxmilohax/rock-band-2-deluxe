@@ -1,0 +1,17 @@
+SETUP_VOCALS_TUTORIAL
+VOCALS_TV_OFF
+{$task sleep 0.5}
+{{gamemode get main_panel}
+   start_ambient_loop}
+{$task sleep 0.8}
+{music_intro.cue play}
+VOCALS_TV_COLORBARS
+START_BG_MUSIC
+{$task sleep 1.0e-2}
+{$task sleep 7.0}
+{$task sleep 1.0e-2}
+{setup_big_banner tutorial_vocals_basics_title}
+{play_vo tute_vocals1_intro_b}
+WAIT_FOR_VO
+LONG_VO_GAP
+{tutorials_state_panel switch_to_next_state}

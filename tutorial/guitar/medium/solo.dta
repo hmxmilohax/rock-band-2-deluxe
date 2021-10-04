@@ -1,0 +1,108 @@
+SETUP_GUITAR_TUTORIAL
+GUITAR_TV_WHITE
+START_BG_MUSIC
+{setup_lesson_banner tutorial_guitar_medium_solo_part}
+{play_vo tute_guitar2_solointro}
+WAIT_FOR_VO
+LONG_VO_GAP
+{meta_performer set_song guitar_medium_solo}
+LOAD_NEW_GUITAR_SONG_NO_FADE
+HIDE_TRACK_PLAYER_UI
+UNHIDE_SOLO_FEEDBACK
+AUTOPLAY_ON
+UNPAUSE_TRACK
+SYNC_NOPAUSE
+{play_vo tute_guitar2_solo}
+SYNC_PAUSE
+HIGHLIGHT_SOLO
+SHOW_SOLO_ARROW
+AUTOPLAY_OFF
+STOP_BG_MUSIC
+WAIT_FOR_VO
+HIDE_SOLO_ARROW
+SHORT_VO_GAP
+{play_vo tute_guitar2_solocontroller}
+WAIT_FOR_VO
+LONG_VO_GAP
+{new
+   Object
+   tutorial_guitar_medium_solo_callback
+   (any_gem
+      {set
+         [num_gems]
+         {'+'
+            [num_gems]
+            1}})
+   (hit
+      {set
+         [num_gems_hit]
+         {'+'
+            [num_gems_hit]
+            1}}
+      {$this any_gem})
+   (miss
+      {$this any_gem})
+   (pass
+      {$this any_gem})
+   (percent_hit
+      {'*'
+         100.0
+         {/
+            [num_gems_hit]
+            [num_gems]}})
+   (failed
+      {<
+         {$this percent_hit}
+         30.0})
+   (passed_bad
+      {<
+         {$this percent_hit}
+         70.0})
+   (lesson_running
+      {<
+         {{beatmatch active_player 0}
+            percent_complete}
+         END_OF_SONG_PERCENT})
+   (num_gems 0)
+   (num_gems_hit 0)}
+{set_info_text
+   {localize tutorial_guitar_medium_solo_task}}
+{show_info_text TRUE}
+UNHIGHLIGHT_SOLO
+GUITAR_TV_OFF
+{{beatmatch active_player 0}
+   add_sink
+   tutorial_guitar_medium_solo_callback}
+FADE_SONG_IN
+UNPAUSE_TRACK
+{$task
+   wait
+   {tutorial_guitar_medium_solo_callback lesson_running}}
+{$task sleep 2.25}
+TRACK_OUT
+PAUSE_TRACK
+WAIT_FOR_VO
+{if_else
+   {tutorial_guitar_medium_solo_callback failed}
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_medium_solo_failed}}
+      {play_vo tute_guitar2_solofail}}
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_medium_solo_done}}
+      {if_else
+         {tutorial_guitar_medium_solo_callback passed_bad}
+         {play_vo tute_guitar2_solomed}
+         {play_vo tute_guitar2_solowin}}}}
+{show_info_text FALSE}
+{show_part_text FALSE}
+{show_banner_text TRUE}
+START_BG_MUSIC
+GUITAR_TV_WHITE
+WAIT_FOR_VO
+SHORT_VO_GAP
+{do_fail_menu
+   {tutorial_guitar_medium_solo_callback failed}}
+RETURN_FROM_FAIL_MENU
+{tutorials_state_panel switch_to_next_state}

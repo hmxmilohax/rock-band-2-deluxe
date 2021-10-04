@@ -1,0 +1,209 @@
+#include ../config/macros.dta
+(rnd
+   (title
+      "Network Tester"))
+(spew
+   {spew Nettest}
+   {spew Net}
+   {spew NetSession}
+   {spew NetMessenger 1})
+(ui
+   (resource_file common.milo)
+   (init
+      {new
+         UIPanel
+         results_panel
+         (file results.milo)
+         (focus session.but)
+         (SELECT_MSG
+            {switch
+               $component
+               (session.but
+                  {ui goto_screen session_screen})
+               (exit.but
+                  {ui goto_screen main_screen})})
+         (enter
+            {scores.lst
+               set_data
+               ('Host Score' 'Client Score')})}
+      {new
+         UIScreen
+         results_screen
+         (panels results_panel)
+         (focus results_panel)}
+      {new
+         UIPanel
+         game_panel
+         (file game.milo)
+         (focus leave.but)
+         (SELECT_MSG
+            {switch
+               $component
+               (leave.but
+                  {ui goto_screen main_screen})
+               (hostwins.but
+                  {net_test end_game})
+               (clientwins.but
+                  {net_test end_game})})}
+      {new
+         UIScreen
+         game_screen
+         (panels game_panel)
+         (focus game_panel)}
+      {new
+         UIPanel
+         details_panel
+         (file details.milo)
+         (focus ok.but)
+         (SELECT_MSG
+            {switch
+               $component
+               (ok.but
+                  {do
+                     {net_test
+                        host_session
+                        {type.lst selected_pos}
+                        {private.lst selected_pos}
+                        {public.lst selected_pos}}
+                     {ui goto_screen session_screen}})
+               (cancel.but
+                  {ui goto_screen main_screen})})
+         (enter
+            {type.lst
+               set_data
+               (Unranked Ranked)}
+            {public.lst
+               set_data
+               ('0 Public Slots' '1 Public Slot' '2 Public Slots' '3 Public Slots' '4 Public Slots')}
+            {public.lst set_selected 4}
+            {private.lst
+               set_data
+               ('0 Private Slots' '1 Private Slot' '2 Private Slots' '3 Private Slots' '4 Private Slots')}
+            {song.lst
+               set_data
+               ('John the Fisherman' 'You Really Got Me')}
+            {difficulty.lst
+               set_data
+               (Easy Medium Hard Expert)})}
+      {new
+         UIScreen
+         details_screen
+         (panels details_panel)
+         (focus details_panel)}
+      {new
+         UIPanel
+         session_panel
+         (file session.milo)
+         (focus leave.but)
+         (SELECT_MSG
+            {switch
+               $component
+               (leave.but
+                  {ui goto_screen main_screen})
+               (start.but
+                  {do
+                     {net_test set_ready}
+                     {session_panel disable start.but}})
+               (modify.but
+                  {ui goto_screen details_screen})})
+         (enter
+            {details.lst
+               set_data
+               ('Host Name' 'Game Type' 'Public Slots' 'Private Slots' 'Song Name' Difficulty)}
+            {players.lst set_provider players_provider})
+         (update_players
+            {players.lst set_provider players_provider})}
+      {new
+         UIScreen
+         session_screen
+         (panels session_panel)
+         (focus session_panel)}
+      {new
+         UIPanel
+         searching_panel
+         (file searching.milo)
+         (focus quit.but)
+         (SELECT_MSG
+            {switch
+               $component
+               (sessions.lst
+                  {do
+                     {net_test
+                        join
+                        {sessions.lst selected_pos}}})
+               (quit.but
+                  {do
+                     {ui goto_screen main_screen}})})
+         (enter
+            {net_test start_search}
+            {sessions.lst set_provider results_provider}
+            {details.lst
+               set_data
+               ('Host Name' 'Game Type' 'Public Slots' 'Private Slots' 'Song Name' Difficulty)})
+         (update_results
+            {sessions.lst set_provider results_provider})}
+      {new
+         UIScreen
+         searching_screen
+         (panels searching_panel)
+         (focus searching_panel)}
+      {new
+         UIPanel
+         main_panel
+         (file main.milo)
+         (focus join.but)
+         (SELECT_MSG
+            {switch
+               $component
+               (create.but
+                  {do
+                     {ui goto_screen details_screen}})
+               (join.but
+                  {do
+                     {ui goto_screen searching_screen}})})
+         (enter
+            {net_test leave_session})}
+      {new
+         UIScreen
+         main_screen
+         (panels main_panel)
+         (focus main_panel)}
+      {new
+         UIPanel
+         connection_panel
+         (file connection.milo)
+         (focus live.but)
+         (SELECT_MSG
+            {switch
+               $component
+               (link.but
+                  {do
+                     {net_test sign_in_local}
+                     {ui goto_screen main_screen}})
+               (live.but
+                  {do
+                     {net_test sign_in_live}
+                     {ui goto_screen main_screen}})})}
+      {new
+         UIScreen
+         connection_screen
+         (panels connection_panel)
+         (focus connection_panel)}
+      {new
+         UIPanel
+         error_panel
+         (file error.milo)
+         (focus exit.but)
+         (SELECT_MSG
+            {switch
+               $component
+               (exit.but
+                  {do
+                     {ui goto_screen main_screen}})})}
+      {new
+         UIScreen
+         error_screen
+         (panels error_panel)
+         (focus error_panel)}
+      {ui goto_screen connection_screen}))
+#merge ../../../system/run/config/default.dta

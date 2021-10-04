@@ -1,0 +1,254 @@
+{new
+   UIPanel
+   shop_ink_panel
+   (file
+      "shop_ink.milo")
+   (reset TRUE)
+   (enter
+      {if
+         [reset]
+         {$this set_focus hair.btn}}
+      {set
+         [reset]
+         FALSE})
+   (SELECT_MSG
+      {switch
+         $component
+         (hair.btn
+            {ui goto_screen shop_hair_screen})
+         (tattoo.btn
+            {ui goto_screen shop_tattoo_screen})
+         (makeup.btn
+            {ui goto_screen shop_makeup_screen})
+         (facepaint.btn
+            {do
+               ($char
+                  {shop_char_panel get char})
+               {patch_panel
+                  set
+                  bg_color
+                  {{$char get skin_color_palette}
+                     get
+                     (colors
+                        {$char get skin_color_index})}}}
+            {facepaint_select_panel store}
+            {ui push_screen facepaint_select_screen})})}
+{new
+   BandScreen
+   shop_ink_screen
+   (panels meta shop_char_panel shop_ink_panel shop_money_panel)
+   (focus shop_ink_panel)
+   (back shop_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (SCREEN_CHANGE_MSG
+      {if
+         {== $new_screen shop_screen}
+         {shop_char_panel
+            select_cam
+            "idle"}})}
+#define HAIR_HANDLERS
+((genre '')
+   (outfit_char shop_char_panel)
+   (select_cam TRUE)
+   SHOP_OUTFIT_HANDLERS
+   (enter
+      {$this set_focus hair.btn}
+      {if
+         {==
+            {{shop_char_panel get tour_char}
+               get_gender}
+            female}
+         {$this disable facehair.btn}
+         {facehair.btn set_showing FALSE}
+         {if
+            {== $this charcloset_hair_panel}
+            {$this set_category hair 1}}}
+      {$this update}
+      {shop_char_panel
+         select_cam
+         "hair"}))
+{new
+   OutfitPanel
+   shop_hair_panel
+   (file
+      "shop_hair.milo")
+   (closet FALSE)
+   (exit
+      {shop_char_panel
+         select_cam
+         "tattoo_idle"})
+   HAIR_HANDLERS
+   (undo_outfit
+      {shop_char_panel
+         select_cam
+         "hair"}
+      TRUE)
+   (confirm_outfit
+      {shop_char_panel
+         select_cam
+         "hair"}
+      {$this store_outfit})}
+{new
+   BandScreen
+   shop_hair_screen
+   (panels meta shop_char_panel shop_hair_panel shop_money_panel)
+   (focus shop_hair_panel)
+   (back shop_ink_screen)
+   (SELECT_MSG
+      {if
+         {== $component eyebrows.btn}
+         {ui push_screen eyebrow_color_screen}}
+      kDataUnhandled)}
+{new
+   OutfitPanel
+   charcloset_hair_panel
+   (file
+      "charcloset_hair.milo")
+   (closet TRUE)
+   HAIR_HANDLERS
+   (undo_outfit
+      {shop_char_panel
+         select_cam
+         "hair"}
+      {if_else
+         {==
+            {{shop_char_panel get tour_char}
+               get_gender}
+            female}
+         {do
+            {$this set_category hair 1}
+            {ui reset_screen charcloset_screen}}
+         TRUE})
+   (confirm_outfit
+      {shop_char_panel
+         select_cam
+         "hair"}
+      {$this store_outfit}
+      {if
+         {==
+            {{shop_char_panel get tour_char}
+               get_gender}
+            female}
+         {ui reset_screen charcloset_screen}})}
+{new
+   BandScreen
+   charcloset_hair_screen
+   (panels meta shop_char_panel charcloset_hair_panel)
+   (focus charcloset_hair_panel)
+   (back charcloset_screen)}
+{new
+   UIPanel
+   eyebrow_color_panel
+   (file
+      "color_select.milo")
+   (focus color.lst)
+   (enter
+      {title.lbl set text_token shell_eyebrow_color}
+      {do
+         ($char
+            {shop_char_panel get char})
+         {color.lst
+            set_colors
+            {$char find hair.pal}}
+         {color.lst
+            set_selected
+            {$char get eyebrow_color_index}}
+         {color.lst store}})
+   (SCROLL_MSG
+      {{shop_char_panel get tour_char}
+         set_eyebrow_color
+         {shop_char_panel get char}
+         {color.lst selected_pos}})
+   (SELECT_MSG
+      {shop_char_panel save}
+      {ui pop_screen})
+   (BUTTON_DOWN_MSG
+      {if
+         {== $action kAction_Cancel}
+         {color.lst undo $player}
+         {ui pop_screen}}
+      kDataUnhandled)}
+{new
+   BandScreen
+   eyebrow_color_screen
+   (panels eyebrow_color_panel)
+   (focus eyebrow_color_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}
+{new
+   OutfitPanel
+   shop_makeup_panel
+   (file
+      "shop_makeup.milo")
+   (focus eyes.btn)
+   (reset_focus TRUE)
+   (genre '')
+   (select_cam FALSE)
+   (outfit_char shop_char_panel)
+   (current_facehair 0)
+   (current_glasses 0)
+   SHOP_OUTFIT_HANDLERS
+   (enter
+      {$this update}
+      {shop_char_panel
+         select_cam
+         "makeup"}
+      {set
+         [current_facehair]
+         {{shop_char_panel get tour_char}
+            selected_outfit
+            facehair}}
+      {set
+         [current_glasses]
+         {{shop_char_panel get tour_char}
+            selected_outfit
+            glasses}}
+      {{$this outfit_loader}
+         select
+         glasses
+         none}
+      {if
+         {'||'
+            {has_substr
+               [current_facehair]
+               bandana}
+            {has_substr
+               [current_facehair]
+               medical}}
+         {{$this outfit_loader}
+            select
+            facehair
+            none}}
+      {{$this outfit_loader}
+         start_load})
+   (exit
+      {shop_char_panel
+         select_cam
+         "tattoo_idle"}
+      {{$this outfit_loader}
+         select
+         facehair
+         [current_facehair]}
+      {{$this outfit_loader}
+         select
+         glasses
+         [current_glasses]}
+      {{$this outfit_loader}
+         start_load})
+   (undo_outfit TRUE)
+   (outfit_loader
+      {{shop_char_panel get char}
+         find
+         OutfitLoader.outfit})}
+{new
+   BandScreen
+   shop_makeup_screen
+   (panels meta shop_char_panel shop_makeup_panel shop_money_panel)
+   (focus shop_makeup_panel)
+   (back shop_ink_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}

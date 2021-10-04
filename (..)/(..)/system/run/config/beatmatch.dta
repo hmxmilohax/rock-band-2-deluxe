@@ -1,0 +1,36 @@
+(parser
+   (hopo_threshold 170)
+   (track_mapping
+      (GUITAR guitar)
+      (RHYTHM rhythm)
+      (BASS bass)
+      (KEYS keys)
+      (DRUMS drum)
+      (VOCALS vocals)
+      (SINGER vocals)
+      (RAP rap)
+      (DJ dj)))
+(controllers
+   (beatmatch_controller_mapping
+      (guitar guitar)
+      (ro_guitar_xbox guitar)
+      (hx_guitar_ps3 guitar)
+      (ro_guitar_ps3 guitar)
+      (joypad joypad)
+      (drums joypad)
+      (lefty_drums joypad)
+      (hx_topway_xbox joypad)
+      (hx_drums_xbox joypad)
+      (drums_ps3 joypad)
+      (hx_drums_ps3 joypad)
+      #ifdef HX_PC
+      (midi_drums joypad)
+      #endif
+      (joypad_guitar joypad_guitar)
+      (joypad_guitar_xbox joypad_guitar)
+      (lefty_joypad_guitar joypad_guitar)))
+(mercury_switch_filter
+   (any_sign_filter
+      (window 0.5)
+      (num_frames 12)
+      (threshold 0.93)))

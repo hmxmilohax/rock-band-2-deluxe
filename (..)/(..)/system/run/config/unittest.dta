@@ -1,0 +1,6 @@
+#include macros.dta
+(mem
+   (heaps
+      (main
+         (size 10000000))))
+#merge default.dta

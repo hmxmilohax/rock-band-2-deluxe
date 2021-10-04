@@ -1,0 +1,5 @@
+(songs
+   #include ../songs/songs.dta)
+(beatmatcher
+   #include ../../../system/run/config/beatmatch.dta)
+#merge ../../../system/run/config/default.dta

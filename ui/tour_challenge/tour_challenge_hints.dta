@@ -1,0 +1,82 @@
+#define TOUR_CHALLENGE_HINT_PANEL_HANDLERS
+((force_exit TRUE)
+   (BUTTON_DOWN_MSG
+      {if
+         {&&
+            {is_leader_local}
+            {== $action kAction_Confirm}}
+         {{tour band}
+            hint_advance}
+         {synth play button_select}
+         {ui
+            goto_screen
+            {tour tour_screen FALSE}
+            TRUE}})
+   (load
+      {practice_space_panel load}
+      {tour_lower3rd_panel load})
+   (unload
+      {practice_space_panel unload}
+      {tour_lower3rd_panel unload}))
+#define TOUR_CHALLENGE_HINT_SCREEN_HANDLERS
+((helpbar
+      {if_else
+         {is_leader_local}
+         ((confirm helpbar_continue))
+         ()}))
+{new
+   UIPanel
+   tour_challenge_welcome_panel
+   (file
+      "hints/tour_challenge_welcome.milo")
+   TOUR_CHALLENGE_HINT_PANEL_HANDLERS}
+{new
+   BandScreen
+   tour_challenge_welcome_screen
+   (panels meta tour_challenge_welcome_panel)
+   (focus tour_challenge_welcome_panel)
+   TOUR_CHALLENGE_HINT_SCREEN_HANDLERS}
+{new
+   UIPanel
+   tour_challenge_new_tier_panel
+   (file
+      {if_else
+         {{tour hint}
+            is_first_tier}
+         "hints/tour_challenge_first_tier.milo"
+         "hints/tour_challenge_new_tier.milo"})
+   TOUR_CHALLENGE_HINT_PANEL_HANDLERS
+   (enter
+      {text.lbl
+         set_localized
+         {sprintf
+            {localize tour_challenge_tier_hint}
+            {localize
+               {{tour hint}
+                  tier_name}}}})}
+{new
+   BandScreen
+   tour_challenge_new_tier_screen
+   (panels meta tour_challenge_new_tier_panel)
+   (focus tour_challenge_new_tier_panel)
+   TOUR_CHALLENGE_HINT_SCREEN_HANDLERS}
+{new
+   UIPanel
+   tour_challenge_impossible_panel
+   (file
+      "hints/tour_challenge_impossible.milo")
+   TOUR_CHALLENGE_HINT_PANEL_HANDLERS
+   (enter
+      {text.lbl
+         set_localized
+         {sprintf
+            {localize tour_challenge_impossible_hint}
+            {localize
+               {{tour hint}
+                  event_name}}}})}
+{new
+   BandScreen
+   tour_challenge_impossible_screen
+   (panels meta tour_challenge_impossible_panel)
+   (focus tour_challenge_impossible_panel)
+   TOUR_CHALLENGE_HINT_SCREEN_HANDLERS}

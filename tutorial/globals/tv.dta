@@ -1,0 +1,604 @@
+#define TV_PAUSE_DURATION
+(1.0)
+{func
+   set_vocals_aspect_nohide
+   ($aspect)
+   {do
+      ($vocals
+         {{get_track_panel}
+            find
+            vocals})
+      {$vocals
+         set_vox_configuration
+         {$vocals
+            find
+            {switch
+               $aspect
+               (1
+                  {switch
+                     {$vocals get_display_mode}
+                     (kVocalStyleStatic vocals_bottom_static_wide)
+                     (kVocalStyleScrolling vocals_bottom_wide)})
+               (0
+                  {switch
+                     {$vocals get_display_mode}
+                     (kVocalStyleStatic vocals_bottom_static)
+                     (kVocalStyleScrolling vocals_bottom)})}}}}}
+{func
+   set_vocals_aspect
+   ($aspect)
+   {set_vocals_aspect_nohide $aspect}
+   HIDE_VOCALS_PLAYER_UI}
+#define DO_VOCALS_WIDESCREEN
+({switch
+      {rnd aspect}
+      (kWidescreenAspect
+         {set_vocals_aspect 1})
+      {set_vocals_aspect 0}})
+#define DO_VOCALS_WIDESCREEN_NOHIDE
+({switch
+      {rnd aspect}
+      (kWidescreenAspect
+         {set_vocals_aspect_nohide 1})
+      {set_vocals_aspect_nohide 0}})
+#define DO_VOCALS_FULLSCREEN
+({set_vocals_aspect 0})
+#define HUD_TV_IN_NOPAUSE
+({{{get_track_panel}
+         find
+         tutorials_tv_camera.anim}
+      animate
+      (units kTaskTutorialSeconds)
+      (period TV_PAUSE_DURATION)
+      (range 0 30)})
+#define HUD_TV_OUT_NOPAUSE
+({{{get_track_panel}
+         find
+         tutorials_tv_camera.anim}
+      animate
+      (units kTaskTutorialSeconds)
+      (period TV_PAUSE_DURATION)
+      (range 30 0)})
+#define GAME_TV_IN_NOPAUSE
+({{{{get_track_panel}
+            get_first_track}
+         find
+         tutorials_game_camera.anim}
+      animate
+      (units kTaskTutorialSeconds)
+      (period TV_PAUSE_DURATION)
+      (range 0 30)})
+#define GAME_TV_OUT_NOPAUSE
+({{{{get_track_panel}
+            get_first_track}
+         find
+         tutorials_game_camera.anim}
+      animate
+      (units kTaskTutorialSeconds)
+      (period TV_PAUSE_DURATION)
+      (range 30 0)})
+#define TRACK_TV_IN_NOPAUSE
+(GAME_TV_IN_NOPAUSE HUD_TV_IN_NOPAUSE)
+#define TRACK_TV_OUT_NOPAUSE
+(GAME_TV_OUT_NOPAUSE HUD_TV_OUT_NOPAUSE)
+#define TRACK_TV_IN
+(TRACK_TV_IN_NOPAUSE
+   {$task sleep TV_PAUSE_DURATION})
+#define TRACK_TV_OUT
+(TRACK_TV_OUT_NOPAUSE
+   {$task sleep TV_PAUSE_DURATION})
+#define TUTORIAL_PANEL_ZOOM_IN_NOPAUSE
+({tutorial_zoom.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period TV_PAUSE_DURATION)
+      (range 0 30)}
+   {tutorial_zoom_labels.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period TV_PAUSE_DURATION)
+      (range 0 30)}
+   {tutorial_zoom_instance.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period TV_PAUSE_DURATION)
+      (range 0 30)}
+   {tutorial_zoom_specific.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period TV_PAUSE_DURATION)
+      (range 0 30)}
+   {whitesquare_color.mnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period TV_PAUSE_DURATION)
+      (range 0 30)})
+#define TUTORIAL_PANEL_ZOOM_OUT_NOPAUSE
+({tutorial_zoom.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period TV_PAUSE_DURATION)
+      (range 30 0)}
+   {tutorial_zoom_labels.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period TV_PAUSE_DURATION)
+      (range 30 0)}
+   {tutorial_zoom_instance.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period TV_PAUSE_DURATION)
+      (range 30 0)}
+   {tutorial_zoom_specific.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period TV_PAUSE_DURATION)
+      (range 30 0)}
+   {whitesquare_color.mnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period TV_PAUSE_DURATION)
+      (range 30 0)})
+#define FORCE_TUTORIAL_PANEL_ZOOM_OUT
+({tutorial_zoom.tnm set_frame 0}
+   {tutorial_zoom_labels.tnm set_frame 0}
+   {tutorial_zoom_instance.tnm set_frame 0}
+   {tutorial_zoom_specific.tnm set_frame 0}
+   {whitesquare_color.mnm set_frame 0})
+#define HUD_TV_RESET
+({do
+      ($tv_state
+         {tutorials_state_panel get tv_state})
+      ($tv_frame_a -1)
+      ($tv_frame_b -1)
+      ($tv_frame_c -1)
+      ($tv_frame_d -1)
+      {set
+         $tv_frame_a
+         {if_else
+            {== $tv_state 0}
+            0
+            30}}
+      {set
+         $tv_frame_b
+         {- 30 $tv_frame_a}}
+      {set
+         $tv_frame_c
+         {if_else
+            {== $tv_state 1}
+            0
+            30}}
+      {set
+         $tv_frame_d
+         {if_else
+            {== $tv_state 2}
+            0
+            30}}
+      {{{get_track_panel}
+            find
+            tutorials_tv_camera.anim}
+         set_frame
+         $tv_frame_a}
+      {tutorial_bg_highlight.mesh
+         set_showing
+         {if_else
+            {== $tv_state 0}
+            FALSE
+            TRUE}}
+      {tv_overlay_sub.grp
+         set_showing
+         {if_else
+            {== $tv_state 0}
+            FALSE
+            TRUE}}
+      {tv_score_out.tnm set_frame $tv_frame_b}
+      {tv_info_out.tnm set_frame $tv_frame_b}
+      {tv_part_out.tnm set_frame $tv_frame_b}
+      {tv_banner_out.tnm set_frame $tv_frame_b}
+      {score_out.tnm set_frame $tv_frame_a}
+      {info_out.tnm set_frame $tv_frame_a}
+      {part_out.tnm set_frame $tv_frame_a}
+      {banner_out.tnm set_frame $tv_frame_a}
+      {tutorial_bg_top_fade.mnm set_frame $tv_frame_b}
+      {colorbars_off.tnm set_frame $tv_frame_c}
+      {colorbars_fade.mnm set_frame $tv_frame_c}
+      {whitesquare_off.tnm set_frame $tv_frame_d}
+      {whitesquare_fade.mnm set_frame $tv_frame_d}})
+#define GAME_TV_RESET
+({{{{get_track_panel}
+            get_first_track}
+         find
+         tutorials_game_camera.anim}
+      set_frame
+      {if_else
+         {==
+            {tutorials_state_panel get tv_state}
+            0}
+         0
+         30}})
+#define TRACK_TV_RESET
+(FORCE_TUTORIAL_PANEL_ZOOM_OUT GAME_TV_RESET HUD_TV_RESET)
+#define VOCALS_TV_IN_NOPAUSE
+(HUD_TV_IN_NOPAUSE DO_VOCALS_FULLSCREEN)
+#define VOCALS_TV_OUT_NOPAUSE
+(HUD_TV_OUT_NOPAUSE DO_VOCALS_WIDESCREEN)
+#define VOCALS_TV_OUT_NOPAUSE_NOHIDE
+(HUD_TV_OUT_NOPAUSE DO_VOCALS_WIDESCREEN_NOHIDE)
+#define VOCALS_TV_IN
+(VOCALS_TV_IN_NOPAUSE
+   {$task sleep TV_PAUSE_DURATION})
+#define VOCALS_TV_OUT
+(VOCALS_TV_OUT_NOPAUSE
+   {$task sleep TV_PAUSE_DURATION})
+#define VOCALS_TV_RESET
+(FORCE_TUTORIAL_PANEL_ZOOM_OUT
+   HUD_TV_RESET
+   {if_else
+      {==
+         {tutorials_state_panel get tv_state}
+         0}
+      DO_VOCALS_WIDESCREEN
+      DO_VOCALS_FULLSCREEN})
+#define TV_LABELS_OFF
+({tv_score_out.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 0.1)
+      (range 0 30)}
+   {tv_info_out.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 0.1)
+      (range 0 30)}
+   {tv_part_out.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 0.1)
+      (range 0 30)}
+   {tv_banner_out.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 0.1)
+      (range 0 30)}
+   {score_out.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 5.0e-2)
+      (range 30 0)}
+   {info_out.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 5.0e-2)
+      (range 30 0)}
+   {part_out.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 5.0e-2)
+      (range 30 0)}
+   {banner_out.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 5.0e-2)
+      (range 30 0)})
+#define TV_LABELS_ON
+({tv_score_out.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 5.0e-2)
+      (range 30 0)}
+   {tv_info_out.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 5.0e-2)
+      (range 30 0)}
+   {tv_part_out.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 5.0e-2)
+      (range 30 0)}
+   {tv_banner_out.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 5.0e-2)
+      (range 30 0)}
+   {score_out.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 0.1)
+      (range 0 30)}
+   {info_out.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 0.1)
+      (range 0 30)}
+   {part_out.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 0.1)
+      (range 0 30)}
+   {banner_out.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 0.1)
+      (range 0 30)})
+#define TV_AFTER_OFF
+({tutorial_bg_top_fade.mnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 1.0)
+      (range 0 30)}
+   TV_LABELS_OFF
+   {$task sleep TV_PAUSE_DURATION})
+#define TV_BEFORE_ON
+({tutorial_bg_highlight.mesh set_showing TRUE}
+   {tutorial_bg_top_fade.mnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 1.0)
+      (range 30 0)}
+   {$task sleep TV_PAUSE_DURATION}
+   {tv_overlay_sub.grp set_showing TRUE})
+#define TV_COLORBARS_OFF
+({tutorials_state_panel set tv_state 0}
+   {colorbars_off.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 0.2)
+      (range 0 30)}
+   {colorbars_fade.mnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 0.37)
+      (range 0 30)}
+   {$task sleep TV_PAUSE_DURATION}
+   {tutorial_bg_highlight.mesh set_showing FALSE}
+   {tv_overlay_sub.grp set_showing FALSE})
+#define TV_WHITE_OFF
+({tutorials_state_panel set tv_state 0}
+   {whitesquare_off.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 0.2)
+      (range 0 30)}
+   {whitesquare_fade.mnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 0.37)
+      (range 0 30)}
+   {$task sleep TV_PAUSE_DURATION}
+   {tutorial_bg_highlight.mesh set_showing FALSE}
+   {tv_overlay_sub.grp set_showing FALSE})
+#define TV_COLORBARS_ON
+({colorbars_off.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 0.15)
+      (range 30 0)}
+   {colorbars_fade.mnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 0.3)
+      (range 30 0)}
+   TV_LABELS_ON
+   {$task sleep TV_PAUSE_DURATION})
+#define TV_WHITE_ON
+({whitesquare_off.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 0.15)
+      (range 30 0)}
+   {whitesquare_fade.mnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 0.3)
+      (range 30 0)}
+   TV_LABELS_ON
+   {$task sleep TV_PAUSE_DURATION})
+#define TV_WHITE_TO_COLORBARS
+({colorbars_off.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 0.15)
+      (range 30 0)}
+   {colorbars_fade.mnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 0.3)
+      (range 30 0)}
+   {whitesquare_off.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 0.2)
+      (range 0 30)}
+   {whitesquare_fade.mnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 0.37)
+      (range 0 30)}
+   {tutorials_state_panel set tv_state 1}
+   {$task sleep TV_PAUSE_DURATION})
+#define TV_COLORBARS_TO_WHITE
+({colorbars_off.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 0.15)
+      (range 0 30)}
+   {colorbars_fade.mnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 0.3)
+      (range 0 30)}
+   {whitesquare_off.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 0.2)
+      (range 30 0)}
+   {whitesquare_fade.mnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period 0.37)
+      (range 30 0)}
+   {tutorials_state_panel set tv_state 2}
+   {$task sleep TV_PAUSE_DURATION})
+#define TRACK_TV_OFF
+({if_else
+      {==
+         {tutorials_state_panel get tv_state}
+         1}
+      {do TV_COLORBARS_OFF TRACK_TV_OUT_NOPAUSE TV_AFTER_OFF}
+      {if
+         {==
+            {tutorials_state_panel get tv_state}
+            2}
+         {do TV_WHITE_OFF TRACK_TV_OUT_NOPAUSE TV_AFTER_OFF}}}
+   {$task sleep 1.0e-2}
+   {{gamemode get main_panel}
+      enable_controller})
+#define TRACK_TV_COLORBARS
+({{gamemode get main_panel}
+      disable_controller}
+   {if_else
+      {==
+         {tutorials_state_panel get tv_state}
+         0}
+      {do
+         {tutorials_state_panel set tv_state 1}
+         TV_BEFORE_ON
+         TRACK_TV_IN_NOPAUSE
+         TV_COLORBARS_ON}
+      {if
+         {==
+            {tutorials_state_panel get tv_state}
+            2}
+         {do TV_WHITE_TO_COLORBARS}}}
+   {$task sleep 1.0e-2})
+#define TRACK_TV_WHITE
+({{gamemode get main_panel}
+      disable_controller}
+   {if_else
+      {==
+         {tutorials_state_panel get tv_state}
+         0}
+      {do
+         {tutorials_state_panel set tv_state 2}
+         TV_BEFORE_ON
+         TRACK_TV_IN_NOPAUSE
+         TV_WHITE_ON}
+      {if
+         {==
+            {tutorials_state_panel get tv_state}
+            1}
+         {do TV_COLORBARS_TO_WHITE}}}
+   {$task sleep 1.0e-2})
+#define TRACK_TV_ZOOM_IN
+(TUTORIAL_PANEL_ZOOM_IN_NOPAUSE TRACK_TV_OUT)
+#define TRACK_TV_ZOOM_OUT
+(TUTORIAL_PANEL_ZOOM_OUT_NOPAUSE TRACK_TV_IN)
+#define VOCALS_TV_ZOOM_IN
+(TUTORIAL_PANEL_ZOOM_IN_NOPAUSE VOCALS_TV_OUT)
+#define VOCALS_TV_ZOOM_OUT
+(TUTORIAL_PANEL_ZOOM_OUT_NOPAUSE VOCALS_TV_IN)
+#define VOCALS_DISABLE_CONTROLLER
+({{gamemode get main_panel}
+      disable_controller}
+   AUTOPLAY_ON
+   FORCE_ARROW_ON
+   {{{get_track_panel}
+         find
+         vocals}
+      set_enable_vocals_options
+      FALSE})
+#define VOCALS_ENABLE_CONTROLLER
+({{gamemode get main_panel}
+      enable_controller}
+   AUTOPLAY_OFF
+   FORCE_ARROW_OFF
+   {{{get_track_panel}
+         find
+         vocals}
+      set_enable_vocals_options
+      TRUE})
+#define VOCALS_TV_OFF_NO_HIDE
+({if_else
+      {==
+         {tutorials_state_panel get tv_state}
+         1}
+      {do TV_COLORBARS_OFF VOCALS_TV_OUT_NOPAUSE_NOHIDE TV_AFTER_OFF}
+      {if
+         {==
+            {tutorials_state_panel get tv_state}
+            2}
+         {do TV_WHITE_OFF VOCALS_TV_OUT_NOPAUSE_NOHIDE TV_AFTER_OFF}}}
+   {$task sleep 1.0e-2}
+   VOCALS_ENABLE_CONTROLLER)
+#define VOCALS_TV_OFF
+({if_else
+      {==
+         {tutorials_state_panel get tv_state}
+         1}
+      {do TV_COLORBARS_OFF VOCALS_TV_OUT_NOPAUSE TV_AFTER_OFF}
+      {if
+         {==
+            {tutorials_state_panel get tv_state}
+            2}
+         {do TV_WHITE_OFF VOCALS_TV_OUT_NOPAUSE TV_AFTER_OFF}}}
+   {$task sleep 1.0e-2}
+   VOCALS_ENABLE_CONTROLLER)
+#define VOCALS_TV_COLORBARS
+(VOCALS_DISABLE_CONTROLLER
+   {if_else
+      {==
+         {tutorials_state_panel get tv_state}
+         0}
+      {do
+         {tutorials_state_panel set tv_state 1}
+         TV_BEFORE_ON
+         VOCALS_TV_IN_NOPAUSE
+         TV_COLORBARS_ON}
+      {if
+         {==
+            {tutorials_state_panel get tv_state}
+            2}
+         {do TV_WHITE_TO_COLORBARS}}}
+   {$task sleep 1.0e-2})
+#define VOCALS_TV_WHITE
+(VOCALS_DISABLE_CONTROLLER
+   {if_else
+      {==
+         {tutorials_state_panel get tv_state}
+         0}
+      {do
+         {tutorials_state_panel set tv_state 2}
+         TV_BEFORE_ON
+         VOCALS_TV_IN_NOPAUSE
+         TV_WHITE_ON}
+      {if
+         {==
+            {tutorials_state_panel get tv_state}
+            1}
+         {do TV_COLORBARS_TO_WHITE}}}
+   {$task sleep 1.0e-2})
+#define DRUM_TV_OFF
+(TRACK_TV_OFF)
+#define DRUM_TV_WHITE
+(TRACK_TV_WHITE)
+#define DRUM_TV_COLORBARS
+(TRACK_TV_COLORBARS)
+#define DRUM_TV_RESET
+(TRACK_TV_RESET)
+#define DRUM_TV_ZOOM_IN
+(TRACK_TV_ZOOM_IN)
+#define DRUM_TV_ZOOM_OUT
+(TRACK_TV_ZOOM_OUT)
+#define GUITAR_TV_OFF
+(TRACK_TV_OFF)
+#define GUITAR_TV_WHITE
+(TRACK_TV_WHITE)
+#define GUITAR_TV_COLORBARS
+(TRACK_TV_COLORBARS)
+#define GUITAR_TV_RESET
+(TRACK_TV_RESET UNHIDE_GEM_TAILS)
+#define GUITAR_TV_ZOOM_IN
+(TRACK_TV_ZOOM_IN)
+#define GUITAR_TV_ZOOM_OUT
+(TRACK_TV_ZOOM_OUT)

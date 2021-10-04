@@ -1,0 +1,122 @@
+(pausing
+   (disable_pause_ms 2000))
+(handlers
+   (hopo
+      {hopo_callback}
+      kDataUnhandled)
+   (swingAtHopo
+      {swingAtHopo_callback})
+   (miss
+      ($player_num $slot)
+      {do
+         ($seq
+            {switch
+               {{game get_player_config $player_num}
+                  get_track_type}
+               (kTrackDrum
+                  {if_else
+                     {== $slot 0}
+                     miss_kick.cue
+                     miss_drum})
+               (kTrackBass miss_bass)
+               miss_gtr.cue})
+         {play_game_seq_player $seq $seq $player_num}}
+      kDataUnhandled)
+   (send_track
+      ($message)
+      {do
+         ($track
+            {$this track})
+         {if
+            $track
+            {$track $message}}})
+   (send_track_val
+      ($message $val)
+      {do
+         ($track
+            {$this track})
+         {if
+            $track
+            {$track $message $val}}})
+   (get_track_obj
+      ($obj_name)
+      {do
+         ($track
+            {$this track})
+         {if_else
+            $track
+            {$track get_obj $obj_name}
+            0}})
+   (whammy_start
+      {whammy_start_callback}
+      kDataUnhandled)
+   (whammy_end
+      {whammy_end_callback}
+      kDataUnhandled)
+   (coda_success kDataUnhandled)
+   (coda_blown kDataUnhandled)
+   (deploy kDataUnhandled)
+   (stop_deploy
+      {do
+         ($sfx
+            {sprintf
+               "rp_depleted_%s.cue"
+               {{$this config}
+                  get_track_sym}})
+         {synth play $sfx}}
+      {$this send_track stop_deploy}
+      {handle
+         ($this
+            set_energy
+            {$this band_energy})}
+      {if
+         {&&
+            {==
+               {$this instrument}
+               drum}
+            {>=
+               {$this band_energy}
+               0.5}}
+         {$this enable_drum_fills TRUE}}
+      kDataUnhandled)
+   (unison_miss
+      ($phrase)
+      kDataUnhandled)
+   (unison_hit kDataUnhandled)
+   (play_instrument_cue
+      ($format)
+      {do
+         ($num
+            {$this player_num})
+         ($inst
+            {{game get_player_config $num}
+               get_track_sym})
+         ($seq
+            {sprintf $format $inst})
+         {play_game_seq_player $seq $seq $num}})
+   (enable_player
+      {$this send_track enable_player})
+   (save_player
+      ($causer)
+      {$this
+         play_instrument_cue
+         "%s_regen.cue"}
+      {if
+         $world
+         {$world
+            player_saved
+            {{game get_player_config $causer}
+               get_track_sym}}})
+   (set_energy
+      ($in_energy)
+      kDataUnhandled)
+   (enable_drum_fills
+      ($in_enable)
+      {if_else
+         $in_enable
+         {do
+            {$this enable_fills 2400}}
+         {$this disable_fills}})
+   (scream
+      {$this deploy_if_possible})
+   #include player_net.dta)

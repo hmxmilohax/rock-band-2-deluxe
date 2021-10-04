@@ -1,0 +1,7 @@
+#include ../char/char_objects.dta
+#include ../world/world_objects.dta
+#include ../ui/ui_objects.dta
+#include rnd_objects.dta
+#merge ../track/track_objects.dta
+#merge ../drum_trainer/drum_trainer_objects.dta
+#include crowd_audio.dta

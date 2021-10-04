@@ -1,0 +1,96 @@
+SETUP_VOCALS_TUTORIAL
+VOCALS_TV_WHITE
+START_BG_MUSIC
+{setup_lesson_banner tutorial_vocals_basics_mechanics_part}
+{meta_performer set_song vocals_basics_mechanics}
+LOAD_NEW_VOCALS_SONG_NO_FADE
+HIDE_VOCALS_PLAYER_UI
+{set_crowd_rating CROWD_METER_MIDDLE}
+{{{{{get_track_panel}
+            get_first_track}
+         get_dir}
+      find
+      indv_player_warning_off.trig}
+   trigger}
+FORCE_ARROW_OFF
+UNPAUSE_TRACK
+SYNC_PAUSE
+VOCALS_TV_ZOOM_IN
+{play_vo tute_vocals1_phrases1}
+UNPAUSE_TRACK
+WAIT_FOR_VO
+SYNC_PAUSE
+SHOW_PHRASE_MARKER_ARROW
+{if_else
+   {==
+      {{{session_mgr get_leader_user}
+            get_gameplay_options}
+         get_vocal_style}
+      kVocalStyleStatic}
+   {play_vo tute_vocals1_null}
+   {play_vo tute_vocals1_phrases2}}
+WAIT_FOR_VO
+HIDE_PHRASE_MARKER_ARROW
+{$task sleep 1.0e-2}
+UNPAUSE_TRACK
+SYNC_PAUSE
+{play_vo tute_vocals1_phrasemeter2}
+SHOW_RATING_ARROW
+WAIT_FOR_VO
+HIDE_RATING_ARROW
+LONG_VO_GAP
+UNPAUSE_TRACK
+SYNC_PAUSE
+{play_vo tute_vocals1_phrasemeter1}
+UNHIDE_STREAK_METER
+SHOW_PHRASE_METER_ARROW
+WAIT_FOR_VO
+UNPAUSE_TRACK
+SYNC_PAUSE
+{play_vo tute_vocals1_phrasemeter3}
+SHOW_MULTIPLIER_ARROW
+WAIT_FOR_VO
+UNPAUSE_TRACK
+SYNC_PAUSE
+HIDE_PHRASE_METER_ARROW
+HIDE_MULTIPLIER_ARROW
+LONG_VO_GAP
+{play_vo tute_vocals1_scoremeter}
+UNHIDE_SCORE_METER
+SHOW_SCORE_METER_ARROW
+WAIT_FOR_VO
+UNPAUSE_TRACK
+SYNC_NOPAUSE
+FORCE_ARROW_ON
+HIDE_PITCH_ARROW
+HIDE_SCORE_METER_ARROW
+LONG_VO_GAP
+{play_vo tute_vocals1_crowdmeter}
+AUTOPLAY_OFF
+{set_crowd_rating CROWD_METER_HIGH}
+SHOW_CROWD_METER
+SHOW_CROWD_METER_ARROW
+{$task sleep 2.0}
+{set_crowd_rating CROWD_METER_MIDDLE}
+{$task sleep 2.0}
+{set_crowd_rating CROWD_METER_LOW}
+{$task sleep 2.0}
+{set_crowd_rating CROWD_METER_REAL_LOW}
+WAIT_FOR_VO
+HIDE_CROWD_METER_ARROW
+SHORT_VO_GAP
+VOCALS_OUT_NO_FADE
+SHORT_VO_GAP
+HIDE_SCORE_METER
+HIDE_CROWD_METER
+{set_crowd_rating CROWD_METER_MIDDLE}
+{set_banner_text
+   {localize tutorial_vocals_basics_mechanics_done}}
+{show_info_text FALSE}
+{show_part_text FALSE}
+{show_score_text FALSE}
+{show_banner_text TRUE}
+VOCALS_TV_ZOOM_OUT
+{set_crowd_rating CROWD_METER_MIDDLE}
+{$task sleep 3.5}
+{tutorials_state_panel switch_to_next_state}

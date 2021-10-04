@@ -1,0 +1,203 @@
+{new
+   UIPanel
+   shop_guitarbass_panel
+   (file
+      "shop_guitarbass.milo")
+   (reset TRUE)
+   (enter
+      {if
+         [reset]
+         {$this set_focus guitar.btn}}
+      {set
+         [reset]
+         FALSE})
+   (SELECT_MSG
+      {shop_instrument_panel
+         set
+         instrument
+         {basename
+            {$component name}}}
+      {ui goto_screen shop_instrument_screen})}
+{new
+   BandScreen
+   shop_guitarbass_screen
+   (panels meta shop_char_panel shop_guitarbass_panel shop_money_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (focus shop_guitarbass_panel)
+   (back shop_screen)}
+{new
+   UIPanel
+   charcloset_guitarbass_panel
+   (file
+      "shop_guitarbass.milo")
+   (reset TRUE)
+   (enter
+      {if
+         [reset]
+         {$this set_focus guitar.btn}}
+      {set
+         [reset]
+         FALSE}
+      {shop.lbl set text_token shell_my_closet})
+   (SELECT_MSG
+      {charcloset_instrument_panel
+         set
+         instrument
+         {basename
+            {$component name}}}
+      {ui goto_screen charcloset_instrument_screen})}
+{new
+   BandScreen
+   charcloset_guitarbass_screen
+   (panels meta shop_char_panel charcloset_guitarbass_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (focus charcloset_guitarbass_panel)
+   (back charcloset_screen)}
+#define INSTRUMENTS_HANDLERS
+((outfit_char shop_char_panel)
+   (genre '')
+   (instrument '')
+   (back '')
+   (skip_buttons TRUE)
+   (pop_on_purchase FALSE)
+   SHOP_OUTFIT_HANDLERS
+   (enter
+      {$this
+         iterate
+         UIList
+         $l
+         {do
+            ($active
+               {==
+                  {basename
+                     {$l name}}
+                  [instrument]})
+            {$l set_showing $active}
+            {if
+               $active
+               {$this set_focus $l}}}}
+      {title.lbl
+         set
+         text_token
+         {sprint
+            "shell_"
+            [instrument]
+            "_shop"}}
+      {$this store_outfit}
+      {$this update}
+      {if
+         {==
+            [instrument]
+            drum}
+         {$this set_drum_showing TRUE}}
+      {$this
+         set
+         back
+         {{ui current_screen}
+            get
+            back}})
+   (load
+      {do
+         ($char
+            {shop_char_panel get char})
+         ($ol
+            {$char find OutfitLoader.outfit})
+         ($tour_char
+            {shop_char_panel get tour_char})
+         {switch
+            [instrument]
+            (guitar
+               {$ol select bass none})
+            (bass
+               {$ol select guitar none})}
+         {$tour_char
+            select_outfit
+            $char
+            [instrument]
+            {$tour_char
+               selected_outfit
+               [instrument]}}})
+   (unload
+      {do
+         ($ol
+            {{shop_char_panel get char}
+               find
+               OutfitLoader.outfit})
+         {$ol
+            select_instrument
+            {shop_char_panel get tour_char}
+            [instrument]}
+         {$ol start_load TRUE}}
+      {shop_char_panel
+         select_cam
+         "idle"}
+      {if
+         {==
+            [instrument]
+            drum}
+         {$this set_drum_showing FALSE}})
+   (set_drum_showing
+      ($showing)
+      {do
+         ($char
+            {shop_char_panel get char})
+         ($group
+            {$char find drumset.grp})
+         {$group set_showing $showing}
+         {if
+            {$char exists drum_translucent.grp}
+            {{$char find drum_translucent.grp}
+               set_showing
+               $showing}}})
+   (confirm_outfit
+      {$this store_outfit}
+      {ui
+         reset_screen
+         [back]}
+      {helpbar
+         set_config
+         ()}))
+{new
+   OutfitPanel
+   shop_instrument_panel
+   (file
+      "shop_instrument.milo")
+   (closet FALSE)
+   INSTRUMENTS_HANDLERS}
+{new
+   BandScreen
+   shop_instrument_screen
+   (panels meta shop_char_panel shop_instrument_panel shop_money_panel)
+   (focus shop_instrument_panel)
+   (back
+      {if_else
+         {==
+            {{input_mgr get_user}
+               get_controller_sym}
+            guitar}
+         shop_guitarbass_screen
+         shop_screen})}
+{new
+   OutfitPanel
+   charcloset_instrument_panel
+   (file
+      "shop_instrument.milo")
+   (closet TRUE)
+   INSTRUMENTS_HANDLERS}
+{new
+   BandScreen
+   charcloset_instrument_screen
+   (panels meta shop_char_panel charcloset_instrument_panel)
+   (focus charcloset_instrument_panel)
+   (back
+      {if_else
+         {==
+            {{input_mgr get_user}
+               get_controller_sym}
+            guitar}
+         charcloset_guitarbass_screen
+         charcloset_screen})}

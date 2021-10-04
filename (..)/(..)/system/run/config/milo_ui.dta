@@ -1,0 +1,13 @@
+(init
+   {handle
+      ($this project_init)}
+   {new
+      UIPanel
+      milo_panel
+      (file
+         "")}
+   {new
+      UIScreen
+      milo_screen
+      (panels milo_panel)}
+   {ui goto_screen milo_screen})

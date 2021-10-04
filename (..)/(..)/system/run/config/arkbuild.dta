@@ -1,0 +1,13 @@
+#include macros.dta
+(ark_build
+   (name main)
+   (dirs
+      SYSTEM_SUBDIRS
+      "."
+      "systest")
+   (file_exts STD_EXTS XBOX_EXTS)
+   (skip_files
+      "config/gen/arkbuild.dtb")
+   (skip_dirs STD_SKIP_DIRS)
+   (max_arkfile_size 2000000000))
+#merge default.dta

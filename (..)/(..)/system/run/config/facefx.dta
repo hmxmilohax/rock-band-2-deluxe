@@ -1,0 +1,14 @@
+#include macros.dta
+(mem
+   (heaps)
+   (disable_mgr TRUE))
+(rnd
+   (show_timers FALSE)
+   (console_trycatch FALSE)
+   (title
+      "FaceFX"))
+(facefx
+   (nearplane 10)
+   (farplane 1000.0)
+   (xfov 0.79))
+#merge default.dta

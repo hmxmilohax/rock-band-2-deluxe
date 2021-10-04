@@ -1,0 +1,30 @@
+{new
+   BotbNewsFeedPanel
+   botb_news_feed_panel
+   (file
+      "news_feed.milo")
+   (enter
+      {$this
+         set_showing
+         {$this has_news}}
+      {unless
+         {$this has_news}
+         {$this advance}})
+   (advance
+      {tour_waiting_screen set tour_mode_ui_state kNetUI_ReadyBotb}
+      {if_else
+         {session is_local}
+         {tour_waiting_screen advance}
+         {ui goto_screen tour_waiting_screen}})}
+{new
+   BandScreen
+   botb_news_feed_screen
+   (panels meta practice_space_panel botb_news_feed_panel tour_lower3rd_panel)
+   (focus botb_news_feed_panel)
+   (helpbar
+      ((confirm helpbar_continue)))
+   (BUTTON_DOWN_MSG
+      {if
+         {== $action kAction_Confirm}
+         {botb_news_feed_panel advance}}
+      kDataUnhandled)}

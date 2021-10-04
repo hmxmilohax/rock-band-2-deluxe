@@ -1,0 +1,63 @@
+#define CHARVISEMEGROUPS
+('' exp_rocker_smile_mellow exp_rocker_smile_intense exp_rocker_shout_eyesclosed exp_rocker_shout_eyesopen exp_rocker_bassface_aggressive exp_rocker_bassface_cool exp_rocker_soloface exp_rocker_teethgrit_pained exp_rocker_teethgrit_happy exp_rocker_slackjawed exp_spazz_snear_mellow exp_spazz_snear_intense exp_spazz_tongueout_side exp_spazz_tongueout_front exp_spazz_eyesclosed exp_banger_teethgrit exp_banger_oohface exp_banger_roar exp_banger_slackjawed exp_dramatic_pouty exp_dramatic_mouthopen exp_dramatic_happy_eyesopen exp_dramatic_happy_eyesclosed exp_neutral_lo exp_neutral_hi exp_drummer_mellow exp_drummer_normal exp_drummer_intense normal sad)
+#define CHAR_FACE_FUNCTIONS
+((exp_rocker_smile_mellow
+      {$clip.dude change_face_group exp_rocker_smile_mellow})
+   (exp_rocker_smile_intense
+      {$clip.dude change_face_group exp_rocker_smile_intense})
+   (exp_rocker_shout_eyesclosed
+      {$clip.dude change_face_group exp_rocker_shout_eyesclosed})
+   (exp_rocker_shout_eyesopen
+      {$clip.dude change_face_group exp_rocker_shout_eyesopen})
+   (exp_rocker_bassface_aggressive
+      {$clip.dude change_face_group exp_rocker_bassface_aggressive})
+   (exp_rocker_bassface_cool
+      {$clip.dude change_face_group exp_rocker_bassface_cool})
+   (exp_rocker_soloface
+      {$clip.dude change_face_group exp_rocker_soloface})
+   (exp_rocker_teethgrit_pained
+      {$clip.dude change_face_group exp_rocker_teethgrit_pained})
+   (exp_rocker_teethgrit_happy
+      {$clip.dude change_face_group exp_rocker_teethgrit_happy})
+   (exp_rocker_slackjawed
+      {$clip.dude change_face_group exp_rocker_slackjawed})
+   (exp_spazz_snear_mellow
+      {$clip.dude change_face_group exp_spazz_snear_mellow})
+   (exp_spazz_snear_intense
+      {$clip.dude change_face_group exp_spazz_snear_intense})
+   (exp_spazz_tongueout_side
+      {$clip.dude change_face_group exp_spazz_tongueout_side})
+   (exp_spazz_tongueout_front
+      {$clip.dude change_face_group exp_spazz_tongueout_front})
+   (exp_spazz_eyesclosed
+      {$clip.dude change_face_group exp_spazz_eyesclosed})
+   (exp_banger_teethgrit
+      {$clip.dude change_face_group exp_banger_teethgrit})
+   (exp_banger_oohface
+      {$clip.dude change_face_group exp_banger_oohface})
+   (exp_banger_roar
+      {$clip.dude change_face_group exp_banger_roar})
+   (exp_banger_slackjawed
+      {$clip.dude change_face_group exp_banger_slackjawed})
+   (exp_dramatic_pouty
+      {$clip.dude change_face_group exp_dramatic_pouty})
+   (exp_dramatic_mouthopen
+      {$clip.dude change_face_group exp_dramatic_mouthopen})
+   (exp_dramatic_happy_eyesopen
+      {$clip.dude change_face_group exp_dramatic_happy_eyesopen})
+   (exp_dramatic_happy_eyesclosed
+      {$clip.dude change_face_group exp_dramatic_happy_eyesclosed})
+   (exp_neutral_lo
+      {$clip.dude change_face_group exp_neutral_lo})
+   (exp_neutral_hi
+      {$clip.dude change_face_group exp_neutral_hi})
+   (exp_drummer_mellow
+      {$clip.dude change_face_group exp_drummer_mellow})
+   (exp_drummer_normal
+      {$clip.dude change_face_group exp_drummer_normal})
+   (exp_drummer_intense
+      {$clip.dude change_face_group exp_drummer_intense})
+   (normal
+      {$clip.dude change_face_group normal})
+   (sad
+      {$clip.dude change_face_group sad}))

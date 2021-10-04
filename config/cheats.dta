@@ -1,0 +1,567 @@
+(left
+   (kPad_Tri
+      "Cycle Free Camera"
+      {if_else
+         {==
+            {ui current_screen}
+            splash_screen}
+         {ui goto_screen frame_rate_screen}
+         {cycle_free_camera}}))
+(right
+   (kPad_Select
+      "Fake Win with 3 stars"
+      {fake_win 3})
+   (kPad_Square
+      "Print Current Screen"
+      {handle
+         ({ui current_screen}
+            print)}))
+(keyboard
+   #ifndef _SHIP
+   ('`'
+      "Toggle fake file errors"
+      {toggle_fake_file_errors})
+   #endif
+   #ifdef HX_XBOX
+   (KB_F2
+      "Fake a signout change on controller 1"
+      {fake_signout 0})
+   (KB_F3
+      "Fake a signout change on controller 2"
+      {fake_signout 1})
+   (KB_F4
+      "Fake a signout change on controller 3"
+      {fake_signout 2})
+   #endif
+   (KB_F5
+      "Empties all band energy"
+      {cheat_empty_band_energy})
+   (KB_F7
+      "Toggle track surfaces"
+      {if
+         {game is_up}
+         {{get_track_panel}
+            toggle_surface}})
+   (KB_F8
+      "Toggle now bar"
+      {if
+         {game is_up}
+         {{get_track_panel}
+            toggle_nowbar}})
+   (0
+      "Pause/unpause game"
+      {toggle_time_paused})
+   (1
+      "Fake player 1 using joypad 1"
+      {fake_player1_cheat 0})
+   (2
+      "Fake player 2 using joypad 1"
+      {fake_player1_cheat 1})
+   (3
+      "Fake player 3 using joypad 1"
+      {fake_player1_cheat 2})
+   (4
+      "Fake player 4 using joypad 1"
+      {fake_player1_cheat 3})
+   (5
+      "Cycle through graphical character debugging in game"
+      {next_character_driver})
+   (6
+      "Cycle instrument faking for controller 1"
+      {cycle_instrument_override 0})
+   (7
+      "Cycle instrument faking for controller 2"
+      {cycle_instrument_override 1})
+   (8
+      "Cycle instrument faking for controller 3"
+      {cycle_instrument_override 2})
+   (9
+      "Cycle instrument faking for controller 4"
+      {cycle_instrument_override 3})
+   ('('
+      "Tour: decrease vehicle level"
+      {cheat_adjust_vehicle -1})
+   (')'
+      "Tour: increase vehicle level"
+      {cheat_adjust_vehicle 1})
+   (!
+      "Game: Win w/ 3 stars, Meta: Win event w/ 1 Star Avg"
+      {fake_win 1})
+   ('@'
+      "Game: Win w/ 3 stars, Meta: Win event w/ 2 Star Avg"
+      {fake_win 2})
+   (#
+      "Game: Win w/ 3 stars, Meta: Win event w/ 3 Star Avg"
+      {fake_win 3})
+   ('$'
+      "Game: Win w/ 4 stars, Meta: Win event w/ 4 Star Avg"
+      {fake_win 4})
+   ('%'
+      "Game: Win w/ 5 stars, Meta: Win event w/ 5 Star Avg"
+      {fake_win 5})
+   ('^'
+      "Game: Win w/ 6 stars, Meta: Win event w/ 6 Star Avg"
+      {fake_win 6})
+   (&
+      "Game: Win w/ 7 stars, Meta: Win event w/ 7 Star Avg"
+      {fake_win 7})
+   ('*'
+      "Game: Win a multisong event w/ 5 star avg"
+      {fake_win_multi 5})
+   ('+'
+      "Tour: Give $100 "
+      {cheat_add_money 100})
+   (=
+      "Tour: Give $50000"
+      {cheat_add_money 50000})
+   ('['
+      "Meta: Subtract 1 buzz"
+      {unless
+         {game is_up}
+         {cheat_adjust_buzz -1}})
+   (']'
+      "Meta: Add 1 buzz"
+      {cheat_adjust_buzz 1})
+   ('{'
+      "Meta: Subtract 100 buzz"
+      {cheat_adjust_buzz -100})
+   ('}'
+      "Meta: Add 100 buzz"
+      {cheat_adjust_buzz 100})
+   (a
+      "Toggle autoplay for player 1"
+      {toggle_player_autoplay 0})
+   (A
+      "Meta: unlock all; Game: toggle crowd audio"
+      {A_cheat})
+   (b
+      "Meta: show current buzz, Game: toggles click track"
+      {b_cheat})
+   (B
+      "Game: Fire off bonus fx.  Woo! / Shop: Buy all outfits"
+      {cond
+         ({game is_up}
+            {handle
+               ($world bonusfx)})
+         ({shop_char_panel is_up}
+            {{shop_char_panel get tour_char}
+               cheat_buy_all_outfits})})
+   (c
+      "Game: Cycle CamShots / Shop: Dump character data / Music Store: clear file cache"
+      {cond
+         ({game is_up}
+            {if
+               $world
+               {$world cycle_shot}
+               {set $camera.disable_picking TRUE}
+               {set $composite_character_demand_load TRUE}})
+         ({shop_char_panel is_up}
+            {{shop_char_panel get tour_char}
+               write_config})
+         ({&&
+               {store_panel is_up}
+               {store_filter_panel is_up}}
+            {net_cache_mgr debug_clear_cache})})
+   (C
+      "Toggle Current CamShot Info"
+      {rnd toggle_overlay camera}
+      {if
+         $world
+         {handle
+            ({$world current_shot}
+               update_overlay)}})
+   (d
+      "Game: Toggle Camera Picking, Meta: Toggle Difficulty"
+      {if_else
+         {game is_up}
+         {do
+            {set
+               $camera.disable_picking
+               {! $camera.disable_picking}}
+            {cheat_display
+               show_bool
+               "Disable camera picking"
+               $camera.disable_picking}
+            {unless
+               $camera.disable_picking
+               {set $composite_character_demand_load FALSE}}}
+         {cheat_toggle_difficulty}})
+   (D
+      "Everyone Deploy Band Energy"
+      {everyone_deploy})
+   (e
+      "Game: Adjust crowd excitement down, Meta: Toggle All BOTB Expired"
+      {if_else
+         {game is_up}
+         {adjust_crowd_rating -0.1}
+         {cheat_display
+            show_bool
+            "All BOTB Expired"
+            {tour toggle_all_expired}}})
+   (E
+      "Adjust crowd excitement up"
+      {adjust_crowd_rating 0.1})
+   (f
+      "Toggle drum freestyle"
+      {toggle_drum_freestyle})
+   (F
+      "Cycle Free Camera"
+      {cycle_free_camera})
+   (g
+      "Meta: Print char guid Game: dump clip report"
+      {if_else
+         {!
+            {game is_up}}
+         {cheat_print_guid}
+         {do
+            ($grand_total 0)
+            {$world
+               iterate
+               CompositeCharacter
+               $char
+               {with
+                  $char
+                  {do
+                     ($total 0)
+                     {print
+                        $this
+                        "\n"}
+                     {$this
+                        iterate
+                        CharClipSet
+                        $clips
+                        {do
+                           ($sec 0)
+                           ($size
+                              {$clips total_size})
+                           {'+=' $total $size}
+                           {$clips
+                              iterate
+                              CharClip
+                              $c
+                              {'+='
+                                 $sec
+                                 {$c get length_seconds}}}
+                           {print
+                              "   "
+                              $clips
+                              " size:"
+                              $size
+                              " sec:"
+                              $sec
+                              " b/s:"
+                              {/ $size $sec}
+                              "\n"}}}
+                     {print
+                        "   total size: "
+                        $total
+                        "\n"}
+                     {'+=' $grand_total $total}}}}
+            {print
+               "grand total: "
+               $grand_total
+               "\n"}}})
+   (G
+      "Print faders"
+      {audio print_faders})
+   (h
+      "Toggle HUD"
+      {handle
+         ({get_track_panel}
+            set_showing
+            {!
+               {{get_track_panel}
+                  showing}})})
+   (H
+      "Toggle forced detection of calbert"
+      {toggle_forced_autocal})
+   (I
+      "Toggle Light Preset overlay"
+      {rnd toggle_overlay light_preset})
+   (i
+      "Game: Toggle lighting events - Meta: Toggle Store Index"
+      {if_else
+         {game is_up}
+         {do
+            ($ignore
+               {handle
+                  ($world toggle_lighting_events)})
+            {cheat_display
+               show
+               {sprint
+                  "light preset frozen: "
+                  $ignore}}}
+         {cheat_display
+            show
+            {sprintf
+               "Music Store now using %s metadata"
+               {net_cache_mgr cheat_next_server}}}})
+   (j
+      "Toggle character overlay"
+      {rnd toggle_overlay char_status TRUE})
+   (J
+      "toggle message tracker"
+      {if_else
+         {message_timer_on}
+         {do
+            {message_timer_stop}
+            {message_timer_dump}
+            {cheat_display
+               show
+               {sprint
+                  "message tracker off"}}}
+         {message_timer_start}})
+   (k
+      "Toggle latency overlay"
+      {if
+         {exists crowd_audio}
+         {crowd_audio set_enabled FALSE}
+         {set
+            $latency_test
+            {mod
+               {'+' $latency_test 1}
+               6}}})
+   (K
+      "Print out/syncoffset timings"
+      {print_deltas}
+      {print
+         "sync_offset "
+         {profile_mgr get_sync_offset}
+         "\n"}
+      {print
+         "song_to_taskmgr "
+         {profile_mgr get_song_to_taskmgr_ms}
+         "\n"})
+   (l
+      "Game: Lose - Meta: Toggle All BOTB Live"
+      {if_else
+         {exists beatmatch}
+         {{beatmatch active_player 0}
+            lose}
+         {cheat_display
+            show_bool
+            "All BOTB Live"
+            {tour toggle_all_live}}})
+   (L
+      "Toggle audio levels"
+      {synth toggle_hud})
+   (m
+      "Game: Toggle crowd meter - Meta: Cycle Next Rock Moment"
+      {if_else
+         {game is_up}
+         {toggle_crowd_meter}
+         {if
+            {tour band}
+            {cheat_display
+               show
+               {sprint
+                  "Next moment: "
+                  {{tour band}
+                     cheat_cycle_next_moment}
+                  " (changing event resets moment)"}}}})
+   (M
+      "Toggle mutes all"
+      {toggle_mute_global})
+   (n
+      "Toggle killing notifies"
+      {set
+         $kill_notifies
+         {! $kill_notifies}}
+      {cheat_display
+         show
+         {sprint
+            "Kill notifies "
+            $kill_notifies}})
+   (N
+      "Force Finale sequence at the end of the last song"
+      {cheat_display
+         show_bool
+         "Finale"
+         {meta_performer cheat_toggle_finale}})
+   (o
+      "Push Network Channel selection screen"
+      {unless
+         {matchmaker is_finding}
+         {ui push_screen selchannel_screen}})
+   (O
+      "Print the symbol table"
+      {print_symbol_table syms})
+   (p
+      "Game: Toggle auto play / Patch Creator: Fill all patch layers"
+      {if_else
+         {game is_up}
+         {toggle_auto_play}
+         {handle
+            ({ui current_screen}
+               cheat_fill_patch_layers)}})
+   (P
+      "Game: Perpetual endgame / Shell: Toggle Random Song Debug"
+      {if_else
+         {game is_up}
+         {do
+            {toggle_perpetual_endgame}
+            {cheat_display
+               show_bool
+               "Perpetual endgame"
+               $perpetual_endgame}}
+         {cheat_display
+            show_bool
+            "Random Song Debug"
+            {song_mgr toggle_random_song_debug}}})
+   (q
+      "Print Current Screen"
+      {handle
+         ({ui current_screen}
+            print)})
+   (Q
+      "toggle phoneme feedback"
+      {{get_track_panel}
+         toggle_phoneme_feedback})
+   (r
+      "Toggle Shell Automation"
+      {cheat_display
+         show
+         {sprint
+            "Shell Automation: "
+            {ui toggle_auto}}})
+   (R
+      "Toggle Shell Recording"
+      {cheat_display
+         show
+         {sprint
+            "Shell Recording: "
+            {ui toggle_record}}})
+   (s
+      "Toggle scoring info"
+      {if
+         {game is_up}
+         {rnd toggle_overlay score}})
+   (S
+      "Fill up the band energy"
+      {fill_band_energy})
+   (t
+      "Toggle time overlay"
+      {rnd toggle_overlay time})
+   (T
+      "Toggle profiling timers"
+      {rnd toggle_timers}
+      {rnd toggle_overlay rate})
+   (u
+      "Toggle chord hopos"
+      {set
+         $chord_hopos
+         {! $chord_hopos}})
+   (U
+      "Toggle UI load times"
+      {ui toggle_load_times})
+   (v
+      "Song select: Toggle venue select modifier"
+      {if
+         {song_select_panel is_up}
+         {modifier_mgr toggle_modifier_active mod_choose_venue}
+         {if_else
+            {modifier_mgr is_modifier_active mod_choose_venue}
+            {cheat_display
+               show
+               "Venue select is now active."}
+            {cheat_display
+               show
+               "Venue select is deactivated."}}})
+   (V
+      "toggle vocal score info"
+      {{get_track_panel}
+         toggle_score_debug})
+   (w
+      "Game: Force a win"
+      {if
+         {exists beatmatch}
+         {{beatmatch active_player 0}
+            win
+            3}})
+   (W
+      "Toggle showing test offers in Music Store"
+      {cheat_display
+         show_bool
+         "Show Music Store test offers"
+         {store_panel toggle_test_offers}})
+   (x
+      "Cycle Guitar FX"
+      {cycle_guitar_fx})
+   (X
+      "Toggle shuttle"
+      {toggle_shuttle})
+   (y
+      "Toggle lyric display mode"
+      {{get_track_panel}
+         toggle_lyric_mode})
+   (Y
+      "Game: Toggle mute master fader / Meta: Toggle Store Service ID (PS3-only)"
+      {if_else
+         {game is_up}
+         {audio toggle_mute_master}
+         #ifdef HX_PS3
+         {cheat_display
+            show
+            {sprintf
+               "PS3 In-Game Service ID: %s"
+               {store_panel toggle_service_id}}}
+         #else
+         {print
+            "PS3 only\n"}
+         #endif})
+   (z
+      "Toggle showing world"
+      {world_panel
+         set_showing
+         {!
+            {world_panel showing}}})
+   (Z
+      "Hi-reZ screen shot"
+      {rnd hi_res_screen 3})
+   (>
+      "Skip current tutorial VO"
+      {tutorials_state_panel reset_vo})
+   (<
+      "Jump backward a bit in time"
+      {beatmatch
+         jump
+         {-
+            {beatmatch get_song_ms}
+            1000.0}})
+   (KB_UP
+      "Double song speed"
+      {change_speed 2.0})
+   (KB_DOWN
+      "Halve song speed"
+      {change_speed 0.5})
+   ('\\'
+      "Tweak UI Camera with controller 1"
+      {{get_track_panel}
+         toggle_cam_tweaking})
+   ('~'
+      "Toggle autoplay for player 2"
+      {toggle_player_autoplay 1})
+   (-
+      "Toggle autoplay for player 3"
+      {toggle_player_autoplay 2})
+   (_
+      "Toggle autoplay for player 4"
+      {toggle_player_autoplay 3})
+   (','
+      "Deploy Overdrive Player 1"
+      {player_deploy 0})
+   (.
+      "Deploy Overdrive Player 2"
+      {player_deploy 1})
+   (/
+      "Deploy Overdrive Player 3"
+      {player_deploy 2})
+   ('?'
+      "Deploy Overdrive Player 4"
+      {player_deploy 3})
+   (KB_F9
+      "No Drum Fills"
+      {toggle_no_drum_fills})
+   (KB_F6
+      "Print base points"
+      {beatmatch print_base_points}))

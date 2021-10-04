@@ -1,0 +1,144 @@
+#undef GUITAR_ZOOM_SECS
+#define GUITAR_ZOOM_SECS
+(0.5)
+#define HOPOS_TO_HIT
+(3)
+SETUP_GUITAR_TUTORIAL
+GUITAR_TV_WHITE
+START_BG_MUSIC
+{setup_lesson_banner tutorial_guitar_advanced_hopos_part}
+{play_vo tute_guitar3_hopointro}
+WAIT_FOR_VO
+LONG_VO_GAP
+SHOW_DETAILED_GUITAR
+GUITAR_FRET_NEUTRAL
+GUITAR_STRUM_MIDDLE
+{play_vo tute_guitar3_ho1}
+WAIT_FOR_VO
+SHORT_VO_GAP
+GUITAR_FRET_GREEN
+GUITAR_ANIM_PAUSE
+GUITAR_STRUM_DOWN
+GUITAR_HOPO_SOUND_GREEN
+GUITAR_ANIM_PAUSE
+GUITAR_STRUM_MIDDLE
+SHORT_VO_GAP
+{play_vo tute_guitar3_ho1b}
+WAIT_FOR_VO
+SHORT_VO_GAP
+GUITAR_FRET_GREEN_RED
+GUITAR_HOPO_SOUND_RED
+SHORT_VO_GAP
+{play_vo tute_guitar3_ho1c}
+WAIT_FOR_VO
+SHORT_VO_GAP
+GUITAR_FRET_GREEN_RED_YELLOW
+GUITAR_HOPO_SOUND_YELLOW
+LONG_VO_GAP
+GUITAR_FRET_NEUTRAL
+GUITAR_ANIM_PAUSE
+GUITAR_FRET_GREEN
+GUITAR_ANIM_PAUSE
+GUITAR_STRUM_DOWN
+GUITAR_HOPO_SOUND_GREEN
+GUITAR_ANIM_PAUSE
+GUITAR_STRUM_MIDDLE
+GUITAR_FRET_GREEN_RED
+GUITAR_HOPO_SOUND_RED
+GUITAR_ANIM_PAUSE
+GUITAR_FRET_GREEN_RED_YELLOW
+GUITAR_HOPO_SOUND_YELLOW
+GUITAR_ANIM_PAUSE
+GUITAR_FRET_GREEN
+GUITAR_ANIM_PAUSE
+GUITAR_STRUM_DOWN
+GUITAR_HOPO_SOUND_GREEN
+GUITAR_ANIM_PAUSE
+GUITAR_STRUM_MIDDLE
+GUITAR_FRET_GREEN_RED
+GUITAR_HOPO_SOUND_RED
+GUITAR_ANIM_PAUSE
+GUITAR_FRET_GREEN_RED_YELLOW
+GUITAR_HOPO_SOUND_YELLOW
+GUITAR_ANIM_PAUSE
+GUITAR_FRET_GREEN
+GUITAR_ANIM_PAUSE
+GUITAR_STRUM_DOWN
+GUITAR_HOPO_SOUND_GREEN
+GUITAR_ANIM_PAUSE
+GUITAR_STRUM_MIDDLE
+GUITAR_FRET_GREEN_RED
+GUITAR_HOPO_SOUND_RED
+GUITAR_ANIM_PAUSE
+GUITAR_FRET_GREEN_RED_YELLOW
+GUITAR_HOPO_SOUND_YELLOW
+GUITAR_ANIM_PAUSE
+GUITAR_FRET_NEUTRAL
+LONG_VO_GAP
+{new
+   Object
+   tutorial_guitar_advanced_hopos_callback
+   (fret_played)
+   (hopo_hit
+      {set
+         [hopos_hit]
+         {'+'
+            [hopos_hit]
+            1}}
+      {update_task_score
+         {localize tutorial_guitar_advanced_hopos_score}
+         [hopos_hit]
+         HOPOS_TO_HIT}
+      ANIMATE_SCORE)
+   (hopos_hit 0)}
+{set $hopos_hit 0}
+{play_vo tute_guitar3_hotask}
+STOP_BG_MUSIC
+WAIT_FOR_VO
+SHORT_VO_GAP
+UNHIDE_CHECKMARKS
+HIDE_DETAILED_GUITAR
+SHOW_TUNE_GUITAR
+{set_info_text
+   {localize tutorial_guitar_advanced_hopos_task}}
+{show_info_text TRUE}
+{update_task_score
+   {localize tutorial_guitar_advanced_hopos_score}
+   0
+   HOPOS_TO_HIT}
+SHOW_SCORE
+{$this start_hopo_train kHammerOnTutorial tutorial_guitar_advanced_hopos_callback}
+{$task
+   wait_timeout
+   {$this is_hopo_training}
+   60
+   $timeout}
+FREEZE_SCORE_TEXT
+{if_else
+   $timeout
+   {$this end_hopo_train}
+   {synth play tuningcomplete}}
+{$this all_frets_off}
+{$task sleep 2}
+HIDE_CHECKMARKS
+HIDE_TUNE_GUITAR
+{if_else
+   $timeout
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_advanced_hopos_failed}}
+      {play_vo tute_guitar3_hofail}}
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_advanced_hopos_done}}
+      {play_vo tute_guitar3_howin}}}
+{show_info_text FALSE}
+{show_part_text FALSE}
+{show_banner_text TRUE}
+HIDE_SCORE
+START_BG_MUSIC
+WAIT_FOR_VO
+SHORT_VO_GAP
+{do_fail_menu $timeout}
+RETURN_FROM_FAIL_MENU
+{tutorials_state_panel switch_to_next_state}

@@ -1,0 +1,195 @@
+#define TUTORIALS_VOCALS_NUM_NAMES
+(15)
+#define TUTORIAL_VOCALS_BASICS_WRAPUP_PAUSE2
+(1.5)
+#define TUTORIAL_VOCALS_BASICS_WRAPUP_PAUSE3
+(4.0)
+#define TUTORIAL_VOCALS_BASICS_STARPOWER_PAUSE
+(6.0)
+#define DELETE_VOCALS_TUTORIAL_CALLBACKS
+({if
+      {exists tutorial_vocals_basics_singing_callback}
+      {delete tutorial_vocals_basics_singing_callback}}
+   {if
+      {exists tutorial_vocals_basics_nonpitched_callback}
+      {delete tutorial_vocals_basics_nonpitched_callback}}
+   {if
+      {exists tutorial_vocals_basics_rhythm_callback}
+      {delete tutorial_vocals_basics_rhythm_callback}}
+   {if
+      {exists tutorial_vocals_basics_starpower_callback}
+      {delete tutorial_vocals_basics_starpower_callback}})
+#define STOP_VOCALS_SFX
+({synth stop music_intro.cue}
+   {synth stop music_outro.cue})
+#define HIDE_PHRASE_METER_ARROW
+({phrase_meter_arrow.mesh set_showing FALSE})
+#define HIDE_RATING_ARROW
+({rating_arrow.mesh set_showing FALSE})
+#define HIDE_MULTIPLIER_ARROW
+({multiplier_arrow.mesh set_showing FALSE})
+#undef HIDE_SCORE_METER_ARROW
+#define HIDE_SCORE_METER_ARROW
+({score_meter_arrow.mesh set_showing FALSE})
+#undef HIDE_CROWD_METER_ARROW
+#define HIDE_CROWD_METER_ARROW
+({crowd_meter_arrow.mesh set_showing FALSE})
+#define HIDE_PERCENT_ARROW
+({percent_arrow.mesh set_showing FALSE})
+#undef HIDE_NOWBAR_ARROW
+#define HIDE_NOWBAR_ARROW
+({nowbar_arrow.mesh set_showing FALSE})
+#define HIDE_PITCH_ARROW_ARROW
+({pitch_arrow.mesh set_showing FALSE})
+#define HIDE_NOTE_ARROW
+({note_arrow.mesh set_showing FALSE})
+#define HIDE_STARPOWER_METER_ARROW
+({starpower_meter_arrow.mesh set_showing FALSE})
+#define HIDE_TAMBOURINE_NOTE_ARROW
+({tambourine_note_arrow.mesh set_showing FALSE})
+#define HIDE_PHRASE_MARKER_ARROW
+({phrase_marker_arrow.mesh set_showing FALSE})
+#define HIDE_NONPITCHED_ARROW
+({nonpitched_arrow.mesh set_showing FALSE})
+#define HIDE_DEPLOY_PHRASE_ARROW
+({deploy_phrase_arrow.grp set_showing FALSE})
+#define SHOW_PHRASE_METER_ARROW
+({phrase_meter_arrow.mesh set_showing TRUE})
+#define SHOW_RATING_ARROW
+({rating_arrow.mesh set_showing TRUE})
+#define SHOW_MULTIPLIER_ARROW
+({multiplier_arrow.mesh set_showing TRUE})
+#undef SHOW_SCORE_METER_ARROW
+#define SHOW_SCORE_METER_ARROW
+({score_meter_arrow.mesh set_showing TRUE})
+#undef SHOW_CROWD_METER_ARROW
+#define SHOW_CROWD_METER_ARROW
+({crowd_meter_arrow.mesh set_showing TRUE})
+#define SHOW_PERCENT_ARROW
+({percent_arrow.mesh set_showing TRUE})
+#undef SHOW_NOWBAR_ARROW
+#define SHOW_NOWBAR_ARROW
+({nowbar_arrow.mesh set_showing TRUE})
+#define SHOW_PITCH_ARROW_ARROW
+({pitch_arrow.mesh set_showing TRUE})
+#define SHOW_NOTE_ARROW
+({note_arrow.mesh set_showing TRUE})
+#define SHOW_STARPOWER_METER_ARROW
+({starpower_meter_arrow.mesh set_showing TRUE})
+#define SHOW_TAMBOURINE_NOTE_ARROW
+({tambourine_note_arrow.mesh set_showing TRUE})
+#define SHOW_PHRASE_MARKER_ARROW
+({phrase_marker_arrow.mesh set_showing TRUE})
+#define SHOW_NONPITCHED_ARROW
+({nonpitched_arrow.mesh set_showing TRUE})
+#define SHOW_DEPLOY_PHRASE_ARROW
+({deploy_phrase_arrow.grp set_showing TRUE})
+#define HIDE_ALL_VOCALS_ARROWS
+(HIDE_PHRASE_METER_ARROW HIDE_RATING_ARROW HIDE_MULTIPLIER_ARROW HIDE_SCORE_METER_ARROW HIDE_CROWD_METER_ARROW HIDE_PERCENT_ARROW HIDE_NOWBAR_ARROW HIDE_PITCH_ARROW_ARROW HIDE_NOTE_ARROW HIDE_STARPOWER_METER_ARROW HIDE_TAMBOURINE_NOTE_ARROW HIDE_PHRASE_MARKER_ARROW HIDE_NONPITCHED_ARROW HIDE_DEPLOY_PHRASE_ARROW)
+#define SHOW_MIC_PIC
+({mic.mesh set_showing TRUE})
+#define HIDE_MIC_PIC
+({mic.mesh set_showing FALSE})
+#define INIT_VOCALS_TUTORIAL
+({tutorials_state_panel init_state})
+#define SETUP_VOCALS_TUTORIAL
+(RESET_TUTORIAL_GAMEMODE
+   VOCALS_TV_RESET
+   STOP_VOCALS_SFX
+   HIDE_MIC_PIC
+   HIDE_ALL_UI
+   HIDE_ALL_VOCALS_ARROWS
+   HIDE_TAMBOURINE_UI
+   UNHIDE_VOCALS_PLAYER_UI
+   UNHIDE_PITCH_ARROW
+   AUTOPLAY_OFF
+   DELETE_VOCALS_TUTORIAL_CALLBACKS
+   DISABLE_VOCALS_POPUP_HELP
+   UNFREEZE_SCORE_TEXT
+   {beatmatch set_time_paused TRUE}
+   HIDE_TRACK_PANEL
+   {{gamemode get main_panel}
+      set_sfx_volume
+      0.0}
+   {tv_overlay.trg trigger}
+   {tutorial_bg_highlight.trg trigger}
+   RESET_TUT_INFO
+   FORCE_TUTORIAL_PANEL_ZOOM_OUT
+   {tutorials_state_panel on_guide_change}
+   {tutorials_state_panel on_mics_change})
+{new
+   VocalsTutorialPanel
+   tutorials_vocals_main_panel
+   TUTORIALS_MAIN_PANEL_FILE
+   TUTORIALS_MAIN_PANEL_REDIRECTED_FUNCTIONS
+   TUTORIALS_MAIN_PANEL_GENERAL_FUNCTIONS
+   (num_tutorial_names TUTORIALS_VOCALS_NUM_NAMES)
+   (beat_callback
+      ($beat $beat_count))
+   (tutorial_states
+      (invalid_state loading_screen back_to_main_menu back_to_lesson_menu basics_intro basics_singing basics_nonpitched basics_mechanics basics_rhythm basics_starpower basics_wrapup))
+   (tutorial_states_ambient
+      (FALSE FALSE FALSE FALSE FALSE TRUE TRUE TRUE TRUE TRUE TRUE))
+   (tutorial_states_can_inc
+      (FALSE FALSE FALSE FALSE TRUE TRUE TRUE TRUE TRUE TRUE FALSE))
+   (tutorial_states_can_dec
+      (FALSE FALSE FALSE FALSE FALSE TRUE TRUE TRUE TRUE TRUE TRUE))
+   (tutorial_lessons
+      ((Lesson1.btn basics_intro vocals_basics_rhythm_muted check01.mesh)))
+   (enter
+      TUTORIALS_MAIN_PANEL_ENTER
+      INIT_VOCALS_TUTORIAL
+      {gamecfg auto_assign_missing_slots})
+   (exit TUTORIALS_MAIN_PANEL_EXIT)
+   (pause)
+   (unpause)
+   (set_local_state
+      ($state)
+      {switch
+         $state
+         (basics_intro
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include vocals/basics/intro.dta)})
+         (basics_singing
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include vocals/basics/singing.dta)})
+         (basics_nonpitched
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include vocals/basics/nonpitched.dta)})
+         (basics_mechanics
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include vocals/basics/mechanics.dta)})
+         (basics_rhythm
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include vocals/basics/rhythm.dta)})
+         (basics_starpower
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include vocals/basics/starpower.dta)})
+         (basics_wrapup
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include vocals/basics/wrapup.dta)})
+         {notify
+            "missing state handler, switching to next state"}
+         {tutorials_state_panel switch_to_next_state}})}
+{new
+   BandScreen
+   tutorials_vocals_main_screen
+   (panels TUTORIALS_PRELOAD_PANELS tutorials_background_panel game tutorials_state_panel tutorials_tv_screen_panel coop_track_panel tutorials_tv_overlay_panel tutorials_vocals_main_panel)
+   (focus tutorials_vocals_main_panel)
+   TUTORIALS_MAIN_SCREEN_GENERAL_PROPERTIES
+   (enter TUTORIALS_MAIN_SCREEN_ENTER)
+   (BUTTON_DOWN_MSG TUTORIALS_MAIN_SCREEN_HANDLERS_BUTTON_DOWN_MSG)}

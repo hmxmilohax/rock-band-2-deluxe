@@ -1,0 +1,911 @@
+#define CHEAT_DISPLAY_S
+(5)
+{new
+   Object
+   cheat_display
+   (show
+      ($msg)
+      {rnd show_overlay cheats TRUE CHEAT_DISPLAY_S}
+      {rnd
+         reflect
+         cheats
+         {print
+            $msg
+            "\n"}}
+      {print
+         $msg
+         "\n"})
+   (show_bool
+      ($label $val)
+      {$this
+         show
+         {sprint
+            $label
+            ": "
+            {if_else
+               $val
+               "ON"
+               "OFF"}}})}
+#define CHAR_OBJECTS
+({find_obj $world player_drum0 left_hand.dmidi}
+   {find_obj $world player_drum0 right_hand.dmidi}
+   {find_obj $world player_guitar0 main.drv}
+   {find_obj $world player_guitar0 strum.dmidi}
+   {find_obj $world player_guitar0 fret.dmidi}
+   {find_obj $world player_bass0 main.drv}
+   {find_obj $world player_bass0 strum.dmidi}
+   {find_obj $world player_bass0 fret.dmidi}
+   {find_obj $world player_drum0 main.drv}
+   {find_obj $world player_vocals0 main.drv}
+   {find_obj $world player_drum1 left_hand.dmidi}
+   {find_obj $world player_drum1 right_hand.dmidi}
+   {find_obj $world player_guitar1 main.drv}
+   {find_obj $world player_guitar1strum.dmidi}
+   {find_obj $world player_guitar1 fret.dmidi}
+   {find_obj $world player_bass1 main.drv}
+   {find_obj $world player_bass1 strum.dmidi}
+   {find_obj $world player_bass1 fret.dmidi}
+   {find_obj $world player_drum1 main.drv}
+   {find_obj $world player_vocals1 main.drv})
+{func
+   next_character_driver
+   {if
+      $world
+      {do
+         ($index -1)
+         {foreach
+            $obj
+            (CHAR_OBJECTS)
+            {if
+               {==
+                  $char_debug_driver
+                  {'++' $index}}
+               {unless
+                  {char_debug $obj}
+                  {'++' $char_debug_driver}}}}
+         {if
+            {==
+               $char_debug_driver
+               {'++' $index}}
+            {char_debug}}
+         {set
+            $char_debug_driver
+            {mod
+               {'+' 1 $char_debug_driver}
+               {'++' $index}}}}}}
+{func
+   A_cheat
+   {if_else
+      {meta is_up}
+      {do
+         {cheat_display
+            show_bool
+            "Unlock All"
+            {toggle_unlock_all}}
+         {update_tour_display}}
+      {toggle_crowd_audio}}}
+{func
+   b_cheat
+   {if
+      {meta is_up}
+      {if
+         {tour band}
+         {cheat_display
+            show
+            {sprint
+               "Current buzz: "
+               {{tour band}
+                  buzz}}}}}}
+{func
+   cycle_free_camera
+   {if
+      $world
+      {do
+         ($free_cam_state
+            {$world get_free_cam_state})
+         {switch
+            $free_cam_state
+            (0
+               {$world toggle_free_cam $cheat_controller}
+               {cheat_display
+                  show
+                  "Free camera: world"}
+               {$world next_free_cam_state})
+            (1
+               {$world
+                  set_free_cam_parent
+                  {find_obj $world player_vocals0 bone_head.mesh}}
+               {$world set_free_cam_parent_dof 0 0 1}
+               {$world set_free_cam_pos 0 60 0}
+               {$world set_free_cam_rot 0 -90 180}
+               {cheat_display
+                  show
+                  "Free camera: vocalist"}
+               {$world next_free_cam_state})
+            (2
+               {$world
+                  set_free_cam_parent
+                  {find_obj $world player_vocals0 bone_head.mesh}}
+               {$world set_free_cam_parent_dof 1 1 1}
+               {$world set_free_cam_pos 0 60 0}
+               {$world set_free_cam_rot 0 -90 180}
+               {cheat_display
+                  show
+                  "Free camera: vocalist fixed"}
+               {$world next_free_cam_state})
+            (3
+               {$world toggle_free_cam $cheat_controller}
+               {cheat_display
+                  show
+                  "Free camera: frozen"}
+               {$world next_free_cam_state})
+            (4
+               {$world toggle_free_cam $cheat_controller}
+               {cheat_display
+                  show
+                  "Free camera: off"}
+               {$world next_free_cam_state})}}}}
+{func
+   toggle_crowd_meter
+   {if
+      {exists beatmatch}
+      {do
+         ($new
+            {!
+               {{beatmatch active_player 0}
+                  crowd_rating_active}})
+         {band_0 set_crowd_meter_active $new}
+         {cheat_display
+            show_bool
+            "Crowd meter"
+            $new}}}}
+{func
+   start_shuttle
+   {if
+      {exists beatmatch}
+      {if_else
+         {rnd overlay_showing time}
+         {set $cheat.show_time FALSE}
+         {do
+            {rnd show_overlay time TRUE}
+            {set $cheat.show_time TRUE}}}
+      {beatmatch set_time_paused TRUE}
+      {{beatmatch active_player 0}
+         set_crowd_rating_active
+         FALSE}
+      {beatmatch set_shuttle TRUE $cheat_controller}}}
+{func
+   stop_shuttle
+   {beatmatch set_shuttle FALSE}
+   {beatmatch set_time_paused FALSE}
+   {if
+      $cheat.show_time
+      {rnd show_overlay time FALSE}}}
+{func
+   toggle_shuttle
+   {if_else
+      {beatmatch shuttle_active}
+      {stop_shuttle}
+      {start_shuttle}}}
+{set $mute_cheat FALSE}
+{func
+   toggle_mute_global
+   {set
+      $mute_cheat
+      {! $mute_cheat}}
+   {if_else
+      $mute_cheat
+      {do
+         {synth set_master_vol kDbSilence}
+         {cheat_display
+            show
+            "Mute all: TRUE"}}
+      {do
+         {synth set_master_vol 0}
+         {cheat_display
+            show
+            "Mute all: FALSE"}}}}
+{func
+   next_tutorial_lesson
+   {if
+      {&&
+         {exists tutorial}
+         {tutorial is_up}}
+      {tutorial tutorial_inc 1}}}
+{func
+   prev_tutorial_lesson
+   {if
+      {&&
+         {exists tutorial}
+         {tutorial is_up}}
+      {tutorial tutorial_inc -1}}}
+{func
+   toggle_crowd_audio
+   {if
+      {exists crowd_audio}
+      {do
+         ($new
+            {!
+               {crowd_audio enabled}})
+         {crowd_audio set_enabled $new}
+         {cheat_display
+            show_bool
+            "CrowdAudio"
+            $new}}}}
+{func
+   toggle_forced_autocal
+   {if_else
+      {== 1 $force_autocal}
+      {set $force_autocal 0}
+      {set $force_autocal 1}}
+   {cheat_display
+      show
+      {sprint
+         "forced calbert: "
+         $force_autocal}}}
+{func
+   toggle_auto_play
+   {if_else
+      {>
+         {game get_num_local_players}
+         1}
+      {cycle_multiplayer_auto_play}
+      {if
+         {exists beatmatch}
+         {do
+            ($player
+               {beatmatch local_player 0})
+            {if
+               $player
+               {$player
+                  set_auto_play
+                  {!
+                     {$player auto_play}}}
+               {cheat_display
+                  show_bool
+                  "Autoplay"
+                  {$player auto_play}}}}}}}
+{func
+   toggle_player_autoplay
+   ($player_num)
+   {if
+      {exists beatmatch}
+      {if
+         {<
+            $player_num
+            {game get_num_local_players}}
+         {do
+            ($player
+               {beatmatch local_player $player_num})
+            {if
+               $player
+               {$player
+                  set_auto_play
+                  {!
+                     {$player auto_play}}}
+               {cheat_display
+                  show_bool
+                  {sprint
+                     "Autoplay : Player "
+                     {'+' $player_num 1}
+                     " "}
+                  {$player auto_play}}}}}}}
+#define FOUR_PLAYER_STATES
+(((FALSE
+         FALSE
+         FALSE
+         FALSE
+         "off")
+      (TRUE
+         TRUE
+         TRUE
+         TRUE
+         "all")
+      (TRUE
+         FALSE
+         FALSE
+         FALSE
+         "player1")
+      (FALSE
+         TRUE
+         FALSE
+         FALSE
+         "player2")
+      (FALSE
+         FALSE
+         TRUE
+         FALSE
+         "player3")
+      (FALSE
+         FALSE
+         FALSE
+         TRUE
+         "player4")
+      (FALSE
+         TRUE
+         TRUE
+         TRUE
+         "all but player1")
+      (TRUE
+         FALSE
+         TRUE
+         TRUE
+         "all but player2")
+      (TRUE
+         TRUE
+         FALSE
+         TRUE
+         "all but player3")
+      (TRUE
+         TRUE
+         TRUE
+         FALSE
+         "all but player4")
+      (TRUE
+         TRUE
+         FALSE
+         FALSE
+         "player1 and player2")
+      (TRUE
+         FALSE
+         TRUE
+         FALSE
+         "player1 and player3")
+      (TRUE
+         FALSE
+         FALSE
+         TRUE
+         "player1 and player4")
+      (FALSE
+         TRUE
+         TRUE
+         FALSE
+         "player2 and player3")
+      (FALSE
+         TRUE
+         FALSE
+         TRUE
+         "player2 and player4")
+      (FALSE
+         FALSE
+         TRUE
+         TRUE
+         "player3 and player4")))
+#define THREE_PLAYER_STATES
+(((FALSE
+         FALSE
+         FALSE
+         "off")
+      (TRUE
+         TRUE
+         TRUE
+         "all")
+      (TRUE
+         FALSE
+         FALSE
+         "player1")
+      (FALSE
+         TRUE
+         FALSE
+         "player2")
+      (FALSE
+         FALSE
+         TRUE
+         "player3")
+      (TRUE
+         TRUE
+         FALSE
+         "player1 and player2")
+      (TRUE
+         FALSE
+         TRUE
+         "player1 and player3")
+      (FALSE
+         TRUE
+         TRUE
+         "player2 and player3")))
+#define TWO_PLAYER_STATES
+(((FALSE
+         FALSE
+         "off")
+      (TRUE
+         TRUE
+         "all")
+      (TRUE
+         FALSE
+         "player1")
+      (FALSE
+         TRUE
+         "player2")))
+{set $multi_auto_index 0}
+{func
+   cycle_multiplayer_auto_play
+   {if
+      {exists beatmatch}
+      {set
+         $multi_table
+         {switch
+            {game get_num_local_players}
+            (2 TWO_PLAYER_STATES)
+            (3 THREE_PLAYER_STATES)
+            (4 FOUR_PLAYER_STATES)}}
+      {do
+         ($new_index
+            {mod
+               {'+' $multi_auto_index 1}
+               {size $multi_table}})
+         ($state)
+         {set
+            $state
+            {elem $multi_table $new_index}}
+         {foreach_int
+            $i
+            0
+            {game get_num_local_players}
+            {do
+               ($player
+                  {beatmatch local_player $i})
+               {if
+                  $player
+                  {$player
+                     set_auto_play
+                     {elem $state $i}}}}}
+         {cheat_display
+            show
+            {sprint
+               "Autoplay: "
+               {elem
+                  $state
+                  {-
+                     {size $state}
+                     1}}}}
+         {set $multi_auto_index $new_index}}}}
+{func
+   adjust_crowd_rating
+   ($delta)
+   {if
+      {exists beatmatch}
+      {{beatmatch active_player 0}
+         set_crowd_rating
+         {'+'
+            {{beatmatch active_player 0}
+               crowd_rating}
+            $delta}}}}
+{func
+   fake_player1_cheat
+   ($player)
+   {set_fake_player1 $player}
+   {cheat_display
+      show
+      {sprint
+         "Faking Player "
+         {'+' $player 1}
+         " for Joypad 1"}}}
+{func
+   toggle_time_paused
+   {do
+      ($new
+         {!
+            {game paused}})
+      {game set_paused $new}}}
+{func
+   toggle_fretboard
+   {unless
+      {meta is_up}
+      {{get_track_panel}
+         set_showing
+         {!
+            {{get_track_panel}
+               showing}}}}}
+{func
+   change_speed
+   ($factor)
+   {if
+      {&&
+         {!
+            {meta is_up}}
+         {exists beatmatch}}
+      {beatmatch
+         set_music_speed
+         {'*'
+            {beatmatch music_speed}
+            $factor}}}}
+{func
+   lights_debug
+   ($msg)
+   {rnd
+      reflect
+      lights
+      {print
+         "Lights: "
+         $msg
+         "\n"}}}
+{func
+   cheat_add_money
+   ($amount)
+   {if
+      {tour band}
+      {{tour band}
+         cheat_add_money
+         $amount}
+      {cheat_display
+         show
+         {sprint
+            "Added "
+            $amount}}
+      {update_tour_display}
+      {if
+         {shop_char_panel is_up}
+         {shop_char_panel save}}}}
+{func
+   cheat_print_guid
+   {if_else
+      {shop_char_panel is_up}
+      {{shop_char_panel get tour_char}
+         print_guid}
+      {notify
+         "Can't print GUID, not in rock shop"}}}
+{func
+   cheat_adjust_buzz
+   ($change)
+   {if
+      {tour band}
+      {{tour band}
+         adjust_buzz
+         $change}
+      {cheat_display
+         show
+         {sprint
+            "Buzz change: "
+            $change
+            ", new Buzz: "
+            {{tour band}
+               buzz}}}
+      {update_tour_display}}}
+{func
+   cheat_adjust_vehicle
+   ($amt)
+   {if
+      {tour band}
+      {{tour band}
+         cheat_vehicle
+         $amt}
+      {cheat_display
+         show
+         {sprintf
+            "New vehicle %s"
+            {{tour band}
+               vehicle}}}
+      {update_tour_display}}}
+{func
+   fake_event_win
+   ($avg_stars)
+   {if
+      {&&
+         {!
+            {ui in_transition}}
+         {'||'
+            {==
+               {ui current_screen}
+               tour_world_event_screen}
+            {==
+               {ui current_screen}
+               tour_challenge_screen}}
+         {{tour band}
+            is_local}}
+      {do
+         ($event FALSE)
+         {if_else
+            {==
+               {ui current_screen}
+               tour_challenge_screen}
+            {do
+               {set
+                  $event
+                  {tour_challenge_panel selected_event}}
+               {if
+                  $event
+                  {{tour band}
+                     set_event
+                     $event}}}
+            {set
+               $event
+               {tour event}}}
+         {if
+            $event
+            {do
+               ($stars
+                  {{tour band}
+                     town_fame})
+               ($buzz
+                  {{tour band}
+                     buzz})
+               {{tour band}
+                  cheat_win
+                  $avg_stars}
+               {do
+                  ($msg
+                     {sprintf
+                        "Won %s w/ %d star average"
+                        {{tour event}
+                           display_name}
+                        $avg_stars})
+                  {if
+                     {==
+                        {{tour band}
+                           event_type}
+                        kTourEventWorld}
+                     {set
+                        $msg
+                        {sprint
+                           $msg
+                           {sprintf
+                              " (net %d stars, %d buzz)"
+                              {-
+                                 {{tour band}
+                                    town_fame}
+                                 $stars}
+                              {-
+                                 {{tour band}
+                                    buzz}
+                                 $buzz}}}}}
+                  {cheat_display show $msg}}}
+            {update_tour_display}}}}}
+{func
+   fill_band_energy
+   {unless
+      {meta is_up}
+      {beatmatch
+         foreach_active_player
+         $p
+         {$p fill_band_energy}}}}
+{func
+   cheat_empty_band_energy
+   {if
+      {&&
+         {exists beatmatch}
+         {!
+            {meta is_up}}}
+      {if_else
+         {game multiplayer}
+         {switch
+            {fake_player1}
+            (3
+               {{beatmatch active_player 3}
+                  empty_band_energy})
+            (2
+               {{beatmatch active_player 2}
+                  empty_band_energy})
+            (1
+               {{beatmatch active_player 1}
+                  empty_band_energy})
+            (0
+               {{beatmatch active_player 0}
+                  empty_band_energy})}
+         {{beatmatch active_player 0}
+            empty_band_energy}}}}
+{set $remote_solo FALSE}
+{func
+   toggle_remote_solo
+   {set
+      $remote_solo
+      {! $remote_solo}}
+   {{beatmatch active_player 1}
+      remote_solo
+      $remote_solo}}
+{func
+   everyone_deploy
+   {unless
+      {meta is_up}
+      {game
+         foreach_local_player
+         $p
+         {$p deploy_if_possible}}}}
+{func
+   player_deploy
+   ($player_num)
+   {unless
+      {meta is_up}
+      {if
+         {exists beatmatch}
+         {if
+            {<
+               $player_num
+               {game get_num_local_players}}
+            {do
+               ($player
+                  {beatmatch local_player $player_num})
+               {if
+                  $player
+                  {$player deploy_if_possible}}}}}}}
+#ifdef HX_XBOX
+{func
+   fake_signout
+   ($pad_num)
+   {cheat_display
+      show
+      {sprintf
+         "Fake Signout on pad %d\n"
+         {'+' 1 $pad_num}}}
+   {print
+      {sprintf
+         "Fake Signout on pad %d\n"
+         $pad_num}}
+   {platform_mgr debug_fake_signin_change_msg $pad_num}}
+#endif
+{func
+   cycle_instrument_override
+   ($pad_num)
+   {if_else
+      {'||'
+         {==
+            {ui current_screen}
+            {gamemode get matchmaking_screen}}
+         {==
+            {{user_mgr debug_get_user_from_pad $pad_num}
+               get_controller_type}
+            kControllerNone}}
+      {do
+         ($old
+            {user_mgr debug_get_controller_type_override $pad_num})
+         ($new
+            {switch
+               $old
+               (kControllerGuitar kControllerDrum)
+               (kControllerDrum kControllerVocals)
+               (kControllerVocals kControllerNone)
+               kControllerGuitar})
+         {user_mgr debug_set_controller_type_override $pad_num $new}
+         {cheat_display
+            show
+            {if_else
+               {== $new kControllerNone}
+               {sprint
+                  "Controller "
+                  {'+' $pad_num 1}
+                  " instrument faking cleared."}
+               {sprint
+                  "Controller "
+                  {'+' $pad_num 1}
+                  " instrument faking to "
+                  {switch
+                     $new
+                     (kControllerGuitar guitar)
+                     (kControllerDrum drum)
+                     (kControllerVocals vocals)
+                     "error"}}}}
+         {do
+            ($user
+               {user_mgr debug_get_user_from_pad $pad_num})
+            ($player_num
+               {if_else
+                  $user
+                  {$user get_user_num}
+                  -1})
+            {cond
+               ({==
+                     {ui current_screen}
+                     {gamemode get matchmaking_screen}}
+                  {{gamemode get matchmaking_screen}
+                     joypad_connect
+                     $player_num
+                     TRUE})
+               ({==
+                     {ui current_screen}
+                     tour_band_sel_screen}
+                  {tour_band_sel_screen joypad_connect $player_num TRUE})}}}
+      {cheat_display
+         show
+         {sprint
+            "Can't change instrument: controller "
+            {'+' $pad_num 1}
+            " is in session."}}}}
+{func
+   fake_win
+   ($num_stars)
+   {if_else
+      {game is_up}
+      {if_else
+         {band_0 band_performer}
+         {{band_0 band_performer}
+            win
+            $num_stars}
+         {{beatmatch active_player 0}
+            win
+            $num_stars}}
+      {fake_event_win $num_stars}}}
+{func
+   fake_win_multi
+   ($num_stars)
+   {if
+      {game is_up}
+      {fake_win $num_stars}
+      {set $cheat.win_event TRUE}}}
+{func
+   toggle_drum_freestyle
+   {game
+      foreach_local_player
+      $p
+      {if
+         {&&
+            $p
+            {==
+               {$p instrument}
+               drum}}
+         {$p
+            force_fill
+            {!
+               {$p are_fills_forced}}}}}}
+{func
+   toggle_no_drum_fills
+   {game
+      foreach_local_player
+      $p
+      {if
+         {&&
+            $p
+            {==
+               {$p instrument}
+               drum}}
+         {cheat_display
+            show_bool
+            "Drum Fills "
+            {$p toggle_no_fills}}}}}
+{set $test_guitar_fx 4}
+{func
+   cycle_guitar_fx
+   {'++' $test_guitar_fx}
+   {if
+      {== $test_guitar_fx 5}
+      {set $test_guitar_fx 0}}
+   {cheat_display
+      show
+      {sprint
+         "guitar fx set to "
+         {elem
+            (wah flanger delay chorus none)
+            $test_guitar_fx}}}
+   {handle
+      (beatmatch
+         foreach_active_player
+         $p
+         {handle
+            ($p update_guitar_fx)})}}
+{func
+   toggle_net_logging
+   {net toggle_logging}}
+{func
+   cheat_toggle_difficulty
+   {do
+      ($new_diff -1)
+      {game
+         foreach_local_user
+         $pcfg
+         {if
+            {== $new_diff -1}
+            {set
+               $new_diff
+               {'+'
+                  {$pcfg get_difficulty}
+                  1}}
+            {set
+               $new_diff
+               {mod
+                  $new_diff
+                  {size
+                     (DIFF_SYMBOLS)}}}
+            {cheat_display
+               show
+               {sprint
+                  "New Difficulty Set: "
+                  {elem
+                     (DIFF_SYMBOLS)
+                     $new_diff}}}}
+         {$pcfg set_difficulty $new_diff}}}}
+{set $chord_hopos FALSE}
+{set $perpetual_endgame FALSE}
+{func
+   toggle_perpetual_endgame
+   {set
+      $perpetual_endgame
+      {! $perpetual_endgame}}}

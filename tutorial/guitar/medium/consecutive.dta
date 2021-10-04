@@ -1,0 +1,177 @@
+#undef GUITAR_ZOOM_SECS
+#define GUITAR_ZOOM_SECS
+(0.5)
+#define CONS_GEMS_TO_HIT
+(6)
+SETUP_GUITAR_TUTORIAL
+START_BG_MUSIC
+GUITAR_TV_WHITE
+{setup_lesson_banner tutorial_guitar_medium_consecutive_part}
+{play_vo tute_guitar2_heldfret1}
+WAIT_FOR_VO
+{meta_performer set_song guitar_medium_consecutive}
+LOAD_NEW_GUITAR_SONG_NO_FADE
+HIDE_TRACK_PLAYER_UI
+UNPAUSE_TRACK
+SYNC_PAUSE
+SHOW_DETAILED_GUITAR
+{play_vo tute_guitar2_heldfret2}
+WAIT_FOR_VO
+SHORT_VO_GAP
+AUTOPLAY_ON
+UNPAUSE_TRACK
+GUITAR_FRET_GREEN
+SYNC_NOPAUSE
+GUITAR_STRUM_DOWN
+SYNC_NOPAUSE
+GUITAR_STRUM_MIDDLE
+SYNC_NOPAUSE
+GUITAR_STRUM_DOWN
+SYNC_NOPAUSE
+GUITAR_STRUM_MIDDLE
+SYNC_NOPAUSE
+GUITAR_STRUM_DOWN
+SYNC_NOPAUSE
+GUITAR_STRUM_UP
+SYNC_NOPAUSE
+GUITAR_STRUM_DOWN
+SYNC_NOPAUSE
+GUITAR_STRUM_UP
+GUITAR_ANIM_PAUSE
+GUITAR_FRET_NEUTRAL
+GUITAR_STRUM_MIDDLE
+SYNC_PAUSE
+AUTOPLAY_OFF
+{new
+   Object
+   tutorial_guitar_medium_consecutive_callback
+   (hit
+      {do
+         {set
+            [num_gems_hit]
+            {'+'
+               [num_gems_hit]
+               1}}
+         {update_task_score
+            {localize tutorial_guitar_medium_consecutive_score}
+            [num_gems_hit]
+            CONS_GEMS_TO_HIT}
+         ANIMATE_SCORE})
+   (fret_up
+      ($slot)
+      {if
+         {&&
+            {&&
+               {== $slot 0}
+               {>
+                  [num_gems_hit]
+                  0}}
+            {$this failed}}
+         {do
+            {set
+               [num_gems_hit]
+               0}
+            {if
+               {!
+                  [vo_played]}
+               {do
+                  {play_vo tute_guitar2_heldhint}
+                  {set
+                     [vo_played]
+                     TRUE}}}
+            {update_task_score
+               {localize tutorial_guitar_medium_consecutive_score}
+               [num_gems_hit]
+               CONS_GEMS_TO_HIT}
+            ANIMATE_SCORE}})
+   (mistake
+      {if
+         {&&
+            {>
+               [num_gems_hit]
+               0}
+            {$this failed}}
+         {do
+            {set
+               [num_gems_hit]
+               0}
+            {update_task_score
+               {localize tutorial_guitar_medium_consecutive_score}
+               [num_gems_hit]
+               CONS_GEMS_TO_HIT}
+            ANIMATE_SCORE}})
+   (miss
+      {$this mistake})
+   (pass
+      {$this mistake})
+   (passed
+      {>=
+         [num_gems_hit]
+         CONS_GEMS_TO_HIT})
+   (failed
+      {!
+         {$this passed}})
+   (lesson_running
+      {&&
+         {<
+            [num_gems_hit]
+            CONS_GEMS_TO_HIT}
+         {<
+            {{beatmatch active_player 0}
+               percent_complete}
+            END_OF_SONG_PERCENT}})
+   (num_gems_hit 0)
+   (num_gems 0)
+   (vo_played FALSE)}
+{play_vo tute_guitar2_heldtask}
+HIDE_DETAILED_GUITAR
+STOP_BG_MUSIC
+GUITAR_TV_OFF
+WAIT_FOR_VO
+LONG_VO_GAP
+{set_info_text
+   {localize tutorial_guitar_medium_consecutive_task}}
+{show_info_text TRUE}
+{{beatmatch active_player 0}
+   add_sink
+   tutorial_guitar_medium_consecutive_callback}
+{update_task_score
+   {localize tutorial_guitar_medium_consecutive_score}
+   0
+   CONS_GEMS_TO_HIT}
+SHOW_SCORE
+FADE_SONG_IN
+UNPAUSE_TRACK
+{$task
+   wait
+   {tutorial_guitar_medium_consecutive_callback lesson_running}}
+FREEZE_SCORE_TEXT
+{if
+   {!
+      {tutorial_guitar_medium_consecutive_callback failed}}
+   {$task sleep 1}}
+TRACK_OUT
+PAUSE_TRACK
+WAIT_FOR_VO
+{if_else
+   {tutorial_guitar_medium_consecutive_callback failed}
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_medium_consecutive_failed}}
+      {play_vo tute_guitar2_heldfail}}
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_medium_consecutive_done}}
+      {play_vo tute_guitar2_heldwin}}}
+{show_info_text FALSE}
+{show_part_text FALSE}
+{show_banner_text TRUE}
+HIDE_SCORE
+START_BG_MUSIC
+GUITAR_TV_WHITE
+WAIT_FOR_VO
+SHORT_VO_GAP
+{do_fail_menu
+   {tutorial_guitar_medium_consecutive_callback failed}}
+RETURN_FROM_FAIL_MENU
+{tutorials_state_panel switch_to_next_state}

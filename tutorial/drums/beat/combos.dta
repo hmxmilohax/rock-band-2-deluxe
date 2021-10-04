@@ -1,0 +1,108 @@
+#define DRUM_STAR_PHRASES_TO_CAPTURE
+(2)
+SETUP_DRUM_TUTORIAL
+START_BG_MUSIC
+DRUM_TV_WHITE
+{setup_lesson_banner tutorial_drum_beat_combos_part}
+{play_vo tute_drum2_rockintro}
+WAIT_FOR_VO
+{meta_performer set_song drum_beat_combos}
+LOAD_NEW_DRUMS_SONG_NO_FADE
+{$this disable_controller}
+HIDE_TRACK_PLAYER_UI
+HIDE_SOLO_FEEDBACK
+SHOW_BAND_ENERGY
+UNPAUSE_TRACK
+{$this disable_controller}
+SYNC_PAUSE
+{play_vo tute_drum2_rockmeter}
+SHOW_DRUM_ENERGY_METER_ARROW
+WAIT_FOR_VO
+HIDE_DRUM_ENERGY_METER_ARROW
+LONG_VO_GAP
+UNPAUSE_TRACK
+{$this disable_controller}
+SYNC_PAUSE
+{play_vo tute_drum2_rockphrases}
+SHOW_DRUM_LONG_NOTE_ARROW
+WAIT_FOR_VO
+HIDE_DRUM_LONG_NOTE_ARROW
+SHOW_DRUM_ENERGY_METER_ARROW
+SHOW_FILLING_BAND_ENERGY
+{$task sleep 1.5}
+SHOW_DRAINING_BAND_ENERGY
+HIDE_DRUM_ENERGY_METER_ARROW
+SHORT_VO_GAP
+{new
+   Object
+   tutorial_drum_beat_combos_callback
+   (unison_hit
+      {set
+         [star_phrases_captured]
+         {'+'
+            [star_phrases_captured]
+            1}})
+   (lesson_running
+      {&&
+         {<
+            [star_phrases_captured]
+            DRUM_STAR_PHRASES_TO_CAPTURE}
+         {<
+            {{beatmatch active_player 0}
+               percent_complete}
+            END_OF_SONG_PERCENT}})
+   (passed
+      {>=
+         [star_phrases_captured]
+         DRUM_STAR_PHRASES_TO_CAPTURE})
+   (failed
+      {!
+         {$this passed}})
+   (star_phrases_captured 0)}
+{play_vo tute_drum2_phrasecollect}
+WAIT_FOR_VO
+DRUM_TV_OFF
+LONG_VO_GAP
+{set_info_text
+   {localize tutorial_drum_beat_combos_task}}
+{show_info_text TRUE}
+{{beatmatch active_player 0}
+   add_sink
+   tutorial_drum_beat_combos_callback}
+FADE_SONG_IN_FAST
+UNPAUSE_TRACK
+{$this enable_controller}
+{$task
+   wait
+   {tutorial_drum_beat_combos_callback lesson_running}}
+FREEZE_SCORE_TEXT
+{if
+   {!
+      {tutorial_drum_beat_combos_callback failed}}
+   {$task sleep 2}}
+TRACK_OUT
+PAUSE_TRACK
+HIDE_TRACK_PLAYER_UI
+WAIT_FOR_VO
+{if_else
+   {tutorial_drum_beat_combos_callback failed}
+   {do
+      {set_banner_text
+         {localize tutorial_drum_beat_combos_failed}}
+      {play_vo tute_drum2_phrasefail}}
+   {do
+      {set_banner_text
+         {localize tutorial_drum_beat_combos_done}}
+      {play_vo tute_drum2_phrasewin}}}
+{show_info_text FALSE}
+{show_part_text FALSE}
+{show_banner_text TRUE}
+HIDE_SCORE
+START_BG_MUSIC
+DRUM_TV_WHITE
+WAIT_FOR_VO
+SHORT_VO_GAP
+{do_fail_menu
+   {tutorial_drum_beat_combos_callback failed}}
+RETURN_FROM_FAIL_MENU
+{tutorials_state_panel switch_to_next_state}

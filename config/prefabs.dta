@@ -1,0 +1,5338 @@
+(prefab
+   (rb2drum0
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreBanger)
+      (skin_color_index 0)
+      (eye_color_index 4)
+      (eyebrow_color_index 16)
+      (height 1.0)
+      (weight 0.75)
+      (outfit
+         (hair
+            hair_long
+            (colors 16 0))
+         (heads
+            head_3
+            (colors 4 0))
+         (eyes
+            none
+            (colors 0 0))
+         (lips
+            none
+            (colors 0 0))
+         (facehair
+            head_3_ggallin
+            (colors 16 0))
+         (glasses
+            none
+            (colors 0 0))
+         (torso
+            halfshirtbracers_cotton
+            (colors 0 0))
+         (hands
+            naked
+            (colors 0 0))
+         (legs
+            camopants_canvas
+            (colors 34 32))
+         (feet
+            malespikydocs_solid
+            (colors 0 16))
+         (wrist
+            malewrist_studdedgauntlet
+            (colors 1 0))
+         (rings
+            none
+            (colors 0 0))
+         (earrings
+            none
+            (colors 0 0))
+         (piercings
+            none
+            (colors 0 0))
+         (guitar
+            kelly02_paint
+            (colors 0 0))
+         (bass
+            c20bass_paint
+            (colors 0 0))
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0)))
+      (tattoo))
+   (rb2drum1
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreSpazz)
+      (skin_color_index 0)
+      (eye_color_index 6)
+      (eyebrow_color_index 18)
+      (height 0.75)
+      (weight 0.25)
+      (outfit
+         (hair
+            hanoi2_resource
+            (colors 18 0))
+         (heads
+            head_5
+            (colors 4 0))
+         (eyes
+            head_5_eyes_13
+            (colors 0 0))
+         (lips
+            head_5_lips_8
+            (colors 0 0))
+         (facehair
+            none
+            (colors 0 0))
+         (glasses
+            none
+            (colors 0 0))
+         (torso
+            suspenders_studded
+            (colors 4 23))
+         (hands
+            malegloves_fingerlessdriving
+            (colors 34 0))
+         (legs
+            buttlesschaps_leather
+            (colors 23 4))
+         (feet
+            malehighheels_snakeskin
+            (colors 20 19))
+         (wrist
+            malewrist_barbedwire
+            (colors 2 0))
+         (rings
+            malerings_coatofarms
+            (colors 2 0))
+         (earrings
+            none
+            (colors 0 0))
+         (piercings
+            none
+            (colors 0 0))
+         (guitar
+            doublejet_paint
+            (colors 38 1))
+         (bass
+            telebass_paint
+            (colors 38 1))
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 7 0)))
+      (tattoo
+         (patch_left_arm
+            ((patch_flyrite 1 0 5.0 0.0 -98.0 0.0 -1.11 0.59 0.0)))
+         (patch_right_arm
+            ((patch_flyrite 10 0 0.0 0.0 -181.0 0.0 1.0 0.3 0.0)
+               (patch_flyrite 10 0 -46.0 0.0 -128.0 0.0 1.0 0.3 0.0)
+               (patch_flyrite 10 0 128.0 0.0 -152.0 0.0 1.0 0.3 0.0)
+               (patch_flyrite 10 0 47.0 0.0 -85.0 0.0 1.0 0.3 0.0)
+               (patch_flyrite 10 0 -71.0 0.0 -85.0 11.98 1.0 0.3 0.0)
+               (patch_flyrite 10 0 117.0 0.0 -187.0 0.0 1.0 0.3 0.0)
+               (patch_flyrite 10 0 -84.0 0.0 -166.0 0.0 1.0 0.3 0.0)))))
+   (rb2drum2
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreDramatic)
+      (skin_color_index 2)
+      (eye_color_index 2)
+      (eyebrow_color_index 50)
+      (height 1.0)
+      (weight 0.0)
+      (outfit
+         (hair
+            baldeagle_resource
+            (colors 50 0))
+         (heads
+            head_14
+            (colors 4 0))
+         (eyes
+            none
+            (colors 0 0))
+         (lips
+            none
+            (colors 0 0))
+         (facehair
+            head_14_scottian
+            (colors 50 0))
+         (glasses
+            none
+            (colors 0 0))
+         (torso
+            glamitardtop_wizard
+            (colors 0 4))
+         (hands
+            naked
+            (colors 0 0))
+         (legs
+            glamitardpants_wizard
+            (colors 0 4))
+         (feet
+            glamitardslippers_wizard
+            (colors 0 4))
+         (wrist
+            malewrist_watchleatherstrap
+            (colors 29 0))
+         (rings
+            malerings_demonclaw
+            (colors 2 0))
+         (earrings
+            none
+            (colors 0 0))
+         (piercings
+            none
+            (colors 0 0))
+         (guitar
+            kelly02_sparkle
+            (colors 1 0))
+         (bass
+            kelly04_sparkle
+            (colors 1 0))
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 1 0)))
+      (tattoo))
+   (rb2drum3
+      (gender male)
+      (instrument guitar)
+      (selectable TRUE)
+      (attitude kGenreSpazz)
+      (skin_color_index 5)
+      (eye_color_index 0)
+      (eyebrow_color_index 2)
+      (height 1.0)
+      (weight 0.75)
+      (outfit
+         (hair
+            younghr_resource
+            (colors 2 0))
+         (heads
+            head_9
+            (colors 4 0))
+         (eyes
+            head_9_eyes_6
+            (colors 0 0))
+         (lips
+            none
+            (colors 0 0))
+         (facehair
+            head_9_bushybeard
+            (colors 2 0))
+         (glasses
+            none
+            (colors 0 0))
+         (torso
+            buzzsawpads_wrecked
+            (colors 3 2))
+         (hands
+            naked
+            (colors 0 0))
+         (legs
+            harajukubelt_camo
+            (colors 24 16))
+         (feet
+            maledocsductape_leather
+            (colors 26 4))
+         (wrist
+            malewrist_studdedwatchcombo
+            (colors 0 0))
+         (rings
+            none
+            (colors 0 0))
+         (earrings
+            none
+            (colors 0 0))
+         (piercings
+            none
+            (colors 0 0))
+         (guitar
+            kingv02_sparkle
+            (colors 45 0))
+         (bass
+            jazz02_sparkle
+            (colors 45 33))
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0)))
+      (tattoo))
+   (rb2drum4
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreSpazz)
+      (skin_color_index 3)
+      (eye_color_index 1)
+      (eyebrow_color_index 44)
+      (height 0.75)
+      (weight 0.25)
+      (outfit
+         (hair
+            mohawk_resource
+            (colors 44 42))
+         (heads
+            head_14
+            (colors 4 0))
+         (eyes
+            none
+            (colors 0 0))
+         (lips
+            none
+            (colors 0 0))
+         (facehair
+            head_14_chingoatee
+            (colors 42 0))
+         (glasses
+            none
+            (colors 0 0))
+         (torso
+            tuxedo_sloppy
+            (colors 23 25))
+         (hands
+            naked
+            (colors 0 0))
+         (legs
+            tuxpants_sloppy
+            (colors 23 4))
+         (feet
+            maleslipons_skully
+            (colors 16 6))
+         (wrist
+            none
+            (colors 0 0))
+         (rings
+            none
+            (colors 0 0))
+         (earrings
+            maleearrings_safetypins
+            (colors 2 0))
+         (piercings
+            head_14_piercings_combo4
+            (colors 2 0))
+         (guitar
+            kingv02_paint
+            (colors 20 0))
+         (bass
+            g6073_paint
+            (colors 20 0))
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 20 0)))
+      (tattoo))
+   (rb2drum5
+      (gender male)
+      (instrument guitar)
+      (selectable TRUE)
+      (attitude kGenreSpazz)
+      (skin_color_index 2)
+      (eye_color_index 5)
+      (eyebrow_color_index 29)
+      (height 1.0)
+      (weight 0.25)
+      (outfit
+         (hair
+            libertyspikes_resource
+            (colors 29 27))
+         (heads
+            head_13
+            (colors 4 0))
+         (eyes
+            none
+            (colors 0 0))
+         (lips
+            none
+            (colors 0 0))
+         (facehair
+            head_13_chinstrap
+            (colors 29 0))
+         (glasses
+            malemask_eyebandage
+            (colors 4 0))
+         (torso
+            sweatervest_patched
+            (colors 21 28))
+         (hands
+            naked
+            (colors 0 0))
+         (legs
+            tighterpants_plaidpunx
+            (colors 44 17))
+         (feet
+            tatteredshoe_homeless
+            (colors 24 4))
+         (wrist
+            malewrist_sweatbandcombo
+            (colors 15 16))
+         (rings
+            none
+            (colors 0 0))
+         (earrings
+            none
+            (colors 0 0))
+         (piercings
+            none
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 0))
+         (bass
+            precision01_woodash
+            (colors 0 0))
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0)))
+      (tattoo))
+   (rb2drum6
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreRocker)
+      (skin_color_index 2)
+      (eye_color_index 5)
+      (eyebrow_color_index 0)
+      (height 0.0)
+      (weight 0.75)
+      (outfit
+         (hair
+            greaserslick_resource
+            (colors 0 0))
+         (heads
+            head_11
+            (colors 4 0))
+         (eyes
+            head_11_eyes_9
+            (colors 0 0))
+         (lips
+            none
+            (colors 0 0))
+         (facehair
+            head_11_bushymoustache
+            (colors 0 0))
+         (glasses
+            none
+            (colors 0 0))
+         (torso
+            uniformshirt_cotton
+            (colors 26 0))
+         (hands
+            naked
+            (colors 0 0))
+         (legs
+            leatherpants_basicleather
+            (colors 29 30))
+         (feet
+            sambas_leather
+            (colors 33 3))
+         (wrist
+            malewrist_hercules
+            (colors 2 0))
+         (rings
+            none
+            (colors 0 0))
+         (earrings
+            none
+            (colors 0 0))
+         (piercings
+            none
+            (colors 0 0))
+         (guitar
+            synchromatic_triburstblack
+            (colors 29 31))
+         (bass
+            falconbass_triburst
+            (colors 23 32))
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 3 0)))
+      (tattoo
+         (patch_left_arm
+            ((patch_flyrite 8 0 0.0 0.0 139.0 0.0 -1.51 0.74 0.0)))
+         (patch_right_arm
+            ((patch_anchor 4 0 0.0 0.0 119.0 0.0 0.91 0.6 0.0)))))
+   (rb2drum7
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreRocker)
+      (skin_color_index 0)
+      (eye_color_index 7)
+      (eyebrow_color_index 19)
+      (height 0.75)
+      (weight 0.25)
+      (outfit
+         (hair
+            prettyboy_resource
+            (colors 19 0))
+         (heads
+            head_12
+            (colors 4 0))
+         (eyes
+            head_12_eyes_11
+            (colors 0 0))
+         (lips
+            none
+            (colors 0 0))
+         (facehair
+            none
+            (colors 0 0))
+         (glasses
+            none
+            (colors 0 0))
+         (torso
+            openshirthippy_silk
+            (colors 21 0))
+         (hands
+            naked
+            (colors 0 0))
+         (legs
+            strippedpants_ornate
+            (colors 12 27))
+         (feet
+            dappershoes_solidshiny
+            (colors 4 0))
+         (wrist
+            malewrist_hercules
+            (colors 33 0))
+         (rings
+            none
+            (colors 0 0))
+         (earrings
+            none
+            (colors 0 0))
+         (piercings
+            none
+            (colors 0 0))
+         (guitar
+            projet_triburstpearl
+            (colors 17 20))
+         (bass
+            precision04_paint
+            (colors 9 1))
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 1 0)))
+      (tattoo))
+   (rb2drum8
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreRocker)
+      (skin_color_index 2)
+      (eye_color_index 4)
+      (eyebrow_color_index 25)
+      (height 0.0)
+      (weight 1.0)
+      (outfit
+         (hair
+            longmop_resource
+            (colors 25 0))
+         (heads
+            head_4
+            (colors 4 0))
+         (eyes
+            none
+            (colors 0 0))
+         (lips
+            none
+            (colors 0 0))
+         (facehair
+            head_4_bushymoustache
+            (colors 25 0))
+         (glasses
+            maleglasses_business
+            (colors 4 1))
+         (torso
+            roadiejacket_satin
+            (colors 41 4))
+         (hands
+            naked
+            (colors 0 0))
+         (legs
+            corduroypants_worn
+            (colors 12 1))
+         (feet
+            basketballsneaks_custom
+            (colors 14 4))
+         (wrist
+            none
+            (colors 0 0))
+         (rings
+            none
+            (colors 0 0))
+         (earrings
+            none
+            (colors 0 0))
+         (piercings
+            none
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 45 1))
+         (bass
+            precision04_paint
+            (colors 36 1))
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0)))
+      (tattoo))
+   (rb2drum9
+      (gender male)
+      (instrument guitar)
+      (selectable TRUE)
+      (attitude kGenreBanger)
+      (skin_color_index 3)
+      (eye_color_index 0)
+      (eyebrow_color_index 2)
+      (height 0.0)
+      (weight 0.5)
+      (outfit
+         (hair
+            ramones_resource
+            (colors 2 0))
+         (heads
+            head_10
+            (colors 4 0))
+         (eyes
+            none
+            (colors 0 0))
+         (lips
+            none
+            (colors 0 0))
+         (facehair
+            head_10_handlebar
+            (colors 5 0))
+         (glasses
+            none
+            (colors 0 0))
+         (torso
+            workjacket_grimey
+            (colors 26 4))
+         (hands
+            naked
+            (colors 0 0))
+         (legs
+            workpants_grimey
+            (colors 12 12))
+         (feet
+            timberlandboots_muddy
+            (colors 6 0))
+         (wrist
+            none
+            (colors 0 0))
+         (rings
+            none
+            (colors 0 0))
+         (earrings
+            none
+            (colors 0 0))
+         (piercings
+            none
+            (colors 0 0))
+         (guitar
+            stratocaster01_paint
+            (colors 14 1))
+         (bass
+            jaguarbass_paint
+            (colors 1 1))
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0)))
+      (tattoo))
+   (rb2drum10
+      (gender male)
+      (instrument guitar)
+      (selectable TRUE)
+      (attitude kGenreDramatic)
+      (skin_color_index 6)
+      (eye_color_index 9)
+      (eyebrow_color_index 1)
+      (height 1.0)
+      (weight 0.25)
+      (outfit
+         (hair
+            maleladyfropick_resource
+            (colors 1 11))
+         (heads
+            head_13
+            (colors 4 0))
+         (eyes
+            head_13_eyes_6
+            (colors 0 0))
+         (lips
+            none
+            (colors 0 0))
+         (facehair
+            head_13_chops
+            (colors 1 0))
+         (glasses
+            maleglasses_cataracts
+            (colors 0 0))
+         (torso
+            kissarmor_sparkles
+            (colors 0 4))
+         (hands
+            naked
+            (colors 0 0))
+         (legs
+            kissflares_sparkles
+            (colors 0 4))
+         (feet
+            kissboots_sparkles
+            (colors 0 4))
+         (wrist
+            none
+            (colors 0 0))
+         (rings
+            none
+            (colors 0 0))
+         (earrings
+            none
+            (colors 0 0))
+         (piercings
+            none
+            (colors 0 0))
+         (guitar
+            warrior02_sparkle
+            (colors 1 0))
+         (bass
+            kelly04_sparkle
+            (colors 1 0))
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0)))
+      (tattoo))
+   (rb2drum11
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreRocker)
+      (skin_color_index 1)
+      (eye_color_index 2)
+      (eyebrow_color_index 2)
+      (height 1.0)
+      (weight 0.75)
+      (outfit
+         (hair
+            mandana_resource
+            (colors 2 15))
+         (heads
+            head_11
+            (colors 4 0))
+         (eyes
+            none
+            (colors 0 0))
+         (lips
+            none
+            (colors 0 0))
+         (facehair
+            head_11_bushybeard
+            (colors 4 0))
+         (glasses
+            maleglasses_bugeyes
+            (colors 5 0))
+         (torso
+            indianchest_bone
+            (colors 10 33))
+         (hands
+            naked
+            (colors 0 0))
+         (legs
+            wornleatherpants_worn
+            (colors 5 8))
+         (feet
+            malebarefeet_fleshy
+            (colors 0 0))
+         (wrist
+            malewrist_wristbandterrycloth
+            (colors 11 0))
+         (rings
+            none
+            (colors 0 0))
+         (earrings
+            none
+            (colors 0 0))
+         (piercings
+            none
+            (colors 0 0))
+         (guitar
+            telecaster01_sunburstpearl
+            (colors 31 0))
+         (bass
+            precision01_sunburstblack
+            (colors 31 37))
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0)))
+      (tattoo
+         (patch_right_arm
+            ((patch_newyork 10 0 -11.0 0.0 182.0 16.91 0.5 0.39 0.0)))))
+   (rb2drum12
+      (gender female)
+      (instrument guitar)
+      (selectable TRUE)
+      (attitude kGenreDramatic)
+      (skin_color_index 2)
+      (eye_color_index 8)
+      (eyebrow_color_index 24)
+      (height 1.0)
+      (weight 0.75)
+      (outfit
+         (hair
+            japanhair1_resource
+            (colors 24 0))
+         (heads
+            head_5
+            (colors 4 0))
+         (facehair
+            none
+            (colors 0 0))
+         (eyes
+            head_5_eyes_25
+            (colors 0 0))
+         (lips
+            head_5_lips_3
+            (colors 0 0))
+         (torso
+            maidenstraps_studded
+            (colors 0 0))
+         (hands
+            naked
+            (colors 0 0))
+         (legs
+            bondagepants_plaidknees
+            (colors 0 0))
+         (feet
+            midcalfspikes_leather
+            (colors 0 0))
+         (glasses
+            none
+            (colors 0 0))
+         (wrist
+            none
+            (colors 0 0))
+         (rings
+            none
+            (colors 0 0))
+         (earrings
+            none
+            (colors 0 0))
+         (piercings
+            none
+            (colors 0 0))
+         (guitar
+            warrior02_paint
+            (colors 36 0))
+         (bass
+            kelly04_paint
+            (colors 36 0))
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0)))
+      (tattoo))
+   (rb2drum13
+      (gender female)
+      (instrument guitar)
+      (attitude kGenreBanger)
+      (skin_color_index 1)
+      (eye_color_index 1)
+      (eyebrow_color_index 18)
+      (height 0.0)
+      (weight 0.0)
+      (outfit
+         (hair
+            ladypunk_resource
+            (colors 18 19))
+         (heads
+            head_4
+            (colors 4 0))
+         (facehair
+            none
+            (colors 0 0))
+         (eyes
+            none
+            (colors 0 0))
+         (lips
+            none
+            (colors 0 0))
+         (torso
+            choppedtee_chopped
+            (colors 0 0))
+         (hands
+            femalegloves_skeleton
+            (colors 0 22))
+         (legs
+            barbedwirepants_denim
+            (colors 8 0))
+         (feet
+            chucktaylors_folded
+            (colors 26 3))
+         (glasses
+            none
+            (colors 0 0))
+         (wrist
+            femalewrist_sweatband
+            (colors 0 0))
+         (rings
+            none
+            (colors 0 0))
+         (earrings
+            none
+            (colors 0 0))
+         (piercings
+            none
+            (colors 0 0))
+         (guitar
+            kingv02_paint
+            (colors 1 0))
+         (bass
+            doublebass_paint
+            (colors 3 1))
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 1 0)))
+      (tattoo
+         (patch_chest
+            ())
+         (patch_left_arm
+            ((patch_suerte 3 0 0.0 0.0 88.0 0.0 3.82 0.98 0.0)
+               (patch_suerte 3 0 0.0 0.0 22.0 0.0 3.78 0.93 0.0)
+               (patch_suerte 3 0 0.0 0.0 -61.0 0.0 3.67 1.18 0.0)
+               (patch_suerte 3 0 0.0 0.0 -139.0 0.0 3.88 1.18 0.0)
+               (patch_flyrite 12 0 0.0 0.0 -200.0 0.0 4.2 0.76 0.0)))
+         (patch_right_arm
+            ((patch_suerte 3 0 0.0 0.0 88.0 0.0 3.82 0.98 0.0)
+               (patch_suerte 3 0 0.0 0.0 22.0 0.0 3.78 0.93 0.0)
+               (patch_suerte 3 0 0.0 0.0 -61.0 0.0 3.67 1.18 0.0)
+               (patch_suerte 3 0 0.0 0.0 -139.0 0.0 3.88 1.18 0.0)
+               (patch_flyrite 12 0 0.0 0.0 -200.0 0.0 4.2 0.76 0.0)))))
+   (rb2drum14
+      (gender female)
+      (instrument guitar)
+      (attitude kGenreBanger)
+      (skin_color_index 0)
+      (eye_color_index 6)
+      (eyebrow_color_index 25)
+      (height 0.0)
+      (weight 0.25)
+      (outfit
+         (hair
+            farrah_resource
+            (colors 25 0))
+         (heads
+            head_3
+            (colors 4 0))
+         (facehair
+            none
+            (colors 0 0))
+         (eyes
+            none
+            (colors 0 0))
+         (lips
+            none
+            (colors 0 0))
+         (torso
+            denimjacket_clean
+            (colors 5 0))
+         (hands
+            naked
+            (colors 0 0))
+         (legs
+            layeredpants_shredded
+            (colors 27 2))
+         (feet
+            femalesportysneaks_pleather
+            (colors 36 10))
+         (glasses
+            none
+            (colors 0 0))
+         (wrist
+            none
+            (colors 0 0))
+         (rings
+            none
+            (colors 0 0))
+         (earrings
+            none
+            (colors 0 0))
+         (piercings
+            none
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 41 1))
+         (bass
+            jazz01_paint
+            (colors 41 3))
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 5 0)))
+      (tattoo))
+   (rb2drum15
+      (gender female)
+      (instrument guitar)
+      (selectable TRUE)
+      (attitude kGenreSpazz)
+      (skin_color_index 0)
+      (eye_color_index 0)
+      (eyebrow_color_index 31)
+      (height 0.0)
+      (weight 1.0)
+      (outfit
+         (hair
+            cutepigtails_resource
+            (colors 31 0))
+         (heads
+            head_2
+            (colors 4 0))
+         (facehair
+            none
+            (colors 0 0))
+         (eyes
+            none
+            (colors 0 0))
+         (lips
+            none
+            (colors 0 0))
+         (torso
+            furbikini_cheetah
+            (colors 8 8))
+         (hands
+            naked
+            (colors 0 0))
+         (legs
+            hotpants_camo
+            (colors 27 23))
+         (feet
+            femalelowchucks_skullsprint
+            (colors 19 24))
+         (glasses
+            femaleglasses_catseye
+            (colors 18 0))
+         (wrist
+            femalewrist_sweatbandcharmscombo
+            (colors 0 20))
+         (rings
+            femalerings_bandaid
+            (colors 4 0))
+         (earrings
+            femaleearrings_tribal
+            (colors 1 0))
+         (piercings
+            none
+            (colors 0 0))
+         (guitar
+            jaguar02_sunburstpearl
+            (colors 38 43))
+         (bass
+            jaguarbass_sunburstpearl
+            (colors 45 49))
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 3 0)))
+      (tattoo))
+   (rb2drum16
+      (gender female)
+      (instrument guitar)
+      (attitude kGenreSpazz)
+      (skin_color_index 2)
+      (eye_color_index 2)
+      (eyebrow_color_index 16)
+      (height 0.5)
+      (weight 0.5)
+      (outfit
+         (hair
+            50sbandana_resource
+            (colors 16 27))
+         (heads
+            head_10
+            (colors 4 0))
+         (facehair
+            none
+            (colors 0 0))
+         (eyes
+            head_10_eyes_16
+            (colors 0 0))
+         (lips
+            head_10_lips_16
+            (colors 0 0))
+         (torso
+            hoodie_patchy
+            (colors 5 2))
+         (hands
+            femalegloves_fingerlessdriving
+            (colors 1 0))
+         (legs
+            miniskirt_leatherpunky
+            (colors 0 4))
+         (feet
+            skates_dirty
+            (colors 0 5))
+         (glasses
+            femaleglasses_smashed
+            (colors 0 4))
+         (wrist
+            femalewrist_jelly
+            (colors 6 6))
+         (rings
+            none
+            (colors 0 0))
+         (earrings
+            none
+            (colors 0 0))
+         (piercings
+            none
+            (colors 0 0))
+         (guitar
+            supersonic_paint
+            (colors 19 2))
+         (bass
+            jaguarbass_paint
+            (colors 20 1))
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 19 0)))
+      (tattoo))
+   (rb2drum17
+      (gender female)
+      (instrument guitar)
+      (attitude kGenreSpazz)
+      (skin_color_index 5)
+      (eye_color_index 0)
+      (eyebrow_color_index 50)
+      (height 1.0)
+      (weight 0.75)
+      (outfit
+         (hair
+            trihawk_resource
+            (colors 50 27))
+         (heads
+            head_8
+            (colors 4 0))
+         (facehair
+            none
+            (colors 0 0))
+         (eyes
+            none
+            (colors 0 0))
+         (lips
+            none
+            (colors 0 0))
+         (torso
+            spikepads_distressed
+            (colors 31 28))
+         (hands
+            femalegloves_bandaged
+            (colors 30 0))
+         (legs
+            buttflappants_khaki
+            (colors 4 5))
+         (feet
+            spikedplatformboots_solid
+            (colors 27 28))
+         (glasses
+            none
+            (colors 0 0))
+         (wrist
+            femalewrist_studdedbracer
+            (colors 14 0))
+         (rings
+            none
+            (colors 0 0))
+         (earrings
+            none
+            (colors 0 0))
+         (piercings
+            none
+            (colors 0 0))
+         (guitar
+            kelly02_sparkle
+            (colors 33 0))
+         (bass
+            kelly04_sparkle
+            (colors 33 0))
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 2 0)))
+      (tattoo
+         (patch_chest
+            ((patch_suerte 3 0 -5.0 0.0 -200.0 0.0 2.07 1.19 0.0)))
+         (patch_left_arm
+            ((patch_suerte 3 0 0.0 0.0 -106.0 0.0 2.66 0.69 0.0)))
+         (patch_right_arm
+            ((patch_suerte 3 0 0.0 0.0 -106.0 0.0 2.66 0.69 0.0)))))
+   (rb2guitar0
+      (gender female)
+      (instrument guitar)
+      (selectable TRUE)
+      (attitude kGenreDramatic)
+      (skin_color_index 0)
+      (eye_color_index 7)
+      (eyebrow_color_index 19)
+      (height 1.0)
+      (weight 0.0)
+      (outfit
+         (hair
+            pixie_resource
+            (colors 19 0))
+         (heads
+            head_4
+            (colors 4 0))
+         (facehair
+            none
+            (colors 0 0))
+         (eyes
+            head_4_eyes_26
+            (colors 0 0))
+         (lips
+            head_4_lips_6
+            (colors 0 0))
+         (torso
+            turtleneck_occult
+            (colors 27 3))
+         (hands
+            naked
+            (colors 0 0))
+         (legs
+            dresspants_solid
+            (colors 0 0))
+         (feet
+            flatslips_stripe
+            (colors 0 0))
+         (glasses
+            none
+            (colors 0 0))
+         (wrist
+            none
+            (colors 0 0))
+         (rings
+            none
+            (colors 0 0))
+         (earrings
+            none
+            (colors 0 0))
+         (piercings
+            none
+            (colors 0 0))
+         (guitar
+            telecaster02_sunburstpearl
+            (colors 11 15))
+         (bass
+            jazz01_sunburstpearl
+            (colors 11 14))
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 2 0)))
+      (tattoo))
+   (rb2guitar1
+      (gender female)
+      (instrument guitar)
+      (selectable TRUE)
+      (attitude kGenreRocker)
+      (skin_color_index 2)
+      (eye_color_index 0)
+      (eyebrow_color_index 5)
+      (height 0.0)
+      (weight 0.25)
+      (outfit
+         (hair
+            femaleyoungozzy_resource
+            (colors 5 0))
+         (heads
+            head_7
+            (colors 4 0))
+         (facehair
+            none
+            (colors 0 0))
+         (eyes
+            none
+            (colors 0 0))
+         (lips
+            none
+            (colors 0 0))
+         (torso
+            bulkyjacket_camo
+            (colors 28 32))
+         (hands
+            naked
+            (colors 0 0))
+         (legs
+            wreckedjeans_worn
+            (colors 23 0))
+         (feet
+            femalecombatboots_leather
+            (colors 3 2))
+         (glasses
+            none
+            (colors 0 0))
+         (wrist
+            none
+            (colors 0 0))
+         (rings
+            none
+            (colors 0 0))
+         (earrings
+            none
+            (colors 0 0))
+         (piercings
+            none
+            (colors 0 0))
+         (guitar
+            telecaster01_paint
+            (colors 33 4))
+         (bass
+            jazz01_paint
+            (colors 11 3))
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0)))
+      (tattoo))
+   (rb2guitar2
+      (gender female)
+      (instrument guitar)
+      (attitude kGenreBanger)
+      (skin_color_index 5)
+      (eye_color_index 9)
+      (eyebrow_color_index 0)
+      (height 0.75)
+      (weight 0.25)
+      (outfit
+         (hair
+            ladylayered_cowboyhat
+            (colors 0 1))
+         (heads
+            head_8
+            (colors 4 0))
+         (facehair
+            none
+            (colors 0 0))
+         (eyes
+            head_8_eyes_20
+            (colors 0 0))
+         (lips
+            head_8_lips_4
+            (colors 0 0))
+         (torso
+            tiedshirt_plain
+            (colors 0 0))
+         (hands
+            naked
+            (colors 0 0))
+         (legs
+            bellbottoms_jeans
+            (colors 27 0))
+         (feet
+            femalecowboyboots_western
+            (colors 3 4))
+         (glasses
+            none
+            (colors 0 0))
+         (wrist
+            femalewrist_sweatbandcharmscombo
+            (colors 0 4))
+         (rings
+            none
+            (colors 0 0))
+         (earrings
+            none
+            (colors 0 0))
+         (piercings
+            none
+            (colors 0 0))
+         (guitar
+            synchromatic_triburstpearl
+            (colors 2 23))
+         (bass
+            falconbass_triburst
+            (colors 17 33))
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0)))
+      (tattoo))
+   (rb2guitar3
+      (gender female)
+      (instrument guitar)
+      (attitude kGenreBanger)
+      (skin_color_index 0)
+      (eye_color_index 7)
+      (eyebrow_color_index 0)
+      (height 1.0)
+      (weight 0.5)
+      (outfit
+         (hair
+            shortbangs_resource
+            (colors 0 0))
+         (heads
+            head_4
+            (colors 4 0))
+         (facehair
+            none
+            (colors 0 0))
+         (eyes
+            head_4_eyes_7
+            (colors 0 0))
+         (lips
+            head_4_lips_9
+            (colors 0 0))
+         (torso
+            blazer_newwave
+            (colors 14 1))
+         (hands
+            naked
+            (colors 0 0))
+         (legs
+            pantsspandex_spandex
+            (colors 0 0))
+         (feet
+            slouchyboots_solid
+            (colors 14 0))
+         (glasses
+            none
+            (colors 0 0))
+         (wrist
+            none
+            (colors 0 0))
+         (rings
+            none
+            (colors 0 0))
+         (earrings
+            none
+            (colors 0 0))
+         (piercings
+            none
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 1 1))
+         (bass
+            precision01_woodash
+            (colors 1 1))
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 1 0)))
+      (tattoo))
+   (rb2guitar4
+      (gender female)
+      (instrument guitar)
+      (selectable TRUE)
+      (attitude kGenreRocker)
+      (skin_color_index 4)
+      (eye_color_index 2)
+      (eyebrow_color_index 4)
+      (height 0.5)
+      (weight 0.75)
+      (outfit
+         (hair
+            hilldreads_resource
+            (colors 1 31))
+         (heads
+            head_1
+            (colors 4 0))
+         (facehair
+            none
+            (colors 0 0))
+         (eyes
+            head_1_eyes_24
+            (colors 0 0))
+         (lips
+            head_1_lips_6
+            (colors 0 0))
+         (torso
+            jumpsuittop_nylon
+            (colors 14 4))
+         (hands
+            naked
+            (colors 0 0))
+         (legs
+            jumpsuitpants_nylon
+            (colors 14 2))
+         (feet
+            femalesambas_leather
+            (colors 4 2))
+         (glasses
+            none
+            (colors 0 0))
+         (wrist
+            none
+            (colors 0 0))
+         (rings
+            none
+            (colors 0 0))
+         (earrings
+            none
+            (colors 0 0))
+         (piercings
+            none
+            (colors 0 0))
+         (guitar
+            kingv01_paint
+            (colors 0 0))
+         (bass
+            mustang01_paint
+            (colors 0 1))
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0)))
+      (tattoo))
+   (rb2guitar5
+      (gender female)
+      (instrument guitar)
+      (selectable TRUE)
+      (attitude kGenreDramatic)
+      (skin_color_index 0)
+      (eye_color_index 2)
+      (eyebrow_color_index 49)
+      (height 0.0)
+      (weight 0.5)
+      (outfit
+         (hair
+            hippybangs_resource
+            (colors 18 9))
+         (heads
+            head_10
+            (colors 4 0))
+         (facehair
+            none
+            (colors 0 0))
+         (eyes
+            head_10_eyes_24
+            (colors 0 0))
+         (lips
+            head_10_lips_6
+            (colors 0 0))
+         (torso
+            moddress_dottree
+            (colors 7 0))
+         (hands
+            naked
+            (colors 0 0))
+         (legs
+            hotpantsplain_barelegs
+            (colors 3 0))
+         (feet
+            modavengerboots_leather
+            (colors 17 6))
+         (glasses
+            none
+            (colors 0 0))
+         (wrist
+            none
+            (colors 0 0))
+         (rings
+            none
+            (colors 0 0))
+         (earrings
+            none
+            (colors 0 0))
+         (piercings
+            none
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 0))
+         (bass
+            precision01_woodash
+            (colors 0 0))
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0)))
+      (tattoo))
+   (rb2guitar8
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreSpazz)
+      (skin_color_index 0)
+      (eye_color_index 4)
+      (eyebrow_color_index 1)
+      (height 0.75)
+      (weight 0.5)
+      (outfit
+         (hair
+            parkinglot_aviatorcap
+            (colors 1 12))
+         (heads
+            head_2
+            (colors 4 0))
+         (eyes
+            head_2_eyes_9
+            (colors 0 0))
+         (lips
+            none
+            (colors 0 0))
+         (facehair
+            head_2_sideburns
+            (colors 1 0))
+         (glasses
+            none
+            (colors 0 0))
+         (torso
+            militaryjacketmask_canvas
+            (colors 0 0))
+         (hands
+            naked
+            (colors 0 0))
+         (legs
+            bondagepants_zippered
+            (colors 0 3))
+         (feet
+            tallboots_solid
+            (colors 0 0))
+         (wrist
+            malewrist_sweatbandcombo
+            (colors 0 0))
+         (rings
+            malerings_bandaid
+            (colors 4 0))
+         (earrings
+            none
+            (colors 0 0))
+         (piercings
+            none
+            (colors 0 0))
+         (guitar
+            chainsaw_resource
+            (colors 20 0))
+         (bass
+            chainsawbass_resource
+            (colors 20 0))
+         (mic
+            brokenmic_resource
+            (colors 0 0))
+         (drum
+            rust
+            (colors 0 0)))
+      (tattoo))
+   (drum0
+      (gender male)
+      (instrument drum)
+      (attitude kGenreSpazz)
+      (weight 0.6)
+      (height 0.15)
+      (skin_color_index 2)
+      (eye_color_index 3)
+      (eyebrow_color_index 0)
+      (outfit
+         (hair
+            fauxhawk_resource
+            (colors 42 18))
+         (heads head_5)
+         (eyes head_5_eyes_10)
+         (lips none)
+         (facehair none)
+         (glasses none)
+         (torso
+            militaryjacket_canvas
+            (colors 3 4))
+         (hands naked)
+         (legs
+            bondagepants_zippered
+            (colors 1))
+         (feet
+            highchucks_solid
+            (colors 1 0))
+         (wrist
+            gauntlet_resource
+            (colors 0))
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (mic sm58_resource)))
+   (drum1
+      (gender male)
+      (instrument drum)
+      (attitude kGenreBanger)
+      (weight 0.8)
+      (height 0.5)
+      (skin_color_index 4)
+      (eye_color_index 0)
+      (eyebrow_color_index 0)
+      (outfit
+         (hair
+            bandanna
+            (colors 0 0))
+         (heads
+            head_1
+            (colors))
+         (eyes none)
+         (lips none)
+         (facehair none)
+         (glasses none)
+         (torso
+            buttonedshirtpatchy_veteran
+            (colors 30 15))
+         (hands naked)
+         (legs
+            flightsuitpants_canvas
+            (colors 0))
+         (feet
+            tallboots_solid
+            (colors 0))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (mic sm58_resource)))
+   (drum2
+      (gender male)
+      (attitude kGenreSpazz)
+      (instrument drum)
+      (weight 0.25)
+      (height 0.65)
+      (skin_color_index 4)
+      (eye_color_index 0)
+      (eyebrow_color_index 0)
+      (outfit
+         (hair
+            lazyhawk_resource
+            (colors 0 1))
+         (heads
+            head_1
+            (colors 0))
+         (eyes none)
+         (lips none)
+         (facehair none)
+         (torso
+            worntshirt_vintage
+            (colors 0))
+         (hands naked)
+         (legs
+            tightdistressedpants_jeans
+            (colors 1))
+         (feet
+            dappershoes_solidshiny
+            (colors 0))
+         (wrist
+            gauntlet_resource
+            (colors 0))
+         (glasses none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (mic sm58_resource)))
+   (drum3
+      (gender male)
+      (instrument drum)
+      (attitude kGenreRocker)
+      (skin_color_index 2)
+      (eye_color_index 0)
+      (eyebrow_color_index 0)
+      (height 0.25)
+      (weight 0.5)
+      (outfit
+         (hair
+            egyptian_resource
+            (colors 0 0))
+         (heads
+            head_5
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair none)
+         (glasses none)
+         (torso
+            worntshirt_vintage
+            (colors 0 0))
+         (hands naked)
+         (legs
+            loosepants_stripe
+            (colors 0 14))
+         (feet
+            dappershoes_solidshiny
+            (colors 0 0))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (mic sm58_resource)))
+   (drum4
+      (gender male)
+      (instrument drum)
+      (attitude kGenreRocker)
+      (skin_color_index 1)
+      (eye_color_index 0)
+      (eyebrow_color_index 12)
+      (height 0.5)
+      (weight 0.8)
+      (outfit
+         (hair
+            billyidol_cowboyhat
+            (colors 13 0))
+         (heads
+            head_6
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair
+            head_6_chops
+            (colors 12 0))
+         (glasses none)
+         (torso naked)
+         (hands naked)
+         (legs
+            jeansripped_denim
+            (colors 7 0))
+         (feet
+            combatboots_var1
+            (colors 1 0))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (mic sm58_resource)))
+   (drum5
+      (gender male)
+      (instrument drum)
+      (attitude kGenreRocker)
+      (skin_color_index 2)
+      (eye_color_index 9)
+      (eyebrow_color_index 1)
+      (height 0.5)
+      (weight 0.75)
+      (outfit
+         (hair
+            ziggymullet_truckercap
+            (colors 1 0))
+         (heads
+            head_2
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair none)
+         (glasses none)
+         (torso
+            downvest_stripe
+            (colors 33 32))
+         (hands naked)
+         (legs
+            wornleatherpants_worn
+            (colors 3 4))
+         (feet
+            sneakersstripes_nylon
+            (colors 34 33))
+         (wrist
+            malewrist_sweatband
+            (colors 8 6))
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (mic sm58_resource)))
+   (drum6
+      (gender female)
+      (instrument drum)
+      (attitude kGenreRocker)
+      (skin_color_index 5)
+      (eye_color_index 2)
+      (eyebrow_color_index 16)
+      (height 0.5)
+      (weight 0.5)
+      (outfit
+         (hair
+            femalebillyidol_resource
+            (colors 0 0))
+         (heads
+            head_3
+            (colors 4 0))
+         (facehair none)
+         (eyes
+            head_3_eyes_5
+            (colors 0 0))
+         (lips
+            head_3_lips_1
+            (colors 0 0))
+         (torso
+            flightjacket_solid
+            (colors 19 14))
+         (hands naked)
+         (legs
+            tightjeans_faded
+            (colors 0 5))
+         (feet
+            semispats_solid
+            (colors 37 0))
+         (glasses
+            femaleglasses_goggles
+            (colors 13 1))
+         (wrist none)
+         (rings none)
+         (earrings
+            femaleearrings_safetypins
+            (colors 1 0))
+         (piercings none)
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (mic sm58_resource)))
+   (drum7
+      (gender male)
+      (instrument drum)
+      (attitude kGenreRocker)
+      (skin_color_index 2)
+      (eye_color_index 5)
+      (eyebrow_color_index 4)
+      (height 0.5)
+      (weight 0.5)
+      (outfit
+         (hair
+            none
+            (colors 4 4))
+         (heads
+            head_5
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair none)
+         (glasses none)
+         (torso naked)
+         (hands
+            malegloves_fingerlessdriving
+            (colors 1 0))
+         (legs
+            jeansripped_denim
+            (colors 7 0))
+         (feet
+            combatboots_var1
+            (colors 7 0))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (mic sm58_resource)))
+   (drum8
+      (gender female)
+      (instrument drum)
+      (attitude kGenreDramatic)
+      (skin_color_index 0)
+      (eye_color_index 0)
+      (eyebrow_color_index 4)
+      (height 0.5)
+      (weight 0.75)
+      (outfit
+         (hair
+            lolita
+            (colors 4 0))
+         (heads
+            head_4
+            (colors 4 0))
+         (facehair none)
+         (eyes
+            head_4_eyes_16
+            (colors 0 0))
+         (lips
+            head_4_lips_6
+            (colors 0 0))
+         (torso
+            scarftanktop_threelayers
+            (colors 19 18))
+         (hands naked)
+         (legs
+            nauticaltrousers_canvas
+            (colors 11 6))
+         (feet
+            tiedtallboots_suede
+            (colors 15 0))
+         (glasses none)
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (mic sm58_resource)))
+   (drum9
+      (gender male)
+      (instrument drum)
+      (attitude kGenreSpazz)
+      (skin_color_index 3)
+      (eye_color_index 9)
+      (eyebrow_color_index 4)
+      (height 0.8)
+      (weight 0.25)
+      (outfit
+         (hair
+            squeebpunk_resource
+            (colors 4 42))
+         (heads
+            head_5
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair none)
+         (glasses none)
+         (torso
+            militaryjacketmask_canvas
+            (colors 23 0))
+         (hands
+            malegloves_lacefishnet
+            (colors 0 0))
+         (legs
+            camopants_canvas
+            (colors 33 7))
+         (feet
+            malesaggydocs_var2
+            (colors 0 1))
+         (wrist
+            malewrist_barbedwire
+            (colors 1 0))
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (mic sm58_resource)))
+   (drum10
+      (gender male)
+      (instrument drum)
+      (attitude kGenreSpazz)
+      (skin_color_index 0)
+      (eye_color_index 9)
+      (eyebrow_color_index 0)
+      (height 0.75)
+      (weight 0.25)
+      (outfit
+         (hair none)
+         (heads
+            head_3
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair
+            head_3_scottian
+            (colors 0 0))
+         (glasses none)
+         (torso naked)
+         (hands naked)
+         (legs
+            fittedpants_gator
+            (colors 0 0))
+         (feet
+            summonershoes_burlap
+            (colors 0 0))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (mic sm58_resource)))
+   (drum11
+      (gender male)
+      (instrument drum)
+      (attitude kGenreRocker)
+      (skin_color_index 2)
+      (eye_color_index 0)
+      (eyebrow_color_index 13)
+      (height 0.5)
+      (weight 0.75)
+      (outfit
+         (hair
+            parkinglot_resource
+            (colors 13 0))
+         (heads
+            head_4
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair
+            head_4_flavorsaver
+            (colors 13 0))
+         (glasses none)
+         (torso
+            wifebeater_worn
+            (colors 1 0))
+         (hands naked)
+         (legs
+            basictightpants_jeans
+            (colors 15 28))
+         (feet
+            sneakersstripes_nylon
+            (colors 0 13))
+         (wrist
+            malewrist_sweatband
+            (colors 8 8))
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (mic sm58_resource)))
+   (drum12
+      (gender male)
+      (instrument drum)
+      (attitude kGenreRocker)
+      (skin_color_index 0)
+      (eye_color_index 7)
+      (eyebrow_color_index 8)
+      (height 0.25)
+      (weight 0.25)
+      (outfit
+         (hair
+            featheredshort_resource
+            (colors 6 0))
+         (heads
+            head_6
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair
+            head_6_chops
+            (colors 6 0))
+         (glasses none)
+         (torso
+            armyjacket_dirty
+            (colors 28 32))
+         (hands
+            malegloves_bandaged
+            (colors 3 0))
+         (legs
+            zipperpants_panels
+            (colors 12 0))
+         (feet
+            bootswithinboots_leather
+            (colors 4 0))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (mic sm58_resource)))
+   (drum13
+      (gender female)
+      (instrument drum)
+      (attitude kGenreSpazz)
+      (skin_color_index 5)
+      (eye_color_index 9)
+      (eyebrow_color_index 2)
+      (height 0.15)
+      (weight 0.5)
+      (outfit
+         (hair
+            ladyfro_resource
+            (colors 2 0))
+         (heads
+            head_2
+            (colors 4 0))
+         (facehair none)
+         (eyes
+            head_2_eyes_16
+            (colors 0 0))
+         (lips none)
+         (torso
+            frankensteintee_commie
+            (colors 16 5))
+         (hands
+            femalegloves_fingerlessdriving
+            (colors 0 0))
+         (legs
+            microskirt_bondage
+            (colors 6 16))
+         (feet
+            gogoboot_tiger
+            (colors 16 0))
+         (glasses none)
+         (wrist
+            femalewrist_longspikes
+            (colors 0 0))
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (mic sm58_resource)))
+   (drum14
+      (gender male)
+      (instrument drum)
+      (attitude kGenreBanger)
+      (skin_color_index 6)
+      (eye_color_index 2)
+      (eyebrow_color_index 11)
+      (height 0.5)
+      (weight 0.5)
+      (outfit
+         (hair none)
+         (heads
+            head_6
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair none)
+         (glasses none)
+         (torso
+            tshirtdeath_cotton
+            (colors 4 0))
+         (hands
+            malegloves_fingerlessdriving
+            (colors 0 0))
+         (legs
+            carhartts_heavy
+            (colors 1 0))
+         (feet
+            fatlaceskatersneakers_solid
+            (colors 0 1))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (mic sm58_resource)))
+   (drum15
+      (gender male)
+      (instrument drum)
+      (attitude kGenreRocker)
+      (skin_color_index 0)
+      (eye_color_index 7)
+      (eyebrow_color_index 47)
+      (height 0.25)
+      (weight 0.25)
+      (outfit
+         (hair
+            squeebpunk_resource
+            (colors 0 26))
+         (heads
+            head_6
+            (colors 4 0))
+         (eyes
+            head_6_eyes_12
+            (colors 0 0))
+         (lips none)
+         (facehair none)
+         (glasses none)
+         (torso naked)
+         (hands
+            malegloves_fingerlessdriving
+            (colors 20 0))
+         (legs
+            suspendedpants_plaid
+            (colors 16 0))
+         (feet
+            destroyedchucks_starsandstripes
+            (colors 16 21))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (mic sm58_resource))
+      (tattoo
+         (patch_chest
+            ((patch_corbins 3 9 93.0 0.0 150.0 0.0 0.53 0.3 0.0)))))
+   (drum16
+      (gender female)
+      (instrument drum)
+      (attitude kGenreRocker)
+      (skin_color_index 5)
+      (eye_color_index 2)
+      (eyebrow_color_index 47)
+      (height 0.5)
+      (weight 0.5)
+      (outfit
+         (hair
+            60spony_resource
+            (colors 18 0))
+         (heads
+            head_3
+            (colors 4 0))
+         (facehair none)
+         (eyes
+            head_3_eyes_5
+            (colors 0 0))
+         (lips
+            head_3_lips_8
+            (colors 0 0))
+         (torso
+            schoolgirlshirt_dishevelled
+            (colors 4 18))
+         (hands naked)
+         (legs
+            shortskirt_skullbarelegs
+            (colors 18 28))
+         (feet
+            chunkyboots_plaid
+            (colors 18 10))
+         (glasses none)
+         (wrist none)
+         (rings
+            femalerings_jem
+            (colors 18 0))
+         (earrings
+            femaleearrings_safetypins
+            (colors 1 0))
+         (piercings none)
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (mic sm58_resource)))
+   (drum17
+      (gender male)
+      (instrument drum)
+      (attitude kGenreRocker)
+      (skin_color_index 2)
+      (eye_color_index 2)
+      (eyebrow_color_index 0)
+      (height 0.1)
+      (weight 0.5)
+      (outfit
+         (hair
+            emover_resource
+            (colors 0 26))
+         (heads
+            head_1
+            (colors 4 0))
+         (eyes
+            head_1_eyes_9
+            (colors 0 0))
+         (lips none)
+         (facehair none)
+         (glasses none)
+         (torso
+            oringhoodie_cotton
+            (colors 0 0))
+         (hands
+            malegloves_bandaged
+            (colors 0 0))
+         (legs
+            lamepants_basicshiny
+            (colors 0 0))
+         (feet
+            namboots_jungle
+            (colors 0 4))
+         (wrist none)
+         (rings
+            malerings_ebony
+            (colors 0 0))
+         (earrings none)
+         (piercings none)
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (mic sm58_resource)))
+   #ifdef RAM_PREFABS
+   (drum18
+      (gender female)
+      (instrument drum)
+      (attitude kGenreRocker)
+      (skin_color_index 5)
+      (eye_color_index 2)
+      (eyebrow_color_index 47)
+      (height 0.5)
+      (weight 0.5)
+      (RAM_FEMALE
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (mic sm58_resource)))
+   (drum19
+      (gender male)
+      (instrument drum)
+      (attitude kGenreRocker)
+      (skin_color_index 2)
+      (eye_color_index 2)
+      (eyebrow_color_index 0)
+      (height 0.1)
+      (weight 0.5)
+      (RAM_MALE
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (mic sm58_resource)))
+   #endif
+   (guitar0
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreDramatic)
+      (weight 0.4)
+      (height 0.85)
+      (skin_color_index 0)
+      (eye_color_index 3)
+      (eyebrow_color_index 0)
+      (outfit
+         (hair
+            mop_resource
+            (colors 2))
+         (heads head_3)
+         (eyes none)
+         (lips none)
+         (facehair none)
+         (glasses none)
+         (torso
+            loosedapperjacket_vintage
+            (colors 0 0))
+         (hands naked)
+         (legs
+            darkriderpants_cotton
+            (colors 0))
+         (feet
+            dressshoes_leather
+            (colors 0 0))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (mic sm58_resource)
+         (bass
+            precision01_triburstwhite
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            kelly01_sunburst
+            (colors 0 0))))
+   (guitar1
+      (gender female)
+      (instrument guitar)
+      (attitude kGenreBanger)
+      (weight 0.5)
+      (height 0.5)
+      (skin_color_index 0)
+      (eye_color_index 0)
+      (eyebrow_color_index 0)
+      (outfit
+         (hair
+            ladylayered_resource
+            (colors 4))
+         (heads
+            head_1
+            (colors))
+         (facehair none)
+         (eyes none)
+         (lips head_1_lips_1)
+         (torso
+            zebrachoptop_silk
+            (colors 0 3))
+         (hands naked)
+         (legs
+            leggings_shiny
+            (colors 0 1))
+         (feet
+            midcalfspikes_leather
+            (colors 0))
+         (glasses none)
+         (wrist
+            gauntlet_resource
+            (colors 0))
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (bass
+            precision01_triburstwhite
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            stratocaster01_triburstwhite
+            (colors 5 7))
+         (mic sm58_resource)))
+   (guitar2
+      (gender female)
+      (instrument guitar)
+      (attitude kGenreRocker)
+      (skin_color_index 0)
+      (eye_color_index 0)
+      (eyebrow_color_index 0)
+      (height 0.5)
+      (weight 0.5)
+      (outfit
+         (hair
+            lolita
+            (colors 0 0))
+         (heads
+            head_1
+            (colors 0 0))
+         (facehair none)
+         (eyes none)
+         (lips none)
+         (torso
+            corset_camo
+            (colors 1 2))
+         (hands naked)
+         (legs
+            armymini_denim
+            (colors 0 1))
+         (feet
+            femaledestroyedchucks_solid
+            (colors 0 0))
+         (glasses none)
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (mic sm58_resource)
+         (bass
+            precision01_triburstwhite
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            kelly01_sunburst
+            (colors 0 0))))
+   (guitar3
+      (gender male)
+      (attitude kGenreRocker)
+      (instrument guitar)
+      (weight 0.8)
+      (height 0.85)
+      (skin_color_index 3)
+      (eye_color_index 0)
+      (eyebrow_color_index 0)
+      (outfit
+         (hair
+            featheredshort_resource
+            (colors 1))
+         (heads
+            head_4
+            (colors 0))
+         (eyes none)
+         (lips none)
+         (facehair none)
+         (torso
+            hoodieandjacket_leather
+            (colors 3 4))
+         (hands naked)
+         (legs
+            wornleatherpants_worn
+            (colors 3 3))
+         (feet
+            dappershoes_solidshiny
+            (colors 0))
+         (wrist none)
+         (glasses none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (bass jazz01_woodash)
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar jaguar01_paint)
+         (mic sm58_resource)))
+   (guitar4
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreBanger)
+      (weight 0.4)
+      (height 0.75)
+      (skin_color_index 0)
+      (eye_color_index 0)
+      (eyebrow_color_index 0)
+      (outfit
+         (hair
+            shaggy
+            (colors 6))
+         (heads
+            head_1
+            (colors))
+         (eyes none)
+         (lips none)
+         (facehair none)
+         (glasses
+            maleglasses_aviators
+            (colors 0))
+         (torso
+            tshirtdeath_wolf
+            (colors 1))
+         (hands naked)
+         (legs
+            basictightpants_jeans
+            (colors 1))
+         (feet
+            westernslipons_embroidered
+            (colors 0))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (bass precision01_triburstblack)
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            telecaster01_woodash
+            (colors 3 5))
+         (mic sm58_resource)))
+   (guitar5
+      (gender female)
+      (instrument guitar)
+      (attitude kGenreSpazz)
+      (weight 0.35)
+      (height 0.65)
+      (skin_color_index 0)
+      (eye_color_index 0)
+      (eyebrow_color_index 0)
+      (outfit
+         (hair
+            bettybangs_resource
+            (colors 0))
+         (heads
+            head_1
+            (colors))
+         (facehair none)
+         (eyes none)
+         (lips head_1_lips_1)
+         (torso
+            vest_studded
+            (colors 0 1))
+         (hands naked)
+         (legs
+            hotpants_camo
+            (colors 0 0))
+         (feet
+            superhightops_leopard
+            (colors 0))
+         (glasses none)
+         (wrist
+            gauntlet_resource
+            (colors 0))
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (bass jazz01_sunburstwhite)
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            kelly01_triburst
+            (colors 3 5))
+         (mic sm58_resource)))
+   (guitar6
+      (selectable TRUE)
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreRocker)
+      (skin_color_index 2)
+      (eye_color_index 0)
+      (eyebrow_color_index 3)
+      (height 0.75)
+      (weight 0.5)
+      (outfit
+         (hair
+            youngozzy_resource
+            (colors 1 0))
+         (heads
+            head_3
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair none)
+         (glasses
+            maleglasses_wayfarers
+            (colors 4 0))
+         (torso
+            oringhoodie_cotton
+            (colors 0 0))
+         (hands naked)
+         (legs
+            bigzipperpants_denim
+            (colors 0 0))
+         (feet
+            lowchucks_skullprint
+            (colors 0 0))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (guitar
+            stratocaster02_paint
+            (colors 1 0))
+         (bass
+            precision01_woodash
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar7
+      (gender female)
+      (instrument guitar)
+      (attitude kGenreRocker)
+      (skin_color_index 0)
+      (eye_color_index 0)
+      (eyebrow_color_index 1)
+      (height 0.75)
+      (weight 0.5)
+      (outfit
+         (hair
+            sideflip_resource
+            (colors 1 1))
+         (heads
+            head_1
+            (colors 4 0))
+         (facehair none)
+         (eyes none)
+         (lips none)
+         (torso
+            tuxjacket_silk
+            (colors 0 14))
+         (hands naked)
+         (legs
+            leggings_shiny
+            (colors 0 30))
+         (feet
+            semispats_solid
+            (colors 30 0))
+         (glasses
+            femaleglasses_catseye
+            (colors 5 1))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (bass
+            jazz01_sparkle
+            (colors 1 31))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar8
+      (gender female)
+      (instrument guitar)
+      (attitude kGenreDramatic)
+      (skin_color_index 0)
+      (eye_color_index 0)
+      (eyebrow_color_index 13)
+      (height 0.5)
+      (weight 0.5)
+      (outfit
+         (hair
+            sidepony_resource
+            (colors 13 0))
+         (heads
+            head_3
+            (colors 4 0))
+         (facehair none)
+         (eyes none)
+         (lips none)
+         (torso
+            layeredtanktop_threelayers
+            (colors 4 5))
+         (hands naked)
+         (legs
+            frillyskirt_solid
+            (colors 12 5))
+         (feet
+            flatslips_stripe
+            (colors 21 2))
+         (glasses none)
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (guitar
+            doublejet_sunburstpearl
+            (colors 24 0))
+         (bass
+            jazz01_sparkle
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar9
+      (selectable TRUE)
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreRocker)
+      (skin_color_index 1)
+      (eye_color_index 0)
+      (eyebrow_color_index 49)
+      (height 0.8)
+      (weight 0.0)
+      (outfit
+         (hair
+            bandanna
+            (colors 49 10))
+         (heads
+            head_3
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair
+            head_3_handlebar
+            (colors 49 0))
+         (glasses none)
+         (torso
+            fringeshirt_denim
+            (colors 11 4))
+         (hands naked)
+         (legs
+            tightdistressedpants_jeans
+            (colors 4 0))
+         (feet
+            cowboyboots_western
+            (colors 3 0))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (bass
+            g6073_sparkle
+            (colors 31 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar10
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreRocker)
+      (skin_color_index 2)
+      (eye_color_index 9)
+      (eyebrow_color_index 10)
+      (height 0.5)
+      (weight 0.5)
+      (outfit
+         (hair
+            featheredshort_resource
+            (colors 4 0))
+         (heads
+            head_3
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair none)
+         (glasses
+            maleglasses_catseye
+            (colors 5 1))
+         (torso
+            polo_coatofarms
+            (colors 6 0))
+         (hands naked)
+         (legs
+            rolledpants_jeans
+            (colors 0 0))
+         (feet
+            highchucks_solid
+            (colors 0 4))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (bass
+            precision01_woodash
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar11
+      (gender female)
+      (instrument guitar)
+      (attitude kGenreRocker)
+      (skin_color_index 0)
+      (eye_color_index 0)
+      (eyebrow_color_index 20)
+      (height 0.5)
+      (weight 0.5)
+      (outfit
+         (hair
+            loosepony_resource
+            (colors 20 0))
+         (heads
+            head_1
+            (colors 4 0))
+         (facehair none)
+         (eyes
+            head_1_eyes_20
+            (colors 0 0))
+         (lips
+            head_1_lips_6
+            (colors 0 0))
+         (torso
+            tubetop_solid
+            (colors 14 0))
+         (hands naked)
+         (legs
+            cleanminiskirt_solid
+            (colors 22 0))
+         (feet
+            rubberboots_solid
+            (colors 14 0))
+         (glasses none)
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (bass
+            jazz01_sparkle
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar12
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreRocker)
+      (skin_color_index 0)
+      (eye_color_index 2)
+      (eyebrow_color_index 17)
+      (height 0.75)
+      (weight 0.5)
+      (outfit
+         (hair
+            shaggy
+            (colors 17 0))
+         (heads
+            head_2
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair
+            head_2_flavorsaver
+            (colors 10 0))
+         (glasses
+            maleglasses_jackieos
+            (colors 4 0))
+         (torso
+            wornlongsleeveshirt_striped
+            (colors 10 5))
+         (hands naked)
+         (legs
+            shreddedjeans_solid
+            (colors 0 2))
+         (feet
+            malelowtopsneaks_skater
+            (colors 34 32))
+         (wrist
+            malewrist_hercules
+            (colors 0 0))
+         (rings
+            malerings_chief
+            (colors 4 0))
+         (earrings none)
+         (piercings none)
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (bass
+            g6073_paint
+            (colors 37 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar13
+      (gender female)
+      (instrument guitar)
+      (attitude kGenreRocker)
+      (skin_color_index 2)
+      (eye_color_index 0)
+      (eyebrow_color_index 47)
+      (height 0.0)
+      (weight 0.0)
+      (outfit
+         (hair
+            sidepony_resource
+            (colors 47 0))
+         (heads
+            head_1
+            (colors 4 0))
+         (facehair none)
+         (eyes
+            head_1_eyes_6
+            (colors 0 0))
+         (lips
+            head_1_lips_2
+            (colors 0 0))
+         (torso
+            baseballteetorn_stitched
+            (colors 4 29))
+         (hands naked)
+         (legs
+            highwaterjeans_ripped
+            (colors 21 28))
+         (feet
+            flatslips_stripe
+            (colors 39 28))
+         (glasses none)
+         (wrist
+            femalewrist_barbedwire
+            (colors 1 0))
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (bass
+            jazz01_sparkle
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar14
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreRocker)
+      (skin_color_index 3)
+      (eye_color_index 0)
+      (eyebrow_color_index 4)
+      (height 0.5)
+      (weight 0.75)
+      (outfit
+         (hair
+            shaggy_dockcap
+            (colors 2 0))
+         (heads
+            head_2
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair none)
+         (glasses none)
+         (torso
+            worntshirt_vintage
+            (colors 0 0))
+         (hands naked)
+         (legs
+            tightdistressedpants_jeans
+            (colors 13 0))
+         (feet
+            westernslipons_embroidered
+            (colors 0 0))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (bass
+            precision01_woodash
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar15
+      (selectable TRUE)
+      (gender female)
+      (instrument guitar)
+      (attitude kGenreRocker)
+      (skin_color_index 2)
+      (eye_color_index 0)
+      (eyebrow_color_index 7)
+      (height 0.25)
+      (weight 0.75)
+      (outfit
+         (hair
+            farrah_resource
+            (colors 7 0))
+         (heads
+            head_6
+            (colors 4 0))
+         (facehair none)
+         (eyes none)
+         (lips none)
+         (torso
+            dishevelledshirt_southern
+            (colors 13 30))
+         (hands naked)
+         (legs
+            flarejeans_worn
+            (colors 16 13))
+         (feet
+            tallbuttonboots_embroidered
+            (colors 0 3))
+         (glasses none)
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (bass
+            jazz01_triburstwhite
+            (colors 22 30))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar16
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreBanger)
+      (skin_color_index 2)
+      (eye_color_index 9)
+      (eyebrow_color_index 0)
+      (height 0.15)
+      (weight 0.5)
+      (outfit
+         (hair
+            ziggymullet_resource
+            (colors 0 0))
+         (heads
+            head_5
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair none)
+         (glasses none)
+         (torso
+            summonerrobe_burlap
+            (colors 1 0))
+         (hands naked)
+         (legs
+            summonerleggings_burlap
+            (colors 1 0))
+         (feet
+            summonershoes_burlap
+            (colors 1 0))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (bass
+            skullbass_resource
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar17
+      (gender female)
+      (instrument guitar)
+      (attitude kGenreBanger)
+      (skin_color_index 3)
+      (eye_color_index 9)
+      (eyebrow_color_index 0)
+      (height 0.5)
+      (weight 0.5)
+      (outfit
+         (hair
+            70sbisset_resource
+            (colors 0 0))
+         (heads
+            head_4
+            (colors 4 0))
+         (facehair none)
+         (eyes none)
+         (lips none)
+         (torso
+            oilspillarmor_latex
+            (colors 3 2))
+         (hands naked)
+         (legs
+            oilspillleggings_latex
+            (colors 3 0))
+         (feet
+            oilspillboots_latex
+            (colors 3 0))
+         (glasses none)
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (guitar
+            warrior01_paint
+            (colors 0 0))
+         (bass
+            jazz01_sparkle
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar18
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreSpazz)
+      (skin_color_index 2)
+      (eye_color_index 9)
+      (eyebrow_color_index 1)
+      (height 0.15)
+      (weight 0.75)
+      (outfit
+         (hair
+            mohawk_resource
+            (colors 1 1))
+         (heads
+            head_4
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair
+            head_4_lemmy
+            (colors 1 0))
+         (glasses none)
+         (torso
+            spikedarmor_leather
+            (colors 20 20))
+         (hands
+            malegloves_bandaged
+            (colors 0 0))
+         (legs
+            cutoffshorts_denim
+            (colors 0 0))
+         (feet
+            roadwarriorboots_leather
+            (colors 0 20))
+         (wrist
+            malewrist_laceduparm
+            (colors 0 8))
+         (rings none)
+         (earrings
+            maleearrings_dangles
+            (colors 2 0))
+         (piercings head_4_piercings_combo11 none)
+         (guitar
+            mace_resource
+            (colors 0 0))
+         (bass
+            precision01_woodash
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar19
+      (gender female)
+      (instrument guitar)
+      (attitude kGenreSpazz)
+      (skin_color_index 5)
+      (eye_color_index 0)
+      (eyebrow_color_index 19)
+      (height 0.5)
+      (weight 0.5)
+      (outfit
+         (hair
+            visor_resource
+            (colors 19 1))
+         (heads
+            head_2
+            (colors 4 0))
+         (facehair none)
+         (eyes none)
+         (lips none)
+         (torso
+            gearheadarmor_leather
+            (colors 15 34))
+         (hands naked)
+         (legs
+            gearheadleggings_leather
+            (colors 14 15))
+         (feet
+            gearheadboots_leather
+            (colors 15 0))
+         (glasses none)
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar20
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreRocker)
+      (skin_color_index 1)
+      (eye_color_index 0)
+      (eyebrow_color_index 8)
+      (height 0.8)
+      (weight 0.25)
+      (outfit
+         (hair
+            malelongwavy_resource
+            (colors 8 0))
+         (heads
+            head_3
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair
+            head_3_bushybeard
+            (colors 9 0))
+         (glasses
+            maleglasses_circles
+            (colors 1 3))
+         (torso
+            frillyshirt_solid
+            (colors 30 0))
+         (hands naked)
+         (legs
+            strippedpants_ornate
+            (colors 10 10))
+         (feet
+            cowboyboots_western
+            (colors 15 0))
+         (wrist none)
+         (rings
+            malerings_coatofarms
+            (colors 1 0))
+         (earrings none)
+         (piercings none)
+         (guitar
+            doublejet_triburstpearl
+            (colors 18 35))
+         (bass
+            precision01_woodash
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar21
+      (gender female)
+      (instrument guitar)
+      (attitude kGenreDramatic)
+      (skin_color_index 0)
+      (eye_color_index 0)
+      (eyebrow_color_index 16)
+      (height 0.8)
+      (weight 0.5)
+      (outfit
+         (hair
+            hippybangs_resource
+            (colors 16 1))
+         (heads
+            head_1
+            (colors 4 0))
+         (facehair none)
+         (eyes
+            head_1_eyes_11
+            (colors 0 0))
+         (lips
+            head_1_lips_6
+            (colors 0 0))
+         (torso
+            tunicoverlap_paisley
+            (colors 13 0))
+         (hands naked)
+         (legs
+            linenskirt_twotone
+            (colors 32 13))
+         (feet
+            tallfoldedboots_solid
+            (colors 13 0))
+         (glasses none)
+         (wrist
+            femalewrist_hercules
+            (colors 2 0))
+         (rings none)
+         (earrings
+            femaleearrings_dangles
+            (colors 8 0))
+         (piercings none)
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (bass
+            jazz02_sunburstpearl
+            (colors 22 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar22
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreRocker)
+      (skin_color_index 0)
+      (eye_color_index 4)
+      (eyebrow_color_index 1)
+      (height 0.5)
+      (weight 0.5)
+      (outfit
+         (hair
+            parkinglot_resource
+            (colors 1 0))
+         (heads
+            head_1
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair none)
+         (glasses
+            maleglasses_aviators
+            (colors 0 0))
+         (torso
+            tshirtdeath_cotton
+            (colors 0))
+         (hands naked)
+         (legs
+            basictightpants_jeans
+            (colors 1 6))
+         (feet
+            creepers_vintage
+            (colors 13 12))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (guitar
+            5120_sunburst
+            (colors 29 0))
+         (bass
+            precision01_woodash
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar23
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreRocker)
+      (skin_color_index 0)
+      (eye_color_index 2)
+      (eyebrow_color_index 4)
+      (height 0.75)
+      (weight 0.5)
+      (outfit
+         (hair
+            featheredshort_resource
+            (colors 1 0))
+         (heads
+            head_2
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair
+            head_2_flavorsaver
+            (colors 4 0))
+         (glasses none)
+         (torso
+            jeanjacket_denim
+            (colors 12 0))
+         (hands naked)
+         (legs
+            bootcutpants_distressedjeans
+            (colors 0 31))
+         (feet
+            westernslipons_embroidered
+            (colors 15 0))
+         (wrist
+            malewrist_hercules
+            (colors 0 0))
+         (rings
+            malerings_chief
+            (colors 4 0))
+         (earrings none)
+         (piercings none)
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (bass
+            g6073_paint
+            (colors 37 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar24
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreRocker)
+      (skin_color_index 3)
+      (eye_color_index 0)
+      (eyebrow_color_index 3)
+      (height 0.75)
+      (weight 0.5)
+      (outfit
+         (hair
+            longlayered_resource
+            (colors 3 0))
+         (heads
+            head_6
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair none)
+         (glasses
+            maleglasses_badass
+            (colors 0 0))
+         (torso
+            studdedjacket_leather
+            (colors 0 7))
+         (hands naked)
+         (legs
+            jeansstudded_denim
+            (colors 7 0))
+         (feet
+            gladiatorboots_leather
+            (colors 0 0))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (guitar
+            stratocaster02_paint
+            (colors 32 4))
+         (bass
+            precision01_woodash
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar25
+      (selectable TRUE)
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreRocker)
+      (skin_color_index 4)
+      (eye_color_index 0)
+      (eyebrow_color_index 4)
+      (height 0.5)
+      (weight 0.5)
+      (outfit
+         (hair
+            nightcat_resource
+            (colors 4 3))
+         (heads
+            head_3
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair none)
+         (glasses none)
+         (torso
+            jeanjacket_denim
+            (colors 8 4))
+         (hands
+            malegloves_fingerlessdriving
+            (colors 33 0))
+         (legs
+            jeansbleached_denim
+            (colors 8 14))
+         (feet
+            studdedcowboyboots_leather
+            (colors 33 0))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (bass
+            precision01_sunburstblack
+            (colors 22 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar26
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreSpazz)
+      (skin_color_index 3)
+      (eye_color_index 6)
+      (eyebrow_color_index 1)
+      (height 0.8)
+      (weight 0.25)
+      (outfit
+         (hair
+            maledreads_resource
+            (colors 1 4))
+         (heads
+            head_2
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair none)
+         (glasses none)
+         (torso
+            leathervest_studded
+            (colors 0 34))
+         (hands naked)
+         (legs
+            bondagepants_zippered
+            (colors 20 3))
+         (feet
+            maledocsductape_leather
+            (colors 13 0))
+         (wrist
+            malewrist_studdedwatchcombo
+            (colors 28 0))
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (guitar
+            jaguar03_paint
+            (colors 36 3))
+         (bass
+            g6073_paint
+            (colors 14 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar27
+      (gender female)
+      (instrument guitar)
+      (attitude kGenreDramatic)
+      (skin_color_index 3)
+      (eye_color_index 9)
+      (eyebrow_color_index 0)
+      (height 0.75)
+      (weight 0.75)
+      (outfit
+         (hair
+            longwavy_resource
+            (colors 0 0))
+         (heads
+            head_4
+            (colors 4 0))
+         (facehair none)
+         (eyes
+            head_4_eyes_10
+            (colors 0 0))
+         (lips
+            head_4_lips_4
+            (colors 0 0))
+         (torso
+            mummyjacket_cotton
+            (colors 2 2))
+         (hands
+            femalegloves_bandaged
+            (colors 3 0))
+         (legs
+            mummyleggings_cotton
+            (colors 2 2))
+         (feet
+            midcalfspikes_leather
+            (colors 30 0))
+         (glasses none)
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (guitar
+            jaguar03_sunburstpearl
+            (colors 25 28))
+         (bass
+            precision02_paint
+            (colors 25 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar28
+      (gender female)
+      (instrument guitar)
+      (attitude kGenreDramatic)
+      (skin_color_index 3)
+      (eye_color_index 1)
+      (eyebrow_color_index 0)
+      (height 0.15)
+      (weight 0.8)
+      (outfit
+         (hair
+            50sbandana_resource
+            (colors 0 19))
+         (heads
+            head_3
+            (colors 4 0))
+         (facehair none)
+         (eyes
+            head_3_eyes_2
+            (colors 0 0))
+         (lips
+            head_3_lips_7
+            (colors 0 0))
+         (torso
+            batvneck_cotton
+            (colors 0 41))
+         (hands
+            femalegloves_lacefishnet
+            (colors 4 0))
+         (legs
+            gothmicrosand_stripedtights
+            (colors 0 19))
+         (feet
+            femalegothstompers_leather
+            (colors 0 41))
+         (glasses none)
+         (wrist none)
+         (rings none)
+         (earrings
+            femaleearrings_hoops
+            (colors 2 0))
+         (piercings none)
+         (guitar
+            kelly02_sparkle
+            (colors 0 0))
+         (bass
+            batwingbass_resource
+            (colors 4 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource))
+      (tattoo
+         (patch_left_arm
+            ((patch_sailor 8 0 0.0 0.0 89.0 0.0 1.97 0.48 0.0)
+               (patch_sailor 2 0 -22.0 0.0 -155.0 271.94 0.56 2.03 0.0)))
+         (patch_right_arm
+            ((patch_flyrite 1 0 0.0 0.0 130.0 0.0 1.12 0.38 0.0)
+               (patch_newyork 2 0 0.0 0.0 -153.0 0.0 2.27 0.4 0.0)))))
+   (guitar29
+      (gender female)
+      (instrument guitar)
+      (attitude kGenreRocker)
+      (skin_color_index 0)
+      (eye_color_index 5)
+      (eyebrow_color_index 1)
+      (height 0.75)
+      (weight 0.75)
+      (outfit
+         (hair
+            femover_resource
+            (colors 0 24))
+         (heads
+            head_4
+            (colors 4 0))
+         (facehair none)
+         (eyes
+            head_4_eyes_3
+            (colors 0 0))
+         (lips
+            head_4_lips_11
+            (colors 0 0))
+         (torso
+            halfsleeveschooltop_cotton
+            (colors 0 16))
+         (hands naked)
+         (legs
+            zigzagleggings_nylon
+            (colors 30 0))
+         (feet
+            kneehighheel_leather
+            (colors 0 0))
+         (glasses none)
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (guitar
+            kingv03_paint
+            (colors 4 0))
+         (bass
+            kelly04_paint
+            (colors 1 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar30
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreBanger)
+      (skin_color_index 3)
+      (eye_color_index 9)
+      (eyebrow_color_index 0)
+      (height 0.5)
+      (weight 0.8)
+      (outfit
+         (hair
+            malelongwavy_resource
+            (colors 1 0))
+         (heads
+            head_1
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair
+            head_1_longgoatee
+            (colors 1 0))
+         (glasses none)
+         (torso
+            spikedvest_leather
+            (colors 0 14)
+            (patch
+               ((patch_clapp 10 1 -9.0 0.0 0.0 0.0 1.39 1.27 0.0))))
+         (hands naked)
+         (legs
+            bondagepants_zippered
+            (colors 24 0))
+         (feet
+            studdedcowboyboots_leather
+            (colors 0 0))
+         (wrist
+            malewrist_studdedgauntlet
+            (colors 0 0))
+         (rings
+            malerings_skull
+            (colors 1 0))
+         (earrings none)
+         (piercings none)
+         (guitar
+            warrior01_sunburst
+            (colors 34 0))
+         (bass
+            kelly04_sunburst
+            (colors 36 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource))
+      (tattoo
+         (patch_left_arm
+            ((patch_slifers 0 0 2.0 0.0 -132.0 0.0 1.83 0.47 0.0)
+               (patch_corbins 1 13 22.0 0.0 173.0 0.0 0.75 0.34 0.0)
+               (patch_newyork 1 0 55.0 0.0 45.0 0.0 1.84 0.86 0.0)
+               (patch_slifers 0 0 2.0 0.0 -132.0 0.0 1.83 0.47 0.0)))
+         (patch_right_arm
+            ((patch_slifers 9 0 0.0 0.0 163.0 0.0 0.84 0.47 0.0)
+               (patch_newyork 5 0 -7.0 0.0 -136.0 0.0 2.19 0.69 0.0)
+               (patch_suerte 0 0 0.0 0.0 30.0 0.0 1.47 0.56 0.0)))))
+   (guitar31
+      (gender female)
+      (instrument guitar)
+      (attitude kGenreRocker)
+      (skin_color_index 4)
+      (eye_color_index 0)
+      (eyebrow_color_index 2)
+      (height 0.5)
+      (weight 0.5)
+      (outfit
+         (hair
+            gothdreads_resource
+            (colors 27 36))
+         (heads
+            head_1
+            (colors 4 0))
+         (facehair none)
+         (eyes
+            head_1_eyes_7
+            (colors 0 0))
+         (lips
+            head_1_lips_11
+            (colors 0 0))
+         (torso
+            bigstraps_rubber
+            (colors 0 0))
+         (hands naked)
+         (legs
+            bondagepants_plaidknees
+            (colors 0 0))
+         (feet
+            kneehighplatform_pvc
+            (colors 0 0))
+         (glasses none)
+         (wrist none)
+         (rings
+            femalerings_demonclaw
+            (colors 2 0))
+         (earrings
+            femaleearrings_safetypins
+            (colors 0 0))
+         (piercings none)
+         (guitar
+            corvette_sparkle
+            (colors 6 2))
+         (bass
+            jazz01_sparkle
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar32
+      (selectable TRUE)
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreRocker)
+      (skin_color_index 1)
+      (eye_color_index 2)
+      (eyebrow_color_index 47)
+      (height 0.75)
+      (weight 0.5)
+      (outfit
+         (hair
+            crazyhawk_resource
+            (colors 38 28))
+         (heads
+            head_2
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair
+            head_2_chops
+            (colors 28 0))
+         (glasses
+            maleglasses_goggles
+            (colors 14 3))
+         (torso
+            strapjacket_pleather
+            (colors 45 12))
+         (hands naked)
+         (legs
+            codpiecepants_robotic
+            (colors 12 45))
+         (feet
+            malebarefeet_fleshy
+            (colors 0 0))
+         (wrist
+            malewrist_hercules
+            (colors 0 0))
+         (rings
+            malerings_chief
+            (colors 4 0))
+         (earrings none)
+         (piercings none)
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (bass
+            g6073_paint
+            (colors 37 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar33
+      (gender female)
+      (instrument guitar)
+      (attitude kGenreRocker)
+      (skin_color_index 6)
+      (eye_color_index 0)
+      (eyebrow_color_index 2)
+      (height 0.5)
+      (weight 0.5)
+      (outfit
+         (hair
+            trihawk_resource
+            (colors 47 24))
+         (heads
+            head_1
+            (colors 4 0))
+         (facehair none)
+         (eyes
+            head_1_eyes_2
+            (colors 0 0))
+         (lips
+            head_1_lips_3
+            (colors 0 0))
+         (torso
+            tanktop_solid
+            (colors 8 0))
+         (hands naked)
+         (legs
+            capripants_tigerstripe
+            (colors 9 17))
+         (feet
+            kneehighplatform_pvc
+            (colors 0 0))
+         (glasses none)
+         (wrist none)
+         (rings
+            femalerings_demonclaw
+            (colors 2 0))
+         (earrings
+            femaleearrings_safetypins
+            (colors 0 0))
+         (piercings none)
+         (guitar
+            stratocaster01_sparkle
+            (colors 20 28))
+         (bass
+            jazz01_sparkle
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar34
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreRocker)
+      (skin_color_index 0)
+      (eye_color_index 2)
+      (eyebrow_color_index 1)
+      (height 0.75)
+      (weight 0.5)
+      (outfit
+         (hair none)
+         (heads
+            head_2
+            (colors 4 0))
+         (eyes
+            head_2_eyes_2
+            (colors 0 0))
+         (lips none)
+         (facehair
+            head_2_chingoatee
+            (colors 44 0))
+         (glasses none)
+         (torso naked)
+         (hands naked)
+         (legs
+            bootcutpants_distressedjeans
+            (colors 0 31))
+         (feet
+            rinoboots_leather
+            (colors 0 2))
+         (wrist
+            malewrist_hercules
+            (colors 0 0))
+         (rings
+            malerings_chief
+            (colors 4 0))
+         (earrings
+            maleearrings_spikeloop
+            (colors 1 0))
+         (piercings none)
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (bass
+            g6073_paint
+            (colors 37 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource))
+      (tattoo
+         (patch_left_arm
+            ((patch_sailor 13 0 0.0 0.0 111.0 0.0 1.95 0.77 0.0)))
+         (patch_right_arm
+            ((patch_newyork 1 0 0.0 0.0 74.0 0.0 1.9 1.05 0.0)))))
+   #ifdef RAM_PREFABS
+   (guitar35
+      (gender female)
+      (instrument guitar)
+      (attitude kGenreRocker)
+      (skin_color_index 6)
+      (eye_color_index 0)
+      (eyebrow_color_index 2)
+      (height 0.5)
+      (weight 0.5)
+      (RAM_FEMALE
+         (guitar
+            stratocaster01_sparkle
+            (colors 20 28))
+         (bass
+            jazz01_sparkle
+            (colors 0 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   (guitar36
+      (gender male)
+      (instrument guitar)
+      (attitude kGenreRocker)
+      (skin_color_index 0)
+      (eye_color_index 2)
+      (eyebrow_color_index 1)
+      (height 0.75)
+      (weight 0.5)
+      (RAM_MALE
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (bass
+            g6073_paint
+            (colors 37 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (mic sm58_resource)))
+   #endif
+   (vocals0
+      (gender male)
+      (instrument vocals)
+      (attitude kGenreRocker)
+      (weight 0.5)
+      (height 0.5)
+      (skin_color_index 3)
+      (eye_color_index 3)
+      (eyebrow_color_index 0)
+      (outfit
+         (hair
+            parkinglot_resource
+            (colors 3))
+         (heads
+            head_1
+            (colors))
+         (eyes none)
+         (lips none)
+         (facehair
+            none
+            (colors 0))
+         (glasses none)
+         (torso
+            paradejacket_ornate
+            (colors 0 0))
+         (hands naked)
+         (legs
+            tightdistressedpants_jeans
+            (colors 6))
+         (feet
+            motorcycleboots_solid
+            (colors 0))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (mic sm58_resource)))
+   (vocals1
+      (gender male)
+      (attitude kGenreRocker)
+      (instrument vocals)
+      (weight 0.6)
+      (height 0.5)
+      (skin_color_index 1)
+      (eye_color_index 0)
+      (eyebrow_color_index 0)
+      (outfit
+         (hair
+            hair_long
+            (colors 1))
+         (heads
+            head_1
+            (colors 0))
+         (eyes none)
+         (lips none)
+         (facehair none)
+         (torso
+            wifebeater_worn
+            (colors 4))
+         (hands naked)
+         (legs
+            leatherpants_basicleather
+            (colors 0))
+         (feet
+            dappershoes_solidshiny
+            (colors 0))
+         (wrist
+            gauntlet_resource
+            (colors 0))
+         (glasses none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (mic sm58_resource)))
+   (vocals2
+      (gender female)
+      (attitude kGenreSpazz)
+      (instrument vocals)
+      (weight 0.25)
+      (height 0.85)
+      (skin_color_index 4)
+      (eye_color_index 0)
+      (eyebrow_color_index 0)
+      (outfit
+         (hair
+            longwavy_resource
+            (colors 6))
+         (heads
+            head_1
+            (colors))
+         (facehair none)
+         (torso
+            tanktop_prismaticcheetah
+            (colors 4))
+         (eyes none)
+         (lips none)
+         (hands naked)
+         (legs
+            highwaterjeans_ripped
+            (colors 0 0))
+         (feet
+            chucktaylors_folded
+            (colors 0))
+         (wrist none)
+         (glasses none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (mic sm58_resource)))
+   (vocals3
+      (gender male)
+      (instrument vocals)
+      (attitude kGenreRocker)
+      (weight 0.5)
+      (height 0.5)
+      (skin_color_index 3)
+      (eye_color_index 0)
+      (eyebrow_color_index 0)
+      (outfit
+         (hair
+            mop_resource
+            (colors 1))
+         (heads
+            head_1
+            (colors))
+         (eyes none)
+         (lips none)
+         (facehair none)
+         (glasses
+            maleglasses_aviators
+            (colors 0))
+         (torso
+            militaryjacket_canvas
+            (colors 0 0))
+         (hands naked)
+         (legs
+            flaredistressedjeans_bleachedjeans
+            (colors 0))
+         (feet
+            sportysneaks_pleather
+            (colors 0))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (mic sm58_resource)))
+   (vocals4
+      (gender female)
+      (instrument vocals)
+      (attitude kGenreBanger)
+      (weight 0.35)
+      (height 0.5)
+      (skin_color_index 4)
+      (eye_color_index 0)
+      (eyebrow_color_index 0)
+      (outfit
+         (hair
+            ladylayered_resource
+            (colors 0))
+         (heads
+            head_1
+            (colors))
+         (facehair none)
+         (eyes none)
+         (lips none)
+         (torso
+            thermalundertee_thermal
+            (colors 0 0))
+         (hands naked)
+         (legs
+            highwaterjeans_ripped
+            (colors 0 0))
+         (feet
+            femaledestroyedchucks_solid
+            (colors 0))
+         (glasses none)
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (mic sm58_resource)))
+   (vocals5
+      (gender male)
+      (instrument vocals)
+      (attitude kGenreRocker)
+      (skin_color_index 0)
+      (eye_color_index 0)
+      (eyebrow_color_index 4)
+      (height 0.5)
+      (weight 0.5)
+      (outfit
+         (hair
+            parkinglot_resource
+            (colors 1 0))
+         (heads
+            head_1
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair none)
+         (glasses none)
+         (torso
+            hoodieandjacket_leather
+            (colors 0 0))
+         (hands naked)
+         (legs
+            tightdistressedpants_jeans
+            (colors 0 0))
+         (feet
+            sneakersstripes_nylon
+            (colors 0 0))
+         (wrist none)
+         (rings
+            malerings_twistedband
+            (colors 2 0))
+         (earrings none)
+         (piercings none)
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))))
+   (vocals6
+      (selectable TRUE)
+      (gender male)
+      (instrument vocals)
+      (attitude kGenreRocker)
+      (skin_color_index 0)
+      (eye_color_index 9)
+      (eyebrow_color_index 4)
+      (height 0.15)
+      (weight 0.75)
+      (outfit
+         (hair
+            ziggymullet_resource
+            (colors 4 0))
+         (heads
+            head_4
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair
+            head_4_dwarvenbeard
+            (colors 4 0))
+         (glasses none)
+         (torso
+            flannelcoat_checked
+            (colors 16 5))
+         (hands naked)
+         (legs
+            rolledjeans_cowspot
+            (colors 9 15))
+         (feet
+            combatboots_var1
+            (colors 7 0))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))))
+   (vocals7
+      (selectable TRUE)
+      (gender male)
+      (instrument vocals)
+      (attitude kGenreRocker)
+      (skin_color_index 0)
+      (eye_color_index 0)
+      (eyebrow_color_index 3)
+      (height 0.75)
+      (weight 0.5)
+      (outfit
+         (hair
+            hair_long
+            (colors 3 0))
+         (heads
+            head_1
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair
+            head_1_handlebar
+            (colors 4 0))
+         (glasses
+            maleglasses_circles
+            (colors 1 0))
+         (torso
+            ornatecoat_bejewelled
+            (colors 5 3))
+         (hands naked)
+         (legs
+            sashandpants_jeans
+            (colors 21 3))
+         (feet
+            cowboyboots_embroidered
+            (colors 2 0))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))))
+   (vocals8
+      (gender male)
+      (instrument vocals)
+      (attitude kGenreRocker)
+      (skin_color_index 0)
+      (eye_color_index 0)
+      (eyebrow_color_index 14)
+      (height 0.25)
+      (weight 0.5)
+      (outfit
+         (hair
+            glampoof_resource
+            (colors 14 0))
+         (heads
+            head_1
+            (colors 4 0))
+         (eyes
+            head_1_eyes_4
+            (colors 0 0))
+         (lips none)
+         (facehair none)
+         (glasses none)
+         (torso
+            militaryjacket_canvas
+            (colors 0 25))
+         (hands naked)
+         (legs
+            chaps_leather
+            (colors 0 9))
+         (feet
+            combatboots_leather
+            (colors 0 0))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4)))
+      (tattoo
+         (patch_left_arm
+            ((patch_newyork 15 0 0.0 0.0 -57.0 0.0 1.7 1.0 0.0)))
+         (patch_right_arm
+            ((patch_newyork 13 3 55.0 0.0 64.0 0.0 1.44 1.27 0.0)))))
+   (vocals9
+      (gender male)
+      (instrument vocals)
+      (attitude kGenreRocker)
+      (skin_color_index 0)
+      (eye_color_index 0)
+      (eyebrow_color_index 15)
+      (height 0.5)
+      (weight 0.5)
+      (outfit
+         (hair
+            short_resource
+            (colors 17 0))
+         (heads
+            head_1
+            (colors 0 0))
+         (eyes none)
+         (lips none)
+         (facehair none)
+         (glasses none)
+         (torso
+            openshirt_classicfloral
+            (colors 21 21))
+         (hands naked)
+         (legs
+            corduroypants_worn
+            (colors 15 27))
+         (feet
+            dappershoes_solidshiny
+            (colors 28 0))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4)))
+      (tattoo
+         (patch_right_arm
+            ((patch_anchor 2 0 0.0 0.0 -127.0 0.0 1.0 0.62 0.0)))))
+   (vocals10
+      (gender male)
+      (instrument vocals)
+      (attitude kGenreSpazz)
+      (skin_color_index 1)
+      (eye_color_index 9)
+      (eyebrow_color_index 18)
+      (height 0.75)
+      (weight 0.5)
+      (outfit
+         (hair
+            billyidol_resource
+            (colors 18 0))
+         (heads
+            head_6
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair none)
+         (glasses none)
+         (torso
+            onesleevejacket_roadwarrior
+            (colors 0 0))
+         (hands
+            malegloves_fingerlessdriving
+            (colors 4 0))
+         (legs
+            leatherslacks_roadwarrior
+            (colors 0 0))
+         (feet
+            combatboots_var1
+            (colors 0 13))
+         (wrist none)
+         (rings none)
+         (earrings
+            maleearrings_nail
+            (colors 2 0))
+         (piercings none)
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))))
+   (vocals11
+      (selectable TRUE)
+      (gender male)
+      (instrument vocals)
+      (attitude kGenreBanger)
+      (skin_color_index 0)
+      (eye_color_index 9)
+      (eyebrow_color_index 0)
+      (height 0.8)
+      (weight 0.8)
+      (outfit
+         (hair
+            hair_long
+            (colors 0 0))
+         (heads
+            head_4
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair
+            head_4_longgoatee
+            (colors 0 0))
+         (glasses none)
+         (torso
+            boneharness_leather
+            (colors 0 30))
+         (hands naked)
+         (legs
+            boneleggings_leather
+            (colors 0 31))
+         (feet
+            boneboots_leather
+            (colors 0 29))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))))
+   (vocals12
+      (gender male)
+      (instrument vocals)
+      (attitude kGenreRocker)
+      (skin_color_index 0)
+      (eye_color_index 0)
+      (eyebrow_color_index 6)
+      (height 0.75)
+      (weight 0.5)
+      (outfit
+         (hair
+            fauxhawk_resource
+            (colors 3 8))
+         (heads
+            head_3
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair
+            head_3_sideburns
+            (colors 3 0))
+         (glasses none)
+         (torso
+            buttonedshirt_southern
+            (colors 12 0))
+         (hands naked)
+         (legs
+            loosepants_stripe
+            (colors 1 9))
+         (feet
+            creepers_vintage
+            (colors 13 0))
+         (wrist none)
+         (rings
+            malerings_coatofarms
+            (colors 2 0))
+         (earrings none)
+         (piercings none)
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))))
+   (vocals13
+      (selectable TRUE)
+      (gender male)
+      (instrument vocals)
+      (attitude kGenreRocker)
+      (skin_color_index 5)
+      (eye_color_index 9)
+      (eyebrow_color_index 1)
+      (height 0.75)
+      (weight 0.5)
+      (outfit
+         (hair
+            maleladyfrosmall_resource
+            (colors 1 0))
+         (heads
+            head_6
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair
+            head_6_flavorsaver
+            (colors 1 0))
+         (glasses none)
+         (torso
+            casualmodjacket_tweed
+            (colors 14 0))
+         (hands naked)
+         (legs
+            cottondresspants_pinstripe
+            (colors 1 3))
+         (feet
+            dappershoes_solidshiny
+            (colors 0 0))
+         (wrist none)
+         (rings
+            malerings_twistedband
+            (colors 2 0))
+         (earrings none)
+         (piercings none)
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))))
+   (vocals14
+      (gender male)
+      (instrument vocals)
+      (attitude kGenreRocker)
+      (skin_color_index 0)
+      (eye_color_index 2)
+      (eyebrow_color_index 4)
+      (height 0.8)
+      (weight 0.5)
+      (outfit
+         (hair
+            malelongwavy_resource
+            (colors 4 0))
+         (heads
+            head_3
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair none)
+         (glasses none)
+         (torso
+            worntshirt_vintage
+            (colors 3 0))
+         (hands naked)
+         (legs
+            flaredistressedjeans_bleachedjeans
+            (colors 0 15))
+         (feet
+            maledocsductape_leather
+            (colors 12 29))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))))
+   (vocals15
+      (gender male)
+      (instrument vocals)
+      (attitude kGenreDramatic)
+      (skin_color_index 2)
+      (eye_color_index 9)
+      (eyebrow_color_index 4)
+      (height 0.5)
+      (weight 0.8)
+      (outfit
+         (hair
+            lazyhawk_resource
+            (colors 4 2))
+         (heads
+            head_4
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair none)
+         (glasses none)
+         (torso
+            leathershoulderstraps_twotone
+            (colors 0 29))
+         (hands naked)
+         (legs
+            bootcutpants_distressedjeans
+            (colors 0 20))
+         (feet
+            nailboots_rusty
+            (colors 0 34))
+         (wrist
+            malewrist_sweatbandstuddedcombo
+            (colors 0 0))
+         (rings
+            malerings_ebony
+            (colors 0 0))
+         (earrings none)
+         (piercings none)
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))))
+   (vocals17
+      (gender male)
+      (instrument vocals)
+      (attitude kGenreRocker)
+      (skin_color_index 1)
+      (eye_color_index 0)
+      (eyebrow_color_index 47)
+      (height 0.5)
+      (weight 0.5)
+      (outfit
+         (hair
+            libertyspikes_resource
+            (colors 0 24))
+         (heads
+            head_1
+            (colors 0 0))
+         (eyes
+            head_1_eyes_4
+            (colors 0 0))
+         (lips none)
+         (facehair
+            head_1_flavorsaver
+            (colors 46 0))
+         (glasses none)
+         (torso
+            wifebeaterplain_biohazard
+            (colors 0 30))
+         (hands
+            malegloves_skeleton
+            (colors 0 30))
+         (legs
+            harajukubelt_camo
+            (colors 0 3))
+         (feet
+            malelowtopsneaks_skater
+            (colors 0 33))
+         (wrist
+            malewrist_sweatband
+            (colors 16 27))
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))))
+   (vocals18
+      (gender female)
+      (instrument vocals)
+      (attitude kGenreRocker)
+      (skin_color_index 0)
+      (eye_color_index 0)
+      (eyebrow_color_index 0)
+      (height 0.5)
+      (weight 0.5)
+      (outfit
+         (hair
+            shortspikes_resource
+            (colors 24 0))
+         (heads
+            head_3
+            (colors 4 0))
+         (facehair none)
+         (eyes
+            head_3_eyes_27
+            (colors 0 0))
+         (lips
+            head_3_lips_9
+            (colors 0 0))
+         (torso
+            tanktop_nyhc
+            (colors 0 30))
+         (hands naked)
+         (legs
+            cargopants_camo
+            (colors 28 14))
+         (feet
+            saggydocs_var1
+            (colors 14 14))
+         (glasses none)
+         (wrist
+            femalewrist_jelly
+            (colors 14 28))
+         (rings
+            femalerings_bandaid
+            (colors 7 0))
+         (earrings
+            femaleearrings_plug
+            (colors 0 0))
+         (piercings none)
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))))
+   (vocals19
+      (gender male)
+      (instrument vocals)
+      (attitude kGenreRocker)
+      (skin_color_index 0)
+      (eye_color_index 2)
+      (eyebrow_color_index 47)
+      (height 0.8)
+      (weight 0.5)
+      (outfit
+         (hair
+            libertyspikes_resource
+            (colors 0 50))
+         (heads
+            head_3
+            (colors 4 0))
+         (eyes
+            head_3_eyes_7
+            (colors 0 0))
+         (lips
+            head_3_lips_1
+            (colors 0 0))
+         (facehair none)
+         (glasses none)
+         (torso
+            militantstrappedcoat_whiteandblack
+            (colors 0 0))
+         (hands naked)
+         (legs
+            darkriderpants_cotton
+            (colors 0 2))
+         (feet
+            kneehighdocs_leather
+            (colors 0 3))
+         (wrist
+            malewrist_nailgauntlet
+            (colors 34 0))
+         (rings
+            malerings_eyeball
+            (colors 4 0))
+         (earrings
+            maleearrings_safetypins
+            (colors 2 0))
+         (piercings none)
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))))
+   (vocals20
+      (selectable TRUE)
+      (gender female)
+      (instrument vocals)
+      (attitude kGenreSpazz)
+      (skin_color_index 1)
+      (eye_color_index 8)
+      (eyebrow_color_index 47)
+      (height 0.25)
+      (weight 0.5)
+      (outfit
+         (hair
+            hippybangs_maohat
+            (colors 19 2))
+         (heads
+            head_1
+            (colors 4 0))
+         (facehair none)
+         (eyes
+            head_1_eyes_7
+            (colors 0 0))
+         (lips
+            head_1_lips_3
+            (colors 0 0))
+         (torso
+            puffedsleeves_leather
+            (colors 0 4))
+         (hands naked)
+         (legs
+            puffyskirt_barelegs
+            (colors 0 1))
+         (feet
+            thighhighheel_pvc
+            (colors 34 0))
+         (glasses none)
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (mic
+            sm58_resource
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))))
+   (vocals21
+      (gender male)
+      (instrument vocals)
+      (attitude kGenreRocker)
+      (skin_color_index 2)
+      (eye_color_index 5)
+      (eyebrow_color_index 4)
+      (height 0.5)
+      (weight 0.5)
+      (outfit
+         (hair
+            hanoi_resource
+            (colors 4 4))
+         (heads
+            head_1
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair none)
+         (glasses none)
+         (torso
+            cutoffjeanjacket_denim
+            (colors 7 3))
+         (hands
+            malegloves_fingerlessdriving
+            (colors 1 0))
+         (legs
+            jeansripped_denim
+            (colors 7 0))
+         (feet
+            combatboots_var1
+            (colors 7 0))
+         (wrist none)
+         (rings none)
+         (earrings none)
+         (piercings none)
+         (drum
+            ludclassic_diamond
+            (colors 0 0))
+         (bass
+            precision05_sparkle
+            (colors 25 0))
+         (guitar
+            stratocaster02_paint
+            (colors 0 4))
+         (mic
+            sm58_resource
+            (colors 0 0))))
+   #ifndef _SHIP
+   #include ../ui/framerate/chars/budget_chars.dta
+   #ifdef HX_XBOX
+   #include ../ui/framerate/chars/expensive_cpu_male_xbox.dta
+   #include ../ui/framerate/chars/expensive_cpu_female_xbox.dta
+   #include ../ui/framerate/chars/expensive_gs_male_xbox.dta
+   #include ../ui/framerate/chars/expensive_gs_female_xbox.dta
+   #else
+   #ifdef HX_PS3
+   #include ../ui/framerate/chars/expensive_cpu_male_ps3.dta
+   #include ../ui/framerate/chars/expensive_cpu_female_ps3.dta
+   #include ../ui/framerate/chars/expensive_gs_male_ps3.dta
+   #include ../ui/framerate/chars/expensive_gs_female_ps3.dta
+   #else
+   #include ../ui/framerate/chars/expensive_cpu_male_xbox.dta
+   #include ../ui/framerate/chars/expensive_cpu_female_xbox.dta
+   #include ../ui/framerate/chars/expensive_gs_male_xbox.dta
+   #include ../ui/framerate/chars/expensive_gs_female_xbox.dta
+   #endif
+   #endif
+   #endif)

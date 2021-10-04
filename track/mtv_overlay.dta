@@ -1,0 +1,64 @@
+(RndDir
+   (types
+      (mtv_overlay
+         (editor
+            (show
+               script
+               (script
+                  {if
+                     {exists fade.anim}
+                     {fade.anim set_frame 50}}))
+            (hide
+               script
+               (script
+                  {if
+                     {exists fade.anim}
+                     {fade.anim set_frame 0}}))
+            (play
+               script
+               (script
+                  {if
+                     {exists fade.anim}
+                     {fade.anim animate}})))
+         (enter
+            {if
+               {exists game}
+               {game
+                  add_sink
+                  $this
+                  (intro_end)}})
+         (exit
+            {if
+               {exists game}
+               {game remove_sink $this}})
+         (intro_end
+            {if
+               {&&
+                  {exists game}
+                  {gamemode get show_mtv_overlay}}
+               {$this setup_text}
+               {if
+                  {exists fade.anim}
+                  {fade.anim animate}}})
+         (setup_text
+            {do
+               ($song
+                  {meta_performer song})
+               ($song_text
+                  {song_mgr song_name $song})
+               ($artist_text
+                  {song_mgr song_artist $song})
+               {if
+                  {exists song.lbl}
+                  {song.lbl set_localized $song_text}}
+               {if
+                  {exists artist.lbl}
+                  {artist.lbl set_localized $artist_text}}
+               {if_else
+                  {song_mgr is_master $song}
+                  {if
+                     {exists master.anim}
+                     {master.anim animate}}
+                  {if
+                     {exists cover.anim}
+                     {cover.anim animate}}}}))))

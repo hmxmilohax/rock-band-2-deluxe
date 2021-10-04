@@ -1,0 +1,330 @@
+{new
+   BotbPanel
+   botb_details_panel
+   (file
+      "details.milo")
+   (tab_selected FALSE)
+   (BUTTON_DOWN_MSG
+      {if
+         {== $action kAction_Start}
+         {if
+            {$this can_play}
+            {if_else
+               {$this conditions_met}
+               {$this try_to_play}
+               {ui push_screen botb_ec_failed_screen}}}}
+      kDataUnhandled)
+   (SELECT_MSG
+      {switch
+         $component
+         (friends.lst
+            {$this
+               select_friend_result
+               {friends.lst selected_pos}})
+         (overall.lst
+            {$this
+               select_overall_result
+               {overall.lst selected_pos}})})
+   (enter
+      {if
+         {!
+            {server is_connected}}
+         {band_ui trigger_event botb_error}}
+      {server
+         add_sink
+         $this
+         (server_status_changed)}
+      {set
+         [tab_selected]
+         FALSE}
+      {$this update_helpbar}
+      {tour_profile_panel
+         set_band_data
+         {tour band}})
+   (exit
+      {server remove_sink $this server_status_changed})
+   (server_status_changed
+      ($connected)
+      {if
+         {! $connected}
+         {band_ui trigger_event botb_error}})
+   (tabs
+      (summary
+         (allow_select TRUE)
+         (on_focus
+            {$this update_helpbar})
+         (on_select
+            {if
+               {$this can_play}
+               {if_else
+                  {$this conditions_met}
+                  {$this try_to_play}
+                  {ui push_screen botb_ec_failed_screen}}}
+            {$this on_enter_tab}))
+      (setlist
+         (allow_select
+            {>
+               {botb_details_panel setlist_size}
+               4})
+         (on_select
+            {set
+               [tab_selected]
+               TRUE}
+            {$this set_focus setlist.lst}
+            {$this update_helpbar}
+            {$this on_enter_tab})
+         (on_focus
+            {set
+               [tab_selected]
+               FALSE}
+            {$this update_helpbar}))
+      (friends
+         (allow_select
+            {!
+               {botb_details_panel is_friends_list_empty}})
+         (on_select
+            {set
+               [tab_selected]
+               TRUE}
+            {$this set_focus friends.lst}
+            {$this update_helpbar}
+            {$this on_enter_tab})
+         (on_focus
+            {set
+               [tab_selected]
+               FALSE}
+            {$this update_helpbar}))
+      (overall
+         (allow_select
+            {!
+               {botb_details_panel is_overall_list_empty}})
+         (on_select
+            {set
+               [tab_selected]
+               TRUE}
+            {$this set_focus overall.lst}
+            {$this update_helpbar}
+            {$this on_enter_tab})
+         (on_focus
+            {set
+               [tab_selected]
+               FALSE}
+            {$this update_helpbar})))
+   (on_enter_tab
+      {setlist_bar_color.mnm
+         animate
+         (range 1 0)})
+   (on_exit_tab
+      {setlist_bar_color.mnm
+         animate
+         (range 0 1)}
+      {synth play button_back})
+   (play_now
+      {if
+         {==
+            {{tour band}
+               event_type}
+            kTourEventChallenge}
+         {{tour band}
+            confirm_event}}
+      {ui
+         goto_screen
+         {gamemode get ready_screen}})
+   (timed_out
+      {ui push_screen botb_timeout_failed_screen})
+   (not_classy
+      {ui push_screen botb_not_classy_screen})
+   (goto_profile_screen
+      ($band_data)
+      {tour_profile_panel set_band_data $band_data}
+      {ui
+         goto_screen
+         {{ui current_screen}
+            get
+            profile_screen}})
+   (client_goto_profile_screen
+      ($band_data)
+      {tour_profile_panel set_band_data $band_data})
+   (update_helpbar
+      {set
+         $config
+         {array 0}}
+      {if_else
+         {$this came_from_profile_screen}
+         {set
+            $cancel
+            (cancel botb_cancel_to_profile)}
+         {set
+            $cancel
+            (cancel botb_cancel_to_hub)}}
+      {switch
+         {$this current_tab}
+         (summary
+            {if
+               {botb_details_panel can_cancel}
+               {push_back $config $cancel}}
+            {if
+               {&&
+                  {botb_details_panel can_select_tab}
+                  {$this can_play}}
+               {push_back
+                  $config
+                  (confirm botb_play_battle)}})
+         (setlist
+            {if_else
+               [tab_selected]
+               {do
+                  {push_back
+                     $config
+                     (cancel botb_cancel_to_tabs)}}
+               {do
+                  {if
+                     {botb_details_panel can_cancel}
+                     {push_back $config $cancel}}
+                  {if
+                     {&&
+                        {botb_details_panel can_select_tab}
+                        {>
+                           {botb_details_panel setlist_size}
+                           4}}
+                     {push_back
+                        $config
+                        (confirm botb_view_setlist)}}}})
+         (friends
+            {if_else
+               [tab_selected]
+               {do
+                  {push_back
+                     $config
+                     (cancel botb_cancel_to_tabs)}
+                  {push_back
+                     $config
+                     (confirm botb_select_band)}}
+               {do
+                  {if
+                     {botb_details_panel can_cancel}
+                     {push_back $config $cancel}}
+                  {if
+                     {&&
+                        {botb_details_panel can_select_tab}
+                        {!
+                           {botb_details_panel is_friends_list_empty}}}
+                     {push_back
+                        $config
+                        (confirm helpbar_select)}}}})
+         (overall
+            {if_else
+               [tab_selected]
+               {do
+                  {push_back
+                     $config
+                     (cancel botb_cancel_to_tabs)}
+                  {push_back
+                     $config
+                     (confirm botb_select_band)}}
+               {do
+                  {if
+                     {botb_details_panel can_cancel}
+                     {push_back $config $cancel}}
+                  {if
+                     {&&
+                        {botb_details_panel can_select_tab}
+                        {!
+                           {botb_details_panel is_overall_list_empty}}}
+                     {push_back
+                        $config
+                        (confirm helpbar_select)}}}})}
+      {if
+         {$this can_play}
+         {push_back
+            $config
+            (start botb_play_battle)}}
+      {helpbar set_config $config})
+   (can_select_tab
+      {'||'
+         {botb_details_panel get came_from_profile_screen}
+         {is_leader_local}})
+   (came_from_profile_screen
+      {==
+         {net_sync get_ui_state}
+         kNetUI_BandProfile})}
+{new
+   BandScreen
+   botb_details_screen
+   (panels meta practice_space_panel botb_details_panel tour_lower3rd_panel)
+   (focus botb_details_panel)
+   (back
+      {if_else
+         {botb_details_panel came_from_profile_screen}
+         {do
+            {tour_profile_panel set display_tab battle_history}
+            tour_profile_screen}
+         tour_botb_challenge_screen})
+   (profile_screen tour_profile_screen)
+   (enter
+      {practice_space_panel
+         select_cam
+         "coop_select_sel_dif"}
+      {unless
+         {botb_details_panel came_from_profile_screen}
+         {input_mgr set_limit kLimitSessionLeader}})}
+{new
+   BandScreen
+   botb_world_details_screen
+   (panels meta tour_world_bg_panel botb_details_panel tour_world_lower3rd_panel)
+   (focus botb_details_panel)
+   (back tour_world_event_screen)
+   (profile_screen tour_profile_world_screen)
+   (enter
+      {input_mgr set_limit kLimitSessionLeader})}
+{new
+   BandScreen
+   botb_ec_failed_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {botb_details_panel failed_conditions_message}})
+   (SELECT_MSG
+      {if_else
+         {==
+            {{tour band}
+               event_type}
+            kTourEventChallenge}
+         {ui pop_screen botb_details_screen}
+         {ui pop_screen botb_world_details_screen}})}
+{new
+   BandScreen
+   botb_timeout_failed_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize botb_ec_expired}})
+   (SELECT_MSG
+      {if_else
+         {==
+            {{tour band}
+               event_type}
+            kTourEventChallenge}
+         {ui pop_screen botb_details_screen}
+         {ui pop_screen botb_world_details_screen}})}
+{new
+   BandScreen
+   botb_not_classy_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize botb_ec_not_classy}})
+   (SELECT_MSG
+      {if_else
+         {==
+            {{tour band}
+               event_type}
+            kTourEventChallenge}
+         {ui pop_screen botb_details_screen}
+         {ui pop_screen botb_world_details_screen}})}

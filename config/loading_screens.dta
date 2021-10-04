@@ -1,0 +1,43 @@
+#define LS_NO_FAME
+((mode_property is_tour TRUE))
+#define LS_LOW_FAME
+((mode_property is_tour TRUE)
+   (unlocked tour_vehicle_van))
+#define LS_MID_FAME
+((mode_property is_tour TRUE)
+   (unlocked tour_vehicle_bus))
+#define LS_HIGH_FAME
+((mode_property is_tour TRUE)
+   (unlocked tour_vehicle_jet))
+(loading/ls_bar.milo
+   (not
+      (unlocked tour_vehicle_jet)))
+(loading/ls_diner.milo
+   (not
+      (unlocked tour_vehicle_jet)))
+(loading/ls_polaroids.milo
+   LS_LOW_FAME
+   (not
+      (unlocked tour_vehicle_jet)))
+(loading/ls_stopsign.milo LS_LOW_FAME)
+(loading/ls_jean_pins.milo LS_LOW_FAME)
+(loading/ls_tattoo_shop.milo LS_LOW_FAME)
+(loading/ls_train.milo LS_LOW_FAME)
+(loading/ls_arrest.milo LS_MID_FAME)
+(loading/ls_bus_bridge_rock.milo LS_MID_FAME)
+(loading/ls_post_board.milo
+   LS_MID_FAME
+   (city boston))
+(loading/ls_theater.milo
+   LS_MID_FAME
+   (venue theater_01 theater_02 theater_03 theater_04 theater_05 theater_06 theater_07 theater_08 theater_09 theater_10 theater_11 arena_01 arena_02 arena_03 arena_04 arena_05 arena_06 arena_07 arena_08 arena_09 arena_10 arena_11 arena_12))
+(loading/ls_press_photo.milo LS_HIGH_FAME)
+(loading/ls_lunchbox.milo LS_HIGH_FAME)
+(loading/ls_lockers.milo LS_HIGH_FAME)
+(loading/ls_greatest_hits.milo LS_HIGH_FAME)
+(loading/ls_gold_records.milo LS_HIGH_FAME)
+(loading/ls_rolling_stone.milo
+   LS_HIGH_FAME
+   (unlocked tour_halloffame_complete))
+(loading/ls_Bordercross_ROCK.milo
+   (city tijuana))

@@ -1,0 +1,1240 @@
+#define SET_UP_GAMERTAG
+({if_else
+      {input_mgr has_user}
+      {do
+         ($user
+            {input_mgr get_user})
+         ($pad_num
+            {$user get_pad_num})
+         {if
+            {$this exists bg_name.mesh}
+            {bg_name.mesh set_showing TRUE}}
+         {gamertag.lbl set_showing TRUE}
+         {gamertag.lbl
+            set_localized
+            {platform_mgr get_name $pad_num}}}
+      {do
+         {gamertag.lbl set_showing FALSE}
+         {if
+            {$this exists bg_name.mesh}
+            {bg_name.mesh set_showing FALSE}}}})
+#define COMMON_TRANSITION_HANDLERS_FOR_SIGN_OUT
+({if
+      {$this get signin_change_waiting}
+      {$this set signin_change_waiting FALSE}
+      {$this process_signin_change}})
+#define ENTER_HANDLER_FOR_SIGNOUT
+({platform_mgr
+      add_sink
+      $this
+      (signin_changed)})
+#define EXIT_HANDLER_FOR_SIGNOUT
+({platform_mgr remove_sink $this signin_changed})
+#define SIGNIN_CHANGE_HANDLER_FOR_SIGNOUT
+({band_ui
+      trigger_event
+      sign_out
+      (dummy init kLocalUserSignedOut)})
+{new
+   UIPanel
+   options_background_panel
+   (file
+      "options_background.milo")}
+{new
+   UIPanel
+   options_panel
+   MAIN_SUBSCREEN_PANEL_HANDLER
+   (SELECT_MSG
+      {switch
+         $component
+         #ifndef HX_PS3
+         (gameplay.btn
+            {warn_no_signin_goto_screen options_gameplay_screen $player_num})
+         #endif
+         (console.btn
+            {ui goto_screen options_console_screen})
+         (calibrate_av.btn
+            {ui goto_screen cal_welcome_screen}
+            {do
+               ($user
+                  {user_mgr get_band_user $player_num})
+               {$user
+                  set_controller_type
+                  {$user connected_controller_type}}
+               {input_mgr set_user $user}})
+         (characterdata.btn
+            {if_else
+               {&&
+                  {platform_mgr is_player_signed_in $player_num}
+                  {!
+                     {platform_mgr is_player_a_guest $player_num}}}
+               {do
+                  {ui goto_screen options_savedata_screen $player_num}
+                  {input_mgr
+                     set_user
+                     {user_mgr get_band_user $player_num}}}
+               {do
+                  {options_screen register_user_confirm $player}
+                  {ui push_screen options_savedata_signin_screen}
+                  {input_mgr
+                     set_user
+                     {user_mgr get_band_user $player_num}}}})})
+   (enter
+      {input_mgr set_user ''}
+      {main_panel set_gameplay_button})}
+{new
+   AutoloadScreen
+   options_screen
+   (panels meta main_panel options_panel)
+   (focus options_panel)
+   (back main_screen)
+   MAIN_SCREEN_HANDLERS}
+{new
+   SigninScreen
+   options_savedata_signin_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (must_not_be_a_guest TRUE)
+   (must_be_online FALSE)
+   (must_be_multiplayer_capable FALSE)
+   (handle_sign_outs FALSE)
+   (limit_user_signin TRUE)
+   (enter
+      {do
+         ($user
+            {input_mgr get_user})
+         {dialog_panel
+            set_custom
+            {localize options_managedata_must_signin}
+            {localize options_managedata_signin_button}
+            {localize options_managedata_cancel_button}
+            opt1.btn}})
+   (exit
+      {input_mgr clear_user})
+   (SELECT_MSG
+      {switch
+         $component
+         (opt1.btn
+            {platform_mgr signin 1})
+         (opt2.btn
+            {options_screen clear_button_press}
+            {ui pop_screen})})
+   (on_signed_into_guest)
+   (on_signed_in
+      {ui pop_screen})}
+{new
+   UIPanel
+   options_operations_choose_panel
+   (file
+      "options_data_operations.milo")
+   (set_title
+      ($title)
+      {title.lbl set_localized $title})
+   (set_buttons
+      ($opt1 $opt2 $opt3 $focus)
+      {opt1.btn set_localized $opt1}
+      {$this set_button opt2.btn $opt2}
+      {$this set_button opt3.btn $opt3}
+      {$this set_focus $focus})
+   (set_button
+      ($button $label)
+      {if_else
+         {==
+            $label
+            ""}
+         {do
+            {$this disable $button}
+            {$button set showing FALSE}}
+         {do
+            {$this enable $button}
+            {$button set showing TRUE}
+            {$button set_localized $label}}})}
+{new
+   BandScreen
+   option_character_delete_confirm_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_yesno
+         {localize shell_chardelete_cancel}
+         no.btn}
+      {set
+         [delete]
+         FALSE}
+      ENTER_HANDLER_FOR_SIGNOUT)
+   (exit EXIT_HANDLER_FOR_SIGNOUT)
+   (SIGNIN_CHANGED_MSG SIGNIN_CHANGE_HANDLER_FOR_SIGNOUT)
+   (SELECT_MSG
+      {switch
+         $component
+         (yes.btn
+            {set
+               [delete]
+               TRUE}
+            {ui pop_screen})
+         (no.btn
+            {ui pop_screen})})
+   (delete FALSE)}
+{new
+   BandScreen
+   option_character_operations_screen
+   (panels options_operations_choose_panel)
+   (focus options_operations_choose_panel)
+   (helpbar
+      ((cancel helpbar_cancel)
+         (confirm helpbar_select)))
+   (enter
+      {options_operations_choose_panel
+         set_title
+         {localize shell_char_options_title}}
+      {options_operations_choose_panel
+         set_buttons
+         {localize shell_char_rename}
+         {localize shell_char_delete}
+         {if_else
+            [canleaveband]
+            {localize shell_char_leave_band}
+            ""}
+         opt1.btn}
+      {set
+         [delete]
+         FALSE}
+      {set
+         [rename]
+         FALSE}
+      {set
+         [leaveband]
+         FALSE}
+      ENTER_HANDLER_FOR_SIGNOUT)
+   (exit EXIT_HANDLER_FOR_SIGNOUT)
+   (SIGNIN_CHANGED_MSG SIGNIN_CHANGE_HANDLER_FOR_SIGNOUT)
+   (SELECT_MSG
+      {switch
+         $component
+         (opt1.btn
+            {set
+               [rename]
+               TRUE}
+            {ui pop_screen})
+         (opt2.btn
+            {set
+               [delete]
+               TRUE}
+            {ui pop_screen})
+         (opt3.btn
+            {set
+               [leaveband]
+               TRUE}
+            {ui pop_screen})})
+   (BUTTON_DOWN_MSG
+      {switch
+         $action
+         (kAction_Cancel
+            {ui pop_screen})
+         kDataUnhandled})
+   (rename FALSE)
+   (delete FALSE)
+   (leaveband FALSE)
+   (canleaveband TRUE)}
+{new
+   BandScreen
+   option_chardata_char_name_profane
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {sprintf
+            {localize shell_charcreator_name_profane_fmt}
+            {options_characterdata_panel get char_name}}}
+      ENTER_HANDLER_FOR_SIGNOUT)
+   (exit EXIT_HANDLER_FOR_SIGNOUT)
+   (SIGNIN_CHANGED_MSG SIGNIN_CHANGE_HANDLER_FOR_SIGNOUT)
+   (SELECT_MSG
+      {switch
+         $component
+         (ok.btn
+            {ui pop_screen options_characterdata_screen})})}
+{new
+   BandScreen
+   option_banddata_band_name_profane
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {sprintf
+            {localize tour_profile_rename_band_name_profane}}}
+      ENTER_HANDLER_FOR_SIGNOUT)
+   (exit EXIT_HANDLER_FOR_SIGNOUT)
+   (SIGNIN_CHANGED_MSG SIGNIN_CHANGE_HANDLER_FOR_SIGNOUT)
+   (SELECT_MSG
+      {switch
+         $component
+         (ok.btn
+            {ui pop_screen options_banddata_screen})})}
+{new
+   BandScreen
+   option_chardata_char_name_ip
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {sprintf
+            {localize shell_charcreator_name_ip_fmt}
+            {options_characterdata_panel get char_name}}}
+      ENTER_HANDLER_FOR_SIGNOUT)
+   (exit EXIT_HANDLER_FOR_SIGNOUT)
+   (SIGNIN_CHANGED_MSG SIGNIN_CHANGE_HANDLER_FOR_SIGNOUT)
+   (SELECT_MSG
+      {switch
+         $component
+         (ok.btn
+            {ui pop_screen options_characterdata_screen})})}
+{new
+   BandScreen
+   option_banddata_band_name_ip
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {sprintf
+            {localize tour_profile_rename_band_name_ip}}}
+      ENTER_HANDLER_FOR_SIGNOUT)
+   (exit EXIT_HANDLER_FOR_SIGNOUT)
+   (SIGNIN_CHANGED_MSG SIGNIN_CHANGE_HANDLER_FOR_SIGNOUT)
+   (SELECT_MSG
+      {switch
+         $component
+         (ok.btn
+            {ui pop_screen options_banddata_screen})})}
+{new
+   UIPanel
+   options_characterdata_panel
+   (file
+      "options_characterdata.milo")
+   (focus charlist.lst)
+   (enter
+      SET_UP_GAMERTAG
+      {char_data_provider
+         init
+         {{input_mgr get_user}
+            get_user_num}}
+      {charlist.lst set_provider char_data_provider})
+   (TRANSITION_COMPLETE_MSG
+      {if
+         {option_character_operations_screen get rename}
+         {option_character_operations_screen set rename FALSE}
+         {$this rename_char}}
+      {if
+         {option_character_operations_screen get delete}
+         {option_character_operations_screen set delete FALSE}
+         {ui push_screen option_character_delete_confirm_screen}}
+      {if
+         {option_character_operations_screen get leaveband}
+         {option_character_operations_screen set leaveband FALSE}
+         {$this char_leaveband}}
+      {if
+         {option_character_delete_confirm_screen get delete}
+         {option_character_delete_confirm_screen set delete FALSE}
+         {$this delete_char}}
+      {if
+         {== $old_screen option_chardata_char_name_not_unique}
+         {$this rename_char}})
+   (delete_char
+      {set
+         $next_pos
+         {charlist.lst selected_pos}}
+      {char_data_provider
+         delete_character
+         {charlist.lst selected_pos}}
+      {if_else
+         {char_data_provider get_num_chars}
+         {do
+            {if
+               {==
+                  $next_pos
+                  {char_data_provider get_num_chars}}
+               {-- $next_pos}}
+            {set
+               $first_showing
+               {-
+                  $next_pos
+                  {charlist.lst num_display}}}
+            {'++' $first_showing}
+            {if
+               {< $first_showing 0}
+               {set $first_showing 0}}
+            {charlist.lst set_selected $next_pos $first_showing}
+            {charlist.lst set_dirty}
+            {if
+               {&&
+                  {!
+                     {ui in_transition}}
+                  {==
+                     {ui current_screen}
+                     options_characterdata_screen}
+                  {!
+                     {net_sync has_destination_screen}}}
+               {autosave}}}
+         {if
+            {&&
+               {!
+                  {ui in_transition}}
+               {==
+                  {ui current_screen}
+                  options_characterdata_screen}
+               {!
+                  {net_sync has_destination_screen}}}
+            {autosave_push options_savedata_screen}}})
+   (rename_char
+      {virtual_keyboard
+         show_keyboard
+         {{input_mgr get_user}
+            get_user_num}
+         {get_char_name_length}
+         {localize create_char_vk_title}
+         {localize rename_char_vk_desc}
+         {char_data_provider
+            get_char_name
+            {charlist.lst selected_pos}}
+         $this})
+   (char_leaveband
+      {options_quitband_list_panel
+         set
+         char_obj
+         {char_data_provider
+            get_tour_char
+            {charlist.lst selected_pos}}}
+      {ui goto_screen options_quitband_list_screen})
+   (SELECT_MSG
+      {switch
+         $component
+         (charlist.lst
+            {if
+               {>
+                  {char_data_provider get_num_chars}
+                  0}
+               {band_quit_provider
+                  init
+                  {profile_mgr
+                     get_profile
+                     {input_mgr get_user}}
+                  {char_data_provider
+                     get_tour_char
+                     {charlist.lst selected_pos}}}
+               {if_else
+                  {>
+                     {band_quit_provider get_num_bands}
+                     0}
+                  {option_character_operations_screen set canleaveband TRUE}
+                  {option_character_operations_screen set canleaveband FALSE}}
+               {ui push_screen option_character_operations_screen}})})
+   (VIRTUAL_KEYBOARD_RESULT_MSG
+      {if
+         {&&
+            $ok
+            $this
+            {ui focus_panel}
+            {==
+               {ui focus_panel}
+               $this}
+            {!=
+               $text
+               ""}}
+         {if_else
+            {!
+               {profile_mgr
+                  is_char_name_unique
+                  {input_mgr get_user}
+                  $text}}
+            {ui push_screen option_chardata_char_name_not_unique}
+            {do
+               {set
+                  [char_name]
+                  $text}
+               {set
+                  $tour_char
+                  {char_data_provider
+                     get_tour_char
+                     {charlist.lst selected_pos}}}
+               {network_busy_panel set_busy TRUE}
+               {entity_uploader
+                  verify_char_name
+                  [char_name]
+                  $this
+                  $tour_char}}}})
+   (ROCK_CENTRAL_OP_COMPLETE_MSG
+      {network_busy_panel set_busy FALSE}
+      {char_data_provider
+         set_char_name
+         {charlist.lst selected_pos}
+         [char_name]}
+      {charlist.lst set_dirty}
+      {switch
+         $arg1
+         (RB_RETCODE_CHAR_NAME_PROFANE
+            {ui push_screen option_chardata_char_name_profane})
+         (RB_RETCODE_CHAR_NAME_IP
+            {ui push_screen option_chardata_char_name_ip})})
+   (char_name
+      "")}
+{new
+   BandScreen
+   options_characterdata_screen
+   (panels meta movie_panel options_background_panel options_characterdata_panel)
+   (focus options_characterdata_panel)
+   (back options_savedata_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm opt_hb_choosecharacter)))
+   (enter ENTER_HANDLER_FOR_SIGNOUT)
+   (exit EXIT_HANDLER_FOR_SIGNOUT)
+   (SIGNIN_CHANGED_MSG SIGNIN_CHANGE_HANDLER_FOR_SIGNOUT)}
+{new
+   BandScreen
+   option_chardata_char_name_not_unique
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize shell_char_name_not_unique}}
+      ENTER_HANDLER_FOR_SIGNOUT)
+   (exit EXIT_HANDLER_FOR_SIGNOUT)
+   (SIGNIN_CHANGED_MSG SIGNIN_CHANGE_HANDLER_FOR_SIGNOUT)
+   (SELECT_MSG
+      {switch
+         $component
+         (ok.btn
+            {ui pop_screen})})}
+{new
+   BandScreen
+   option_banddata_band_name_not_unique
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize shell_band_name_not_unique}}
+      ENTER_HANDLER_FOR_SIGNOUT)
+   (exit EXIT_HANDLER_FOR_SIGNOUT)
+   (SIGNIN_CHANGED_MSG SIGNIN_CHANGE_HANDLER_FOR_SIGNOUT)
+   (SELECT_MSG
+      {switch
+         $component
+         (ok.btn
+            {ui pop_screen})})}
+{new
+   BandScreen
+   option_band_operations_screen
+   (panels options_operations_choose_panel)
+   (focus options_operations_choose_panel)
+   (helpbar
+      ((cancel helpbar_cancel)
+         (confirm helpbar_select)))
+   (enter
+      {options_operations_choose_panel
+         set_title
+         {localize shell_band_options_title}}
+      {options_operations_choose_panel
+         set_buttons
+         {localize shell_band_delete}
+         {if_else
+            [canrename]
+            {localize shell_band_rename}
+            ""}
+         {if_else
+            [canremovechar]
+            {localize shell_band_remove_char}
+            ""}
+         opt1.btn}
+      {set
+         [delete]
+         FALSE}
+      {set
+         [rename]
+         FALSE}
+      {set
+         [removechar]
+         FALSE}
+      ENTER_HANDLER_FOR_SIGNOUT)
+   (exit EXIT_HANDLER_FOR_SIGNOUT)
+   (SIGNIN_CHANGED_MSG SIGNIN_CHANGE_HANDLER_FOR_SIGNOUT)
+   (SELECT_MSG
+      {switch
+         $component
+         (opt1.btn
+            {set
+               [delete]
+               TRUE}
+            {ui pop_screen})
+         (opt2.btn
+            {set
+               [rename]
+               TRUE}
+            {ui pop_screen})
+         (opt3.btn
+            {set
+               [removechar]
+               TRUE}
+            {ui pop_screen})})
+   (BUTTON_DOWN_MSG
+      {switch
+         $action
+         (kAction_Cancel
+            {ui pop_screen})
+         kDataUnhandled})
+   (delete FALSE)
+   (rename FALSE)
+   (removechar FALSE)
+   (canrename TRUE)
+   (canremovechar TRUE)}
+{new
+   BandScreen
+   option_band_delete_confirm_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_yesno
+         {localize shell_banddelete_cancel}
+         no.btn}
+      {set
+         [delete]
+         FALSE}
+      ENTER_HANDLER_FOR_SIGNOUT)
+   (exit EXIT_HANDLER_FOR_SIGNOUT)
+   (SIGNIN_CHANGED_MSG SIGNIN_CHANGE_HANDLER_FOR_SIGNOUT)
+   (SELECT_MSG
+      {switch
+         $component
+         (yes.btn
+            {set
+               [delete]
+               TRUE}
+            {ui pop_screen})
+         (no.btn
+            {ui pop_screen})})
+   (delete FALSE)}
+{new
+   BandScreen
+   option_banddata_remove_char_confirm_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_yesno
+         {localize shell_bandremove_cancel}
+         no.btn}
+      ENTER_HANDLER_FOR_SIGNOUT)
+   (exit EXIT_HANDLER_FOR_SIGNOUT)
+   (SIGNIN_CHANGED_MSG SIGNIN_CHANGE_HANDLER_FOR_SIGNOUT)
+   (SELECT_MSG
+      {switch
+         $component
+         (yes.btn
+            {ui pop_screen})
+         (no.btn
+            {set
+               [remove_char]
+               -1}
+            {ui pop_screen})})
+   (remove_char -1)}
+{new
+   UIPanel
+   options_banddata_panel
+   (file
+      "options_banddata.milo")
+   (focus bandlist.lst)
+   (enter
+      SET_UP_GAMERTAG
+      {band_data_provider
+         init
+         {{input_mgr get_user}
+            get_user_num}}
+      {bandlist.lst set_provider band_data_provider})
+   (TRANSITION_COMPLETE_MSG
+      {if
+         {option_band_operations_screen get rename}
+         {option_band_operations_screen set rename FALSE}
+         {$this rename_band}}
+      {if
+         {option_band_operations_screen get delete}
+         {option_band_operations_screen set delete FALSE}
+         {ui push_screen option_band_delete_confirm_screen}}
+      {if
+         {option_band_operations_screen get removechar}
+         {option_band_operations_screen set removechar FALSE}
+         {$this band_removechar}}
+      {if
+         {option_band_delete_confirm_screen get delete}
+         {option_band_delete_confirm_screen set delete FALSE}
+         {$this delete_band}}
+      {if
+         {== $old_screen option_banddata_band_name_not_unique}
+         {$this rename_band}})
+   (band_removechar
+      {options_removechar_list_panel
+         set
+         band_obj
+         {band_data_provider
+            get_band_data
+            {bandlist.lst selected_pos}}}
+      {ui goto_screen options_removechar_list_screen})
+   (delete_band
+      {set
+         $next_pos
+         {bandlist.lst selected_pos}}
+      {band_data_provider
+         delete_band
+         {bandlist.lst selected_pos}}
+      {if_else
+         {band_data_provider get_num_bands}
+         {do
+            {if
+               {==
+                  $next_pos
+                  {band_data_provider get_num_bands}}
+               {-- $next_pos}}
+            {set
+               $first_showing
+               {-
+                  $next_pos
+                  {bandlist.lst num_display}}}
+            {'++' $first_showing}
+            {if
+               {< $first_showing 0}
+               {set $first_showing 0}}
+            {bandlist.lst set_selected $next_pos $first_showing}
+            {bandlist.lst set_dirty}
+            {if
+               {&&
+                  {!
+                     {ui in_transition}}
+                  {==
+                     {ui current_screen}
+                     options_banddata_screen}
+                  {!
+                     {net_sync has_destination_screen}}}
+               {autosave}}}
+         {if
+            {&&
+               {!
+                  {ui in_transition}}
+               {==
+                  {ui current_screen}
+                  options_banddata_screen}
+               {!
+                  {net_sync has_destination_screen}}}
+            {autosave_push options_savedata_screen}}})
+   (rename_band
+      {virtual_keyboard
+         show_keyboard
+         {{input_mgr get_user}
+            get_user_num}
+         {get_band_name_length}
+         {localize create_band_vk_title}
+         {localize rename_band_vk_desc}
+         {band_data_provider
+            get_band_name
+            {bandlist.lst selected_pos}}
+         $this})
+   (SELECT_MSG
+      {switch
+         $component
+         (bandlist.lst
+            {if
+               {>
+                  {band_data_provider get_num_bands}
+                  0}
+               {if_else
+                  {band_data_provider
+                     is_band_remote
+                     {bandlist.lst selected_pos}}
+                  {do
+                     {option_band_operations_screen set canrename FALSE}
+                     {option_band_operations_screen set canremovechar FALSE}}
+                  {do
+                     {option_band_operations_screen set canrename TRUE}
+                     {char_remove_provider
+                        init
+                        {profile_mgr
+                           get_profile
+                           {input_mgr get_user}}
+                        {band_data_provider
+                           get_band_data
+                           {bandlist.lst selected_pos}}}
+                     {if_else
+                        {char_remove_provider get_num_chars}
+                        {option_band_operations_screen set canremovechar TRUE}
+                        {option_band_operations_screen set canremovechar FALSE}}}}
+               {ui push_screen option_band_operations_screen}})})
+   (VIRTUAL_KEYBOARD_RESULT_MSG
+      {if
+         {&&
+            $ok
+            $this
+            {ui focus_panel}
+            {==
+               {ui focus_panel}
+               $this}
+            {!=
+               $text
+               ""}}
+         {if_else
+            {!
+               {profile_mgr
+                  is_band_name_unique
+                  {input_mgr get_user}
+                  $text}}
+            {ui push_screen option_banddata_band_name_not_unique}
+            {do
+               {set
+                  [band_name]
+                  $text}
+               {set
+                  $band_data
+                  {band_data_provider
+                     get_band_data
+                     {bandlist.lst selected_pos}}}
+               {network_busy_panel set_busy TRUE}
+               {entity_uploader
+                  verify_band_name
+                  [band_name]
+                  $this
+                  $band_data}}}})
+   (ROCK_CENTRAL_OP_COMPLETE_MSG
+      {network_busy_panel set_busy FALSE}
+      {band_data_provider
+         set_band_name
+         {bandlist.lst selected_pos}
+         [band_name]}
+      {bandlist.lst set_dirty}
+      {switch
+         $arg1
+         (RB_RETCODE_BAND_NAME_PROFANE
+            {ui push_screen option_banddata_band_name_profane})
+         (RB_RETCODE_BAND_NAME_IP
+            {ui push_screen option_banddata_band_name_ip})})
+   (band_name
+      "")}
+{new
+   BandScreen
+   options_banddata_screen
+   (panels meta movie_panel options_background_panel options_banddata_panel)
+   (focus options_banddata_panel)
+   (back options_savedata_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm tour_hb_selband)))
+   (enter ENTER_HANDLER_FOR_SIGNOUT)
+   (exit EXIT_HANDLER_FOR_SIGNOUT)
+   (SIGNIN_CHANGED_MSG SIGNIN_CHANGE_HANDLER_FOR_SIGNOUT)}
+{new
+   BandScreen
+   option_removechar_confirm_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_yesno
+         {localize shell_bandremove_cancel}
+         no.btn}
+      {set
+         [remove]
+         FALSE}
+      ENTER_HANDLER_FOR_SIGNOUT)
+   (exit EXIT_HANDLER_FOR_SIGNOUT)
+   (SIGNIN_CHANGED_MSG SIGNIN_CHANGE_HANDLER_FOR_SIGNOUT)
+   (SELECT_MSG
+      {switch
+         $component
+         (yes.btn
+            {set
+               [remove]
+               TRUE}
+            {ui pop_screen})
+         (no.btn
+            {ui pop_screen})})
+   (remove FALSE)}
+{new
+   UIPanel
+   options_removechar_list_panel
+   (file
+      "options_removechar_list.milo")
+   (focus charlist.lst)
+   (band_obj
+      "")
+   (enter
+      SET_UP_GAMERTAG
+      {char_remove_provider
+         init
+         {profile_mgr
+            get_profile
+            {input_mgr get_user}}
+         [band_obj]}
+      {charlist.lst set_provider char_remove_provider})
+   (TRANSITION_COMPLETE_MSG
+      {if
+         {option_removechar_confirm_screen get remove}
+         {option_removechar_confirm_screen set remove FALSE}
+         {$this remove_character}})
+   (remove_character
+      {set
+         $next_pos
+         {charlist.lst selected_pos}}
+      {char_remove_provider
+         remove_character
+         {charlist.lst selected_pos}}
+      {if_else
+         {char_remove_provider get_num_chars}
+         {do
+            {if
+               {==
+                  $next_pos
+                  {char_remove_provider get_num_chars}}
+               {-- $next_pos}}
+            {set
+               $first_showing
+               {-
+                  $next_pos
+                  {charlist.lst num_display}}}
+            {'++' $first_showing}
+            {if
+               {< $first_showing 0}
+               {set $first_showing 0}}
+            {charlist.lst set_selected $next_pos $first_showing}
+            {charlist.lst set_dirty}
+            {if
+               {&&
+                  {!
+                     {ui in_transition}}
+                  {==
+                     {ui current_screen}
+                     options_removechar_list_screen}
+                  {!
+                     {net_sync has_destination_screen}}}
+               {autosave}}}
+         {if
+            {&&
+               {!
+                  {ui in_transition}}
+               {==
+                  {ui current_screen}
+                  options_removechar_list_screen}
+               {!
+                  {net_sync has_destination_screen}}}
+            {autosave_push options_banddata_screen}}})
+   (SELECT_MSG
+      {switch
+         $component
+         (charlist.lst
+            {if
+               {>
+                  {char_remove_provider get_num_chars}
+                  0}
+               {ui push_screen option_removechar_confirm_screen}})})}
+{new
+   BandScreen
+   options_removechar_list_screen
+   (panels meta options_background_panel options_removechar_list_panel)
+   (focus options_removechar_list_panel)
+   (back options_banddata_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm opt_hb_choosecharacter)))
+   (enter ENTER_HANDLER_FOR_SIGNOUT)
+   (exit EXIT_HANDLER_FOR_SIGNOUT)
+   (SIGNIN_CHANGED_MSG SIGNIN_CHANGE_HANDLER_FOR_SIGNOUT)}
+{new
+   BandScreen
+   option_quitband_confirm_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_yesno
+         {localize shell_bandquit_cancel}
+         no.btn}
+      {set
+         [quit]
+         FALSE}
+      ENTER_HANDLER_FOR_SIGNOUT)
+   (exit EXIT_HANDLER_FOR_SIGNOUT)
+   (SIGNIN_CHANGED_MSG SIGNIN_CHANGE_HANDLER_FOR_SIGNOUT)
+   (SELECT_MSG
+      {switch
+         $component
+         (yes.btn
+            {set
+               [quit]
+               TRUE}
+            {ui pop_screen})
+         (no.btn
+            {ui pop_screen})})
+   (quit FALSE)}
+{new
+   UIPanel
+   options_quitband_list_panel
+   (file
+      "options_quitband_list.milo")
+   (focus bandlist.lst)
+   (char_obj
+      "")
+   (enter
+      SET_UP_GAMERTAG
+      {band_quit_provider
+         init
+         {profile_mgr
+            get_profile
+            {input_mgr get_user}}
+         [char_obj]}
+      {bandlist.lst set_provider band_quit_provider})
+   (TRANSITION_COMPLETE_MSG
+      {if
+         {option_quitband_confirm_screen get quit}
+         {option_quitband_confirm_screen set quit FALSE}
+         {$this quit_band}})
+   (quit_band
+      {set
+         $next_pos
+         {bandlist.lst selected_pos}}
+      {band_quit_provider
+         quit
+         {bandlist.lst selected_pos}}
+      {if_else
+         {band_quit_provider get_num_bands}
+         {do
+            {if
+               {==
+                  $next_pos
+                  {band_quit_provider get_num_bands}}
+               {-- $next_pos}}
+            {set
+               $first_showing
+               {-
+                  $next_pos
+                  {bandlist.lst num_display}}}
+            {'++' $first_showing}
+            {if
+               {< $first_showing 0}
+               {set $first_showing 0}}
+            {bandlist.lst set_selected $next_pos $first_showing}
+            {bandlist.lst set_dirty}
+            {if
+               {&&
+                  {!
+                     {ui in_transition}}
+                  {==
+                     {ui current_screen}
+                     options_quitband_list_screen}
+                  {!
+                     {net_sync has_destination_screen}}}
+               {autosave}}}
+         {if
+            {&&
+               {!
+                  {ui in_transition}}
+               {==
+                  {ui current_screen}
+                  options_quitband_list_screen}
+               {!
+                  {net_sync has_destination_screen}}}
+            {autosave_push options_characterdata_screen}}})
+   (SELECT_MSG
+      {switch
+         $component
+         (bandlist.lst
+            {if
+               {>
+                  {band_quit_provider get_num_bands}
+                  0}
+               {ui push_screen option_quitband_confirm_screen}})})}
+{new
+   BandScreen
+   options_quitband_list_screen
+   (panels meta movie_panel options_background_panel options_quitband_list_panel)
+   (focus options_quitband_list_panel)
+   (back options_characterdata_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm tour_hb_selband)))
+   (enter ENTER_HANDLER_FOR_SIGNOUT)
+   (exit EXIT_HANDLER_FOR_SIGNOUT)
+   (SIGNIN_CHANGED_MSG SIGNIN_CHANGE_HANDLER_FOR_SIGNOUT)}
+{new
+   BandScreen
+   option_profile_change_warning_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize shell_change_profile_warning}})
+   (SELECT_MSG
+      {switch
+         $component
+         (ok.btn
+            {ui sync_screen main_screen 0})})}
+{new
+   BandScreen
+   options_nocharacters_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_ok)))
+   (enter
+      {dialog_panel
+         set_ok
+         {localize options_nocharacters}}
+      ENTER_HANDLER_FOR_SIGNOUT)
+   (exit EXIT_HANDLER_FOR_SIGNOUT)
+   (SIGNIN_CHANGED_MSG SIGNIN_CHANGE_HANDLER_FOR_SIGNOUT)
+   (SELECT_MSG
+      {switch
+         $component
+         (ok.btn
+            {ui pop_screen})})}
+{new
+   BandScreen
+   options_nobands_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_ok)))
+   (enter
+      {dialog_panel
+         set_ok
+         {localize options_nobands}}
+      ENTER_HANDLER_FOR_SIGNOUT)
+   (exit EXIT_HANDLER_FOR_SIGNOUT)
+   (SIGNIN_CHANGED_MSG SIGNIN_CHANGE_HANDLER_FOR_SIGNOUT)
+   (SELECT_MSG
+      {switch
+         $component
+         (ok.btn
+            {ui pop_screen})})}
+{new
+   UIPanel
+   options_savedata_panel
+   (file
+      "options_savedata.milo")
+   (focus chardata.btn)
+   (enter
+      SET_UP_GAMERTAG
+      {if_else
+         {'||'
+            {!
+               {modifier_mgr is_feature_enabled modifier_saving_feature}}
+            {profile_mgr get_all_unlocked}}
+         {$this disable save.btn}
+         {$this enable save.btn}})
+   (SELECT_MSG
+      {switch
+         $component
+         (save.btn
+            {if
+               {&&
+                  {modifier_mgr is_feature_enabled modifier_saving_feature}
+                  {!
+                     {profile_mgr get_all_unlocked}}}
+               {manual_save $player_num}})
+         (load.btn
+            {manual_load $player_num})
+         (chardata.btn
+            {char_data_provider
+               init
+               {{input_mgr get_user}
+                  get_user_num}}
+            {if_else
+               {==
+                  {char_data_provider get_num_chars}
+                  0}
+               {ui push_screen options_nocharacters_screen}
+               {ui goto_screen options_characterdata_screen}})
+         (banddata.btn
+            {band_data_provider
+               init
+               {{input_mgr get_user}
+                  get_user_num}}
+            {if_else
+               {==
+                  {band_data_provider get_num_bands}
+                  0}
+               {ui push_screen options_nobands_screen}
+               {ui goto_screen options_banddata_screen}})})}
+{new
+   AutoloadScreen
+   options_savedata_screen
+   (panels meta movie_panel options_background_panel options_savedata_panel)
+   (focus options_savedata_panel)
+   (back options_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (load ENTER_HANDLER_FOR_SIGNOUT)
+   (enter
+      {gamemode set_mode options})
+   (exit EXIT_HANDLER_FOR_SIGNOUT)
+   (SIGNIN_CHANGED_MSG SIGNIN_CHANGE_HANDLER_FOR_SIGNOUT)}
+{func
+   warn_no_signin_goto_screen
+   ($screen $player_num)
+   {if_else
+      {platform_mgr is_player_signed_in $player_num}
+      {ui goto_screen $screen}
+      {do
+         {if_else
+            {== $screen options_savedata_screen}
+            {warn_no_signin_screen set text_token warn_savedata_not_signed_in}
+            {warn_no_signin_screen set text_token warn_active_options_not_signed_in}}
+         {warn_no_signin_screen set destination_screen $screen}
+         {ui goto_screen warn_no_signin_screen}}}
+   {input_mgr
+      set_user
+      {user_mgr get_band_user $player_num}}}
+{new
+   BandScreen
+   warn_no_signin_screen
+   (panels meta dialog_panel)
+   (focus dialog_panel)
+   (back options_screen)
+   (destination_screen '')
+   (text_token '')
+   (enter
+      {platform_mgr
+         add_sink
+         $this
+         (signin_changed)}
+      {dialog_panel
+         set_ok
+         {sprintf
+            {localize
+               [text_token]}
+            {platform_mgr
+               get_name
+               {{input_mgr get_user}
+                  get_user_num}}}}
+      {dialog_panel
+         set
+         helpbar_state
+         ((cancel helpbar_back)
+            (confirm helpbar_continue))})
+   (exit
+      {platform_mgr remove_sink $this signin_changed})
+   (SIGNIN_CHANGED_MSG
+      {warn_no_signin_goto_screen
+         [destination_screen]
+         {{input_mgr get_user}
+            get_user_num}})
+   (SELECT_MSG
+      {switch
+         $component
+         (ok.btn
+            {ui
+               goto_screen
+               [destination_screen]})})}

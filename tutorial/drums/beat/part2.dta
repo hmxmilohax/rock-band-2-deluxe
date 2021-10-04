@@ -1,0 +1,133 @@
+#define ROCKBEAT_PART2_NOTES_TO_HIT
+(10)
+SETUP_DRUM_TUTORIAL
+DRUM_TV_WHITE
+START_BG_MUSIC
+{setup_lesson_banner tutorial_drum_beat_part2_part}
+{meta_performer set_song drum_beat_rockbeat}
+LOAD_NEW_DRUMS_SONG_NO_FADE
+HIDE_TRACK_PLAYER_UI
+{{{get_track_panel}
+      get_first_track}
+   disable_slot
+   KICK_SLOT}
+{{{get_track_panel}
+      get_first_track}
+   enable_slot
+   SNARE_SLOT}
+{{{get_track_panel}
+      get_first_track}
+   enable_slot
+   HIHAT_SLOT}
+{{gamemode get main_panel}
+   mute_all_tracks}
+UNPAUSE_TRACK
+{$this disable_controller}
+SYNC_PAUSE
+ENABLE_DRUM_TUTORIAL_METRONOME
+{$this disable_controller}
+{new
+   Object
+   tutorial_drum_beat_part2_callback
+   (hit
+      {if
+         {<
+            [num_gems_hit]
+            ROCKBEAT_PART2_NOTES_TO_HIT}
+         {set
+            [num_gems_hit]
+            {'+'
+               [num_gems_hit]
+               1}}
+         {update_task_score
+            {localize tutorial_drum_beat_part2_score}
+            [num_gems_hit]
+            ROCKBEAT_PART2_NOTES_TO_HIT}
+         ANIMATE_SCORE})
+   (mistake
+      {if
+         {&&
+            {>
+               [num_gems_hit]
+               0}
+            {$this failed}}
+         {do
+            {set
+               [num_gems_hit]
+               0}
+            {update_task_score
+               {localize tutorial_drum_beat_part2_score}
+               [num_gems_hit]
+               ROCKBEAT_PART2_NOTES_TO_HIT}
+            ANIMATE_SCORE}})
+   (miss
+      {$this mistake})
+   (pass
+      {$this mistake})
+   (passed
+      {>=
+         [num_gems_hit]
+         ROCKBEAT_PART2_NOTES_TO_HIT})
+   (failed
+      {!
+         {$this passed}})
+   (lesson_running
+      {&&
+         {<
+            [num_gems_hit]
+            ROCKBEAT_PART2_NOTES_TO_HIT}
+         {<
+            {{beatmatch active_player 0}
+               percent_complete}
+            END_OF_SONG_PERCENT}})
+   (num_gems_hit 0)}
+STOP_BG_MUSIC
+DRUM_TV_OFF
+{$this disable_controller}
+LONG_VO_GAP
+{set_info_text
+   {localize tutorial_drum_beat_part2_task}}
+{show_info_text TRUE}
+{{beatmatch active_player 0}
+   add_sink
+   tutorial_drum_beat_part2_callback}
+{update_task_score
+   {localize tutorial_drum_beat_part2_score}
+   0
+   ROCKBEAT_PART2_NOTES_TO_HIT}
+SHOW_SCORE
+FADE_SONG_IN_FAST
+UNPAUSE_TRACK
+{$task
+   wait
+   {tutorial_drum_beat_part2_callback lesson_running}}
+FREEZE_SCORE_TEXT
+{if
+   {!
+      {tutorial_drum_beat_part2_callback failed}}
+   {$task sleep 1}}
+DISABLE_DRUM_TUTORIAL_METRONOME
+TRACK_OUT
+PAUSE_TRACK
+WAIT_FOR_VO
+{if_else
+   {tutorial_drum_beat_part2_callback failed}
+   {do
+      {set_banner_text
+         {localize tutorial_drum_beat_part2_failed}}
+      {show_banner_text TRUE}
+      {play_vo tute_drum2_lefthandfail}}
+   {do
+      {show_banner_text FALSE}
+      {play_vo tute_drum2_lefthandgood}}}
+{show_info_text FALSE}
+{show_part_text FALSE}
+HIDE_SCORE
+START_BG_MUSIC
+DRUM_TV_WHITE
+WAIT_FOR_VO
+SHORT_VO_GAP
+{do_fail_menu
+   {tutorial_drum_beat_part2_callback failed}}
+RETURN_FROM_FAIL_MENU
+{tutorials_state_panel switch_to_next_state}

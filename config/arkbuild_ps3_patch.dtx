@@ -1,0 +1,70 @@
+; Configuration file for Arkbuild application
+
+#include macros.dta
+
+(ark_build
+   (name patch) ; archive name
+
+   (checksum_file "../src/band/ChecksumData.cpp")
+
+   (reference_ark "ark/main_ps3")
+
+   (dirs
+      "./ui"
+      ;"../../system/run/band"
+      ;SYSTEM_SUBDIRS
+   )
+
+   (file_exts
+      STD_EXTS
+
+      ; all PS3_EXTS but ps3_shaders
+      .milo_ps3 _keep*.png_ps3 _keep*.bmp_ps3 .xbv .vpo .fpo .mogg icon0.png
+   )
+
+   (platform _ps3)
+   
+   ; Any file with a cache ext will automatically
+   ; get the platform extension put onto it.      
+   (cache_exts
+      milo png bmp
+   )
+
+   ;; files to skip
+   (skip_files 
+      "config/gen/budget.dtb"
+      "config/gen/midi_verify.dtb"
+      "config/gen/rndexp.dtb"         
+      "config/gen/milo.dtb"         
+      "config/gen/systest.dtb"         
+      "config/gen/sysutl.dtb"         
+      "config/gen/unittest.dtb"         
+      "config/gen/arkorder.dtb"
+      "config/arkbuild_xbox.dtx"
+      "config/arkbuild_xbox_patch.dtx"
+      "config/arkbuild_ps3.dtx"  
+      "config/arkbuild_ps3_patch.dtx"  
+      "char/male/anim/src/&" ; source for generated files
+      "char/female/anim/src/&" 
+      "char/crowd/anims/src/&"
+      "songs/gen/songs_debug.dtb"   ; no debugging songs
+      "test/&" 
+      "ui/eng/gen/locale.dtb" ; all new local should go into locale_updates.dta
+   )
+
+   ;; subdirs to skip
+   (skip_dirs
+      "char"
+      "patchcreator"
+      "sfx/streams"
+      "songs"
+      "songs_download"
+      "videos"
+      "world"
+   )
+
+   ;; file order in archive (app should specify)
+   ;(order #include arkorder.dta )
+)
+
+#merge ../../../system/run/config/arkbuild.dta

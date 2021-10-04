@@ -1,0 +1,46 @@
+(small_club
+   small_club_05
+   (any
+      (songs any any)
+      (fame
+         (world 3))
+      (money_per_star 5)))
+(big_club
+   big_club_07
+   (any
+      (songs any any any)
+      (fame
+         (town 10))
+      (money_per_star 25))
+   (localartists
+      (songs rebelgirl floaton drainyou maninthebox lump)
+      (fame
+         (town 12))
+      (money_per_star 25)))
+(theater
+   theater_09
+   (any
+      (songs any any any any)
+      (fame
+         (town 30)
+         (world 100))
+      (money_per_star 80))
+   (programmermara
+      (songs spoonman deluxe tangledupinblue teenageriot nightlies)
+      (fame
+         (town 30)
+         (world 200))
+      (money_per_star 80)
+      (char_unlock
+         (token char_unlock_cityshirts_rockband1)
+         (outfits
+            (male torso tshirtdeath_seattledrums)
+            (female torso baseballtee_seattledrums)
+            (male torso worntshirt_seattlecoffee))))
+   (grungearama
+      (songs pretendweredead drainyou maninthebox alive spoonman)
+      (fame
+         (town 30)
+         (world 200))
+      (money_per_star 80)
+      BWT_BUZZ_MEDIUMBLOCK))

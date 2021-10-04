@@ -1,0 +1,31 @@
+SETUP_DRUM_TUTORIAL
+DRUM_TV_COLORBARS
+START_BG_MUSIC
+{{profile_mgr
+      get_profile
+      {session_mgr get_leader_num}}
+   set_lesson_complete
+   {elem
+      {elem
+         {tutorials_state_panel get_all_lessons}
+         1}
+      2}}
+{set_banner_text
+   {localize tutorial_drum_beat_complete}}
+{show_banner_text TRUE}
+{play_vo tute_drum2_outro}
+{$task sleep 4.4}
+{music_outro.cue play}
+WAIT_FOR_VO
+{show_banner_text FALSE}
+{$task sleep 8.2}
+{music_outro.cue stop}
+{{gamemode get main_panel}
+   stop_ambient_loop}
+DRUM_TV_OFF
+{{gamemode get main_panel}
+   disable_controller}
+STOP_BG_MUSIC
+{$task sleep 1.0}
+{$this set_next_state back_to_main_menu}
+{$task exit}

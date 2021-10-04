@@ -1,0 +1,58 @@
+{new
+   JukeboxPanel
+   jukebox_panel
+   (file jukebox_mtv_overlay.milo)}
+{new
+   BandScreen
+   jukebox_screen
+   (panels game sync_audio_net_panel world_panel jukebox_panel)
+   GAME_SCREEN_HANDLERS
+   (poll
+      {if
+         {==
+            {ui current_screen}
+            $this}
+         {{beatmatch active_player 0}
+            set_crowd_rating
+            0.66}})}
+{new
+   UIPanel
+   jukebox_band_sel_panel
+   (file
+      "tour/tour_band_sel.milo")
+   (focus band.lst)
+   (enter
+      {jukebox_panel set_band -1}
+      {band.lst
+         set_provider
+         {get_jukebox_band_provider}})
+   (SELECT_MSG
+      {switch
+         $component
+         (band.lst
+            {do
+               ($pos
+                  {band.lst selected_pos})
+               {jukebox_panel
+                  set_band
+                  {- $pos 1}}
+               {gamemode
+                  set
+                  band_name
+                  {{get_jukebox_band_provider}
+                     get_band_name
+                     $pos}}
+               {ui goto_screen song_select_screen}})})}
+{new
+   BandScreen
+   jukebox_band_sel_screen
+   (panels meta movie_panel jukebox_band_sel_panel tour_lower3rd_panel)
+   (focus jukebox_band_sel_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_continue)))
+   (BUTTON_DOWN_MSG
+      {if
+         {== $action kAction_Cancel}
+         {ui goto_screen main_community_screen}}
+      kDataUnhandled)}

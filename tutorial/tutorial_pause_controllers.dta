@@ -1,0 +1,37 @@
+{new
+   UIPanel
+   tutorials_pause_controllers_panel
+   (enter
+      {platform_mgr set_notify_ui_location kOSNotifyBottomCenter})
+   (exit
+      {platform_mgr set_notify_ui_location kOSNotifyTopRight})}
+{new
+   BandScreen
+   tutorials_pause_controllers_screen
+   (pre_enter
+      {set
+         [is_quitting]
+         FALSE}
+      {tutorials_state_panel pause})
+   (enter
+      {set
+         [is_quitting]
+         FALSE}
+      {set
+         [is_done]
+         FALSE})
+   (exit
+      {if
+         {!
+            [is_quitting]}
+         {tutorials_state_panel unpause}})
+   (on_controllers_ok
+      {tutorials_drums_main_panel reset_controller}
+      {ui pop_screen})
+   (on_controllers_quit
+      {set
+         [is_quitting]
+         TRUE}
+      {tutorials_state_panel reset_tutorial}
+      {gamemode set main_screen main_screen})
+   (is_quitting FALSE)}

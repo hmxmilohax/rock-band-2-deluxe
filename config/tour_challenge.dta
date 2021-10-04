@@ -1,0 +1,906 @@
+#define TC_MONEY_TIER0
+((money_per_star 7))
+#define TC_MONEY_TIER1
+((money_per_star 10))
+#define TC_MONEY_TIER2
+((money_per_star 15))
+#define TC_MONEY_TIER3
+((money_per_star 20))
+#define TC_MONEY_TIER4
+((money_per_star 30))
+#define TC_MONEY_TIER5
+((money_per_star 40))
+#define TC_MONEY_TIER6
+((money_per_star 60))
+(band0
+   (show_list_name TRUE)
+   (cover_art
+      "band0")
+   (diff_tier 0)
+   (songs eyeofthetiger hungrylikethewolf floaton)
+   (min_players 2)
+   TC_MONEY_TIER0)
+(band1
+   (show_list_name TRUE)
+   (cover_art
+      "band1")
+   (diff_tier 1)
+   (songs hellothere today wegotthebeat pumpitup)
+   (prereqs
+      (all band0))
+   (min_players 2)
+   TC_MONEY_TIER1)
+(band2
+   (show_list_name TRUE)
+   (cover_art
+      "band2")
+   (diff_tier 2)
+   (songs onestepcloser whitewedding psychokiller lump)
+   (prereqs
+      (all band1))
+   (min_players 2)
+   TC_MONEY_TIER2)
+(band3
+   (show_list_name TRUE)
+   (cover_art
+      "band3")
+   (diff_tier 3)
+   (songs shootingstar themiddle goyourownway livinonaprayer)
+   (prereqs
+      (all band2))
+   (min_players 2)
+   TC_MONEY_TIER3)
+(band4
+   (show_list_name TRUE)
+   (cover_art
+      "band4")
+   (diff_tier 4)
+   (songs kidsinamerica comeoutandplay alive pinballwizard)
+   (prereqs
+      (all band3))
+   (min_players 2)
+   TC_MONEY_TIER4)
+(band5
+   (show_list_name TRUE)
+   (cover_art
+      "band5")
+   (diff_tier 5)
+   (songs anywayyouwantit letthereberock thetrees carryonwaywardson everlong)
+   (prereqs
+      (all band4))
+   (min_players 2)
+   TC_MONEY_TIER5)
+(band5_2
+   (show_list_name TRUE)
+   (cover_art
+      "band5")
+   (diff_tier 5)
+   (songs testify aqualung downwiththesickness masterexploder ramblinman)
+   (prereqs
+      (all band5))
+   (min_players 2)
+   TC_MONEY_TIER5)
+(bandx
+   (show_list_name TRUE)
+   (cover_art
+      "bandx")
+   (diff_tier 6)
+   (songs spoonman aceofspades peacesells battery painkiller)
+   (prereqs
+      (all band5))
+   (min_players 2)
+   TC_MONEY_TIER6
+   (achievement ach_challenge_beat_impossible_band)
+   (char_unlock
+      (token char_unlock_bandultimate)
+      (instruments
+         (guitar stratocaster03silver)
+         (mic mic1_silver)
+         (drum rewarddrumsilver))
+      (outfits
+         (male legs buttlesschaps_leather)
+         (female legs femrockchaps_leather))))
+(gtr0
+   (show_list_name TRUE)
+   (cover_art
+      "gtr0")
+   (diff_tier 0)
+   (songs floaton today newkidinschool)
+   (required_part guitar)
+   TC_MONEY_TIER0)
+(gtr1
+   (show_list_name TRUE)
+   (cover_art
+      "gtr1")
+   (diff_tier 1)
+   (songs hellothere americanwoman maninthebox spiritinthesky)
+   (prereqs
+      (all gtr0))
+   (required_part guitar)
+   TC_MONEY_TIER1)
+(gtr2
+   (show_list_name TRUE)
+   (cover_art
+      "gtr2")
+   (diff_tier 2)
+   (songs goyourownway shootingstar alive themiddle)
+   (prereqs
+      (all gtr1))
+   (required_part guitar)
+   TC_MONEY_TIER2)
+(gtr3
+   (show_list_name TRUE)
+   (cover_art
+      "gtr3")
+   (diff_tier 3)
+   (songs aqualung comeoutandplay anywayyouwantit roundandround)
+   (prereqs
+      (all gtr2))
+   (required_part guitar)
+   TC_MONEY_TIER3)
+(gtr4
+   (show_list_name TRUE)
+   (cover_art
+      "gtr4")
+   (diff_tier 4)
+   (songs letthereberock alabamagetaway carryonwaywardson rocknme)
+   (prereqs
+      (all gtr3))
+   (required_part guitar)
+   TC_MONEY_TIER4)
+(gtr4_2
+   (show_list_name TRUE)
+   (cover_art
+      "gtr4")
+   (diff_tier 4)
+   (songs giveitall everlong pinballwizard lazyeye)
+   (prereqs
+      (all gtr4))
+   (required_part guitar))
+(gtr5
+   (show_list_name TRUE)
+   (cover_art
+      "gtr5")
+   (diff_tier 5)
+   (songs aceofspades spoonman masterexploder colonyofbirchmen peacesells)
+   (prereqs
+      (all gtr4))
+   (required_part guitar)
+   TC_MONEY_TIER5)
+(gtrx
+   (show_list_name TRUE)
+   (cover_art
+      "gtrx")
+   (back_art
+      "outfit_rock")
+   (diff_tier 6)
+   (songs soulsofblack ramblinman bodhisattva battery painkiller)
+   (prereqs
+      (all gtr5))
+   (required_part guitar)
+   TC_MONEY_TIER6
+   (achievement ach_challenge_beat_impossible_guitar)
+   (char_unlock
+      (token char_unlock_rockultimate)
+      (outfits
+         (male torso malerockjacket_rhinestone)
+         (male legs malerockpants_rhinestone)
+         (male feet malerockboots_rhinestone)
+         (male hair malerockhat_resource)
+         (female torso femrockvest_leather)
+         (female legs femrockchaps_leather)
+         (female feet femrockboots_leather)
+         (female hair femrockhelmet_resource)
+         (female wrist femalewrist_eagle))
+      (instruments
+         (guitar stratocaster03gold))))
+(dms0
+   (show_list_name TRUE)
+   (cover_art
+      "dms0")
+   (diff_tier 0)
+   (songs rebelgirl floaton livinonaprayer)
+   (required_part drum)
+   TC_MONEY_TIER0)
+(dms1
+   (show_list_name TRUE)
+   (cover_art
+      "dms1")
+   (diff_tier 1)
+   (songs tangledupinblue giveitaway goyourownway drainyou)
+   (prereqs
+      (all dms0))
+   (required_part drum)
+   TC_MONEY_TIER1)
+(dms2
+   (show_list_name TRUE)
+   (cover_art
+      "dms2")
+   (diff_tier 2)
+   (songs wegotthebeat today lazyeye comeoutandplay)
+   (prereqs
+      (all dms1))
+   (required_part drum)
+   TC_MONEY_TIER2)
+(dms3
+   (show_list_name TRUE)
+   (cover_art
+      "dms3")
+   (diff_tier 3)
+   (songs deluxe themiddle uncontrollableurge alive)
+   (prereqs
+      (all dms2))
+   (required_part drum)
+   TC_MONEY_TIER3)
+(dms4
+   (show_list_name TRUE)
+   (cover_art
+      "dms4")
+   (diff_tier 4)
+   (songs mountainsong chopsuey lump pinballwizard)
+   (prereqs
+      (all dms3))
+   (required_part drum)
+   TC_MONEY_TIER4)
+(dms5
+   (show_list_name TRUE)
+   (cover_art
+      "dms5")
+   (diff_tier 5)
+   (songs spoonman badreputation teenageriot colonyofbirchmen aceofspades)
+   (prereqs
+      (all dms4))
+   (required_part drum)
+   TC_MONEY_TIER5)
+(dmsx
+   (show_list_name TRUE)
+   (cover_art
+      "dmsx")
+   (back_art
+      "outfit_goth")
+   (diff_tier 6)
+   (songs thetrees everlong battery painkiller panicattack)
+   (prereqs
+      (all dms5))
+   (required_part drum)
+   TC_MONEY_TIER6
+   (achievement ach_challenge_beat_impossible_drums)
+   (char_unlock
+      (token char_unlock_gothultimate)
+      (outfits
+         (male torso malegothblouse_silk)
+         (male legs malegothknickers_silk)
+         (male feet malegothboots_steel)
+         (female torso femgothcorset_satin)
+         (female legs femgothskirt_satin)
+         (female feet femgothslippers_satin)
+         (female hair femgothveil_flapper_resource))
+      (instruments
+         (drum rewarddrumgold))))
+(vox0
+   (show_list_name TRUE)
+   (cover_art
+      "vox0")
+   (diff_tier 0)
+   (songs hellothere lump hungrylikethewolf)
+   (required_part vocals)
+   TC_MONEY_TIER0)
+(vox1
+   (show_list_name TRUE)
+   (cover_art
+      "vox1")
+   (diff_tier 1)
+   (songs kidsinamerica maninthebox wegotthebeat drainyou)
+   (prereqs
+      (all vox0))
+   (required_part vocals)
+   TC_MONEY_TIER1)
+(vox2
+   (show_list_name TRUE)
+   (cover_art
+      "vox2")
+   (diff_tier 2)
+   (songs shootingstar floaton epro everlong)
+   (prereqs
+      (all vox1))
+   (required_part vocals)
+   TC_MONEY_TIER2)
+(vox3
+   (show_list_name TRUE)
+   (cover_art
+      "vox3")
+   (diff_tier 3)
+   (songs eyeofthetiger onewayoranother themiddle alive)
+   (prereqs
+      (all vox2))
+   (required_part vocals)
+   TC_MONEY_TIER3)
+(vox4
+   (show_list_name TRUE)
+   (cover_art
+      "vox4")
+   (diff_tier 4)
+   (songs pinballwizard badreputation roundandround livinonaprayer)
+   (prereqs
+      (all vox3))
+   (required_part vocals)
+   TC_MONEY_TIER4)
+(vox5
+   (show_list_name TRUE)
+   (cover_art
+      "vox5")
+   (diff_tier 5)
+   (songs aqualung comeoutandplay whitewedding yououghtaknow anywayyouwantit)
+   (prereqs
+      (all vox4))
+   (required_part vocals)
+   TC_MONEY_TIER5)
+(voxx
+   (show_list_name TRUE)
+   (cover_art
+      "voxx")
+   (back_art
+      "outfit_metal")
+   (diff_tier 6)
+   (songs uncontrollableurge psychokiller spoonman chopsuey tangledupinblue)
+   (prereqs
+      (all vox5))
+   (required_part vocals)
+   TC_MONEY_TIER6
+   (achievement ach_challenge_beat_impossible_vocals)
+   (char_unlock
+      (token char_unlock_metalultimate)
+      (outfits
+         (male torso malemetaltunic_hide)
+         (male legs malemetalpants_leather)
+         (male feet malemetalboots_hide)
+         (male hair malemetalhead_resource)
+         (female torso femmetaltop_snake)
+         (female legs femmetaltights_spandex)
+         (female feet femmetalboots_leather)
+         (female hands femalegloves_satin))
+      (instruments
+         (mic mic1_gold))))
+(bass1
+   (show_list_name TRUE)
+   (cover_art
+      "bass1")
+   (diff_tier 1)
+   (songs roundandround hungrylikethewolf pumpitup wegotthebeat)
+   (prereqs
+      (all gtr0))
+   (required_part bass)
+   TC_MONEY_TIER1)
+(bass2
+   (show_list_name TRUE)
+   (cover_art
+      "bass2")
+   (diff_tier 2)
+   (songs shootingstar pda goyourownway coolforcats)
+   (prereqs
+      (all bass1))
+   (required_part bass)
+   TC_MONEY_TIER2)
+(bass3
+   (show_list_name TRUE)
+   (cover_art
+      "bass3")
+   (diff_tier 3)
+   (songs onewayoranother psychokiller pinballwizard alexchilton)
+   (prereqs
+      (all bass2))
+   (required_part bass)
+   TC_MONEY_TIER3)
+(bass4
+   (show_list_name TRUE)
+   (cover_art
+      "bass4")
+   (diff_tier 4)
+   (songs wheredyougo anywayyouwantit lump livinonaprayer)
+   (prereqs
+      (all bass3))
+   (required_part bass)
+   TC_MONEY_TIER4)
+(bass5
+   (show_list_name TRUE)
+   (cover_art
+      "bass5")
+   (diff_tier 5)
+   (songs giveitall testify aqualung yououghtaknow thetrees)
+   (prereqs
+      (all bass4))
+   (required_part bass)
+   TC_MONEY_TIER5)
+(bassx
+   (show_list_name TRUE)
+   (cover_art
+      "bassx")
+   (back_art
+      "outfit_punk")
+   (diff_tier 6)
+   (songs bodhisattva aceofspades peacesells battery panicattack)
+   (prereqs
+      (all bass5))
+   (required_part bass)
+   TC_MONEY_TIER6
+   (achievement ach_challenge_beat_impossible_bass)
+   (char_unlock
+      (token char_unlock_punkultimate)
+      (outfits
+         (male torso ultimatepunk_punk)
+         (male legs undies_dirty)
+         (female torso fempunktop_tape)
+         (female legs fempunkbriefs_tape)
+         (female feet fempunkfeet_tape))
+      (instruments
+         (bass hbombbass))))
+(alltier0
+   (show_list_name TRUE)
+   (cover_art
+      "alltier0")
+   (diff_tier 0)
+   (songs
+      (band 1)
+      (band 2)
+      (band 3)
+      (band 4)
+      (band 5)
+      (band 6))
+   (prereqs
+      (any gtr0 band0 vox0 dms0))
+   (min_players 1))
+(alltier0b
+   (show_list_name TRUE)
+   (cover_art
+      "alltier0")
+   (diff_tier 0)
+   (songs
+      (band 7)
+      (band 8)
+      (band 9)
+      (band 10)
+      (band 11)
+      (band 12))
+   (prereqs
+      (any alltier0))
+   (min_players 1))
+(alltier1
+   (show_list_name TRUE)
+   (cover_art
+      "alltier1")
+   (diff_tier 1)
+   (songs
+      (band 13)
+      (band 14)
+      (band 15)
+      (band 16)
+      (band 17)
+      (band 18))
+   (prereqs
+      (any gtr1 band1 vox1 dms1 bass1 alltier0b))
+   (min_players 1))
+(alltier1b
+   (show_list_name TRUE)
+   (cover_art
+      "alltier1")
+   (diff_tier 1)
+   (songs
+      (band 19)
+      (band 20)
+      (band 21)
+      (band 22)
+      (band 23)
+      (band 24))
+   (prereqs
+      (any alltier1))
+   (min_players 1))
+(alltier2
+   (show_list_name TRUE)
+   (cover_art
+      "alltier2")
+   (diff_tier 2)
+   (songs
+      (band 25)
+      (band 26)
+      (band 27)
+      (band 28)
+      (band 29)
+      (band 30))
+   (prereqs
+      (any gtr2 band2 vox2 dms2 bass2 alltier1b))
+   (min_players 1))
+(alltier2b
+   (show_list_name TRUE)
+   (cover_art
+      "alltier2")
+   (diff_tier 2)
+   (songs
+      (band 31)
+      (band 32)
+      (band 33)
+      (band 34)
+      (band 35)
+      (band 36))
+   (prereqs
+      (any alltier2))
+   (min_players 1))
+(alltier3
+   (show_list_name TRUE)
+   (cover_art
+      "alltier3")
+   (diff_tier 3)
+   (songs
+      (band 37)
+      (band 38)
+      (band 39)
+      (band 40)
+      (band 41)
+      (band 42))
+   (prereqs
+      (any gtr3 band3 vox3 dms3 bass3 alltier2b))
+   (min_players 1))
+(alltier3b
+   (show_list_name TRUE)
+   (cover_art
+      "alltier3")
+   (diff_tier 3)
+   (songs
+      (band 43)
+      (band 44)
+      (band 45)
+      (band 46)
+      (band 47)
+      (band 48))
+   (prereqs
+      (any alltier3))
+   (min_players 1))
+(alltier4
+   (show_list_name TRUE)
+   (cover_art
+      "alltier4")
+   (diff_tier 4)
+   (songs
+      (band 49)
+      (band 50)
+      (band 51)
+      (band 52)
+      (band 53)
+      (band 54))
+   (prereqs
+      (any gtr4 band4 vox4 dms4 bass4 alltier3b))
+   (min_players 1))
+(alltier4b
+   (show_list_name TRUE)
+   (cover_art
+      "alltier4")
+   (diff_tier 4)
+   (songs
+      (band 55)
+      (band 56)
+      (band 57)
+      (band 58)
+      (band 59)
+      (band 60))
+   (prereqs
+      (any alltier4))
+   (min_players 1))
+(alltier5
+   (show_list_name TRUE)
+   (cover_art
+      "alltier5")
+   (diff_tier 5)
+   (songs
+      (band 61)
+      (band 62)
+      (band 63)
+      (band 64)
+      (band 65)
+      (band 66))
+   (prereqs
+      (any gtr5 band5 vox5 dms5 bass5 alltier4b))
+   (min_players 1))
+(alltier5b
+   (show_list_name TRUE)
+   (cover_art
+      "alltier5")
+   (diff_tier 5)
+   (songs
+      (band 67)
+      (band 68)
+      (band 69)
+      (band 70)
+      (band 71)
+      (band 72))
+   (prereqs
+      (any alltier5))
+   (min_players 1))
+(alltier6
+   (show_list_name TRUE)
+   (cover_art
+      "alltierx")
+   (diff_tier 6)
+   (songs
+      (band 73)
+      (band 74)
+      (band 75)
+      (band 76)
+      (band 77)
+      (band 78))
+   (prereqs
+      (any gtrx bandx voxx dmsx bassx alltier5b))
+   (min_players 1))
+(alltier6b
+   (show_list_name TRUE)
+   (cover_art
+      "alltierx")
+   (diff_tier 6)
+   (songs
+      (band 79)
+      (band 80)
+      (band 81)
+      (band 82)
+      (band 83)
+      (band 84))
+   (prereqs
+      (any alltier6))
+   (min_players 1)
+   (char_unlock
+      (token char_unlock_alltierultimate)
+      (instruments
+         (guitar goathead)
+         (mic bonesandspikes_resource)
+         (bass goatheadbass)
+         (drum trash))))
+(grunge
+   (show_list_name TRUE)
+   (cover_art
+      "grunge")
+   (diff_tier 1)
+   (songs drainyou pretendweredead maninthebox alive spoonman)
+   (prereqs
+      (any vox4 alternative)))
+(alternative
+   (show_list_name TRUE)
+   (cover_art
+      "alternative")
+   (diff_tier 2)
+   (songs today pda testify teenageriot)
+   (prereqs
+      (any gtr2 band2 vox2 dms2 bass2)))
+(poprock
+   (show_list_name TRUE)
+   (cover_art
+      "poprock")
+   (diff_tier 3)
+   (songs myownworstenemy hungrylikethewolf onewayoranother kidsinamerica)
+   (prereqs
+      (any dms3 alternative)))
+(prog
+   (show_list_name TRUE)
+   (cover_art
+      "prog")
+   (diff_tier 4)
+   (songs aqualung thetrees panicattack)
+   (prereqs
+      (any bass4 poprock)))
+(classicrock
+   (show_list_name TRUE)
+   (cover_art
+      "classicrock")
+   (diff_tier 5)
+   (songs americanwoman rocknme goyourownway anywayyouwantit pinballwizard)
+   (prereqs
+      (any bass5 prog)))
+(rock
+   (show_list_name TRUE)
+   (cover_art
+      "rock")
+   (diff_tier 2)
+   (songs eyeofthetiger themiddle livinonaprayer shacklersrevenge everlong)
+   (prereqs
+      (any dms5 classicrock)))
+(metal
+   (show_list_name TRUE)
+   (cover_art
+      "metal")
+   (diff_tier 6)
+   (songs almosteasy colonyofbirchmen aceofspades peacesells soulsofblack)
+   (prereqs
+      (any band5 rock)))
+(numetal
+   (show_list_name TRUE)
+   (cover_art
+      "nu-metal")
+   (diff_tier 5)
+   (songs onestepcloser chopsuey ourtruth downwiththesickness)
+   (prereqs
+      (any metal dms4)))
+(infinite_alternative
+   (show_list_name TRUE)
+   (cover_art
+      "alternative_legendary")
+   (diff_tier 2)
+   (auto_genre alternative)
+   (prereqs
+      (all alternative)))
+(infinite_poprock
+   (show_list_name TRUE)
+   (cover_art
+      "poprock_legendary")
+   (diff_tier 3)
+   (auto_genre poprock)
+   (prereqs
+      (all poprock)))
+(infinite_prog
+   (show_list_name TRUE)
+   (cover_art
+      "prog_legendary")
+   (diff_tier 4)
+   (auto_genre prog)
+   (prereqs
+      (all prog)))
+(infinite_classicrock
+   (show_list_name TRUE)
+   (cover_art
+      "classicrock_legendary")
+   (diff_tier 5)
+   (auto_genre classicrock)
+   (prereqs
+      (all classicrock)))
+(infinite_rock
+   (show_list_name TRUE)
+   (cover_art
+      "rock_legendary")
+   (diff_tier 2)
+   (auto_genre rock)
+   (prereqs
+      (all rock)))
+(infinite_metal
+   (show_list_name TRUE)
+   (cover_art
+      "metal_legendary")
+   (diff_tier 6)
+   (auto_genre metal)
+   (prereqs
+      (all metal)))
+(the90s
+   (show_list_name TRUE)
+   (cover_art
+      "90s")
+   (diff_tier 2)
+   (songs myownworstenemy iwaswrong feelthepain deluxe)
+   (prereqs
+      (any band1 gtr1 bass1 vox1 dms1)))
+(the60s
+   (show_list_name TRUE)
+   (cover_art
+      "60s")
+   (diff_tier 3)
+   (songs spiritinthesky pinballwizard)
+   (prereqs
+      (any the90s band3)))
+(the00s
+   (show_list_name TRUE)
+   (cover_art
+      "00s")
+   (diff_tier 4)
+   (songs nineintheafternoon newkidinschool girlsnotgrey chopsuey)
+   (prereqs
+      (any the60s band4)))
+(the70s
+   (show_list_name TRUE)
+   (cover_art
+      "70s")
+   (diff_tier 5)
+   (songs psychokiller uncontrollableurge letthereberock ramblinman)
+   (prereqs
+      (any the00s gtr4)))
+(the80s
+   (show_list_name TRUE)
+   (cover_art
+      "80s")
+   (diff_tier 6)
+   (songs alexchilton whitewedding mountainsong roundandround)
+   (prereqs
+      (any the70s gtr5)))
+(infinite_the90s
+   (show_list_name TRUE)
+   (cover_art
+      "90s_legendary")
+   (diff_tier 2)
+   (auto_decade 1990)
+   (prereqs
+      (all the90s)))
+(infinite_the60s
+   (show_list_name TRUE)
+   (cover_art
+      "60s_legendary")
+   (diff_tier 3)
+   (auto_decade 1960)
+   (prereqs
+      (all the60s)))
+(infinite_the00s
+   (show_list_name TRUE)
+   (cover_art
+      "00s_legendary")
+   (diff_tier 4)
+   (auto_decade 2000)
+   (prereqs
+      (all the00s)))
+(infinite_the70s
+   (show_list_name TRUE)
+   (cover_art
+      "70s_legendary")
+   (diff_tier 5)
+   (auto_decade 1970)
+   (prereqs
+      (all the70s)))
+(infinite_the80s
+   (show_list_name TRUE)
+   (cover_art
+      "80s_legendary")
+   (diff_tier 6)
+   (auto_decade 1980)
+   (prereqs
+      (all the80s)))
+(femvox
+   (show_list_name TRUE)
+   (cover_art
+      "female")
+   (diff_tier 1)
+   (songs pretendweredead wegotthebeat rebelgirl deluxe onewayoranother)
+   (required_part vocals)
+   (prereqs
+      (any vox2)))
+(femvox2
+   (show_list_name TRUE)
+   (cover_art
+      "female")
+   (diff_tier 5)
+   (songs yououghtaknow thatswhatyouget newkidinschool badreputation ourtruth)
+   (required_part vocals)
+   (prereqs
+      (all vox5 femvox)))
+(spokenwordvox
+   (show_list_name TRUE)
+   (cover_art
+      "spokenwordvox")
+   (diff_tier 5)
+   (songs giveitaway sowhatchawant testify)
+   (prereqs
+      (any vox5))
+   (required_part vocals))
+(harmonixbandsnew
+   (show_list_name TRUE)
+   (cover_art
+      "hmx")
+   (diff_tier 2)
+   (songs welcometothe conventionallover ajaggedgorgeouswinter)
+   (prereqs
+      (any band2)))
+(harmonixbandsold
+   (show_list_name TRUE)
+   (cover_art
+      "hmx")
+   (diff_tier 4)
+   (songs supremegirl nightlies robtheprezodent)
+   (prereqs
+      (all band4 harmonixbandsnew)))
+(harmonixbandsimpossible
+   (show_list_name TRUE)
+   (cover_art
+      "hmx")
+   (diff_tier 6)
+   (songs getclean shouldertotheplow visions)
+   (prereqs
+      (all bandx harmonixbandsold)))
+(guitarandvocals
+   (show_list_name TRUE)
+   (cover_art
+      "rambling_man")
+   (diff_tier 3)
+   (songs lump epro coolforcats pumpitup badreputation letthereberock)
+   (min_players 2)
+   (required_part vocals guitar)
+   (prereqs
+      (all gtr3 vox3)))

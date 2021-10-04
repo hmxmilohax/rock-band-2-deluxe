@@ -1,0 +1,27 @@
+(messenger
+   (udp_port 1024)
+   (signature 817298))
+(session
+   (join_wait_time 6000)
+   (game_start_delay 2000))
+(searcher
+   (search_limit 8))
+(server
+   #ifdef HX_XBOX
+   #endif
+   #ifdef HX_PS3
+   (access_key
+      "")
+   (port 0)
+   (address
+      "")
+   #endif
+   #ifdef HX_PC
+   #endif)
+(emulator
+   (bandwidth 64000 64000)
+   (jitter 0 0)
+   (latency 0 0)
+   (dropprob 0 0))
+(session_mgr
+   (searching_interval 10000))
