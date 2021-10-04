@@ -1,9 +1,0 @@
-#include macros.dta
-(system
-   (fp_exceptions FALSE))
-(mem
-   (disable_mgr TRUE))
-(joypad
-   (disable TRUE))
-(debug)
-#merge default.dta

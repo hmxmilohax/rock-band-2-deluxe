@@ -1,0 +1,713 @@
+#define QP_SELSONG_SCREEN
+({if_else
+      {gamemode get ranked}
+      h2h_ranked_preload_screen
+      song_select_screen})
+(defaults
+   (use_static_tip FALSE)
+   (disable_player_intro FALSE)
+   (dont_show_gems_in_fills TRUE)
+   (disable_guitar_fx FALSE)
+   (is_drum_trainer FALSE)
+   (is_tutorial FALSE)
+   (is_practice FALSE)
+   (is_jukebox FALSE)
+   (is_framerate_test FALSE)
+   (is_audition FALSE)
+   (tutorial_cares_about_mics FALSE)
+   (tutorial_has_no_lefty FALSE)
+   (show_hud TRUE)
+   (show_mtv_overlay TRUE)
+   (show_track TRUE)
+   (show_stars TRUE)
+   (show_prefab_chars TRUE)
+   (allow_create_char TRUE)
+   (force_player_vocal_gender FALSE)
+   (local_network TRUE)
+   (ranked FALSE)
+   (online_play_required FALSE)
+   (guest_not_first FALSE)
+   (online_mode CONTEXT_GAME_MODE_SOLO_QUICKPLAY)
+   (player_arrangement kArrangeBand)
+   (is_tour FALSE)
+   (choose_leader_from_band FALSE)
+   (can_lose TRUE)
+   (separate_parts FALSE)
+   (max_delta FALSE)
+   (skip_matchmaking FALSE)
+   (load_chars TRUE)
+   (allow_bass TRUE)
+   (max_players 4)
+   (max_local_players 4)
+   (min_players 2)
+   (update_crowd_meter TRUE)
+   (crowd_reacts TRUE)
+   (play_star_sfx TRUE)
+   (play_track_intro_sfx TRUE)
+   (play_streak_sfx TRUE)
+   (vocal_smooth_update FALSE)
+   (allow_overdrive_achievement TRUE)
+   (allow_overdrive_phrases TRUE)
+   (allow_drum_fills TRUE)
+   (ready_screen qp_seldiff_screen)
+   (matchmaking_screen matchmaking_screen)
+   (lose_screen lose_screen)
+   (practice_from_lose FALSE)
+   (show_practice_on_lose
+      {&&
+         {gamemode get practice_from_lose}
+         {==
+            {session num_players}
+            1}})
+   (win_screen endgame_waiting_screen)
+   (endgame_screen coop_endgame_screen)
+   (main_screen main_screen)
+   (main_mode_screen main_screen)
+   (post_matchmaking_screen QP_SELSONG_SCREEN)
+   (continue_screen QP_SELSONG_SCREEN)
+   (game_screen game_screen)
+   (community_screen tour_hub_community_screen)
+   (leaderboards_seltrack_screen tour_leaderboards_seltrack_screen)
+   (lb_song_select_screen tour_lb_song_select_screen)
+   (leaderboards_screen tour_leaderboards_screen)
+   (leaderboards_band_profile_screen tour_leaderboards_band_profile_screen)
+   (quit_screen meta_loading_main_screen)
+   (show_pause_quit TRUE)
+   (pause_new_song_screen QP_SELSONG_SCREEN)
+   (confirm_quit_screen confirm_quit_screen)
+   (confirm_restart_screen confirm_quit_screen)
+   (load_nextsong_screen load_nextsong_screen)
+   (preload_nextsong_screen preload_nextsong_screen)
+   (nextstats_screen nextstats_screen)
+   (uisink_lost_connection_screen main_screen)
+   (uisink_default_screen main_screen)
+   (uisink_signout_screen main_screen)
+   (quit_early_screen main_screen)
+   (band_name
+      "ROCK BAND")
+   (band_logo 0)
+   (track_panel coop_track_panel)
+   (is_solo
+      {==
+         {gamemode get max_players}
+         1})
+   (is_band_arrangement
+      {==
+         {gamemode get player_arrangement}
+         kArrangeBand})
+   (is_h2h_arrangement
+      {==
+         {gamemode get player_arrangement}
+         kArrangeH2h})
+   (is_coop
+      {&&
+         {!
+            {gamemode get is_solo}}
+         {gamemode get is_band_arrangement}})
+   (is_online
+      {gamemode get online_play_required})
+   (display_instrument_presence
+      {'||'
+         {gamemode get is_solo}
+         {gamemode get is_h2h_arrangement}
+         {gamemode get is_tutorial}})
+   (is_xbox
+      #ifdef HX_XBOX
+      TRUE
+      #else
+      FALSE
+      #endif)
+   (is_ps3
+      #ifdef HX_PS3
+      TRUE
+      #else
+      FALSE
+      #endif)
+   (show_loading_images FALSE)
+   (popup_help_can_disable FALSE)
+   (on_pause_restart
+      {session end_game kRestart})
+   (intro_category INTRO)
+   (win_camera WIN)
+   (outro_camera OUTRO)
+   (crowd_audio TRUE)
+   (game_mode_context CONTEXT_GAME_MODE_TYPE_SOLO_QUICKPLAY)
+   (pause_screen pause_screen)
+   (song_select_mode song_select_quickplay)
+   (practice_mode_fx FALSE)
+   (render_practice_loop FALSE)
+   (venues
+      {if_else
+         {modifier_mgr is_modifier_active mod_newvenuesonly}
+         (NEW_VENUES)
+         (VENUES)})
+   (use_video_venues_from_songs TRUE)
+   (always_allow_player FALSE)
+   (unlock_song_initial_num 20)
+   (enable_streak TRUE)
+   (enable_star_power TRUE)
+   (cannot_connect_warning community_no_server_warning)
+   (missing_part_type kMissingSelectCoop)
+   (has_track TRUE)
+   (update_leaderboards TRUE)
+   (allow_achievements TRUE)
+   (rock_central TRUE)
+   (keep_movie_loaded TRUE)
+   (leave_if_connection_lost FALSE)
+   (game_input_limit_type kLimitSession)
+   (allow_all_input FALSE)
+   (ignore_missing_autoplayer_controllers FALSE)
+   (allow_any_controller_to_pause_in_game FALSE))
+(init
+   (community_screen main_leaderboard_screen)
+   (leaderboards_seltrack_screen leaderboards_seltrack_screen)
+   (lb_song_select_screen lb_song_select_screen)
+   (leaderboards_screen leaderboards_screen)
+   (leaderboards_band_profile_screen leaderboards_band_profile_screen)
+   (cannot_connect_warning community_no_server_warning))
+#define H2H_PROPERTIES
+((game_screen h2h_game_screen)
+   (track_panel h2h_track_panel)
+   (uisink_default_screen matchmaking_screen)
+   (show_loading_images TRUE)
+   (allow_create_char FALSE)
+   (can_lose FALSE)
+   (max_players 2)
+   (player_arrangement kArrangeH2h)
+   (venues
+      {if_else
+         {modifier_mgr is_modifier_active mod_newvenuesonly}
+         (NEW_H2H_VENUES)
+         (H2H_VENUES)})
+   (use_video_venues_from_songs FALSE)
+   (crowd_reacts FALSE)
+   (show_stars FALSE)
+   (update_leaderboards FALSE))
+#define H2H_TUG_OF_WAR_PROPERTIES
+(H2H_PROPERTIES
+   (endgame_screen tow_endgame_screen)
+   (separate_parts TRUE)
+   (max_delta TRUE)
+   (game_mode_context CONTEXT_GAME_MODE_TYPE_TUG_OF_WAR)
+   (vocal_smooth_update TRUE)
+   (allow_overdrive_achievement FALSE))
+#define H2H_SCORE_DUEL_PROPERTIES
+(H2H_PROPERTIES
+   (endgame_screen
+      {if_else
+         {song_mgr
+            is_ugc
+            {meta_performer song}}
+         ugc_score_duel_endgame_screen
+         score_duel_endgame_screen})
+   (game_mode_context CONTEXT_GAME_MODE_TYPE_SCORE_DUEL))
+(h2h_score_duel_local
+   H2H_SCORE_DUEL_PROPERTIES
+   (main_mode_screen main_score_duel_screen)
+   (max_local_players 2)
+   (ready_screen h2h_seldiff_screen)
+   (missing_part_type kMissingSelectH2H))
+(h2h_tug_of_war_local
+   H2H_TUG_OF_WAR_PROPERTIES
+   (main_mode_screen main_tug_of_war_screen)
+   (max_local_players 2)
+   (missing_part_type kMissingSelectH2H))
+(h2h_score_duel_unranked
+   H2H_SCORE_DUEL_PROPERTIES
+   (main_mode_screen main_score_duel_screen)
+   (max_local_players 1)
+   (local_network FALSE)
+   (online_play_required TRUE)
+   (guest_not_first TRUE)
+   (online_mode CONTEXT_GAME_MODE_UNRANKED_PRO_HEAD_TO_HEAD)
+   (ready_screen h2h_seldiff_screen)
+   (missing_part_type kMissingSelectH2H))
+(h2h_tug_of_war_unranked
+   H2H_TUG_OF_WAR_PROPERTIES
+   (main_mode_screen main_tug_of_war_screen)
+   (max_local_players 1)
+   (local_network FALSE)
+   (online_play_required TRUE)
+   (guest_not_first TRUE)
+   (online_mode CONTEXT_GAME_MODE_UNRANKED_HEAD_TO_HEAD)
+   (missing_part_type kMissingSelectH2H))
+(h2h_score_duel_ranked
+   H2H_SCORE_DUEL_PROPERTIES
+   (main_mode_screen main_h2h_score_duel_ranked_seldiff_screen)
+   (max_local_players 1)
+   (min_players 1)
+   (local_network FALSE)
+   (ranked TRUE)
+   (post_matchmaking_screen finding_screen)
+   (online_mode -1)
+   (online_play_required TRUE)
+   (guest_not_first TRUE)
+   (ready_screen h2h_ranked_preload_screen)
+   (show_pause_quit FALSE)
+   (pause_new_song_screen '')
+   (always_allow_player TRUE)
+   (missing_part_type kMissingRankedH2H))
+(h2h_tug_of_war_ranked
+   H2H_TUG_OF_WAR_PROPERTIES
+   (main_mode_screen main_h2h_tug_of_war_ranked_seldiff_screen)
+   (max_local_players 1)
+   (min_players 1)
+   (local_network FALSE)
+   (ranked TRUE)
+   (post_matchmaking_screen finding_screen)
+   (online_mode -1)
+   (online_play_required TRUE)
+   (guest_not_first TRUE)
+   (ready_screen h2h_ranked_preload_screen)
+   (show_pause_quit FALSE)
+   (pause_new_song_screen '')
+   (always_allow_player TRUE)
+   (missing_part_type kMissingRankedH2H))
+#define MULTISONG_MODE_PROPERTIES
+((min_players 1)
+   (intro_category
+      {if_else
+         {meta_performer is_first_song}
+         {gamecfg get coop_intro_category}
+         INTRO_MULTI})
+   (outro_camera
+      {if_else
+         {'||'
+            {meta_performer is_set_complete}
+            {meta_performer is_last_song}}
+         OUTRO
+         OUTRO_MULTI})
+   (win_camera
+      {if_else
+         {meta_performer is_last_song}
+         WIN
+         WIN_QUICK})
+   (endgame_screen
+      {if_else
+         {&&
+            {==
+               1
+               {meta_performer num_songs}}
+            {song_mgr
+               is_ugc
+               {meta_performer song}}}
+         ugc_coop_endgame_screen
+         {if_else
+            {meta_performer is_last_song}
+            coop_endgame_screen
+            nextsong_screen}}))
+(qp_solo
+   MULTISONG_MODE_PROPERTIES
+   (skip_matchmaking TRUE)
+   (main_mode_screen main_quickplay_screen)
+   (allow_create_char FALSE)
+   (force_player_vocal_gender TRUE)
+   (max_players 1)
+   (max_local_players 1)
+   (player_arrangement kArrangeBand)
+   (practice_from_lose TRUE)
+   (game_mode_context CONTEXT_GAME_MODE_TYPE_SOLO_QUICKPLAY)
+   (cannot_connect_warning solo_no_server_warning))
+#define QP_COOP_MODE_PROPERTIES
+(MULTISONG_MODE_PROPERTIES
+   (main_mode_screen main_bandcoop_screen)
+   (allow_create_char FALSE)
+   (uisink_default_screen matchmaking_screen)
+   (online_mode CONTEXT_GAME_MODE_BAND_QUICKPLAY)
+   (game_mode_context CONTEXT_GAME_MODE_TYPE_BAND_QUICKPLAY))
+(qp_coop_local QP_COOP_MODE_PROPERTIES)
+(frame_rate
+   QP_COOP_MODE_PROPERTIES
+   (is_framerate_test TRUE)
+   (game_screen frame_rate_game_screen))
+(qp_coop_online
+   QP_COOP_MODE_PROPERTIES
+   (local_network FALSE)
+   (online_play_required TRUE)
+   (guest_not_first TRUE)
+   (quit_screen matchmaking_screen))
+#define TOUR_MODE_PROPERTIES
+(MULTISONG_MODE_PROPERTIES
+   (exit
+      {tour clear_band}
+      {presence_mgr set_past_tour_hub FALSE})
+   (show_prefab_chars FALSE)
+   (show_loading_images TRUE)
+   (is_tour TRUE)
+   (pause_new_song_screen
+      {gamemode get continue_screen})
+   (continue_screen
+      {tour tour_screen TRUE})
+   (main_mode_screen tour_band_sel_screen)
+   (choose_leader_from_band TRUE)
+   (post_matchmaking_screen
+      {do
+         ($band
+            {tour band})
+         {if_else
+            {$band is_finalized}
+            tour_hub_screen
+            tour_band_create_screen}})
+   (ready_screen
+      {if_else
+         {==
+            {{tour band}
+               event_type}
+            kTourEventChallenge}
+         tour_challenge_seldiff_screen
+         {if_else
+            {==
+               {{tour event}
+                  get
+                  warning_screen}
+               ''}
+            tour_world_seldiff_screen
+            tour_world_marathon_screen}})
+   (band_name
+      {{tour band}
+         band_name})
+   (band_logo
+      {if_else
+         {{tour band}
+            has_logo_patch}
+         {{tour band}
+            logo_patch}
+         0})
+   (tour_win_screen
+      {if_else
+         {{tour band}
+            is_hardcore_winning}
+         {if_else
+            {{tour band}
+               icons_upgraded}
+            tour_world_item_reward_screen
+            {gamemode get continue_screen}}
+         tour_world_win_screen})
+   (lose_screen
+      {if_else
+         {==
+            {{tour band}
+               event_type}
+            kTourEventWorld}
+         tour_world_lose_screen
+         tour_retry_screen})
+   (practice_from_lose
+      {!
+         {{tour event}
+            is_battle}})
+   (confirm_quit_screen
+      {if_else
+         {==
+            {{tour band}
+               event_type}
+            kTourEventWorld}
+         tour_world_quit_screen
+         confirm_quit_screen})
+   (confirm_restart_screen
+      {if_else
+         {==
+            {{tour band}
+               event_type}
+            kTourEventWorld}
+         tour_world_restart_screen
+         confirm_quit_screen})
+   (uisink_default_screen tour_band_sel_screen)
+   (uisink_signout_screen tour_band_sel_screen)
+   (online_mode CONTEXT_GAME_MODE_BAND_WORLD_TOUR)
+   (game_mode_context CONTEXT_GAME_MODE_TYPE_TOUR)
+   (song_select_mode song_select_tour)
+   (venues
+      (VENUES))
+   (keep_movie_loaded FALSE))
+(tour_local
+   TOUR_MODE_PROPERTIES
+   (show_pause_quit FALSE)
+   (cannot_connect_warning tour_no_server_warning))
+(tour_online
+   TOUR_MODE_PROPERTIES
+   (local_network FALSE)
+   (online_play_required TRUE)
+   (guest_not_first TRUE)
+   (show_pause_quit TRUE))
+#define DRUM_TRAINER_MODE
+((game_mode_context CONTEXT_GAME_MODE_TYPE_TRAINER)
+   (is_drum_trainer TRUE)
+   (show_hud FALSE)
+   (show_mtv_overlay FALSE)
+   (start_difficulty kDifficultyEasy)
+   (start_tracktype kTrackDrum)
+   (update_crowd_meter FALSE)
+   (can_lose FALSE)
+   (play_star_sfx FALSE)
+   (max_players 1)
+   (max_local_players 1)
+   (min_players 1)
+   (load_chars FALSE)
+   (player_arrangement kArrangeBand)
+   (intro_category INTRO_VENUE)
+   (pause_screen pause_screen)
+   (pause_new_song_screen '')
+   (main_mode_screen drum_trainer_menu_screen)
+   (main_screen main_screen)
+   (crowd_reacts FALSE)
+   (quit_screen main_screen)
+   (quit_early_screen main_screen)
+   (trainer_quit_screen drum_trainer_menu_screen)
+   (update_leaderboards FALSE))
+(drum_trainer_mode
+   DRUM_TRAINER_MODE
+   (first_screen drum_trainer_menu_screen)
+   (drum_mode_context -1))
+(drum_trainer_beats
+   DRUM_TRAINER_MODE
+   (game_panel drum_trainer_beats_panel)
+   (game_screen drum_trainer_beats_screen)
+   (assets
+      "beats.milo")
+   (start_song drum_trainer_beats)
+   (drum_mode_context CONTEXT_DRUM_TRAINER_MODE_BEATS))
+(drum_trainer_fills
+   DRUM_TRAINER_MODE
+   (dont_show_gems_in_fills FALSE)
+   (game_panel drum_trainer_fills_panel)
+   (game_screen drum_trainer_fills_screen)
+   (assets
+      "fills.milo")
+   (start_song drum_trainer_fills)
+   (drum_mode_context CONTEXT_DRUM_TRAINER_MODE_FILLS))
+(drum_trainer_freestyle
+   DRUM_TRAINER_MODE
+   (game_panel drum_trainer_freestyle_panel)
+   (game_screen drum_trainer_freestyle_screen)
+   (assets
+      "freestyle.milo")
+   (start_song drum_trainer_freestyle)
+   (drum_mode_context CONTEXT_DRUM_TRAINER_MODE_FREESTYLE))
+#define TUTORIALS_MODE
+((game_mode_context CONTEXT_GAME_MODE_TYPE_TUTORIAL)
+   (use_static_tip TRUE)
+   (the_static_tip static_tip_tutorials_mode)
+   (is_tutorial TRUE)
+   (disable_guitar_fx TRUE)
+   (show_hud FALSE)
+   (show_mtv_overlay FALSE)
+   (load_chars FALSE)
+   (start_difficulty kDifficultyEasy)
+   (min_players 1)
+   (crowd_audio FALSE)
+   (first_screen tutorials_lesson_menu_screen)
+   (disable_player_intro TRUE)
+   (play_star_sfx FALSE)
+   (play_track_intro_sfx FALSE)
+   (play_streak_sfx FALSE)
+   (pause_screen '')
+   (crowd_reacts FALSE)
+   (update_leaderboards FALSE))
+(tutorial_drums
+   TUTORIALS_MODE
+   (popup_help_can_disable TRUE)
+   (main_panel tutorials_drums_main_panel)
+   (main_screen tutorials_drums_main_screen)
+   (win_screen tutorials_drums_beat_menu)
+   (righty_assets
+      "drum_tutorial_righty.milo")
+   (lefty_assets
+      "drum_tutorial_lefty.milo")
+   (lesson_menu_assets
+      "drum_tutorial_menu.milo")
+   (start_tracktype kTrackDrum)
+   (failure_vo drum_tut_thrash_didnt_finish)
+   (notes_format tutorial_drum_notes_format)
+   (percent_format tutorial_drum_percent_format)
+   (next_lesson_text tutorial_drum_next_lesson)
+   (previous_lesson_text tutorial_drum_previous_lesson)
+   (restart_lesson_text tutorial_drum_restart_lesson)
+   (tut_info_frame 0))
+(tutorial_guitar
+   TUTORIALS_MODE
+   (popup_help_can_disable TRUE)
+   (main_panel tutorials_guitar_main_panel)
+   (main_screen tutorials_guitar_main_screen)
+   (righty_assets
+      "guitar_tutorial_righty.milo")
+   (lefty_assets
+      "guitar_tutorial_lefty.milo")
+   (lesson_menu_assets
+      "guitar_tutorial_menu.milo")
+   (start_tracktype kTrackGuitar)
+   (failure_vo drum_tut_thrash_didnt_finish)
+   (notes_format tutorial_guitar_notes_format)
+   (percent_format tutorial_guitar_percent_format)
+   (next_lesson_text tutorial_guitar_next_lesson)
+   (previous_lesson_text tutorial_guitar_previous_lesson)
+   (restart_lesson_text tutorial_guitar_restart_lesson)
+   (tut_info_frame 0))
+(tutorial_vocals
+   TUTORIALS_MODE
+   (tutorial_has_no_lefty TRUE)
+   (tutorial_cares_about_mics TRUE)
+   (popup_help_can_disable TRUE)
+   (main_panel tutorials_vocals_main_panel)
+   (main_screen tutorials_vocals_main_screen)
+   (mixed_assets
+      "vocals_tutorial_scrolling.milo")
+   (static_assets
+      "vocals_tutorial_static.milo")
+   (lesson_menu_assets
+      "vocals_tutorial_menu.milo")
+   (start_tracktype kTrackVocals)
+   (failure_vo drum_tut_thrash_didnt_finish)
+   (notes_format tutorial_vocals_notes_format)
+   (percent_format tutorial_vocals_percent_format)
+   (next_lesson_text tutorial_vocals_next_lesson)
+   (previous_lesson_text tutorial_vocals_previous_lesson)
+   (restart_lesson_text tutorial_vocals_restart_lesson)
+   (tut_info_frame 0))
+(practice
+   (use_static_tip TRUE)
+   (the_static_tip static_tip_practice_mode)
+   (is_practice TRUE)
+   (first_screen song_select_screen)
+   (load_chars FALSE)
+   (main_screen main_screen)
+   (game_screen practice_game_screen)
+   (pause_new_song_screen song_select_screen)
+   (confirm_restart_screen '')
+   (min_players 1)
+   (can_lose FALSE)
+   (pause_screen pause_screen)
+   (practice_mode_fx TRUE)
+   (crowd_audio FALSE)
+   (crowd_reacts FALSE)
+   (render_practice_loop TRUE)
+   (allow_overdrive_phrases FALSE)
+   (skip_matchmaking TRUE)
+   (allow_create_char FALSE)
+   (max_players 1)
+   (max_local_players 1)
+   (min_players 1)
+   (player_arrangement kArrangeBand)
+   (intro_category INTRO_VENUE)
+   (game_mode_context CONTEXT_GAME_MODE_TYPE_PRACTICE)
+   (win_screen practice_vocal_end_screen)
+   (lose_screen practice_vocal_end_screen)
+   (endgame_screen practice_vocal_end_screen)
+   (play_star_sfx FALSE)
+   (play_track_intro_sfx FALSE)
+   (play_streak_sfx FALSE)
+   (always_allow_player TRUE)
+   (enable_streak TRUE)
+   (enable_star_power FALSE)
+   (song_select_mode song_select_practice)
+   (on_pause_restart
+      {practice_panel set update_best_percent FALSE}
+      {session end_game kRestart})
+   (update_leaderboards FALSE))
+(community_leaderboards
+   (community_screen main_leaderboard_screen)
+   (leaderboards_seltrack_screen leaderboards_seltrack_screen)
+   (lb_song_select_screen lb_song_select_screen)
+   (leaderboards_screen leaderboards_screen)
+   (leaderboards_band_profile_screen leaderboards_band_profile_screen)
+   (cannot_connect_warning community_no_server_warning)
+   (uisink_lost_connection_screen main_community_screen)
+   (uisink_default_screen main_community_screen)
+   (uisink_signout_screen main_community_screen)
+   (song_select_mode song_select_leaderboards))
+(store
+   #ifndef HX_PC
+   (local_network FALSE)
+   #endif
+   (cannot_connect_warning community_no_server_warning)
+   (login_status kProhibited)
+   (uisink_lost_connection_screen store_unload_screen)
+   (uisink_default_screen store_unload_screen)
+   (uisink_signout_screen store_unload_screen)
+   (quit_early_screen store_unload_screen)
+   (rock_central FALSE))
+(jukebox
+   (skip_matchmaking TRUE)
+   (main_mode_screen main_screen)
+   (max_players 4)
+   (max_local_players 4)
+   (min_players 1)
+   (player_arrangement kArrangeBand)
+   (intro_category INTRO_VENUE)
+   (game_mode_context CONTEXT_GAME_MODE_TYPE_JUKEBOX)
+   (cannot_connect_warning solo_no_server_warning)
+   (game_screen jukebox_screen)
+   (is_jukebox TRUE)
+   (has_track FALSE)
+   (song_select_mode song_select_jukebox)
+   (ready_screen jukebox_seldiff_screen)
+   (matchmaking_screen jukebox_band_sel_screen)
+   (confirm_restart_screen '')
+   (disable_guitar_fx TRUE)
+   (update_leaderboards FALSE)
+   (local_network TRUE)
+   (preload_nextsong_screen jukebox_preload_nextsong_screen)
+   (load_nextsong_screen jukebox_load_nextsong_screen)
+   (nextstats_screen jukebox_nextstats_screen)
+   (play_star_sfx FALSE)
+   (play_track_intro_sfx FALSE)
+   (play_streak_sfx FALSE)
+   (enable_streak FALSE)
+   (enable_star_power FALSE)
+   (force_player_vocal_gender TRUE)
+   (allow_overdrive_phrases FALSE)
+   (endgame_screen
+      {if_else
+         {meta_performer is_last_song}
+         meta_loading_jukebox_screen
+         nextsong_screen})
+   (lose_screen endgame_waiting_screen)
+   (win_screen endgame_waiting_screen)
+   (missing_part_type kMissingJukebox)
+   (game_input_limit_type kLimitNone)
+   (allow_all_input TRUE)
+   (allow_any_controller_to_pause_in_game TRUE))
+(options
+   (uisink_signout_screen options_screen))
+(ugc_audition
+   (is_audition TRUE)
+   (game_screen
+      {if_else
+         {==
+            {gamecfg get_venue}
+            practice}
+         audition_practice_game_screen
+         game_screen})
+   (matchmaking_screen
+      {audition_main_screen get_first_screen})
+   (confirm_quit_screen confirm_quit_screen)
+   (confirm_restart_screen '')
+   (lose_screen endgame_waiting_screen)
+   (win_screen endgame_waiting_screen)
+   (endgame_screen coop_endgame_screen)
+   (load_chars
+      {!=
+         {gamecfg get_venue}
+         practice})
+   (skip_matchmaking TRUE)
+   (allow_create_char FALSE)
+   (allow_drum_fills
+      {!
+         {audition_mgr get_no_drum_fills}})
+   (main_mode_screen main_extras_screen)
+   (max_players 4)
+   (max_local_players 4)
+   (min_players 1)
+   (player_arrangement kArrangeBand)
+   (game_mode_context CONTEXT_GAME_MODE_TYPE_JUKEBOX)
+   (cannot_connect_warning solo_no_server_warning)
+   (update_leaderboards FALSE)
+   (allow_achievements FALSE)
+   (rock_central FALSE)
+   (leave_if_connection_lost TRUE)
+   (allow_all_input TRUE)
+   (ignore_missing_autoplayer_controllers TRUE)
+   (allow_any_controller_to_pause_in_game TRUE)
+   (enter
+      {audition_mgr enter_audition})
+   (exit
+      {audition_mgr exit_audition}))

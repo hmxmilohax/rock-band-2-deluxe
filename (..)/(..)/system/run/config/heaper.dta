@@ -1,6 +1,0 @@
-#include macros.dta
-(mem
-   (pool
-      (big_hunk 4100000)
-      (small_hunk 50000)))
-#merge default.dta
