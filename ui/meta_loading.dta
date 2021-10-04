@@ -1,0 +1,525 @@
+{new
+   UIPanel
+   meta_loading
+   (file meta_loading.milo)}
+#define AUTOSAVE_WAIT_SCREEN_HANDLERS
+((next_screen '')
+   (show_event FALSE)
+   (entered FALSE)
+   (ready_to_go FALSE)
+   (block_event
+      ($event)
+      {!
+         [ready_to_go]})
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {set
+         [entered]
+         TRUE}
+      {set
+         [ready_to_go]
+         FALSE}
+      {net_sync set_ui_state kNetUI_PostAutoSave}
+      {session add_sink $this}
+      {$this check_advance})
+   (exit
+      {session remove_sink $this})
+   (REMOTE_PLAYER_CHANGED_MSG
+      {$this check_advance})
+   (REMOTE_PLAYER_LEFT_MSG
+      {unless
+         {session disabled}
+         {$this check_advance}})
+   (check_advance
+      {do
+         ($ready TRUE)
+         {if
+            [entered]
+            {game
+               foreach_user
+               $pcfg
+               {if
+                  {&&
+                     {session
+                        has_player
+                        {$pcfg get player_num}}
+                     {!=
+                        {$pcfg get_net_ui_state}
+                        kNetUI_PostAutoSave}
+                     {!
+                        {gamemode get ranked}}
+                     {!
+                        {net_sync get ui_disabled}}}
+                  {set $ready FALSE}}}
+            {if
+               $ready
+               {net_sync set ui_disabled FALSE}
+               {set
+                  [entered]
+                  FALSE}
+               {set
+                  [ready_to_go]
+                  TRUE}
+               {ui
+                  sync_screen
+                  [next_screen]
+                  0}}}
+         $ready}))
+{new
+   BandScreen
+   autosave_wait_screen
+   (panels meta_loading)
+   AUTOSAVE_WAIT_SCREEN_HANDLERS}
+{new
+   BandScreen
+   autosave_wait_in_meta_screen
+   (panels meta_loading meta)
+   AUTOSAVE_WAIT_SCREEN_HANDLERS}
+#define kCheckDelete
+(0)
+#define kDeleteInProgress
+(1)
+#define kUGCDeleteDone
+(2)
+#define META_LOADING_TRANSITION_HANDLERS
+((transition_screen
+      {object
+         ""})
+   (show_event FALSE)
+   (entered FALSE)
+   (ready FALSE)
+   (delete_state kCheckDelete)
+   (block_event
+      ($event)
+      TRUE)
+   (helpbar
+      ((min_height 0)))
+   (song_to_delete '')
+   (song_title '')
+   (song_artist '')
+   (enter
+      {set
+         [entered]
+         TRUE}
+      {set
+         [ready]
+         FALSE})
+   (check_waiting
+      {do
+         ($waiting TRUE)
+         {game
+            foreach_user
+            $pcfg
+            {if
+               {&&
+                  {!=
+                     {band_ui current_event}
+                     sign_out}
+                  {session
+                     has_player
+                     {$pcfg get player_num}}
+                  {!=
+                     {$pcfg get_net_ui_state}
+                     kNetUI_PreAutoSave}
+                  {!=
+                     {$pcfg get_net_ui_state}
+                     kNetUI_PostAutoSave}
+                  {!
+                     {gamemode get ranked}}
+                  {!
+                     {net_sync get ui_disabled}}}
+               {set $waiting FALSE}}}
+         $waiting})
+   (poll
+      {if
+         {&&
+            {char_cache meta_configure_done}
+            {!
+               {ui in_transition}}
+            {'||'
+               [entered]
+               [ready]}}
+         {if
+            [entered]
+            #ifndef _SHIP
+            {if
+               {gamemode get load_chars}
+               {char_cache check_outside_refs}}
+            #endif
+            {if
+               {[transition_screen]
+                  get
+                  clear_game_state}
+               {session
+                  clear
+                  {[transition_screen]
+                     get
+                     session_leaving_early}}
+               {tour clear_band}
+               {gamecfg reset_config}}
+            {if
+               {[transition_screen]
+                  get
+                  goto_practice_mode}
+               {do
+                  ($song
+                     {meta_performer song})
+                  {gamemode set_mode practice}
+                  {meta_performer set_song $song}}}
+            {band_ui set handle_remote_player_left TRUE}
+            {if_else
+               {==
+                  [transition_screen]
+                  meta_loading_invite_screen}
+               {do
+                  {band_ui set invite_accepted TRUE}
+                  {finding_panel
+                     set_joining_user
+                     {user_mgr
+                        get_user_from_pad_num
+                        {community_panel get invited_user_pad}}}
+                  {gamemode
+                     set_mode
+                     {{session_searcher get_last_invite_result}
+                        get_mode_name}}}
+               {band_ui set invite_accepted FALSE}}
+            {if
+               {==
+                  {band_ui current_event}
+                  invite_accepted}
+               {band_ui dismiss_event}}
+            {gamecfg set_active_roster FALSE}
+            {net_sync set_ui_state kNetUI_PreAutoSave}
+            {set
+               [ready]
+               TRUE}}
+         {set
+            [entered]
+            FALSE}
+         {if
+            {&&
+               [ready]
+               {$this check_waiting}}
+            {switch
+               [delete_state]
+               (kCheckDelete
+                  {if_else
+                     {==
+                        ''
+                        [song_to_delete]}
+                     {set
+                        [delete_state]
+                        kUGCDeleteDone}
+                     {do
+                        ($content_name
+                           {song_mgr
+                              content_name
+                              [song_to_delete]})
+                        {if_else
+                           {content_mgr delete_content $content_name}
+                           {set
+                              [delete_state]
+                              kUGCDeleteDone}
+                           {set
+                              [delete_state]
+                              kDeleteInProgress}}}})
+               (kDeleteInProgress
+                  {if
+                     {content_mgr refresh_done}
+                     {set
+                        [delete_state]
+                        kUGCDeleteDone}
+                     {set
+                        [song_title]
+                        {song_mgr
+                           song_name
+                           [song_to_delete]}}
+                     {set
+                        [song_artist]
+                        {song_mgr
+                           song_artist
+                           [song_to_delete]}}
+                     {set
+                        [song_to_delete]
+                        ''}})
+               (kUGCDeleteDone
+                  {do
+                     ($autosave_screen
+                        {if_else
+                           {meta is_up}
+                           autosave_wait_in_meta_screen
+                           autosave_wait_screen})
+                     ($was_disabled
+                        {net_sync get ui_disabled})
+                     {net_sync set ui_disabled FALSE}
+                     {$autosave_screen
+                        set
+                        next_screen
+                        {[transition_screen]
+                           get
+                           next_screen}}
+                     {save_screen set is_meta_loading TRUE}
+                     {autosave_push $autosave_screen}
+                     {if
+                        $was_disabled
+                        {net_sync set ui_disabled TRUE}}
+                     {set
+                        [ready]
+                        FALSE}}
+                  {set
+                     [delete_state]
+                     kCheckDelete})}}}))
+{new
+   BandScreen
+   meta_loading_screen
+   (panels meta_loading)
+   META_LOADING_TRANSITION_HANDLERS}
+{new
+   BandScreen
+   meta_loading_in_meta_screen
+   (panels meta_loading meta)
+   META_LOADING_TRANSITION_HANDLERS}
+#define META_LOADING_SCREEN_HANDLERS
+((panels meta_loading)
+   (loading_screen '')
+   (delay_frames -1)
+   (show_event FALSE)
+   (block_event
+      ($event)
+      TRUE)
+   (helpbar
+      ((min_height 0)))
+   (load_panels
+      {if
+         {&&
+            {gamemode is_h2h_arrangement}
+            {gamemode get online_play_required}
+            [session_leaving_early]}
+         {process_comeback_achievement FALSE}}
+      {if_else
+         [clear_game_state]
+         {do
+            {session ignore_remote_messages}
+            {input_mgr reset}}
+         {if
+            {&&
+               {tour band}
+               {{tour band}
+                  is_local}}
+            {{tour band}
+               update_live_battles}}})
+   (TRANSITION_COMPLETE_MSG
+      {set
+         [delay_frames]
+         3}
+      {set
+         [loading_screen]
+         {if_else
+            {meta is_up}
+            meta_loading_in_meta_screen
+            meta_loading_screen}}
+      {[loading_screen]
+         set
+         transition_screen
+         $this})
+   (exit
+      {rnd set_in_game FALSE})
+   (poll
+      {--
+         [delay_frames]}
+      {if
+         {==
+            [delay_frames]
+            0}
+         {set
+            [delay_frames]
+            -1}
+         {net_sync set_ui_state kNetUI_MetaLoading}
+         {do
+            ($was_disabled
+               {net_sync get ui_disabled})
+            {net_sync set ui_disabled FALSE}
+            {net_sync
+               force_reset_screen
+               [loading_screen]}
+            {if
+               $was_disabled
+               {net_sync set ui_disabled TRUE}}}}))
+{new
+   BandScreen
+   meta_loading_continue_screen
+   META_LOADING_SCREEN_HANDLERS
+   (clear_game_state FALSE)
+   (session_leaving_early FALSE)
+   (goto_practice_mode FALSE)
+   (next_screen
+      {gamemode get continue_screen})}
+{new
+   BandScreen
+   meta_loading_main_screen
+   META_LOADING_SCREEN_HANDLERS
+   (clear_game_state TRUE)
+   (session_leaving_early FALSE)
+   (goto_practice_mode FALSE)
+   (next_screen
+      {gamemode get main_screen})}
+{new
+   BandScreen
+   meta_loading_training_screen
+   META_LOADING_SCREEN_HANDLERS
+   (clear_game_state TRUE)
+   (session_leaving_early FALSE)
+   (goto_practice_mode FALSE)
+   (next_screen training_menu_screen)}
+{new
+   BandScreen
+   meta_loading_pause_new_section_screen
+   META_LOADING_SCREEN_HANDLERS
+   (clear_game_state FALSE)
+   (session_leaving_early FALSE)
+   (goto_practice_mode FALSE)
+   (next_screen practice_preloading_screen)}
+{new
+   BandScreen
+   meta_loading_pause_new_song_screen
+   META_LOADING_SCREEN_HANDLERS
+   (clear_game_state FALSE)
+   (session_leaving_early FALSE)
+   (goto_practice_mode FALSE)
+   (next_screen
+      {gamemode get pause_new_song_screen})}
+{new
+   BandScreen
+   meta_loading_trainer_quit
+   META_LOADING_SCREEN_HANDLERS
+   (clear_game_state TRUE)
+   (session_leaving_early TRUE)
+   (goto_practice_mode FALSE)
+   (next_screen
+      {gamemode get trainer_quit_screen})}
+{new
+   BandScreen
+   meta_loading_quit_early_screen
+   META_LOADING_SCREEN_HANDLERS
+   (clear_game_state TRUE)
+   (session_leaving_early TRUE)
+   (goto_practice_mode FALSE)
+   (next_screen
+      {gamemode get quit_early_screen})}
+{new
+   BandScreen
+   meta_loading_ready_screen
+   META_LOADING_SCREEN_HANDLERS
+   (clear_game_state FALSE)
+   (session_leaving_early FALSE)
+   (goto_practice_mode FALSE)
+   (next_screen
+      {gamemode get ready_screen})}
+{new
+   BandScreen
+   meta_loading_practice_screen
+   META_LOADING_SCREEN_HANDLERS
+   (clear_game_state FALSE)
+   (session_leaving_early FALSE)
+   (goto_practice_mode TRUE)
+   (next_screen practice_preloading_screen)}
+{new
+   BandScreen
+   meta_loading_tour_win_screen
+   META_LOADING_SCREEN_HANDLERS
+   (clear_game_state FALSE)
+   (session_leaving_early FALSE)
+   (goto_practice_mode FALSE)
+   (next_screen
+      {gamemode get tour_win_screen})}
+{new
+   BandScreen
+   meta_loading_signout_screen
+   META_LOADING_SCREEN_HANDLERS
+   (clear_game_state TRUE)
+   (session_leaving_early TRUE)
+   (goto_practice_mode FALSE)
+   (next_screen
+      {gamemode get uisink_signout_screen})}
+{new
+   BandScreen
+   meta_loading_invite_screen
+   META_LOADING_SCREEN_HANDLERS
+   (clear_game_state TRUE)
+   (session_leaving_early TRUE)
+   (goto_practice_mode FALSE)
+   (next_screen
+      {if_else
+         {net_cache_mgr is_unloaded}
+         finding_screen
+         store_unload_matchmaking_screen})}
+{new
+   BandScreen
+   meta_loading_matchmaking_forfeit_screen
+   META_LOADING_SCREEN_HANDLERS
+   (clear_game_state TRUE)
+   (session_leaving_early TRUE)
+   (goto_practice_mode FALSE)
+   (next_screen
+      {gamemode get matchmaking_screen})}
+{new
+   BandScreen
+   meta_loading_new_match_screen
+   META_LOADING_SCREEN_HANDLERS
+   (clear_game_state TRUE)
+   (session_leaving_early FALSE)
+   (goto_practice_mode FALSE)
+   (next_screen finding_screen)}
+{new
+   BandScreen
+   meta_loading_changemembers_screen
+   META_LOADING_SCREEN_HANDLERS
+   (clear_game_state FALSE)
+   (session_leaving_early FALSE)
+   (goto_practice_mode FALSE)
+   (next_screen
+      {gamemode get matchmaking_screen})}
+{new
+   BandScreen
+   meta_loading_uisink_default_screen
+   META_LOADING_SCREEN_HANDLERS
+   (clear_game_state TRUE)
+   (session_leaving_early FALSE)
+   (goto_practice_mode FALSE)
+   (next_screen
+      {gamemode get uisink_default_screen})}
+{new
+   BandScreen
+   meta_loading_uisink_lost_connection_screen
+   META_LOADING_SCREEN_HANDLERS
+   (clear_game_state TRUE)
+   (session_leaving_early TRUE)
+   (goto_practice_mode FALSE)
+   (next_screen
+      {gamemode get uisink_lost_connection_screen})}
+{new
+   BandScreen
+   meta_loading_leaderboard_error_screen
+   META_LOADING_SCREEN_HANDLERS
+   (clear_game_state FALSE)
+   (session_leaving_early FALSE)
+   (goto_practice_mode FALSE)
+   (next_screen
+      {leaderboards_netwatcher_panel get return_screen_in_progress})}
+{new
+   BandScreen
+   meta_loading_return_to_tour_hub_screen
+   META_LOADING_SCREEN_HANDLERS
+   (clear_game_state FALSE)
+   (session_leaving_early FALSE)
+   (goto_practice_mode FALSE)
+   (next_screen tour_hub_screen)}
+{new
+   BandScreen
+   meta_loading_jukebox_screen
+   META_LOADING_SCREEN_HANDLERS
+   (clear_game_state FALSE)
+   (session_leaving_early FALSE)
+   (goto_practice_mode FALSE)
+   (next_screen song_select_screen)}

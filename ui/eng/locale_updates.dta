@@ -1,0 +1,606 @@
+(drum_trainer_fill_30
+   "Row of Toms")
+(drum_trainer_fill_38
+   "Master of Fills")
+(drum_trainer_beat_17
+   "Boom Boom Chick")
+(drum_trainer_beat_20
+   "4 On The Floor")
+#ifdef HX_XBOX
+(cal_audio_fail_calbert
+   "We couldn't get a reliable audio reading. Please ensure the guitar controller is in front of a speaker, vibration is enabled for your gamer profile, and try again.\n\nIf you are in a room with a lot of echo, try lowering the volume of your speakers and try again.")
+(cal_video_fail_calbert
+   "We couldn't get a reliable video reading. Please ensure that the guitar controller is held facing the center of the TV, vibration is enabled for your gamer profile, and try again. Video calibration works best in a dark room - turn the lights down or off for best results.")
+#endif
+(charcreator_full_profile_fmt
+   "You already own the maximum of %d characters.  If you want to make a new character, you'll have to delete an old one first.")
+(tour_no_botb_connecting
+   "Sorry, but you're unable to play Battle of the Bands at the moment.  You are currently attempting to connect to Rock Central.")
+#ifdef HX_PS3
+(cal_video_desc_pad_swapped
+   "This test determines the amount of Video Latency in your system. When you see the needle hit either side of the meter, press the circle button.")
+(cal_audio_desc_pad_swapped
+   "This test determines the amount of Audio Latency in your system. Every time you hear a drum hit, press the circle button.")
+(trophy_disk_space_error
+   "Trophies are disabled due to low disk space. Should you continue anyway, trophy unlock events may be skipped. Please quit the game and free %.2fMB of space or continue at your own risk.")
+(trophy_initialization_please_wait
+   "Installing Trophies...")
+#endif
+(song_select_no_stars
+   "Unplayed")
+(song_select_star
+   "1 Star")
+(song_select_stars
+   "%d Stars")
+(song_select_gold_stars
+   "Gold Stars")
+(loading_trivia697
+   "Bon Scott was AC/DC's chauffeur before getting recruited as lead singer.")
+(hmx_store
+   "Rock Band Music Store")
+(ugc_store
+   "Rock Band Network")
+(ugc_store_need_to_signin
+   "To visit The Rock Band Network, you must be signed into an Xbox LIVE enabled gamer profile and connected to Xbox LIVE.")
+(ugc_store_need_to_signin_not_guest
+   "To visit The Rock Band Network, you must be signed into an Xbox LIVE enabled gamer profile and connected to Xbox LIVE. Guests cannot visit The Rock Band Network.")
+(ugc_store_content_updated
+   "The content in The Rock Band Network has been updated with new songs! You will now be returned to The Rock Band Network's main menu.")
+(ugc_download_demo
+   "Download Demo")
+(ugc_download_demo_again
+   "Download Demo Again")
+(ugc_store_downloading
+   "Downloading Preview")
+(ugc_record_label
+   "Label")
+(ugc_no_label
+   "No Label")
+(ugc_author
+   "Author")
+(ugc_country
+   "Country")
+(ugc_language
+   "Language")
+(ugc_rating
+   "Rating")
+(ugc_unrated
+   "Not yet rated")
+(by_author
+   "By Author")
+(by_rating
+   "By Rating")
+(by_label
+   "By Label")
+(ugc_icon
+   "Rock Band Network")
+(ugc_tow_warning
+   "Songs from The Rock Band Network can't be played in a Tug of War match.")
+(ugc_demo_practice_warning
+   "Demos can't be played in Practice Mode.")
+(ugc_demo_online_warning
+   "Demos can't be played in an Xbox LIVE game.")
+(ugc_demo_setlist_warning
+   "Demos can't be played as part of a setlist.")
+(ugc_demo
+   "Demo")
+(by_stars
+   "By Stars")
+(ugc_store_lighters
+   "%1.1f Lighters")
+(incomplete_add_header2
+   "Only some of the songs in this category could be added to the setlist. Demos cannot be added to a setlist, and in a multiplayer game, all players must have the full versions of all songs in the setlist.")
+(fail_add_header2
+   "None of the songs in this category could be added to the setlist.")
+(invalid_song
+   "Not everyone in the session can play this song.")
+#ifdef HX_PS3
+(content_restricted
+   "This song is disabled due to parental control restrictions on your system. You are not allowed to access this song.")
+#else
+(content_restricted
+   "This song is disabled due to parental control restrictions on your console. You are not allowed to access this song.")
+#endif
+#ifdef HX_PS3
+(ugc_press_back
+   "Press SELECT to Rate")
+#else
+(ugc_press_back
+   "Press to Rate")
+#endif
+(ugc_not_signed_in
+   "You must be signed in to rate this song.")
+(ugc_demo_end
+   "Demo Over")
+(ugc_buy_full_version
+   "Buy now")
+(ugc_delete_demo
+   "Delete Demo")
+(ugc_delete_demo_confirm
+   "Are you sure you want to delete %s by %s?")
+(ugc_delete_complete
+   "The song %s by %s has been deleted successfully.")
+(ugc_delete_failed
+   "The song %s by %s could not be deleted.")
+(ugc_buy_confirm
+   "This will end your session and return you to the main menu. End session?")
+(ugc_buy_need_to_signin
+   "To purchase this song, you must be signed into an Xbox LIVE enabled gamer profile and connected to Xbox LIVE.")
+(ugc_buy_need_to_signin_not_guest
+   "To purchase this song, you must be signed into an Xbox LIVE enabled gamer profile and connected to Xbox LIVE. Guests cannot purchase songs.")
+(ugc_buy_demo_failed
+   "This purchase failed. Please make sure you're connected to Xbox LIVE and try again. Or go buy this song from the Rock Band Network.")
+(ugc_audition_button
+   "Audition")
+(audition_no_hard_drive_found
+   "No Xbox 360 Hard Drive detected. Audition Mode requires an Xbox 360 Hard Drive.")
+(audition_no_club_found
+   "To enter Audition Mode, you must be signed into an Xbox LIVE enabled gamer profile that is a member of the XNA Creators Club and connected to Xbox LIVE.")
+(error_club_member_signed_out
+   "The gamer profile whose XNA Creators Club membership was being used to access Audition Mode has signed out.")
+(audition_main_title
+   "Audition Mode")
+(audition_main_welcome
+   "In order to audition your songs, you need to run Magma on your PC. If you don't have Magma, you can download it at http://creators.rockband.com.")
+(audition_main_song_ready
+   "Song Loaded")
+(audition_main_network_idling
+   "Network Status: Idling...")
+(audition_main_network_transferring
+   "Network Status: Transferring...")
+(audition_main_network_transfer_error
+   "Network Status: Transfer Error, recovering...")
+(audition_main_loaded_song_none
+   "Song Status: waiting for transfer...")
+(audition_main_loaded_song_transfer_fmt
+   "Song Status: %.0f%% transferred...")
+(audition_main_loaded_song_validating
+   "Song Status: validating song data...")
+(audition_main_loaded_song_error
+   "Song Status: error during validation!")
+(audition_main_loaded_song_success
+   "Song Status: song data is valid.")
+(audition_main_loaded_song_loaded
+   "Song Status: song is ready to audition.")
+(audition_main_validating_failed
+   "The transferred song data is invalid.  You will now be returned to the main menu.")
+(helpbar_waiting_for_session
+   "Building Session...")
+(helpbar_audition_song
+   "Audition Song")
+(helpbar_cycle_diff
+   "Cycle Difficulty")
+(helpbar_cycle_controller
+   "Cycle Controller Type")
+(helpbar_cycle_option
+   "Cycle Option")
+(helpbar_session_cycle
+   "Autoplay Layout Cycle")
+(helpbar_session_restore
+   "Restore Previous Layout")
+(helpbar_toggle_autoplay
+   "Toggle Autoplay")
+(audition_mini_part_title
+   "Part Select")
+(audition_part_sel_title
+   "Join Local Players")
+(audition_part_sel_no_part
+   "No Part")
+(audition_part_sel_empty
+   "Connect Controller")
+(audition_part_sel_autoplay
+   "Autoplay")
+(audition_part_sel_join
+   "Join")
+(audition_part_sel_controller_fmt
+   "Controller #%d")
+(audition_part_sel_start
+   "Press Start to Continue")
+(audition_alt_session_layout
+   "Advanced Setup")
+(audition_slot_list_title
+   "Advanced Audition Setup")
+(audition_slot_list_slot0
+   "Guitarist:")
+(audition_slot_list_slot1
+   "Drummer:")
+(audition_slot_list_slot2
+   "Vocalist:")
+(audition_slot_list_slot3
+   "Bassist:")
+(audition_slot_list_empty
+   "None")
+(audition_slot_list_autoplay
+   "Autoplay")
+(audition_slot_list_type_entry_fmt
+   "%d: %s")
+(audition_options_title
+   "Audition Options")
+(audition_option_no_fail
+   "No-Fail Mode:")
+(audition_option_vocal_hud
+   "Vocal HUD:")
+(audition_option_venue
+   "Venue:")
+(audition_option_difficulty
+   "Autoplayer Difficulty:")
+(audition_option_nodrumfill
+   "Drum Fills:")
+(audition_option_start
+   "Start Song")
+(audition_option_off
+   "Off")
+(audition_option_on
+   "On")
+(audition_option_static
+   "Static")
+(audition_option_scrolling
+   "Scrolling")
+(audition_option_empty_venue
+   "Practice Space")
+(audition_option_random_small_club
+   "Random Small Club")
+(audition_option_random_big_club
+   "Random Big Club")
+(audition_option_random_theater
+   "Random Theater")
+(audition_option_random_arena
+   "Random Arena")
+(audition_option_easy
+   "Easy")
+(audition_option_medium
+   "Medium")
+(audition_option_hard
+   "Hard")
+(audition_option_expert
+   "Expert")
+(audition_option_guitar_layout
+   "Guitar Layout:")
+(audition_option_guitar_layout0
+   "Guitar Left, Bass Right")
+(audition_option_guitar_layout1
+   "Bass Left, Guitar Right")
+(return_audition
+   "Return to Audition")
+(endgame_player_audition_autoplayer
+   "AUTOPLAY")
+(audition_time_display_mbt
+   "M.B.T.")
+(audition_time_display_elapsed
+   "Elapsed")
+(audition_time_display_remaining
+   "Remaining")
+(subgenre_acapella
+   "A capella")
+(subgenre_acoustic
+   "Acoustic")
+(subgenre_alternativerap
+   "Alternative Rap")
+(subgenre_arena
+   "Arena")
+(subgenre_black
+   "Black")
+(subgenre_bluegrass
+   "Bluegrass")
+(subgenre_breakbeat
+   "Breakbeat")
+(subgenre_chicago
+   "Chicago")
+(subgenre_classic
+   "Classic")
+(subgenre_classical
+   "Classical")
+(subgenre_college
+   "College")
+(subgenre_contemporary
+   "Contemporary")
+(subgenre_contemporaryfolk
+   "Contemporary Folk")
+(subgenre_death
+   "Death")
+(subgenre_delta
+   "Delta")
+(subgenre_disco
+   "Disco")
+(subgenre_downtempo
+   "Downtempo")
+(subgenre_electric
+   "Electric")
+(subgenre_electronica
+   "Electronica")
+(subgenre_experimental
+   "Experimental")
+(subgenre_folkrock
+   "Folk Rock")
+(subgenre_funk
+   "Funk")
+(subgenre_gangsta
+   "Gangsta")
+(subgenre_garage
+   "Garage")
+(subgenre_goth
+   "Goth")
+(subgenre_hair
+   "Hair")
+(subgenre_hardrock
+   "Hard Rock")
+(subgenre_hardcoredance
+   "Hardcore Dance")
+(subgenre_hardcorerap
+   "Hardcore Rap")
+(subgenre_hiphop
+   "Hip Hop")
+(subgenre_honkytonk
+   "Honky Tonk")
+(subgenre_house
+   "House")
+(subgenre_industrial
+   "Industrial")
+(subgenre_motown
+   "Motown")
+(subgenre_oldschoolhiphop
+   "Old School Hip Hop")
+(subgenre_oldies
+   "Oldies")
+(subgenre_outlaw
+   "Outlaw")
+(subgenre_pop
+   "Pop")
+(subgenre_power
+   "Power")
+(subgenre_progrock
+   "Prog Rock")
+(subgenre_psychadelic
+   "Psychedelic")
+(subgenre_ragtime
+   "Ragtime")
+(subgenre_rap
+   "Rap")
+(subgenre_rockandroll
+   "Rock and Roll")
+(subgenre_rockabilly
+   "Rockabilly")
+(subgenre_ska
+   "Ska")
+(subgenre_smooth
+   "Smooth")
+(subgenre_softrock
+   "Soft Rock")
+(subgenre_soul
+   "Soul")
+(subgenre_speed
+   "Speed")
+(subgenre_surf
+   "Surf")
+(subgenre_synth
+   "Synthpop")
+(subgenre_techno
+   "Techno")
+(subgenre_teen
+   "Teen")
+(subgenre_thrash
+   "Thrash")
+(subgenre_traditionalfolk
+   "Traditional Folk")
+(subgenre_trance
+   "Trance")
+(subgenre_undergroundrap
+   "Underground Rap")
+(subgenre_acidjazz
+   "Acid Jazz")
+(subgenre_core
+   "Core")
+(subgenre_rhythmandblues
+   "Rhythm and Blues")
+(subgenre_hardcore
+   "Hardcore")
+(subgenre_dancepunk
+   "Dance Punk")
+(subgenre_reggae
+   "Reggae")
+(subgenre_dub
+   "Dub")
+(subgenre_drumandbass
+   "Drum and Bass")
+(subgenre_triphop
+   "Trip Hop")
+(subgenre_ambient
+   "Ambient")
+(subgenre_chiptune
+   "Chiptune")
+(subgenre_dance
+   "Dance")
+(subgenre_electroclash
+   "Electroclash")
+(subgenre_darkwave
+   "Dark Wave")
+(subgenre_mathrock
+   "Math Rock")
+(subgenre_lofi
+   "Lo-fi")
+(subgenre_shoegazing
+   "Shoegazing")
+(subgenre_postrock
+   "Post Rock")
+(subgenre_noise
+   "Noise")
+(subgenre_alternative
+   "Alternative")
+(subgenre_other
+   "Other")
+(subgenre_country
+   "Country")
+(subgenre_classicrock
+   "Classic Rock")
+(subgenre_emo
+   "Emo")
+(subgenre_fusion
+   "Fusion")
+(subgenre_glam
+   "Glam")
+(subgenre_metal
+   "Metal")
+(subgenre_prog
+   "Prog")
+(subgenre_novelty
+   "Novelty")
+(subgenre_numetal
+   "Nu-Metal")
+(subgenre_blues
+   "Blues")
+(subgenre_rock
+   "Rock")
+(subgenre_southernrock
+   "Southern Rock")
+(subgenre_new_wave
+   "New Wave")
+(subgenre_indierock
+   "Indie Rock")
+(subgenre_grunge
+   "Grunge")
+(ugc_country_australia
+   "Australia")
+(ugc_country_canada
+   "Canada")
+(ugc_country_denmark
+   "Denmark")
+(ugc_country_france
+   "France")
+(ugc_country_germany
+   "Germany")
+(ugc_country_ireland
+   "Ireland")
+(ugc_country_italy
+   "Italy")
+(ugc_country_japan
+   "Japan")
+(ugc_country_netherlands
+   "Netherlands")
+(ugc_country_newzealand
+   "New Zealand")
+(ugc_country_norway
+   "Norway")
+(ugc_country_singapore
+   "Singapore")
+(ugc_country_spain
+   "Spain")
+(ugc_country_sweden
+   "Sweden")
+(ugc_country_uk
+   "United Kingdom")
+(ugc_country_us
+   "United States")
+(ugc_lang_english
+   "English")
+(ugc_lang_french
+   "French")
+(ugc_lang_italian
+   "Italian")
+(ugc_lang_spanish
+   "Spanish")
+(ugc_lang_german
+   "German")
+(ugc_lang_multiple
+   "Multiple")
+(loading_help71
+   "When auditioning a song, press Up and Down on the D-pad on any standard Xbox 360 Controller to gain Energy and engage Overdrive.")
+(loading_help72
+   "Looking to check a specific part of your song? Any connected standard Xbox 360 Controller will let you speed up and slow down your song by pressing Left and Right on the D-pad.")
+(loading_help73
+   "Don't forget to play through all difficulties of your song before sending it to the Rock Band Creators Club.")
+(loading_help74
+   "Be sure to check your lyrics for spelling errors. Nobody like a misspeeleed lyric.")
+(loading_help75
+   "You can Autoplay a track if you want to check out your song's lighting, cameras, and character animations.")
+(loading_help81
+   "If you don't want to bother with camera angles and lighting for your song, Magma will generate them for you automatically.")
+(loading_help82
+   "Need to check your drum track? Turn off drum fills during Audition Mode to see every note.")
+(loading_help78
+   "Did you like the song you just played? Browse The Rock Band Network to discover more!")
+(loading_help80
+   "Got a favorite band that you think should be in the game? Tell them to get their songs onto the Rock Band Network!")
+#ifdef HX_XBOX
+(loading_help76
+   "If you like the Demo version, you can buy the full version of the song directly from the pause menu.")
+(loading_help77
+   "You can delete a Demo from the results screen immediately after you finish playing it.")
+(loading_help79
+   "You can rate a Rock Band Network song after you play it, but only if you're signed into an Xbox LIVE enabled gamer profile and connected to Xbox LIVE!")
+(loading_help83
+   "You can download a free Demo of every song in the Rock Band Network.")
+(loading_help84
+   "You can add your own songs to the Rock Band Network! Check out creators.rockband.com for details.")
+#endif
+(ugc_section_5_0
+   "0% - 5%")
+(ugc_section_5_5
+   "5% - 10%")
+(ugc_section_5_10
+   "10% - 15%")
+(ugc_section_5_15
+   "15% - 20%")
+(ugc_section_5_20
+   "20% - 25%")
+(ugc_section_5_25
+   "25% - 30%")
+(ugc_section_5_30
+   "30% - 35%")
+(ugc_section_5_35
+   "35% - 40%")
+(ugc_section_5_40
+   "40% - 45%")
+(ugc_section_5_45
+   "45% - 50%")
+(ugc_section_5_50
+   "50% - 55%")
+(ugc_section_5_55
+   "55% - 60%")
+(ugc_section_5_60
+   "60% - 65%")
+(ugc_section_5_65
+   "65% - 70%")
+(ugc_section_5_70
+   "70% - 75%")
+(ugc_section_5_75
+   "75% - 80%")
+(ugc_section_5_80
+   "80% - 85%")
+(ugc_section_5_85
+   "85% - 90%")
+(ugc_section_5_90
+   "90% - 95%")
+(ugc_section_5_95
+   "95% - 100%")
+(ugc_section_10_0
+   "0% - 10%")
+(ugc_section_10_10
+   "10% - 20%")
+(ugc_section_10_20
+   "20% - 30%")
+(ugc_section_10_30
+   "30% - 40%")
+(ugc_section_10_40
+   "40% - 50%")
+(ugc_section_10_50
+   "50% - 60%")
+(ugc_section_10_60
+   "60% - 70%")
+(ugc_section_10_70
+   "70% - 80%")
+(ugc_section_10_80
+   "80% - 90%")
+(ugc_section_10_90
+   "90% - 100%")
+(ugc_section_20_0
+   "0% - 20%")
+(ugc_section_20_20
+   "20% - 40%")
+(ugc_section_20_40
+   "40% - 60%")
+(ugc_section_20_60
+   "60% - 80%")
+(ugc_section_20_80
+   "80% - 100%")
+(funk
+   "Funk")

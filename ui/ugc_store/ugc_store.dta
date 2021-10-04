@@ -1,0 +1,552 @@
+{new
+   UGCPanel
+   ugc_panel
+   (file
+      "../store/store.milo")
+   (saved_offer_sym '')
+   (load
+      {content_loading_panel allowed_to_show TRUE}
+      {content_mgr start_refresh}
+      {$this reset_browser}
+      {set
+         [saved_offer_sym]
+         ''})
+   (is_loaded
+      {content_mgr refresh_done})
+   (finish_load
+      {content_loading_panel allowed_to_show FALSE}
+      {background.tnm set_frame 0})
+   (enter
+      {ps_logo.mesh set_showing FALSE}
+      {motd.lbl set_showing FALSE}
+      {meta music_stop}
+      {platform_mgr disable_xmp}
+      #ifdef HX_XBOX
+      {gamertag.lbl set_showing TRUE}
+      {gamertag.lbl
+         set_localized
+         {platform_mgr
+            get_name
+            {{input_mgr get_user}
+               get_pad_num}}}
+      #else
+      {gamertag.lbl set_showing FALSE}
+      #endif
+      {background.tnm
+         set_frame
+         {background.tnm end_frame}}
+      {store_upper_3rd.grp set_local_pos -224.92921 0.0 193.5}
+      {ornate_spit01.mesh set_local_pos 55.750824 27.71325 304.0}
+      {ornate_tube_10.mesh set_local_pos 9.361864 -1.091678 1.7}
+      {title.lbl set text_token ugc_store}
+      {title.lbl get_local_pos $title_x $title_y $title_z}
+      {crumb.lbl get_local_pos $crumb_x $crumb_y $crumb_z}
+      {title.lbl set_local_pos $title_x $title_y $crumb_z}
+      {title.lbl set text_size 14.0}
+      {crumb.lbl set text_size 14.0}
+      {sort.lbl set width 276.0}
+      {sort.lbl set fit_type kFitEllipsis}
+      kDataUnhandled)
+   (exit
+      {meta music_start}
+      {platform_mgr enable_xmp})
+   (enum_start
+      {wait.grp set_showing TRUE}
+      {wait_loop.grp set_showing TRUE}
+      {wait.grp animate}
+      {wait_loop.grp
+         animate
+         (loop)})
+   (enum_finished
+      {if
+         {ugc_panel is_up}
+         {wait.grp set_showing FALSE}
+         {wait_loop.grp set_showing FALSE}})
+   (update_crumb_text
+      {crumb.lbl
+         set_localized
+         {$this get_crumb_text}})
+   (preview_download_complete_msg
+      {if
+         {ugc_store_details_panel is_up}
+         {ugc_store_details_panel
+            refresh
+            {ugc_store_info_panel cur_offer}}})}
+{new
+   UGCStoreMainPanel
+   ugc_banner_panel
+   (file
+      "../store/store_main.milo")
+   (enter
+      {store.milo get_local_pos $main_x $main_y $main_z}
+      {store.milo set_local_pos $main_x $main_y 41.0})}
+{new
+   UGCMenuPanel
+   ugc_store_menu_panel
+   (file
+      "ugc_store_menu.milo")
+   (previously_loading TRUE)
+   (animating_back FALSE)
+   (enter
+      {{ugc_panel find sort.lbl}
+         set_showing
+         FALSE}
+      {{ugc_panel find sort_title.lbl}
+         set_showing
+         FALSE}
+      {$this update_ui})
+   (exit
+      {set
+         [previously_loading]
+         TRUE})
+   (TRANSITION_COMPLETE_MSG
+      {$this update_loading_status}
+      {$this update_ui})
+   (update_ui
+      {ugc_panel update_crumb_text}
+      {do
+         ($provider
+            {$this get_provider_for_menu 0})
+         {if_else
+            {&&
+               $provider
+               {$provider has_banner_data}}
+            {with
+               ugc_banner_panel
+               {ugc_banner_panel
+                  set_config_data
+                  {$provider get_banner_data}}
+               {Group.grp set_showing TRUE}}
+            {with
+               ugc_banner_panel
+               {Group.grp set_showing FALSE}
+               {ugc_banner_panel clear_config_data}}}})
+   (update_loading_status
+      {if
+         {&&
+            {!
+               [previously_loading]}
+            {ugc_panel is_loading}}
+         {loading.grp set_showing TRUE}
+         {set
+            [previously_loading]
+            TRUE}}
+      {if
+         {&&
+            [previously_loading]
+            {!
+               {ugc_panel is_loading}}}
+         {loading.grp set_showing FALSE}
+         {set
+            [previously_loading]
+            FALSE}})
+   (BUTTON_DOWN_MSG
+      {if_else
+         {'||'
+            {ugc_panel is_loading}
+            {$this list_animating}}
+         TRUE
+         {if_else
+            {== $action kAction_Cancel}
+            {do
+               {synth play button_back}
+               {set
+                  [animating_back]
+                  TRUE}
+               {filter.lst exit}}
+            kDataUnhandled}})
+   (SELECT_MSG
+      {do
+         ($provider
+            {$this get_menu_provider})
+         ($ix
+            {$component selected_pos})
+         {$provider set_highlight_ix $ix}
+         {$this
+            request
+            {$provider get_string $ix}}
+         {filter.lst exit_anim}})
+   (poll
+      {if
+         {&&
+            [animating_back]
+            {!
+               {$this list_animating}}}
+         {set
+            [animating_back]
+            FALSE}
+         {if
+            {==
+               kDataUnhandled
+               {$this back}}
+            {ui goto_screen store_unload_screen}
+            {filter.lst set_showing FALSE}}})
+   (goto_songlist
+      ($sort)
+      {filter.lst set_showing FALSE}
+      {ugc_store_browser_panel set saved_sort $sort}
+      {ui goto_screen ugc_store_browser_screen})
+   (goto_song_info
+      {filter.lst set_showing FALSE}
+      {ui goto_screen ugc_store_info_screen})}
+{new
+   BandScreen
+   ugc_store_menu_screen
+   (panels
+      meta
+      postsong_sfx_panel
+      #ifndef HX_PC
+      movie_panel
+      #endif
+      ugc_store_menu_panel
+      ugc_banner_panel
+      ugc_panel)
+   (focus ugc_store_menu_panel)
+   (back store_unload_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}
+{new
+   BandScreen
+   ugc_store_loading_screen
+   (panels
+      meta
+      postsong_sfx_panel
+      #ifndef HX_PC
+      movie_panel
+      #endif
+      meta_loading)
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {ui goto_screen ugc_store_real_loading_screen})}
+{new
+   BandScreen
+   ugc_store_real_loading_screen
+   (panels
+      meta
+      postsong_sfx_panel
+      #ifndef HX_PC
+      movie_panel
+      #endif
+      ugc_store_menu_panel
+      ugc_banner_panel
+      ugc_panel
+      meta_loading)
+   (helpbar
+      ((min_height 0)))
+   (update_ui
+      {if
+         {&&
+            {!
+               {ugc_panel is_loading}}
+            {ugc_panel get load_ok}}
+         {ui goto_screen ugc_store_menu_screen}})}
+{new
+   SigninScreen
+   main_ugc_store_signin_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (must_not_be_a_guest TRUE)
+   (must_be_online TRUE)
+   (must_be_multiplayer_capable FALSE)
+   (handle_sign_outs FALSE)
+   (limit_user_signin TRUE)
+   (update_display
+      {do
+         ($user
+            {input_mgr get_user})
+         {dialog_panel
+            set_custom
+            {localize
+               {if_else
+                  {&&
+                     {platform_mgr is_user_signed_in $user}
+                     {platform_mgr is_user_a_guest $user}}
+                  ugc_store_need_to_signin_not_guest
+                  ugc_store_need_to_signin}}
+            {localize main_tour_signin_button}
+            {localize main_tour_cancel_button}
+            opt1.btn}})
+   (enter
+      {$this update_display})
+   (SELECT_MSG
+      {switch
+         $component
+         (opt1.btn
+            {platform_mgr signin 1 TRUE})
+         (opt2.btn
+            {input_mgr clear_user}
+            {ui pop_screen})})
+   (on_signed_into_guest
+      {$this update_display})
+   (on_not_online
+      {$this update_display})
+   (on_signed_in
+      {ui goto_screen main_ugc_store_find_cache_screen})}
+{new
+   BandScreen
+   main_ugc_store_find_cache_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (time_done FALSE)
+   (enter_time 0.0)
+   (search_done FALSE)
+   (search_result kNCSR_CacheNotFound)
+   (enter
+      {set
+         [time_done]
+         FALSE}
+      {set
+         [enter_time]
+         {taskmgr ui_seconds}}
+      {set
+         [search_done]
+         FALSE}
+      {set
+         [search_result]
+         kNCSR_CacheNotFound}
+      {dialog_panel
+         set_msg
+         {localize store_cache_search}}
+      {dialog_panel
+         set
+         helpbar_state
+         ((min_height 0))}
+      {platform_mgr
+         add_sink
+         $this
+         (signin_changed)}
+      {net_cache_mgr search_for_cache $this})
+   (poll
+      {if
+         {&&
+            {!
+               {ui in_transition}}
+            {==
+               {ui current_screen}
+               $this}}
+         {if
+            {&&
+               {!
+                  [time_done]}
+               {>=
+                  {-
+                     {taskmgr ui_seconds}
+                     [enter_time]}
+                  1.0}}
+            {set
+               [time_done]
+               TRUE}}
+         {if
+            {&&
+               [time_done]
+               [search_done]}
+            {switch
+               [search_result]
+               (kNCSR_CacheFound
+                  {gamemode set_mode store}
+                  {ui pop_screen ugc_store_loading_screen})
+               (kNCSR_CacheNotFound
+                  {ui goto_screen main_ugc_store_create_cache_screen})
+               {notify
+                  "find_cache: Bad cache_search_result "
+                  [search_result]
+                  "\n"}}}})
+   (exit
+      {platform_mgr remove_sink $this signin_changed})
+   (signin_changed
+      {ui pop_screen})
+   (cache_search_result
+      ($result)
+      {if
+         {&&
+            {!
+               {ui in_transition}}
+            {==
+               {ui current_screen}
+               $this}}
+         {set
+            [search_result]
+            $result}
+         {set
+            [search_done]
+            TRUE}})}
+{new
+   BandScreen
+   main_ugc_store_create_cache_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_custom
+         {localize store_cache_create}
+         {localize store_cache_button_create}
+         {localize store_cache_button_cancel}
+         opt1.btn}
+      {platform_mgr
+         add_sink
+         $this
+         (signin_changed)})
+   (exit
+      {platform_mgr remove_sink $this signin_changed})
+   (SELECT_MSG
+      {switch
+         $component
+         (opt1.btn
+            {net_cache_mgr
+               choose_cache
+               {{input_mgr get_user}
+                  get_user_num}
+               $this})
+         (opt2.btn
+            {input_mgr clear_user}
+            {ui pop_screen})})
+   (signin_changed
+      {ui pop_screen})
+   (cache_search_result
+      ($result)
+      {if
+         {&&
+            {!
+               {ui in_transition}}
+            {==
+               {ui current_screen}
+               $this}}
+         {switch
+            $result
+            (kNCSR_CacheChosen
+               {helpbar
+                  set_config
+                  ((min_height 0))}
+               {gamemode set_mode store}
+               {ui pop_screen ugc_store_loading_screen})
+            (kNCSR_CacheNotChosen)
+            {notify
+               "create_cache: Bad cache_search_result message.\n"}}})}
+{new
+   UIPanel
+   main_store_panel
+   MAIN_SUBSCREEN_PANEL_HANDLER
+   (SELECT_MSG
+      {switch
+         $component
+         (store_hmx.btn
+            #ifdef HX_XBOX
+            {if_else
+               {'||'
+                  {!
+                     {platform_mgr is_player_signed_into_live $player_num}}
+                  {platform_mgr is_player_a_guest $player_num}}
+               {ui push_screen main_store_signin_screen}
+               {ui push_screen main_store_find_cache_screen}}
+            #else
+            {gamemode set_mode store}
+            #ifdef HX_PS3
+            {ui goto_screen store_enter_network_screen}
+            #else
+            {ui goto_screen store_loading_screen}
+            #endif
+            #endif
+            {input_mgr
+               set_user
+               {user_mgr get_band_user $player_num}})
+         (store_ugc.btn
+            #ifdef HX_XBOX
+            {if_else
+               {'||'
+                  {!
+                     {platform_mgr is_player_signed_into_live $player_num}}
+                  {platform_mgr is_player_a_guest $player_num}}
+               {ui push_screen main_ugc_store_signin_screen}
+               {ui push_screen main_ugc_store_find_cache_screen}}
+            #else
+            {gamemode set_mode store}
+            #ifdef HX_PS3
+            {ui goto_screen ugc_store_enter_network_screen}
+            #else
+            {ui goto_screen ugc_store_loading_screen}
+            #endif
+            #endif
+            {input_mgr
+               set_user
+               {user_mgr get_band_user $player_num}})})}
+{new
+   BandScreen
+   main_store_screen
+   (panels meta main_panel main_store_panel)
+   (focus main_store_panel)
+   (back main_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_confirm)))
+   (BUTTON_DOWN_MSG
+      {if
+         {== $action kAction_Cancel}
+         {input_mgr clear_user}
+         {main_panel pop_focus}}
+      kDataUnhandled)}
+{new
+   BandScreen
+   ugc_tow_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (enter
+      {dialog_panel
+         set_ok
+         {localize ugc_tow_warning}})
+   (exit
+      {net_sync enable})
+   (SELECT_MSG
+      {song_select_panel set check_setlist FALSE}
+      {ui pop_screen})}
+{new
+   BandScreen
+   ugc_demo_practice
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (enter
+      {dialog_panel
+         set_ok
+         {localize ugc_demo_practice_warning}})
+   (exit
+      {net_sync enable})
+   (SELECT_MSG
+      {song_select_panel set check_setlist FALSE}
+      {ui pop_screen})}
+{new
+   BandScreen
+   ugc_demo_online
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (enter
+      {dialog_panel
+         set_ok
+         {localize ugc_demo_online_warning}})
+   (exit
+      {net_sync enable})
+   (SELECT_MSG
+      {song_select_panel set check_setlist FALSE}
+      {ui pop_screen})}
+{new
+   BandScreen
+   ugc_demo_setlist
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (enter
+      {dialog_panel
+         set_ok
+         {localize ugc_demo_setlist_warning}})
+   (exit
+      {net_sync enable})
+   (SELECT_MSG
+      {song_select_panel set check_setlist FALSE}
+      {ui pop_screen})}

@@ -1,0 +1,337 @@
+{new
+   UIPanel
+   ugc_store_info_panel
+   (file
+      "ugc_store_info.milo")
+   (focus buttons.lst)
+   (force_exit TRUE)
+   (scroll_sfx FALSE)
+   (deletable_song '')
+   (delete_in_progress FALSE)
+   (refresh_buttons
+      ($init)
+      {do
+         ($provider
+            {ugc_panel get_info_provider})
+         ($offer
+            {$this cur_offer})
+         ($show_preview
+            {&&
+               {!=
+                  ''
+                  {ugc_panel preview_file $offer}}
+               {store_preview_mgr
+                  allow_preview_download
+                  {ugc_panel preview_file $offer}}})
+         {$provider set_offer $offer $show_preview}
+         {buttons.lst
+            set
+            display_num
+            {$provider num_data}}
+         {if_else
+            $init
+            {do
+               {buttons.lst set_provider $provider}
+               {do
+                  ($idx 0)
+                  {while
+                     {!
+                        {$provider is_active $idx}}
+                     {'++' $idx}}
+                  {buttons.lst set_selected $idx}}}
+            {buttons.lst set_dirty}}})
+   (enter
+      {ugc_panel update_crumb_text}
+      {{ugc_panel find sort.lbl}
+         set_showing
+         FALSE}
+      {{ugc_panel find sort_title.lbl}
+         set_showing
+         FALSE}
+      {do
+         ($provider
+            {ugc_panel get_info_provider})
+         ($offer
+            {$this cur_offer})
+         {$this refresh_buttons TRUE}
+         {song.lbl
+            set_localized
+            {$offer offer_name}}
+         {cost.lbl
+            set_showing
+            {!
+               {$offer is_purchased}}}
+         {cost.lbl
+            set_localized
+            {sprint
+               {$offer cost_str}}}
+         {if_else
+            {$offer has_data label}
+            {label.lbl
+               set_localized
+               {$offer
+                  get_data
+                  (label)}}
+            {label.lbl set_localized ''}}
+         {if_else
+            {$offer has_data author}
+            {author.lbl
+               set_localized
+               {$offer
+                  get_data
+                  (author)}}
+            {author.lbl set_localized ''}}
+         {if_else
+            {$offer has_data country}
+            {country.lbl
+               set
+               text_token
+               {$offer
+                  get_data
+                  (country)}}
+            {country.lbl set_localized ''}}
+         {if_else
+            {$offer has_data language}
+            {language.lbl
+               set
+               text_token
+               {$offer
+                  get_data
+                  (language)}}
+            {language.lbl set_localized ''}}
+         {if_else
+            {'||'
+               {!
+                  {$offer has_data rating}}
+               {!
+                  {$offer
+                     get_data
+                     (rating)}}}
+            {do
+               {all_icons.grp set_showing FALSE}
+               {unrated.lbl set_showing TRUE}}
+            {do
+               ($rating
+                  {/
+                     {floor
+                        {'*'
+                           {$offer
+                              get_data
+                              (rating)}
+                           10.0}}
+                     10.0})
+               {all_icons.grp set_showing TRUE}
+               {if
+                  $rating
+                  {foreach_int
+                     $r
+                     1
+                     6
+                     {{sprintf
+                           "lighter%i.anim"
+                           $r}
+                        set_frame
+                        {<= $r $rating}}}}
+               {unrated.lbl set_showing FALSE}}}
+         {if_else
+            {!=
+               ''
+               {ugc_panel
+                  preview_file
+                  {$this cur_offer}}}
+            {store_preview_mgr
+               set_current_preview_file
+               {ugc_panel
+                  preview_file
+                  {$this cur_offer}}}
+            {store_preview_mgr clear_current_preview}}
+         {ugc_store_details_panel refresh $offer}}
+      #ifdef HX_PS3
+      {drm.lbl set_showing TRUE}
+      #else
+      {drm.lbl set_showing FALSE}
+      #endif)
+   (SCROLL_MSG
+      {if
+         {== $component buttons.lst}
+         {synth play button_toggle}})
+   (BUTTON_DOWN_MSG
+      {if_else
+         {'||'
+            [delete_in_progress]
+            {ugc_panel is_loading}}
+         TRUE
+         {do
+            {if
+               {== $action kAction_Cancel}
+               {$this go_back}
+               {synth play button_back}}
+            kDataUnhandled}})
+   (cur_offer
+      {if_else
+         {ugc_panel get offer_provider}
+         {{ugc_panel get offer_provider}
+            find_offer
+            {ugc_panel get saved_offer_sym}}
+         {ugc_panel get_single_offer}})
+   (SELECT_MSG
+      {switch
+         {$component selected_sym}
+         (store_preview_audio
+            {do
+               ($offer
+                  {$this cur_offer})
+               {if_else
+                  {!=
+                     ''
+                     {ugc_panel preview_file $offer}}
+                  {do
+                     {store_preview_mgr
+                        download_preview_file
+                        {ugc_panel preview_file $offer}}
+                     {ugc_store_details_panel
+                        refresh
+                        {$this cur_offer}}}
+                  {notify
+                     "No preview audio file in store_index\n"}}
+               {$this refresh_buttons FALSE}})
+         (store_buy_now
+            {store_preview_mgr clear_current_preview}
+            {content_mgr set_dirty}
+            {ugc_panel
+               check_out
+               {$this cur_offer}})
+         ((ugc_download_demo ugc_download_demo_again)
+            #ifdef HX_XBOX
+            {store_preview_mgr clear_current_preview}
+            {ugc_panel
+               download_demo
+               {$this cur_offer}}
+            #endif)
+         (ugc_delete_demo
+            #ifdef HX_XBOX
+            {ugc_store_delete_confirm_screen
+               set
+               song
+               {{$this cur_offer}
+                  short_name}}
+            {ui push_screen ugc_store_delete_confirm_screen}
+            #endif)
+         (store_download_again
+            #ifdef HX_XBOX
+            {store_preview_mgr clear_current_preview}
+            {content_mgr set_dirty}
+            {ugc_panel
+               check_out
+               {$this cur_offer}}
+            #else
+            {ui push_screen store_download_again_screen}
+            #endif)
+         (exit
+            {$this go_back})})
+   (go_back
+      {ui
+         goto_screen
+         {if_else
+            {ugc_panel get offer_provider}
+            ugc_store_browser_screen
+            ugc_store_menu_screen}
+         FALSE
+         FALSE})
+   (enum_finished
+      {if
+         {ugc_panel is_up}
+         {do
+            ($offer
+               {$this cur_offer})
+            {$this refresh_buttons FALSE}
+            {cost.lbl
+               set_showing
+               {!
+                  {$offer is_purchased}}}}})
+   (checkout_finished
+      {if
+         {ugc_panel is_up}
+         {do
+            ($offer
+               {$this cur_offer})
+            {if_else
+               {!=
+                  ''
+                  {ugc_panel preview_file $offer}}
+               {store_preview_mgr
+                  set_current_preview_file
+                  {ugc_panel preview_file $offer}}
+               {store_preview_mgr clear_current_preview}}}})
+   (TRANSITION_COMPLETE_MSG
+      {if
+         {!=
+            ''
+            [deletable_song]}
+         {do
+            ($content_name
+               {song_mgr
+                  content_name
+                  [deletable_song]})
+            {if
+               {!
+                  {content_mgr delete_content $content_name}}
+               {song_mgr
+                  remove_song
+                  [deletable_song]}
+               {set
+                  [delete_in_progress]
+                  TRUE}
+               {ugc_panel enum_start}}}})
+   (poll
+      {if
+         [delete_in_progress]
+         {if
+            {content_mgr refresh_done}
+            {set
+               [delete_in_progress]
+               FALSE}
+            {set
+               [deletable_song]
+               ''}
+            {$this refresh_buttons TRUE}
+            {ugc_panel enum_finished}}})}
+{new
+   BandScreen
+   ugc_store_info_screen
+   (panels meta postsong_sfx_panel movie_panel ugc_store_details_panel ugc_store_info_panel ugc_panel)
+   (focus ugc_store_info_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}
+{new
+   BandScreen
+   ugc_store_delete_confirm_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (song '')
+   (enter
+      {dialog_panel
+         set_yesno
+         {sprintf
+            {localize ugc_delete_demo_confirm}
+            {song_mgr
+               song_name
+               [song]}
+            {song_mgr
+               song_artist
+               [song]}}
+         no.btn})
+   (SELECT_MSG
+      {switch
+         $component
+         (yes.btn
+            {ugc_store_info_panel
+               set
+               deletable_song
+               [song]}
+            {ui pop_screen})
+         (no.btn
+            {ui pop_screen})})}

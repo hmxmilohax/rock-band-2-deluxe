@@ -1,0 +1,154 @@
+(sorts
+   (by_artist
+      (cmp_song_to_song
+         ($lhs $rhs)
+         {$this
+            cmp
+            $lhs
+            $rhs
+            (kSTArtist)
+            (kSTName)})
+      (browser_group
+         ($offer)
+         {$offer
+            get_data
+            (artist)})
+      (shortcut_groups STORE_ALPHA_SYMBOLS)
+      (shortcut_group
+         ($offer)
+         {$offer first_char artist TRUE})
+      (browser_cover
+         ($offer)
+         {$offer is_cover}))
+   (by_song
+      (cmp_song_to_song
+         ($lhs $rhs)
+         {$this
+            cmp
+            $lhs
+            $rhs
+            (kSTName)})
+      (browser_group
+         ($offer)
+         {$offer first_char name FALSE})
+      (shortcut_groups STORE_ALPHA_SYMBOLS))
+   (by_difficulty
+      (cmp_song_to_song
+         ($lhs $rhs)
+         {$this
+            cmp
+            $lhs
+            $rhs
+            (kSTRank $cmp.rank_part)
+            (kSTArtist)
+            (kSTName)})
+      (cmp_init
+         {set $cmp.rank_part band})
+      (browser_group
+         ($offer)
+         {do
+            ($tier
+               {song_mgr
+                  rank_tier
+                  {$offer
+                     get_data
+                     (rank band)}
+                  band})
+            {song_mgr rank_tier_token $tier}}))
+   (by_genre
+      (cmp_song_to_song
+         ($lhs $rhs)
+         {$this
+            cmp
+            $lhs
+            $rhs
+            (kSTGenre)
+            (kSTArtist)
+            (kSTName)})
+      (browser_group
+         ($offer)
+         {$offer genre}))
+   (by_year
+      (cmp_song_to_song
+         ($lhs $rhs)
+         {$this
+            cmp
+            $lhs
+            $rhs
+            (kSTYearReleased TRUE)
+            (kSTArtist)
+            (kSTName)})
+      (browser_group
+         ($offer)
+         {sprint
+            {$offer year_released}})
+      (sub by_artist))
+   (by_author
+      (cmp_song_to_song
+         ($lhs $rhs)
+         {$this
+            cmp
+            $lhs
+            $rhs
+            (kSTAuthor)
+            (kSTName)})
+      (browser_group
+         ($offer)
+         {$offer
+            get_data
+            (author)})
+      (category_text
+         ($offer)
+         {$offer first_char author FALSE}))
+   (by_rating
+      (cmp_song_to_song
+         ($lhs $rhs)
+         {$this
+            cmp
+            $lhs
+            $rhs
+            (kSTRating)
+            (kSTName)})
+      (browser_group
+         ($offer)
+         {if_else
+            {'||'
+               {!
+                  {$offer has_data rating}}
+               {!
+                  {$offer
+                     get_data
+                     (rating)}}}
+            ugc_unrated
+            {sprintf
+               {localize ugc_store_lighters}
+               {/
+                  {floor
+                     {'*'
+                        {$offer
+                           get_data
+                           (rating)}
+                        10.0}}
+                  10.0}}}))
+   (by_label
+      (cmp_song_to_song
+         ($lhs $rhs)
+         {$this
+            cmp
+            $lhs
+            $rhs
+            (kSTLabel)
+            (kSTName)})
+      (browser_group
+         ($offer)
+         {if_else
+            {$offer
+               get_data
+               (label)}
+            {$offer
+               get_data
+               (label)}
+            {localize ugc_no_label}})
+      (category_text
+         ($offer)
+         {$offer first_char label FALSE})))

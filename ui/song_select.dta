@@ -1,0 +1,1593 @@
+{new SongSyncPanel song_sync_panel}
+#define SONG_PART_SYMBOLS
+(drum guitar bass vocals band)
+{new
+   UIPanel
+   song_select_lower3rd_panel
+   (file
+      "song_select_lower3rd.milo")}
+{new
+   MergeDirPanel
+   song_select_details_panel
+   (file
+      "song_select_details.milo")
+   (other_file
+      "song_select_demo.milo")
+   (post_merge
+      {album_background.grp add_object demo.mesh}
+      {album_background.grp add_object demo.lbl}
+      {shortcut_off.grp add_object demo.anim}
+      {demo.anim set_frame 6.0}
+      {demo.mesh set_trans_parent album.mesh}
+      {demo.lbl set_trans_parent album.mesh}
+      {demo.lbl set_state kComponentNormal}
+      {demo.lbl set showing FALSE}
+      {demo.mesh set showing FALSE})
+   (enter
+      {loading.mnm
+         animate
+         (loop)})
+   (init_setlist_mode
+      {if_else
+         {song_offer_provider get_setlist_mode}
+         {do
+            {setlist.lst
+               set_provider
+               {song_offer_provider get setlist_provider}}
+            {setlist.lst
+               set_selected
+               {meta_performer next_any_index}}
+            {album_art.pic set_hook_tex FALSE}
+            {album.mat set diffuse_tex song_setlist_render.tex}
+            {album.mesh set_showing TRUE}}
+         {do
+            {album_art.pic set_hook_tex TRUE}
+            {setlist.lst
+               set_selected
+               {meta_performer next_any_index}}}})
+   (refresh_setlist
+      {setlist.lst set_dirty}
+      {setlist.lst
+         set_selected
+         {meta_performer next_any_index}})
+   (refresh_details
+      ($offer_ix)
+      {$this refresh_top $offer_ix}
+      {$this refresh_bottom $offer_ix})
+   (refresh_top
+      ($offer_ix)
+      {demo.lbl set showing FALSE}
+      {demo.mesh set showing FALSE}
+      {if
+         {!
+            {song_offer_provider get_setlist_mode}}
+         {do
+            ($song
+               {song_offer_provider data_symbol $offer_ix})
+            {if_else
+               {song_offer_provider is_song $offer_ix}
+               {do
+                  ($offer
+                     {song_offer_provider get_song_offer $offer_ix})
+                  {if_else
+                     {&&
+                        {$offer has_data album_art}
+                        {$offer
+                           get_data
+                           (album_art)}}
+                     {if_else
+                        {song_mgr is_song_mounted $song}
+                        {do
+                           {if
+                              {song_mgr is_demo $song}
+                              {demo.lbl set showing TRUE}
+                              {demo.mesh set showing TRUE}
+                              {demo.anim
+                                 animate
+                                 (range 0.0 6.0)
+                                 (period
+                                    [demo_period])}}
+                           {album_art.pic
+                              set
+                              tex_file
+                              {$offer album_art_path}}}
+                        {album_art.pic
+                           set
+                           tex_file
+                           "ui/image/blank_album_art_keep.png"}}
+                     {album_art.pic
+                        set
+                        tex_file
+                        "ui/image/blank_album_art_keep.png"}}}
+               {cond
+                  ({'||'
+                        {== make_a_setlist $song}
+                        {== play_setlist $song}}
+                     {album_art.pic
+                        set
+                        tex_file
+                        "ui/image/song_select_setlist_keep.png"})
+                  ({== random_song $song}
+                     {album_art.pic
+                        set
+                        tex_file
+                        "ui/image/song_select_random_keep.png"})
+                  ({song_offer_provider is_subheader $offer_ix}
+                     {$this
+                        refresh_top
+                        {'+' 1 $offer_ix}})
+                  (TRUE
+                     {album_art.pic
+                        set
+                        tex_file
+                        "ui/image/song_select_header_keep.png"})}}}})
+   (song_data_mounted
+      ($song)
+      {if
+         {!
+            {song_offer_provider get_setlist_mode}}
+         {do
+            ($offer_ix
+               {song_offer_provider data_index $song})
+            ($offer
+               {song_offer_provider get_song_offer $offer_ix})
+            {if_else
+               {&&
+                  {$offer has_data album_art}
+                  {$offer
+                     get_data
+                     (album_art)}}
+               {album_art.pic
+                  set
+                  tex_file
+                  {$offer album_art_path}}
+               {album_art.pic
+                  set
+                  tex_file
+                  "ui/image/blank_album_art_keep.png"}}
+            {demo.lbl
+               set
+               showing
+               {song_mgr is_demo $song}}
+            {demo.mesh
+               set
+               showing
+               {song_mgr is_demo $song}}}})
+   (refresh_bottom
+      ($offer_ix)
+      {if_else
+         {song_offer_provider is_song $offer_ix}
+         {do
+            ($offer
+               {song_offer_provider get_song_offer $offer_ix})
+            {details.grp set_showing TRUE}
+            {details_header.grp set_showing FALSE}
+            {details_subheader.grp set_showing FALSE}
+            {details_function.grp set_showing FALSE}
+            {if_else
+               {$offer is_cover}
+               {do
+                  {band_name.lbl
+                     set_localized
+                     ""}
+                  {band_famousby.lbl set text_token store_famous_by}
+                  {band_famousby_name.lbl
+                     set_localized
+                     {$offer artist}}}
+               {do
+                  {band_name.lbl
+                     set_localized
+                     {$offer artist}}
+                  {band_famousby.lbl
+                     set_localized
+                     ""}
+                  {band_famousby_name.lbl
+                     set_localized
+                     ""}}}
+            {if_else
+               {&&
+                  {$offer has_data album_name}
+                  {!
+                     {$offer is_cover}}}
+               {album.lbl
+                  set_localized
+                  {$offer
+                     get_data
+                     (album_name)}}
+               {album.lbl
+                  set_localized
+                  ""}}
+            {if_else
+               {$offer has_data year_released}
+               {year.lbl
+                  set_localized
+                  {sprint
+                     {$offer year_released}}}
+               {do
+                  {printf
+                     "The song %s is missing year_released data."
+                     {$offer short_name}}
+                  {year.lbl
+                     set_localized
+                     ""}}}
+            {genre.lbl
+               set
+               text_token
+               {$offer
+                  get_data
+                  (genre)}}
+            {foreach
+               $part
+               (STORE_PART_SYMBOLS)
+               {do
+                  ($tier
+                     {song_mgr
+                        rank_tier
+                        {$offer
+                           get_data
+                           (rank $part)}
+                        $part})
+                  ($max_buttons
+                     {-
+                        {song_mgr num_rank_tiers $part}
+                        1})
+                  {foreach_int
+                     $r
+                     1
+                     $max_buttons
+                     {{sprintf
+                           "diff_%s%i.mesh"
+                           $part
+                           $r}
+                        set_mat
+                        {if_else
+                           {<= $r $tier}
+                           {if_else
+                              {== $tier 6}
+                              diff_button_skull.mat
+                              diff_button_on.mat}
+                           diff_button_off.mat}}}}}
+            {foreach
+               $track
+               (SONG_PART_SYMBOLS)
+               {unless
+                  {== $track band}
+                  {do
+                     ($ranks
+                        {sprintf
+                           "%s_buttons.grp"
+                           $track})
+                     ($no_part
+                        {sprintf
+                           "no_%s.lbl"
+                           $track})
+                     ($has_part
+                        {$offer
+                           get_data
+                           (rank $track)})
+                     {$ranks set_showing $has_part}
+                     {$no_part
+                        set_showing
+                        {! $has_part}}}}}}
+         {if_else
+            {song_offer_provider is_header $offer_ix}
+            {if_else
+               {song_offer_provider is_subheader $offer_ix}
+               {do
+                  ($offer
+                     {song_offer_provider
+                        get_song_offer
+                        {'+' 1 $offer_ix}})
+                  {details.grp set_showing FALSE}
+                  {details_header.grp set_showing FALSE}
+                  {details_subheader.grp set_showing TRUE}
+                  {details_function.grp set_showing FALSE}
+                  {subheader_name.lbl
+                     set
+                     text_token
+                     {song_offer_provider data_symbol $offer_ix}}
+                  {subheader_artist.lbl
+                     set_localized
+                     {$offer artist}}
+                  {subheader_year.lbl
+                     set_localized
+                     {sprint
+                        {$offer year_released}}}
+                  {subheader_song_count.lbl
+                     set_localized
+                     {sprintf
+                        {localize song_select_song_count}
+                        {song_offer_provider get_header_song_count $offer_ix}}}}
+               {do
+                  {details.grp set_showing FALSE}
+                  {details_header.grp set_showing TRUE}
+                  {details_subheader.grp set_showing FALSE}
+                  {details_function.grp set_showing FALSE}
+                  {header_name.lbl
+                     set
+                     text_token
+                     {song_offer_provider data_symbol $offer_ix}}
+                  {song_count.lbl
+                     set_localized
+                     {sprintf
+                        {localize song_select_song_count}
+                        {song_offer_provider get_header_song_count $offer_ix}}}
+                  {disc_song_count.lbl
+                     set_localized
+                     {sprintf
+                        {localize song_select_disc_song_count}
+                        {song_offer_provider get_header_disc_song_count $offer_ix}}}
+                  {download_song_count.lbl
+                     set_localized
+                     {sprintf
+                        {localize song_select_download_song_count}
+                        {song_offer_provider get_header_download_song_count $offer_ix}}}}}
+            {do
+               {details.grp set_showing FALSE}
+               {details_header.grp set_showing FALSE}
+               {details_subheader.grp set_showing FALSE}
+               {details_function.grp set_showing TRUE}
+               {function_name.lbl
+                  set
+                  text_token
+                  {song_offer_provider data_symbol $offer_ix}}
+               {function_description.lbl
+                  set
+                  text_token
+                  {switch
+                     {song_offer_provider data_symbol $offer_ix}
+                     ((make_a_setlist)
+                        make_a_setlist_by_line)
+                     ((play_setlist)
+                        play_setlist_by_line)
+                     ((random_song)
+                        random_song_by_line)
+                     ((career)
+                        career_by_line)}}}}})
+   (shortcut_period 1.5)
+   (demo_period 0.2)
+   (shortcut_selected '')
+   (shortcut_mode none)
+   (shortcut_enter
+      ($mode)
+      {if
+         {==
+            none
+            [shortcut_mode]}
+         {set
+            [shortcut_mode]
+            $mode}
+         {{ui current_screen}
+            set_focus_panel
+            song_select_details_panel}
+         {synth play button_select}
+         {if
+            {song_select_panel is_user_local}
+            {session
+               send_msg_to_all
+               (synth play button_select)
+               kNetReliable}}
+         {shortcut_off.grp stop_animation}
+         {shortcut_on.grp
+            animate
+            (period
+               [shortcut_period])}
+         {helpbar
+            set_config
+            ((cancel helpbar_back)
+               (confirm helpbar_select))}
+         {with
+            song_select_panel
+            {song.lst set_state kComponentNormal}}
+         {do
+            ($shortcut_list
+               {song_select_shortcut find group.lst})
+            {if_else
+               {==
+                  [shortcut_mode]
+                  groups}
+               {do
+                  {$shortcut_list
+                     set_provider
+                     {song_offer_provider get group_provider}}
+                  {$shortcut_list
+                     set_selected
+                     {song_offer_provider
+                        get_current_shortcut
+                        {{song_select_panel find song.lst}
+                           selected_pos}}}}
+               {do
+                  {$shortcut_list
+                     set_provider
+                     {song_offer_provider get sort_provider}}
+                  {$shortcut_list
+                     set_selected
+                     {song_offer_provider current_sort}}}}
+            {set
+               [shortcut_selected]
+               {$shortcut_list selected_pos}}}})
+   (shortcut_exit
+      {if
+         {!=
+            [shortcut_mode]
+            none}
+         {{ui current_screen}
+            set_focus_panel
+            song_select_panel}
+         {with
+            song_select_panel
+            {song.lst set_state kComponentFocused}}
+         {shortcut_off.grp
+            animate
+            (period
+               [shortcut_period])}
+         {song_select_panel update_helpbar}
+         {if
+            {&&
+               {song_select_panel is_user_local}
+               {!
+                  {song_offer_provider get is_leaderboards}}}
+            {session
+               send_msg_to_all
+               {'`'
+                  ({',' $this}
+                     shortcut_exit)}
+               kNetReliable}}
+         {set
+            [shortcut_mode]
+            none}})
+   (BUTTON_DOWN_MSG
+      {if_else
+         {== $action kAction_Cancel}
+         {do
+            {synth play button_back}
+            {if
+               {&&
+                  {song_select_panel is_user_local}
+                  {!
+                     {song_offer_provider get is_leaderboards}}}
+               {session
+                  send_msg_to_all
+                  (synth play button_back)
+                  kNetReliable}}
+            {$this shortcut_exit}}
+         {with
+            song_select_shortcut
+            {handle
+               (group.lst
+                  button_down
+                  $player_num
+                  $player
+                  $raw_button
+                  {if_else
+                     {== $action kAction_Start}
+                     kAction_Confirm
+                     $action})}}})
+   (BUTTON_UP_MSG
+      {if_else
+         {'||'
+            {&&
+               {==
+                  groups
+                  [shortcut_mode]}
+               {== $action kAction_Option}}
+            {&&
+               {==
+                  sorts
+                  [shortcut_mode]}
+               {== $action kAction_ViewModify}}}
+         {$this on_select}
+         kDataUnhandled})
+   (SELECT_MSG
+      {$this on_select})
+   (on_select
+      {if_else
+         {==
+            [shortcut_mode]
+            groups}
+         {with
+            song_select_shortcut
+            {song_offer_provider
+               set_highlighted_ix
+               {song_offer_provider
+                  shortcut_to_selectable_pos
+                  {group.lst selected_sym}}}
+            {song_select_panel sync_song}
+            {song_select_panel refresh_selected_song}}
+         {with
+            song_select_shortcut
+            {song_offer_provider
+               set_sort
+               {group.lst selected_sym}}
+            {song_select_panel sync_sort_method}
+            {song_offer_provider init_highlight}
+            {song_select_panel sync_song}
+            {song_select_panel refresh_selected_song}}}
+      {$this shortcut_exit})
+   (sync_shortcut
+      {if
+         {&&
+            {song_select_panel is_user_local}
+            {!
+               {song_offer_provider get is_leaderboards}}}
+         {do
+            ($list
+               {song_select_shortcut find group.lst})
+            {session
+               send_msg_to_all
+               {'`'
+                  ({',' $this}
+                     remote_set_shortcut
+                     {','
+                        [shortcut_selected]})}
+               kNetReliable}}})
+   (SCROLL_MSG
+      {set
+         [shortcut_selected]
+         {{song_select_shortcut find group.lst}
+            selected_pos}}
+      {$this sync_shortcut})
+   (JOYPAD_CONNECT_MSG
+      {if
+         {! $connected}
+         {$this shortcut_exit}})
+   (remote_set_shortcut
+      ($pos)
+      {if
+         {!= song_select_shortcut 0}
+         {do
+            ($list
+               {song_select_shortcut find group.lst})
+            {$list set_selected_simulate_scroll $pos}}})}
+{new
+   HeldButtonPanel
+   song_select_panel
+   (file
+      "song_select.milo")
+   (focus song.lst)
+   (held_buttons
+      (kAction_Option 0.25)
+      (kAction_Confirm
+         {if_else
+            {&&
+               {song_offer_provider are_headers_selectable}
+               {!
+                  {song_offer_provider get_setlist_mode}}}
+            1.5
+            -1.0}))
+   (force_exit
+      {==
+         {gamemode get song_select_mode}
+         song_select_tour})
+   (joypad
+      (hold_ms 100)
+      (repeat_ms 80))
+   (song_data_mounted
+      ($song)
+      {song_select_details_panel song_data_mounted $song})
+   (check_setlist TRUE)
+   (show_warning FALSE)
+   (enter
+      {if_else
+         {song_offer_provider get is_leaderboards}
+         {song_mgr reset_shared_songs}
+         {do
+            ($user
+               {meta_performer song_select_user})
+            {input_mgr set_limit kLimitSessionLeader}
+            {if
+               $user
+               {meta_performer set_song_select_sync TRUE}
+               {input_mgr set_user $user}
+               {session
+                  add_sink
+                  $this
+                  (remote_player_left)}}}}
+      {platform_mgr
+         add_sink
+         $this
+         (storage_changed)}
+      {meta music_stop}
+      {platform_mgr disable_xmp}
+      {if
+         [check_setlist]
+         {if_else
+            {song_offer_provider get_setlist_mode}
+            {if
+               {&&
+                  {song_select_panel is_user_local}
+                  {!=
+                     -1
+                     {meta_performer previous_song_selection}}}
+               {set
+                  [show_warning]
+                  TRUE}}
+            {if_else
+               {==
+                  {gamemode get song_select_mode}
+                  song_select_tour}
+               {if
+                  {!
+                     {song_offer_provider get is_leaderboards}}
+                  {if
+                     {{tour band}
+                        is_local}
+                     {{tour band}
+                        set_event
+                        {tour event}}}
+                  {song_offer_provider set_setlist_mode TRUE}}
+               {meta_performer reset_songs}}}}
+      {$this refresh}
+      {$this sync_setlist_mode}
+      {song_select_details_panel init_setlist_mode}
+      {if
+         {!
+            [show_warning]}
+         {$this sync_sort_method}
+         {song_offer_provider init_highlight}
+         {$this sync_song}
+         {$this refresh_selected_song}})
+   (exit
+      {meta_performer set_song_select_sync FALSE}
+      {if
+         {!
+            {song_offer_provider get is_leaderboards}}
+         {input_mgr set_user ''}}
+      {session remove_sink $this}
+      {song_select_details_panel shortcut_exit}
+      {platform_mgr remove_sink $this storage_changed}
+      {platform_mgr enable_xmp}
+      {song_offer_provider play_preview -1}
+      {unless
+         {==
+            {gamemode get song_select_mode}
+            song_select_tour}
+         {meta music_start}})
+   (unload
+      {song_offer_provider unload}
+      {song_offer_provider set is_leaderboards FALSE})
+   (is_user_local
+      {do
+         ($user
+            {meta_performer song_select_user})
+         {if_else
+            $user
+            {$user is_local_player}
+            {is_leader_local}}})
+   (REMOTE_PLAYER_LEFT_MSG
+      {if
+         {&&
+            {!
+               {song_offer_provider get is_leaderboards}}
+            {is_leader_local}
+            {input_mgr get_user}
+            {==
+               {{input_mgr get_user}
+                  get_user_num}
+               $player_num}}
+         {ui goto_screen reset_song_select_screen}})
+   (TRANSITION_COMPLETE_MSG
+      {set
+         [check_setlist]
+         TRUE}
+      {$this update_helpbar}
+      {if
+         [show_warning]
+         {set
+            [show_warning]
+            FALSE}
+         {net_sync disable}
+         {ui push_screen setlist_warning_screen}}
+      {if
+         {meta_loading_screen get song_title}
+         {ui push_screen delete_complete_screen}})
+   (BUTTON_DOWN_MSG
+      {cond
+         ({&&
+               {== $action kAction_Option}
+               {!
+                  {song.lst is_scrolling}}}
+            {song_offer_provider
+               set_highlighted_ix
+               {song_offer_provider
+                  get_next_header
+                  {song.lst selected_pos}}}
+            {$this sync_song}
+            {$this refresh_selected_song})
+         ({&&
+               {== $action kAction_ViewModify}
+               {!
+                  {song.lst is_scrolling}}}
+            {song_offer_provider next_sort}
+            {$this sync_sort_method}
+            {song_offer_provider init_highlight}
+            {$this sync_song}
+            {$this refresh_selected_song})
+         ({== $action kAction_Cancel}
+            {if_else
+               {song_offer_provider get_setlist_mode}
+               {do
+                  ($previous_ix
+                     {meta_performer previous_song_selection})
+                  {synth play button_back}
+                  {if
+                     {$this is_user_local}
+                     {session
+                        send_msg_to_all
+                        (synth play button_back)
+                        kNetReliable}}
+                  {meta_performer revert_song_selection}
+                  {if_else
+                     {== -1 $previous_ix}
+                     {if_else
+                        {==
+                           {gamemode get song_select_mode}
+                           song_select_tour}
+                        kDataUnhandled
+                        {do
+                           {song_offer_provider set_setlist_mode FALSE}
+                           {$this on_change_setlist_mode}}}
+                     {do
+                        {$this refresh_setlist}
+                        {$this refresh}
+                        {song_offer_provider init_highlight}
+                        {$this refresh_selected_song}}}}
+               {if_else
+                  {'||'
+                     {is_leader_local}
+                     {song_offer_provider get is_leaderboards}}
+                  kDataUnhandled
+                  {band_ui trigger_event remote_exit}}})
+         ({&&
+               {== $action kAction_Start}
+               {!
+                  {song.lst is_scrolling}}}
+            {if_else
+               {song_offer_provider get_setlist_mode}
+               {if
+                  {&&
+                     {!=
+                        song_select_tour
+                        {gamemode get song_select_mode}}
+                     {!=
+                        0
+                        {meta_performer next_any_index}}}
+                  {synth play button_select}
+                  {session
+                     send_msg_to_all
+                     (synth play button_select)
+                     kNetReliable}
+                  {meta_performer finalize_setlist}
+                  {$this move_on}}
+               {do
+                  {synth play button_select}
+                  {session
+                     send_msg_to_all
+                     (synth play button_select)
+                     kNetReliable}
+                  {$this component_select song.lst $player $player_num}}})
+         ({&&
+               {== $action kAction_Confirm}
+               {!
+                  {song.lst is_scrolling}}}
+            {synth play button_select}
+            {session
+               send_msg_to_all
+               (synth play button_select)
+               kNetReliable}
+            {$this component_select song.lst $player $player_num})
+         (TRUE kDataUnhandled)})
+   (on_button_held
+      ($user_num $user $raw_button $action $pad_num)
+      {if_else
+         {== $action kAction_Confirm}
+         {if
+            {!
+               {song.lst is_scrolling}}
+            {do
+               {synth play button_select}
+               {session
+                  send_msg_to_all
+                  (synth play button_select)
+                  kNetReliable}
+               {if
+                  {&&
+                     {song_offer_provider are_headers_selectable}
+                     {!=
+                        make_a_setlist
+                        {song.lst selected_sym}}}
+                  {song_offer_provider set_setlist_mode TRUE}
+                  {$this on_change_setlist_mode}}
+               {$this component_select song.lst $user $user_num}}}
+         {do
+            {song_select_details_panel
+               shortcut_enter
+               {if_else
+                  {== $action kAction_Option}
+                  groups
+                  sorts}}
+            {if
+               {&&
+                  {$this is_user_local}
+                  {!
+                     {song_offer_provider get is_leaderboards}}}
+               {session
+                  send_msg_to_all
+                  {'`'
+                     (song_select_details_panel
+                        shortcut_enter
+                        {','
+                           {if_else
+                              {== $action kAction_Option}
+                              groups
+                              sorts}})}
+                  kNetReliable}}}})
+   (SCROLL_MSG
+      {song_offer_provider
+         set_highlighted_ix
+         {song.lst selected_pos}}
+      {$this sync_song}
+      {$this refresh_selected_song})
+   (on_change_setlist_mode
+      {$this sync_setlist_mode}
+      {song_select_details_panel init_setlist_mode}
+      {$this refresh}
+      {song_offer_provider init_highlight}
+      {$this sync_song}
+      {$this refresh_selected_song}
+      {$this update_held_buttons}
+      {$this update_helpbar})
+   (sync_song
+      {if
+         {&&
+            {$this is_user_local}
+            {!
+               {song_offer_provider get is_leaderboards}}
+            {!
+               {song_offer_provider
+                  is_disabled
+                  {song_offer_provider get_highlighted_ix}}}}
+         {session
+            send_msg_to_all
+            {'`'
+               ({',' $this}
+                  remote_set_highlight
+                  {','
+                     {song_offer_provider get_remote_highlight}})}
+            kNetReliable}})
+   (sync_sort_method
+      {if
+         {&&
+            {$this is_user_local}
+            {!
+               {song_offer_provider get is_leaderboards}}}
+         {session
+            send_msg_to_all
+            {'`'
+               ({',' $this}
+                  remote_set_sort_method
+                  {','
+                     {song_offer_provider current_sort}})}
+            kNetReliable}})
+   (sync_setlist_mode
+      {if
+         {&&
+            {$this is_user_local}
+            {!
+               {song_offer_provider get is_leaderboards}}}
+         {session
+            send_msg_to_all
+            {'`'
+               ({',' $this}
+                  remote_set_setlist_mode
+                  {','
+                     {song_offer_provider get_setlist_mode}})}
+            kNetReliable}})
+   (remote_set_highlight
+      ($highlight)
+      {if
+         {song_offer_provider set_remote_highlight $highlight}
+         {if
+            {song_select_panel is_up}
+            {$this refresh_selected_song}}})
+   (remote_set_sort_method
+      ($sort_sym)
+      {if
+         {!=
+            {song_offer_provider current_sort}
+            $sort_sym}
+         {song_offer_provider set_sort $sort_sym}
+         {if
+            {song_select_panel is_up}
+            {song_offer_provider init_highlight}
+            {$this refresh_selected_song}}})
+   (remote_set_setlist_mode
+      ($bool)
+      {song_offer_provider set_setlist_mode $bool}
+      {if
+         {song_select_panel is_up}
+         {$this on_change_setlist_mode}})
+   (refresh_selected_song
+      {do
+         ($ix
+            {song_offer_provider get_highlighted_ix})
+         {if
+            {!=
+               $ix
+               {song.lst selected_pos}}
+            {song.lst set_selected_simulate_scroll $ix}}
+         {song_select_details_panel refresh_details $ix}
+         {if
+            {&&
+               {$this is_up}
+               {!
+                  {ui in_transition}}}
+            {if_else
+               {song_offer_provider is_subheader $ix}
+               {song_offer_provider
+                  play_preview
+                  {'+' 1 $ix}}
+               {song_offer_provider play_preview $ix}}}
+         {$this refresh_sort}
+         {scroller.mesh
+            set_local_scale
+            1
+            {min
+               1
+               {/
+                  {song.lst get display_num}
+                  {song_offer_provider num_data}}}
+            1}
+         {scroll.tnm
+            set_frame
+            {/
+               {min
+                  {song.lst first_showing}
+                  {max
+                     0
+                     {-
+                        {song_offer_provider num_data}
+                        {song.lst get display_num}}}}
+               {song_offer_provider num_data}}}
+         {do
+            ($showing
+               {>
+                  {song_offer_provider num_data}
+                  {song.lst get display_num}})
+            {scroller.mesh set_showing $showing}}})
+   (refresh_sort
+      {do
+         ($ix
+            {song_offer_provider get_highlighted_ix})
+         ($sort
+            {localize
+               {song_offer_provider current_sort}})
+         ($category
+            {if_else
+               {song_offer_provider is_function $ix}
+               ''
+               {localize
+                  {song_offer_provider get_current_shortcut $ix}}})
+         {sort.lbl
+            set_localized
+            {sprintf
+               "%s : %s"
+               $sort
+               $category}}}
+      {song.lst set_dirty})
+   (refresh_setlist
+      {song_select_details_panel refresh_setlist}
+      {$this update_helpbar})
+   (refresh
+      {song.lst set_provider song_offer_provider})
+   (update_meta_performer
+      {$this refresh_setlist}
+      {$this refresh}
+      {$this refresh_selected_song})
+   (SELECT_MSG
+      {unless
+         {ui in_transition}
+         {cond
+            ({==
+                  make_a_setlist
+                  {song.lst selected_sym}}
+               {song_offer_provider set_setlist_mode TRUE}
+               {$this on_change_setlist_mode})
+            ({==
+                  play_setlist
+                  {song.lst selected_sym}}
+               {meta_performer finalize_setlist}
+               {$this move_on})
+            ({song_offer_provider
+                  is_header
+                  {song.lst selected_pos}}
+               {do
+                  ($ix
+                     {song.lst selected_pos})
+                  ($result
+                     {song_offer_provider select_header $ix})
+                  {if_else
+                     {==
+                        $result
+                        {song_offer_provider get_header_song_count $ix}}
+                     {$this move_on}
+                     {do
+                        {net_sync disable}
+                        {if_else
+                           {== 0 $result}
+                           {ui push_screen fail_add_header_screen}
+                           {if_else
+                              {== -1 $result}
+                              {ui push_screen fail_add_header_too_big_screen}
+                              {ui push_screen incomplete_add_header_screen}}}}}})
+            (TRUE
+               {if
+                  {$this try_save_song $player}
+                  {if_else
+                     {&&
+                        {song_offer_provider get_setlist_mode}
+                        {!=
+                           -1
+                           {meta_performer next_any_index}}}
+                     {do
+                        {song_offer_provider init_highlight}
+                        {$this sync_song}
+                        {$this refresh_setlist}
+                        {$this refresh}
+                        {$this refresh_selected_song}}
+                     {do
+                        {if
+                           {song_offer_provider get_setlist_mode}
+                           {meta_performer finalize_setlist}}
+                        {$this refresh_setlist}
+                        {$this move_on}}}})}})
+   (move_on
+      {helpbar
+         set_config
+         ()}
+      {if_else
+         {song_offer_provider get is_leaderboards}
+         {ui
+            goto_screen
+            {gamemode get leaderboards_screen}}
+         {switch
+            {gamemode get song_select_mode}
+            (song_select_quickplay
+               {if
+                  {gamemode get force_player_vocal_gender}
+                  {do
+                     ($user_num
+                        {session_mgr get_leader_num})
+                     ($user
+                        {user_mgr get_band_user $user_num})
+                     {if
+                        {==
+                           {$user get_controller_type}
+                           kControllerVocals}
+                        {do
+                           ($song
+                              {meta_performer song})
+                           ($song_gender
+                              {song_mgr vocal_gender $song})
+                           {if
+                              {!=
+                                 {{$user get_char}
+                                    get_gender}
+                                 $song_gender}
+                              {$user
+                                 set_char
+                                 {available_prefab $user_num $song_gender TRUE}}}}}}}
+               {gamecfg
+                  load_all_chars
+                  (net TRUE)}
+               {if_else
+                  {modifier_mgr is_modifier_active mod_choose_venue}
+                  {ui reset_screen qp_selvenue_screen}
+                  {if_else
+                     {is_leader_local}
+                     {$this move_on_quickplay}
+                     {do
+                        {input_mgr set_user ''}
+                        {meta_performer sync_now}
+                        {session
+                           send_msg
+                           {session_mgr get_leader_num}
+                           {'`'
+                              ({',' $this}
+                                 move_on_quickplay)}
+                           kNetReliable}}}})
+            (song_select_tour
+               {{tour band}
+                  confirm_event}
+               {ui
+                  reset_screen
+                  {gamemode get ready_screen}})
+            (song_select_practice
+               {game set_venue blank_01}
+               {ui
+                  reset_screen
+                  {gamemode get ready_screen}})
+            (song_select_leaderboards
+               {if
+                  {!
+                     {song_offer_provider get is_leaderboards}}
+                  {notify
+                     "got into leaderboards without setting song_offer_provider is_leaderboards!\n"}})
+            (song_select_jukebox
+               {if_else
+                  {!
+                     {modifier_mgr is_modifier_active mod_choose_venue}}
+                  {do
+                     {game
+                        set_venue
+                        {random_venue}}
+                     {ui
+                        reset_screen
+                        {gamemode get ready_screen}}}
+                  {do
+                     {ui reset_screen qp_selvenue_screen}}})
+            {fail
+               "Unkown song_select_mode\n"}}})
+   (move_on_quickplay
+      {game
+         set_venue
+         {if_else
+            $force_blank_venue
+            blank_01
+            {random_venue}}}
+      {unless
+         {ui in_transition}
+         {if_else
+            {gamemode get is_h2h_arrangement}
+            {h2h_goto_tracksel_screen}
+            {ui
+               reset_screen
+               {gamemode get ready_screen}}}})
+   (try_save_song
+      ($player)
+      {do
+         ($song
+            {song_offer_provider
+               get_selected_song
+               {song.lst selected_pos}})
+         ($offer
+            {song_offer_provider
+               get_song_offer
+               {song_offer_provider data_index $song}})
+         {cond
+            ({song_offer_provider get is_leaderboards}
+               TRUE)
+            ({$offer is_restricted}
+               {net_sync disable}
+               #ifdef HX_XBOX
+               {parental_control_panel set_user $player}
+               #endif
+               {ui push_screen parental_control_screen}
+               FALSE)
+            ({&&
+                  {gamemode get separate_parts}
+                  {$offer is_ugc}}
+               {net_sync disable}
+               {ui push_screen ugc_tow_screen}
+               FALSE)
+            ({&&
+                  {gamemode get is_practice}
+                  {song_mgr is_demo $song}}
+               {net_sync disable}
+               {ui push_screen ugc_demo_practice}
+               FALSE)
+            ({&&
+                  {gamemode get is_practice}
+                  {song_mgr is_ugc $song}
+                  {!
+                     {song_mgr is_song_mounted $song}}}
+               FALSE)
+            ({&&
+                  {!
+                     {gamemode get local_network}}
+                  {song_mgr is_demo $song}}
+               {net_sync disable}
+               {ui push_screen ugc_demo_online}
+               FALSE)
+            ({&&
+                  {song_offer_provider get_setlist_mode}
+                  {song_mgr is_demo $song}}
+               {net_sync disable}
+               {ui push_screen ugc_demo_setlist}
+               FALSE)
+            ({&&
+                  {song_mgr is_song_exported $song}
+                  {!
+                     {license_mgr is_export_license_valid}}}
+               {net_sync disable}
+               {ui push_screen invalid_license_screen}
+               FALSE)
+            ({!
+                  {song_mgr is_song_shared $song}}
+               {do
+                  {net_sync disable}
+                  {ui push_screen invalid_selection_screen}
+                  FALSE})
+            ({song_mgr
+                  has_missing_parts
+                  $song
+                  {gamemode get missing_part_type}}
+               {do
+                  {net_sync disable}
+                  {missing_parts_screen set_song $song}
+                  {ui push_screen missing_parts_screen}
+                  FALSE})
+            ({!
+                  {song_mgr check_version $song}}
+               {net_sync disable}
+               {ui push_screen invalid_version_screen}
+               FALSE)
+            (TRUE
+               {do
+                  {switch
+                     {gamemode get song_select_mode}
+                     ((song_select_quickplay song_select_tour song_select_practice song_select_jukebox)
+                        {if_else
+                           {song_offer_provider get_setlist_mode}
+                           {meta_performer set_any_song $song}
+                           {meta_performer set_song $song}})
+                     (song_select_leaderboards
+                        {notify
+                           "please set song_offer_provider is_leaderboards\n"})
+                     {fail
+                        "Unknown song_select_mode\n"}}
+                  TRUE})}})
+   (update_helpbar
+      {if_else
+         {'||'
+            {$this is_user_local}
+            {song_offer_provider get is_leaderboards}}
+         {if_else
+            {song_offer_provider get_setlist_mode}
+            {if_else
+               {==
+                  0
+                  {meta_performer next_any_index}}
+               {helpbar
+                  set_config
+                  ((cancel helpbar_setlist_cancel)
+                     (confirm leader_hb_choosesong)
+                     (view_modify leader_hb_songfilter)
+                     (option helpbar_next_heading helpbar_next_heading_hold))}
+               {helpbar
+                  set_config
+                  ((cancel helpbar_setlist_revert)
+                     (confirm leader_hb_choosesong)
+                     (state_confirm
+                        {if_else
+                           {==
+                              song_select_tour
+                              {gamemode get song_select_mode}}
+                           ''
+                           helpbar_play_setlist})
+                     (view_modify leader_hb_songfilter)
+                     (option helpbar_next_heading helpbar_next_heading_hold))}}
+            {helpbar
+               set_config
+               ((cancel
+                     {if_else
+                        {'||'
+                           {is_leader_local}
+                           {song_offer_provider get is_leaderboards}}
+                        helpbar_back
+                        endgame_hb_leave_session})
+                  {if_else
+                     {song_offer_provider are_headers_selectable}
+                     (confirm leader_hb_choosesong helpbar_start_setlist_hold)
+                     (confirm leader_hb_choosesong)}
+                  (view_modify leader_hb_songfilter)
+                  (option helpbar_next_heading helpbar_next_heading_hold))}}
+         {helpbar
+            set_config
+            ()}})
+   (storage_changed
+      {band_ui trigger_event storage_changed})}
+{func
+   song_select_get_back_screen
+   {do
+      {if_else
+         {song_offer_provider get is_leaderboards}
+         {if_else
+            {==
+               {leaderboards get_type}
+               kPlayerSong}
+            {gamemode get leaderboards_seltrack_screen}
+            {gamemode get community_screen}}
+         {switch
+            {gamemode get song_select_mode}
+            (song_select_quickplay
+               {if_else
+                  {gamemode get skip_matchmaking}
+                  {gamemode get main_mode_screen}
+                  {gamemode get matchmaking_screen}})
+            (song_select_tour tour_world_event_screen)
+            (song_select_practice training_menu_screen)
+            (song_select_jukebox
+               {do
+                  ($player_num
+                     {session_mgr get_leader_num})
+                  ($pcfg
+                     {game get_player_config $player_num})
+                  ($num_bands
+                     {{profile_mgr get_profile $player_num}
+                        num_bands})
+                  {$pcfg
+                     set_char
+                     {available_prefab $player_num}}
+                  {if_else
+                     {> $num_bands 0}
+                     jukebox_band_sel_screen
+                     main_community_screen}})
+            {fail
+               "Unknown song_mode, or didn't set song_offer_provider is_leaderboards\n"}}}}}
+{new
+   UIPanel
+   lb_song_select_content_loading_panel
+   (load
+      {content_mgr start_refresh}
+      {content_loading_panel allowed_to_show TRUE})
+   (finish_load
+      {content_loading_panel allowed_to_show FALSE})
+   (is_loaded
+      {content_mgr refresh_done})}
+#define COMMON_SONG_SELECT_SCREEN
+((focus song_select_panel)
+   (back
+      {do
+         {song_offer_provider set_setlist_mode FALSE}
+         {song_select_get_back_screen}})
+   (net_sync_scroll FALSE))
+{new
+   BandScreen
+   song_select_screen
+   (panels meta song_sync_panel postsong_sfx_panel movie_panel song_select_details_panel song_select_panel song_select_lower3rd_panel)
+   COMMON_SONG_SELECT_SCREEN}
+{new
+   BandScreen
+   reset_song_select_screen
+   (panels meta postsong_sfx_panel movie_panel song_select_lower3rd_panel)
+   (enter
+      {song_offer_provider set_setlist_mode FALSE}
+      {ui goto_screen song_select_screen})}
+{new
+   BandScreen
+   setlist_warning_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (enter
+      {dialog_panel
+         set_yesno
+         {localize song_select_clear_setlist}
+         yes.btn})
+   (exit
+      {net_sync enable})
+   (SELECT_MSG
+      {if
+         {== $component yes.btn}
+         {if_else
+            {&&
+               {==
+                  {gamemode get song_select_mode}
+                  song_select_tour}
+               {!
+                  {song_offer_provider get is_leaderboards}}}
+            {do
+               {{tour band}
+                  set_event
+                  {tour event}}
+               {song_offer_provider set_setlist_mode TRUE}
+               {song_select_panel on_change_setlist_mode}}
+            {do
+               {meta_performer reset_songs}
+               {if
+                  {song_select_panel is_user_local}
+                  {session
+                     send_msg_to_all
+                     (meta_performer reset_songs)
+                     kNetReliable}}
+               {song_offer_provider set_setlist_mode FALSE}
+               {song_select_panel on_change_setlist_mode}}}}
+      {if
+         {== $component no.btn}
+         {song_offer_provider set_setlist_mode TRUE}
+         {if
+            {==
+               -1
+               {meta_performer next_any_index}}
+            {song_offer_provider
+               set_highlighted_ix
+               {song_offer_provider
+                  data_index
+                  {meta_performer revert_song_selection}}}
+            {song_select_panel sync_song}
+            {song_select_panel refresh_selected_song}
+            {song_select_panel refresh_setlist}}
+         {song_select_panel on_change_setlist_mode}}
+      {song_select_panel set check_setlist FALSE}
+      {ui pop_screen})}
+{new
+   BandScreen
+   invalid_selection_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (enter
+      {dialog_panel
+         set_ok
+         {localize invalid_song}})
+   (exit
+      {net_sync enable})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   invalid_version_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (enter
+      {dialog_panel
+         set_ok
+         {localize invalid_version}})
+   (exit
+      {net_sync enable})
+   (SELECT_MSG
+      {song_select_panel set check_setlist FALSE}
+      {ui pop_screen})}
+{new
+   BandScreen
+   invalid_license_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize invalid_license}})
+   (exit
+      {net_sync enable})
+   (SELECT_MSG
+      {song_select_panel set check_setlist FALSE}
+      {ui pop_screen})}
+{new
+   BandScreen
+   missing_parts_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (missing_part_str
+      "")
+   (enter
+      {dialog_panel
+         set_ok
+         [missing_part_str]})
+   (exit
+      {net_sync enable})
+   (SELECT_MSG
+      {song_select_panel set check_setlist FALSE}
+      {ui pop_screen})
+   (set_song
+      ($song)
+      {do
+         ($missing
+            {array 0})
+         {song_mgr find_missing_parts $song $missing}
+         {set
+            [missing_part_str]
+            {localize missing_parts_error}}
+         {foreach
+            $part
+            $missing
+            {set
+               [missing_part_str]
+               {sprint
+                  [missing_part_str]
+                  "\n"
+                  {localize
+                     {sprint
+                        "missing_"
+                        $part}}}}}})}
+{new
+   BandScreen
+   incomplete_add_header_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (enter
+      {dialog_panel
+         set_ok
+         {localize incomplete_add_header2}})
+   (SELECT_MSG
+      {net_sync enable}
+      {song_select_panel move_on})}
+{new
+   BandScreen
+   fail_add_header_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (enter
+      {dialog_panel
+         set_ok
+         {localize fail_add_header2}})
+   (exit
+      {net_sync enable})
+   (SELECT_MSG
+      {song_select_panel set check_setlist FALSE}
+      {ui pop_screen})}
+{new
+   BandScreen
+   fail_add_header_too_big_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (enter
+      {dialog_panel
+         set_ok
+         {localize fail_add_header_too_big}})
+   (exit
+      {net_sync enable})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   UIPanel
+   qp_selvenue_panel
+   (file
+      "qp_selvenue.milo")
+   (focus venue.lst)
+   (enter
+      {leader.lbl
+         set_localized
+         {sprintf
+            "Leader: %s"
+            {{session_mgr get_leader_user}
+               get
+               player_name}}}
+      {do
+         ($venue_array
+            {get_venue_select_array})
+         ($old_venue
+            {game get_venue})
+         {venue.lst set_data $venue_array}
+         {if
+            {&&
+               {!= $old_venue ''}
+               {find_elem $venue_array $old_venue}}
+            {venue.lst set_selected $old_venue}}})
+   (exit
+      {game
+         set_venue
+         {venue.lst selected_sym}})
+   (game_changed
+      {venue.lst
+         set_selected
+         {game get_venue}})
+   (SELECT_MSG
+      {cond
+         ({gamemode get is_h2h_arrangement}
+            {h2h_goto_tracksel_screen})
+         (TRUE
+            {ui
+               goto_screen
+               {gamemode get ready_screen}})})}
+{new
+   BandScreen
+   qp_selvenue_screen
+   (panels meta movie_panel postsong_sfx_panel qp_selvenue_panel song_select_lower3rd_panel song_sync_panel)
+   (focus qp_selvenue_panel)
+   (back song_select_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}

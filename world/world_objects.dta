@@ -1,0 +1,1061 @@
+#include ../config/macros.dta
+#define LIGHTING_CATEGORIES
+((INTRO INTRO_VENUE INTRO_QUICK WIN LOSE VERSE CHORUS VERSECHORUS FREEZE))
+#define LIGHTING_ADJECTIVES
+((blackout_fast blackout_slow dischord flare_fast flare_slow frenzy harmony manual_cool manual_warm searchlights silhouettes silhouettes_spot stomp strobe_fast strobe_slow sweep loop_cool loop_warm win_bre bre))
+#define CAMSHOT_CATEGORIES
+((#include camera_cats.dta))
+#include worldbase.dta
+(Tex
+   (types
+      (sticker
+         (editor
+            (sizex
+               float
+               (help
+                  "scaling in x"))
+            (sizey
+               float
+               (help
+                  "scaling in y"))
+            (display_name
+               symbol
+               (help
+                  "display name"))
+            (palette_index
+               int
+               (help
+                  "default palette index in the colors list for this sticker"))
+            (allow_color
+               bool
+               (help
+                  "can the user apply color to this image?")))
+         (sizex 1)
+         (sizey 1)
+         (display_name '')
+         (palette_index 0)
+         (allow_color TRUE))))
+(TexRenderer
+   (types
+      (snapshot
+         (editor
+            (camshot
+               symbol
+               (list
+                  {do
+                     ($array
+                        {array 0})
+                     {push_back $array none}
+                     {if
+                        [proxy]
+                        {[proxy]
+                           iterate
+                           BandCamShot
+                           $obj
+                           {push_back
+                              $array
+                              {symbol
+                                 {$obj name}}}}}
+                     {sort $array}
+                     $array})
+               (help
+                  "camshot to use for this render to texture")))
+         (camshot none)
+         (pre_render
+            {if
+               [camshot]
+               {if
+                  {!=
+                     [camshot]
+                     none}
+                  {[proxy]
+                     force_shot
+                     {[proxy]
+                        find
+                        [camshot]}}}}))))
+(CamShot
+   (allowed_dirs PanelDir)
+   (init
+      {$this set category NORMAL})
+   (editor
+      (category
+         symbol
+         (list CAMSHOT_CATEGORIES)
+         (help
+            "Category of the shot"))
+      (flags
+         bitfield
+         (list
+            {if_else
+               {$this
+                  has
+                  (flag_list)}
+               {$this flag_list}
+               ()})
+         (help
+            "Flags defining CameraShot behavior"))))
+(EventTrigger
+   (supported_events
+      (start p0_hit p1_hit p2_hit p3_hit excitement_bad excitement_okay excitement_great excitement_peak intro_start intro_end kick_drum snare_drum crash_hit bass_hit post_switch_cam music_start game_lost game_won game_won_band0 game_won_band1 game_won_tie game_won_finale verse chorus bonusfx bonusfx_optional bre_success spotlight_bass_on spotlight_bass_off spotlight_drums_on spotlight_drums_off spotlight_guitar_on spotlight_guitar_off spotlight_vocal_on spotlight_vocal_off spotlight_h2h_p1_on spotlight_h2h_p1_off spotlight_h2h_p2_on spotlight_h2h_p2_off lighting_INTRO lighting_WIN lighting_LOSE lighting_VERSE lighting_CHORUS lighting_blackout_fast lighting_blackout_slow lighting_dischord lighting_flare_fast lighting_flare_slow lighting_frenzy lighting_harmony lighting_manual_cool lighting_manual_warm lighting_searchlights lighting_silhouettes lighting_stomp lighting_strobe_fast lighting_strobe_slow lighting_sweep lighting_loop_cool lighting_loop_warm lighting_win_bre lighting_bre mode_coop mode_h2hb mode_h2hd mode_h2hg mode_h2hv))
+   (types
+      (toggler
+         (editor
+            (disable
+               object
+               (class EventTrigger)
+               (help
+                  "disable this event trigger when I'm triggered"))
+            (enable
+               object
+               (class EventTrigger)
+               (help
+                  "enable this event trigger when I'm triggered")))
+         (disable '')
+         (enable '')
+         (trigger
+            {if
+               [disable]
+               {script_task
+                  kTaskBeats
+                  (delay 1.0e-2)
+                  (script
+                     {[disable]
+                        disable})}}
+            {if
+               [enable]
+               {script_task
+                  kTaskBeats
+                  (delay 1.0e-2)
+                  (script
+                     {[enable]
+                        enable})}}))
+      (endgame_action
+         (supported_events
+            (endgame_swing_drum_0 endgame_swing_drum_1 endgame_swing_drum_2 endgame_swing_drum_3 endgame_swing_drum_4 endgame_swing_bass_0 endgame_swing_bass_1 endgame_swing_bass_2 endgame_swing_bass_3 endgame_swing_bass_4 endgame_swing_guitar_0 endgame_swing_guitar_1 endgame_swing_guitar_2 endgame_swing_guitar_3 endgame_swing_guitar_4 endgame_vocals_none endgame_vocals_low endgame_vocals_medium endgame_vocals_high)))
+      (backlight
+         (editor
+            (tex1
+               object
+               (class Tex)
+               (help
+                  "texture for first moving layer"))
+            (tex2
+               object
+               (class Tex)
+               (help
+                  "texture for second moving layer"))
+            (part_tex1
+               object
+               (class Tex)
+               (help
+                  "texture for first particle system"))
+            (part_tex2
+               object
+               (class Tex)
+               (help
+                  "texture for second particle system")))
+         (tex1 '')
+         (tex2 '')
+         (part_tex1 '')
+         (part_tex2 '')
+         (trigger
+            {if
+               {exists mat02.mat}
+               {mat02.mat
+                  set
+                  diffuse_tex
+                  [tex1]}}
+            {if
+               {exists mat03.mat}
+               {mat03.mat
+                  set
+                  diffuse_tex
+                  [tex2]}}
+            {if
+               {exists part_mat02.mat}
+               {part_mat02.mat
+                  set
+                  diffuse_tex
+                  [part_tex1]}}
+            {if
+               {exists part_mat03.mat}
+               {part_mat03.mat
+                  set
+                  diffuse_tex
+                  [part_tex2]}}))))
+(LightPreset
+   (init
+      {$this set category VERSE})
+   (editor
+      (category
+         symbol
+         (list LIGHTING_CATEGORIES)
+         (help
+            "Category of the preset"))
+      (adjectives
+         (array
+            symbol
+            (list LIGHTING_ADJECTIVES))))
+   (views
+      (flags
+         ("category"
+            [category])
+         ("min_excitement"
+            [min_excitement])
+         ("max_excitement"
+            [max_excitement])
+         ("adjective"
+            {if_else
+               {!=
+                  {$this
+                     size
+                     (adjectives)}
+                  0}
+               {$this
+                  get
+                  (adjectives 0)}
+               ''})
+         ("looping"
+            [looping])
+         ("manual"
+            [manual])
+         ("platform_only"
+            [platform_only])))
+   (types
+      (target_animator
+         (editor
+            (backlight
+               object
+               (class RndDir)
+               (help
+                  "backlight object to animate"))
+            (backlight_event
+               symbol
+               (list
+                  {do
+                     ($array
+                        {array 0})
+                     {push_back $array none}
+                     {if
+                        [backlight]
+                        {[backlight]
+                           iterate
+                           EventTrigger
+                           $obj
+                           {push_back
+                              $array
+                              {symbol
+                                 {$obj name}}}}}
+                     {sort $array}
+                     $array})
+               (help
+                  "event trigger to fire for this keyframe"))
+            (target_1
+               (indent
+                  (target1
+                     object
+                     (class Character)
+                     (help
+                        "target object to animate"))
+                  (base1_anim
+                     symbol
+                     (list
+                        {$this get_clip_names}))
+                  (base1_amplitude
+                     float
+                     (range 0 1)
+                     (help
+                        "physical scale of animation loop"))
+                  (base1_speed
+                     float
+                     (help
+                        "speed multiplier"))
+                  (base1_phase
+                     float
+                     (range 0 1)
+                     (help
+                        "0 to 1, 0.5 would start the loop half way through"))
+                  (add1_anim
+                     symbol
+                     (list
+                        {$this get_clip_names}))
+                  (add1_amplitude
+                     float
+                     (range 0 1)
+                     (help
+                        "physical scale of animation loop"))
+                  (add1_speed
+                     float
+                     (help
+                        "speed multiplier"))
+                  (add1_phase
+                     float
+                     (range 0 1)
+                     (help
+                        "0 to 1, 0.5 would start the loop half way through"))))
+            (target_2
+               (indent
+                  (target2
+                     object
+                     (class Character)
+                     (help
+                        "target object to animate"))
+                  (base2_anim
+                     symbol
+                     (list
+                        {$this get_clip_names}))
+                  (base2_amplitude
+                     float
+                     (range 0 1)
+                     (help
+                        "physical scale of animation loop"))
+                  (base2_speed
+                     float
+                     (help
+                        "speed multiplier"))
+                  (base2_phase
+                     float
+                     (range 0 1)
+                     (help
+                        "0 to 1, 0.5 would start the loop half way through"))
+                  (add2_anim
+                     symbol
+                     (list
+                        {$this get_clip_names}))
+                  (add2_amplitude
+                     float
+                     (range 0 1)
+                     (help
+                        "physical scale of animation loop"))
+                  (add2_speed
+                     float
+                     (help
+                        "speed multiplier"))
+                  (add2_phase
+                     float
+                     (range 0 1)
+                     (help
+                        "0 to 1, 0.5 would start the loop half way through"))))
+            (target_3
+               (indent
+                  (target3
+                     object
+                     (class Character)
+                     (help
+                        "target object to animate"))
+                  (base3_anim
+                     symbol
+                     (list
+                        {$this get_clip_names}))
+                  (base3_amplitude
+                     float
+                     (range 0 1)
+                     (help
+                        "physical scale of animation loop"))
+                  (base3_speed
+                     float
+                     (help
+                        "speed multiplier"))
+                  (base3_phase
+                     float
+                     (range 0 1)
+                     (help
+                        "0 to 1, 0.5 would start the loop half way through"))
+                  (add3_anim
+                     symbol
+                     (list
+                        {$this get_clip_names}))
+                  (add3_amplitude
+                     float
+                     (range 0 1)
+                     (help
+                        "physical scale of animation loop"))
+                  (add3_speed
+                     float
+                     (help
+                        "speed multiplier"))
+                  (add3_phase
+                     float
+                     (range 0 1)
+                     (help
+                        "0 to 1, 0.5 would start the loop half way through"))))
+            (target_4
+               (indent
+                  (target4
+                     object
+                     (class Character)
+                     (help
+                        "target object to animate"))
+                  (base4_anim
+                     symbol
+                     (list
+                        {$this get_clip_names}))
+                  (base4_amplitude
+                     float
+                     (range 0 1)
+                     (help
+                        "physical scale of animation loop"))
+                  (base4_speed
+                     float
+                     (help
+                        "speed multiplier"))
+                  (base4_phase
+                     float
+                     (range 0 1)
+                     (help
+                        "0 to 1, 0.5 would start the loop half way through"))
+                  (add4_anim
+                     symbol
+                     (list
+                        {$this get_clip_names}))
+                  (add4_amplitude
+                     float
+                     (range 0 1)
+                     (help
+                        "physical scale of animation loop"))
+                  (add4_speed
+                     float
+                     (help
+                        "speed multiplier"))
+                  (add4_phase
+                     float
+                     (range 0 1)
+                     (help
+                        "0 to 1, 0.5 would start the loop half way through"))))
+            (target_5
+               (indent
+                  (target5
+                     object
+                     (class Character)
+                     (help
+                        "target object to animate"))
+                  (base5_anim
+                     symbol
+                     (list
+                        {$this get_clip_names}))
+                  (base5_amplitude
+                     float
+                     (range 0 1)
+                     (help
+                        "physical scale of animation loop"))
+                  (base5_speed
+                     float
+                     (help
+                        "speed multiplier"))
+                  (base5_phase
+                     float
+                     (range 0 1)
+                     (help
+                        "0 to 1, 0.5 would start the loop half way through"))
+                  (add5_anim
+                     symbol
+                     (list
+                        {$this get_clip_names}))
+                  (add5_amplitude
+                     float
+                     (range 0 1)
+                     (help
+                        "physical scale of animation loop"))
+                  (add5_speed
+                     float
+                     (help
+                        "speed multiplier"))
+                  (add5_phase
+                     float
+                     (range 0 1)
+                     (help
+                        "0 to 1, 0.5 would start the loop half way through"))))
+            (target_6
+               (indent
+                  (target6
+                     object
+                     (class Character)
+                     (help
+                        "target object to animate"))
+                  (base6_anim
+                     symbol
+                     (list
+                        {$this get_clip_names}))
+                  (base6_amplitude
+                     float
+                     (range 0 1)
+                     (help
+                        "physical scale of animation loop"))
+                  (base6_speed
+                     float
+                     (help
+                        "speed multiplier"))
+                  (base6_phase
+                     float
+                     (range 0 1)
+                     (help
+                        "0 to 1, 0.5 would start the loop half way through"))
+                  (add6_anim
+                     symbol
+                     (list
+                        {$this get_clip_names}))
+                  (add6_amplitude
+                     float
+                     (range 0 1)
+                     (help
+                        "physical scale of animation loop"))
+                  (add6_speed
+                     float
+                     (help
+                        "speed multiplier"))
+                  (add6_phase
+                     float
+                     (range 0 1)
+                     (help
+                        "0 to 1, 0.5 would start the loop half way through"))))
+            (test
+               script
+               (script
+                  {$this start_anim})))
+         (backlight
+            {object ''})
+         (backlight_event none)
+         (target1
+            {object ''})
+         (base1_anim still)
+         (base1_amplitude 1)
+         (base1_speed 1)
+         (base1_phase 0)
+         (add1_anim still)
+         (add1_amplitude 1)
+         (add1_speed 1)
+         (add1_phase 0)
+         (target2
+            {object ''})
+         (base2_anim still)
+         (base2_amplitude 1)
+         (base2_speed 1)
+         (base2_phase 0)
+         (add2_anim still)
+         (add2_amplitude 1)
+         (add2_speed 1)
+         (add2_phase 0)
+         (target3
+            {object ''})
+         (base3_anim still)
+         (base3_amplitude 1)
+         (base3_speed 1)
+         (base3_phase 0)
+         (add3_anim still)
+         (add3_amplitude 1)
+         (add3_speed 1)
+         (add3_phase 0)
+         (target4
+            {object ''})
+         (base4_anim still)
+         (base4_amplitude 1)
+         (base4_speed 1)
+         (base4_phase 0)
+         (add4_anim still)
+         (add4_amplitude 1)
+         (add4_speed 1)
+         (add4_phase 0)
+         (target5
+            {object ''})
+         (base5_anim still)
+         (base5_amplitude 1)
+         (base5_speed 1)
+         (base5_phase 0)
+         (add5_anim still)
+         (add5_amplitude 1)
+         (add5_speed 1)
+         (add5_phase 0)
+         (target6
+            {object ''})
+         (base6_anim still)
+         (base6_amplitude 1)
+         (base6_speed 1)
+         (base6_phase 0)
+         (add6_anim still)
+         (add6_amplitude 1)
+         (add6_speed 1)
+         (add6_phase 0)
+         (get_clip_names
+            {if_else
+               [target1]
+               {[target1]
+                  get_clip_names}
+               (still)})
+         (enter
+            {if
+               [backlight]
+               {if
+                  {!=
+                     [backlight_event]
+                     none}
+                  {unless
+                     {[backlight]
+                        exists
+                        [backlight_event]}
+                     {set
+                        [backlight_event]
+                        none}
+                     {notify
+                        "invalid backlight event on "
+                        {$this name}
+                        ", clearing!"}}}})
+         (start_anim
+            {if
+               {&&
+                  [backlight]
+                  {!=
+                     [backlight_event]
+                     none}}
+               {[backlight]
+                  trigger
+                  [backlight_event]}}
+            {if
+               [target1]
+               {[target1]
+                  play_anim
+                  [base1_anim]
+                  [base1_amplitude]
+                  [base1_speed]
+                  [base1_phase]
+                  [add1_anim]
+                  [add1_amplitude]
+                  [add1_speed]
+                  [add1_phase]}}
+            {if
+               [target2]
+               {[target2]
+                  play_anim
+                  [base2_anim]
+                  [base2_amplitude]
+                  [base2_speed]
+                  [base2_phase]
+                  [add2_anim]
+                  [add2_amplitude]
+                  [add2_speed]
+                  [add2_phase]}}
+            {if
+               [target3]
+               {[target3]
+                  play_anim
+                  [base3_anim]
+                  [base3_amplitude]
+                  [base3_speed]
+                  [base3_phase]
+                  [add3_anim]
+                  [add3_amplitude]
+                  [add3_speed]
+                  [add3_phase]}}
+            {if
+               [target4]
+               {[target4]
+                  play_anim
+                  [base4_anim]
+                  [base4_amplitude]
+                  [base4_speed]
+                  [base4_phase]
+                  [add4_anim]
+                  [add4_amplitude]
+                  [add4_speed]
+                  [add4_phase]}}
+            {if
+               [target5]
+               {[target5]
+                  play_anim
+                  [base5_anim]
+                  [base5_amplitude]
+                  [base5_speed]
+                  [base5_phase]
+                  [add5_anim]
+                  [add5_amplitude]
+                  [add5_speed]
+                  [add5_phase]}}
+            {if
+               [target6]
+               {[target6]
+                  play_anim
+                  [base6_anim]
+                  [base6_amplitude]
+                  [base6_speed]
+                  [base6_phase]
+                  [add6_anim]
+                  [add6_amplitude]
+                  [add6_speed]
+                  [add6_phase]}})
+         (on_set_frame
+            {if
+               [backlight]
+               {if
+                  {exists backlight_color1.env}
+                  {[backlight]
+                     set
+                     color1
+                     {backlight_color1.env get ambient_color}}}
+               {if
+                  {exists backlight_color2.env}
+                  {[backlight]
+                     set
+                     color2
+                     {backlight_color2.env get ambient_color}}}
+               {if
+                  {exists backlight_color3.env}
+                  {[backlight]
+                     set
+                     color3
+                     {backlight_color3.env get ambient_color}}}
+               {[backlight]
+                  update}}))))
+(RndDir
+   (types
+      (chars
+         (change_proxies
+            {if_else
+               {exists char_cache}
+               {char_cache change_characters $this}
+               {do
+                  {if
+                     $venue_test
+                     {init_venue_chars $this}}
+                  {set $chars_file TRUE}}})
+         (sync_objects
+            {set $chars_file FALSE}))
+      (lighting
+         (editor WORLD_MODE_EDITOR_COMMON)
+         WORLD_MODE_COMMON
+         (enter
+            {unless
+               {exists game}
+               {set $game.play_mode coop}
+               {$this sync_mode}})
+         (change_proxies))
+      (band_name_label
+         (enter
+            {if
+               {exists game}
+               {$this
+                  iterate
+                  BandLabel
+                  $lbl
+                  {if
+                     {has_substr
+                        {$lbl name}
+                        "bandname"}
+                     {if
+                        {&&
+                           {exists tour}
+                           {tour band}}
+                        {$lbl
+                           set_localized
+                           {gamemode get band_name}}}}}
+               {if
+                  {&&
+                     {exists tour}
+                     {tour band}}
+                  {set
+                     $logopatch
+                     {gamemode get band_logo}}
+                  {unless
+                     $logopatch
+                     {if
+                        {&&
+                           {exists bandlogo_default.tex}
+                           {exists bandlogo_target.tex}}
+                        {bandlogo_target.tex
+                           iterate_refs
+                           $ref
+                           {$ref set diffuse_tex bandlogo_default.tex}}}}}}))
+      (color_passthrough
+         (editor
+            (color1 color)
+            (color2 color)
+            (color3 color)
+            (update
+               script
+               (script
+                  {$this update})))
+         (color1
+            {pack_color 1 1 1}
+            proxy_save)
+         (color2
+            {pack_color 1 1 1}
+            proxy_save)
+         (color3
+            {pack_color 1 1 1}
+            proxy_save)
+         (enter
+            {$this update})
+         (update
+            {if
+               {exists mat01.mat}
+               {mat01.mat
+                  set
+                  color
+                  [color1]}}
+            {if
+               {exists mat02.mat}
+               {mat02.mat
+                  set
+                  color
+                  [color2]}}
+            {if
+               {exists mat03.mat}
+               {mat03.mat
+                  set
+                  color
+                  [color3]}}
+            {if
+               {exists part_mat02.mat}
+               {part_mat02.mat
+                  set
+                  color
+                  [color2]}}
+            {if
+               {exists part_mat03.mat}
+               {part_mat03.mat
+                  set
+                  color
+                  [color3]}})
+         (trigger
+            ($event)
+            {handle
+               ($event trigger)}))
+      (skin_proxy
+         (editor
+            (color color)
+            (tattoo_overlay_color color)
+            (mat
+               object
+               (class Mat))
+            (tattoo_overlay_mat
+               object
+               (class Mat))
+            (tattoo_overlay_mat2
+               object
+               (class Mat))
+            (tattoo_overlay_mat3
+               object
+               (class Mat))
+            (update
+               script
+               (script
+                  {$this update})))
+         (mat '')
+         (tattoo_overlay_mat '')
+         (tattoo_overlay_mat2 '')
+         (tattoo_overlay_mat3 '')
+         (color
+            {pack_color 1 1 1})
+         (tattoo_overlay_color
+            {pack_color 1 1 1})
+         (set_color
+            ($color $overlay)
+            {if_else
+               [mat]
+               {[mat]
+                  set
+                  color
+                  $color}
+               {notify
+                  {path_name $this}
+                  " has no mat property set on it"}}
+            {if
+               [tattoo_overlay_mat]
+               {[tattoo_overlay_mat]
+                  set
+                  color
+                  $overlay}}
+            {if
+               [tattoo_overlay_mat2]
+               {[tattoo_overlay_mat2]
+                  set
+                  color
+                  $overlay}}
+            {if
+               [tattoo_overlay_mat3]
+               {[tattoo_overlay_mat3]
+                  set
+                  color
+                  $overlay}})
+         (update
+            {$this
+               set_color
+               [color]
+               [tattoo_overlay_color]}))))
+(WorldCrowd
+   (init
+      {$this set_type band})
+   (types
+      (band
+         #include crowd.dta)))
+(WorldDir
+   (types
+      (base
+         (editor WORLD_OBJECT_EDITOR_COMMON WORLD_MODE_EDITOR_COMMON)
+         WORLD_OBJECT_BASE
+         WORLD_OBJECT_VALIDATE)
+      (variant
+         (editor WORLD_OBJECT_EDITOR_COMMON WORLD_MODE_EDITOR_COMMON)
+         WORLD_OBJECT_BASE
+         (sync_objects
+            {if
+               {exists gamecfg}
+               {$this
+                  camera_random_seed
+                  {gamecfg get net_random_seed}}
+               {$this
+                  iterate
+                  BandCamShot
+                  $shot
+                  {with
+                     $shot
+                     {do
+                        ($player
+                           {dircut_gender_genre_focus $this})
+                        ($flags 0)
+                        {if
+                           $player
+                           {set
+                              $flags
+                              {'|'
+                                 {switch
+                                    {$player get gender}
+                                    (male kValidMale)
+                                    (female kValidFemale)}
+                                 {$player get attitude}}}
+                           {if
+                              {!=
+                                 {&
+                                    [flags]
+                                    $flags}
+                                 $flags}
+                              {set
+                                 [enabled]
+                                 FALSE}}}}
+                     {if
+                        {==
+                           [category]
+                           NORMAL}
+                        {switch
+                           $game.play_mode
+                           (coop
+                              {set
+                                 [category]
+                                 {sprint
+                                    "NORMAL"
+                                    [bass_focus]
+                                    [drums_focus]
+                                    [guitar_focus]
+                                    [vocal_focus]}}
+                              {if
+                                 {&
+                                    [flags]
+                                    kBCSBDistFar}
+                                 {set
+                                    [category]
+                                    "NORMAL1111"}})
+                           (h2h_drum
+                              {set
+                                 [category]
+                                 {sprint
+                                    "NORMAL"
+                                    [drums2_focus]
+                                    [drums_focus]
+                                    [guitar_focus]
+                                    [vocal_focus]}})
+                           (h2h_vocals
+                              {set
+                                 [category]
+                                 {sprint
+                                    "NORMAL"
+                                    [vocal2_focus]
+                                    [drums_focus]
+                                    [guitar_focus]
+                                    [vocal_focus]}})
+                           {set
+                              [category]
+                              {sprint
+                                 "NORMAL"
+                                 [guitar2_focus]
+                                 [drums_focus]
+                                 [guitar_focus]
+                                 [vocal_focus]}}}}}}}))
+      (blank_variant
+         (editor WORLD_OBJECT_EDITOR_COMMON)
+         WORLD_OBJECT_BASE)
+      (shell
+         (editor
+            (postprocess
+               object
+               (class PostProc)
+               (help
+                  "Post process object to use when this panel is on screen")
+               (post_sync
+                  {$this update_postproc}))
+            (refresh_postproc
+               script
+               (script
+                  {$this update_postproc})
+               (help
+                  "Refresh postprocessor selection on the tool")))
+         (postprocess '')
+         (change_proxies
+            {handle
+               (char_cache change_characters $this)})
+         (enter
+            {set $camera.postproc_override FALSE}
+            {if
+               {exists game}
+               {if
+                  {exists bandname.lbl3d}
+                  {bandname.lbl3d
+                     set
+                     text
+                     {gamemode get band_name}}}
+               {$this
+                  iterate
+                  BandLabel
+                  $lbl
+                  {if
+                     {has_substr
+                        {$lbl name}
+                        "bandname"}
+                     {if
+                        {&&
+                           {exists tour}
+                           {tour band}}
+                        {$lbl
+                           set_localized
+                           {gamemode get band_name}}}}}
+               {if
+                  {exists bandlogo.patch}
+                  {if
+                     {&&
+                        {exists tour}
+                        {tour band}}
+                     {set
+                        $logopatch
+                        {gamemode get band_logo}}
+                     {if_else
+                        $logopatch
+                        {bandlogo.patch set proxy $logopatch}
+                        {do
+                           {set
+                              $tex
+                              {bandlogo.patch get output_texture}}
+                           {if
+                              {&&
+                                 $tex
+                                 {exists bandlogo_default.tex}}
+                              {$tex
+                                 iterate_refs
+                                 $ref
+                                 {$ref set diffuse_tex bandlogo_default.tex}}}}}}}})
+         (update_postproc
+            {if
+               $edit_mode
+               {if_else
+                  [postprocess]
+                  {[postprocess]
+                     select}
+                  {rnd reset_postproc}}})
+         (player_saved
+            ($savior)))))

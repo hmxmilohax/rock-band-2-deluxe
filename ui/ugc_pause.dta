@@ -1,0 +1,293 @@
+#define COMMON_DELETE_CONFIRM
+((focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (enter
+      {song_mgr clear_failed_deletion}
+      {dialog_panel
+         set_yesno
+         {sprintf
+            {localize ugc_delete_demo_confirm}
+            {song_mgr
+               song_name
+               {meta_performer song}}
+            {song_mgr
+               song_artist
+               {meta_performer song}}}
+         no.btn})
+   (SELECT_MSG
+      {switch
+         $component
+         (yes.btn
+            {meta_loading_screen
+               set
+               song_to_delete
+               {meta_performer song}}
+            {if
+               {pause_panel is_up}
+               {session end_game kQuit FALSE TRUE}}
+            {ui sync_screen meta_loading_pause_new_song_screen 1})
+         (no.btn
+            {ui
+               goto_screen
+               [back_screen]})}))
+{new
+   BandScreen
+   ugc_delete_demo_confirm_screen
+   (back_screen pause_screen)
+   (panels pause_bg_panel pause_panel dialog_panel)
+   COMMON_DELETE_CONFIRM}
+{new
+   BandScreen
+   ugc_lose_delete_confirm_screen
+   (back_screen lose_screen)
+   (panels lose dialog_panel)
+   COMMON_DELETE_CONFIRM}
+{new
+   BandScreen
+   delete_complete_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (enter
+      {dialog_panel
+         set_ok
+         {if_else
+            {song_mgr get_failed_deletion}
+            {sprintf
+               {localize ugc_delete_failed}
+               {meta_loading_screen get song_title}
+               {meta_loading_screen get song_artist}}
+            {sprintf
+               {localize ugc_delete_complete}
+               {meta_loading_screen get song_title}
+               {meta_loading_screen get song_artist}}}}
+      {song_mgr clear_failed_deletion})
+   (SELECT_MSG
+      {meta_loading_screen set song_title ''}
+      {meta_loading_screen set song_artist ''}
+      {ui pop_screen})}
+{new
+   BandScreen
+   ugc_buy_now_confirm_screen
+   (panels pause_bg_panel pause_panel dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (user '')
+   (enter
+      {do
+         ($temp
+            {input_mgr get_user})
+         {input_mgr
+            set_user
+            [user]}
+         {set
+            [user]
+            $temp}}
+      {dialog_panel
+         set_yesno
+         {localize ugc_buy_confirm}
+         yes.btn})
+   (exit
+      {input_mgr
+         set_user
+         [user]})
+   (SELECT_MSG
+      {switch
+         $component
+         (yes.btn
+            {ugc_buy_demo_panel
+               set
+               user
+               {input_mgr get_user}}
+            {ugc_buy_demo_panel
+               set
+               song
+               {meta_performer song}}
+            {if_else
+               {'||'
+                  {!
+                     {platform_mgr
+                        is_player_signed_into_live
+                        {{input_mgr get_user}
+                           get_user_num}}}
+                  {platform_mgr is_player_a_guest $player_num}}
+               {meta_loading_quit_buy_screen set next_screen ugc_buy_demo_signin_screen}
+               {meta_loading_quit_buy_screen set next_screen ugc_buy_demo_screen}}
+            {session end_game kQuit FALSE TRUE}
+            {ui sync_screen meta_loading_quit_buy_screen 1})
+         (no.btn
+            {ui
+               goto_screen
+               {gamemode get pause_screen}})})}
+{new
+   BandScreen
+   meta_loading_quit_buy_screen
+   META_LOADING_SCREEN_HANDLERS
+   (clear_game_state TRUE)
+   (session_leaving_early TRUE)
+   (goto_practice_mode FALSE)
+   (next_screen '')}
+{new
+   SigninScreen
+   ugc_buy_demo_signin_screen
+   (panels meta_loading dialog_panel)
+   (focus dialog_panel)
+   (must_not_be_a_guest TRUE)
+   (must_be_online TRUE)
+   (must_be_multiplayer_capable FALSE)
+   (handle_sign_outs FALSE)
+   (limit_user_signin TRUE)
+   (ready FALSE)
+   (update_display
+      {do
+         ($user
+            {input_mgr get_user})
+         {dialog_panel
+            set_custom
+            {localize
+               {if_else
+                  {&&
+                     {platform_mgr is_user_signed_in $user}
+                     {platform_mgr is_user_a_guest $user}}
+                  ugc_buy_need_to_signin_not_guest
+                  ugc_buy_need_to_signin}}
+            {localize main_tour_signin_button}
+            {localize main_tour_cancel_button}
+            opt1.btn}})
+   (enter
+      {input_mgr
+         set_user
+         {ugc_buy_demo_panel get user}}
+      {$this update_display})
+   (SELECT_MSG
+      {switch
+         $component
+         (opt1.btn
+            {platform_mgr signin 1 TRUE})
+         (opt2.btn
+            {input_mgr clear_user}
+            {ugc_buy_demo_panel set user ''}
+            {ui goto_screen main_screen})})
+   (on_signed_into_guest
+      {$this update_display})
+   (on_not_online
+      {$this update_display})
+   (on_signed_in
+      {ui goto_screen ugc_purchase_connect_screen})}
+{new
+   BandScreen
+   ugc_purchase_connect_screen
+   (panels meta_loading)
+   (focus meta_loading)
+   (poll
+      #ifndef _SHIP
+      {if_else
+         {ugc_buy_demo_panel get offer_id}
+         {ui goto_screen ugc_buy_demo_screen}
+         #endif
+         {switch
+            {rock_central state}
+            ((kRCOffline kRCConnecting)
+               kDataUnhandled)
+            (kRCOnline
+               {ui goto_screen ugc_buy_demo_screen}
+               kDataUnhandled)
+            ((kRCDisconnecting kRCFailed)
+               {ui goto_screen ugc_buy_demo_failed_screen}
+               kDataUnhandled)}
+         #ifndef _SHIP}
+      #endif)}
+#ifdef HX_XBOX
+{new
+   UGCPurchasePanel
+   ugc_buy_demo_panel
+   (user '')
+   (enter
+      {input_mgr
+         set_user
+         [user]}
+      {set
+         [user]
+         ''})
+   (checkout_finished
+      {ui goto_screen main_screen})
+   (checkout_failed
+      {ui goto_screen ugc_buy_demo_failed_screen})}
+{new
+   BandScreen
+   ugc_buy_demo_screen
+   (panels meta_loading ugc_buy_demo_panel)
+   (focus ugc_buy_demo_panel)
+   (helpbar
+      ((min_height 0)))}
+{new
+   BandScreen
+   ugc_buy_demo_failed_screen
+   (panels meta_loading dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (enter
+      {dialog_panel
+         set_ok
+         {localize ugc_buy_demo_failed}})
+   (SELECT_MSG
+      {ui goto_screen main_screen})}
+{new
+   BandScreen
+   ugc_buy_demo_success_screen
+   (panels meta_loading dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (enter
+      {dialog_panel
+         set_ok
+         {sprintf
+            {localize ugc_buy_demo_succeeded}}})
+   (SELECT_MSG
+      {ui goto_screen main_screen})}
+{new
+   ParentalControlPanel
+   parental_control_panel
+   (done
+      {do
+         ($ix
+            {song_offer_provider get_highlighted_ix})
+         {song_select_panel refresh}
+         {song_offer_provider set_highlighted_ix $ix}
+         {song_select_panel refresh_selected_song}
+         {ui pop_screen}})}
+{new
+   BandScreen
+   parental_control_screen
+   (panels parental_control_panel)
+   (focus parental_control_panel)
+   (exit
+      {net_sync enable})
+   (song_data_mounted
+      ($song)
+      {song_select_panel song_data_mounted $song})}
+#else
+{new
+   BandScreen
+   parental_control_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (enter
+      {dialog_panel
+         set_ok
+         {localize content_restricted}})
+   (exit
+      {net_sync enable})
+   (song_data_mounted
+      ($song)
+      {song_select_panel song_data_mounted $song})
+   (SELECT_MSG
+      {ui pop_screen})}
+#endif

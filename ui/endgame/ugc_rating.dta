@@ -1,0 +1,425 @@
+#define UGC_RATING_PANEL_TYPE
+((type
+      (slot_num 0)
+      (slot none)
+      (player_num
+         {gamecfg
+            get_player_num_from_slot_num
+            [slot_num]})
+      (get_pad_num
+         {{user_mgr
+               get_band_user
+               [player_num]}
+            get_pad_num})
+      (next_option state_not_present)
+      (current_option
+         [next_option])
+      (option state_not_present)
+      (enter
+         {if_else
+            {&&
+               {beatmatch
+                  is_active_player
+                  {$this player_num}}
+               {user_mgr
+                  get_user_from_slot
+                  [slot_num]}
+               {{user_mgr
+                     get_user_from_slot
+                     [slot_num]}
+                  is_local_player}}
+            {if_else
+               {platform_mgr
+                  is_player_signed_in
+                  {$this player_num}}
+               {set
+                  [next_option]
+                  state_disabled}
+               {set
+                  [next_option]
+                  state_not_signed_in}}
+            {set
+               [next_option]
+               state_not_present}})
+      (exit
+         {do
+            ($profile
+               {profile_mgr
+                  get_profile
+                  {$this player_num}})
+            {if
+               {&&
+                  {!=
+                     [option]
+                     state_not_present}
+                  $profile}
+               {$profile update_leaderboards}}})
+      (update
+         {not_signed_in.lbl set showing FALSE}
+         {switch
+            [option]
+            (state_not_present
+               {slot.grp set showing FALSE}
+               {highlight.mesh set showing FALSE})
+            (state_not_signed_in
+               {slot.grp set showing FALSE}
+               {highlight.mesh set showing TRUE}
+               {not_signed_in.lbl set showing TRUE})
+            ((state_disabled state_enabled)
+               {highlight.mesh set showing TRUE}
+               {do
+                  ($rating
+                     {$this get_rating})
+                  {all_icons.grp set_showing $rating}
+                  {if
+                     $rating
+                     {foreach_int
+                        $r
+                        1
+                        6
+                        {{sprintf
+                              "lighter%i.anim"
+                              $r}
+                           animate
+                           (range
+                              {{sprintf
+                                    "lighter%i.anim"
+                                    $r}
+                                 frame}
+                              {<= $r $rating})}}}})
+            (TRUE
+               {notify
+                  "Unknown state in UGC_RATING_PANEL_TYPE\n"})}
+         {arrow_white_highlight_bottom.mesh
+            set
+            showing
+            {==
+               [option]
+               state_enabled}}
+         {arrow_white_highlight_top.mesh
+            set
+            showing
+            {==
+               [option]
+               state_enabled}}
+         {press_back.lbl
+            set
+            showing
+            {!=
+               [option]
+               state_enabled}}
+         #ifdef HX_XBOX
+         {back_button.lbl
+            set
+            showing
+            {!=
+               [option]
+               state_enabled}}
+         #else
+         {back_button.lbl set showing FALSE}
+         {press_back.lbl set width 140.0}
+         {press_back.lbl set alignment kMiddleCenter}
+         {do
+            ($x 0)
+            ($y 0)
+            ($z 0)
+            {press_back.lbl get_local_pos $x $y $z}
+            {press_back.lbl set_local_pos 0.0 $y $z}}
+         #endif)
+      (allow_button_msg
+         ($player_num)
+         {==
+            {$this player_num}
+            $player_num})
+      (is_ready
+         {!
+            {==
+               [option]
+               state_enabled}})
+      (get_rating
+         {do
+            ($profile
+               {profile_mgr
+                  get_profile
+                  {$this player_num}})
+            {$profile
+               get_rating
+               {meta_performer completed_song}}})))
+#define UGC_RATING_OPTIONS
+((options
+      (state_not_present)
+      (state_not_signed_in)
+      (state_disabled
+         (BUTTON_DOWN_MSG
+            {switch
+               $action
+               (kAction_ViewModify
+                  {do
+                     ($song
+                        {meta_performer completed_song})
+                     ($profile
+                        {profile_mgr get_profile $player_num})
+                     {synth play button_back}
+                     {if
+                        {==
+                           0
+                           {$profile get_rating $song}}
+                        {$profile set_rating $song 3}}
+                     {set
+                        [next_option]
+                        state_enabled}
+                     {{ui current_screen}
+                        export_all
+                        update}
+                     {{ui current_screen}
+                        update_helpbar}})
+               kDataUnhandled}))
+      (state_enabled
+         (BUTTON_DOWN_MSG
+            {switch
+               $action
+               (kAction_Confirm
+                  {synth play button_select}
+                  {set
+                     [next_option]
+                     state_disabled}
+                  {{ui current_screen}
+                     export_all
+                     update}
+                  {{ui current_screen}
+                     update_helpbar})
+               (kAction_Up
+                  {do
+                     ($song
+                        {meta_performer completed_song})
+                     ($profile
+                        {profile_mgr get_profile $player_num})
+                     {arrow_white_highlight_top.trg trigger}
+                     {synth
+                        play
+                        {if_else
+                           {<
+                              {$profile get_rating $song}
+                              5}
+                           button_toggle
+                           button_error}}
+                     {$profile
+                        set_rating
+                        $song
+                        {min
+                           5
+                           {'+'
+                              {$profile get_rating $song}
+                              1}}}
+                     {{ui current_screen}
+                        export_all
+                        update}
+                     {{ui current_screen}
+                        update_helpbar}})
+               (kAction_Down
+                  {do
+                     ($song
+                        {meta_performer completed_song})
+                     ($profile
+                        {profile_mgr get_profile $player_num})
+                     {arrow_white_highlight_bottom.trg trigger}
+                     {synth
+                        play
+                        {if_else
+                           {>
+                              {$profile get_rating $song}
+                              1}
+                           button_toggle
+                           button_error}}
+                     {$profile
+                        set_rating
+                        $song
+                        {max
+                           1
+                           {-
+                              {$profile get_rating $song}
+                              1}}}
+                     {{ui current_screen}
+                        export_all
+                        update}
+                     {{ui current_screen}
+                        update_helpbar}})
+               kDataUnhandled}))))
+#define UGC_ENDGAME_HANDLERS
+((helpbar
+      ())
+   (update_helpbar
+      {helpbar
+         set_config
+         #ifdef HX_XBOX
+         {if_else
+            {'||'
+               {is_leader_local}
+               {gamemode get ranked}}
+            {if_else
+               {&&
+                  {gamemode get online_play_required}
+                  {>
+                     {session num_players}
+                     0}}
+               ((confirm
+                     {if_else
+                        {$this all_ready}
+                        endgame_hb_finishsong
+                        helpbar_select})
+                  (option endgame_hb_details))
+               ((confirm
+                     {if_else
+                        {$this all_ready}
+                        endgame_hb_finishsong
+                        helpbar_select}))}
+            {if_else
+               {&&
+                  {gamemode get online_play_required}
+                  {>
+                     {session num_players}
+                     0}}
+               ((option endgame_hb_details)
+                  (confirm
+                     {if_else
+                        {$this all_ready}
+                        ''
+                        helpbar_select})
+                  (cancel endgame_hb_leave_session))
+               ((cancel endgame_hb_leave_session))}}
+         #endif
+         #ifdef HX_PS3
+         {if_else
+            {'||'
+               {is_leader_local}
+               {gamemode get ranked}}
+            ((confirm
+                  {if_else
+                     {$this all_ready}
+                     endgame_hb_finishsong
+                     helpbar_select}))
+            ((cancel endgame_hb_leave_session))}
+         #endif})
+   (BUTTON_DOWN_MSG
+      {switch
+         $action
+         #ifdef HX_XBOX
+         (kAction_Option
+            {if
+               {!
+                  {gamemode get ranked}}
+               {net_sync disable}}
+            {if
+               {gamemode get online_play_required}
+               {[more_details_screen]
+                  set
+                  is_ugc
+                  TRUE}
+               {ui
+                  goto_screen
+                  [more_details_screen]}})
+         #endif
+         (kAction_Confirm
+            {if_else
+               {$this all_ready}
+               {do
+                  {synth play button_select}
+                  {if_else
+                     {tour band}
+                     {ui
+                        sync_screen
+                        {if_else
+                           {{tour event}
+                              is_battle}
+                           tour_botb_complete_screen
+                           {if_else
+                              {==
+                                 {{tour band}
+                                    event_type}
+                                 kTourEventChallenge}
+                              tour_challenge_complete_screen
+                              tour_world_complete_screen}}
+                        1}
+                     {if_else
+                        {gamemode get ranked}
+                        {ui goto_screen complete_ranked_screen}
+                        {ui sync_screen complete_screen 1}}}}
+               kDataUnhandled})
+         (kAction_Cancel
+            {if_else
+               {&&
+                  {!
+                     {is_leader_local}}
+                  {!
+                     {gamemode get ranked}}}
+               {band_ui trigger_event remote_exit}
+               kDataUnhandled})
+         kDataUnhandled})
+   (TRANSITION_COMPLETE_MSG
+      {unless
+         {is_leader_local}
+         {helpbar option endgame_hb_details}
+         {if_else
+            {gamemode get ranked}
+            {helpbar confirm endgame_hb_finishsong}
+            {do
+               {helpbar cancel endgame_hb_leave_session}
+               {do
+                  ($leader_name
+                     {{session_mgr get_leader_user}
+                        get
+                        player_name})
+                  {helpbar
+                     waiting
+                     {symbol
+                        {sprintf
+                           {localize helpbar_waiting_for}
+                           $leader_name}}}}}}}
+      {$this update_helpbar}))
+{new
+   UIPanel
+   ugc_rating_panel
+   (file
+      "ugc_rating.milo")
+   (enter
+      {input_mgr set_limit kLimitSession}
+      {do
+         ($frame
+            {if_else
+               {gamemode get is_solo}
+               1
+               0})
+         {player0.tnm set_frame $frame}
+         {player01.tnm set_frame $frame}
+         {player02.tnm set_frame $frame}
+         {player03.tnm set_frame $frame}})}
+{new
+   MultiFocusScreen
+   ugc_coop_endgame_screen
+   (panels coop_endgame_panel ugc_rating_panel)
+   (more_details_screen coop_details_endgame_screen)
+   (player_panels
+      (panel ugc_rating_panel)
+      (slots COOP_SLOTS_ORDER)
+      UGC_RATING_PANEL_TYPE
+      UGC_RATING_OPTIONS)
+   UGC_ENDGAME_HANDLERS}
+{new
+   UIPanel
+   ugc_score_duel_rating_panel
+   (file
+      "ugc_score_duel_rating.milo")
+   (enter
+      {input_mgr set_limit kLimitSession})}
+{new
+   MultiFocusScreen
+   ugc_score_duel_endgame_screen
+   (panels score_duel_endgame_panel ugc_score_duel_rating_panel)
+   (focus ugc_score_duel_rating_panel)
+   (more_details_screen score_duel_details_endgame_screen)
+   (player_panels
+      (panel ugc_score_duel_rating_panel)
+      (slots none none)
+      UGC_RATING_PANEL_TYPE
+      UGC_RATING_OPTIONS)
+   UGC_ENDGAME_HANDLERS}

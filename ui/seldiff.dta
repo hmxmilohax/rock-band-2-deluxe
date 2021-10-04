@@ -1,0 +1,875 @@
+{new
+   UIPanel
+   seldiff_border_panel
+   (file
+      "seldiff_border.milo")
+   (enter
+      {do
+         ($perf
+            {tour band})
+         {song.lbl
+            set_localized
+            {if_else
+               $perf
+               {{tour event}
+                  display_name}
+               {if_else
+                  {==
+                     {meta_performer num_songs}
+                     1}
+                  {song_mgr
+                     song_name
+                     {meta_performer song}}
+                  {localize set_list_title}}}}
+         {by_line.lbl
+            set_localized
+            {if_else
+               $perf
+               {{tour event}
+                  description}
+               {if_else
+                  {==
+                     {meta_performer num_songs}
+                     1}
+                  {song_mgr
+                     by_line
+                     {meta_performer song}}
+                  {sprintf
+                     {localize set_list_song_count}
+                     {meta_performer num_songs}}}}}})}
+{new
+   UIPanel
+   seldiff_panel
+   (file
+      "seldiff.milo")
+   (unload
+      {session set_all_local_ready_status FALSE})
+   (enter
+      {do
+         ($mode_frame
+            {cond
+               ({gamemode is_solo}
+                  1)
+               ({gamemode is_h2h_arrangement}
+                  2)
+               (TRUE 0)})
+         {pos_slot_00.tnm set_frame $mode_frame}
+         {pos_slot_01.tnm set_frame $mode_frame}
+         {pos_slot_02.tnm set_frame $mode_frame}
+         {pos_slot_03.tnm set_frame $mode_frame}}
+      {seldiff_02.grp
+         set_showing
+         {!
+            {gamemode is_h2h_arrangement}}}
+      {seldiff_03.grp
+         set_showing
+         {!
+            {gamemode is_h2h_arrangement}}})}
+#define SELDIFF_SCREEN_PANELS
+((slots COOP_SLOTS_ORDER)
+   (type
+      (player_num
+         {gamecfg
+            get_player_num_from_slot_num
+            [slot_num]})
+      (slot_num 0)
+      (slot none)
+      (option '')
+      (current_option
+         {cond
+            ({!
+                  {$this is_active}}
+               inactive)
+            ({&&
+                  {$this is_guitar_slot}
+                  {!
+                     {$this is_track_set}}}
+               part_select)
+            ({&&
+                  {$this is_guitar_slot}
+                  {!
+                     {$this is_other_track_set}}}
+               part_select_wait)
+            ({!
+                  {{user_mgr
+                        get_band_user
+                        [player_num]}
+                     is_ready}}
+               diff_select)
+            diff_selected})
+      (enter
+         {if
+            {$this is_active}
+            {do
+               ($user
+                  {user_mgr
+                     get_band_user
+                     [player_num]})
+               {if
+                  {&&
+                     {!
+                        {gamemode is_h2h_arrangement}}
+                     {$user is_local_player}
+                     {$user get_char}}
+                  {switch
+                     {$user get_controller_type}
+                     (kControllerDrum
+                        {$user set_track_type kTrackDrum})
+                     (kControllerVocals
+                        {$user set_track_type kTrackVocals})
+                     (TRUE
+                        {if_else
+                           {==
+                              {$this limit_track}
+                              ''}
+                           {$user set_track_type kTrackNone}
+                           {$user
+                              set_track_type
+                              {$this limit_track}}})}}}})
+      (update
+         {select.grp
+            set_showing
+            {$this is_active}}
+         {if
+            {select.grp showing}
+            {do
+               ($user
+                  {user_mgr
+                     get_band_user
+                     [player_num]})
+               ($char
+                  {$user get_char})
+               ($ready
+                  {$user is_ready})
+               ($diff
+                  {$user get_difficulty_sym})
+               ($min_diff
+                  {meta_performer min_difficulty_select})
+               {instrument.lbl
+                  set_localized
+                  {if_else
+                     {==
+                        {$user get_track_type}
+                        kTrackNone}
+                     {$char
+                        instrument_icon
+                        {$user get_controller_sym}}
+                     {$char
+                        track_icon
+                        {$user get_track_sym}}}}
+               {if
+                  {==
+                     {$user get_controller_sym}
+                     guitar}
+                  {guitar.lbl
+                     set_localized
+                     {$char track_icon guitar}}
+                  {bass.lbl
+                     set_localized
+                     {$char track_icon bass}}}
+               {unless
+                  {gamemode is_solo}
+                  {{seldiff_panel
+                        find
+                        {sprintf
+                           "remote%i.mnm"
+                           [slot_num]}}
+                     set_frame
+                     {!
+                        {gamecfg
+                           is_player_local
+                           [player_num]}}}}
+               {player.lbl
+                  set_localized
+                  {$user intro_name}}
+               {if_else
+                  {&&
+                     {$this is_guitar_slot}
+                     {'||'
+                        {!
+                           {$this is_track_set}}
+                        {!
+                           {$this is_other_track_set}}}}
+                  {do
+                     {seldiff.grp set_showing FALSE}
+                     {selpart.grp set_showing TRUE}}
+                  {do
+                     {seldiff.grp set_showing TRUE}
+                     {selpart.grp set_showing FALSE}}}
+               {if
+                  {seldiff.grp showing}
+                  {$this
+                     iterate
+                     BandButton
+                     $b
+                     {if_else
+                        {==
+                           {$b get text_token}
+                           $diff}
+                        {do
+                           {$this set_focus $b}
+                           {$b set_showing TRUE}}
+                        {$b
+                           set_showing
+                           {! $ready}}}}
+                  {ready.lbl set_showing $ready}}
+               {do
+                  ($diff 0)
+                  {foreach
+                     $diff_sym
+                     (DIFF_SYMBOLS)
+                     {if
+                        {< $diff $min_diff}
+                        {$this
+                           disable
+                           {sprint
+                              $diff_sym
+                              ".btn"}}}
+                     {'++' $diff}}}
+               {if
+                  {selpart.grp showing}
+                  {if_else
+                     {$this is_track_set}
+                     {do
+                        ($track
+                           {$user get_track_type})
+                        {guitar.grp
+                           set_showing
+                           {== $track kTrackGuitar}}
+                        {bass.grp
+                           set_showing
+                           {== $track kTrackBass}}
+                        {if_else
+                           {!
+                              {$this is_other_track_set}}
+                           {waiting_part.lbl set_showing TRUE}
+                           {waiting_part.lbl set_showing FALSE}}}
+                     {do
+                        ($required_part
+                           {$this limit_track})
+                        ($parts
+                           (guitar bass))
+                        {guitar.grp set_showing TRUE}
+                        {bass.grp set_showing TRUE}
+                        {waiting_part.lbl set_showing FALSE}
+                        {if
+                           {&&
+                              {!=
+                                 {$this focus_name}
+                                 guitar.btn}
+                              {!=
+                                 {$this focus_name}
+                                 bass.btn}}
+                           {$this set_focus guitar.btn}}
+                        {foreach
+                           $part
+                           $parts
+                           {do
+                              ($button
+                                 {sprint
+                                    $part
+                                    ".btn"})
+                              ($label
+                                 {sprint
+                                    $part
+                                    ".lbl"})
+                              {if_else
+                                 {&&
+                                    {!= $required_part ''}
+                                    {!= $required_part $part}}
+                                 {do
+                                    {$this disable $button}
+                                    {$this disable $label}}
+                                 {do
+                                    {$this enable $button}
+                                    {$this enable $label}}}}}}}}}})
+      (limit_track
+         {do
+            ($required_part
+               {meta_performer required_part})
+            {if_else
+               {find_elem
+                  (guitar bass)
+                  $required_part}
+               $required_part
+               ''}})
+      (is_ready
+         {'||'
+            {!
+               {game
+                  is_player_participating
+                  [player_num]}}
+            {{user_mgr
+                  get_band_user
+                  [player_num]}
+               is_ready}})
+      (is_active
+         {&&
+            {!=
+               [player_num]
+               -1}
+            {gamecfg
+               is_player_participating
+               [player_num]}})
+      (is_guitar_slot
+         {==
+            [slot]
+            guitar})
+      (is_track_set
+         {!=
+            {{user_mgr
+                  get_band_user
+                  [player_num]}
+               get_track_type}
+            kTrackNone})
+      (is_other_track_set
+         {do
+            ($ret TRUE)
+            {gamecfg
+               foreach_user
+               $user
+               {if
+                  {&&
+                     {$user is_participating}
+                     {!=
+                        {$user get player_num}
+                        [player_num]}
+                     {==
+                        {$user get_controller_type}
+                        kControllerGuitar}
+                     {==
+                        {$user get_track_type}
+                        kTrackNone}}
+                  {set $ret FALSE}}}
+            $ret})
+      (is_only_guitarist
+         {do
+            ($num_guitarists 0)
+            {gamecfg
+               foreach_user
+               $user
+               {if
+                  {&&
+                     {$user is_participating}
+                     {==
+                        {$user get_controller_type}
+                        kControllerGuitar}}
+                  {'+=' $num_guitarists 1}}}
+            {&&
+               {$this is_guitar_slot}
+               {== $num_guitarists 1}}})
+      (send_focus_msg TRUE))
+   (options
+      (inactive
+         (BUTTON_DOWN_MSG TRUE))
+      (part_select
+         (FOCUS_MSG
+            {if
+               [send_focus_msg]
+               {net_sync
+                  send_net_focus
+                  [player_num]
+                  $new_focus}})
+         (net_component_focus
+            ($player_num $new_focus_name)
+            {set
+               [send_focus_msg]
+               FALSE}
+            {$this
+               set_focus
+               {$this find $new_focus_name}}
+            {set
+               [send_focus_msg]
+               TRUE})
+         (SELECT_MSG
+            {switch
+               $component
+               (guitar.btn
+                  {{user_mgr
+                        get_band_user
+                        [player_num]}
+                     set_track_type
+                     kTrackGuitar})
+               (bass.btn
+                  {{user_mgr
+                        get_band_user
+                        [player_num]}
+                     set_track_type
+                     kTrackBass})}
+            {{ui current_screen}
+               verify_player_change
+               [player_num]}
+            {{ui current_screen}
+               export_all
+               update}
+            kDataUnhandled))
+      (part_select_wait
+         (BUTTON_DOWN_MSG
+            {if_else
+               {== $action kAction_Cancel}
+               kDataUnhandled
+               {if
+                  {== $action kAction_Confirm}
+                  {synth play button_error}}}))
+      (diff_select
+         (FOCUS_MSG
+            {if
+               {gamecfg
+                  is_player_local
+                  [player_num]}
+               {{user_mgr
+                     get_band_user
+                     [player_num]}
+                  set_difficulty
+                  {switch
+                     {$new_focus name}
+                     (easy.btn easy)
+                     (medium.btn medium)
+                     (hard.btn hard)
+                     (expert.btn expert)
+                     none}}}
+            kDataUnhandled)
+         (BUTTON_DOWN_MSG
+            {if_else
+               {&&
+                  {== $action kAction_Cancel}
+                  {$this is_only_guitarist}
+                  {==
+                     {$this limit_track}
+                     ''}}
+               {do
+                  {{user_mgr
+                        get_band_user
+                        [player_num]}
+                     set_track_type
+                     kTrackNone}
+                  {{ui current_screen}
+                     export_all
+                     update}}
+               kDataUnhandled})
+         (SELECT_MSG
+            {if_else
+               {gamemode get is_practice}
+               {ui goto_screen practice_preloading_screen}
+               {{user_mgr
+                     get_band_user
+                     [player_num]}
+                  set_ready
+                  TRUE}}
+            {{ui current_screen}
+               update
+               $this}
+            kDataUnhandled))
+      (diff_selected
+         (BUTTON_DOWN_MSG
+            {if
+               {== $action kAction_Cancel}
+               {synth play button_back}
+               {{user_mgr
+                     get_band_user
+                     [player_num]}
+                  set_ready
+                  FALSE}
+               {{ui current_screen}
+                  update
+                  $this}}
+            TRUE))))
+#define SELDIFF_SCREEN_HANDLERS
+((helpbar
+      {if_else
+         {is_leader_local}
+         ((cancel helpbar_back)
+            (confirm helpbar_select))
+         ((cancel endgame_hb_leave_session)
+            (confirm helpbar_select))})
+   (player_panels
+      (panel seldiff_panel)
+      SELDIFF_SCREEN_PANELS)
+   (verify_player_change
+      ($player_num)
+      {unless
+         {gamemode is_h2h_arrangement}
+         {do
+            ($g0_pcfg 0)
+            ($g1_pcfg 0)
+            {gamecfg
+               foreach_user
+               $user
+               {if
+                  {&&
+                     {$user is_participating}
+                     {$user get_char}
+                     {==
+                        {$user get_controller_type}
+                        kControllerGuitar}}
+                  {if_else
+                     $g0_pcfg
+                     {set $g1_pcfg $user}
+                     {set $g0_pcfg $user}}}}
+            {if
+               {&&
+                  $g0_pcfg
+                  $g1_pcfg
+                  {'||'
+                     {==
+                        {$g0_pcfg get player_num}
+                        $player_num}
+                     {==
+                        {$g1_pcfg get player_num}
+                        $player_num}}
+                  {!=
+                     {$g0_pcfg get_track_type}
+                     kTrackNone}
+                  {!=
+                     {$g1_pcfg get_track_type}
+                     kTrackNone}
+                  {==
+                     {$g0_pcfg get_track_type}
+                     {$g1_pcfg get_track_type}}
+                  {$g0_pcfg is_local_player}}
+               {do
+                  ($g0_track_type kTrackNone)
+                  ($g1_track_type kTrackNone)
+                  {if_else
+                     {random 0 1}
+                     {do
+                        {set $g0_track_type kTrackBass}
+                        {set $g1_track_type kTrackGuitar}}
+                     {do
+                        {set $g0_track_type kTrackGuitar}
+                        {set $g1_track_type kTrackBass}}}
+                  {if_else
+                     {$g0_pcfg is_local_player}
+                     {$g0_pcfg set_track_type $g0_track_type}
+                     {gamecfg
+                        reassign_player_track_type
+                        {$g0_pcfg get player_num}
+                        $g0_track_type}}
+                  {if_else
+                     {$g1_pcfg is_local_player}
+                     {$g1_pcfg set_track_type $g1_track_type}
+                     {gamecfg
+                        reassign_player_track_type
+                        {$g1_pcfg get player_num}
+                        $g1_track_type}}}}}})
+   (REMOTE_PLAYER_CHANGED_MSG
+      {$this verify_player_change $player_num}
+      {$this export_all update})
+   (BUTTON_DOWN_MSG
+      {if_else
+         {&&
+            {== $action kAction_Cancel}
+            {!
+               {is_leader_local}}}
+         {band_ui trigger_event remote_exit}
+         kDataUnhandled})
+   (start_loading
+      {$this export_all update}
+      {do
+         ($band
+            {tour band})
+         {if_else
+            {&&
+               {gamemode is_tour}
+               {==
+                  {$band event_type}
+                  kTourEventWorld}
+               {!
+                  {{tour event}
+                     is_battle}}
+               {!
+                  {{$band next_moment}
+                     is_null}}}
+            {ui goto_screen tour_world_moment_screen}
+            {ui goto_screen loading_screen}}})
+   (enter
+      {platform_mgr
+         add_sink
+         $this
+         (storage_changed)}
+      {do
+         {switch
+            {{session_mgr get_leader_user}
+               get_controller_type}
+            (kControllerVocals
+               {practice_panel set_in_vocal_mode TRUE})
+            (kControllerDrum
+               {practice_panel set_in_vocal_mode FALSE})
+            (kControllerGuitar
+               {practice_panel set_in_vocal_mode FALSE})}}
+      {if
+         {practice_space_panel is_up}
+         {practice_space_panel
+            select_cam
+            "coop_select_sel_dif"}}
+      {input_mgr set_limit kLimitSession}
+      kDataUnhandled)
+   (exit
+      {platform_mgr remove_sink $this storage_changed})
+   (storage_changed
+      {band_ui trigger_event storage_changed}))
+{new
+   MultiFocusScreen
+   qp_seldiff_screen
+   (panels meta postsong_sfx_panel movie_panel seldiff_panel seldiff_border_panel song_sync_panel)
+   (back
+      {if_else
+         {&&
+            {gamemode is_h2h_arrangement}
+            {gamecfg has_participating_guitar_controller}}
+         h2h_seltrack_screen
+         {if_else
+            {&&
+               {modifier_mgr is_modifier_active mod_choose_venue}
+               {!
+                  {gamemode is_practice}}}
+            qp_selvenue_screen
+            song_select_screen}})
+   SELDIFF_SCREEN_HANDLERS}
+{new
+   MultiFocusScreen
+   tour_world_seldiff_screen
+   (panels meta tour_world_bg_panel seldiff_panel seldiff_border_panel song_sync_panel)
+   (back
+      {if_else
+         {{tour event}
+            is_battle}
+         botb_world_details_screen
+         {if_else
+            {==
+               {meta_performer previous_song_selection}
+               -1}
+            tour_world_event_screen
+            song_select_tour_screen}})
+   SELDIFF_SCREEN_HANDLERS}
+{new
+   MultiFocusScreen
+   tour_challenge_seldiff_screen
+   (panels meta practice_space_panel seldiff_panel seldiff_border_panel)
+   (back
+      {if_else
+         {{tour event}
+            is_battle}
+         botb_details_screen
+         tour_challenge_details_screen})
+   SELDIFF_SCREEN_HANDLERS}
+{new
+   UIPanel
+   h2h_seldiff_panel
+   (file
+      "qp_h2h_seldiff.milo")
+   (enter
+      {player.lbl set_showing FALSE}
+      {waiting_part.lbl set_showing FALSE}
+      {ready.lbl set_showing FALSE}
+      {do
+         ($leader
+            {session_mgr get_leader_user})
+         {$this
+            set_focus
+            {if_else
+               {==
+                  {$leader get_track_type}
+                  kTrackNone}
+               guitar.btn
+               {sprint
+                  {$leader get_difficulty_sym}
+                  ".btn"}}}}
+      {session add_sink $this}
+      {$this update})
+   (exit
+      {session remove_sink $this})
+   (REMOTE_PLAYER_CHANGED_MSG
+      {$this update})
+   (update
+      {do
+         ($leader
+            {session_mgr get_leader_user})
+         ($has_part
+            {!=
+               {$leader get_track_type}
+               kTrackNone})
+         {selpart.grp
+            set_showing
+            {! $has_part}}
+         {seldiff.grp set_showing $has_part}
+         {if
+            $has_part
+            {instrument.lbl
+               set_localized
+               {cnv_instrumenttoicon
+                  {$leader get_track_sym}}}}}
+      {foreach
+         $part
+         (guitar bass)
+         {do
+            ($button
+               {sprint
+                  $part
+                  ".btn"})
+            ($label
+               {sprint
+                  $part
+                  ".lbl"})
+            {if_else
+               {song_mgr
+                  song_part_rank
+                  {meta_performer song}
+                  $part}
+               {do
+                  {$this enable $button}
+                  {$this enable $label}}
+               {do
+                  {$this disable $button}
+                  {$this disable $label}}}}})
+   (BUTTON_DOWN_MSG
+      {do
+         ($leader
+            {session_mgr get_leader_user})
+         {if_else
+            {&&
+               {== $action kAction_Cancel}
+               {!=
+                  {$leader get_track_type}
+                  kTrackNone}
+               {gamemode get allow_bass}
+               {==
+                  {$leader get_controller_type}
+                  kControllerGuitar}}
+            {do
+               {meta send_back_sound_msg_to_all}
+               {synth play button_back}
+               {$this
+                  set_focus
+                  {sprint
+                     {$leader get_track_sym}
+                     ".btn"}}
+               {$this update_track none}
+               {$this update}}
+            kDataUnhandled}})
+   (update_track
+      ($track)
+      {game
+         foreach_user
+         $user
+         {if
+            {$user is_participating}
+            {if_else
+               {$user is_local_player}
+               {$user set_track_type $track}
+               {gamecfg
+                  set_remote_player_track_type
+                  {$user get player_num}
+                  $track}}}})
+   (SELECT_MSG
+      {do
+         ($leader
+            {session_mgr get_leader_user})
+         {if_else
+            {==
+               {$leader get_track_type}
+               kTrackNone}
+            {do
+               ($track
+                  {basename
+                     {$component name}})
+               {$this
+                  set_focus
+                  {sprint
+                     {$leader get_difficulty_sym}
+                     ".btn"}}
+               {$this update_track $track}
+               {$this update}}
+            {do
+               ($diff
+                  {basename
+                     {$component name}})
+               {game
+                  foreach_user
+                  $user
+                  {if
+                     {$user is_participating}
+                     {if_else
+                        {$user is_local_player}
+                        {$user set_difficulty $diff}
+                        {gamecfg
+                           set_remote_player_difficulty
+                           {$user get player_num}
+                           $diff}}}}
+               {ui goto_screen loading_screen}}}}
+      kDataUnhandled)}
+{new
+   BandScreen
+   h2h_seldiff_screen
+   (panels meta postsong_sfx_panel movie_panel h2h_seldiff_panel seldiff_border_panel)
+   (focus h2h_seldiff_panel)
+   (helpbar
+      {if_else
+         {is_leader_local}
+         ((cancel helpbar_back)
+            (confirm helpbar_choosediff))
+         ()})
+   (back song_select_screen)}
+{new
+   UIPanel
+   h2h_ranked_preload_panel
+   (enter
+      {session add_sink $this}
+      {if
+         {is_leader_local}
+         {meta_performer
+            set_song
+            {song_mgr get_random_song}}
+         {gamecfg
+            set_venue
+            {random_venue}}}
+      {game
+         foreach_user
+         $user
+         {if
+            {&&
+               {$user is_participating}
+               {$user is_local_player}}
+            {$user
+               set_difficulty
+               {main_h2h_seldiff_panel get difficulty}}
+            {$user set_ready TRUE}}})
+   (exit
+      {session remove_sink $this})
+   (start_loading
+      {if
+         {==
+            {session num_players}
+            2}
+         {ui goto_screen loading_screen}})}
+{new
+   BandScreen
+   h2h_ranked_preload_screen
+   (panels meta song_sync_panel h2h_ranked_preload_panel)
+   (focus h2h_ranked_preload_panel)}
+{new
+   BandScreen
+   jukebox_seldiff_screen
+   (panels meta)
+   (enter
+      {session
+         add_sink
+         $this
+         (start_loading)}
+      {do
+         ($player_num
+            {session_mgr get_leader_num})
+         ($user
+            {user_mgr get_band_user $player_num})
+         {switch
+            {$user get_controller_type}
+            (kControllerDrum
+               {$user set_track_type kTrackDrum})
+            (kControllerVocals
+               {$user set_track_type kTrackVocals})
+            {$user set_track_type kTrackGuitar}}
+         {$user set_ready TRUE}})
+   (exit
+      {session remove_sink $this})
+   (start_loading
+      {ui goto_screen loading_screen})}

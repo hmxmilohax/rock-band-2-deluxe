@@ -1,0 +1,56 @@
+#ifdef UI_INIT_DTA
+#else
+#define UI_INIT_DTA
+(1)
+#include global.dta
+#include cheats_funcs.dta
+#include game.dta
+#include meta.dta
+#include meta_loading.dta
+#include splash/splash.dta
+#include fx_panel.dta
+#include main/main.dta
+#include main/main_dialogs.dta
+#include network_connect.dta
+#include loading.dta
+#include matchmaking/matchmaking.dta
+#include pause.dta
+#include endgame/endgame.dta
+#include endgame/ugc_rating.dta
+#include endgame/lose.dta
+#include song_select.dta
+#include tour_challenge/tour_challenge.dta
+#include tour_world/tour_world.dta
+#include tour/tour_band_sel.dta
+#include tour/tour.dta
+#include botb/details.dta
+#include botb/newsfeed.dta
+#include seldiff.dta
+#include seltrack.dta
+#include options/options.dta
+#include calibration/calibration.dta
+#include options/options_audio.dta
+#include options/options_gameplay.dta
+#include options/options_vocal.dta
+#include options/options_console.dta
+#include practice/training.dta
+#include shop/shop.dta
+#include shop/charcreator.dta
+#include saveload.dta
+#include leaderboards/leaderboards.dta
+#include matchmaking/invite_friends.dta
+#include net_delegator.dta
+#include store/store.dta
+#include jukebox.dta
+#include modifiers_screen.dta
+#include ugc_audition/audition.dta
+#include ugc_pause.dta
+#include ugc_store/ugc_store.dta
+#include ugc_store/ugc_store_browser.dta
+#include ugc_store/ugc_store_info.dta
+#ifndef _SHIP
+#include framerate/frame_rate.dta
+#endif
+{platform_mgr set_notify_ui_location kOSNotifyBottomCenter}
+{set $saveload_skip_upload FALSE}
+#endif

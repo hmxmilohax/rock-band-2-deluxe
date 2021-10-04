@@ -1,0 +1,474 @@
+{new
+   HeldButtonPanel
+   ugc_store_browser_panel
+   (file
+      "ugc_store_browser.milo")
+   (focus song.lst)
+   (joypad
+      (hold_ms 500)
+      (repeat_ms 80))
+   (held_buttons
+      (kAction_Option 0.25))
+   (saved_selected_pos -1)
+   (saved_first_showing -1)
+   (saved_sort '')
+   (enter
+      {{ugc_panel find sort.lbl}
+         set_showing
+         TRUE}
+      {{ugc_panel find sort_title.lbl}
+         set_showing
+         TRUE}
+      {ugc_panel update_crumb_text}
+      {do
+         ($provider
+            {ugc_panel get offer_provider})
+         {song.lst set_provider $provider}
+         {if
+            [saved_sort]
+            {$provider
+               set_sort
+               [saved_sort]}}
+         {if_else
+            {==
+               [saved_selected_pos]
+               -1}
+            {do
+               ($idx 0)
+               {while
+                  {!
+                     {$provider is_active $idx}}
+                  {'++' $idx}}
+               {song.lst set_selected $idx}}
+            {do
+               {song.lst
+                  set_selected
+                  [saved_selected_pos]
+                  [saved_first_showing]}}}}
+      {ugc_panel
+         set
+         saved_offer_sym
+         {song.lst selected_sym}}
+      {$this refresh})
+   (TRANSITION_COMPLETE_MSG
+      {$this reset})
+   (reset
+      {set
+         [saved_selected_pos]
+         -1}
+      {set
+         [saved_first_showing]
+         -1}
+      {set
+         [saved_sort]
+         ''})
+   (on_button_held
+      ($user_num $user $raw_button $action $pad_num)
+      {if
+         {!
+            {song.lst is_scrolling}}
+         {ugc_store_details_panel shortcut_enter}})
+   (BUTTON_DOWN_MSG
+      {if
+         {== $action kAction_Cancel}
+         {store_preview_mgr clear_current_preview}}
+      {switch
+         $action
+         (kAction_ViewModify
+            {if
+               {!
+                  {song.lst is_scrolling}}
+               {do
+                  ($provider
+                     {ugc_panel get offer_provider})
+                  ($song
+                     {song.lst selected_sym})
+                  {synth play button_toggle}
+                  {$provider next_sort}
+                  {song.lst set_dirty}
+                  {song.lst set_selected $song}}
+               {$this refresh}})
+         (kAction_Option
+            {if
+               {!
+                  {song.lst is_scrolling}}
+               {do
+                  ($prev_ix
+                     {song.lst selected_pos})
+                  ($group
+                     {{ugc_panel get offer_provider}
+                        pos_to_group
+                        $prev_ix})
+                  ($song_ix
+                     {mod
+                        {'+' 1 $prev_ix}
+                        {{ugc_panel get offer_provider}
+                           num_data}})
+                  {while
+                     {&&
+                        {!= $song_ix $prev_ix}
+                        {==
+                           $group
+                           {{ugc_panel get offer_provider}
+                              pos_to_group
+                              $song_ix}}}
+                     {set
+                        $song_ix
+                        {mod
+                           {'+' 1 $song_ix}
+                           {{ugc_panel get offer_provider}
+                              num_data}}}}
+                  {if
+                     {!= $song_ix $prev_ix}
+                     {'++' $song_ix}
+                     {song.lst set_selected $song_ix}
+                     {ugc_panel
+                        set
+                        saved_offer_sym
+                        {song.lst selected_sym}}
+                     {$this refresh}}}})}
+      kDataUnhandled)
+   (SCROLL_MSG
+      {ugc_panel
+         set
+         saved_offer_sym
+         {song.lst selected_sym}}
+      {$this refresh})
+   (refresh
+      {ugc_store_details_panel
+         refresh
+         {$this selected_song}}
+      {do
+         ($provider
+            {ugc_panel get offer_provider})
+         {scroller.mesh
+            set_local_scale
+            1
+            {min
+               1
+               {/
+                  {song.lst get display_num}
+                  {$provider num_data}}}
+            1}
+         {scroll.tnm
+            set_frame
+            {/
+               {min
+                  {song.lst first_showing}
+                  {max
+                     0
+                     {-
+                        {$provider num_data}
+                        {song.lst get display_num}}}}
+               {$provider num_data}}}
+         {do
+            ($showing
+               {>
+                  {$provider num_data}
+                  {song.lst get display_num}})
+            {scroller.mesh set_showing $showing}}}
+      {if_else
+         {!=
+            ''
+            {ugc_panel
+               preview_file
+               {$this selected_song}}}
+         {store_preview_mgr
+            set_current_preview_file
+            {ugc_panel
+               preview_file
+               {$this selected_song}}}
+         {store_preview_mgr clear_current_preview}}
+      {$this refresh_sort})
+   (SELECT_MSG
+      {ugc_panel
+         set
+         saved_offer_sym
+         {song.lst selected_sym}}
+      {set
+         [saved_selected_pos]
+         {song.lst selected_pos}}
+      {set
+         [saved_first_showing]
+         {song.lst first_showing}}
+      {set
+         [saved_sort]
+         {{ugc_panel get offer_provider}
+            current_sort}}
+      {ui goto_screen ugc_store_info_screen})
+   (selected_song
+      {{ugc_panel get offer_provider}
+         find_offer
+         {song.lst selected_sym}})
+   (refresh_sort
+      {do
+         ($offer_provider
+            {ugc_panel get offer_provider})
+         ($list
+            {ugc_store_browser_panel find song.lst})
+         ($ix
+            {$list selected_pos})
+         ($sort
+            {localize
+               {$offer_provider current_sort}})
+         ($category
+            {localize
+               {$offer_provider get_category_text $ix}})
+         {{ugc_panel find sort.lbl}
+            set_localized
+            {sprintf
+               "%s : %s"
+               $sort
+               $category}}})}
+{new
+   UIPanel
+   ugc_store_details_panel
+   (file
+      "ugc_store_details.milo")
+   (cur_preview_art
+      "")
+   (joypad
+      (hold_ms 500)
+      (repeat_ms 80))
+   (finish_load
+      {set
+         [cur_preview_art]
+         ""})
+   (enter
+      {loading.mnm
+         animate
+         (loop)})
+   (exit
+      {ugc_panel cancel_art}
+      {ugc_panel set saved_offer_sym ''})
+   (art_loaded
+      {album.mesh set_showing TRUE})
+   (refresh
+      ($offer)
+      {band_name.lbl
+         set_localized
+         {$offer
+            get_data
+            (artist)}}
+      {if_else
+         {$offer has_data album_name}
+         {album.lbl
+            set_localized
+            {$offer
+               get_data
+               (album_name)}}
+         {album.lbl
+            set_localized
+            ""}}
+      {year.lbl
+         set_localized
+         {sprint
+            {$offer year_released}}}
+      {genre.lbl
+         set
+         text_token
+         {$offer genre}}
+      {subgenre.lbl
+         set
+         text_token
+         {$offer
+            get_data
+            (subgenre)}}
+      {foreach
+         $part
+         (STORE_PART_SYMBOLS)
+         {do
+            ($tier
+               {song_mgr
+                  rank_tier
+                  {$offer
+                     get_data
+                     (rank $part)}
+                  $part})
+            ($max_buttons
+               {-
+                  {song_mgr num_rank_tiers $part}
+                  1})
+            {foreach_int
+               $r
+               1
+               $max_buttons
+               {{sprintf
+                     "diff_%s%i.mesh"
+                     $part
+                     $r}
+                  set_mat
+                  {if_else
+                     {<= $r $tier}
+                     {if_else
+                        {== $tier 6}
+                        diff_button_skull.mat
+                        diff_button_on.mat}
+                     diff_button_off.mat}}}}}
+      {foreach
+         $track
+         (SONG_PART_SYMBOLS)
+         {unless
+            {== $track band}
+            {do
+               ($ranks
+                  {sprintf
+                     "%s_buttons.grp"
+                     $track})
+               ($no_part
+                  {sprintf
+                     "no_%s.lbl"
+                     $track})
+               ($has_part
+                  {$offer
+                     get_data
+                     (rank $track)})
+               {$ranks set_showing $has_part}
+               {$no_part
+                  set_showing
+                  {! $has_part}}}}}
+      {if
+         {exists downloading.grp}
+         {downloading.grp
+            set_showing
+            {if_else
+               {!=
+                  ''
+                  {ugc_panel preview_file $offer}}
+               {store_preview_mgr
+                  is_downloading_file
+                  {ugc_panel preview_file $offer}}
+               FALSE}}}
+      {if_else
+         {$offer has_data preview_art}
+         {unless
+            {==
+               [cur_preview_art]
+               {$offer
+                  get_data
+                  (preview_art)}}
+            {set
+               [cur_preview_art]
+               {$offer
+                  get_data
+                  (preview_art)}}
+            {album.mesh set_showing FALSE}
+            {album.mesh set_mat album.mat}
+            {ugc_panel
+               load_art
+               [cur_preview_art]
+               album.tex
+               $this}}
+         {do
+            {set
+               [cur_preview_art]
+               ''}
+            {album.mesh set_showing TRUE}
+            {album.mesh set_mat album_generic.mat}}})
+   (shortcut_period 1.5)
+   (shortcut_selected '')
+   (shortcut_enter
+      {synth play button_select}
+      {ugc_store_browser_screen set_focus_panel ugc_store_details_panel}
+      {with
+         ugc_store_browser_panel
+         {song.lst set_state kComponentNormal}}
+      {with
+         store_shortcut
+         {do
+            ($offer_provider
+               {ugc_panel get offer_provider})
+            ($list
+               {ugc_store_browser_panel find song.lst})
+            {group.lst
+               set_provider
+               {$offer_provider get_group_provder}}
+            {group.lst
+               set_selected
+               {$offer_provider
+                  pos_to_shortcut
+                  {$list selected_pos}}}}
+         {store_details_panel
+            set
+            shortcut_selected
+            {group.lst selected_pos}}}
+      {shortcut_off.grp stop_animation}
+      {shortcut_on.grp
+         animate
+         (period
+            [shortcut_period])}
+      {helpbar
+         set_config
+         ((cancel helpbar_back)
+            (confirm helpbar_select))})
+   (shortcut_exit
+      {ugc_store_browser_screen set_focus_panel ugc_store_browser_panel}
+      {with
+         ugc_store_browser_panel
+         {song.lst set_state kComponentFocused}}
+      {shortcut_on.grp stop_animation}
+      {shortcut_off.grp
+         animate
+         (period
+            [shortcut_period])}
+      {helpbar
+         set_config
+         {ugc_store_browser_screen get helpbar}})
+   (BUTTON_DOWN_MSG
+      {if_else
+         {== $action kAction_Cancel}
+         {do
+            {synth play button_back}
+            {$this shortcut_exit}}
+         {with
+            store_shortcut
+            {handle
+               (group.lst
+                  button_down
+                  $player_num
+                  $player
+                  $raw_button
+                  {if_else
+                     {== $action kAction_Start}
+                     kAction_Confirm
+                     $action})}}})
+   (BUTTON_UP_MSG
+      {if_else
+         {== $action kAction_Option}
+         {$this on_select}
+         kDataUnhandled})
+   (SELECT_MSG
+      {$this on_select})
+   (on_select
+      {$this shortcut_exit}
+      {with
+         store_shortcut
+         {unless
+            {==
+               {ugc_store_details_panel get shortcut_selected}
+               {group.lst selected_pos}}
+            {do
+               ($offer_provider
+                  {ugc_panel get offer_provider})
+               ($list
+                  {ugc_store_browser_panel find song.lst})
+               {$list
+                  set_selected
+                  {$offer_provider
+                     shortcut_to_pos
+                     {group.lst selected_sym}}}
+               {$list set_dirty}
+               {ugc_store_browser_panel refresh}}}})}
+{new
+   BandScreen
+   ugc_store_browser_screen
+   (panels meta postsong_sfx_panel movie_panel ugc_store_browser_panel ugc_store_details_panel ugc_panel)
+   (focus ugc_store_browser_panel)
+   (back ugc_store_menu_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)
+         (view_modify store_helpbar_sort)
+         (option helpbar_next_heading helpbar_next_heading_hold)))
+   (enter
+      {$this set_focus_panel ugc_store_browser_panel})}

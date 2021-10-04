@@ -1,0 +1,136 @@
+#define SONG_SELECT_ALPHA_SYMBOLS
+(store_nonalpha_group A B C D E F G H I J K L M N O P Q R S T U V W X Y Z)
+(song_select_gap 30.0)
+(sorts
+   (by_difficulty
+      (cmp_song_to_song
+         ($lhs $rhs)
+         {$this
+            cmp
+            $lhs
+            $rhs
+            (kSTRank $cmp.rank_part)
+            (kSTArtist)
+            (kSTName)})
+      (cmp_init
+         {set
+            $cmp.rank_part
+            {song_offer_provider sort_difficulty_part}})
+      (browser_group
+         ($offer)
+         {do
+            ($part
+               {song_offer_provider sort_difficulty_part})
+            ($tier
+               {song_mgr
+                  rank_tier
+                  {$offer
+                     get_data
+                     (rank $part)}
+                  $part})
+            {song_mgr rank_tier_token $tier}}))
+   (by_song
+      (cmp_song_to_song
+         ($lhs $rhs)
+         {$this
+            cmp
+            $lhs
+            $rhs
+            (kSTName)})
+      (browser_group
+         ($offer)
+         {$offer first_char name FALSE})
+      (shortcut_groups SONG_SELECT_ALPHA_SYMBOLS))
+   (by_artist
+      (cmp_song_to_song
+         ($lhs $rhs)
+         {$this
+            cmp
+            $lhs
+            $rhs
+            (kSTArtist)
+            (kSTName)})
+      (browser_group
+         ($offer)
+         {$offer artist})
+      (browser_subgroup
+         ($offer)
+         {if_else
+            {&&
+               {$offer has_data album_name}
+               {$offer has_data album_track_number}}
+            {$offer album_name}
+            'gNullStr;'})
+      (browser_shortcut
+         ($offer)
+         {$offer first_char artist TRUE})
+      (browser_cover
+         ($offer)
+         {$offer is_cover})
+      (shortcut_groups SONG_SELECT_ALPHA_SYMBOLS))
+   (by_genre
+      (cmp_song_to_song
+         ($lhs $rhs)
+         {$this
+            cmp
+            $lhs
+            $rhs
+            (kSTGenre)
+            (kSTArtist)
+            (kSTName)})
+      (browser_group
+         ($offer)
+         {$offer genre}))
+   (by_decade
+      (cmp_song_to_song
+         ($lhs $rhs)
+         {$this
+            cmp
+            $lhs
+            $rhs
+            (kSTDecade)
+            (kSTArtist)
+            (kSTName)})
+      (browser_group
+         ($offer)
+         {sprint
+            {$offer decade}})
+      (sub by_artist))
+   (by_origin
+      (cmp_song_to_song
+         ($lhs $rhs)
+         {$this
+            cmp
+            $lhs
+            $rhs
+            (kSTOrigin)
+            (kSTName)})
+      (browser_group
+         ($offer)
+         {sprint
+            {$offer get_icon}}))
+   (by_stars
+      (cmp_song_to_song
+         ($lhs $rhs)
+         {$this
+            cmp
+            $lhs
+            $rhs
+            (kSTStars)
+            (kSTName)})
+      (browser_group
+         ($offer)
+         {do
+            ($stars
+               {$offer get_stars})
+            {switch
+               $stars
+               (0
+                  {sprint song_select_no_stars})
+               (1
+                  {sprint song_select_star})
+               (6
+                  {sprint song_select_gold_stars})
+               {sprintf
+                  {localize song_select_stars}
+                  $stars}}})))

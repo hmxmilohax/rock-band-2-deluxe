@@ -1,0 +1,1280 @@
+#define NO_FAIL_DATA
+(audition_option_off audition_option_on)
+#define VENUE_DATA
+(audition_option_empty_venue small_club_15 big_club_10 theater_11 arena_01)
+#define VOCAL_HUD_DATA
+(audition_option_static audition_option_scrolling)
+#define DIFFICULTY_DATA
+(audition_option_easy audition_option_medium audition_option_hard audition_option_expert)
+#define NO_DRUM_FILLS_DATA
+(audition_option_on audition_option_off)
+#define GUITAR_LAYOUT_DATA
+(audition_option_guitar_layout0 audition_option_guitar_layout1)
+#define kNS_Idling
+(0)
+#define kNS_Transferring
+(1)
+#define kNS_Error
+(2)
+#define kALSS_None
+(0)
+#define kALSS_Validating
+(1)
+#define kALSS_Loaded
+(2)
+{new
+   BandScreen
+   audition_no_hard_drive_screen
+   (panels dialog_panel)
+   (helpbar
+      ((confirm helpbar_confirm)))
+   (enter
+      {dialog_panel
+         set_ok
+         {localize audition_no_hard_drive_found}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   audition_no_club_screen
+   (panels dialog_panel)
+   (helpbar
+      ((confirm helpbar_confirm)))
+   (enter
+      {dialog_panel
+         set_ok
+         {localize audition_no_club_found}}
+      {platform_mgr
+         add_sink
+         $this
+         (signin_changed)})
+   (exit
+      {platform_mgr remove_sink $this signin_changed})
+   (SELECT_MSG
+      {ui pop_screen})
+   (SIGNIN_CHANGED_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   audition_validation_failed_screen
+   (panels dialog_panel)
+   (helpbar
+      ((confirm helpbar_confirm)))
+   (enter
+      {dialog_panel
+         set_ok
+         {localize audition_main_validating_failed}})
+   (SELECT_MSG
+      {ui pop_screen main_community_screen})}
+{new
+   UIPanel
+   audition_ambient_panel
+   (enter
+      {meta music_stop}
+      {synth play bwt_practice_amb.cue})
+   (exit
+      {synth stop bwt_practice_amb.cue})}
+{new
+   UIPanel
+   audition_main_bg_panel
+   (file
+      "..\\calibration\\cal_background.milo")}
+{new
+   UIPanel
+   audition_main_panel
+   (file
+      "main.milo")
+   (enable_progress_bar_prev FALSE)
+   (prev_is_ready FALSE)
+   (enter
+      {meter_grow.msnm set_frame 0.0}
+      {$this set enable_progress_bar_prev FALSE}
+      {song_ready.lbl set_showing FALSE}
+      {$this
+         set
+         prev_is_ready
+         {audition_mgr is_ready}})
+   (update
+      {do
+         ($enable_progress_bar FALSE)
+         {cond
+            ({audition_mgr is_validating}
+               {set $enable_progress_bar FALSE})
+            ({audition_mgr has_validation_failed}
+               {set $enable_progress_bar FALSE})
+            (TRUE
+               {set
+                  $enable_progress_bar
+                  {==
+                     {audition_mgr get_network_status}
+                     kANS_Transferring}})}
+         {switch
+            {audition_mgr get_network_status}
+            (kNS_Idling
+               {network.lbl set text_token audition_main_network_idling})
+            (kNS_Transferring
+               {network.lbl set text_token audition_main_network_transferring})
+            (kNS_Error
+               {network.lbl set text_token audition_main_network_transfer_error})
+            {notify
+               "{audition_mgr get_network_status} returned invalid value "
+               {audition_mgr get_network_status}
+               "\n"}
+            {network.lbl
+               set_localized
+               ""}}
+         {switch
+            {audition_mgr get_loaded_song_status}
+            (kALSS_None
+               {if_else
+                  {==
+                     {audition_mgr get_network_status}
+                     kNS_Transferring}
+                  {loaded_song.lbl
+                     set_localized
+                     {sprintf
+                        {localize audition_main_loaded_song_transfer_fmt}
+                        {'*'
+                           {audition_mgr get_download_progress}
+                           100.0}}}
+                  {loaded_song.lbl set text_token audition_main_loaded_song_none}})
+            (kALSS_Validating
+               {loaded_song.lbl set text_token audition_main_loaded_song_validating})
+            (kALSS_Loaded
+               {loaded_song.lbl set text_token audition_main_loaded_song_loaded})
+            {notify
+               "{audition_mgr get_loaded_song_status} returned invalid value "
+               {audition_mgr get_loaded_song_status}
+               "\n"}
+            {loaded_song.lbl
+               set_localized
+               ""}}
+         {if
+            {!=
+               $enable_progress_bar
+               [enable_progress_bar_prev]}
+            {if_else
+               $enable_progress_bar
+               {do
+                  {fade_in.trg trigger}
+                  {$this set enable_progress_bar_prev TRUE}}
+               {do
+                  {fade_out.trg trigger}
+                  {$this set enable_progress_bar_prev FALSE}}}}
+         {meter_grow.msnm
+            set_frame
+            {'*'
+               {audition_mgr get_download_progress}
+               100.0}}}
+      {if_else
+         {&&
+            {!
+               {audition_mgr is_validating}}
+            {audition_mgr is_ready}}
+         {do
+            {if
+               {!
+                  [prev_is_ready]}
+               {$this set prev_is_ready TRUE}
+               {synth play slider_sfx.cue}}
+            {helpbar
+               set_config
+               ((cancel helpbar_back)
+                  (option audition_alt_session_layout)
+                  (confirm helpbar_continue))}}
+         {do
+            {$this set prev_is_ready FALSE}
+            {helpbar
+               set_config
+               ((cancel helpbar_back))}}})
+   (BUTTON_DOWN_MSG
+      {switch
+         $action
+         (kAction_Cancel
+            {synth play button_back}
+            {ui goto_screen main_community_screen})
+         ((kAction_Option kAction_Confirm)
+            {if
+               {&&
+                  {!
+                     {audition_mgr is_validating}}
+                  {audition_mgr is_ready}}
+               {do
+                  {synth play button_select}
+                  {if_else
+                     {== $action kAction_Confirm}
+                     {audition_main_screen set mode normal}
+                     {audition_main_screen set mode alt}}
+                  {audition_mgr start_validation}}})
+         kDataUnhandled})}
+{new
+   BandScreen
+   audition_main_screen
+   (panels meta audition_ambient_panel audition_main_bg_panel audition_main_panel)
+   (focus audition_main_panel)
+   (helpbar
+      {if_else
+         {audition_mgr is_ready}
+         ((cancel helpbar_back)
+            (option audition_alt_session_layout)
+            (confirm helpbar_continue))
+         ((cancel helpbar_back))})
+   (mode normal)
+   (enter
+      {gamemode set_mode ugc_audition}
+      {audition_mgr clear_session}
+      {audition_mgr reset_options}
+      {audition_mgr start_net_poll}
+      {audition_main_panel update})
+   (get_first_screen
+      {if_else
+         {==
+            [mode]
+            normal}
+         audition_part_select_screen
+         audition_sl_main_screen})
+   (on_validation_success
+      {ui
+         goto_screen
+         {$this get_first_screen}})
+   (on_validation_failed
+      {synth play button_error}
+      {ui push_screen audition_validation_failed_screen})}
+{new
+   UIPanel
+   audition_options_panel
+   (file
+      "options.milo")
+   (focus start.btn)
+   (is_session_ready FALSE)
+   (enter
+      {$this set is_session_ready FALSE}
+      {$this set_focus start.btn}
+      {no_fail.lst
+         set_data
+         (NO_FAIL_DATA)}
+      {no_fail.lst
+         set_selected
+         {audition_mgr get_no_fail}}
+      {vocal_hud.lst
+         set_data
+         (VOCAL_HUD_DATA)}
+      {vocal_hud.lst
+         set_selected
+         {audition_mgr get_vocal_style}}
+      {do
+         ($op
+            {if_else
+               {audition_mgr sl_is_slot_in_use kGameCoopSlotVocals}
+               enable
+               disable})
+         {$this $op vocal_hud.btn}
+         {$this $op vocal_hud.lst}}
+      {venue.lst
+         set_data
+         (VENUE_DATA)}
+      {if
+         {==
+            {audition_mgr get_venue_sym}
+            ''}
+         {audition_mgr set_venue_sym audition_option_empty_venue}}
+      {venue.lst
+         set_selected
+         {audition_mgr get_venue_sym}}
+      {diff.lst
+         set_data
+         (DIFFICULTY_DATA)}
+      {diff.lst
+         set_selected
+         {audition_mgr get_difficulty}}
+      {do
+         ($op
+            {if_else
+               {audition_mgr has_autoplayer}
+               enable
+               disable})
+         {$this $op diff.btn}
+         {$this $op diff.lst}}
+      {no_drum_fills.lst
+         set_data
+         (NO_DRUM_FILLS_DATA)}
+      {no_drum_fills.lst
+         set_selected
+         {audition_mgr get_no_drum_fills}}
+      {do
+         ($op
+            {if_else
+               {audition_mgr sl_is_slot_in_use kGameCoopSlotDrum}
+               enable
+               disable})
+         {$this $op no_drum_fills.btn}
+         {$this $op no_drum_fills.lst}})
+   (poll
+      {if
+         {&&
+            {!
+               {ui in_transition}}
+            {{ui current_screen}
+               has_panel
+               $this}
+            {!
+               [is_session_ready]}
+            {audition_mgr is_ready_to_audition}}
+         {helpbar
+            set_config
+            ((cancel helpbar_back)
+               (confirm helpbar_select))}
+         {$this set is_session_ready TRUE}})
+   (SELECT_MSG
+      {switch
+         $component
+         (no_fail.btn
+            {$this set_focus no_fail.lst})
+         (vocal_hud.btn
+            {$this set_focus vocal_hud.lst})
+         (venue.btn
+            {$this set_focus venue.lst})
+         (diff.btn
+            {$this set_focus diff.lst})
+         (no_drum_fills.btn
+            {$this set_focus no_drum_fills.lst})
+         (start.btn
+            {if
+               [is_session_ready]
+               {switch
+                  {audition_mgr get_venue_sym}
+                  (audition_option_empty_venue
+                     {audition_mgr apply_settings practice}
+                     {ui goto_screen audition_practice_loading_screen})
+                  {audition_mgr
+                     apply_settings
+                     {audition_mgr get_venue_sym}}
+                  {ui goto_screen loading_screen}}})})
+   (BUTTON_DOWN_MSG
+      {switch
+         $action
+         (kAction_Confirm
+            {switch
+               {$this focus_name}
+               (no_fail.lst
+                  {audition_mgr
+                     set_no_fail
+                     {no_fail.lst selected_pos}}
+                  {$this set_focus no_fail.btn})
+               (vocal_hud.lst
+                  {audition_mgr
+                     set_vocal_style
+                     {vocal_hud.lst selected_pos}}
+                  {$this set_focus vocal_hud.btn})
+               (venue.lst
+                  {audition_mgr
+                     set_venue_sym
+                     {venue.lst selected_sym}}
+                  {$this set_focus venue.btn})
+               (diff.lst
+                  {audition_mgr
+                     set_difficulty
+                     {diff.lst selected_pos}}
+                  {$this set_focus diff.btn})
+               (no_drum_fills.lst
+                  {audition_mgr
+                     set_no_drum_fills
+                     {no_drum_fills.lst selected_pos}}
+                  {$this set_focus no_drum_fills.btn})
+               kDataUnhandled})
+         (kAction_Cancel
+            {switch
+               {$this focus_name}
+               (no_fail.lst
+                  {no_fail.lst
+                     set_selected
+                     {audition_mgr get_no_fail}}
+                  {$this set_focus no_fail.btn})
+               (vocal_hud.lst
+                  {vocal_hud.lst
+                     set_selected
+                     {audition_mgr get_vocal_style}}
+                  {$this set_focus vocal_hud.btn})
+               (venue.lst
+                  {venue.lst
+                     set_selected
+                     {audition_mgr get_venue_sym}}
+                  {$this set_focus venue.btn})
+               (diff.lst
+                  {diff.lst
+                     set_selected
+                     {audition_mgr get_difficulty}}
+                  {$this set_focus diff.btn})
+               (no_drum_fills.lst
+                  {no_drum_fills.lst
+                     set_selected
+                     {audition_mgr get_no_drum_fills}}
+                  {$this set_focus no_drum_fills.btn})
+               {synth play button_back}
+               {ui goto_screen audition_part_select_screen}
+               TRUE})
+         kDataUnhandled})}
+{new
+   BandScreen
+   audition_options_screen
+   (panels meta audition_ambient_panel audition_options_panel)
+   (focus audition_options_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (waiting helpbar_waiting_for_session)
+         (confirm helpbar_select)))}
+{new
+   UIPanel
+   audition_part_select_top_panel
+   (file
+      "../tour/tour_lower3rd.milo")}
+{new
+   UIPanel
+   audition_part_select_title_panel
+   (file
+      "part_select_top.milo")}
+{new
+   UIPanel
+   audition_part_select_panel
+   (file
+      "part_select.milo")}
+{new
+   MultiFocusScreen
+   audition_part_select_screen
+   (panels meta audition_ambient_panel audition_part_select_panel audition_part_select_top_panel audition_part_select_title_panel)
+   (back audition_main_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (view_modify helpbar_toggle_autoplay)
+         (confirm helpbar_select)))
+   (allow_input_while_network_busy TRUE)
+   (player_panels
+      (panel audition_part_select_panel)
+      (slots COOP_SLOTS_ORDER)
+      (type
+         (player_num
+            {audition_mgr
+               get_player_num_from_slot_num
+               [slot_num]})
+         (slot_num 0)
+         (slot none)
+         (option '')
+         (current_option
+            {cond
+               ({!
+                     {audition_mgr
+                        is_part_available_for_slot
+                        [slot_num]}}
+                  no_part)
+               ({!
+                     {audition_mgr
+                        has_user_for_slot
+                        [slot_num]}}
+                  {if_else
+                     {audition_mgr
+                        is_autoplayed
+                        [slot_num]}
+                     {if_else
+                        {audition_mgr
+                           can_anyone_join_slot
+                           [slot_num]}
+                        autoplay
+                        autoplay_no_pad}
+                     {if_else
+                        {audition_mgr
+                           can_anyone_join_slot
+                           [slot_num]}
+                        empty
+                        empty_no_pad}})
+               ({&&
+                     {==
+                        [slot]
+                        guitar}
+                     {!
+                        {audition_mgr
+                           has_track_for_slot
+                           [slot_num]}}}
+                  part_sel)
+               ({!
+                     {audition_mgr
+                        has_difficulty_for_slot
+                        [slot_num]}}
+                  diff_sel)
+               (TRUE ready)})
+         (prev_option '')
+         (enter)
+         (get_pad_num
+            {'+'
+               1
+               {{user_mgr
+                     get_band_user
+                     [player_num]}
+                  get_pad_num}})
+         (update
+            {$this
+               set
+               icon_state
+               {audition_mgr
+                  get_icon_state
+                  [slot_num]}}
+            {$this show_icon_state}
+            {$this
+               show_state
+               [option]}
+            {if
+               {!=
+                  [player_num]
+                  -1}
+               {controller.lbl
+                  set_localized
+                  {sprintf
+                     {localize audition_part_sel_controller_fmt}
+                     {$this get_pad_num}}}
+               {if
+                  {audition_mgr
+                     has_difficulty_for_slot
+                     [slot_num]}
+                  {diff.lbl
+                     set
+                     text_token
+                     {switch
+                        {audition_mgr
+                           get_slot_difficulty
+                           [slot_num]}
+                        (0 easy)
+                        (1 medium)
+                        (2 hard)
+                        (3 expert)}}}}
+            {if
+               {!=
+                  [prev_option]
+                  [option]}
+               {cond
+                  ({==
+                        [option]
+                        part_sel}
+                     {$this set_focus guitar.btn})
+                  ({==
+                        [option]
+                        diff_sel}
+                     {switch
+                        {audition_mgr
+                           get_slot_difficulty
+                           [slot_num]}
+                        (0
+                           {$this set_focus easy.btn})
+                        (1
+                           {$this set_focus medium.btn})
+                        (2
+                           {$this set_focus hard.btn})
+                        (3
+                           {$this set_focus expert.btn})})}}
+            {set
+               [prev_option]
+               [option]})
+         (allow_button_msg
+            ($player_num)
+            {audition_mgr
+               allow_button_msg
+               {user_mgr get_band_user $player_num}
+               [slot_num]
+               [slot]})
+         (is_ready
+            {&&
+               {!=
+                  [option]
+                  part_sel}
+               {!=
+                  [option]
+                  diff_sel}}))
+      (options
+         (no_part)
+         (empty_no_pad)
+         (empty
+            (BUTTON_DOWN_MSG
+               {switch
+                  $action
+                  (kAction_Confirm
+                     {if_else
+                        {audition_mgr
+                           can_user_join_slot
+                           $player
+                           [slot_num]}
+                        {do
+                           {synth play button_select}
+                           {audition_mgr
+                              add_user_to_session
+                              $player
+                              [slot_num]
+                              {$player connected_controller_type}}}
+                        kDataUnhandled})
+                  ((kAction_Cancel kAction_Option kAction_Start kAction_ViewModify)
+                     kDataUnhandled)
+                  TRUE}))
+         (autoplay_no_pad)
+         (autoplay
+            (BUTTON_DOWN_MSG
+               {switch
+                  $action
+                  (kAction_Confirm
+                     {if_else
+                        {audition_mgr
+                           can_user_join_slot
+                           $player
+                           [slot_num]}
+                        {do
+                           {synth play button_select}
+                           {audition_mgr
+                              add_user_to_session
+                              $player
+                              [slot_num]
+                              {$player connected_controller_type}}}
+                        kDataUnhandled})
+                  ((kAction_Cancel kAction_Option kAction_Start kAction_ViewModify)
+                     kDataUnhandled)
+                  TRUE}))
+         (part_sel
+            (BUTTON_DOWN_MSG
+               {switch
+                  $action
+                  (kAction_Cancel
+                     {synth play button_back}
+                     {audition_mgr
+                        remove_user_from_session
+                        [slot_num]})
+                  kDataUnhandled})
+            (SELECT_MSG
+               {switch
+                  $component
+                  (guitar.btn
+                     {audition_mgr
+                        set_track_type
+                        [slot_num]
+                        kTrackGuitar})
+                  (bass.btn
+                     {audition_mgr
+                        set_track_type
+                        [slot_num]
+                        kTrackBass})}))
+         (diff_sel
+            (BUTTON_DOWN_MSG
+               {switch
+                  $action
+                  (kAction_Cancel
+                     {synth play button_back}
+                     {if_else
+                        {==
+                           [slot]
+                           guitar}
+                        {audition_mgr
+                           on_ready_cancel
+                           [slot_num]}
+                        {audition_mgr
+                           remove_user_from_session
+                           [slot_num]}})
+                  kDataUnhandled})
+            (SELECT_MSG
+               {switch
+                  $component
+                  (easy.btn
+                     {audition_mgr
+                        set_slot_difficulty
+                        [slot_num]
+                        kDifficultyEasy})
+                  (medium.btn
+                     {audition_mgr
+                        set_slot_difficulty
+                        [slot_num]
+                        kDifficultyMedium})
+                  (hard.btn
+                     {audition_mgr
+                        set_slot_difficulty
+                        [slot_num]
+                        kDifficultyHard})
+                  (expert.btn
+                     {audition_mgr
+                        set_slot_difficulty
+                        [slot_num]
+                        kDifficultyExpert})}))
+         (ready
+            (BUTTON_DOWN_MSG
+               {switch
+                  $action
+                  (kAction_Cancel
+                     {synth play button_back}
+                     {audition_mgr
+                        clear_slot_difficulty
+                        [slot_num]})
+                  ((kAction_Option kAction_Start kAction_ViewModify)
+                     kDataUnhandled)
+                  TRUE}))))
+   (enter
+      {audition_mgr on_enter_part_select}
+      {$this export_all update})
+   (is_ready
+      {do
+         ($all_empty TRUE)
+         ($co empty)
+         {$this
+            for_each_panel_dir
+            $panel
+            {set
+               $co
+               {$panel get option}}
+            {if
+               {&&
+                  {!= $co empty}
+                  {!= $co empty_no_pad}
+                  {!= $co no_part}}
+               {set $all_empty FALSE}}}
+         {! $all_empty}})
+   (poll
+      {if_else
+         {$this all_ready}
+         {helpbar
+            set_config
+            ((cancel helpbar_back)
+               (view_modify helpbar_toggle_autoplay)
+               (start audition_part_sel_start)
+               (confirm helpbar_select))}
+         {helpbar
+            set_config
+            ((cancel helpbar_back)
+               (view_modify helpbar_toggle_autoplay)
+               (confirm helpbar_select))}})
+   (BUTTON_DOWN_MSG
+      {switch
+         $action
+         (kAction_ViewModify
+            {synth play button_select}
+            {audition_mgr toggle_autoplay_mode})
+         (kAction_Start
+            {if
+               {$this all_ready}
+               {synth play button_select}
+               {ui goto_screen audition_options_screen}
+               {audition_mgr complete_session}})
+         kDataUnhandled})
+   (JOYPAD_CONNECT_MSG
+      {if
+         {!
+            {ui in_transition}}
+         {audition_mgr verify_controllers}})}
+{new
+   BandScreen
+   meta_loading_audition_screen
+   META_LOADING_SCREEN_HANDLERS
+   (clear_game_state TRUE)
+   (session_leaving_early TRUE)
+   (goto_practice_mode FALSE)
+   (next_screen
+      {audition_main_screen get_first_screen})}
+{new
+   BandScreen
+   audition_practice_loading_screen
+   (panels loading_panel)
+   (helpbar
+      ((min_height 0)))
+   (TRANSITION_COMPLETE_MSG
+      {ui goto_screen audition_practice_game_screen})}
+{new
+   UIPanel
+   audition_practice_game_over_panel
+   (enter
+      {game add_sink $this})
+   (exit
+      {game remove_sink $this})
+   (game_lost
+      {$this on_song_ended})
+   (game_won
+      {$this on_song_ended})
+   (game_won_band0
+      {$this on_song_ended})
+   (game_won_band1
+      {$this on_song_ended})
+   (game_won_tie
+      {$this on_song_ended})
+   (game_won_finale
+      {$this on_song_ended})
+   (on_song_ended
+      {script_task
+         kTaskSeconds
+         (delay 2)
+         (script
+            {handle
+               (game game_outro)})})}
+{new
+   BandScreen
+   audition_practice_game_screen
+   (panels game audition_practice_game_over_panel sync_audio_net_panel practice_background_panel coop_track_panel)
+   GAME_SCREEN_HANDLERS}
+{new
+   UIPanel
+   audition_complete_panel
+   (file
+      "../endgame/complete.milo")
+   (enter
+      {platform_mgr set_notify_ui_location kOSNotifyBottomCenter}
+      {$this enable 0.btn}
+      {$this enable 1.btn}
+      {$this enable 2.btn}
+      {0.btn set_showing TRUE}
+      {1.btn set_showing TRUE}
+      {2.btn set_showing TRUE}
+      {0.btn set text_token restart}
+      {1.btn set text_token return_audition}
+      {2.btn set text_token comp_quit}
+      {$this set_focus 0.btn})
+   (exit
+      {platform_mgr set_notify_ui_location kOSNotifyTopRight})
+   (SELECT_MSG
+      {switch
+         $component
+         (0.btn
+            {meta_performer restart}
+            {game send_restart_game_net_msg}
+            {game_restart})
+         (1.btn
+            {ui goto_screen meta_loading_audition_screen})
+         (2.btn
+            {net_sync set_ui_state kNetUI_MetaLoading}
+            {ui goto_screen meta_loading_main_screen})})}
+{new
+   BandScreen
+   audition_complete_screen
+   (panels audition_complete_panel)
+   (focus audition_complete_panel)
+   (helpbar
+      ((confirm helpbar_select)))}
+{new
+   UIPanel
+   audition_sl_main_panel
+   (file
+      "slot_list_main.milo")
+   (focus guitar.btn)
+   (allow_input_while_network_busy TRUE)
+   (get_slot_from_track
+      ($tt)
+      {switch
+         $tt
+         (kTrackGuitar
+            {if_else
+               {audition_mgr is_guitar_bass_swapped}
+               kGameCoopSlotGuitar1
+               kGameCoopSlotGuitar0})
+         (kTrackDrum kGameCoopSlotDrum)
+         (kTrackVocals kGameCoopSlotVocals)
+         (kTrackBass
+            {if_else
+               {audition_mgr is_guitar_bass_swapped}
+               kGameCoopSlotGuitar0
+               kGameCoopSlotGuitar1})
+         {notify
+            "unrecognized instrument '"
+            $inst_sym
+            "', assuming guitar\n"}
+         -1})
+   (get_track_from_button
+      ($btn)
+      {switch
+         $btn
+         (guitar.btn kTrackGuitar)
+         (drum.btn kTrackDrum)
+         (vocals.btn kTrackVocals)
+         (bass.btn kTrackBass)
+         {notify
+            "unknown button '"
+            $btn
+            "', assuming guitar.\n"}
+         kTrackGuitar})
+   (get_slot_from_button
+      ($btn)
+      {$this
+         get_slot_from_track
+         {$this get_track_from_button $btn}})
+   (get_diff_token_from_track
+      ($inst_sym)
+      {do
+         ($slot_num
+            {$this get_slot_from_track $inst_sym})
+         {switch
+            {audition_mgr sl_get_diff $slot_num}
+            (kDifficultyEasy audition_option_easy)
+            (kDifficultyMedium audition_option_medium)
+            (kDifficultyHard audition_option_hard)
+            (kDifficultyExpert audition_option_expert)
+            {fail
+               "unknown difficulty for slot "
+               $slot_num
+               "\n"}}})
+   (get_next_index
+      ($index $list)
+      {if_else
+         {<= $index -1}
+         0
+         {mod
+            {'+' $index 1}
+            {size $list}}})
+   (get_next_option
+      ($curr_sym $list)
+      {do
+         ($prev_index -1)
+         {foreach_int
+            $i
+            0
+            {size $list}
+            {if
+               {==
+                  $curr_sym
+                  {elem $list $i}}
+               {set $prev_index $i}}}
+         {elem
+            $list
+            {$this get_next_index $prev_index $list}}})
+   (update
+      {$this update_slot_state}
+      {$this update_start})
+   (update_part
+      ($has $disable_list $hide_list)
+      {if_else
+         $has
+         {do
+            {foreach
+               $obj
+               $disable_list
+               {$this enable $obj}}
+            {foreach
+               $obj
+               $hide_list
+               {$obj set_showing TRUE}}}
+         {do
+            {foreach
+               $obj
+               $disable_list
+               {$this disable $obj}}
+            {foreach
+               $obj
+               $hide_list
+               {$obj set_showing FALSE}}}})
+   (update_slot_state
+      {$this
+         update_part
+         {audition_mgr has_guitar}
+         (guitar.btn c_guitar.lbl)
+         (d_guitar.lbl)}
+      {$this
+         update_part
+         {audition_mgr has_drum}
+         (drum.btn c_drum.lbl)
+         (d_drum.lbl)}
+      {$this
+         update_part
+         {audition_mgr has_vocals}
+         (vocals.btn c_vocals.lbl)
+         (d_vocals.lbl)}
+      {$this
+         update_part
+         {audition_mgr has_bass}
+         (bass.btn c_bass.lbl)
+         (d_bass.lbl)}
+      {d_guitar.lbl
+         set
+         text_token
+         {$this get_diff_token_from_track kTrackGuitar}}
+      {d_drum.lbl
+         set
+         text_token
+         {$this get_diff_token_from_track kTrackDrum}}
+      {d_vocals.lbl
+         set
+         text_token
+         {$this get_diff_token_from_track kTrackVocals}}
+      {d_bass.lbl
+         set
+         text_token
+         {$this get_diff_token_from_track kTrackBass}}
+      {c_guitar.lbl
+         set_localized
+         {audition_mgr
+            sl_get_slot_text
+            {$this get_slot_from_track kTrackGuitar}}}
+      {c_drum.lbl
+         set_localized
+         {audition_mgr
+            sl_get_slot_text
+            {$this get_slot_from_track kTrackDrum}}}
+      {c_vocals.lbl
+         set_localized
+         {audition_mgr
+            sl_get_slot_text
+            {$this get_slot_from_track kTrackVocals}}}
+      {c_bass.lbl
+         set_localized
+         {audition_mgr
+            sl_get_slot_text
+            {$this get_slot_from_track kTrackBass}}}
+      {no_fail.lbl
+         set
+         text_token
+         {elem
+            (NO_FAIL_DATA)
+            {audition_mgr get_no_fail}}}
+      {venue.lbl
+         set
+         text_token
+         {audition_mgr get_venue_sym}}
+      {vocal_hud.lbl
+         set
+         text_token
+         {elem
+            (VOCAL_HUD_DATA)
+            {audition_mgr get_vocal_style}}}
+      {do
+         ($action
+            {if_else
+               {audition_mgr sl_is_slot_in_use kGameCoopSlotVocals}
+               enable
+               disable})
+         {$this $action vocal_hud.lbl}
+         {$this $action vocal_hud.btn}}
+      {no_drum_fills.lbl
+         set
+         text_token
+         {elem
+            (NO_DRUM_FILLS_DATA)
+            {audition_mgr get_no_drum_fills}}}
+      {do
+         ($action
+            {if_else
+               {audition_mgr sl_is_slot_in_use kGameCoopSlotDrum}
+               enable
+               disable})
+         {$this $action no_drum_fills.lbl}
+         {$this $action no_drum_fills.btn}}
+      {guitar_layout.lbl
+         set
+         text_token
+         {elem
+            (GUITAR_LAYOUT_DATA)
+            {audition_mgr is_guitar_bass_swapped}}}
+      {do
+         ($action
+            {if_else
+               {<
+                  1
+                  {'+'
+                     {audition_mgr sl_is_slot_in_use kGameCoopSlotGuitar0}
+                     {audition_mgr sl_is_slot_in_use kGameCoopSlotDrum}
+                     {audition_mgr sl_is_slot_in_use kGameCoopSlotGuitar1}}}
+               enable
+               disable})
+         {$this $action guitar_layout.lbl}
+         {$this $action guitar_layout.btn}})
+   (update_start
+      {if_else
+         {'||'
+            {!
+               {'||'
+                  {audition_mgr has_guitar}
+                  {audition_mgr has_drum}
+                  {audition_mgr has_vocals}
+                  {audition_mgr has_bass}}}
+            {audition_mgr sl_is_slot_in_use kGameCoopSlotGuitar0}
+            {audition_mgr sl_is_slot_in_use kGameCoopSlotDrum}
+            {audition_mgr sl_is_slot_in_use kGameCoopSlotVocals}
+            {audition_mgr sl_is_slot_in_use kGameCoopSlotGuitar1}}
+         {$this enable start.btn}
+         {$this disable start.btn}})
+   (enter
+      {$this set_focus guitar.btn}
+      {session clear}
+      {$this set finalize_session FALSE}
+      {$this set is_session_ready FALSE}
+      {audition_mgr on_enter_slot_list}
+      {if
+         {==
+            {audition_mgr get_venue_sym}
+            ''}
+         {audition_mgr set_venue_sym audition_option_empty_venue}}
+      {audition_mgr sl_verify_controllers})
+   (finalize_session FALSE)
+   (is_session_ready FALSE)
+   (poll
+      {if
+         {&&
+            [finalize_session]
+            {!
+               {ui in_transition}}
+            {{ui current_screen}
+               has_panel
+               $this}
+            {!
+               [is_session_ready]}
+            {audition_mgr is_ready_to_audition}}
+         {$this
+            update_helpbar
+            {$this focus_name}}
+         {$this set is_session_ready TRUE}
+         {$this session_finalized}})
+   (BUTTON_DOWN_MSG
+      {if_else
+         [finalize_session]
+         TRUE
+         {do
+            {switch
+               $action
+               (kAction_ViewModify
+                  {synth play button_toggle}
+                  {audition_mgr sl_cycle_session}
+                  {audition_mgr sl_verify_controllers})
+               (kAction_Confirm
+                  {do
+                     ($focus_obj
+                        {$this focus_name})
+                     {switch
+                        $focus_obj
+                        ((guitar.btn drum.btn vocals.btn bass.btn no_fail.btn venue.btn vocal_hud.btn no_drum_fills.btn guitar_layout.btn)
+                           {synth play button_toggle}
+                           {switch
+                              $focus_obj
+                              ((guitar.btn drum.btn vocals.btn bass.btn)
+                                 {audition_mgr sl_on_user_layout_changes}
+                                 {audition_mgr
+                                    sl_cycle_slot
+                                    {$this get_slot_from_button $focus_obj}
+                                    {$this get_track_from_button $focus_obj}})
+                              (no_fail.btn
+                                 {audition_mgr
+                                    set_no_fail
+                                    {$this
+                                       get_next_index
+                                       {audition_mgr get_no_fail}
+                                       (NO_FAIL_DATA)}})
+                              (venue.btn
+                                 {audition_mgr
+                                    set_venue_sym
+                                    {$this
+                                       get_next_option
+                                       {audition_mgr get_venue_sym}
+                                       (VENUE_DATA)}})
+                              (vocal_hud.btn
+                                 {audition_mgr
+                                    set_vocal_style
+                                    {$this
+                                       get_next_index
+                                       {audition_mgr get_vocal_style}
+                                       (VOCAL_HUD_DATA)}})
+                              (no_drum_fills.btn
+                                 {audition_mgr
+                                    set_no_drum_fills
+                                    {$this
+                                       get_next_index
+                                       {audition_mgr get_no_drum_fills}
+                                       (NO_DRUM_FILLS_DATA)}})
+                              (guitar_layout.btn
+                                 {audition_mgr
+                                    set_guitar_bass_swapped
+                                    {$this
+                                       get_next_index
+                                       {audition_mgr is_guitar_bass_swapped}
+                                       (GUITAR_LAYOUT_DATA)}})}
+                           {$this update}
+                           TRUE)
+                        kDataUnhandled}})
+               (kAction_Option
+                  {do
+                     ($focus_obj
+                        {$this focus_name})
+                     {switch
+                        $focus_obj
+                        ((guitar.btn drum.btn vocals.btn bass.btn)
+                           {synth play button_toggle}
+                           {audition_mgr sl_on_user_layout_changes}
+                           {audition_mgr
+                              sl_cycle_difficulty
+                              {$this get_slot_from_button $focus_obj}}
+                           {$this update}
+                           TRUE)
+                        kDataUnhandled}})
+               (kAction_Cancel
+                  {synth play button_back}
+                  {ui goto_screen audition_main_screen}
+                  TRUE)
+               kDataUnhandled}}})
+   (update_helpbar
+      ($focus)
+      {helpbar
+         set_config
+         {switch
+            $focus
+            ((guitar.btn drum.btn vocals.btn bass.btn)
+               ((cancel helpbar_back)
+                  (option helpbar_cycle_diff)
+                  (view_modify helpbar_session_cycle)
+                  (confirm helpbar_cycle_controller)))
+            ((no_fail.btn venue.btn vocal_hud.btn no_drum_fills.btn guitar_layout.btn)
+               ((cancel helpbar_back)
+                  (view_modify helpbar_session_cycle)
+                  (confirm helpbar_cycle_option)))
+            {if_else
+               {&&
+                  [finalize_session]
+                  {!
+                     [is_session_ready]}}
+               ((cancel helpbar_back)
+                  (view_modify helpbar_session_cycle)
+                  (waiting helpbar_waiting_for_session))
+               ((cancel helpbar_back)
+                  (view_modify helpbar_session_cycle)
+                  (confirm helpbar_select))}}})
+   (FOCUS_MSG
+      {$this update_helpbar $new_focus})
+   (SELECT_MSG
+      {switch
+         $component
+         (start.btn
+            {if
+               {&&
+                  {!
+                     [finalize_session]}
+                  {!
+                     [is_session_ready]}}
+               {$this set is_session_ready FALSE}
+               {audition_mgr sl_finalize_session}
+               {$this set finalize_session TRUE}
+               {$this update}})})
+   (session_finalized
+      {if
+         {!
+            [is_session_ready]}
+         {notify
+            "session_finalized called, but session is not ready!\n"}}
+      {switch
+         {audition_mgr get_venue_sym}
+         (audition_option_empty_venue
+            {audition_mgr apply_settings practice}
+            {ui goto_screen audition_practice_loading_screen})
+         {audition_mgr
+            apply_settings
+            {audition_mgr get_venue_sym}}
+         {ui goto_screen loading_screen}})
+   (JOYPAD_CONNECT_MSG
+      {if
+         {&&
+            {!
+               {ui in_transition}}
+            {!
+               [finalize_session]}}
+         {audition_mgr sl_verify_controllers}})}
+{new
+   BandScreen
+   audition_sl_main_screen
+   (panels meta audition_ambient_panel audition_main_bg_panel audition_sl_main_panel)
+   (focus audition_sl_main_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (option helpbar_cycle_diff)
+         (view_modify helpbar_session_cycle)
+         (confirm helpbar_cycle_controller)))
+   (enter
+      {audition_sl_main_panel update})}

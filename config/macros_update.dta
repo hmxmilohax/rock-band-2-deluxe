@@ -1,0 +1,35 @@
+#ifdef APP_MACROS_UPDATE_DTA
+#else
+#define APP_MACROS_UPDATE_DTA
+(1)
+#define kSTStars
+(9)
+#define kSTAuthor
+(10)
+#define kSTRating
+(11)
+#define kSTLabel
+(12)
+#define kAuditionIconNone
+(0)
+#define kAuditionIconGuitar
+(1)
+#define kAuditionIconDrum
+(2)
+#define kAuditionIconVocals
+(3)
+#define kAuditionIconBass
+(4)
+#define kAuditionIconGuitarGrey
+(5)
+#define kAuditionIconBassGrey
+(6)
+#define kAuditionIconBoth
+(7)
+#define kAuditionIconBothGuitarGrey
+(8)
+#define kAuditionIconBothBassGrey
+(9)
+#define kCreatorsClubProfileSignedOut
+(3)
+#endif

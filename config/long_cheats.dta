@@ -1,0 +1,56 @@
+#define CHEATS_ALLOWED
+({&&
+      {exists ui}
+      {!
+         {ui in_transition}}
+      {==
+         {ui current_screen}
+         modifier_enter_screen}})
+#define G_RED
+(kPad_Circle)
+#define G_YELLOW
+(kPad_Tri)
+#define G_BLUE
+(kPad_Square)
+#define G_ORANGE
+(kPad_L1)
+((G_RED G_YELLOW G_BLUE G_RED G_RED G_BLUE G_BLUE G_RED G_YELLOW G_BLUE)
+   {if
+      CHEATS_ALLOWED
+      {handle
+         (ui modifier_unlocked mod_unlockall)}})
+((G_ORANGE G_YELLOW G_ORANGE G_YELLOW G_BLUE G_ORANGE G_ORANGE G_BLUE)
+   {if
+      CHEATS_ALLOWED
+      {handle
+         (ui modifier_unlocked mod_doublespeed)}})
+((G_BLUE G_BLUE G_RED G_RED G_YELLOW G_YELLOW G_BLUE G_BLUE)
+   {if
+      CHEATS_ALLOWED
+      {handle
+         (ui modifier_unlocked mod_nohud)}})
+((G_BLUE G_YELLOW G_RED G_BLUE G_YELLOW G_RED G_BLUE G_YELLOW G_RED)
+   {if
+      CHEATS_ALLOWED
+      {handle
+         (ui modifier_unlocked mod_demomode)}})
+((G_RED G_RED G_RED G_RED G_YELLOW G_YELLOW G_YELLOW G_YELLOW)
+   {if
+      CHEATS_ALLOWED
+      {handle
+         (ui modifier_unlocked mod_newvenuesonly)}})
+((G_BLUE G_ORANGE G_ORANGE G_BLUE G_YELLOW G_BLUE G_ORANGE G_ORANGE G_BLUE G_YELLOW)
+   {if
+      CHEATS_ALLOWED
+      {handle
+         (ui modifier_unlocked mod_choose_venue)}})
+((G_YELLOW G_BLUE G_ORANGE G_YELLOW G_BLUE G_ORANGE G_YELLOW G_BLUE G_ORANGE)
+   {if
+      CHEATS_ALLOWED
+      {handle
+         (ui modifier_unlocked mod_awesome)}})
+((G_RED G_RED G_RED G_RED G_RED G_RED G_RED)
+   {if
+      CHEATS_ALLOWED
+      {handle
+         (ui modifier_unlocked mod_autostrum)}})

@@ -1,0 +1,1642 @@
+#define H2H_REQUIRED_CAMS
+(INTRO INTRO_QUICK WIN_P1 WIN_P2 WIN_TIE OUTRO)
+#define WORLD_OBJECT_SET_MISSING_CAMSHOT_DEFAULTS
+({set
+      $camname
+      {new BandCamShot $camname}}
+   {init_object $camname}
+   {$camname set_type Band}
+   {$camname set filter 0.3}
+   {$camname set use_depth_of_field TRUE})
+#define STD_VALIDATE_FLAGS
+((one_time FALSE)
+   (min_time 0)
+   (max_time 0)
+   (platform_only
+      {$this platform_filter}))
+#define FACING_NAME
+({if_else
+      {& $facing kBCSBFacingLeft}
+      "left"
+      "right"})
+#define WORLD_OBJECT_VALIDATE
+((test_light_preset
+      "")
+   (next_preset
+      ($obj)
+      {do
+         ($found
+            {==
+               $obj
+               ""})
+         ($next
+            "")
+         ($preset_names
+            ())
+         {resize $preset_names 0}
+         {$this
+            iterate
+            LightPreset
+            $preset
+            {insert_elem
+               $preset_names
+               0
+               {$preset name}}}
+         {sort $preset_names}
+         {foreach_int
+            $i
+            0
+            {size $preset_names}
+            {if
+               {==
+                  $next
+                  ""}
+               {if_else
+                  $found
+                  {set
+                     $next
+                     {elem $preset_names $i}}
+                  {if
+                     {==
+                        {$obj name}
+                        {elem $preset_names $i}}
+                     {set $found TRUE}}}}}
+         {if_else
+            {==
+               $next
+               ""}
+            $next
+            {$this find $next}}})
+   (start_test_preset
+      {if
+         {!=
+            ""
+            [test_light_preset]}
+         {if
+            {exists test_light_preset_anim}
+            {delete test_light_preset_anim}}
+         {[test_light_preset]
+            animate
+            (name test_light_preset_anim)
+            (loop
+               0
+               {[test_light_preset]
+                  end_frame})}
+         {if
+            {exists test_light_preset_task}
+            {delete test_light_preset_task}}
+         {if
+            {[test_light_preset]
+               get
+               manual}
+            {[test_light_preset]
+               reset_events}
+            {[test_light_preset]
+               first}
+            {thread_task
+               kTaskBeats
+               (preserve)
+               (name test_light_preset_task)
+               (script
+                  {[test_light_preset]
+                     next}
+                  {$task sleep 4}
+                  {$task loop})}}})
+   (find_preset_type
+      ($type $excite $adjective)
+      {set $found FALSE}
+      {$this
+         iterate
+         LightPreset
+         $preset
+         {if
+            {==
+               {$preset get category}
+               $type}
+            {if
+               {&&
+                  {>=
+                     $excite
+                     {$preset get min_excitement}}
+                  {<=
+                     $excite
+                     {$preset get max_excitement}}}
+               {if_else
+                  {!= $adjective ''}
+                  {foreach
+                     $adj
+                     {$preset get_array adjectives}
+                     {if
+                        {== $adj $adjective}
+                        {set $found TRUE}}}
+                  {set $found TRUE}}}}}
+      $found)
+   (translate_excite
+      ($excite)
+      {switch
+         $excite
+         (0
+            "kExcitementBoot")
+         (1
+            "kExcitementBad")
+         (2
+            "kExcitementGood")
+         (3
+            "kExcitementGreat")
+         (4
+            "kExcitementPeak")})
+   (check_has_presets
+      ($min_excite $max_excite $categories)
+      {foreach
+         $type
+         $categories
+         {foreach_int
+            $excitement
+            $min_excite
+            $max_excite
+            {unless
+               {$this find_preset_type $type $excitement ''}
+               {notify
+                  $path
+                  " has no LightPreset for excitement level "
+                  {$this translate_excite $excitement}
+                  " of category "
+                  $type}}}})
+   (check_has_any_presets
+      ($min_excite $max_excite $categories $adjective)
+      {foreach_int
+         $excitement
+         $min_excite
+         $max_excite
+         {do
+            ($found FALSE)
+            {foreach
+               $type
+               $categories
+               {if
+                  {$this find_preset_type $type $excitement $adjective}
+                  {set $found TRUE}}}
+            {if
+               {!= $found TRUE}
+               {if_else
+                  {== $adjective ''}
+                  {notify
+                     $path
+                     " has no LightPreset for excitement level "
+                     {$this translate_excite $excitement}
+                     " from these categories: "
+                     $categories}
+                  {notify
+                     $path
+                     " has no LightPreset for adjective "
+                     $adjective
+                     ", excitement level "
+                     {translate_excite $excitement}
+                     " from these categories: "
+                     $categories}}}}})
+   (validate_light_presets
+      {$this
+         iterate
+         LightPreset
+         $light
+         {do
+            ($num
+               {$light
+                  size
+                  (keyframes)})
+            {foreach_int
+               $i
+               0
+               $num
+               {do
+                  ($num_entries
+                     {$light
+                        size
+                        (keyframes $i spotlight_entries)})
+                  {foreach_int
+                     $j
+                     0
+                     $num_entries
+                     {do
+                        ($subpart
+                           {$light
+                              get
+                              (keyframes $i spotlight_entries $j subpart)})
+                        {if
+                           {has_substr
+                              $subpart
+                              "exo"}
+                           {notify
+                              {path_name $light}
+                              " keyframe "
+                              $i
+                              " spotlight_entry "
+                              $j
+                              " targets subpart "
+                              $subpart
+                              " which is not safe"}}}}}}}}
+      {$this
+         check_has_presets
+         kExcitementBoot
+         kExcitementPeak
+         (INTRO INTRO_QUICK INTRO_VENUE WIN)}
+      {$this
+         check_has_presets
+         kExcitementBoot
+         kExcitementBad
+         (LOSE)}
+      {$this
+         check_has_any_presets
+         kExcitementBoot
+         kExcitementPeak
+         (CHORUS VERSECHORUS)
+         ''}
+      {$this
+         check_has_any_presets
+         kExcitementBoot
+         kExcitementPeak
+         (VERSE VERSECHORUS)
+         ''}
+      {foreach
+         $adj
+         LIGHTING_ADJECTIVES
+         {do
+            {$this
+               check_has_any_presets
+               kExcitementPeak
+               kExcitementPeak
+               (CHORUS VERSECHORUS)
+               $adj}
+            {$this
+               check_has_any_presets
+               kExcitementPeak
+               kExcitementPeak
+               (VERSE VERSECHORUS)
+               $adj}}})
+   (validate_cameras
+      ($create)
+      {print
+         "running validate cameras\n"}
+      {set $camera.postproc_override FALSE}
+      {set $camera.postproc_blendtime 0}
+      {set $cameras.validating TRUE}
+      {set
+         $cameras.namefilter
+         "coop_"}
+      {set $cameras.world_mode_cache $game.play_mode}
+      {set
+         $camname
+         "coop_MissingCamshot.shot"}
+      {set $game.play_mode coop}
+      {set
+         $video_venue
+         {has_substr
+            {path_name $this}
+            "video"}}
+      {$this
+         iterate_self
+         BandCamShot
+         $cam
+         {if
+            {!=
+               {$cam get_type}
+               band}
+            {notify
+               {path_name $cam}
+               " is not type band!"}}
+         {if
+            {>
+               {$cam get far_plane}
+               {'*'
+                  1000
+                  {$cam get near_plane}}}
+            {notify
+               {path_name $cam}
+               ": "
+               {$cam get far_plane}
+               "/"
+               {$cam get near_plane}
+               " far/near plane ratio is 1000 or greater."}}
+         {if
+            {&&
+               $video_venue
+               {find_elem
+                  (INTRO_QUICK INTRO_MULTI INTRO)
+                  {$cam get category}}}
+            {notify
+               {path_name $cam}
+               " should not exist, video venues should have only INTRO_VENUE"}}
+         {foreach_int
+            $i
+            0
+            {$cam
+               size
+               (targets)}
+            {do
+               ($anim
+                  {$cam
+                     get
+                     (targets $i anim)})
+               {if
+                  {&&
+                     {has_substr
+                        $anim
+                        "intro"}
+                     {!=
+                        {$cam get category}
+                        INTRO}}
+                  {notify
+                     {path_name $cam}
+                     " has anim "
+                     $anim
+                     ", only shots of category INTRO may have those"}}
+               {if
+                  {&&
+                     {has_substr
+                        $anim
+                        "realtime_idle"}
+                     {!
+                        {find_elem
+                           (LOSE WIN WIN_PRE WIN_POST WIN_P1 WIN_P2 WIN_TIE WIN_QUICK INTRO INTRO_VENUE INTRO_QUICK INTRO_MULTI OUTRO OUTRO_MULTI WIN_FINALE WIN_PRE_FINALE)
+                           {$cam get category}}}}
+                  {notify
+                     {path_name $cam}
+                     " uses realtime_idle group but is category "
+                     {$cam get category}}}}}
+         {if
+            {has_substr
+               {$cam name}
+               coop}
+            {foreach_int
+               $i
+               0
+               {$cam
+                  size
+                  (targets)}
+               {do
+                  ($char
+                     {$cam
+                        get
+                        (targets $i target)})
+                  {if
+                     {&&
+                        $char
+                        {$char is_a CompositeCharacter}
+                        {has_substr
+                           {$char name}
+                           "1"}}
+                     {notify
+                        {path_name $cam}
+                        " has h2h character "
+                        $char
+                        " in it!"}}}}}
+         {unless
+            {find_elem
+               CAMSHOT_CATEGORIES
+               {$cam get category}}
+            {notify
+               {path_name $cam}
+               " has invalid category "
+               {$cam get category}}}
+         {if
+            {==
+               {$cam get category}
+               TEST_CAM}
+            {notify
+               {path_name $cam}
+               " is category TEST_CAM, please delete by beta"}}
+         {unless
+            {has_substr
+               {path_name $this}
+               "video"}
+            {if
+               {$cam get postprocess}
+               {do
+                  ($cat
+                     {$cam get category})
+                  {unless
+                     {'||'
+                        {has_substr $cat INTRO}
+                        {has_substr $cat WIN}
+                        {has_substr $cat LOSE}
+                        {has_substr $cat OUTRO}
+                        {has_substr $cat BRE}
+                        {has_substr $cat BFTB}}
+                     {notify
+                        {path_name $cam}
+                        " has postprocess set"}}}}}
+         {$cam test_targets}
+         {if
+            {&&
+               {has_substr
+                  {$cam name}
+                  "intro"}
+               {!
+                  {$cam get lighting_override}}}
+            {notify
+               {path_name $cam}
+               " intro camera must have lighting_override"}}
+         {if
+            {&&
+               {$cam get lighting_override}
+               {==
+                  {$cam get category}
+                  NORMAL}}
+            {notify
+               {path_name $cam}
+               " normal camera with lighting_override"}}
+         {foreach
+            $show
+            {$cam get_array show_list}
+            {if
+               {has_substr
+                  {$show name}
+                  "player_"}
+               {notify
+                  {path_name $cam}
+                  " has "
+                  $show
+                  " in show list"}}}
+         {do
+            ($c
+               {$cam initial_shot})
+            ($cat
+               {$c get category})
+            {if
+               {&&
+                  {!= $cat INTRO}
+                  {find_elem
+                     (REQUIRED_CAM_CATS FREE_DIRCUTS)
+                     $cat}}
+               {foreach_int
+                  $i
+                  0
+                  {$cam
+                     size
+                     (targets)}
+                  {do
+                     ($targ
+                        {$cam
+                           get
+                           (targets $i target)})
+                     ($anim
+                        {$cam
+                           get
+                           (targets $i anim)})
+                     {if
+                        {&&
+                           $targ
+                           {$targ is_a CompositeCharacter}
+                           {!=
+                              $anim
+                              ""}
+                           {!
+                              {find_elem
+                                 (REQUIRED_CLIP_GROUPS)
+                                 $anim}}}
+                        {notify
+                           {path_name $cam}
+                           " is required category "
+                           $cat
+                           " but uses dircut CharClipGroup "
+                           $anim}}}}}}
+         {do
+            ($has FALSE)
+            {foreach
+               $prefix
+               (coop_ h2hg_ h2hd_ h2hv_)
+               {if
+                  {has_substr
+                     {$cam name}
+                     $prefix}
+                  {set $has TRUE}}}
+            {unless
+               $has
+               {notify
+                  {path_name $cam}
+                  " has an invalid prefix not: coop_ h2hd_ h2hg_ h2hv_"}}}
+         {do
+            ($focus
+               {dircut_gender_genre_focus_name $cam})
+            ($flags
+               {$cam get flags})
+            {if_else
+               $focus
+               {do
+                  ($category
+                     {$cam get category})
+                  ($cat_focus
+                     {if_else
+                        {has_substr $category directed}
+                        {cond
+                           ({has_substr
+                                 $category
+                                 "duo"}
+                              "")
+                           ({has_substr
+                                 $category
+                                 "vocal"}
+                              player_vocals0)
+                           ({has_substr
+                                 $category
+                                 "bass"}
+                              player_bass0)
+                           ({has_substr
+                                 $category
+                                 "drum"}
+                              player_drum0)
+                           ({has_substr
+                                 $category
+                                 "guitar"}
+                              player_guitar0)
+                           ""}
+                        ""})
+                  {if
+                     {&&
+                        $cat_focus
+                        {!= $cat_focus $focus}}
+                     {notify
+                        {path_name $cam}
+                        " cat "
+                        $category
+                        " has focus flags not matching category name, "
+                        $focus
+                        " vs "
+                        $cat_focus}}
+                  {unless
+                     {& $flags kValidAllGender}
+                     {notify
+                        {path_name $cam}
+                        " is an instrument directed cut and has no valid gender"}}
+                  {unless
+                     {& $flags kValidAllAttitude}
+                     {notify
+                        {path_name $cam}
+                        " is an instrument directed cut and has no valid attitude"}}}
+               {if
+                  {!=
+                     {& $flags kValidAll}
+                     kValidAll}
+                  {notify
+                     {path_name $cam}
+                     " is not a gender/genre specific directed cut and has some valid flags not set"}}}}
+         {do
+            ($next
+               {$cam get next_shot})
+            {if
+               $next
+               {foreach_int
+                  $i
+                  0
+                  {$next
+                     size
+                     (targets)}
+                  {unless
+                     {$next
+                        get
+                        (targets $i teleport)}
+                     {foreach_int
+                        $j
+                        0
+                        {$cam
+                           size
+                           (targets)}
+                        {if
+                           {&&
+                              {==
+                                 {$next
+                                    get
+                                    (targets $i target)}
+                                 {$cam
+                                    get
+                                    (targets $j target)}}
+                              {$cam
+                                 get
+                                 (targets $j return)}}
+                           {notify
+                              {path_name $next}
+                              " target "
+                              {$next
+                                 get
+                                 (targets $i target)}
+                              " does not teleport, and is next_shot of "
+                              $cam
+                              " which has return true which will mess up the shot, return should be false"}}}}}
+               {if
+                  {&&
+                     {==
+                        {$cam get category}
+                        INTRO}
+                     {$next get next_shot}}
+                  {notify
+                     {path_name $cam}
+                     " is an intro shot with more than one next_shot!"}}
+               {if
+                  {!=
+                     {$next get category}
+                     NEXT_SHOT}
+                  {notify
+                     {path_name $next}
+                     " is next_shot of "
+                     $cam
+                     " but is not category NEXT_SHOT"}}}}
+         {do
+            ($cat
+               {$cam get category})
+            {if_else
+               {find_elem
+                  (INTRO INTRO_VENUE INTRO_QUICK INTRO_MULTI LOSE WIN WIN_P1 WIN_P2 WIN_TIE WIN_QUICK OUTRO OUTRO_MULTI)
+                  $cat}
+               {if_else
+                  {!=
+                     {$cam get rate}
+                     k30_fps}
+                  {notify
+                     {path_name $cam}
+                     " category "
+                     $cat
+                     " must have units of seconds"}
+                  {do
+                     ($max_duration
+                        {switch
+                           $cat
+                           ((INTRO INTRO_VENUE)
+                              MAX_INTRO_SEC)
+                           (INTRO_QUICK 5)
+                           (INTRO_MULTI 5)
+                           (WIN_QUICK 5)
+                           MAX_WIN_LOSE_SEC})
+                     ($min_duration
+                        {switch
+                           $cat
+                           (INTRO 1)
+                           ((WIN WIN_QUICK)
+                              {if_else $video_venue 0 1})
+                           1})
+                     {if
+                        {<
+                           {$cam duration_seconds}
+                           $min_duration}
+                        {notify
+                           {path_name $cam}
+                           " category "
+                           $cat
+                           " has duration "
+                           {$cam duration_seconds}
+                           " needs to be greater than or equal to "
+                           $min_duration
+                           " seconds"}}
+                     {if
+                        {&&
+                           {> $max_duration 0}
+                           {>
+                              {$cam duration_seconds}
+                              $max_duration}}
+                        {notify
+                           {path_name $cam}
+                           " category "
+                           $cat
+                           " has duration "
+                           {$cam duration_seconds}
+                           " needs to be less than or equal to "
+                           $max_duration
+                           " seconds"}}}}
+               {if
+                  {==
+                     {$cam duration}
+                     0}
+                  {notify
+                     {path_name $cam}
+                     " has zero duration!\n"}}}}
+         {do
+            ($num
+               {$cam
+                  size
+                  (targets)})
+            {foreach_int
+               $i
+               0
+               {- $num 1}
+               {do
+                  ($target
+                     {$cam
+                        get
+                        (targets $i target)})
+                  {if
+                     {!= $target ''}
+                     {foreach_int
+                        $j
+                        {'+' $i 1}
+                        $num
+                        {if
+                           {==
+                              $target
+                              {$cam
+                                 get
+                                 (targets $j target)}}
+                           {notify
+                              {path_name $cam}
+                              " has duplicate target "
+                              $target}}}}}}}
+         {$cam test_3d_crowd}
+         {unless
+            $create
+            {foreach_int
+               $i
+               0
+               {$cam
+                  size
+                  (keyframes)}
+               {do
+                  ($m
+                     {$cam
+                        get
+                        (keyframes $i focus_blur_multiplier)})
+                  ($has_target FALSE)
+                  {foreach_int
+                     $j
+                     0
+                     {$cam
+                        size
+                        (keyframes $i targets)}
+                     {if_else
+                        {==
+                           ""
+                           {$cam
+                              get
+                              (keyframes $i targets $j entity)}}
+                        {notify
+                           {path_name $cam}
+                           " keyframe "
+                           $i
+                           " target "
+                           $j
+                           " is NULL"}
+                        {set $has_target TRUE}}}
+                  {if
+                     {!=
+                        ""
+                        {$cam
+                           get
+                           (keyframes $i focal_target entity)}}
+                     {set $has_target TRUE}}
+                  {if
+                     {&&
+                        {==
+                           {$cam get use_depth_of_field}
+                           TRUE}
+                        {! $has_target}
+                        {< $m 2}}
+                     {notify
+                        {path_name $cam}
+                        " has depth of field enabled, but keyframe "
+                        $i
+                        " has no valid focal targets and multiplier "
+                        $m
+                        " < 2, blur will be too close to camera"}}}}}
+         {with
+            $cam
+            {if
+               {&&
+                  {&
+                     [flags]
+                     kBCSBDistBehind}
+                  {!
+                     {&
+                        [flags]
+                        kBCSBFacingNull}}}
+               {notify
+                  {path_name $cam}
+                  " is behind, must have null facing"}}
+            {if
+               {has_substr
+                  {$this name}
+                  "coop_"}
+               {if
+                  [guitar2_focus]
+                  {notify
+                     {path_name $this}
+                     " has guitar2_focus TRUE"}}
+               {if
+                  [vocal2_focus]
+                  {notify
+                     {path_name $this}
+                     " has vocal2_focus TRUE"}}
+               {if
+                  [drums2_focus]
+                  {notify
+                     {path_name $this}
+                     " has drums2_focus TRUE"}}}}}
+      {foreach
+         $cat
+         CAMSHOT_CATEGORIES
+         {do
+            ($cams
+               {array 0})
+            {$this
+               iterate
+               BandCamShot
+               $cam
+               {if
+                  {==
+                     {$cam get category}
+                     $cat}
+                  {push_back $cams $cam}}}
+            {if
+               {&&
+                  {size $cams}
+                  {!= $cat NORMAL}}
+               {do
+                  ($string
+                     "")
+                  {foreach
+                     $gender
+                     ("kValidMale"
+                        "kValidFemale")
+                     {foreach
+                        $attitude
+                        ("kValidRocker"
+                           "kValidDramatic"
+                           "kValidBanger"
+                           "kValidSpazz")
+                        {do
+                           ($flags
+                              {'|'
+                                 {macro_elem $attitude}
+                                 {macro_elem $gender}})
+                           ($found FALSE)
+                           {foreach
+                              $cam
+                              $cams
+                              {if_else
+                                 {==
+                                    {dircut_gender_genre_focus_name $cam}
+                                    ""}
+                                 {set $found TRUE}
+                                 {if
+                                    {==
+                                       {&
+                                          $flags
+                                          {$cam get flags}}
+                                       $flags}
+                                    {set $found TRUE}}}}
+                           {unless
+                              $found
+                              {unless
+                                 {strlen $string}
+                                 {set
+                                    $string
+                                    {sprint
+                                       $string
+                                       " or "}}}
+                              {set
+                                 $string
+                                 {sprint
+                                    $string
+                                    "("
+                                    $gender
+                                    " and "
+                                    $attitude
+                                    ")"}}}}}}
+                  {if
+                     {strlen $string}
+                     {notify
+                        {path_name $this}
+                        " has no "
+                        $cat
+                        " BandCamshot valid for "
+                        $string}}}}}}
+      {unless
+         {has_substr
+            {path_name $this}
+            "video.milo"}
+         {foreach
+            $cameras.platform_name
+            ("kPlatformXBox"
+               "kPlatformPS3")
+            {set
+               $cameras.platform
+               {macro_elem $cameras.platform_name}}
+            {if
+               {find_elem
+                  (base variant)
+                  {$this get_type}}
+               {$this
+                  verify_camera_categories
+                  (INTRO INTRO_QUICK INTRO_VENUE INTRO_MULTI LOSE WIN WIN_QUICK OUTRO_MULTI OUTRO NORMAL BFTB_G_REVIVE BFTB_G_FAIL BFTB_B_REVIVE BFTB_B_FAIL BFTB_V_REVIVE BFTB_V_FAIL BFTB_D_REVIVE BFTB_D_FAIL)}
+               {if
+                  {has_substr
+                     {$this name}
+                     big_club}
+                  {set
+                     $cameras.namefilter
+                     "h2hd_"}
+                  {set $game.play_mode h2h_drum}
+                  {$this
+                     verify_camera_categories
+                     (H2H_REQUIRED_CAMS)}
+                  {$this verify_far_h2h_cameras}
+                  {foreach
+                     $p1_focus
+                     (0 1)
+                     {foreach
+                        $p2_focus
+                        (0 1)
+                        {if
+                           {'^' $p1_focus $p2_focus}
+                           {unless
+                              {$this
+                                 find_shot
+                                 INTRO
+                                 (STD_VALIDATE_FLAGS
+                                    (drums_focus $p1_focus)
+                                    (guitar_focus FALSE)
+                                    (vocal_focus FALSE)
+                                    (drums2_focus $p2_focus)
+                                    (guitar2_focus FALSE)
+                                    (vocal2_focus FALSE))}
+                              {if_else
+                                 $create
+                                 {do
+                                    {set
+                                       $camname
+                                       {next_name
+                                          {sprint
+                                             "h2hd_MissingCamshot_Intro.shot"}}}
+                                    WORLD_OBJECT_SET_MISSING_CAMSHOT_DEFAULTS
+                                    {$camname set drums_focus $p1_focus}
+                                    {$camname set drums2_focus $p2_focus}
+                                    {$camname set category INTRO}
+                                    {milo record $camname 'created BandCamShot' kRecordCreated}}
+                                 {notify
+                                    {$this camera_notify}
+                                    "(drums_focus "
+                                    $p1_focus
+                                    ") "
+                                    "(drums2_focus "
+                                    $p2_focus
+                                    ") "}}}}}}
+                  {foreach
+                     $p1_focus
+                     (0 1)
+                     {foreach
+                        $p2_focus
+                        (0 1)
+                        {if
+                           {'||' $p1_focus $p2_focus}
+                           {foreach
+                              $facing
+                              (kBCSBFacingLeft kBCSBFacingRight)
+                              {unless
+                                 {$this
+                                    find_shot
+                                    NORMAL
+                                    (STD_VALIDATE_FLAGS
+                                       (bass_focus FALSE)
+                                       (drums_focus $p1_focus)
+                                       (guitar_focus FALSE)
+                                       (vocal_focus FALSE)
+                                       (drums2_focus $p2_focus)
+                                       (guitar2_focus FALSE)
+                                       (vocal2_focus FALSE)
+                                       (flags_any $facing)
+                                       (flags_any
+                                          {'|' kBCSBDistNull kBCSBDistNear kBCSBDistBehind}))}
+                                 {if_else
+                                    $create
+                                    {do
+                                       {set
+                                          $camname
+                                          {next_name
+                                             {sprint
+                                                "h2hd_MissingCamshot_"
+                                                FACING_NAME
+                                                ".shot"}}}
+                                       WORLD_OBJECT_SET_MISSING_CAMSHOT_DEFAULTS
+                                       {$camname set drums_focus $p1_focus}
+                                       {$camname set drums2_focus $p2_focus}
+                                       {with
+                                          $camname
+                                          {mask_eq
+                                             [flags]
+                                             kBCSBAllFacing}
+                                          {'|='
+                                             [flags]
+                                             $facing}}
+                                       {milo record $camname 'created BandCamShot' kRecordCreated}}
+                                    {notify
+                                       {$this camera_notify}
+                                       "(facing "
+                                       {facing_string $facing}
+                                       ") "
+                                       "(drums_focus "
+                                       $p1_focus
+                                       ") "
+                                       "(drums2_focus "
+                                       $p2_focus
+                                       ") "}}}}}}}
+                  {foreach
+                     $focus
+                     (guitar_focus vocal_focus)
+                     {foreach
+                        $facing
+                        ({'|' kBCSBFacingLeft kBCSBFacingNull}
+                           {'|' kBCSBFacingRight kBCSBFacingNull})
+                        {unless
+                           {$this
+                              find_shot
+                              NORMAL
+                              (STD_VALIDATE_FLAGS
+                                 (flags_any $facing)
+                                 (flags_any
+                                    {'|' kBCSBDistNull kBCSBDistNear kBCSBDistBehind kBCSBDistCloseup})
+                                 (bass_focus FALSE)
+                                 (drums_focus
+                                    {== $focus drums_focus})
+                                 (guitar_focus
+                                    {== $focus guitar_focus})
+                                 (vocal_focus
+                                    {== $focus vocal_focus}))}
+                           {if_else
+                              $create
+                              {do
+                                 {set
+                                    $camname
+                                    {next_name
+                                       {sprint
+                                          $cameras.namefilter
+                                          "MissingCamshotSolo.shot"}}}
+                                 WORLD_OBJECT_SET_MISSING_CAMSHOT_DEFAULTS
+                                 {$camname set $focus TRUE}
+                                 {milo record $camname 'created BandCamShot' kRecordCreated}}
+                              {notify
+                                 {$this camera_notify}
+                                 " closeup "
+                                 $focus
+                                 " (facing "
+                                 {facing_string $facing}
+                                 ")"}}}}}
+                  {set
+                     $cameras.namefilter
+                     "h2hg_"}
+                  {set $game.play_mode h2h_guitar}
+                  {$this
+                     verify_camera_categories
+                     (H2H_REQUIRED_CAMS)}
+                  {$this verify_far_h2h_cameras}
+                  {foreach
+                     $p1_focus
+                     (0 1)
+                     {foreach
+                        $p2_focus
+                        (0 1)
+                        {if
+                           {'^' $p1_focus $p2_focus}
+                           {unless
+                              {$this
+                                 find_shot
+                                 INTRO
+                                 (STD_VALIDATE_FLAGS
+                                    (drums_focus FALSE)
+                                    (guitar_focus $p1_focus)
+                                    (vocal_focus FALSE)
+                                    (drums2_focus FALSE)
+                                    (guitar2_focus $p2_focus)
+                                    (vocal2_focus FALSE))}
+                              {if_else
+                                 $create
+                                 {do
+                                    {set
+                                       $camname
+                                       {next_name
+                                          {sprint
+                                             "h2hd_MissingCamshot_Intro.shot"}}}
+                                    WORLD_OBJECT_SET_MISSING_CAMSHOT_DEFAULTS
+                                    {$camname set category INTRO}
+                                    {$camname set guitar_focus $p1_focus}
+                                    {$camname set guitar2_focus $p2_focus}
+                                    {milo record $camname 'created BandCamShot' kRecordCreated}}
+                                 {notify
+                                    {$this camera_notify}
+                                    "(guitar_focus "
+                                    $p1_focus
+                                    ") "
+                                    "(guitar2_focus "
+                                    $p2_focus
+                                    ") "}}}}}}
+                  {foreach
+                     $p1_focus
+                     (0 1)
+                     {foreach
+                        $p2_focus
+                        (0 1)
+                        {if
+                           {'||' $p1_focus $p2_focus}
+                           {foreach
+                              $facing
+                              ({'|' kBCSBFacingLeft kBCSBFacingNull}
+                                 {'|' kBCSBFacingRight kBCSBFacingNull})
+                              {unless
+                                 {$this
+                                    find_shot
+                                    NORMAL
+                                    (STD_VALIDATE_FLAGS
+                                       (bass_focus FALSE)
+                                       (drums_focus FALSE)
+                                       (guitar_focus $p1_focus)
+                                       (vocal_focus FALSE)
+                                       (drums2_focus FALSE)
+                                       (guitar2_focus $p2_focus)
+                                       (vocal2_focus FALSE)
+                                       (flags_any $facing)
+                                       (flags_any
+                                          {'|' kBCSBDistNull kBCSBDistNear kBCSBDistBehind}))}
+                                 {if_else
+                                    $create
+                                    {do
+                                       {set
+                                          $camname
+                                          {next_name
+                                             {sprint
+                                                "h2hg_MissingCamshot_"
+                                                FACING_NAME
+                                                ".shot"}}}
+                                       WORLD_OBJECT_SET_MISSING_CAMSHOT_DEFAULTS
+                                       {with
+                                          $camname
+                                          {set
+                                             [guitar_focus]
+                                             $p1_focus}
+                                          {set
+                                             [guitar2_focus]
+                                             $p2_focus}
+                                          {mask_eq
+                                             [flags]
+                                             kBCSBAllFacing}
+                                          {'|='
+                                             [flags]
+                                             {&
+                                                $facing
+                                                {'|' kBCSBFacingLeft kBCSBFacingRight}}}}
+                                       {milo record $camname 'created BandCamShot' kRecordCreated}}
+                                    {notify
+                                       {$this camera_notify}
+                                       "(facing "
+                                       {facing_string $facing}
+                                       ") "
+                                       "(guitar_focus "
+                                       $p1_focus
+                                       ") "
+                                       "(guitar2_focus "
+                                       $p2_focus
+                                       ") "}}}}}}}
+                  {foreach
+                     $focus
+                     (drums_focus vocal_focus)
+                     {foreach
+                        $facing
+                        ({'|' kBCSBFacingLeft kBCSBFacingNull}
+                           {'|' kBCSBFacingRight kBCSBFacingNull})
+                        {unless
+                           {$this
+                              find_shot
+                              NORMAL
+                              (STD_VALIDATE_FLAGS
+                                 (flags_any $facing)
+                                 (flags_any
+                                    {'|' kBCSBDistNull kBCSBDistNear kBCSBDistBehind kBCSBDistCloseup})
+                                 (bass_focus FALSE)
+                                 (drums_focus
+                                    {== $focus drums_focus})
+                                 (guitar_focus
+                                    {== $focus guitar_focus})
+                                 (vocal_focus
+                                    {== $focus vocal_focus}))}
+                           {if_else
+                              $create
+                              {do
+                                 {set
+                                    $camname
+                                    {next_name
+                                       {sprint
+                                          $cameras.namefilter
+                                          "MissingCamshotSolo.shot"}}}
+                                 WORLD_OBJECT_SET_MISSING_CAMSHOT_DEFAULTS
+                                 {$camname set $focus TRUE}
+                                 {milo record $camname 'created BandCamShot' kRecordCreated}}
+                              {notify
+                                 {$this camera_notify}
+                                 " closeup "
+                                 $focus
+                                 " (facing "
+                                 {facing_string $facing}
+                                 ")"}}}}}
+                  {set
+                     $cameras.namefilter
+                     "h2hv_"}
+                  {set $game.play_mode h2h_vocals}
+                  {$this
+                     verify_camera_categories
+                     (H2H_REQUIRED_CAMS)}
+                  {$this verify_far_h2h_cameras}
+                  {foreach
+                     $p1_focus
+                     (0 1)
+                     {foreach
+                        $p2_focus
+                        (0 1)
+                        {if
+                           {'^' $p1_focus $p2_focus}
+                           {unless
+                              {$this
+                                 find_shot
+                                 INTRO
+                                 (STD_VALIDATE_FLAGS
+                                    (drums_focus FALSE)
+                                    (guitar_focus FALSE)
+                                    (vocal_focus $p1_focus)
+                                    (drums2_focus FALSE)
+                                    (guitar2_focus FALSE)
+                                    (vocal2_focus $p2_focus))}
+                              {if_else
+                                 $create
+                                 {do
+                                    {set
+                                       $camname
+                                       {next_name
+                                          {sprint
+                                             "h2hd_MissingCamshot_Intro.shot"}}}
+                                    WORLD_OBJECT_SET_MISSING_CAMSHOT_DEFAULTS
+                                    {$camname set category INTRO}
+                                    {$camname set vocal_focus $p1_focus}
+                                    {$camname set vocal2_focus $p2_focus}
+                                    {milo record $camname 'created BandCamShot' kRecordCreated}}
+                                 {notify
+                                    {$this camera_notify}
+                                    "(vocal_focus "
+                                    $p1_focus
+                                    ") "
+                                    "(vocal2_focus "
+                                    $p2_focus
+                                    ") "}}}}}}
+                  {foreach
+                     $p1_focus
+                     (0 1)
+                     {foreach
+                        $p2_focus
+                        (0 1)
+                        {if
+                           {'||' $p1_focus $p2_focus}
+                           {foreach
+                              $facing
+                              (kBCSBFacingLeft kBCSBFacingRight)
+                              {unless
+                                 {$this
+                                    find_shot
+                                    NORMAL
+                                    (STD_VALIDATE_FLAGS
+                                       (bass_focus FALSE)
+                                       (drums_focus FALSE)
+                                       (guitar_focus FALSE)
+                                       (vocal_focus $p1_focus)
+                                       (drums2_focus FALSE)
+                                       (guitar2_focus FALSE)
+                                       (vocal2_focus $p2_focus)
+                                       (flags_any $facing)
+                                       (flags_any
+                                          {'|' kBCSBDistNull kBCSBDistNear kBCSBDistBehind}))}
+                                 {if_else
+                                    $create
+                                    {do
+                                       {set
+                                          $camname
+                                          {next_name
+                                             {sprint
+                                                "h2hv_MissingCamshot_"
+                                                FACING_NAME
+                                                ".shot"}}}
+                                       WORLD_OBJECT_SET_MISSING_CAMSHOT_DEFAULTS
+                                       {with
+                                          $camname
+                                          {set
+                                             [vocal_focus]
+                                             $p1_focus}
+                                          {set
+                                             [vocal2_focus]
+                                             $p2_focus}
+                                          {mask_eq
+                                             [flags]
+                                             kBCSBAllFacing}
+                                          {'|='
+                                             [flags]
+                                             $facing}}
+                                       {milo record $camname 'created BandCamShot' kRecordCreated}}
+                                    {notify
+                                       {$this camera_notify}
+                                       "(facing "
+                                       {facing_string $facing}
+                                       ") "
+                                       "(vocal_focus "
+                                       $p1_focus
+                                       ") "
+                                       "(vocal2_focus "
+                                       $p2_focus
+                                       ") "}}}}}}}
+                  {foreach
+                     $focus
+                     (guitar_focus drums_focus)
+                     {foreach
+                        $facing
+                        ({'|' kBCSBFacingLeft kBCSBFacingNull}
+                           {'|' kBCSBFacingRight kBCSBFacingNull})
+                        {unless
+                           {$this
+                              find_shot
+                              NORMAL
+                              (STD_VALIDATE_FLAGS
+                                 (flags_any $facing)
+                                 (flags_any
+                                    {'|' kBCSBDistNull kBCSBDistNear kBCSBDistBehind kBCSBDistCloseup})
+                                 (bass_focus FALSE)
+                                 (drums_focus
+                                    {== $focus drums_focus})
+                                 (guitar_focus
+                                    {== $focus guitar_focus})
+                                 (vocal_focus
+                                    {== $focus vocal_focus}))}
+                           {if_else
+                              $create
+                              {do
+                                 {set
+                                    $camname
+                                    {next_name
+                                       {sprint
+                                          $cameras.namefilter
+                                          "MissingCamshotSolo.shot"}}}
+                                 WORLD_OBJECT_SET_MISSING_CAMSHOT_DEFAULTS
+                                 {$camname set $focus TRUE}
+                                 {milo record $camname 'created BandCamShot' kRecordCreated}}
+                              {notify
+                                 {$this camera_notify}
+                                 " closeup "
+                                 $focus
+                                 " (facing "
+                                 {facing_string $facing}
+                                 ")"}}}}}}
+               {set
+                  $cameras.namefilter
+                  "coop_"}
+               {set $game.play_mode coop}
+               {foreach
+                  $facing
+                  (kBCSBFacingLeft kBCSBFacingRight)
+                  {foreach
+                     $bass_focus
+                     (0 1)
+                     {foreach
+                        $drums_focus
+                        (0 1)
+                        {foreach
+                           $guitar_focus
+                           (0 1)
+                           {foreach
+                              $vocal_focus
+                              (0 1)
+                              {foreach
+                                 $distance
+                                 ({'|' kBCSBDistNull kBCSBDistNear})
+                                 {do
+                                    ($focus_sum
+                                       {'+' $bass_focus $drums_focus $guitar_focus $vocal_focus})
+                                    {if
+                                       {&&
+                                          $focus_sum
+                                          {'||'
+                                             {! $drums_focus}
+                                             {!= $focus_sum 3}}}
+                                       {unless
+                                          {$this
+                                             find_shot
+                                             NORMAL
+                                             (STD_VALIDATE_FLAGS
+                                                (flags_any $facing)
+                                                (flags_any $distance)
+                                                (bass_focus $bass_focus)
+                                                (drums_focus $drums_focus)
+                                                (guitar_focus $guitar_focus)
+                                                (vocal_focus $vocal_focus)
+                                                (drums2_focus FALSE)
+                                                (guitar2_focus FALSE)
+                                                (vocal2_focus FALSE))}
+                                          {if_else
+                                             $create
+                                             {do
+                                                {set
+                                                   $camname
+                                                   {next_name
+                                                      "coop_MissingCamshot.shot"}}
+                                                WORLD_OBJECT_SET_MISSING_CAMSHOT_DEFAULTS
+                                                {$camname set bass_focus $bass_focus}
+                                                {$camname set drums_focus $drums_focus}
+                                                {$camname set guitar_focus $guitar_focus}
+                                                {$camname set vocal_focus $vocal_focus}
+                                                {milo record $camname 'created BandCamShot' kRecordCreated}}
+                                             {notify
+                                                {$this camera_notify}
+                                                "(facing "
+                                                {facing_string $facing}
+                                                ") "
+                                                "(bass_focus "
+                                                $bass_focus
+                                                ") "
+                                                "(drums_focus "
+                                                $drums_focus
+                                                ") "
+                                                "(guitar_focus "
+                                                $guitar_focus
+                                                ") "
+                                                "(vocal_focus "
+                                                $vocal_focus
+                                                ")"
+                                                "(distance "
+                                                {dist_string $distance}
+                                                ")"}}}}}}}}}}}
+               {foreach
+                  $focus
+                  (bass_focus drums_focus guitar_focus vocal_focus)
+                  {foreach
+                     $cat
+                     (WIN INTRO)
+                     {unless
+                        {$this
+                           find_shot
+                           $cat
+                           ((bass_focus
+                                 {== $focus bass_focus})
+                              (drums_focus
+                                 {== $focus drums_focus})
+                              (guitar_focus
+                                 {== $focus guitar_focus})
+                              (vocal_focus
+                                 {== $focus vocal_focus})
+                              (platform_only
+                                 {$this platform_filter}))}
+                        {if_else
+                           $create
+                           {do
+                              {set
+                                 $camname
+                                 {next_name
+                                    "coop_MissingCamshot.shot"}}
+                              WORLD_OBJECT_SET_MISSING_CAMSHOT_DEFAULTS
+                              {$camname set category $cat}
+                              {$camname set $focus TRUE}
+                              {milo record $camname 'created BandCamShot' kRecordCreated}}
+                           {notify
+                              {$this camera_notify}
+                              "category "
+                              $cat
+                              " with focus "
+                              $focus}}}}}
+               {foreach
+                  $focus
+                  (bass_focus drums_focus guitar_focus vocal_focus)
+                  {foreach
+                     $facing
+                     ({'|' kBCSBFacingLeft kBCSBFacingNull}
+                        {'|' kBCSBFacingRight kBCSBFacingNull})
+                     {unless
+                        {$this
+                           find_shot
+                           NORMAL
+                           (STD_VALIDATE_FLAGS
+                              (flags_any $facing)
+                              (flags_any kBCSBDistCloseup)
+                              (bass_focus
+                                 {== $focus bass_focus})
+                              (drums_focus
+                                 {== $focus drums_focus})
+                              (guitar_focus
+                                 {== $focus guitar_focus})
+                              (vocal_focus
+                                 {== $focus vocal_focus}))}
+                        {if_else
+                           $create
+                           {do
+                              {set
+                                 $camname
+                                 {next_name
+                                    "coop_MissingCamshot"
+                                    FACING_NAME
+                                    ".shot"}}
+                              WORLD_OBJECT_SET_MISSING_CAMSHOT_DEFAULTS
+                              {$camname set $focus TRUE}
+                              {with
+                                 $camname
+                                 {mask_eq
+                                    [flags]
+                                    {'|' kBCSBAllFacing kBCSBAllDist}}
+                                 {'|='
+                                    [flags]
+                                    {&
+                                       $facing
+                                       {'|' kBCSBFacingLeft kBCSBFacingRight}}}
+                                 {'|='
+                                    [flags]
+                                    kBCSBDistCloseup}}
+                              {milo record $camname 'created BandCamShot' kRecordCreated}}
+                           {notify
+                              {$this camera_notify}
+                              "(distance kBCSBDistCloseup) "
+                              $focus
+                              " (facing "
+                              {facing_string $facing}
+                              ")"}}}}}
+               {if
+                  {&&
+                     $create
+                     {exists milo}}
+                  {milo update_objects}}}}}
+      {set $cameras.validating FALSE})
+   (verify_camera_categories
+      ($cats)
+      {foreach
+         $type
+         $cats
+         {unless
+            {$this
+               find_shot
+               $type
+               ((platform_only
+                     {$this platform_filter}))}
+            {if_else
+               $create
+               {do
+                  {set
+                     $camname
+                     {next_name
+                        {sprint
+                           $cameras.namefilter
+                           "MissingCamshot"
+                           $type
+                           ".shot"}}}
+                  WORLD_OBJECT_SET_MISSING_CAMSHOT_DEFAULTS
+                  {$camname set category $type}
+                  {milo record $camname 'created BandCamShot' kRecordCreated}}
+               {notify
+                  {$this camera_notify}
+                  " category "
+                  $type}}}})
+   (verify_far_h2h_cameras
+      {foreach
+         $facing
+         (kBCSBFacingLeft kBCSBFacingRight)
+         {unless
+            {$this
+               find_shot
+               NORMAL
+               (STD_VALIDATE_FLAGS
+                  (flags_any $facing)
+                  (flags_any kBCSBDistFar))}
+            {if_else
+               $create
+               {do
+                  {set
+                     $camname
+                     {next_name
+                        {sprint
+                           $cameras.namefilter
+                           "MissingCamshotFar"
+                           FACING_NAME
+                           ".shot"}}}
+                  WORLD_OBJECT_SET_MISSING_CAMSHOT_DEFAULTS
+                  {with
+                     $camname
+                     {mask_eq
+                        [flags]
+                        {'|' kBCSBAllFacing kBCSBAllDist}}
+                     {'|='
+                        [flags]
+                        $facing}
+                     {'|='
+                        [flags]
+                        kBCSBDistFar}}
+                  {milo record $camname 'created BandCamShot' kRecordCreated}}
+               {notify
+                  {$this camera_notify}
+                  "(distance kBCSBDistFar) (facing "
+                  {facing_string $facing}
+                  ")"}}}})
+   (platform_filter
+      {if_else
+         {== $cameras.platform kPlatformXBox}
+         (kPlatformXBox kPlatformNone)
+         (kPlatformPS3 kPlatformNone)})
+   (camera_notify
+      {sprint
+         {path_name $this}
+         " No "
+         $game.play_mode
+         " "
+         $cameras.platform_name
+         " CamShot: "}))
