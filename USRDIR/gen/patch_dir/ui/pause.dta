@@ -46,7 +46,7 @@
    (metronome_check_index 0)
    (hud_check_index 0)
    (pause_commands
-      (pause_resume pause_restart lefty_flip vocal_options practice_new_section new_song return_world_map choose_new_challenge choose_new_battle band_members forfeit metronome return_audition ugc_buy_full_version ugc_delete_demo pause_quit))
+      (pause_resume pause_restart lefty_flip vocal_options practice_new_section new_song return_world_map choose_new_challenge free_camera choose_new_battle band_members forfeit metronome return_audition ugc_buy_full_version ugc_delete_demo pause_quit))
    (active_commands
       ())
    (chose_quit FALSE)
@@ -297,6 +297,10 @@
                   {ui
                      goto_screen
                      {gamemode get confirm_restart_screen}}})
+					 
+			(free_camera
+               {cycle_free_camera})
+			   
             (lefty_flip
                {if
                   {!=
@@ -463,7 +467,9 @@
                               {elem
                                  [pause_buttons]
                                  [button_count]}}}}})
-               (lefty_flip
+               
+					 
+			   (lefty_flip
                   {if
                      {&&
                         {!
@@ -865,15 +871,8 @@
 #define TOUR_WORLD_CONFIRM_DIALOG
 ({dialog_panel
       set_yesno
-      {if_else
-         {{tour band}
-            fans_lost_on_fail}
-         {sprintf
-            {localize tour_band_lose_fans_warning}
-            {localize_separated_int
-               {{tour band}
-                  fans_lost_on_fail}}}
-         {localize confirm_quit}}
+      
+         {localize confirm_quit}
       no.btn})
 {new
    BandScreen
@@ -899,11 +898,7 @@
       {switch
          $component
          (yes.btn
-            {if
-               {{tour band}
-                  is_local}
-               {{tour band}
-                  lose_song}}
+            
             {pause_panel on_quit})
          (no.btn
             {ui goto_screen pause_screen})})
@@ -945,8 +940,6 @@
       {switch
          $component
          (yes.btn
-            {{tour band}
-               lose_song}
             {pause_panel on_restart})
          (no.btn
             {ui goto_screen pause_screen})})}
