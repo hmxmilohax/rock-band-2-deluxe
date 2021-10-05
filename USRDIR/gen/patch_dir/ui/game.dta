@@ -90,7 +90,23 @@
          (script
             {handle
                ($this intro_end)})}
-      kDataUnhandled)
+     
+	 
+	    ;;
+		;;Black Venue Mod
+		;;
+		
+		
+		{if
+			{modifier_mgr is_modifier_active mod_blackvenue}
+				{do
+					{$world iterate PostProc $p
+					{$p set brightness -800}}
+				}
+		}
+
+
+	 kDataUnhandled)
    (intro_skip
       {if
          {'||'
@@ -472,7 +488,67 @@
          ($this my_enter)}
       {input_mgr
          set_limit
-         {gamemode get game_input_limit_type}})
+         {gamemode get game_input_limit_type}}
+ 
+ 
+  ;;
+  ;; 60fps/24fps mod check
+  ;;
+
+	
+   {if_else
+    {modifier_mgr is_modifier_active mod_24fps}
+	{
+	 {$world
+         iterate
+         PostProc
+         $p
+         {$p set emulate_fps 24}}
+	}
+	{
+     {$world
+         iterate
+         PostProc
+         $p
+         {$p set emulate_fps 60}}
+	 {$char
+        iterate
+        CharHair
+        $hair
+        {$hair reset 35}}
+	 {$world
+         iterate
+         WorldDir
+         $wd
+         {$wd
+            iterate
+            BandCamShot
+            $bcs
+               {foreach
+                  $property
+                  (shake_noisefreq shake_noiseamp)
+                  {$bcs
+                     set
+                     (keyframes $i $property)
+                     {'*'
+                        {$bcs
+                           get
+                           (keyframes $i $property)}
+                        0.5}}}
+               {foreach
+                  $component
+                  (x y)
+                  {$bcs
+                     set
+                     (keyframes $i shake_maxangle $component)
+                     {'*'
+                        {$bcs
+                           get
+                           (keyframes $i shake_maxangle $component)}
+                        0.5}}}}}	 
+	}
+   })   
+   
    (exit
       {platform_mgr remove_sink $this ui_changed}
       {synth stop_playback_all_mics}
