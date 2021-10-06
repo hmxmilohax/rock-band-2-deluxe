@@ -643,19 +643,24 @@
    "If you hate smoothness (or are playing on a ps3), toggle this!")
 (mod_24fps_obtain
    "(bug, should be available by default)")
-   (mod_autostrum
+(mod_autostrum
    "Auto Strum")
 (mod_autostrum_desc
    "Those with no strumming hand, this ones for you!")
 (mod_autostrum_obtain
    "")
-   (mod_autokick
+(mod_autokick
    "Auto Kick")
-(mod_autostrum_desc
+(mod_autokick_desc
    "Don't have a kick pedal? No problem!")
-(mod_autostrum_obtain
+(mod_autokick_obtain
    "")
-
+(mod_ogtrack
+   "OG Track Textures")
+(mod_ogtrack_desc
+   "If you hate change, toggle this option!")
+(mod_ogtrack_obtain
+   "(bug, should be available by default)")
 
 ;;
 ;; Instrument UI
