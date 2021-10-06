@@ -49,13 +49,13 @@
       CHEATS_ALLOWED
       {handle
          (ui modifier_unlocked mod_awesome)}})
-((G_YELLOW G_YELLOW G_YELLOW G_YELLOW G_YELLOW)
-   {if
-      CHEATS_ALLOWED
-      {handle
-         (ui modifier_unlocked mod_roygb)}})
 ((G_ORANGE G_BLUE G_ORANGE G_YELLOW G_ORANGE G_BLUE G_ORANGE G_YELLOW)
    {if
       CHEATS_ALLOWED
       {handle
          (ui modifier_unlocked mod_autostrum)}})
+((G_ORANGE G_ORANGE G_ORANGE G_ORANGE G_ORANGE G_ORANGE G_ORANGE G_ORANGE)
+   {if
+      CHEATS_ALLOWED
+      {handle
+         (ui modifier_unlocked mod_autokick)}})

@@ -497,7 +497,7 @@
 
 	
    {if_else
-    {modifier_mgr is_modifier_active mod_24fps}
+    $24fps
 	{
 	 {$world
          iterate

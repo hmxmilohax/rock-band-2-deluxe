@@ -31,6 +31,13 @@
    (activate
 		{set $roygb TRUE})
    (deactivate
-		{set $roygb FALSE}))
-   (mod_24fps unlocked)
-   (mod_autostrum))
+		{set $roygb FALSE})
+      unlocked)
+   (mod_24fps
+   (activate
+      {set $24fps TRUE})
+   (deactivate
+      {set $24fps FALSE})
+   unlocked)
+   (mod_autostrum)
+   (mod_autokick))
