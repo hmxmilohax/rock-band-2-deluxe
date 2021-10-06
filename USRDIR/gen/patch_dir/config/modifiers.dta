@@ -34,6 +34,12 @@
    (deactivate
 		{set $roygb FALSE})
       unlocked)
+   (mod_padguitar
+   (activate
+		{set $padguitar TRUE})
+   (deactivate
+		{set $padguitar FALSE})
+      unlocked)
    (mod_24fps
    (activate
       {set $24fps TRUE})

@@ -148,7 +148,11 @@
       (hx_xbox kControllerVocals)
       (digital kControllerVocals)
       (analog kControllerVocals)
-      (dualshock kControllerGuitar)
+      (dualshock 
+	    {if_else
+        $padguitar
+            kControllerGuitar
+            kControllerVocals})
       (stagekit_xbox kControllerVocals)
       (none kControllerNone)))
 (spew
