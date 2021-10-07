@@ -51,8 +51,6 @@
 (facedowninthedirt
    (format 3)
    (base_points 581595))
-(getup
-   (genre rock))
 (goingmobile
    (format 3)
    (base_points 535922))
@@ -95,8 +93,6 @@
 (no13baby
    (format 3)
    (base_points 476865))
-(pickupthepieces
-   (genre rock))
 (promisedland
    (format 3)
    (base_points 414772))
@@ -302,6 +298,7 @@
    (base_points 911887))
 (blackholesun
    (version 1)
+   (genre grunge)
    (format 3)
    (album_art TRUE)
    (year_released 1994)
@@ -338,6 +335,7 @@
 (blooddoll
    (version 1)
    (format 3)
+   (genre metal)
    (album_art TRUE)
    (year_released 2007)
    (album_name
@@ -358,6 +356,7 @@
 (brainpower
    (version 1)
    (format 3)
+   (genre popdanceelectronic)
    (album_art TRUE)
    (year_released 2007)
    (album_name
@@ -459,6 +458,7 @@
 (celebrityskin
    (version 1)
    (format 3)
+   (genre alternative)
    (album_art TRUE)
    (year_released 1998)
    (album_name
@@ -548,6 +548,7 @@
    (format 3)
    (album_art TRUE)
    (year_released 1993)
+   (song_location 2)
    (album_name
       "Pablo Honey")
    (album_track_number 2)
@@ -576,6 +577,7 @@
 (danicalifornia
    (version 1)
    (format 3)
+   (genre alternative)
    (album_art TRUE)
    (year_released 2006)
    (album_name
@@ -702,6 +704,7 @@
 (electricversion
    (version 1)
    (format 3)
+   (genre indierock)
    (album_art TRUE)
    (year_released 2003)
    (album_name
@@ -724,6 +727,7 @@
    (format 3)
    (album_art TRUE)
    (year_released 1991)
+   (song_location 2)
    (album_name
       "Metallica")
    (album_track_number 1)
@@ -853,6 +857,7 @@
    (version 1)
    (format 3)
    (album_art TRUE)
+   (genre alternative)
    (year_released 2002)
    (album_name
       "Songs for the Deaf")
@@ -988,6 +993,7 @@
    (version 1)
    (format 3)
    (album_art TRUE)
+   (genre indierock)
    (year_released 2007)
    (album_name
       "Second & Eighteen")
@@ -999,6 +1005,7 @@
    (version 1)
    (format 3)
    (album_art TRUE)
+   (genre numetal)
    (year_released 2005)
    (album_name
       "Flyleaf")
@@ -1010,6 +1017,7 @@
    (version 1)
    (format 3)
    (album_art TRUE)
+   (genre grunge)
    (year_released 1991)
    (album_name
       "Nevermind")
@@ -1074,6 +1082,7 @@
    (version 1)
    (format 3)
    (album_art TRUE)
+   (genre alternative)
    (year_released 1998)
    (album_name
       "Version 2.0")
@@ -1134,6 +1143,7 @@
 (learntofly
    (version 1)
    (format 3)
+   (genre alternative)
    (album_art TRUE)
    (year_released 1999)
    (album_name
@@ -1175,6 +1185,7 @@
 (mainoffender
    (version 1)
    (format 3)
+   (genre punk)
    (album_art TRUE)
    (year_released 2000)
    (album_name
@@ -1195,6 +1206,7 @@
 (maps
    (version 1)
    (format 3)
+   (genre indierock)
    (album_art TRUE)
    (year_released 2003)
    (album_name
@@ -1364,6 +1376,7 @@
    (version 1)
    (format 3)
    (album_art TRUE)
+   (genre rock)
    (year_released 2008)
    (album_name
       "Adrenaline")
@@ -1411,7 +1424,7 @@
 (paranoid
    (version 1)
    (format 3)
-   (album_art FALSE)
+   (song_location 2)
    (year_released 1970)
    (pack_name
       "Rock Band Challenging Songs")
@@ -1595,17 +1608,16 @@
    (pack_name
       "The Police Track Pack 01")
    (base_points 329265))
-(runtothehills
+(runtothehills2
    (version 1)
    (format 3)
-   (year_released 1982)
-   (album_art FALSE)
    (pack_name
       "Rock Band Impossible Songs")
-   (base_points 691570))
+   (base_points 680039))
 (sabotage
    (version 1)
    (format 3)
+   (genre hiphoprap)
    (album_art TRUE)
    (year_released 1994)
    (album_name
@@ -1675,8 +1687,6 @@
    (pack_name
       "Harmonix Pack 01")
    (base_points 599664))
-(shiningstar
-   (genre rock))
 (shockwave
    (version 1)
    (format 3)
@@ -1917,6 +1927,7 @@
    (format 3)
    (album_art TRUE)
    (year_released 2000)
+   (genre novelty)
    (album_name
       "Timmy & The Lords of the Underworld")
    (album_track_number 1)
@@ -2050,6 +2061,7 @@
    (format 3)
    (album_art TRUE)
    (year_released 2005)
+   (song_location 2)
    (album_name
       "Good Apollo, I'm Burning Star IV, Volume One: From Fear Through the Eyes of Madness")
    (album_track_number 11)
@@ -2150,3 +2162,133 @@
       "Mellon Collie and the Infinite Sadness")
    (album_track_number 4)
    (base_points 388864))
+
+
+;;
+;; Pop/Dance/Electronic
+;;
+
+(7things
+	(genre popdanceelectronic))
+(badromance
+	(genre popdanceelectronic))
+(cantbetamed
+	(genre popdanceelectronic))
+(flyonthewall
+	(genre popdanceelectronic))
+(getready2rokk
+	(genre popdanceelectronic))
+(ghostbusters
+	(genre popdanceelectronic))
+(justdance
+	(genre popdanceelectronic))
+(lesstalkmorerokk
+	(genre popdanceelectronic))
+(letforeverbe
+	(genre popdanceelectronic))
+(missindependent
+	(genre popdanceelectronic))
+(pokerface
+	(genre popdanceelectronic))
+(sciencegeniusgirl
+	(genre popdanceelectronic))
+(seeyouagain
+	(genre popdanceelectronic))
+(sprode
+	(genre popdanceelectronic))
+(startallover
+	(genre popdanceelectronic))
+	
+;;
+;; R&B/Soul/Funk
+;;
+
+(dockofthebay
+	(genre rbsoulfunk))
+(fafafafafa
+	(genre rbsoulfunk))
+(imsickyall
+	(genre rbsoulfunk))
+(ivegotdreams
+	(genre rbsoulfunk))
+(loveman
+	(genre rbsoulfunk))
+(getup
+	(genre rbsoulfunk))
+(superbad
+	(genre rbsoulfunk))
+(kungfufighting
+	(genre rbsoulfunk))
+(pickupthepieces
+	(genre rbsoulfunk))
+(shiningstar
+    (genre rbsoulfunk))
+
+;;
+;; Reggae/Ska
+;;
+
+(buffalosoldier
+   (genre reggaeska))
+(couldyoubeloved
+   (genre reggaeska))
+(exodus
+   (genre reggaeska))
+(getupstandup
+   (genre reggaeska))
+(ishotthesheriff
+   (genre reggaeska))
+(isthislove
+   (genre reggaeska))
+(jamming
+   (genre reggaeska))
+(nowomannocry
+   (genre reggaeska))
+(onelove
+   (genre reggaeska))   
+(redemptionsong
+   (genre reggaeska))   
+(santeria
+   (genre reggaeska))   
+(satisymysoul
+   (genre reggaeska))   
+(stiritup
+   (genre reggaeska))   
+(threelittlebirds
+   (genre reggaeska))   
+(waitinginvain
+   (genre reggaeska))
+   
+   
+;;
+;; Hip-Hop/Rap
+;;
+
+(beautiful
+   (genre hiphoprap))
+(clinteastwood
+   (genre hiphoprap))
+(dropitlikeitshot
+   (genre hiphoprap))   
+(feelgoodinc
+   (genre hiphoprap))   
+(handlebars
+   (genre hiphoprap))
+(livinatthecorner
+   (genre hiphoprap))   
+(originofspades
+   (genre hiphoprap))
+(rehash
+   (genre hiphoprap))
+(ridininmychevy
+   (genre hiphoprap))
+(sensualseduction
+   (genre hiphoprap))   
+(snoopsupsideyahead
+   (genre hiphoprap))   
+(thashiznit
+   (genre hiphoprap))   
+(thatsthahomie
+   (genre hiphoprap))   
+(whoami
+   (genre hiphoprap))
