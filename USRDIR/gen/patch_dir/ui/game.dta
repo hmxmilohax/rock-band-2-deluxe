@@ -538,7 +538,7 @@
                         {$bcs
                            get
                            (keyframes $i $property)}
-                        0.5}}}
+                        0.25}}}
                {foreach
                   $component
                   (x y)
@@ -549,7 +549,7 @@
                         {$bcs
                            get
                            (keyframes $i shake_maxangle $component)}
-                        0.5}}}}}	 
+                        0.25}}}}}	 
 	}
    })   
    
