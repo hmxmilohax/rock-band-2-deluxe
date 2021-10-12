@@ -562,7 +562,8 @@
 	arena_13
 	arena_14
 	arena_15
-	arena_16)
+	arena_16
+	arena_99)
 
 #define VIDEO_VENUES (video_01
 	video_02
@@ -602,7 +603,11 @@
 	arena_13
 	arena_14
 	arena_15
-	arena_16)
+	arena_16
+	arena_99)
+
+#define BLACK_VENUE
+	(arena_99)
 
 #define NEW_H2H_VENUES (big_club_15
 	big_club_16

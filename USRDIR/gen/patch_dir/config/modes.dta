@@ -140,7 +140,10 @@
       {if_else
          {modifier_mgr is_modifier_active mod_newvenuesonly}
          (NEW_VENUES)
-         (VENUES)})
+         {if_else
+            {modifier_mgr is_modifier_active mod_blackvenue}
+            (BLACK_VENUE)
+            (VENUES)}})
    (use_video_venues_from_songs TRUE)
    (always_allow_player FALSE)
    (unlock_song_initial_num 20)
