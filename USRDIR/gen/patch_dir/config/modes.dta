@@ -181,7 +181,10 @@
       {if_else
          {modifier_mgr is_modifier_active mod_newvenuesonly}
          (NEW_H2H_VENUES)
-         (H2H_VENUES)})
+         {if_else
+            {modifier_mgr is_modifier_active mod_blackvenue}
+            (BLACK_VENUE_H2H)
+            (H2H_VENUES)}})
    (use_video_venues_from_songs FALSE)
    (crowd_reacts FALSE)
    (show_stars FALSE)

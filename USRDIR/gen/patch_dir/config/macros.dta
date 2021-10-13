@@ -584,7 +584,8 @@
 	big_club_13
 	big_club_15
 	big_club_16
-	big_club_17)
+	big_club_17
+	arena_99)
 
 #define NEW_VENUES (small_club_13
 	small_club_14
@@ -607,6 +608,9 @@
 	arena_99)
 
 #define BLACK_VENUE
+	(arena_99)
+
+#define BLACK_VENUE_H2H
 	(arena_99)
 
 #define NEW_H2H_VENUES (big_club_15

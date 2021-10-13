@@ -99,6 +99,10 @@
 		
 		{if
 			{modifier_mgr is_modifier_active mod_blackvenue}
+            {do
+               {$world iterate PostProc $p
+               {$p set brightness -800}}
+            }
 				{do
 					{$world iterate PostProc $p
 					{$p set emulate_fps 1}}
