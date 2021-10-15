@@ -1,3 +1,143 @@
+;Rock Band 1 Unexportables
+(runtothehills
+   (name
+      "Run to the Hills")
+   (artist
+      "Iron Maiden")
+   (context 21)
+   (song
+      (name songs/runtothehills/runtothehills)
+      (tracks
+         ((drum
+               (0 1 2 3 4))
+            (bass 5)
+            (guitar
+               (6 7))
+            (vocals
+               (8 9))))
+      (crowd_channels 12 13)
+      (pans
+         (0.0 -1.0 1.0 -1.0 1.0 0.0 -1.0 1.0 -1.0 1.0 -1.0 1.0 -2.5 2.5))
+      (vols
+         (0.0 -2.5 -2.5 -1.0 -1.0 -1.5 -3.0 -3.0 -2.5 -2.5 -6.0 -6.0 -5.5 -5.5))
+      (cores
+         (-1 -1 -1 -1 -1 -1 1 1 -1 -1 -1 -1 -1 -1))
+      (drum_solo
+         (seqs
+            (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+      (drum_freestyle
+         (seqs
+            (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+      (midi_file songs/runtothehills/runtothehills.mid))
+   (song_scroll_speed 2300)
+   (bank sfx/tambourine_bank.milo)
+   (anim_tempo kTempoFast)
+   (preview 11000 53175)
+   (rank
+      (drum 490)
+      (guitar 450)
+      (bass 450)
+      (vocals 300)
+      (band 600))
+   (genre metal)
+   (decade the80s)
+   (vocal_gender male)
+   ('song_location' 2)
+   (downloaded TRUE)
+   (exported TRUE))
+(entersandman
+   (name
+      "Enter Sandman")
+   (artist
+      "Metallica")
+   (master TRUE)
+   (context 58)
+   (song
+      (name songs/entersandman/entersandman)
+      (tracks
+         ((drum
+               (0 1 2 3))
+            (bass 4)
+            (guitar
+               (5 6))
+            (vocals
+               (7 8))))
+      (crowd_channels 11 12)
+      (pans
+         (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 -1.0 1.0 -1.0 1.0 -2.5 2.5))
+      (vols
+         (-1.0 -0.5 -2.5 -2.5 -1.5 -3.0 -3.0 -5.0 -5.0 -3.0 -3.0 -6.0 -6.0))
+      (cores
+         (-1 -1 -1 -1 -1 1 1 -1 -1 -1 -1 -1 -1))
+      (drum_solo
+         (seqs
+            (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+      (drum_freestyle
+         (seqs
+            (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+      (midi_file songs/entersandman/entersandman.mid))
+   (song_scroll_speed 2300)
+   (bank sfx/handclap_bank.milo)
+   (anim_tempo kTempoMedium)
+   (preview 89250 126750)
+   (rank
+      (drum 420)
+      (guitar 375)
+      (bass 400)
+      (vocals 230)
+      (band 420))
+   (genre metal)
+   (decade the90s)
+   (vocal_gender male)
+   ('song_location' 2)
+   (downloaded TRUE)
+   (exported TRUE))
+(paranoid
+   (name
+      "Paranoid")
+   (artist
+      "Black Sabbath")
+   (context 18)
+   (song
+      (name songs/paranoid/paranoid)
+      (tracks
+         ((drum
+               (0 1 2 3))
+            (bass 4)
+            (guitar
+               (5 6))
+            (vocals
+               (7 8))))
+      (pans
+         (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 -1.0 1.0 -1.0 1.0))
+      (vols
+         (0.0 0.0 -1.5 -1.5 -1.5 -4.5 -4.5 -6.0 -6.0 -6.0 -6.0))
+      (cores
+         (-1 -1 -1 -1 -1 1 1 -1 -1 -1 -1))
+      (drum_solo
+         (seqs
+            (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+      (drum_freestyle
+         (seqs
+            (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+      (midi_file songs/paranoid/paranoid.mid)
+      (hopo_threshold 250))
+   (song_scroll_speed 2300)
+   (bank sfx/tambourine_bank.milo)
+   (anim_tempo kTempoFast)
+   (preview 15000 38600)
+   (rank
+      (drum 270)
+      (guitar 310)
+      (bass 310)
+      (vocals 105)
+      (band 310))
+   (genre metal)
+   (decade the70s)
+   (vocal_gender male)
+   ('song_location' 2)
+   (downloaded TRUE)
+   (exported TRUE))
 #ifndef MINIMAL_SONGS
 (aceofspades
    (name
