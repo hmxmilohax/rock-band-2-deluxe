@@ -97,7 +97,8 @@
          {int
             [alpha_threshold]}})
    (enter
-	  {modifier_mgr activate_modifier mod_doublespeed}
+	  {modifier_mgr activate_modifier mod_doublespeed}	;	Enable Hyperspeed by default
+	  {set $24fps FALSE}								;	Don't enable 24fps. Change to true for hardware build. Bundle with 720p SFO
       {set
          [alpha_threshold_fading]
          FALSE}
