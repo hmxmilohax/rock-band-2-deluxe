@@ -185,7 +185,11 @@
  (sparkle_len 1000)
  (tail_pulse_rate 64)
  (tail_pulse_smoothing 0.5)
- (tail_offset_x 0)
+ (tail_offset_x 
+   {if_else
+      {modifier_mgr is_modifier_active mod_nosustain}
+      9999
+      0})
  (tail_min_alpha 0.5)
  (tail_max_alpha 1)
  (tail_alpha_smoothing 0.25)
