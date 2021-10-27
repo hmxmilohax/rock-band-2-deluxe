@@ -16,7 +16,7 @@
    (mod_nohud unlocked)
    (mod_unlockall
       (disables
-         (modifier_saving_feature modifier_achievements_feature modifier_online_feature))
+         (modifier_saving_feature modifier_achievements_feature))
       (activate
          {profile_mgr unlock_all_songs})
       (deactivate
