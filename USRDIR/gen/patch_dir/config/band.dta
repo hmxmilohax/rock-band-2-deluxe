@@ -319,34 +319,14 @@
                (disabled 0.5 0.5 0.5)
                (selecting 0.5 0.5 0.5)))
          (dummy '')))
-   (updated_song_select_slots
-      (rb3
-         (object
-            mesh
-            "rb3.mesh")
-         (colors
-            (normal
-               (normal 1.0 1.0 1.0)
-               (focused 1.0 1.0 1.0)
-               (disabled 1.0 1.0 1.0)
-               (selecting 1.0 1.0 1.0))
-            (highlight
-               (normal 0.8 0.8 0.8)
-               (focused 0.8 0.8 0.8)
-               (disabled 0.8 0.8 0.8)
-               (selecting 0.8 0.8 0.8))
-            (disabled
-               (normal 0.5 0.5 0.5)
-               (focused 0.5 0.5 0.5)
-               (disabled 0.5 0.5 0.5)
-               (selecting 0.5 0.5 0.5)))
-         (dummy '')))
    (updated_song_select_resource_node
       (other_resource_file
-         "../ui/resource/list_song_select_ugc.milo"))
-   (updated_song_select_resource_node
-      (other_resource_file
-         "../ui/resource/list_song_select_rb3.milo"))
+      {if_else
+			{&&
+			{== {song_mgr is_ugc} $song}
+			{== {song_mgr is_master} $song}}
+        ../ui/resource/list_song_select_ugc.milo
+		../ui/resource/list_song_select_rb3.milo}))
    (updated_song_shortcut_slot
       (shortcut_smaller
          (object
