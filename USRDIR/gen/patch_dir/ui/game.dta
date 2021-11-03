@@ -494,10 +494,18 @@
          set_limit
          {gamemode get game_input_limit_type}}
   ;; from drum trainer, this makes essentially rb3 static fills
-      {if
-         {!
-            {gamemode get dont_show_gems_in_fills}}
-         {beatmatch set_fake_hit_gems_in_fill TRUE}}
+      {if_else {modifier_mgr is_modifier_active mod_staticfills}
+		 {gamemode set dont_show_gems_in_fills FALSE}
+		 {gamemode set dont_show_gems_in_fills TRUE}}
+      {if {modifier_mgr is_modifier_active mod_staticfills}
+         {beatmatch set_fake_hit_gems_in_fill TRUE}
+         {{beatmatch active_player 0} set_fill_audio FALSE}
+		 {{beatmatch active_player 0} force_solo TRUE}
+    ;    {{beatmatch active_player 0} set_alternate_fill_mapping TRUE}
+	}
+  ;; from drum trainer, this makes essentially rb4 freestyle drums
+      {if {modifier_mgr is_modifier_active mod_freestyledrums}
+         {{beatmatch active_player 0} force_fill TRUE}}
   ;;
   ;; 60fps/24fps mod check
   ;;
