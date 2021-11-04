@@ -29,8 +29,14 @@
    (mod_blackvenue
       unlocked)
    (mod_staticfills
+   (activate
+		{modifier_mgr deactivate_modifier mod_freestyledrums})
       unlocked)
    (mod_freestyledrums
+   (activate
+		{modifier_mgr deactivate_modifier mod_staticfills})
+   (disables
+        (modifier_achievements_feature modifier_online_feature))
       unlocked)
    (mod_roygb
    (activate
@@ -55,4 +61,4 @@
    (mod_nosustain
       unlocked)
    (mod_autostrum)
-   (mod_autokick))
+   (mod_autokick)){modifier_mgr activate_modifier mod_staticfills}

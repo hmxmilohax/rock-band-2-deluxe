@@ -500,12 +500,14 @@
       {if {modifier_mgr is_modifier_active mod_staticfills}
          {beatmatch set_fake_hit_gems_in_fill TRUE}
          {{beatmatch active_player 0} set_fill_audio FALSE}
-		 {{beatmatch active_player 0} force_solo TRUE}
-    ;    {{beatmatch active_player 0} set_alternate_fill_mapping TRUE}
-	}
+		 {{beatmatch active_player 0} force_solo TRUE}}
   ;; from drum trainer, this makes essentially rb4 freestyle drums
       {if {modifier_mgr is_modifier_active mod_freestyledrums}
-         {{beatmatch active_player 0} force_fill TRUE}}
+	     {beatmatch set_fake_hit_gems_in_fill TRUE}
+         {{beatmatch active_player 0} force_fill TRUE}
+		 {gamemode set allow_overdrive_phrases FALSE}
+		 {gamemode set allow_drum_fills FALSE}
+		 {{beatmatch active_player 0} set_alternate_fill_mapping TRUE}}
   ;;
   ;; 60fps/24fps mod check
   ;;
