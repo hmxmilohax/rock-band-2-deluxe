@@ -631,13 +631,19 @@
 (mod_blackvenue 
    "Black Venues")
 (mod_blackvenue_desc 
-   "Complete black background while playing.")
+   "Complete black background while playing")
 (mod_blackvenue_obtain 
    "(bug, should be available by default)")
+(mod_songtitle
+   "Song Title Always On")
+(mod_songtitle_desc 
+   "Give credit where credit is due")
+(mod_songtitle_obtain 
+   "(bug, should be available by default)")
 (mod_staticfills 
-   "Static Fills")
+   "No Fills")
 (mod_staticfills_desc 
-   "Rock Band 3 style static drum fills")
+   "We'll take care of that Overdrive. No Bootlegs allowed here.")
 (mod_staticfills_obtain 
    "(bug, should be available by default)")
 (mod_freestyledrums
