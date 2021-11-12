@@ -43,9 +43,14 @@
 (buzz
    (venue_diff
       (small_club 5 5 6 7)
+	  (small_club2 5 5 6 7)
       (big_club 7 7 8 9)
+	  (big_club2 7 7 8 9)
       (theater 8 8 9 10)
-      (arena 8 9 10 11))
+	  (theater2 8 8 9 10)
+      (arena 8 9 10 11)
+	  (arena2 8 9 10 11)
+	  (arena3 8 9 10 11))
    (stars 2 6)
    (win_modifiers
       (stars
@@ -63,9 +68,14 @@
          {$staff buzz_modifier $stars}))
    (lose_modifiers
       (small_club 0.3)
+	  (small_club2 0.3)
       (big_club 0.3)
+	  (big_club2 0.3)
       (theater 0.3)
-      (arena 0.3))
+	  (theater2 0.3)
+      (arena 0.3)
+	  (arena2 0.3)
+	  (arena3 0.3))
    (caps
       (kDifficultyEasy
          (cap 350)
