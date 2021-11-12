@@ -37,7 +37,7 @@
 			any
 			any)
 		(fame
-			(town 30)
+			(town 40)
 			(world 100))
 		(money_per_star 120))
 	(ernieballshowcase
@@ -48,7 +48,7 @@
 			pinballwizard
 			letthereberock)
 		(fame
-			(town 30)
+			(town 40)
 			(world 200))
 		(money_per_star 120)
 		(sellout TRUE)
@@ -62,7 +62,7 @@
 			soulsofblack
 			battery)
 		(fame
-			(town 30)
+			(town 40)
 			(world 300))
 		(money_per_star 120)
 		BWT_BUZZ_MEDIUMBLOCKPLUS
@@ -81,3 +81,79 @@
 				(female
 					torso
 					choppedtee_lasurgery)))))
+
+
+;;Staples Center
+
+(arena2
+	arena_02
+	(trainkeptarollin
+		(songs
+			trainkeptarollin)
+		(display_song TRUE)
+		(fame
+			(town 100)
+			(world 100))
+		(money_per_star 120))
+	
+	(flirtinwithdisaster
+		(songs
+			flirtinwithdisaster)
+		(display_song TRUE)
+		(fame
+			(town 100)
+			(world 100))
+		(money_per_star 120))	
+	
+	(any
+		(songs
+			any
+			any
+			any
+			any
+			any)
+		(fame
+			(town 100)
+			(world 100))
+		(money_per_star 120))	
+		
+		)
+
+;; SoFi Stadium
+		
+(arena3
+	arena_14
+	(greengrass
+		(songs
+			greengrass)
+		(display_song TRUE)
+		(fame
+			(town 150)
+			(world 800))
+		(money_per_star 120))
+	
+	(any
+		(songs
+			any
+			any
+			any
+			any)
+		(fame
+			(town 150)
+			(world 800))
+		(money_per_star 120))
+		
+	(longmarathon	
+		(songs
+			trainkeptarollin
+			highwaystar
+			foreplaylongtime
+			flirtinwithdisaster
+			wontgetfooled
+			greengrass)
+		(fame
+			(town 150)
+			(world 800))
+		(money_per_star 120))
+		
+	)

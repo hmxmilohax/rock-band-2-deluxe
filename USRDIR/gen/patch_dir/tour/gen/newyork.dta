@@ -1,5 +1,11 @@
 (small_club
 	small_club_03
+	(sayitaintso
+		(songs
+			sayitaintso)
+		(display_song TRUE)
+		(fame (world 3))
+		(money_per_star 5))
 	(any
 		(songs
 			any
@@ -8,6 +14,13 @@
 		(money_per_star 5)))
 (big_club
 	big_club_01
+	(sabotage
+		(songs
+			sabotage)
+		(display_song TRUE)
+		(fame (town 9))
+		(money_per_star 5))
+	
 	(any
 		(songs
 			any
@@ -25,6 +38,17 @@
 		(money_per_star 25)))
 (arena
 	arena_08
+	(any
+		(songs
+			any
+			any
+			any
+			any)
+		(fame
+			(town 30)
+			(world 100))
+		(money_per_star 120))
+	
 	(zildjianshowcase
 		(songs
 			hungrylikethewolf
@@ -77,3 +101,38 @@
 			(world 450))
 		(money_per_star 120)
 		BWT_BUZZ_MEDIUMBLOCKMEGAPLUS))
+
+;;Metlife Stadium
+
+(arena2
+	arena_13
+	(wanteddeadoralive
+		(songs
+			wanteddeadoralive)
+		(display_song TRUE)
+		(fame
+			(town 100)
+			(world 800))
+		(money_per_star 120))
+	(highwaystar
+		(songs
+			highwaystar)
+		(display_song TRUE)
+		(fame
+			(town 100)
+			(world 800))
+		(money_per_star 120))
+	(any
+		(songs
+			any
+			any
+			any
+			any
+			any
+			any)
+		(fame
+			(town 100)
+			(world 800))
+		(money_per_star 120))	
+		
+		)

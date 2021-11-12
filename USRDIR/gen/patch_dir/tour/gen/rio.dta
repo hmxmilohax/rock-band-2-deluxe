@@ -28,6 +28,63 @@
 		(item tour_staff_worldblock)
 		(money_per_star 120)
 		BWT_BUZZ_MEDIUMBLOCKPLUS)
+	
+	;;Lego Endless Setlist
+	(legomara
+		(songs
+			grace
+			rideawhiteswan
+			freefallin
+			swingswing
+			summerof69
+			dreamingofyou
+			ticktickboom
+			girlsandboys
+			checkyesjuliet
+			ghostbusters
+			dig
+			accidentallyinlove
+			yougiveloveabadname
+			ruby
+			song2
+			intoodeep
+			makemesmile
+			lifeisahighway
+			letsdance
+			rooftops
+			thepassenger
+			valerie
+			walkingonsunshine
+			thunder
+			realwildchild
+			shortandsweet
+			kungfufighting
+			iwantyouback
+			monster
+			everylittlething
+			naive
+			stumbleandfall
+			breakout
+			apunk
+			twoprinces
+			wordup
+			sowhat
+			crocodilerock
+			thefinalcountdown
+			fire
+			suddenlyisee
+			aliensexist
+			wewillrockyou1
+			wearethechampions
+			crash
+		)
+      (fame (world 1000))
+      (reward_per_star 120)
+	  (warning_screen tour_world_marathon_screen)
+	  (allow_moments FALSE)
+	  BWT_BUZZ_MEDIUMBLOCKPLUS)
+	
+	
 	(vocallegend
 		(songs
 			(vocals -5)

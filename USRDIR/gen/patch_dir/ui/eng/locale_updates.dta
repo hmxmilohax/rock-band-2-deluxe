@@ -620,13 +620,32 @@
 (rbsoulfunk "R&B/Soul/Funk")
 (popdanceelectronic "Pop/Dance/Electronic")
 ;; New Arenas/Venues
-;; New arenas for now are only available in quickplay, they will get added into tour later in the expanded tour mode updates
 (big_club_18 "House of Blues")
 (arena_13 "MetLife Stadium")
 (arena_14 "SoFi Stadium")
 (arena_15 "London Olympic Stadium")
 (arena_16 "Soldier Field")
 (arena_99 "black venue")
+;; Tour mode
+(chicago_big_club2 "House of Blues")
+(chicago_big_club2_desc "329 N Dearborn St, Chicago")
+(chicago_arena "Soldier Field")
+(chicago_arena_desc "1410 Special Olympics Dr, Chicago")
+(chicago_big_club2_any "Make a Setlist")
+(chicago_big_club2_citymara "Chicago Artists")
+(chicago_arena_any "Marathon DIY Set")
+(losangeles_arena2 "Staples Center")
+(losangeles_arena2_desc "1111 S Figueroa St, Los Angeles")
+(losangeles_arena3 "SoFi Stadium")
+(losangeles_arena3_desc "1001 S Stadium Drive, Inglewood")
+(losangeles_arena2_any "DIY Your Own Setlist")
+(losangeles_arena3_any "Do It Yourself Set")
+(losangeles_arena3_longmarathon "The Long RB1 Set")
+(newyork_arena2 "MetLife Stadium")
+(newyork_arena2_desc "1 MetLife Stadium Dr, East Rutherford")
+(newyork_arena_any "Make a Setlist")
+(newyork_arena2_any "Taking Requests")
+(rio_arena_legomara "Lego Endless Setlist")
 ;; Modifiers
 (mod_blackvenue 
    "Black Venues")
