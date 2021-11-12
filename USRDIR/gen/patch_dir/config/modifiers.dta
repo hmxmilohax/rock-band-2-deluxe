@@ -30,6 +30,8 @@
       unlocked)
    (mod_songtitle
       unlocked)
+   (mod_bre
+      unlocked)
    (mod_staticfills
    (activate
 		{modifier_mgr deactivate_modifier mod_freestyledrums})
@@ -58,8 +60,6 @@
    (deactivate
       {set $24fps FALSE})
    unlocked)
-   (mod_ogtrack
-      unlocked)
    (mod_nosustain
       unlocked)
    (mod_autostrum)

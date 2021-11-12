@@ -98,6 +98,7 @@
             [alpha_threshold]}})
    (enter
 	  {modifier_mgr activate_modifier mod_doublespeed}	;	Enable Hyperspeed by default
+	  {modifier_mgr activate_modifier mod_bre}	;	Enable BREs by default
 	  {set $24fps FALSE}								;	Don't enable 24fps. Change to true for hardware build. Bundle with 720p SFO
 	  {modifier_mgr activate_modifier mod_staticfills}	;	Enable static fills by default
       {set
