@@ -43,16 +43,14 @@
    (coda
       {if_else
          {&&
-		    {modifier_mgr is_modifier_active mod_bre}
             {game want_coda}
             {game is_playing}}
          {do
             {beatmatch
                foreach_active_player
                $p
-               {handle
-                  ($p enter_coda)}}
-            kDataUnhandled}
+               {handle ($p enter_coda)}}
+            kDataUnhandled}}
          0})
    (pick_intro
       {if_else
