@@ -197,19 +197,57 @@
                {album.lbl
                   set_localized
                   ""}}
-            {if_else
-               {$offer has_data year_released}
-               {year.lbl
-                  set_localized
-                  {sprint
-                     {$offer year_released}}}
-               {do
-                  {printf
-                     "The song %s is missing year_released data."
-                     {$offer short_name}}
-                  {year.lbl
-                     set_localized
-                     ""}}}
+                {if_else
+                    {$offer has_data year_released}
+                    {do
+                        {year.lbl
+                            set_localized
+                            {sprint
+                                {$offer year_released}}}}
+                    {do
+                        {printf
+                            "The song %s is missing year_released data."
+                            {$offer short_name}}
+                        {year.lbl
+                            set_localized
+                            ""}}}
+; Here is where we setup the information for the mtv overlay
+                {if_else
+                    {$offer has_data album_name}
+                    {do
+                        {set $album_text {$offer get_data (album_name)}}}
+                    {do
+                        {printf
+                            "The song %s is missing album_name data."
+                            {$offer short_name}}
+                        {set $album_text "Missing Data"}}}
+                {if_else
+                    {$offer has_data author}
+                    {do
+                        {set $author_text {$offer get_data (author)}}}
+                    {do
+                        {printf
+                            "The song %s is missing author data."
+                            {$offer short_name}}
+                        {set $author_text "Probably Harmonix"}}}
+                {if_else
+                    {$offer has_data year_released}
+                    {do
+                        {set $year_text {$offer get_data (year_released)}}}
+                    {do
+                        {printf
+                            "The song %s is missing year_released data."
+                            {$offer short_name}}
+                        {set $year_text "Missing Data"}}}
+                {if_else
+                    {$offer has_data genre}
+                    {do
+                        {set $genre_text {$offer get_data (genre)}}}
+                    {do
+                        {printf
+                            "The song %s is missing genre data."
+                            {$offer short_name}}
+                        {set $genre_text "Missing Data"}}}
             {genre.lbl
                set
                text_token
