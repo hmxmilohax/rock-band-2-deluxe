@@ -57,7 +57,7 @@
                {if
                   {exists artist.lbl}
 				  {if_else {modifier_mgr is_modifier_active mod_songtitlestats}
-				    {artist.lbl set_localized {sprint $artist_text "\n" $album_text "\n" $year_text ", " $genre_text "\nAuthor: " $author_text}}
+				    {artist.lbl set_localized {sprint $artist_text ", " $year_text "\n" $album_text ", Track " $album_track_number_text "\nAuthor: " $author_text}}
                     {artist.lbl set_localized $artist_text}}}
                {if_else
                   {song_mgr is_master $song}

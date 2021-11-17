@@ -53,7 +53,99 @@
    (refresh_details
       ($offer_ix)
       {$this refresh_top $offer_ix}
-      {$this refresh_bottom $offer_ix})
+      {$this refresh_bottom $offer_ix}
+	  {$this refresh_mtv $offer_ix})
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   (refresh_mtv
+      ($offer_ix)
+      {if_else
+         {song_offer_provider is_song $offer_ix}
+         {do
+            ($offer
+               {song_offer_provider get_song_offer $offer_ix})
+                {if_else
+                    {$offer has_data album_name}
+                    {do
+                        {set $album_text {$offer get_data (album_name)}}}
+                    {do
+                        {printf
+                            "The song %s is missing album_name data."
+                            {$offer short_name}}
+                        {set $album_text "Not Available"}}}
+                {if_else
+                    {$offer has_data author}
+                    {do
+                        {set $author_text {$offer get_data (author)}}}
+                    {do
+                        {printf
+                            "The song %s is missing author data."
+                            {$offer short_name}}
+                        {set $author_text "Not Available"}}}
+                {if_else
+                    {$offer has_data year_released}
+                    {do
+                        {set $year_text {$offer get_data (year_released)}}}
+                    {do
+                        {printf
+                            "The song %s is missing year_released data."
+                            {$offer short_name}}
+                        {set $year_text "Not Available"}}}
+                {if_else
+                    {$offer has_data album_track_number}
+                    {do
+                        {set $album_track_number_text {$offer get_data (album_track_number)}}}
+                    {do
+                        {printf
+                            "The song %s is missing album_track_number data."
+                            {$offer short_name}}
+                        {set $album_track_number_text "Not Available"}}}
+                    }
+         {if_else
+            {song_offer_provider is_header $offer_ix}
+            {if_else
+               {song_offer_provider is_subheader $offer_ix}
+               {do
+                  ($offer {song_offer_provider get_song_offer {'+' 1 $offer_ix}})
+                {if_else
+                    {$offer has_data album_name}
+                    {do
+                        {set $album_text {$offer get_data (album_name)}}}
+                    {do
+                        {printf
+                            "The song %s is missing album_name data."
+                            {$offer short_name}}
+                        {set $album_text "Not Available"}}}
+                {if_else
+                    {$offer has_data author}
+                    {do
+                        {set $author_text {$offer get_data (author)}}}
+                    {do
+                        {printf
+                            "The song %s is missing author data."
+                            {$offer short_name}}
+                        {set $author_text "Not Available"}}}
+                {if_else
+                    {$offer has_data year_released}
+                    {do
+                        {set $year_text {$offer get_data (year_released)}}}
+                    {do
+                        {printf
+                            "The song %s is missing year_released data."
+                            {$offer short_name}}
+                        {set $year_text "Not Available"}}}
+                {if_else
+                    {$offer has_data album_track_number}
+                    {do
+                        {set $album_track_number_text {$offer get_data (album_track_number)}}}
+                    {do
+                        {printf
+                            "The song %s is missing album_track_number data."
+                            {$offer short_name}}
+                        {set $album_track_number_text "Not Available"}}}
+						}
+               {do {set $album_text "Unsupported Load"} {set $album_track_number_text "Unsupported Load"} {set $author_text "Unsupported Load"} {set $year_text "Unsupported Load"}}
+            {do {set $album_text "Unsupported Load"} {set $album_track_number_text "Unsupported Load"} {set $author_text "Unsupported Load"} {set $year_text "Unsupported Load"}}}}})
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
    (refresh_top
       ($offer_ix)
       {demo.lbl set showing FALSE}
@@ -211,43 +303,6 @@
                         {year.lbl
                             set_localized
                             ""}}}
-; Here is where we setup the information for the mtv overlay
-                {if_else
-                    {$offer has_data album_name}
-                    {do
-                        {set $album_text {$offer get_data (album_name)}}}
-                    {do
-                        {printf
-                            "The song %s is missing album_name data."
-                            {$offer short_name}}
-                        {set $album_text "Missing Data"}}}
-                {if_else
-                    {$offer has_data author}
-                    {do
-                        {set $author_text {$offer get_data (author)}}}
-                    {do
-                        {printf
-                            "The song %s is missing author data."
-                            {$offer short_name}}
-                        {set $author_text "Probably Harmonix"}}}
-                {if_else
-                    {$offer has_data year_released}
-                    {do
-                        {set $year_text {$offer get_data (year_released)}}}
-                    {do
-                        {printf
-                            "The song %s is missing year_released data."
-                            {$offer short_name}}
-                        {set $year_text "Missing Data"}}}
-                {if_else
-                    {$offer has_data genre}
-                    {do
-                        {set $genre_text {$offer get_data (genre)}}}
-                    {do
-                        {printf
-                            "The song %s is missing genre data."
-                            {$offer short_name}}
-                        {set $genre_text "Missing Data"}}}
             {genre.lbl
                set
                text_token
