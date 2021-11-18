@@ -28,6 +28,14 @@
    (mod_awesome)
    (mod_blackvenue
       unlocked)
+   (mod_songspeed
+   (activate
+		{set $speedmod 1.25})
+   (deactivate
+		{set $speedmod 1.0})
+   (disables
+        (modifier_online_feature))
+      unlocked)
    (mod_songtitle
       unlocked)
    (mod_songtitlestats

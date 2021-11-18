@@ -99,6 +99,8 @@
    (enter
 	  {modifier_mgr activate_modifier mod_doublespeed}	;	Enable Hyperspeed by default
 	  {set $24fps FALSE}								;	Don't enable 24fps. Change to true for hardware build. Bundle with 720p SFO
+	  {set $speedmod 1.0}								;	always make sure we start at 100% speed
+	  {modifier_mgr deactivate_modifier mod_songspeed}	;	This is in case you accidently back out of the main menu back to splash
 	  {modifier_mgr activate_modifier mod_staticfills}	;	Enable static fills by default
       {set
          [alpha_threshold_fading]

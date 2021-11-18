@@ -53,7 +53,9 @@
                   {song_mgr song_artist $song})
                {if
                   {exists song.lbl}
-                  {song.lbl set_localized $song_text}}
+				  {if_else {!= $speedmod 1}
+				  {song.lbl set_localized {sprint $song_text " (" {int {'+' 0.5 {'*' $speedmod 100}}} "%)"}}
+				  {song.lbl set_localized $song_text}}}
                {if
                   {exists artist.lbl}
 				  {if_else {modifier_mgr is_modifier_active mod_songtitlestats}

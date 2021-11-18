@@ -316,11 +316,11 @@
    #define SELECTED_AWARDS
    (())
    (set_results
-      {heading.lbl
-         set_localized
-         {song_mgr
-            song_name
-            {meta_performer completed_song}}}
+      {set $song_text1 {song_mgr song_name {meta_performer completed_song}}}
+      {if_else {!= $speedmod 1}
+         {set $song_text2 {sprint $song_text1 " (" {int {'+' 0.5 {'*' $speedmod 100}}} "%)"}}
+         {set $song_text2 $song_text1}}
+	  {heading.lbl set_localized $song_text2}
       {if_else
          {&&
             {tour band}
