@@ -51,6 +51,24 @@
          reset})
    (on_extend
       {$this play_intro}
+          {if
+            {modifier_mgr is_modifier_active mod_songspeed115}
+			{set $speedmod 1.15}}
+          {if
+            {modifier_mgr is_modifier_active mod_songspeed125}
+			{set $speedmod 1.25}}
+          {if
+            {modifier_mgr is_modifier_active mod_songspeed135}
+			{set $speedmod 1.35}}
+          {if
+            {modifier_mgr is_modifier_active mod_songspeed150}
+			{set $speedmod 1.50}}
+          {if
+            {modifier_mgr is_modifier_active mod_songspeed175}
+			{set $speedmod 1.75}}
+          {if
+            {modifier_mgr is_modifier_active mod_songspeed200}
+			{set $speedmod 2.0}}
       {if
          {&&
             {exists gamemode}

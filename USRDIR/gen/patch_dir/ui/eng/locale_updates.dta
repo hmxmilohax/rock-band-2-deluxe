@@ -634,13 +634,6 @@
 (chicago_big_club2_any "Make a Setlist")
 (chicago_big_club2_citymara "Chicago Artists")
 (chicago_arena_any "Marathon DIY Set")
-(london_big_club_localartistsrb1 "RB1 Local Artists")
-(london_arena_punkmararb1 "RB1 Punk Marathon")
-(london_arena_ukmararb1 "RB1 UK Marathon")
-(london_arena2_any "Make Your Own Set")
-(london_arena2_ukultimate "The Ultimate UK Marathon")
-(london_arena2 "London Olympic Stadium")
-(london_arena2_desc "Queen Elizabeth Olympic Park, London")
 (losangeles_arena2 "Staples Center")
 (losangeles_arena2_desc "1111 S Figueroa St, Los Angeles")
 (losangeles_arena3 "SoFi Stadium")
@@ -661,11 +654,41 @@
    "Complete black background while playing")
 (mod_blackvenue_obtain 
    "(bug, should be available by default)")
-(mod_songspeed
+(mod_songspeed115
+   "15% faster")
+(mod_songspeed115_desc 
+   "It's the song. But 15% faster.")
+(mod_songspeed115_obtain 
+   "(bug, should be available by default)")
+(mod_songspeed125
    "25% faster")
-(mod_songspeed_desc 
+(mod_songspeed125_desc 
    "It's the song. But 25% faster.")
-(mod_songspeed_obtain 
+(mod_songspeed125_obtain 
+   "(bug, should be available by default)")
+(mod_songspeed135
+   "35% faster")
+(mod_songspeed135_desc 
+   "It's the song. But 35% faster.")
+(mod_songspeed135_obtain 
+   "(bug, should be available by default)")
+(mod_songspeed150
+   "50% faster")
+(mod_songspeed150_desc 
+   "It's the song. But 50% faster.")
+(mod_songspeed150_obtain 
+   "(bug, should be available by default)")
+(mod_songspeed175
+   "75% faster")
+(mod_songspeed175_desc 
+   "It's the song. But 75% faster.")
+(mod_songspeed175_obtain 
+   "(bug, should be available by default)")
+(mod_songspeed200
+   "100% faster")
+(mod_songspeed200_desc 
+   "It's the song. But 100% faster.")
+(mod_songspeed200_obtain 
    "(bug, should be available by default)")
 (mod_songtitle
    "Song Title Always On")
