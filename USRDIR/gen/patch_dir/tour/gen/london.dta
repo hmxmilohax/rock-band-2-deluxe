@@ -1,5 +1,12 @@
 (small_club
 	small_club_08
+	(hereitgoesagain
+		(songs
+			hereitgoesagain)
+		(display_song TRUE)
+		(fame (town 3))
+		(money_per_star 6))
+	
 	(any
 		(songs
 			any
@@ -8,6 +15,13 @@
 		(money_per_star 5)))
 (big_club
 	big_club_08
+	(suffragettecity
+		(songs
+			suffragettecity)
+		(display_song TRUE)
+		(fame (town 10))
+		(money_per_star 25))
+
 	(any
 		(songs
 			any
@@ -15,6 +29,19 @@
 			any)
 		(fame (town 10))
 		(money_per_star 25))
+		
+	(localartistsrb1
+      (songs
+         nexttoyou
+         shouldistay
+         gimmeshelter
+         wontgetfooled
+         highwaystar
+         runtothehills
+      )
+      (fame (town 10))
+      (reward_per_star 25))
+	  
 	(localartists
 		(songs
 			hungrylikethewolf
@@ -28,6 +55,16 @@
 		(money_per_star 25)))
 (arena
 	arena_06
+	
+	(paranoid
+		(songs
+			paranoid)
+		(display_song TRUE)
+		(fame
+			(town 30)
+			(world 100))
+		(money_per_star 120))
+	
 	(any
 		(songs
 			any
@@ -38,6 +75,18 @@
 			(town 30)
 			(world 100))
 		(money_per_star 120))
+	
+   (punkmararb1
+      (songs
+         blitzkriegbop
+         seven
+         daylatedollarshort
+         shouldistay
+      )
+      (fame (town 30) (world 200))
+      (reward_per_star 120)
+   )
+	
 	(punkmara
 		(songs
 			iwaswrong
@@ -64,6 +113,25 @@
 				(female
 					torso
 					choppedtee_londonbridge))))
+	
+	(ukmararb1
+      (songs
+         gimmeshelter
+         creep
+         shouldistay
+         suffragettecity
+         nexttoyou
+         paranoid
+         ballroomblitz
+         wontgetfooled
+         highwaystar
+         runtothehills
+      )
+      (fame (town 30) (world 200))
+      (reward_per_star 120)
+      BWT_BUZZ_MEDIUMBLOCKPLUS
+   )
+	
 	(ukmara
 		(songs
 			aqualung
@@ -76,3 +144,67 @@
 			(world 200))
 		(money_per_star 120)
 		BWT_BUZZ_MEDIUMBLOCKPLUS))
+
+(arena2
+	arena_15
+	
+	(pinballwizard
+		(songs
+			pinballwizard)
+		(display_song TRUE)
+		(fame
+			(town 100)
+			(world 800))
+		(money_per_star 120))
+	
+	(runtothehills2
+		(songs
+			runtothehills2)
+		(display_song TRUE)
+		(fame
+			(town 100)
+			(world 800))
+		(money_per_star 120))
+	
+	(any
+		(songs
+			any
+			any
+			any
+			any)
+		(fame
+			(town 100)
+			(world 800))
+		(money_per_star 120))
+	
+	(ukultimate
+		(songs
+			hungrylikethewolf
+			creep
+			shouldistay
+			coolforcats
+			gimmeshelter
+			pumpitup
+			whitewedding
+			deluxe
+			shootingstar
+			suffragettecity
+			goyourownway
+			ballroomblitz
+			paranoid
+			pinballwizard
+			nexttoyou
+			aqualung
+			highwaystar
+			aceofspades
+			wontgetfooled
+			runtothehills
+			painkiller
+			)
+		(fame
+			(town 100)
+			(world 800))
+		(money_per_star 120)
+		BWT_BUZZ_MEDIUMBLOCKPLUS)
+			
+)
