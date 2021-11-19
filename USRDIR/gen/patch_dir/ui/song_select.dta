@@ -54,7 +54,7 @@
       ($offer_ix)
       {$this refresh_top $offer_ix}
       {$this refresh_bottom $offer_ix}
-	  {$this refresh_mtv $offer_ix})
+     {$this refresh_mtv $offer_ix})
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
    (refresh_mtv
       ($offer_ix)
@@ -76,11 +76,18 @@
                     {$offer has_data author}
                     {do
                         {set $author_text {$offer get_data (author)}}}
+                  {if_else
+                     {$offer has_data ugc}
+                    {do
+                        {printf
+                            "The RBN song %s is missing author data."
+                            {$offer short_name}}
+                        {set $author_text "Probably not Harmonix"}}
                     {do
                         {printf
                             "The song %s is missing author data."
                             {$offer short_name}}
-                        {set $author_text "Not Available"}}}
+                        {set $author_text "Probably Harmonix"}}}}
                 {if_else
                     {$offer has_data year_released}
                     {do
@@ -142,7 +149,7 @@
                             "The song %s is missing album_track_number data."
                             {$offer short_name}}
                         {set $album_track_number_text "Not Available"}}}
-						}
+                  }
                {do {set $album_text "Unsupported Load"} {set $album_track_number_text "Unsupported Load"} {set $author_text "Unsupported Load"} {set $year_text "Unsupported Load"}}
             {do {set $album_text "Unsupported Load"} {set $album_track_number_text "Unsupported Load"} {set $author_text "Unsupported Load"} {set $year_text "Unsupported Load"}}}}})
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
