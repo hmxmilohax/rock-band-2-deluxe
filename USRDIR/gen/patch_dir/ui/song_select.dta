@@ -87,7 +87,7 @@
                         {printf
                             "The song %s is missing author data."
                             {$offer short_name}}
-                        {set $author_text "Probably Harmonix"}}}}
+                        {set $author_text "Harmonix"}}}}
                 {if_else
                     {$offer has_data year_released}
                     {do
