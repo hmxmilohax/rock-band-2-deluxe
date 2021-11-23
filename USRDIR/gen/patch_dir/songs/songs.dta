@@ -138,67 +138,6 @@
    ('song_location' 2)
    (downloaded TRUE)
    (exported TRUE))
-
-;TTFAF RB4
-(ttfaf
-   (name
-   "Through the Fire and Flames")
-   (artist
-      "Dragonforce")
-   (master TRUE)
-   (song
-      (name
-         "songs/ttfaf/o87977383")
-      (tracks
-         ((drum
-            (0 1 2 3 4))
-         (bass
-            (5))
-         (guitar
-            (6 7))
-         (vocals
-            (8 9))))
-      (vocal_parts 3)
-      (pans (0.0 -1.0 1.0 -1.0 1.0 0.0 -1.0 1.0 -1.0 1.0 -1.0 1.0 -1.0 1.0))
-      (vols (-3.0 -6.0 -6.0 -6.0 -6.0 -3.0 -5.5 -5.5 -6.0 -6.0 -5.0 -5.0 -6.5 -6.5))
-      (cores (-1 -1 -1 -1 -1 -1 1 1 -1 -1 -1 -1 -1 -1))
-      (drum_solo
-         (seqs
-            (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
-      (drum_freestyle
-         (seqs
-            (kick.cue snare.cue hat.cue ride.cue crash.cue)))
-      (midi_file "songs/ttfaf/o87977383.mid"))
-   (song_scroll_speed 2300)
-   (bank
-      "sfx/cowbell_bank.milo")
-   (anim_tempo kTempoFast)
-   (song_length 445975)
-   (preview 90889 120889)
-   (rank
-      (vocals 300)
-      (bass 365)
-      (guitar 605)
-      (drum 466)
-      (band 497))
-   (genre metal)
-   (vocal_gender male)
-   (version 0)
-   (format 4)
-   (album_art 1)
-   (year_released 2006)
-   (rating 2)
-   (sub_genre subgenre_power)
-   (song_id 1010037)
-   (tuning_offset_cents 0.0)
-   (game_origin dlc)
-   (album_name
-      "Inhuman Rampage")
-   (album_track_number 1)
-   (context 2000)
-   (decade the00s)
-   (downloaded TRUE)
-   (base_points 0))
 #ifndef MINIMAL_SONGS
 (aceofspades
    (name
