@@ -650,6 +650,12 @@
 (rio_arena_legomara "Lego Endless Setlist")
 (tour_band_marathon_warning "Take a deep breath. Have a snack. Hit the bathroom. This is a long ass marathon with NO BREAKS. It ain't for the faint of heart. Are you really ready?")
 ;; Modifiers
+(mod_auto_play 
+   "Autoplay")
+(mod_auto_play_desc 
+   "Ruin the leaderboards and your credibility all at once!")
+(mod_auto_play_obtain 
+   "(bug, should be available by default)")
 (mod_blackvenue 
    "Black Venues")
 (mod_blackvenue_desc 

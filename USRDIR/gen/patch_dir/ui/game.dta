@@ -481,6 +481,8 @@
       {input_mgr
          set_limit
          {gamemode get game_input_limit_type}}
+{if {modifier_mgr is_modifier_active mod_auto_play} 
+          {do {beatmatch foreach_active_player $player {$player set_auto_play enable}}}}
      ; {if_else {modifier_mgr is_modifier_active mod_staticfills}        ;; from drum_trainer_base.dta. This makes essentially rb3 static fills
 	;	 {gamemode set dont_show_gems_in_fills FALSE}                   ;; This command is backwards and it's so annoying. TRUE will not show gems in fills. FALSE WILL show gems in fills...
 	;	 {gamemode set dont_show_gems_in_fills TRUE}}                   ;; ...we set this based off the staticfills modifier in case someone wants classic fills for some reason.
