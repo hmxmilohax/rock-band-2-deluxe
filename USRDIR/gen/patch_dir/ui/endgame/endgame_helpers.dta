@@ -559,20 +559,20 @@
                               {gamemode is_h2h_arrangement}
                               {gamemode is_solo}
                               {gamemode is_audition}}
-                           {{$pxy find award.lbl}
-                              set_showing
-                              FALSE}
-                           {do
-                              ($some_award
-                                 {choose_award $player SELECTED_AWARDS})
-                              {push_back SELECTED_AWARDS $some_award}
-                              {$pcfg set previous_award $some_award}
-                              {{$pxy find award.lbl}
-                                 set_localized
-                                 {localize $some_award}}
-                              {{$pxy find award.lbl}
-                                 set_showing
-                                 TRUE}}}}}}}}}))
+							  {{do
+                                 ($some_award {choose_award $player SELECTED_AWARDS})
+                                    {push_back SELECTED_AWARDS $some_award}
+                                    {$pcfg set previous_award $some_award}
+                                {{$pxy find award.lbl} set_localized {localize $some_award}}}
+							     {if_else {== {$some_award award_full_combo}}
+                                   {{$pxy find award.lbl} set_showing TRUE}
+                                   {{$pxy find award.lbl} set_showing FALSE}}}
+                               {do
+                                 ($some_award {choose_award $player SELECTED_AWARDS})
+                                    {push_back SELECTED_AWARDS $some_award}
+                                    ;{$pcfg set previous_award $some_award}
+                                {{$pxy find award.lbl} set_localized {localize $some_award}}
+                                {{$pxy find award.lbl} set_showing TRUE}}}}}}}}}))
 #include complete.dta
 #define ENDGAME_SCREEN_HANDLERS
 (#ifdef HX_XBOX
