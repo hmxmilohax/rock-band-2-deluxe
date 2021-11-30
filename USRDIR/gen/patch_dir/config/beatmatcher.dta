@@ -21,7 +21,10 @@
          {handle
             (game beat)}})
    (downbeat
-      {if {modifier_mgr is_modifier_active mod_staticfills} {beatmatch foreach_active_player $player {switch {$player instrument} (bass) (guitar) (vocals) (drum {unless {mod $measure 4} {$player deploy_if_possible}})}}}
+      {if_else
+          {modifier_mgr is_modifier_active mod_auto_play} {beatmatch foreach_active_player $player {unless {mod $measure 4} {$player deploy_if_possible}}}
+          {if_else {modifier_mgr is_modifier_active mod_staticfills} {beatmatch foreach_active_player $player {switch {$player instrument} (bass) (guitar) (vocals) (drum {unless {mod $measure 4} {$player deploy_if_possible}})}}}
+		  {set $dummy FALSE}}
       {if_else
          $world
          {handle_type

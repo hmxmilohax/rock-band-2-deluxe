@@ -477,9 +477,7 @@
                      ($pcfg
                         {game get_player_config $player})
                      ($is_audition_autoplayer
-                        {&&
-                           {gamemode is_audition}
-                           {$pcfg get autoplay}})
+                           {$pcfg get autoplay})
                      {if
                         {$pxy exists no_player.grp}
                         {{$pxy find no_player.grp}
@@ -520,7 +518,7 @@
                            set_localized
                            {if_else
                               $is_audition_autoplayer
-                              ""
+                              "autoplay"
                               {sprintf
                                  {localize endgame_player_noteshit_fmt}
                                  {int
