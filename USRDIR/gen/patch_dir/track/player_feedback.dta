@@ -75,7 +75,8 @@
                (script
                   {$this end_super_streak})})
          (end_super_streak
-            {super_streak_end.trig trigger})
+		 {if {modifier_mgr is_modifier_active mod_legacybass} 
+		 {super_streak_end.trig trigger}})
          (reset
             {reset.trig trigger}
             {set

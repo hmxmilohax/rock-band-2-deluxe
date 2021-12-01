@@ -652,6 +652,12 @@
 (rio_arena_legomara "Lego Endless Setlist")
 (tour_band_marathon_warning "Take a deep breath. Have a snack. Hit the bathroom. This is a long ass marathon with NO BREAKS. It ain't for the faint of heart. Are you really ready?")
 ;; Modifiers
+(mod_legacybass
+   "Legacy Bass Streak")
+(mod_legacybass_desc 
+   "Remove Bass Streak from tracks, only use for actual bass streaks")
+(mod_legacybass_obtain 
+   "(bug, should be available by default)")
 (mod_flashbang 
    "Flashbang Gems")
 (mod_flashbang_desc 

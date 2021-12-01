@@ -240,6 +240,8 @@
             {if {modifier_mgr is_modifier_active mod_flashbang} 
 			{super_streak_start.trig trigger}
 			{hit.trig trigger}
+			{deploy.trig trigger}
+			{band_energy_deploy.trig trigger}
 			{hit_drums.trig trigger}
 			{hit_cymbals.trig trigger}
 			{hit_fill.trig trigger}
@@ -270,6 +272,8 @@
             {if {modifier_mgr is_modifier_active mod_flashbang} 
 			{super_streak_start.trig trigger}
 			{hit.trig trigger}
+			{deploy.trig trigger}
+			{band_energy_deploy.trig trigger}
 			{hit_drums.trig trigger}
 			{hit_cymbals.trig trigger}
 			{hit_fill.trig trigger}
@@ -300,6 +304,8 @@
             {if {modifier_mgr is_modifier_active mod_flashbang} 
 			{super_streak_start.trig trigger}
 			{hit.trig trigger}
+			{deploy.trig trigger}
+			{band_energy_deploy.trig trigger}
 			{hit_drums.trig trigger}
 			{hit_cymbals.trig trigger}
 			{hit_fill.trig trigger}
@@ -470,6 +476,8 @@
 			{hit_fill.trig trigger}})
          (miss
             {miss.trig trigger}
+			{unless {modifier_mgr is_modifier_active mod_legacybass} {BassSuperStreak_OFF.trig trigger}}
+			{unless {modifier_mgr is_modifier_active mod_legacybass} {star_deploy_stop.trig trigger}}
             {$this stop_burn})
          (burn
             {burn.trig trigger}
