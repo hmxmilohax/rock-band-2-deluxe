@@ -652,6 +652,12 @@
 (rio_arena_legomara "Lego Endless Setlist")
 (tour_band_marathon_warning "Take a deep breath. Have a snack. Hit the bathroom. This is a long ass marathon with NO BREAKS. It ain't for the faint of heart. Are you really ready?")
 ;; Modifiers
+(mod_flashbang 
+   "Flashbang Gems")
+(mod_flashbang_desc 
+   "Look alive soldier! There's notes to hit!")
+(mod_flashbang_obtain 
+   "(bug, should be available by default)")
 (mod_auto_play 
    "Autoplay")
 (mod_auto_play_desc 
