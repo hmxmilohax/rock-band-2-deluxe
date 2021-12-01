@@ -1,8 +1,28 @@
 #define TRACK_END_FRAME
 (1920)
+
+(new Object fc_pass_callback ;pass callback test
+    (pass
+        {beatmatch foreach_active_player $player {switch {$player instrument}
+            (bass {{{{get_track_panel} find bass} find BassSuperStreak_OFF.trig} trigger} {{{{get_track_panel} find bass} find streak_meter} star_deploy_stop} {bass stop_deploy}
+            )
+            (guitar {{{{get_track_panel} find guitar} find BassSuperStreak_OFF.trig} trigger} {{{{get_track_panel} find guitar} find streak_meter} star_deploy_stop} {guitar stop_deploy}
+            )
+            (vocals
+            )
+            (drum {{{{get_track_panel} find drum} find BassSuperStreak_OFF.trig} trigger} {{{{get_track_panel} find drum} find streak_meter} star_deploy_stop} {drum stop_deploy}
+            )}}
+;        {{{{get_track_panel} find {$player instrument} find BassSuperStreak_OFF.trig} trigger}}
+;        {{{{get_track_panel} find {$player instrument} find streak_meter} star_deploy_stop}}
+;        {{$player instrument} stop_deploy}
+    ))
+
 #define TRACK_PANEL_HANDLERS
 ((enter
       {game add_sink $this}
+      {unless {modifier_mgr is_modifier_active mod_legacybass}
+         {beatmatch foreach_active_player $player {$player add_sink fc_pass_callback (pass)}}} ;pass callback test
+
       {$this
          set_showing
          {if_else
