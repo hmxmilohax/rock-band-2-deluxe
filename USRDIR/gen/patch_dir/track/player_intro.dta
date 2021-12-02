@@ -83,14 +83,14 @@
 			{beatmatch foreach_active_player $player {switch {$player instrument}
 			(bass
 			;{set $bass_groove_active FALSE}
-			;{set $milosong FALSE}
+			;{set $bass_milosong FALSE}
 			;{{{{get_track_panel} find bass} find BassSuperStreak_ON.trig} trigger}
 			;{{{{get_track_panel} find bass} find star_deploy.trig} trigger}
 			{{{{get_track_panel} find bass} find streak_meter} star_deploy}
 			)
 			(guitar
 			;{set $guitar_groove_active FALSE}
-			;{set $milosong FALSE}
+			;{set $guitar_milosong FALSE}
 			;{{{{get_track_panel} find guitar} find BassSuperStreak_ON.trig} trigger}
 			;{{{{get_track_panel} find guitar} find star_deploy.trig} trigger}
 			{{{{get_track_panel} find guitar} find streak_meter} star_deploy}
@@ -99,7 +99,7 @@
 			)
 			(drum
 			;{set $drum_groove_active FALSE}
-			;{set $milosong FALSE}
+			;{set $drum_milosong FALSE}
 			;{{{{get_track_panel} find drum} find BassSuperStreak_ON.trig} trigger}
 			;{{{{get_track_panel} find drum} find star_deploy.trig} trigger}
 			{{{{get_track_panel} find drum} find streak_meter} star_deploy}

@@ -72,7 +72,7 @@
             {handle
                ($this intro_start)}}})
    (intro_start
-      {set $milosong FALSE}
+      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
       {set $bass_groove_active FALSE}
 	  {set $drum_groove_active FALSE}
 	  {set $guitar_groove_active FALSE}
@@ -104,7 +104,7 @@
 					{$p set emulate_fps 1}}}}
 	 kDataUnhandled)
    (intro_skip
-      {set $milosong FALSE}
+      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
       {set $bass_groove_active FALSE}
 	  {set $drum_groove_active FALSE}
 	  {set $guitar_groove_active FALSE}
@@ -115,7 +115,7 @@
          {beatmatch set_intro_real_time 0}}
       kDataUnhandled)
    (music_start
-      {set $milosong FALSE}
+      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
       {set $bass_groove_active FALSE}
 	  {set $drum_groove_active FALSE}
 	  {set $guitar_groove_active FALSE}
@@ -140,7 +140,7 @@
                      {elem $levels $ex})}}}}
       kDataUnhandled)
    (game_over
-      {set $milosong FALSE}
+      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
       {set $bass_groove_active FALSE}
 	  {set $drum_groove_active FALSE}
 	  {set $guitar_groove_active FALSE}
@@ -197,7 +197,7 @@
                {beatmatch set_paused TRUE}})}
       kDataUnhandled)
    (game_outro
-      {set $milosong FALSE}
+      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
       {set $bass_groove_active FALSE}
 	  {set $drum_groove_active FALSE}
 	  {set $guitar_groove_active FALSE}
@@ -471,7 +471,7 @@
                TRUE}}
          FALSE})
    (enter
-      {set $milosong FALSE}
+      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
       {set $bass_groove_active FALSE}
 	  {set $drum_groove_active FALSE}
 	  {set $guitar_groove_active FALSE}
@@ -568,7 +568,7 @@
                         0.25}}}}}}})   
    
    (exit
-      {set $milosong FALSE}
+      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
       {set $bass_groove_active FALSE}
 	  {set $drum_groove_active FALSE}
 	  {set $guitar_groove_active FALSE}
