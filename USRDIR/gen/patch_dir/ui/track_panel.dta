@@ -4,17 +4,20 @@
 (new Object fc_pass_callback ;pass callback test
     (pass
         {beatmatch foreach_active_player $player {switch {$player instrument}
-            (bass {{{{get_track_panel} find bass} find BassSuperStreak_OFF.trig} trigger} {{{{get_track_panel} find bass} find streak_meter} star_deploy_stop} {bass stop_deploy}
+            (bass {{{{get_track_panel} find bass} find BassSuperStreak_OFF.trig} trigger} 
+			{{{{get_track_panel} find bass} find streak_meter} star_deploy_stop}
+			{bass stop_deploy}
             )
-            (guitar {{{{get_track_panel} find guitar} find BassSuperStreak_OFF.trig} trigger} {{{{get_track_panel} find guitar} find streak_meter} star_deploy_stop} {guitar stop_deploy}
+            (guitar {{{{get_track_panel} find guitar} find BassSuperStreak_OFF.trig} trigger} 
+			{{{{get_track_panel} find guitar} find streak_meter} star_deploy_stop}
+			{guitar stop_deploy}
             )
             (vocals
             )
-            (drum {{{{get_track_panel} find drum} find BassSuperStreak_OFF.trig} trigger} {{{{get_track_panel} find drum} find streak_meter} star_deploy_stop} {drum stop_deploy}
+            (drum {{{{get_track_panel} find drum} find BassSuperStreak_OFF.trig} trigger} 
+			{{{{get_track_panel} find drum} find streak_meter} star_deploy_stop}
+			{drum stop_deploy}
             )}}
-;        {{{{get_track_panel} find {$player instrument} find BassSuperStreak_OFF.trig} trigger}}
-;        {{{{get_track_panel} find {$player instrument} find streak_meter} star_deploy_stop}}
-;        {{$player instrument} stop_deploy}
     ))
 
 #define TRACK_PANEL_HANDLERS
