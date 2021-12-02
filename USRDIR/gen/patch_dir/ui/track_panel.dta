@@ -1,23 +1,38 @@
 #define TRACK_END_FRAME
 (1920)
 
-(new Object fc_bass_callback ;remove FC groove on bass pass
+(new Object fc_bass_callback ;remove FC groove on bass miss/pass
+    (miss
+        {{{{get_track_panel} find bass} find BassSuperStreak_OFF.trig} trigger}
+        {{{{get_track_panel} find bass} find streak_meter} star_deploy_stop}
+        {bass stop_deploy})
     (pass
         {{{{get_track_panel} find bass} find BassSuperStreak_OFF.trig} trigger}
         {{{{get_track_panel} find bass} find streak_meter} star_deploy_stop}
-        {bass stop_deploy}))
+        {bass stop_deploy})
+)
 
-(new Object fc_gtr_callback ;remove FC groove on gtr pass
+(new Object fc_gtr_callback ;remove FC groove on gtr miss/pass
+    (miss
+        {{{{get_track_panel} find guitar} find BassSuperStreak_OFF.trig} trigger}
+        {{{{get_track_panel} find guitar} find streak_meter} star_deploy_stop}
+        {guitar stop_deploy})
     (pass
         {{{{get_track_panel} find guitar} find BassSuperStreak_OFF.trig} trigger}
         {{{{get_track_panel} find guitar} find streak_meter} star_deploy_stop}
-        {guitar stop_deploy}))
+        {guitar stop_deploy})
+)
 
-(new Object fc_drum_callback ;remove FC groove on drum pass
+(new Object fc_drum_callback ;remove FC groove on drum miss/pass
+    (miss
+        {{{{get_track_panel} find drum} find BassSuperStreak_OFF.trig} trigger}
+        {{{{get_track_panel} find drum} find streak_meter} star_deploy_stop}
+        {drum stop_deploy})
     (pass
         {{{{get_track_panel} find drum} find BassSuperStreak_OFF.trig} trigger}
         {{{{get_track_panel} find drum} find streak_meter} star_deploy_stop}
-        {drum stop_deploy}))
+        {drum stop_deploy})
+)
 
 #define TRACK_PANEL_HANDLERS
 ((enter
@@ -25,9 +40,9 @@
       {unless {modifier_mgr is_modifier_active mod_legacybass}
          {beatmatch foreach_active_player $player ;handle adding the appropriate callbacks to each player
              {switch {$player instrument}
-                (bass {$player add_sink fc_bass_callback (pass)})
-                (guitar {$player add_sink fc_gtr_callback (pass)})
-                (drum {$player add_sink fc_drum_callback (pass)})}}}
+                (bass {$player add_sink fc_bass_callback (miss pass)})
+                (guitar {$player add_sink fc_gtr_callback (miss pass)})
+                (drum {$player add_sink fc_drum_callback (miss pass)})}}}
 
 ;{$player add_sink fc_pass_callback (pass)}}} ;pass callback test
 
