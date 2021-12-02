@@ -72,6 +72,10 @@
             {handle
                ($this intro_start)}}})
    (intro_start
+      {set $milosong FALSE}
+      {set $bass_groove_active FALSE}
+	  {set $drum_groove_active FALSE}
+	  {set $guitar_groove_active FALSE}
       {script_task
          kTaskSeconds
          (delay
@@ -100,6 +104,10 @@
 					{$p set emulate_fps 1}}}}
 	 kDataUnhandled)
    (intro_skip
+      {set $milosong FALSE}
+      {set $bass_groove_active FALSE}
+	  {set $drum_groove_active FALSE}
+	  {set $guitar_groove_active FALSE}
       {if
          {'||'
             $skip_intro
@@ -107,6 +115,10 @@
          {beatmatch set_intro_real_time 0}}
       kDataUnhandled)
    (music_start
+      {set $milosong FALSE}
+      {set $bass_groove_active FALSE}
+	  {set $drum_groove_active FALSE}
+	  {set $guitar_groove_active FALSE}
       {ui music_start}
       kDataUnhandled)
    (beat
@@ -128,6 +140,10 @@
                      {elem $levels $ex})}}}}
       kDataUnhandled)
    (game_over
+      {set $milosong FALSE}
+      {set $bass_groove_active FALSE}
+	  {set $drum_groove_active FALSE}
+	  {set $guitar_groove_active FALSE}
       {stagekit_reset}
       {beatmatch
          foreach_active_player
@@ -181,6 +197,10 @@
                {beatmatch set_paused TRUE}})}
       kDataUnhandled)
    (game_outro
+      {set $milosong FALSE}
+      {set $bass_groove_active FALSE}
+	  {set $drum_groove_active FALSE}
+	  {set $guitar_groove_active FALSE}
       {beatmatch
          foreach_active_player
          $p
@@ -451,6 +471,10 @@
                TRUE}}
          FALSE})
    (enter
+      {set $milosong FALSE}
+      {set $bass_groove_active FALSE}
+	  {set $drum_groove_active FALSE}
+	  {set $guitar_groove_active FALSE}
       {fx set_showing FALSE}
       {set
          [delayed_mic_check]
@@ -544,6 +568,10 @@
                         0.25}}}}}}})   
    
    (exit
+      {set $milosong FALSE}
+      {set $bass_groove_active FALSE}
+	  {set $drum_groove_active FALSE}
+	  {set $guitar_groove_active FALSE}
       {platform_mgr remove_sink $this ui_changed}
       {synth stop_playback_all_mics}
       {if

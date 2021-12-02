@@ -3,6 +3,7 @@
 
 (new Object fc_bass_callback ;remove FC groove on bass miss/pass
    (hit
+	  {if {! $milosong} {set $milosong TRUE} {set [num_gems_hit] 0} {set [num_gems_miss] 0} {set [num_gems_pass] 0} {set [num_gems_combo] 0}}
       {$this check_fc}
       {set [num_gems_hit] {'+' [num_gems_hit] 1}}
       {set [num_gems_combo] {'+' [num_gems_combo] 1}}
@@ -38,6 +39,7 @@
 
 (new Object fc_guitar_callback ;remove FC groove on guitar miss/pass
    (hit
+	  {if {! $milosong} {set $milosong TRUE} {set [num_gems_hit] 0} {set [num_gems_miss] 0} {set [num_gems_pass] 0} {set [num_gems_combo] 0}}
       {$this check_fc}
       {set [num_gems_hit] {'+' [num_gems_hit] 1}}
       {set [num_gems_combo] {'+' [num_gems_combo] 1}}
@@ -73,6 +75,7 @@
 
 (new Object fc_drum_callback ;remove FC groove on drum miss/pass
    (hit
+	  {if {! $milosong} {set $milosong TRUE} {set [num_gems_hit] 0} {set [num_gems_miss] 0} {set [num_gems_pass] 0} {set [num_gems_combo] 0}}
       {$this check_fc}
       {set [num_gems_hit] {'+' [num_gems_hit] 1}}
       {set [num_gems_combo] {'+' [num_gems_combo] 1}}
