@@ -510,7 +510,7 @@
      ; {if_else {modifier_mgr is_modifier_active mod_staticfills}        ;; from drum_trainer_base.dta. This makes essentially rb3 static fills
 	;	 {gamemode set dont_show_gems_in_fills FALSE}                   ;; This command is backwards and it's so annoying. TRUE will not show gems in fills. FALSE WILL show gems in fills...
 	;	 {gamemode set dont_show_gems_in_fills TRUE}}                   ;; ...we set this based off the staticfills modifier in case someone wants classic fills for some reason.
-      {if {modifier_mgr is_modifier_active mod_staticfills}             ;; fake_hit_gems will allow you to hit notes during fills, using in tandem with showing gems in fills will produce rb3 static fills
+      {unless {modifier_mgr is_modifier_active mod_staticfills}             ;; fake_hit_gems will allow you to hit notes during fills, using in tandem with showing gems in fills will produce rb3 static fills
      ;    {beatmatch set_fake_hit_gems_in_fill TRUE}                     ;; missing during a fill will not drop streak, but you will gain streak hitting these notes during fills.
      ;   {{beatmatch active_player 0} set_fill_audio TRUE}              ;; I wish I knew what this does because I really want fill audio.
           {gamemode set allow_drum_fills FALSE}}
