@@ -113,7 +113,7 @@
          {beatmatch foreach_active_player $player ;handle adding the appropriate callbacks to each player
              {switch {$player instrument}
                 (bass {$player add_sink fc_bass_callback (hit miss pass check_fc check_missed num_gems_hit num_gems_combo num_gems_miss num_gems_pass)})
-                (guitar {$player add_sink fc_gtr_callback (hit miss pass check_fc check_missed num_gems_hit num_gems_combo num_gems_miss num_gems_pass)})
+                (guitar {$player add_sink fc_guitar_callback (hit miss pass check_fc check_missed num_gems_hit num_gems_combo num_gems_miss num_gems_pass)})
                 (drum {$player add_sink fc_drum_callback (hit miss pass check_fc check_missed num_gems_hit num_gems_combo num_gems_miss num_gems_pass)})}}}
 
 ;{$player add_sink fc_pass_callback (pass)}}} ;pass callback test
