@@ -6,9 +6,9 @@
       {$this check_fc}
       {set [num_gems_hit] {'+' [num_gems_hit] 1}}
       {set [num_gems_combo] {'+' [num_gems_combo] 1}}
+      {if {&& {> [num_gems_combo] 39} {! $bass_groove_active}} {set $bass_groove_active TRUE} {{{{get_track_panel} find bass} find BassSuperStreak_ON.trig} trigger}}
 	  )
    (miss
-
 	  {set [num_gems_miss] {'+' [num_gems_miss] 1}}
 	  {set [num_gems_combo] 0}
       {$this check_missed}
@@ -19,17 +19,16 @@
       {$this check_missed}
 	  )
    (check_fc
-      {if {<= {'+' [num_gems_pass] [num_gems_miss]} 0}
+      {$this check_missed}
+      {if {== {'+' [num_gems_pass] [num_gems_miss]} 0}
         {{{{get_track_panel} find bass} find streak_meter} star_deploy}
-        {bass deploy}
-		}
+        {bass deploy}}
 	  )
    (check_missed
       {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
-        {{{{get_track_panel} find bass} find BassSuperStreak_OFF.trig} trigger}
         {{{{get_track_panel} find bass} find streak_meter} star_deploy_stop}
-        {bass stop_deploy}
-		}
+        {bass stop_deploy}}
+      {if {== [num_gems_combo] 0} {set $bass_groove_active FALSE} {{{{get_track_panel} find bass} find BassSuperStreak_OFF.trig} trigger}}
 	  )
    (num_gems_hit 0)
    (num_gems_combo 0)
@@ -37,11 +36,12 @@
    (num_gems_pass 0)
 )
 
-(new Object fc_gtr_callback ;remove FC groove on guitar miss/pass
+(new Object fc_guitar_callback ;remove FC groove on guitar miss/pass
    (hit
       {$this check_fc}
       {set [num_gems_hit] {'+' [num_gems_hit] 1}}
       {set [num_gems_combo] {'+' [num_gems_combo] 1}}
+      {if {&& {> [num_gems_combo] 39} {! $guitar_groove_active}} {set $guitar_groove_active TRUE} {{{{get_track_panel} find guitar} find BassSuperStreak_ON.trig} trigger}}
 	  )
    (miss
 	  {set [num_gems_miss] {'+' [num_gems_miss] 1}}
@@ -54,17 +54,16 @@
       {$this check_missed}
 	  )
    (check_fc
-      {if {<= {'+' [num_gems_pass] [num_gems_miss]} 0}
+      {$this check_missed}
+      {if {== {'+' [num_gems_pass] [num_gems_miss]} 0}
         {{{{get_track_panel} find guitar} find streak_meter} star_deploy}
-        {guitar deploy}
-		}
+        {guitar deploy}}
 	  )
    (check_missed
       {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
-        {{{{get_track_panel} find guitar} find BassSuperStreak_OFF.trig} trigger}
         {{{{get_track_panel} find guitar} find streak_meter} star_deploy_stop}
-        {guitar stop_deploy}
-		}
+        {guitar stop_deploy}}
+      {if {== [num_gems_combo] 0} {set $guitar_groove_active FALSE} {{{{get_track_panel} find guitar} find BassSuperStreak_OFF.trig} trigger}}
 	  )
    (num_gems_hit 0)
    (num_gems_combo 0)
@@ -77,6 +76,7 @@
       {$this check_fc}
       {set [num_gems_hit] {'+' [num_gems_hit] 1}}
       {set [num_gems_combo] {'+' [num_gems_combo] 1}}
+      {if {&& {> [num_gems_combo] 39} {! $drum_groove_active}} {set $drum_groove_active TRUE} {{{{get_track_panel} find drum} find BassSuperStreak_ON.trig} trigger}}
 	  )
    (miss
 	  {set [num_gems_miss] {'+' [num_gems_miss] 1}}
@@ -89,15 +89,16 @@
       {$this check_missed}
 	  )
    (check_fc
-      {if {<= {'+' [num_gems_pass] [num_gems_miss]} 0}
+      {$this check_missed}
+      {if {== {'+' [num_gems_pass] [num_gems_miss]} 0}
         {{{{get_track_panel} find drum} find streak_meter} star_deploy}
         {drum deploy}}
 	  )
    (check_missed
       {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
-        {{{{get_track_panel} find drum} find BassSuperStreak_OFF.trig} trigger}
         {{{{get_track_panel} find drum} find streak_meter} star_deploy_stop}
         {drum stop_deploy}}
+      {if {== [num_gems_combo] 0} {set $drum_groove_active FALSE} {{{{get_track_panel} find drum} find BassSuperStreak_OFF.trig} trigger}}
 	  )
    (num_gems_hit 0)
    (num_gems_combo 0)
