@@ -8,7 +8,7 @@
       {$this check_fc}
       {set [num_gems_hit] {'+' [num_gems_hit] 1}}
       {set [num_gems_combo] {'+' [num_gems_combo] 1}}
-      {if {&& {> [num_gems_combo] 39} {! $bass_groove_active}} {set $bass_groove_active TRUE} {{{{get_track_panel} find bass} find bassSuperStreak_ON.trig} trigger}}
+      {if {&& {> [num_gems_combo] 39} {! $bass_groove_active}} {set $bass_groove_active TRUE} {{{{get_track_panel} find bass} find BassSuperStreak_ON.trig} trigger}}
 	  )
    (miss
       {unless {! $bass_firstnote}
@@ -37,7 +37,7 @@
 	  {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
       {{{{get_track_panel} find bass} find streak_meter} star_deploy_stop}
       {bass stop_deploy}}}
-      {if {< [num_gems_combo] 39} {set $bass_groove_active FALSE} {{{{get_track_panel} find bass} find bassSuperStreak_OFF.trig} trigger}}
+      {if {< [num_gems_combo] 39} {set $bass_groove_active FALSE} {{{{get_track_panel} find bass} find BassSuperStreak_OFF.trig} trigger}}
 	  )
    (num_gems_hit 0)
    (num_gems_combo 0)
