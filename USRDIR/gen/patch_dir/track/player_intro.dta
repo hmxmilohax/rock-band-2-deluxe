@@ -82,13 +82,15 @@
             {unless {modifier_mgr is_modifier_active mod_legacybass}
 			{beatmatch foreach_active_player $player {switch {$player instrument}
 			(bass
-			{$bass_groove_active FALSE}
+			;{set $bass_groove_active FALSE}
+			;{set $bass_milosong FALSE}
 			;{{{{get_track_panel} find bass} find BassSuperStreak_ON.trig} trigger}
 			;{{{{get_track_panel} find bass} find star_deploy.trig} trigger}
 			{{{{get_track_panel} find bass} find streak_meter} star_deploy}
 			)
 			(guitar
-			{$guitar_groove_active FALSE}
+			;{set $guitar_groove_active FALSE}
+			;{set $guitar_milosong FALSE}
 			;{{{{get_track_panel} find guitar} find BassSuperStreak_ON.trig} trigger}
 			;{{{{get_track_panel} find guitar} find star_deploy.trig} trigger}
 			{{{{get_track_panel} find guitar} find streak_meter} star_deploy}
@@ -96,7 +98,8 @@
 			(vocals
 			)
 			(drum
-			{$drum_groove_active FALSE}
+			;{set $drum_groove_active FALSE}
+			;{set $drum_milosong FALSE}
 			;{{{{get_track_panel} find drum} find BassSuperStreak_ON.trig} trigger}
 			;{{{{get_track_panel} find drum} find star_deploy.trig} trigger}
 			{{{{get_track_panel} find drum} find streak_meter} star_deploy}

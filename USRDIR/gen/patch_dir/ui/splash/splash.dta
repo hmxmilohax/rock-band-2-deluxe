@@ -106,7 +106,7 @@
 	  {modifier_mgr deactivate_modifier mod_songspeed150}	;	This is in case you accidently back out of the main menu back to splash
 	  {modifier_mgr deactivate_modifier mod_songspeed175}	;	This is in case you accidently back out of the main menu back to splash
 	  {modifier_mgr deactivate_modifier mod_songspeed200}	;	This is in case you accidently back out of the main menu back to splash
-	  {modifier_mgr activate_modifier mod_staticfills}	;	Enable static fills by default
+	  ;{modifier_mgr activate_modifier mod_staticfills}	;	Enable static fills by default
       {set
          [alpha_threshold_fading]
          FALSE}

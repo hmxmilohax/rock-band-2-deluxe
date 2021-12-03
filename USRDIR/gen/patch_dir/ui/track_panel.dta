@@ -3,6 +3,7 @@
 
 (new Object fc_bass_callback ;remove FC groove on bass miss/pass
    (hit
+	  {if {! $bass_milosong} {set $bass_milosong TRUE} {set [num_gems_hit] 0} {set [num_gems_miss] 0} {set [num_gems_pass] 0} {set [num_gems_combo] 0}}
       {$this check_fc}
       {set [num_gems_hit] {'+' [num_gems_hit] 1}}
       {set [num_gems_combo] {'+' [num_gems_combo] 1}}
@@ -28,7 +29,7 @@
       {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
         {{{{get_track_panel} find bass} find streak_meter} star_deploy_stop}
         {bass stop_deploy}}
-      {if {== [num_gems_combo] 0} {set $bass_groove_active FALSE} {{{{get_track_panel} find bass} find BassSuperStreak_OFF.trig} trigger}}
+      {if {< [num_gems_combo] 39} {set $bass_groove_active FALSE} {{{{get_track_panel} find bass} find BassSuperStreak_OFF.trig} trigger}}
 	  )
    (num_gems_hit 0)
    (num_gems_combo 0)
@@ -38,6 +39,7 @@
 
 (new Object fc_guitar_callback ;remove FC groove on guitar miss/pass
    (hit
+	  {if {! $guitar_milosong} {set $guitar_milosong TRUE} {set [num_gems_hit] 0} {set [num_gems_miss] 0} {set [num_gems_pass] 0} {set [num_gems_combo] 0}}
       {$this check_fc}
       {set [num_gems_hit] {'+' [num_gems_hit] 1}}
       {set [num_gems_combo] {'+' [num_gems_combo] 1}}
@@ -63,7 +65,7 @@
       {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
         {{{{get_track_panel} find guitar} find streak_meter} star_deploy_stop}
         {guitar stop_deploy}}
-      {if {== [num_gems_combo] 0} {set $guitar_groove_active FALSE} {{{{get_track_panel} find guitar} find BassSuperStreak_OFF.trig} trigger}}
+      {if {< [num_gems_combo] 39} {set $guitar_groove_active FALSE} {{{{get_track_panel} find guitar} find BassSuperStreak_OFF.trig} trigger}}
 	  )
    (num_gems_hit 0)
    (num_gems_combo 0)
@@ -73,6 +75,7 @@
 
 (new Object fc_drum_callback ;remove FC groove on drum miss/pass
    (hit
+	  {if {! $drum_milosong} {set $drum_milosong TRUE} {set [num_gems_hit] 0} {set [num_gems_miss] 0} {set [num_gems_pass] 0} {set [num_gems_combo] 0}}
       {$this check_fc}
       {set [num_gems_hit] {'+' [num_gems_hit] 1}}
       {set [num_gems_combo] {'+' [num_gems_combo] 1}}
@@ -98,7 +101,7 @@
       {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
         {{{{get_track_panel} find drum} find streak_meter} star_deploy_stop}
         {drum stop_deploy}}
-      {if {== [num_gems_combo] 0} {set $drum_groove_active FALSE} {{{{get_track_panel} find drum} find BassSuperStreak_OFF.trig} trigger}}
+      {if {< [num_gems_combo] 39} {set $drum_groove_active FALSE} {{{{get_track_panel} find drum} find BassSuperStreak_OFF.trig} trigger}}
 	  )
    (num_gems_hit 0)
    (num_gems_combo 0)
@@ -113,7 +116,7 @@
          {beatmatch foreach_active_player $player ;handle adding the appropriate callbacks to each player
              {switch {$player instrument}
                 (bass {$player add_sink fc_bass_callback (hit miss pass check_fc check_missed num_gems_hit num_gems_combo num_gems_miss num_gems_pass)})
-                (guitar {$player add_sink fc_gtr_callback (hit miss pass check_fc check_missed num_gems_hit num_gems_combo num_gems_miss num_gems_pass)})
+                (guitar {$player add_sink fc_guitar_callback (hit miss pass check_fc check_missed num_gems_hit num_gems_combo num_gems_miss num_gems_pass)})
                 (drum {$player add_sink fc_drum_callback (hit miss pass check_fc check_missed num_gems_hit num_gems_combo num_gems_miss num_gems_pass)})}}}
 
 ;{$player add_sink fc_pass_callback (pass)}}} ;pass callback test

@@ -193,7 +193,8 @@
 ({&&
       {==
          $track
-         "bass"}
+	        {||
+         "bass" "guitar" "drum"}}
       {>
          {/
             {$my_player longest_streak}

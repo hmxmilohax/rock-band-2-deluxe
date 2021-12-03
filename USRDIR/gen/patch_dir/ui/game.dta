@@ -72,6 +72,10 @@
             {handle
                ($this intro_start)}}})
    (intro_start
+      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
+      {set $bass_groove_active FALSE}
+	  {set $drum_groove_active FALSE}
+	  {set $guitar_groove_active FALSE}
       {script_task
          kTaskSeconds
          (delay
@@ -100,6 +104,10 @@
 					{$p set emulate_fps 1}}}}
 	 kDataUnhandled)
    (intro_skip
+      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
+      {set $bass_groove_active FALSE}
+	  {set $drum_groove_active FALSE}
+	  {set $guitar_groove_active FALSE}
       {if
          {'||'
             $skip_intro
@@ -107,6 +115,10 @@
          {beatmatch set_intro_real_time 0}}
       kDataUnhandled)
    (music_start
+      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
+      {set $bass_groove_active FALSE}
+	  {set $drum_groove_active FALSE}
+	  {set $guitar_groove_active FALSE}
       {ui music_start}
       kDataUnhandled)
    (beat
@@ -128,6 +140,10 @@
                      {elem $levels $ex})}}}}
       kDataUnhandled)
    (game_over
+      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
+      {set $bass_groove_active FALSE}
+	  {set $drum_groove_active FALSE}
+	  {set $guitar_groove_active FALSE}
       {stagekit_reset}
       {beatmatch
          foreach_active_player
@@ -181,6 +197,10 @@
                {beatmatch set_paused TRUE}})}
       kDataUnhandled)
    (game_outro
+      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
+      {set $bass_groove_active FALSE}
+	  {set $drum_groove_active FALSE}
+	  {set $guitar_groove_active FALSE}
       {beatmatch
          foreach_active_player
          $p
@@ -451,6 +471,10 @@
                TRUE}}
          FALSE})
    (enter
+      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
+      {set $bass_groove_active FALSE}
+	  {set $drum_groove_active FALSE}
+	  {set $guitar_groove_active FALSE}
       {fx set_showing FALSE}
       {set
          [delayed_mic_check]
@@ -486,7 +510,7 @@
      ; {if_else {modifier_mgr is_modifier_active mod_staticfills}        ;; from drum_trainer_base.dta. This makes essentially rb3 static fills
 	;	 {gamemode set dont_show_gems_in_fills FALSE}                   ;; This command is backwards and it's so annoying. TRUE will not show gems in fills. FALSE WILL show gems in fills...
 	;	 {gamemode set dont_show_gems_in_fills TRUE}}                   ;; ...we set this based off the staticfills modifier in case someone wants classic fills for some reason.
-      {if {modifier_mgr is_modifier_active mod_staticfills}             ;; fake_hit_gems will allow you to hit notes during fills, using in tandem with showing gems in fills will produce rb3 static fills
+      {unless {modifier_mgr is_modifier_active mod_staticfills}             ;; fake_hit_gems will allow you to hit notes during fills, using in tandem with showing gems in fills will produce rb3 static fills
      ;    {beatmatch set_fake_hit_gems_in_fill TRUE}                     ;; missing during a fill will not drop streak, but you will gain streak hitting these notes during fills.
      ;   {{beatmatch active_player 0} set_fill_audio TRUE}              ;; I wish I knew what this does because I really want fill audio.
           {gamemode set allow_drum_fills FALSE}}
@@ -544,6 +568,10 @@
                         0.25}}}}}}})   
    
    (exit
+      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
+      {set $bass_groove_active FALSE}
+	  {set $drum_groove_active FALSE}
+	  {set $guitar_groove_active FALSE}
       {platform_mgr remove_sink $this ui_changed}
       {synth stop_playback_all_mics}
       {if
