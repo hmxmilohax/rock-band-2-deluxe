@@ -477,7 +477,7 @@
                      ($pcfg
                         {game get_player_config $player})
                      ($is_audition_autoplayer
-                           {$pcfg get autoplay})
+                           {if {modifier_mgr is_modifier_active mod_auto_play} {$pcfg get autoplay}})
                      {if
                         {$pxy exists no_player.grp}
                         {{$pxy find no_player.grp}
