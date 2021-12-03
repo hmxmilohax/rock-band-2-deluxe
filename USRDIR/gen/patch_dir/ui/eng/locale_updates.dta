@@ -651,6 +651,18 @@
 (newyork_arena2_any "Taking Requests")
 (rio_arena_legomara "Lego Endless Setlist")
 (tour_band_marathon_warning "Take a deep breath. Have a snack. Hit the bathroom. This is a long ass marathon with NO BREAKS. It ain't for the faint of heart. Are you really ready?")
+(milosliderlbl
+   "Speed / Framerate")
+(speed_msg
+   "SONG SPEED: %d%%")
+(fps_msg
+   "VENUE FRAMERATE: %dFPS")
+(extra_modify
+   "modify game")
+(speed_modify
+   "speed / framerate")
+(options_audio
+   "audio settings")
 ;; Modifiers
 (mod_legacybass
    "Legacy Bass Streak")
@@ -675,42 +687,6 @@
 (mod_blackvenue_desc 
    "Complete black background while playing")
 (mod_blackvenue_obtain 
-   "(bug, should be available by default)")
-(mod_songspeed115
-   "15% faster")
-(mod_songspeed115_desc 
-   "It's the song. But 15% faster.")
-(mod_songspeed115_obtain 
-   "(bug, should be available by default)")
-(mod_songspeed125
-   "25% faster")
-(mod_songspeed125_desc 
-   "It's the song. But 25% faster.")
-(mod_songspeed125_obtain 
-   "(bug, should be available by default)")
-(mod_songspeed135
-   "35% faster")
-(mod_songspeed135_desc 
-   "It's the song. But 35% faster.")
-(mod_songspeed135_obtain 
-   "(bug, should be available by default)")
-(mod_songspeed150
-   "50% faster")
-(mod_songspeed150_desc 
-   "It's the song. But 50% faster.")
-(mod_songspeed150_obtain 
-   "(bug, should be available by default)")
-(mod_songspeed175
-   "75% faster")
-(mod_songspeed175_desc 
-   "It's the song. But 75% faster.")
-(mod_songspeed175_obtain 
-   "(bug, should be available by default)")
-(mod_songspeed200
-   "100% faster")
-(mod_songspeed200_desc 
-   "It's the song. But 100% faster.")
-(mod_songspeed200_obtain 
    "(bug, should be available by default)")
 (mod_songtitle
    "Song Title Always On")
@@ -753,18 +729,6 @@
 (mod_padguitar_desc
    "Good ol' fashioned 5 fret pad play")
 (mod_padguitar_obtain
-   "(bug, should be available by default)")
-(mod_6fps
-   "6 FPS Venues")
-(mod_6fps_desc
-   "For high framerate emu play")
-(mod_6fps_obtain
-   "(bug, should be available by default)")
-(mod_24fps
-   "24 FPS Venues")
-(mod_24fps_desc
-   "If you hate smoothness (or are playing on a ps3), toggle this!")
-(mod_24fps_obtain
    "(bug, should be available by default)")
 (mod_autostrum
    "Auto Strum")

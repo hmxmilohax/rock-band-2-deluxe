@@ -758,7 +758,7 @@
                ((min_height 0))}
             {ui goto_screen credits_movie_screen})
          (modifygame.btn
-            {ui goto_screen modifiers_screen})
+            {ui goto_screen options_milo_screen})
          (audition.btn
             {if_else
                {platform_mgr has_hard_drive}

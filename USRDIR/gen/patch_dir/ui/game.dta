@@ -519,14 +519,11 @@
         {{beatmatch active_player 0} force_fill TRUE}                   ;; forces the entire song to act as a fill.
 		{{beatmatch active_player 0} set_alternate_fill_mapping TRUE}}  ;; I don't actually know what this does
   ;; 60fps/24fps mod check
-      {if {modifier_mgr is_modifier_active mod_24fps} {{$world iterate PostProc $p {$p set emulate_fps 24}}}}
-      {if {modifier_mgr is_modifier_active mod_6fps} {{$world iterate PostProc $p {$p set emulate_fps 6}}}}
-      {unless {|| {modifier_mgr is_modifier_active mod_24fps} {modifier_mgr is_modifier_active mod_6fps}}
-	    {{$world iterate PostProc $p {$p set emulate_fps 60}}
-	    {$char iterate CharHair $hair {$hair reset 35}}
+	    {{$world iterate PostProc $p {$p set emulate_fps $fpsmod}}
+	    {if {>= {$fpsmod 25} {$char iterate CharHair $hair {$hair reset 35}}
 	    {$world iterate WorldDir $wd {$wd iterate BandCamShot $bcs
 	    {foreach $property (shake_noisefreq shake_noiseamp) {$bcs set (keyframes $i $property) {'*' {$bcs get (keyframes $i $property)} 0.25}}}
-        {foreach $component (x y) {$bcs set (keyframes $i shake_maxangle $component) {'*' {$bcs get (keyframes $i shake_maxangle $component)} 0.25}}}}}}}
+        {foreach $component (x y) {$bcs set (keyframes $i shake_maxangle $component) {'*' {$bcs get (keyframes $i shake_maxangle $component)} 0.25}}}}}}}}
 	)   
    
    (exit

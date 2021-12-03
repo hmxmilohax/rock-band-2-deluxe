@@ -15,58 +15,9 @@
    (mod_freestyledrums (activate {modifier_mgr deactivate_modifier mod_staticfills}) (disables (modifier_achievements_feature modifier_online_feature)) unlocked)
    (mod_roygb (activate {set $roygb TRUE}) (deactivate {set $roygb FALSE}) unlocked)
    (mod_padguitar (activate {set $padguitar TRUE}) (deactivate {set $padguitar FALSE}) unlocked)
-   (mod_24fps (activate {modifier_mgr deactivate_modifier mod_6fps}) unlocked)
-   (mod_6fps (activate {modifier_mgr deactivate_modifier mod_24fps}) unlocked)
    (mod_nosustain unlocked)
    (mod_flashbang unlocked)
    (mod_auto_play (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature)) unlocked)
-   (mod_songspeed115 (activate
-		{modifier_mgr deactivate_modifier mod_songspeed125}
-		{modifier_mgr deactivate_modifier mod_songspeed135}
-		{modifier_mgr deactivate_modifier mod_songspeed150}
-		{modifier_mgr deactivate_modifier mod_songspeed175}
-		{modifier_mgr deactivate_modifier mod_songspeed200}
-		{set $speedmod 1.15})
-   (deactivate {set $speedmod 1.0}) (disables (modifier_online_feature)) unlocked)
-   (mod_songspeed125 (activate
-		{modifier_mgr deactivate_modifier mod_songspeed115}
-		{modifier_mgr deactivate_modifier mod_songspeed135}
-		{modifier_mgr deactivate_modifier mod_songspeed150}
-		{modifier_mgr deactivate_modifier mod_songspeed175}
-		{modifier_mgr deactivate_modifier mod_songspeed200}
-		{set $speedmod 1.25})
-   (deactivate {set $speedmod 1.0}) (disables (modifier_online_feature)) unlocked)
-   (mod_songspeed135 (activate
-		{modifier_mgr deactivate_modifier mod_songspeed115}
-		{modifier_mgr deactivate_modifier mod_songspeed125}
-		{modifier_mgr deactivate_modifier mod_songspeed150}
-		{modifier_mgr deactivate_modifier mod_songspeed175}
-		{modifier_mgr deactivate_modifier mod_songspeed200}
-		{set $speedmod 1.35})
-   (deactivate {set $speedmod 1.0}) (disables (modifier_online_feature)) unlocked)
-   (mod_songspeed150 (activate
-		{modifier_mgr deactivate_modifier mod_songspeed115}
-		{modifier_mgr deactivate_modifier mod_songspeed135}
-		{modifier_mgr deactivate_modifier mod_songspeed125}
-		{modifier_mgr deactivate_modifier mod_songspeed175}
-		{modifier_mgr deactivate_modifier mod_songspeed200}
-		{set $speedmod 1.50})
-   (deactivate {set $speedmod 1.0}) (disables (modifier_online_feature)) unlocked)
-   (mod_songspeed175 (activate
-		{modifier_mgr deactivate_modifier mod_songspeed115}
-		{modifier_mgr deactivate_modifier mod_songspeed135}
-		{modifier_mgr deactivate_modifier mod_songspeed150}
-		{modifier_mgr deactivate_modifier mod_songspeed125}
-		{modifier_mgr deactivate_modifier mod_songspeed200}
-		{set $speedmod 1.75})
-   (deactivate {set $speedmod 1.0}) (disables (modifier_online_feature)) unlocked)
-   (mod_songspeed200 (activate
-		{modifier_mgr deactivate_modifier mod_songspeed115}
-		{modifier_mgr deactivate_modifier mod_songspeed135}
-		{modifier_mgr deactivate_modifier mod_songspeed150}
-		{modifier_mgr deactivate_modifier mod_songspeed175}
-		{modifier_mgr deactivate_modifier mod_songspeed125}
-		{set $speedmod 2.0})
-   (deactivate {set $speedmod 1.0}) (disables (modifier_online_feature)) unlocked)
-   (mod_autostrum)
-   (mod_autokick))
+   ;(mod_autostrum)
+   ;(mod_autokick)
+   )
