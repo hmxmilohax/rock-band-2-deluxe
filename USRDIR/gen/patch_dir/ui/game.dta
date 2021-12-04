@@ -470,11 +470,42 @@
                {$this pause_for_mic}
                TRUE}}
          FALSE})
-   (enter
+   (milo_setup
+;send to network leaders song speed
+      {if {is_leader_local} {session send_msg_to_all {` (set $speedmod {, $leaderspeed}) kNetReliable}}}
+;send to network leaders static fills modifier
+	  {if {is_leader_local} {session send_msg_to_all {` (set $netstaticfills {, $leaderstaticfills}) kNetReliable}}}
+	  {session send_msg_to_all {` (if_else {! $netstaticfills} {modifier_mgr deactivate_modifier mod_staticfills} {modifier_mgr activate_modifier mod_staticfills}) kNetReliable}}
+;send to network leaders song title modifier
+	  {if {is_leader_local} {session send_msg_to_all {` (set $netsongtitle {, $leadersongtitle}) kNetReliable}}}
+	  {session send_msg_to_all {` (if_else {! $netsongtitle} {modifier_mgr deactivate_modifier mod_songtitle} {modifier_mgr activate_modifier mod_songtitle}) kNetReliable}}
+;send to network leaders detailed song title modifier
+	  {if {is_leader_local} {session send_msg_to_all {` (set $netsongtitlestats {, $leadersongtitlestats}) kNetReliable}}}
+	  {session send_msg_to_all {` (if_else {! $netsongtitlestats} {modifier_mgr deactivate_modifier mod_songtitlestats} {modifier_mgr activate_modifier mod_songtitlestats}) kNetReliable}}
+;send to network leaders black venue modifier
+	  {if {is_leader_local} {session send_msg_to_all {` (set $netblackvenue {, $leaderblackvenue}) kNetReliable}}}
+	  {session send_msg_to_all {` (if_else {! $netblackvenue} {modifier_mgr deactivate_modifier mod_blackvenue} {modifier_mgr activate_modifier mod_blackvenue}) kNetReliable}}
+;send to network leaders roygb modifier
+	  {if {is_leader_local} {session send_msg_to_all {` (set $netroygb {, $leaderroygb}) kNetReliable}}}
+	  {session send_msg_to_all {` (if_else {! $netroygb} {modifier_mgr deactivate_modifier mod_roygb} {modifier_mgr activate_modifier mod_roygb}) kNetReliable}}
+;set up the FC indicator here
       {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
-      {set $bass_groove_active FALSE} {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
-	  {set $drum_groove_active FALSE}
-	  {set $guitar_groove_active FALSE}
+	  {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
+	  {set $drum_groove_active FALSE} {set $guitar_groove_active FALSE} {set $bass_groove_active FALSE}
+;setup for venue fps
+	  {{$world iterate PostProc $p {$p set emulate_fps $fpsmod}}
+	  {if {>= {$fpsmod 25} {$char iterate CharHair $hair {$hair reset 35}}
+	  {$world iterate WorldDir $wd {$wd iterate BandCamShot $bcs
+	  {foreach $property (shake_noisefreq shake_noiseamp) {$bcs set (keyframes $i $property) {'*' {$bcs get (keyframes $i $property)} 0.25}}}
+      {foreach $component (x y) {$bcs set (keyframes $i shake_maxangle $component) {'*' {$bcs get (keyframes $i shake_maxangle $component)} 0.25}}}}}}}}
+;set all players to autoplay if the modifier is active
+      {if {modifier_mgr is_modifier_active mod_auto_play}  {do {beatmatch foreach_active_player $player {$player set_auto_play enable}}}}
+;set for static drums
+      {unless {modifier_mgr is_modifier_active mod_staticfills} {gamemode set allow_drum_fills FALSE}}
+;set for freestyle drums
+      {if {modifier_mgr is_modifier_active mod_freestyledrums} {beatmatch set_fake_hit_gems_in_fill TRUE} {{beatmatch active_player 0} force_fill TRUE} {{beatmatch active_player 0} set_alternate_fill_mapping TRUE}}
+	  )
+   (enter
       {fx set_showing FALSE}
       {set
          [delayed_mic_check]
@@ -505,32 +536,11 @@
       {input_mgr
          set_limit
          {gamemode get game_input_limit_type}}
-{if {modifier_mgr is_modifier_active mod_auto_play} 
-          {do {beatmatch foreach_active_player $player {$player set_auto_play enable}}}}
-     ; {if_else {modifier_mgr is_modifier_active mod_staticfills}        ;; from drum_trainer_base.dta. This makes essentially rb3 static fills
-	;	 {gamemode set dont_show_gems_in_fills FALSE}                   ;; This command is backwards and it's so annoying. TRUE will not show gems in fills. FALSE WILL show gems in fills...
-	;	 {gamemode set dont_show_gems_in_fills TRUE}}                   ;; ...we set this based off the staticfills modifier in case someone wants classic fills for some reason.
-      {unless {modifier_mgr is_modifier_active mod_staticfills}             ;; fake_hit_gems will allow you to hit notes during fills, using in tandem with showing gems in fills will produce rb3 static fills
-     ;    {beatmatch set_fake_hit_gems_in_fill TRUE}                     ;; missing during a fill will not drop streak, but you will gain streak hitting these notes during fills.
-     ;   {{beatmatch active_player 0} set_fill_audio TRUE}              ;; I wish I knew what this does because I really want fill audio.
-          {gamemode set allow_drum_fills FALSE}}
-      {if {modifier_mgr is_modifier_active mod_freestyledrums}          ;; from drum_trainer_base.dta. This makes essentially rb4 freestyle drums
-	     {beatmatch set_fake_hit_gems_in_fill TRUE}                     ;; since we make the entire song a fill, you need fake_hit_gems
-        {{beatmatch active_player 0} force_fill TRUE}                   ;; forces the entire song to act as a fill.
-		{{beatmatch active_player 0} set_alternate_fill_mapping TRUE}}  ;; I don't actually know what this does
-  ;; 60fps/24fps mod check
-	    {{$world iterate PostProc $p {$p set emulate_fps $fpsmod}}
-	    {if {>= {$fpsmod 25} {$char iterate CharHair $hair {$hair reset 35}}
-	    {$world iterate WorldDir $wd {$wd iterate BandCamShot $bcs
-	    {foreach $property (shake_noisefreq shake_noiseamp) {$bcs set (keyframes $i $property) {'*' {$bcs get (keyframes $i $property)} 0.25}}}
-        {foreach $component (x y) {$bcs set (keyframes $i shake_maxangle $component) {'*' {$bcs get (keyframes $i shake_maxangle $component)} 0.25}}}}}}}}
-	)   
-   
+      {$this milo_setup})   
    (exit
       {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
-      {set $bass_groove_active FALSE} {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
-	  {set $drum_groove_active FALSE}
-	  {set $guitar_groove_active FALSE}
+      {set $bass_groove_active FALSE} {set $drum_groove_active FALSE} {set $guitar_groove_active FALSE}
+      {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
       {platform_mgr remove_sink $this ui_changed}
       {synth stop_playback_all_mics}
       {if
