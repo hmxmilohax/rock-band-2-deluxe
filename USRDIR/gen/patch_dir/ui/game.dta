@@ -475,18 +475,23 @@
       {if {is_leader_local} {session send_msg_to_all {` (set $speedmod {, $leaderspeed}) kNetReliable}}}
 ;send to network leaders static fills modifier
 	  {if {is_leader_local} {session send_msg_to_all {` (set $netstaticfills {, $leaderstaticfills}) kNetReliable}}}
+	  {session send_msg_to_all {` (set $tempstaticfills $leaderstaticfills) kNetReliable}}
 	  {session send_msg_to_all {` (if_else {! $netstaticfills} {modifier_mgr deactivate_modifier mod_staticfills} {modifier_mgr activate_modifier mod_staticfills}) kNetReliable}}
 ;send to network leaders song title modifier
 	  {if {is_leader_local} {session send_msg_to_all {` (set $netsongtitle {, $leadersongtitle}) kNetReliable}}}
+	  {session send_msg_to_all {` (set $tempsongtitle $leadersongtitle) kNetReliable}}
 	  {session send_msg_to_all {` (if_else {! $netsongtitle} {modifier_mgr deactivate_modifier mod_songtitle} {modifier_mgr activate_modifier mod_songtitle}) kNetReliable}}
 ;send to network leaders detailed song title modifier
 	  {if {is_leader_local} {session send_msg_to_all {` (set $netsongtitlestats {, $leadersongtitlestats}) kNetReliable}}}
+	  {session send_msg_to_all {` (set $tempsongtitlestats $leadersongtitlestats) kNetReliable}}
 	  {session send_msg_to_all {` (if_else {! $netsongtitlestats} {modifier_mgr deactivate_modifier mod_songtitlestats} {modifier_mgr activate_modifier mod_songtitlestats}) kNetReliable}}
 ;send to network leaders black venue modifier
 	  {if {is_leader_local} {session send_msg_to_all {` (set $netblackvenue {, $leaderblackvenue}) kNetReliable}}}
+	  {session send_msg_to_all {` (set $tempblackvenue $leaderblackvenue) kNetReliable}}
 	  {session send_msg_to_all {` (if_else {! $netblackvenue} {modifier_mgr deactivate_modifier mod_blackvenue} {modifier_mgr activate_modifier mod_blackvenue}) kNetReliable}}
 ;send to network leaders roygb modifier
 	  {if {is_leader_local} {session send_msg_to_all {` (set $netroygb {, $leaderroygb}) kNetReliable}}}
+	  {session send_msg_to_all {` (set $temproygb $leaderroygb) kNetReliable}}
 	  {session send_msg_to_all {` (if_else {! $netroygb} {modifier_mgr deactivate_modifier mod_roygb} {modifier_mgr activate_modifier mod_roygb}) kNetReliable}}
 ;set up the FC indicator here
       {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
@@ -504,6 +509,18 @@
       {unless {modifier_mgr is_modifier_active mod_staticfills} {gamemode set allow_drum_fills FALSE}}
 ;set for freestyle drums
       {if {modifier_mgr is_modifier_active mod_freestyledrums} {beatmatch set_fake_hit_gems_in_fill TRUE} {{beatmatch active_player 0} force_fill TRUE} {{beatmatch active_player 0} set_alternate_fill_mapping TRUE}}
+	  )
+   (milo_exit
+;reset to local users state for static fills modifier
+	  {session send_msg_to_all {` (if_else {! $tempstaticfills} {modifier_mgr deactivate_modifier mod_staticfills} {modifier_mgr activate_modifier mod_staticfills}) kNetReliable}}
+;reset to local users state for song title modifier
+	  {session send_msg_to_all {` (if_else {! $tempsongtitle} {modifier_mgr deactivate_modifier mod_songtitle} {modifier_mgr activate_modifier mod_songtitle}) kNetReliable}}
+;reset to local users state for song title modifier
+	  {session send_msg_to_all {` (if_else {! $tempsongtitlestats} {modifier_mgr deactivate_modifier mod_songtitlestats} {modifier_mgr activate_modifier mod_songtitlestats}) kNetReliable}}
+;reset to local users state for black venue modifier
+	  {session send_msg_to_all {` (if_else {! $tempblackvenue} {modifier_mgr deactivate_modifier mod_blackvenue} {modifier_mgr activate_modifier mod_blackvenue}) kNetReliable}}
+;reset to local users state for roygb
+	  {session send_msg_to_all {` (if_else {! $temproygb} {modifier_mgr deactivate_modifier mod_roygb} {modifier_mgr activate_modifier mod_roygb}) kNetReliable}}
 	  )
    (enter
       {fx set_showing FALSE}
@@ -549,7 +566,8 @@
                {band_ui current_event}
                pad_lost}}
          {band_ui dismiss_event}}
-      {input_mgr check_controllers})
+      {input_mgr check_controllers}
+	  {$this milo_exit})
    (UI_CHANGED_MSG
       {$this on_guide_change})
    (TRANSITION_COMPLETE_MSG
