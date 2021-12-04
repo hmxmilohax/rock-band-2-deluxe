@@ -320,6 +320,8 @@
          {do
             {set $speedmod
                {+ 1 {* {instruments.sld current} 0.05}}}
+			   {set $leaderspeed
+               {+ 1 {* {instruments.sld current} 0.05}}}
             {set $fpsmod
                {+ 1 {+ {background.sld current}}}}}
             {$this display_speed_msg $speedmod}

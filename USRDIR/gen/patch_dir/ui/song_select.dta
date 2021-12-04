@@ -24,6 +24,7 @@
       {demo.lbl set showing FALSE}
       {demo.mesh set showing FALSE})
    (enter
+      {if {is_leader_local} {session send_msg_to_all {` (set $speedmod {, $leaderspeed}) kNetReliable}}}
       {loading.mnm
          animate
          (loop)})
