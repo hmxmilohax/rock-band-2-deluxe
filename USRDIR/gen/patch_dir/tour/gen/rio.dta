@@ -28,7 +28,12 @@
 		(item tour_staff_worldblock)
 		(money_per_star 120)
 		BWT_BUZZ_MEDIUMBLOCKPLUS)
-	
+	(entersandman
+		(songs
+			entersandman)
+		(display_song TRUE)
+		(fame (world 100))
+		(money_per_star 100))
 	;;Lego Endless Setlist
 	(legomara
 		(songs
