@@ -1,5 +1,13 @@
 (small_club
 	small_club_04
+	(ithinkimparanoid
+		(songs
+			ithinkimparanoid)
+		(display_song TRUE)
+		(fame
+			(world 3))
+		(money_per_star 5))
+	
 	(any
 		(songs
 			any
@@ -8,6 +16,14 @@
 		(money_per_star 5)))
 (big_club
 	big_club_05
+	(whenyouwereyoung
+		(songs
+			whenyouwereyoung)
+		(display_song TRUE)
+		(fame
+			(town 10))
+		(money_per_star 25))
+	
 	(any
 		(songs
 			any
@@ -30,6 +46,14 @@
 		(money_per_star 25)))
 (arena
 	arena_01
+	(danicalifornia
+		(songs
+			danicalifornia)
+		(display_song TRUE)
+		(fame
+			(town 40)
+			(world 100))
+		(money_per_star 120))
 	(any
 		(songs
 			any

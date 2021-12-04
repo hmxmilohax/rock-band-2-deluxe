@@ -6,12 +6,6 @@
 		(display_song TRUE)
 		(fame (world 3))
 		(money_per_star 5))
-	(maps
-		(songs
-			 maps)
-		(display_song TRUE)
-		(fame (world 3))
-		(money_per_star 5))
 	
 	(any
 		(songs
@@ -28,9 +22,9 @@
 		(fame (town 10))
 		(money_per_star 25))
 		
-	(whenyouwereyoung
+	(maps
 		(songs
-			 whenyouwereyoung)
+			 maps)
 		(display_song TRUE)
 		(fame (town 10))
 		(money_per_star 25))
@@ -66,9 +60,9 @@
 			(world 100))
 		(money_per_star 20))
 	
-	(detroitrockcity
+	(nexttoyou
 		(songs
-			detroitrockcity)
+			nexttoyou)
 		(display_song TRUE)
 		(fame
 			(town 30)

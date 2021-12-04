@@ -1,5 +1,11 @@
 (small_club
 	small_club_10
+	(celebrityskin
+		(songs
+			celebrityskin)
+		(display_song TRUE)
+		(fame (world 3))
+		(money_per_star 5))
 	(any
 		(songs
 			any
@@ -8,6 +14,12 @@
 		(money_per_star 5)))
 (big_club
 	big_club_11
+	(areyougonnabemygirl
+		(songs
+			 areyougonnabemygirl)
+		(display_song TRUE)
+		(fame (town 10))
+		(money_per_star 25))
 	(any
 		(songs
 			any
@@ -28,6 +40,14 @@
 		BWT_CHAR_UNLOCK_LUDWIG))
 (theater
 	theater_03
+	(vasoline
+		(songs
+			 vasoline)
+		(display_song TRUE)
+		(fame
+			(town 30)
+			(world 100))
+		(money_per_star 120))
 	(any
 		(songs
 			any

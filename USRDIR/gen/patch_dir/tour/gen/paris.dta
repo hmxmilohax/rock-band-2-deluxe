@@ -1,5 +1,11 @@
 (small_club
 	small_club_09
+	(maps
+		(songs
+			maps)
+		(display_song TRUE)
+		(fame (world 3))
+		(money_per_star 5))
 	(any
 		(songs
 			any
@@ -8,6 +14,12 @@
 		(money_per_star 5)))
 (big_club
 	big_club_09
+	(imsosick
+		(songs
+			 imsosick)
+		(display_song TRUE)
+		(fame (town 10))
+		(money_per_star 25))
 	(shureshowcase
 		(songs
 			whitewedding
@@ -27,6 +39,14 @@
 		(money_per_star 25)))
 (theater
 	theater_01
+	(vasoline
+		(songs
+			 vasoline)
+		(display_song TRUE)
+		(fame
+			(town 30)
+			(world 100))
+		(money_per_star 120))
 	(any
 		(songs
 			any

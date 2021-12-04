@@ -1,5 +1,12 @@
 (small_club
 	small_club_01
+	(missqueen
+		(songs
+			 missqueen)
+		(display_song TRUE)
+		(fame (world 3))
+		(money_per_star 5))
+		
 	(any
 		(songs
 			any
@@ -8,6 +15,13 @@
 		(money_per_star 5)))
 (big_club
 	big_club_06
+	(learntofly
+		(songs
+			 learntofly)
+		(display_song TRUE)
+		(fame (town 6))
+		(money_per_star 25))
+	
 	(any
 		(songs
 			any
@@ -24,6 +38,15 @@
 		(money_per_star 25)))
 (theater
 	theater_05
+	(pleasure
+		(songs
+			 pleasure)
+		(display_song TRUE)
+		(fame
+			(town 30)
+			(world 100))
+		(money_per_star 120))
+	
 	(any
 		(songs
 			any

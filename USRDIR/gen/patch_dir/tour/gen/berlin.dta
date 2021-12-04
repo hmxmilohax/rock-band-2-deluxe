@@ -1,5 +1,11 @@
 (small_club
 	small_club_02
+	(waveofmutilation
+		(songs
+			waveofmutilation)
+		(display_song TRUE)
+		(fame (world 3))
+		(money_per_star 5))
 	(any
 		(songs
 			any
@@ -8,6 +14,13 @@
 		(money_per_star 5)))
 (big_club
 	big_club_10
+	(timewehad
+		(songs
+			 timewehad)
+		(display_song TRUE)
+		(fame (town 10))
+		(money_per_star 25))
+	
 	(dwmara
 		(songs
 			goyourownway
@@ -26,6 +39,15 @@
 		(money_per_star 25)))
 (arena
 	arena_07
+	(outside
+		(songs
+			 outside)
+		(display_song TRUE)
+		(fame
+			(town 30)
+			(world 100))
+		(money_per_star 120))
+	
 	(rockmara
 		(songs
 			whitewedding

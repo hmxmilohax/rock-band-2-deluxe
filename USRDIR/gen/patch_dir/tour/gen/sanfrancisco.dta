@@ -1,5 +1,12 @@
 (small_club
 	small_club_11
+	(creep
+		(songs
+			 creep)
+		(display_song TRUE)
+		(fame (world 3))
+		(money_per_star 5))
+	
 	(any
 		(songs
 			any
@@ -8,6 +15,13 @@
 		(money_per_star 5)))
 (big_club
 	big_club_04
+	(nightmare
+		(songs
+			 nightmare)
+		(display_song TRUE)
+		(fame (town 10))
+		(money_per_star 25))
+	
 	(any
 		(songs
 			any
@@ -26,6 +40,15 @@
 		(money_per_star 25)))
 (theater
 	theater_07
+	(vasoline
+		(songs
+			 vasoline)
+		(display_song TRUE)
+		(fame
+			(town 30)
+			(world 100))
+		(money_per_star 120))
+	
 	(any
 		(songs
 			any

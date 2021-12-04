@@ -1,5 +1,11 @@
 (small_club
 	small_club_06
+	(shouldistay
+		(songs
+			shouldistay)
+		(display_song TRUE)
+		(fame (world 3))
+		(money_per_star 5))
 	(any
 		(songs
 			any
@@ -8,6 +14,12 @@
 		(money_per_star 5)))
 (big_club
 	big_club_02
+	(thehandthatfeeds
+		(songs
+			 thehandthatfeeds)
+		(display_song TRUE)
+		(fame (town 10))
+		(money_per_star 25))
 	(pearlmara
 		(songs
 			newkidinschool
@@ -29,6 +41,7 @@
 		(money_per_star 25)))
 (theater
 	theater_02
+	
 	(qamara
 		(songs
 			aqualung
@@ -53,6 +66,15 @@
 				(female
 					torso
 					thermalundertee_amsterdamcuckoo))))
+	(detroitrockcity
+		(songs
+			 detroitrockcity)
+		(display_song TRUE)
+		(fame
+			(town 30)
+			(world 100))
+		(money_per_star 120))
+	
 	(any
 		(songs
 			any

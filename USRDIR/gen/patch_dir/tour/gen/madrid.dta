@@ -1,5 +1,11 @@
 (small_club
 	small_club_16
+	(29fingers
+		(songs
+			29fingers)
+		(display_song TRUE)
+		(fame (world 3))
+		(money_per_star 5))
 	(any
 		(songs
 			any
@@ -8,6 +14,12 @@
 		(money_per_star 5)))
 (big_club
 	big_club_13
+	(ballroomblitz
+		(songs
+			 ballroomblitz)
+		(display_song TRUE)
+		(fame (town 10))
+		(money_per_star 25))
 	(any
 		(songs
 			any
@@ -29,6 +41,14 @@
 		BWT_CHAR_UNLOCK_ELECTROHARMONIX))
 (theater
 	theater_10
+	(timmy
+		(songs
+			 timmy)
+		(display_song TRUE)
+		(fame
+			(town 30)
+			(world 100))
+		(money_per_star 120))
 	(any
 		(songs
 			any

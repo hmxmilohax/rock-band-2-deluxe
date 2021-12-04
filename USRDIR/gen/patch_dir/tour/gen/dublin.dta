@@ -1,5 +1,11 @@
 (small_club
 	small_club_15
+	(seven_old
+		(songs
+			seven_old)
+		(display_song TRUE)
+		(fame (world 3))
+		(money_per_star 5))
 	(any
 		(songs
 			any
@@ -8,6 +14,12 @@
 		(money_per_star 5)))
 (big_club
 	big_club_16
+	(suffragettecity
+		(songs
+			 suffragettecity)
+		(display_song TRUE)
+		(fame (town 10))
+		(money_per_star 25))
 	(any
 		(songs
 			any
@@ -17,6 +29,14 @@
 		(money_per_star 25)))
 (arena
 	arena_11
+	(gowiththeflow
+		(songs
+			 gowiththeflow)
+		(display_song TRUE)
+		(fame
+			(town 30)
+			(world 100))
+		(money_per_star 120))
 	(any
 		(songs
 			any
