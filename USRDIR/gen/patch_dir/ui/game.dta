@@ -512,15 +512,15 @@
 	  )
    (milo_exit
 ;reset to local users state for static fills modifier
-	  {session send_msg_to_all {` (if_else {! $tempstaticfills} {modifier_mgr deactivate_modifier mod_staticfills} {modifier_mgr activate_modifier mod_staticfills}) kNetReliable}}
+	  {if_else {! $tempstaticfills} {modifier_mgr deactivate_modifier mod_staticfills} {modifier_mgr activate_modifier mod_staticfills}}
 ;reset to local users state for song title modifier
-	  {session send_msg_to_all {` (if_else {! $tempsongtitle} {modifier_mgr deactivate_modifier mod_songtitle} {modifier_mgr activate_modifier mod_songtitle}) kNetReliable}}
+	  {if_else {! $tempsongtitle} {modifier_mgr deactivate_modifier mod_songtitle} {modifier_mgr activate_modifier mod_songtitle}}
 ;reset to local users state for song title modifier
-	  {session send_msg_to_all {` (if_else {! $tempsongtitlestats} {modifier_mgr deactivate_modifier mod_songtitlestats} {modifier_mgr activate_modifier mod_songtitlestats}) kNetReliable}}
+	  {if_else {! $tempsongtitlestats} {modifier_mgr deactivate_modifier mod_songtitlestats} {modifier_mgr activate_modifier mod_songtitlestats}}
 ;reset to local users state for black venue modifier
-	  {session send_msg_to_all {` (if_else {! $tempblackvenue} {modifier_mgr deactivate_modifier mod_blackvenue} {modifier_mgr activate_modifier mod_blackvenue}) kNetReliable}}
+	  {if_else {! $tempblackvenue} {modifier_mgr deactivate_modifier mod_blackvenue} {modifier_mgr activate_modifier mod_blackvenue}}
 ;reset to local users state for roygb
-	  {session send_msg_to_all {` (if_else {! $temproygb} {modifier_mgr deactivate_modifier mod_roygb} {modifier_mgr activate_modifier mod_roygb}) kNetReliable}}
+	  {if_else {! $temproygb} {modifier_mgr deactivate_modifier mod_roygb} {modifier_mgr activate_modifier mod_roygb}}
 	  )
    (enter
       {fx set_showing FALSE}
