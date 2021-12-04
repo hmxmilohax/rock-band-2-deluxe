@@ -98,6 +98,7 @@
             [alpha_threshold]}})
    (enter
 	  {set $speedmod 1.0}								;	always make sure we start at 100% speed
+	  {set $leaderspeed 1.0}								;	always make sure we start at 100% speed
 	  {set $fpsmod 60.0}								    ;	always make sure we start at 60fps
       {set
          [alpha_threshold_fading]
