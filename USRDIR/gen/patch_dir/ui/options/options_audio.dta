@@ -218,12 +218,14 @@
    (is_loaded
       {content_mgr refresh_done})
    (enter
+      {instruments.sld set_num_steps 31}
+	  {background.sld set_num_steps 60}
+      {instruments.sld set_current {int {+ 0.5 {/ {- $speedmod 1} 0.05}}}} ;set song speed slider based on current value
+      {background.sld set_current {int {- $fpsmod 1}}} ;set FPS slider based on current value
       {instruments.btn set_localized {sprintf {localize speed_msg} {int {+ 0.5 {* $speedmod 100}}}}}
 	  {background_music.btn set_localized {sprintf {localize fps_msg} {int $fpsmod}}}
       {do {vocal_track.btn set_showing FALSE} {crowd.btn set_showing FALSE} {sfx.btn set_showing FALSE} {$this disable vocal_track.btn} {$this disable crowd.btn} {$this disable sfx.btn}
 	      {vocal_track.sld set_showing FALSE} {crowd.sld set_showing FALSE} {sfx.sld set_showing FALSE}}
-      {instruments.sld set_num_steps 31}
-	  {background.sld set_num_steps 59}
 	  {$this update_all_from_profile}
 	  )
    (display_speed_msg
@@ -231,7 +233,7 @@
 	  {instruments.btn set_localized {sprintf {localize speed_msg} {int {+ 0.5 {* $mspd 100}}}}})
    (display_fps_msg
       ($fps)
-	  {background_music.btn set_localized {sprintf {localize fps_msg} {int {+ $fps 1}}}})
+	  {background_music.btn set_localized {sprintf {localize fps_msg} {int $fps}}}) ;don't add 1 here because this is being fed the actual fps
    (exit)
    (TRANSITION_COMPLETE_MSG
       {$this
@@ -323,7 +325,7 @@
 			   {set $leaderspeed
                {+ 1 {* {instruments.sld current} 0.05}}}
             {set $fpsmod
-               {+ 1 {+ {background.sld current}}}}}
+               {+ 1 {background.sld current}}}}
             {$this display_speed_msg $speedmod}
 			{$this display_fps_msg $fpsmod})
    (on_slider_change
@@ -332,11 +334,11 @@
          $component
          (instruments.sld
                {do {set $component current}}
-			   {$this display_speed_msg $speedmod}
+;			   {$this display_speed_msg $speedmod} ;called within set_speeds so no need to do it here too
 			   {$this set_speeds})
          (background.sld
                {do {set $component current}}
-			   {$this display_fps_msg $fpsmod}
+;			   {$this display_fps_msg $fpsmod} ;same
 			   {$this set_speeds})
          (crowd.sld
                {set $component current})
@@ -375,7 +377,7 @@
          (background.sld
             {$component
                set_current
-               {int {+ 1 $fpsmod}}})
+               {int {- $fpsmod 1}}})
          (crowd.sld
             {$component
                set_current
