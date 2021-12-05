@@ -228,10 +228,10 @@
 	  )
    (display_speed_msg
       ($mspd)
-	  {instruments.btn set_localized {sprintf {localize speed_msg} {int {+ 0.5 {* $speedmod 100}}}}})
+	  {instruments.btn set_localized {sprintf {localize speed_msg} {int {+ 0.5 {* $mspd 100}}}}})
    (display_fps_msg
       ($fps)
-	  {background_music.btn set_localized {sprintf {localize fps_msg} {int {+ $fpsmod 1}}}})
+	  {background_music.btn set_localized {sprintf {localize fps_msg} {int {+ $fps 1}}}})
    (exit)
    (TRANSITION_COMPLETE_MSG
       {$this
