@@ -476,8 +476,6 @@
                   {do
                      ($pcfg
                         {game get_player_config $player})
-                     ($is_audition_autoplayer
-                           {if {modifier_mgr is_modifier_active mod_auto_play} {$pcfg get autoplay}})
                      {if
                         {$pxy exists no_player.grp}
                         {{$pxy find no_player.grp}
@@ -517,7 +515,7 @@
                         {{$pxy find noteshit.lbl}
                            set_localized
                            {if_else
-                              $is_audition_autoplayer
+                              {modifier_mgr is_modifier_active mod_auto_play}
                               "autoplay"
                               {sprintf
                                  {localize endgame_player_noteshit_fmt}
@@ -531,7 +529,7 @@
                         {{$pxy find streak.lbl}
                            set_localized
                            {cond
-                              ($is_audition_autoplayer
+                              ({modifier_mgr is_modifier_active mod_auto_play}
                                  {localize endgame_player_audition_autoplayer})
                               ({==
                                     {{$pcfg player}
@@ -570,7 +568,7 @@
                                {do
                                  ($some_award {choose_award $player SELECTED_AWARDS})
                                     {push_back SELECTED_AWARDS $some_award}
-                                    ;{$pcfg set previous_award $some_award}
+                                    {$pcfg set previous_award $some_award}
                                 {{$pxy find award.lbl} set_localized {localize $some_award}}
                                 {{$pxy find award.lbl} set_showing TRUE}}}}}}}}}))
 #include complete.dta
