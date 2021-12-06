@@ -666,6 +666,12 @@
 (options_audio
    "audio settings")
 ;; Modifiers
+(mod_noflames
+   "No Flames")
+(mod_noflames_desc 
+   "Remove flames. Even though they aren't flames")
+(mod_noflames_obtain 
+   "(bug, should be available by default)")
 (mod_legacybass
    "Legacy Bass Streak")
 (mod_legacybass_desc 

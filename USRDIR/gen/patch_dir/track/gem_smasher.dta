@@ -236,7 +236,7 @@
          (set_label
             ($in_val))
          (hit
-            {hit.trig trigger}
+            {unless {modifier_mgr is_modifier_active mod_noflames} {hit.trig trigger}}
             {if {modifier_mgr is_modifier_active mod_flashbang} 
 			{super_streak_start.trig trigger}
 			{hit.trig trigger}
@@ -268,7 +268,7 @@
 			{new_multiplier.trig trigger}
 			{hit_fill.trig trigger}})
          (hit_cymbal
-		    {hit_cymbals.trig trigger}
+		    {unless {modifier_mgr is_modifier_active mod_noflames} {hit_cymbals.trig trigger}}
             {if {modifier_mgr is_modifier_active mod_flashbang} 
 			{super_streak_start.trig trigger}
 			{hit.trig trigger}
@@ -300,7 +300,7 @@
 			{new_multiplier.trig trigger}
 			{hit_fill.trig trigger}})
          (hit_drum
-		    {hit_drums.trig trigger}
+		    {unless {modifier_mgr is_modifier_active mod_noflames} {hit_drums.trig trigger}}
             {if {modifier_mgr is_modifier_active mod_flashbang} 
 			{super_streak_start.trig trigger}
 			{hit.trig trigger}
@@ -335,7 +335,7 @@
             {$this hit}
             {big_rock_hit.trig trigger})
          (hit_bonus
-            {hit_bonus.trig trigger}
+            {unless {modifier_mgr is_modifier_active mod_noflames} {hit_bonus.trig trigger}}
             {if {modifier_mgr is_modifier_active mod_flashbang} 
 			{super_streak_start.trig trigger}
 			{hit.trig trigger}
@@ -365,7 +365,7 @@
 			{new_multiplier.trig trigger}
 			{hit_fill.trig trigger}})
          (hit_fill
-            {hit_fill.trig trigger}
+            {unless {modifier_mgr is_modifier_active mod_noflames} {hit_fill.trig trigger}}
             {if {modifier_mgr is_modifier_active mod_flashbang} 
 			{super_streak_start.trig trigger}
 			{hit.trig trigger}
@@ -415,7 +415,7 @@
                      {hit_fill.trig trigger}}}
                {hit_fill.trig trigger}})
          (finger_tap
-            {finger_tap.trig trigger}
+            {unless {modifier_mgr is_modifier_active mod_noflames} {finger_tap.trig trigger}}
             {if {modifier_mgr is_modifier_active mod_flashbang} 
 			{super_streak_start.trig trigger}
 			{hit.trig trigger}
@@ -445,7 +445,7 @@
 			{new_multiplier.trig trigger}
 			{hit_fill.trig trigger}})
          (finger_tap_bonus
-            {finger_tap_bonus.trig trigger}
+            {unless {modifier_mgr is_modifier_active mod_noflames} {finger_tap_bonus.trig trigger}}
             {if {modifier_mgr is_modifier_active mod_flashbang} 
 			{super_streak_start.trig trigger}
 			{hit.trig trigger}
