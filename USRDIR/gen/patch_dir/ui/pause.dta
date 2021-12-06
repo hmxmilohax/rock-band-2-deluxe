@@ -598,6 +598,7 @@
                         {!
                            {gamemode is_jukebox}}}
                      {set $added TRUE}})
+               (free_camera {if {modifier_mgr is_modifier_active mod_auto_play} {set $added TRUE}})
                (forfeit
                   {if
                      {gamemode get ranked}
