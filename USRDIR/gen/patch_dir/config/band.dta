@@ -86,7 +86,6 @@
                "UP0006-BLUS30147_00")
             (test
                "UP0006-NPXX00360_00")))
-	 
 	 (rb3
          (title_id
             (live
@@ -97,7 +96,7 @@
             (live
                "UP8802-BLUS30463_00")
             (test
-               "UP0006-NPXX00500_00")))	 			   
+               "UP0006-NPXX00500_00")))	 
       (rb1
          (title_id
             (live
@@ -333,12 +332,7 @@
          (dummy '')))
    (updated_song_select_resource_node
       (other_resource_file
-      {if_else
-			{&&
-			{== {song_mgr is_ugc} $song}
-			{== {song_mgr is_master} $song}}
-        ../ui/resource/list_song_select_ugc.milo
-		../ui/resource/list_song_select_rb3.milo}))
+         "../ui/resource/list_song_select_ugc.milo"))
    (updated_song_shortcut_slot
       (shortcut_smaller
          (object

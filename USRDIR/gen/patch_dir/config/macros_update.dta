@@ -33,3 +33,7 @@
 #define kCreatorsClubProfileSignedOut
 (3)
 #endif
+#ifdef HX_XBOX
+#define kStoreErrorUGCBillingRegion
+(7)
+#endif

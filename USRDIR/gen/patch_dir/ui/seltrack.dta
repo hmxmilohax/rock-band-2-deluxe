@@ -1,0 +1,100 @@
+{func
+   h2h_set_track_types
+   {gamecfg
+      foreach_user
+      $pcfg
+      {if
+         {$pcfg is_local_player}
+         {if_else
+            {'||'
+               {!
+                  {gamemode get allow_bass}}
+               {!=
+                  {$pcfg get_controller_type}
+                  kControllerGuitar}}
+            {$pcfg
+               set_track_type
+               {$pcfg get_controller_sym}}
+            {$pcfg set_track_type kTrackNone}}}}}
+{func
+   h2h_goto_tracksel_screen
+   {h2h_set_track_types}
+   {gamecfg send_h2h_set_tracks_msg}
+   {ui
+      goto_screen
+      {if_else
+         {&&
+            {gamemode get allow_bass}
+            {gamecfg has_participating_guitar_controller}
+            {gamemode get separate_parts}}
+         h2h_seltrack_screen
+         {gamemode get ready_screen}}}}
+{new
+   UIPanel
+   h2h_seltrack_panel
+   (file
+      "qp_h2h_seltrack.milo")
+   (focus guitar.btn)
+   (enter
+      {input_mgr set_limit kLimitSessionLeader}
+      {if
+         {==
+            {{session_mgr get_leader_user}
+               get_track_type}
+            kTrackNone}
+         {$this set_focus guitar.btn}}
+      {foreach
+         $part
+         (guitar bass)
+         {do
+            ($button
+               {sprint
+                  $part
+                  ".btn"})
+            ($label
+               {sprint
+                  $part
+                  ".lbl"})
+            {if_else
+               {song_mgr
+                  song_part_rank
+                  {meta_performer song}
+                  $part}
+               {do
+                  {$this enable $button}
+                  {$this enable $label}}
+               {do
+                  {$this disable $button}
+                  {$this disable $label}}}}})
+   (SELECT_MSG
+      {do
+         ($track
+            {basename
+               {$component name}})
+         {game
+            foreach_user
+            $pcfg
+            {if
+               {$pcfg is_participating}
+               {if_else
+                  {$pcfg is_local_player}
+                  {$pcfg set_track_type $track}
+                  {gamecfg
+                     set_remote_player_track_type
+                     {$pcfg get player_num}
+                     $track}}}}}
+      {ui
+         goto_screen
+         {gamemode get ready_screen}})}
+{new
+   BandScreen
+   h2h_seltrack_screen
+   (panels meta postsong_sfx_panel movie_panel h2h_seltrack_panel seldiff_border_panel)
+   (focus h2h_seltrack_panel)
+   (helpbar
+      {if_else
+         {is_leader_local}
+         ((cancel helpbar_back)
+            (confirm helpbar_select))
+         ()})
+   (back song_select_screen)}

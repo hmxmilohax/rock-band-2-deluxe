@@ -75,7 +75,7 @@
                (script
                   {$this end_super_streak})})
          (end_super_streak
-		 {super_streak_end.trig trigger})
+            {super_streak_end.trig trigger})
          (reset
             {reset.trig trigger}
             {set

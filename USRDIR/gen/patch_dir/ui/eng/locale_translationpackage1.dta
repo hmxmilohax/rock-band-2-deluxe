@@ -224,7 +224,7 @@
 (shell_trueskill_ranking
    "TrueSkill<sup>TM</sup> Rank")
 (attract_press_start
-   "PRESS START")
+   " ")
 (matchmaking_pressstart
    "Press Start to Continue")
 #endif
@@ -709,13 +709,13 @@
 #endif
 #ifdef HX_XBOX
 (shell_press_start_to_rock
-   "PRESS START")
+   " ")
 (game_online_tour
    "Xbox LIVE Tour")
 #endif
 #ifdef HX_PC
 (shell_press_start_to_rock
-   "PRESS START")
+   " ")
 (game_online_tour
    "Online Tour")
 #endif
@@ -1633,6 +1633,18 @@
    "Audio Offset: %.0f MS")
 (cal_video_offset
    "Video Offset: %.0f MS")
+(cal_video_desc
+   #ifdef HX_PS3
+   "This test determines the amount of Video Latency in your system. When you see the needle hit either side of the meter, either strum or press the X button."
+   #else
+   "This test determines the amount of Video Latency in your system. When you see the needle hit either side of the meter, either strum or press the A button."
+   #endif)
+(cal_audio_desc
+   #ifdef HX_PS3
+   "This test determines the amount of Audio Latency in your system. Every time you hear a drum hit, either strum or press the X button."
+   #else
+   "This test determines the amount of Audio Latency in your system. Every time you hear a drum hit, either strum or press the A button."
+   #endif)
 (cal_video_manual_instructions
    #ifdef HX_PS3
    "Manually set the amount of video latency to compensate by pressing the left button or the right button."

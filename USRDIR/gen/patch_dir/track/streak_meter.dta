@@ -30,15 +30,13 @@
                (help
                   "Deploy overdrive")
                (script
-                  ;{$this star_deploy}
-				  ))
+                  {$this star_deploy}))
             (star_deploy_stop
                script
                (help
                   "Stop deploying overdrive")
                (script
-                  ;{$this star_deploy_stop}
-				  ))
+                  {$this star_deploy_stop}))
             (reset
                script
                (help
@@ -110,8 +108,7 @@
          (test_reset
             {$this stop_test}
             {$this reset}
-            {star_deploy_stop.trig trigger}
-			)
+            {star_deploy_stop.trig trigger})
          (break
             {$this set_multiplier 1}
             {$this break_streak}
@@ -146,13 +143,11 @@
             (star_deploy
                script
                (script
-                  ;{$this star_deploy}
-				  ))
+                  {$this star_deploy}))
             (star_deploy_stop
                script
                (script
-                  ;{$this star_deploy_stop}
-				  )))
+                  {$this star_deploy_stop})))
          (streak_sfx
             {&&
                {exists gamemode}
@@ -296,8 +291,6 @@
             {$this set_multiplier 1}
             {$this set_pct 0})
          (star_deploy
-            ;{star_deploy.trig trigger}
-			)
+            {star_deploy.trig trigger})
          (star_deploy_stop
-            ;{star_deploy_stop.trig trigger}
-			))))
+            {star_deploy_stop.trig trigger}))))
