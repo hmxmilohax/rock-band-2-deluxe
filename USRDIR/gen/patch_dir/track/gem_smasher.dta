@@ -236,164 +236,58 @@
          (set_label
             ($in_val))
          (hit
-            {unless {modifier_mgr is_modifier_active mod_noflames} {hit.trig trigger}}
+            {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {hit.trig trigger}}
             {if {modifier_mgr is_modifier_active mod_flashbang} 
-			{super_streak_start.trig trigger}
-			{hit.trig trigger}
-			{deploy.trig trigger}
-			{band_energy_deploy.trig trigger}
-			{hit_drums.trig trigger}
-			{hit_cymbals.trig trigger}
-			{hit_fill.trig trigger}
-			{hit_bonus.trig trigger}
-			{burn.trig trigger}
-			{finger_tap_bonus.trig trigger}
-			{glow.trig trigger}
-			{finger_tap.trig trigger}
-			{flare.trig trigger}
-			{spotlight_phrase_success.trig trigger}
-			{solo_start.trig trigger}
-			{$this burn_bonus}
-			{$this burn}
 			{big_rock_hit.trig trigger}
 			{big_rock_burn.trig trigger}
+			{burn.trig trigger}
+			{$this burn_bonus}
+			{$this burn}
 			{set [burning] TRUE}
-			{star_deploy.trig trigger}
-			{be_deploying.trig trigger}
-			{multi-meter_anim.tnm set_frame 9}
-			{show_blue.trig trigger}
-			{new_streak.trig trigger}
-			{hit_bonus.trig trigger}
-			{be_ready.trig trigger}
-			{new_multiplier.trig trigger}
-			{hit_fill.trig trigger}})
+			})
          (hit_cymbal
-		    {unless {modifier_mgr is_modifier_active mod_noflames} {hit_cymbals.trig trigger}}
+		    {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {hit.trig trigger}}
             {if {modifier_mgr is_modifier_active mod_flashbang} 
-			{super_streak_start.trig trigger}
-			{hit.trig trigger}
-			{deploy.trig trigger}
-			{band_energy_deploy.trig trigger}
-			{hit_drums.trig trigger}
-			{hit_cymbals.trig trigger}
-			{hit_fill.trig trigger}
-			{hit_bonus.trig trigger}
-			{burn.trig trigger}
-			{finger_tap_bonus.trig trigger}
-			{glow.trig trigger}
-			{finger_tap.trig trigger}
-			{flare.trig trigger}
-			{spotlight_phrase_success.trig trigger}
-			{solo_start.trig trigger}
-			{$this burn_bonus}
-			{$this burn}
 			{big_rock_hit.trig trigger}
 			{big_rock_burn.trig trigger}
+			{burn.trig trigger}
+			{$this burn_bonus}
+			{$this burn}
 			{set [burning] TRUE}
-			{star_deploy.trig trigger}
-			{be_deploying.trig trigger}
-			{multi-meter_anim.tnm set_frame 9}
-			{show_blue.trig trigger}
-			{new_streak.trig trigger}
-			{hit_bonus.trig trigger}
-			{be_ready.trig trigger}
-			{new_multiplier.trig trigger}
-			{hit_fill.trig trigger}})
+			})
          (hit_drum
-		    {unless {modifier_mgr is_modifier_active mod_noflames} {hit_drums.trig trigger}}
+		    {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {hit_drums.trig trigger}}
             {if {modifier_mgr is_modifier_active mod_flashbang} 
-			{super_streak_start.trig trigger}
-			{hit.trig trigger}
-			{deploy.trig trigger}
-			{band_energy_deploy.trig trigger}
-			{hit_drums.trig trigger}
-			{hit_cymbals.trig trigger}
-			{hit_fill.trig trigger}
-			{hit_bonus.trig trigger}
-			{burn.trig trigger}
-			{finger_tap_bonus.trig trigger}
-			{glow.trig trigger}
-			{finger_tap.trig trigger}
-			{flare.trig trigger}
-			{spotlight_phrase_success.trig trigger}
-			{solo_start.trig trigger}
-			{$this burn_bonus}
-			{$this burn}
 			{big_rock_hit.trig trigger}
 			{big_rock_burn.trig trigger}
+			{burn.trig trigger}
+			{$this burn_bonus}
+			{$this burn}
 			{set [burning] TRUE}
-			{star_deploy.trig trigger}
-			{be_deploying.trig trigger}
-			{multi-meter_anim.tnm set_frame 9}
-			{show_blue.trig trigger}
-			{new_streak.trig trigger}
-			{hit_bonus.trig trigger}
-			{be_ready.trig trigger}
-			{new_multiplier.trig trigger}
-			{hit_fill.trig trigger}})
+			})
          (coda_hit
             {$this hit}
-            {big_rock_hit.trig trigger})
+            {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {big_rock_hit.trig trigger}})
          (hit_bonus
-            {unless {modifier_mgr is_modifier_active mod_noflames} {hit_bonus.trig trigger}}
+            {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {hit_bonus.trig trigger}}
             {if {modifier_mgr is_modifier_active mod_flashbang} 
-			{super_streak_start.trig trigger}
-			{hit.trig trigger}
-			{hit_drums.trig trigger}
-			{hit_cymbals.trig trigger}
-			{hit_fill.trig trigger}
-			{hit_bonus.trig trigger}
-			{burn.trig trigger}
-			{finger_tap_bonus.trig trigger}
-			{glow.trig trigger}
-			{finger_tap.trig trigger}
-			{flare.trig trigger}
-			{spotlight_phrase_success.trig trigger}
-			{solo_start.trig trigger}
-			{$this burn_bonus}
-			{$this burn}
 			{big_rock_hit.trig trigger}
 			{big_rock_burn.trig trigger}
+			{burn.trig trigger}
+			{$this burn_bonus}
+			{$this burn}
 			{set [burning] TRUE}
-			{star_deploy.trig trigger}
-			{be_deploying.trig trigger}
-			{multi-meter_anim.tnm set_frame 9}
-			{show_blue.trig trigger}
-			{new_streak.trig trigger}
-			{hit_bonus.trig trigger}
-			{be_ready.trig trigger}
-			{new_multiplier.trig trigger}
-			{hit_fill.trig trigger}})
+			})
          (hit_fill
-            {unless {modifier_mgr is_modifier_active mod_noflames} {hit_fill.trig trigger}}
+            {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {hit_fill.trig trigger}}
             {if {modifier_mgr is_modifier_active mod_flashbang} 
-			{super_streak_start.trig trigger}
-			{hit.trig trigger}
-			{hit_drums.trig trigger}
-			{hit_cymbals.trig trigger}
-			{hit_fill.trig trigger}
-			{hit_bonus.trig trigger}
-			{burn.trig trigger}
-			{finger_tap_bonus.trig trigger}
-			{glow.trig trigger}
-			{finger_tap.trig trigger}
-			{flare.trig trigger}
-			{spotlight_phrase_success.trig trigger}
-			{solo_start.trig trigger}
-			{$this burn_bonus}
-			{$this burn}
 			{big_rock_hit.trig trigger}
 			{big_rock_burn.trig trigger}
+			{burn.trig trigger}
+			{$this burn_bonus}
+			{$this burn}
 			{set [burning] TRUE}
-			{star_deploy.trig trigger}
-			{be_deploying.trig trigger}
-			{multi-meter_anim.tnm set_frame 9}
-			{show_blue.trig trigger}
-			{new_streak.trig trigger}
-			{hit_bonus.trig trigger}
-			{be_ready.trig trigger}
-			{new_multiplier.trig trigger}
-			{hit_fill.trig trigger}})
+			})
          (hit_fill_vel
             ($velocity)
             {if
@@ -412,105 +306,66 @@
                   {if_else
                      {!= $trig ''}
                      {$trig trigger}
-                     {hit_fill.trig trigger}}}
-               {hit_fill.trig trigger}})
+                     {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {hit_fill.trig trigger}}}}
+               {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {hit_fill.trig trigger}}})
          (finger_tap
-            {unless {modifier_mgr is_modifier_active mod_noflames} {finger_tap.trig trigger}}
+            {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {finger_tap.trig trigger}}
             {if {modifier_mgr is_modifier_active mod_flashbang} 
-			{super_streak_start.trig trigger}
-			{hit.trig trigger}
-			{hit_drums.trig trigger}
-			{hit_cymbals.trig trigger}
-			{hit_fill.trig trigger}
-			{hit_bonus.trig trigger}
-			{burn.trig trigger}
-			{finger_tap_bonus.trig trigger}
-			{glow.trig trigger}
-			{finger_tap.trig trigger}
-			{flare.trig trigger}
-			{spotlight_phrase_success.trig trigger}
-			{solo_start.trig trigger}
-			{$this burn_bonus}
-			{$this burn}
 			{big_rock_hit.trig trigger}
 			{big_rock_burn.trig trigger}
+			{burn.trig trigger}
+			{$this burn_bonus}
+			{$this burn}
 			{set [burning] TRUE}
-			{star_deploy.trig trigger}
-			{be_deploying.trig trigger}
-			{multi-meter_anim.tnm set_frame 9}
-			{show_blue.trig trigger}
-			{new_streak.trig trigger}
-			{hit_bonus.trig trigger}
-			{be_ready.trig trigger}
-			{new_multiplier.trig trigger}
-			{hit_fill.trig trigger}})
+			})
          (finger_tap_bonus
-            {unless {modifier_mgr is_modifier_active mod_noflames} {finger_tap_bonus.trig trigger}}
+            {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {finger_tap_bonus.trig trigger}}
             {if {modifier_mgr is_modifier_active mod_flashbang} 
-			{super_streak_start.trig trigger}
-			{hit.trig trigger}
-			{hit_drums.trig trigger}
-			{hit_cymbals.trig trigger}
-			{hit_fill.trig trigger}
-			{hit_bonus.trig trigger}
-			{burn.trig trigger}
-			{finger_tap_bonus.trig trigger}
-			{glow.trig trigger}
-			{finger_tap.trig trigger}
-			{flare.trig trigger}
-			{spotlight_phrase_success.trig trigger}
-			{solo_start.trig trigger}
-			{$this burn_bonus}
-			{$this burn}
 			{big_rock_hit.trig trigger}
 			{big_rock_burn.trig trigger}
+			{burn.trig trigger}
+			{$this burn_bonus}
+			{$this burn}
 			{set [burning] TRUE}
-			{star_deploy.trig trigger}
-			{be_deploying.trig trigger}
-			{multi-meter_anim.tnm set_frame 9}
-			{show_blue.trig trigger}
-			{new_streak.trig trigger}
-			{hit_bonus.trig trigger}
-			{be_ready.trig trigger}
-			{new_multiplier.trig trigger}
-			{hit_fill.trig trigger}})
+			})
          (miss
             {miss.trig trigger}
             {$this stop_burn})
          (burn
-            {burn.trig trigger}
-            {set
+            {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {burn.trig trigger}}
+            {unless {modifier_mgr is_modifier_active mod_noflames} {set
                [burning]
-               TRUE})
+               TRUE}})
          (coda_burn
             {$this burn}
-            {big_rock_burn.trig trigger}
-            {set
+            {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {big_rock_burn.trig trigger}}
+            {unless {modifier_mgr is_modifier_active mod_noflames} {set
                [burning]
-               TRUE})
+               TRUE}})
          (burn_bonus
-            {burn_bonus.trig trigger}
-            {set
+            {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {burn_bonus.trig trigger}}
+            {unless {modifier_mgr is_modifier_active mod_noflames} {set
                [burning]
-               TRUE})
+               TRUE}})
          (stop_burn
+		 {unless {modifier_mgr is_modifier_active mod_flashbang} 
             {if
                [burning]
                {stop_burn.trig trigger}
                {set
                   [burning]
-                  FALSE}})
+                  FALSE}}})
          (combo
             {if
                {exists spotlight_phrase_success.trig}
-               {spotlight_phrase_success.trig trigger}})
+               {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {spotlight_phrase_success.trig trigger}}})
          (last_note
             {if
                {exists BRE_final_gem_hit.trig}
-               {BRE_final_gem_hit.trig trigger}})
+               {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {BRE_final_gem_hit.trig trigger}}})
          (drum_fill_complete
             {if
                {exists drumfill_complete_hit.trig}
-               {drumfill_complete_hit.trig trigger}})
+               {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {drumfill_complete_hit.trig trigger}}})
          (set_danger
             ($in_state)))))
