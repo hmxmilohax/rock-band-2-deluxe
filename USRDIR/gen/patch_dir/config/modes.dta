@@ -143,12 +143,13 @@
       {if_else
          {modifier_mgr is_modifier_active mod_newvenuesonly}
          (NEW_VENUES)
+		 {if_else
+		   {&& {<= {$speedmod 1.01} {modifier_mgr is_modifier_active mod_blackvenue}}}
+            (VENUES)
          {if_else
-		 {&&
-		   {== {$speedmod 1.0}
-			{modifier_mgr is_modifier_active mod_blackvenue}}}
+		    {modifier_mgr is_modifier_active mod_blackvenue}
             (BLACK_VENUE)
-            (VENUES)}})
+			(VENUES)}}})
    (use_video_venues_from_songs TRUE)
    (always_allow_player FALSE)
    (unlock_song_initial_num 20)
@@ -186,12 +187,13 @@
       {if_else
          {modifier_mgr is_modifier_active mod_newvenuesonly}
          (NEW_H2H_VENUES)
+		 {if_else
+		   {&& {<= {$speedmod 1.01} {modifier_mgr is_modifier_active mod_blackvenue}}}
+            (H2H_VENUES)
          {if_else
-		 {&&
-		   {== {$speedmod 1.0}
-			{modifier_mgr is_modifier_active mod_blackvenue}}}
+		    {modifier_mgr is_modifier_active mod_blackvenue}
             (BLACK_VENUE_H2H)
-            (H2H_VENUES)}})
+			(H2H_VENUES)}}})
    (use_video_venues_from_songs FALSE)
    (crowd_reacts FALSE)
    (show_stars FALSE)
