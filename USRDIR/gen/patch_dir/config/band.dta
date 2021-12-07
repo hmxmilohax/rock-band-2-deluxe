@@ -156,11 +156,23 @@
       (hx_drums_ps3_rb2 kControllerDrum)
       (hx_drums_ps3_ghwt kControllerDrum)
       (hx_drums_ps3_konami kControllerDrum)
-      (hx_xbox kControllerVocals)
-      (digital kControllerVocals)
-      (analog kControllerVocals)
+      (hx_xbox
+	  {if_else
+        $padguitar
+            kControllerGuitar
+            kControllerVocals})
+      (digital
+	  {if_else
+        $padguitar
+            kControllerGuitar
+            kControllerVocals})
+      (analog
+	  {if_else
+        $padguitar
+            kControllerGuitar
+            kControllerVocals})
       (dualshock 
-	    {if_else
+	  {if_else
         $padguitar
             kControllerGuitar
             kControllerVocals})
