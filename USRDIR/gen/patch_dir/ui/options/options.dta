@@ -555,6 +555,49 @@
                   [char_name]
                   $this
                   $tour_char}}}})
+#ifdef HX_WII
+   (ROCK_CENTRAL_OP_COMPLETE_MSG
+      #ifndef HX_EE
+      {network_busy_panel set_busy FALSE}
+      #endif
+      {if
+         {==
+            {ui current_screen}
+            options_characterdata_screen}
+         {switch
+            $arg1
+            (RB_RETCODE_CHAR_NAME_PROFANE
+               {ui push_screen option_chardata_char_name_profane})
+            (RB_RETCODE_CHAR_NAME_IP
+               {ui push_screen option_chardata_char_name_ip})}})
+   #ifdef HX_OG
+   (accept_name
+      ($newname)
+      {set
+         [char_name]
+         $newname}
+      {set
+         $tour_char
+         {char_data_provider
+            get_tour_char
+            {charlist.lst selected_pos}}}
+      {char_data_provider
+         set_char_name
+         {charlist.lst selected_pos}
+         [char_name]}
+      {charlist.lst set_dirty}
+      {entity_uploader
+         verify_char_name
+         [char_name]
+         $this
+         $tour_char})
+   (get_charname
+      {char_data_provider
+         get_char_name
+         {charlist.lst selected_pos}})
+   #endif
+   #endif
+#ifndef HX_WII
    (ROCK_CENTRAL_OP_COMPLETE_MSG
       {network_busy_panel set_busy FALSE}
       {char_data_provider
@@ -568,6 +611,7 @@
             {ui push_screen option_chardata_char_name_profane})
          (RB_RETCODE_CHAR_NAME_IP
             {ui push_screen option_chardata_char_name_ip})})
+#endif
    (char_name
       "")}
 {new
@@ -970,6 +1014,49 @@
                   [band_name]
                   $this
                   $band_data}}}})
+#ifdef HX_WII
+   (ROCK_CENTRAL_OP_COMPLETE_MSG
+      #ifndef HX_EE
+      {network_busy_panel set_busy FALSE}
+      #endif
+      {if
+         {==
+            {ui current_screen}
+            options_banddata_screen}
+         {switch
+            $arg1
+            (RB_RETCODE_BAND_NAME_PROFANE
+               {ui push_screen option_banddata_band_name_profane})
+            (RB_RETCODE_BAND_NAME_IP
+               {ui push_screen option_banddata_band_name_ip})}})
+   #ifdef HX_OG
+   (accept_name
+      ($newname)
+      {set
+         [band_name]
+         $newname}
+      {set
+         $band_data
+         {band_data_provider
+            get_band_data
+            {bandlist.lst selected_pos}}}
+      {band_data_provider
+         set_band_name
+         {bandlist.lst selected_pos}
+         [band_name]}
+      {bandlist.lst set_dirty}
+      {entity_uploader
+         verify_band_name
+         [band_name]
+         $this
+         $band_data})
+   (get_bandname
+      {band_data_provider
+         get_band_name
+         {bandlist.lst selected_pos}})
+   #endif                  
+   #endif       
+#ifndef HX_WII
    (ROCK_CENTRAL_OP_COMPLETE_MSG
       {network_busy_panel set_busy FALSE}
       {band_data_provider
@@ -983,6 +1070,7 @@
             {ui push_screen option_banddata_band_name_profane})
          (RB_RETCODE_BAND_NAME_IP
             {ui push_screen option_banddata_band_name_ip})})
+#endif
    (band_name
       "")}
 {new
