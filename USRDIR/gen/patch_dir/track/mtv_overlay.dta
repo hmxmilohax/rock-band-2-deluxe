@@ -39,11 +39,13 @@
                {$this setup_text}
                {if
                   {exists fade.anim}
+               {if_else {&& {modifier_mgr is_modifier_active mod_auto_play} {modifier_mgr is_modifier_active mod_nohud}}
+			   {fade.anim animate}
                {if_else {modifier_mgr is_modifier_active mod_auto_play}
 				  {fade.anim set_frame 50}
 			   {if_else {modifier_mgr is_modifier_active mod_songtitle}
 				  {fade.anim set_frame 50}
-                  {fade.anim animate}}}}})
+                  {fade.anim animate}}}}}})
          (setup_text
             {do
                ($song
