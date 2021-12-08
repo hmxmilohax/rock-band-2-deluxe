@@ -23,12 +23,16 @@
                get_section_at_ms
                {$mp progress_ms}}}}
       {if_else
+#ifdef HX_WII
+         {gamemode get show_practice_on_lose}
+#else
          {&&
             {gamemode get show_practice_on_lose}
             {!
                {song_mgr
                   is_demo
-                  {meta_performer song}}}}
+                  {meta_performer song}}}
+#endif}
          {do
             {set
                [quit_button]
@@ -44,6 +48,7 @@
                text_token
                QUIT}
             {menu_item_3.btn set text_token practice}}
+#ifndef HX_WII
          {if_else
             {song_mgr
                is_demo
@@ -63,6 +68,7 @@
                   text_token
                   QUIT}
                {menu_item_3.btn set text_token ugc_delete_demo}}
+#endif
             {do
                {lose_quit.btn set_showing FALSE}
                {$this disable lose_quit.btn}
@@ -106,40 +112,49 @@
       {switch
          $component
          (lose_restart.btn
+#ifndef HX_WII
             {meta_performer
                submit_data_point
                lose_retry
                {{beatmatch main_performer}
                   percent_complete}}
+#endif
             {game send_restart_game_net_msg}
             {game_restart})
          (lose_diff.btn
+#ifndef HX_WII
             {meta_performer
+
                submit_data_point
                lose_quit
                {{beatmatch main_performer}
                   percent_complete}}
+#endif
             {[quit_confirm_screen]
                set
                quitting
                FALSE}
             {$this confirm_goto meta_loading_ready_screen})
          (lose_selsong.btn
+#ifndef HX_WII
             {meta_performer
                submit_data_point
                lose_quit
                {{beatmatch main_performer}
                   percent_complete}}
+#endif
             {[quit_confirm_screen]
                set
                quitting
                FALSE}
             {$this confirm_goto meta_loading_continue_screen})
+#ifndef HX_WII
          {meta_performer
             submit_data_point
             lose_quit
             {{beatmatch main_performer}
                percent_complete}}
+#endif
          {if_else
             {==
                $component
@@ -154,6 +169,13 @@
                {&&
                   {exists menu_item_3.btn}
                   {== $component menu_item_3.btn}}
+#ifdef HX_WII
+               {[quit_confirm_screen]
+                  set
+                  quitting
+                  TRUE}
+               {$this confirm_goto meta_loading_practice_screen}}
+#else
                {if_else
                   {==
                      ugc_delete_demo
@@ -164,7 +186,8 @@
                         set
                         quitting
                         TRUE}
-                     {$this confirm_goto meta_loading_practice_screen}}}}}})
+                     {$this confirm_goto meta_loading_practice_screen}}}
+#endif}})
    (confirm_goto
       ($destination)
       {net_sync disable}

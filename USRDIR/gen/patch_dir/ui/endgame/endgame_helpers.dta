@@ -558,7 +558,9 @@
                            {'||'
                               {gamemode is_h2h_arrangement}
                               {gamemode is_solo}
-                              {gamemode is_audition}}
+                              #ifndef HX_WII
+                              {gamemode is_audition}
+                              #endif}
 							  {{do
                                  ($some_award {choose_award $player SELECTED_AWARDS})
                                     {push_back SELECTED_AWARDS $some_award}

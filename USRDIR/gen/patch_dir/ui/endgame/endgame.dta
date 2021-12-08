@@ -70,12 +70,18 @@
    (is_ugc FALSE)
 #endif
    (leave
+#ifdef HX_WII
+      {ui goto_screen coop_endgame_screen}
+   (enter
+      {endgame_background_panel show_overlay})
+   #else
       {ui
          goto_screen
          {if_else
             [is_ugc]
             ugc_coop_endgame_screen
-            coop_endgame_screen}})
+            coop_endgame_screen}}
+   #endif)
    (exit
       {if
          {!
@@ -326,6 +332,10 @@ ENDGAME_PANEL_HANDLERS   (block_event
    (focus more_details_panel)
    (leave
       {ui goto_screen tow_endgame_screen})
+   #ifdef HX_WII
+   (enter
+      {endgame_background_panel show_overlay})
+   #endif
    (exit
       {if
          {!
@@ -337,7 +347,11 @@ ENDGAME_PANEL_HANDLERS   (block_event
 {new
    BandScreen
    tow_endgame_screen
+#ifdef HX_WII
+   (panels endgame_background_panel tow_endgame_panel)
+   #else
    (panels tow_endgame_panel)
+#endif
    (focus tow_endgame_panel)
    ENDGAME_SCREEN_HANDLERS
    (more_details_screen tow_details_endgame_screen)
