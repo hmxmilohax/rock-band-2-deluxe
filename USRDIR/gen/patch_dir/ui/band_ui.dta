@@ -28,6 +28,7 @@
                   (kAbandoned
                      {band_ui get last_disband_error})
                   (kQuickplayMMNoLeader error_no_leader)})
+            #ifndef HX_OG
             {if
                {&&
                   {== $error_reason kLoneHeadToHead}
@@ -44,6 +45,7 @@
                {if
                   {gamemode get ranked}
                   {set $disband_error error_lone_h2h_win}}}
+            #endif
             {$this
                set_ok
                {localize $disband_error}}

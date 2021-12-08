@@ -165,7 +165,11 @@
    (on_not_online
       {$this update_display})
    (on_signed_in
-      {ui pop_screen})}
+#ifdef HX_WII
+      {ui goto_screen main_store_find_cache_screen}
+#else
+      {ui pop_screen}
+#endif)}
 {new
    BandScreen
    main_store_find_cache_screen
@@ -361,4 +365,98 @@
             main_store_screen
             main_screen}
          TRUE})}
+#endif
+#ifdef HX_WII
+{new
+   BandScreen
+   store_enter_network_screen
+   (panels meta)
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {goto_else_after_network_connect store_loading_screen main_screen TRUE})}
+#define STORE_OK
+(0)
+#define STORE_NEEDACCOUNT
+(1)
+#define STORE_NEEDSYNC
+(2)
+#define STORE_NEEDSAVE
+(3)
+#define STORE_NEEDAUTOSAVE
+(4)
+#define STORE_SAVEDISABLED
+(5)
+{new
+   BandScreen
+   store_wii_enter_screen
+   (panels meta dialog_panel)
+   (focus dialog_panel)
+   (state STORE_OK)
+   (enter
+      {autosave}
+      {if_else
+         {content_mgr needs_shop_account}
+         {set
+            [state]
+            STORE_NEEDACCOUNT}
+         {if_else
+            {platform_mgr need_sync}
+            {set
+               [state]
+               STORE_NEEDSYNC}
+            {set
+               [state]
+               STORE_OK}}}
+      {if_else
+         {memcardmgr does_save_exist}
+         {if
+            {!
+               {save_screen autosave_is_enabled}}
+            {if_else
+               {modifier_mgr is_feature_enabled modifier_saving_feature}
+               {set
+                  [state]
+                  STORE_NEEDAUTOSAVE}
+               {set
+                  [state]
+                  STORE_SAVEDISABLED}}}
+         {set
+            [state]
+            STORE_NEEDSAVE}}
+      {switch
+         [state]
+         (STORE_NEEDACCOUNT
+            {dialog_panel
+               set_ok
+               {localize store_noaccount}})
+         (STORE_NEEDSYNC
+            {dialog_panel
+               set_ok
+               {localize store_syncneeded}})
+         (STORE_OK
+            {dialog_panel
+               set_ok
+               {localize store_licensed}})
+         (STORE_NEEDSAVE
+            {dialog_panel
+               set_ok
+               {localize store_needsave}})
+         (STORE_NEEDAUTOSAVE
+            {dialog_panel
+               set_ok
+               {localize store_needautosave}})
+         (STORE_SAVEDISABLED
+            {dialog_panel
+               set_ok
+               {localize store_savedisabled}})})
+   (SELECT_MSG
+      {switch
+         [state]
+         (STORE_OK
+            {helpbar
+               set_config
+               ((min_height 0))}
+            {ui goto_screen store_loading_screen})
+         {ui goto_screen main_screen}})}
 #endif
