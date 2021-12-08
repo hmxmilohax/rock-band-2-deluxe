@@ -67,8 +67,13 @@
    "drum trainer")
 (opt_gameplay
    "gameplay settings")
+#ifdef HX_OG
+(opt_console
+   "audio settings")
+#else
 (opt_console
    "audio/video settings")
+#endif
 (opt_data
    "manage data")
 (opt_calibration
@@ -153,8 +158,13 @@
 (endgame_hb_details
    "More Details")
 #else
+#ifdef HX_WII
+(endgame_hb_details
+   "More Details")
+#else
 (endgame_hb_details
    "View gamer card")
+#endif
 #endif
 (endgame_hb_leave_session
    "Leave Session")
@@ -170,8 +180,13 @@
 (leader_hb_viewgamercard
    "View Details")
 #else
+#ifdef HX_WII
+(leader_hb_viewgamercard
+   "View Details")
+#else
 (leader_hb_viewgamercard
    "View gamer card")
+#endif
 #endif
 (leader_hb_changefilter
    "Change Filter")
@@ -228,6 +243,12 @@
 (matchmaking_pressstart
    "Press Start to Continue")
 #endif
+#ifdef HX_WII
+(attract_press_start
+   " ")
+(matchmaking_pressstart
+   "to Continue")
+#endif
 (tour_finish_gig
    "Finish Set")
 (tour_next_song
@@ -236,8 +257,18 @@
 (mics_changed_desc
    "A microphone has been disconnected from your system! Please test to check that your microphone works before continuing.")
 #else
+#ifdef HX_XBOX
 (mics_changed_desc
    "A microphone has been disconnected from the Xbox 360 console! Please test to check that your microphone works before continuing.")
+#else
+#ifdef HX_WII
+(mics_changed_desc
+   "A Logitech USB microphone has been disconnected! Please reconnect the Logitech USB microphone to the USB connector before continuing.")
+#else
+(mics_changed_desc
+   "A microphone has been disconnected! Please test to check that your microphone works before continuing.")
+#endif
+#endif
 #endif
 (guitar0
    "")
@@ -719,6 +750,16 @@
 (game_online_tour
    "Online Tour")
 #endif
+#ifdef HX_EE
+(shell_press_start_to_rock
+   "Press START button")
+#endif
+#ifdef HX_WII
+(shell_press_start_to_rock
+   " ")
+(game_online_tour
+   "Online Tour")
+#endif
 (locale_separator
    ",")
 (locale_currency
@@ -898,8 +939,18 @@
 (mm_need_a_profile_net_msg
    "Your PS3<sup>TM</sup> system is currently unable to connect to the Playstation<sup>TM</sup> network.")
 #else
+#ifdef HX_XBOX
 (mm_need_a_profile_net_msg
    "In order to play on Xbox LIVE, you need to be signed into an Xbox LIVE enabled gamer profile with Xbox LIVE multiplayer privileges enabled, and connected to Xbox LIVE.")
+#else
+#ifdef HX_WII
+(mm_need_a_profile_net_msg
+   "You are not currently unable to connect to Nintendo WFC.")
+#else
+(mm_need_a_profile_net_msg
+   "(Temp) You are not currently unable to connect to the network.")
+#endif
+#endif
 #endif
 (mm_need_a_profile_band_guest_msg
    "You are currently signed into a Guest gamer profile.  In order to join this session, the gamer profile of whom you are a Guest must join first.")
@@ -925,12 +976,20 @@
 #endif
 (mute_player
    "Mute Player")
+#ifndef HX_WII
 (invite_subject
    "Rock Band 2")
 (invite_body
    "From the Extras menu, choose Check Invites and select Game Data from within the invite to connect to friends online.")
+#else
+(invite_subject
+   "Invite from")
+(invite_body
+   " has invited you to play. Press confirm to join.")
+#endif
 (matchmaker_confirm_no_leader
    "The band owner is not in this session.  If you proceed, you will not be able to play the game.  Are you sure you want to continue?")
+#ifndef HX_WII
 (band_vocalist_needs_mic
    "No microphone has been detected. Please connect a microphone to play as a vocalist.")
 (solo_vocalist_needs_mic
@@ -939,6 +998,16 @@
    "Not enough microphones have been detected. Please connect one microphone per vocalist to play this game mode.")
 (tutorial_vocalist_needs_mic
    "No microphone has been detected. Please connect a microphone to play the vocals tutorial.")
+#else
+(band_vocalist_needs_mic
+   "No Logitech USB microphone has been detected. Please connect a Logitech USB microphone to the USB connector to play as a vocalist.")
+(solo_vocalist_needs_mic
+   "No Logitech USB microphone has been detected. Please connect a Logitech USB microphone to the USB connector to play this game mode as a vocalist.")
+(h2h_vocalist_needs_mic
+   "Not enough Logitech USB microphones have been detected. Please connect one Logitech USB microphone to the USB connector per vocalist to play this game mode.")
+(tutorial_vocalist_needs_mic
+   "No Logitech USB microphone has been detected. Please connect a Logitech USB microphone to the USB connector to play the vocals tutorial.")
+#endif
 (char_provider_create_new
    "(Create New)")
 (char_provider_my_members
@@ -1063,8 +1132,13 @@
    "Select a Device")
 (mc_button_cancel
    "Cancel")
+#ifdef HX_WII
+(mc_button_overwrite
+   "Overwrite Save File")
+#else
 (mc_button_overwrite
    "Overwrite With New File")
+#endif
 (mc_button_continue_no_save
    "Continue Without Saving")
 (mc_button_disable_autosave
@@ -1077,8 +1151,13 @@
    "Gamertag:")
 (shell_eye_color
    "Choose Eye Color")
+#ifdef HX_WII
+(mics_changed_msg
+   "Please reconnect the Logitech USB microphone(s) to the USB connector.")
+#else
 (mics_changed_msg
    "Test your Microphone!")
+#endif
 #ifdef HX_XBOX
 (game_online
    "Player Match")
@@ -1171,8 +1250,10 @@
 #endif
 (leaderboards_not_available_rock_central
    "You will only be able to see local leaderboards while logged out of Rock Central.")
+#ifndef HX_WII
 (connecting_server
    "Connecting to the Rock Central server...")
+#endif
 (solo_no_server_warning
    "Couldn't connect to the Rock Central server.\n\nYou won't be able to send your scores to the leaderboards.  Continue anyway?")
 (tour_no_server_warning
@@ -1597,8 +1678,13 @@
 (how_to_microphone
    "Microphone & wireless controller")
 #else
+#ifdef HX_WII
+(how_to_microphone
+   "Logitech USB Microphone & Wii Remote")
+#else
 (how_to_microphone
    "Microphone & Xbox 360 Controller")
+#endif
 #endif
 #ifdef HX_PS3
 (how_to_chat

@@ -560,6 +560,10 @@
       {set $bass_groove_active FALSE} {set $drum_groove_active FALSE} {set $guitar_groove_active FALSE}
       {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
       {platform_mgr remove_sink $this ui_changed}
+      #ifdef HX_WII
+      {platform_mgr remove_sink $this wii_disc_error}
+      {platform_mgr remove_sink $this wii_controller_overflow}
+      #endif
       {synth stop_playback_all_mics}
       {if
          {'||'
@@ -571,6 +575,201 @@
 	  {$this milo_exit})
    (UI_CHANGED_MSG
       {$this on_guide_change})
+   #ifdef HX_WII
+   (wii_disc_error
+      {do
+         ($pausing_user_num -1)
+         {game
+            foreach_local_player
+            $p
+            {set
+               $user_num
+               {$p player_num}}
+            {if
+               {&&
+                  {gamecfg is_player_participating $user_num}
+                  {beatmatch player $user_num}
+                  {{beatmatch player $user_num}
+                     can_pause}
+                  {== $pausing_user_num -1}}
+               {set $pausing_user_num $user_num}}}
+         {if
+            {&&
+               {!
+                  {ui in_transition}}
+               {!=
+                  pause_screen
+                  {ui current_screen}}
+               {!
+                  {game is_game_over}}
+               {==
+                  {session state}
+                  kNetInGame}
+               {!=
+                  {gamemode get pause_screen}
+                  ''}
+               {!
+                  {{pause_screen focus_panel}
+                     is_up}}
+               {!= $pausing_user_num -1}
+               {!=
+                  {band_ui current_event}
+                  pad_lost}
+               {!=
+                  {band_ui current_event}
+                  mic_lost}}
+            {input_mgr
+               set_user
+               {user_mgr get_band_user $pausing_user_num}}
+            {net_sync set_ui_state kNetUI_Pause}
+            {ui
+               push_screen
+               {gamemode get pause_screen}}
+            {game set_paused TRUE}}})
+   (wii_controller_overflow
+      {do
+         ($pausing_user_num -1)
+         {game
+            foreach_local_player
+            $p
+            {set
+               $user_num
+               {$p player_num}}
+            {if
+               {&&
+                  {gamecfg is_player_participating $user_num}
+                  {beatmatch player $user_num}
+                  {{beatmatch player $user_num}
+                     can_pause}
+                  {== $pausing_user_num -1}}
+               {set $pausing_user_num $user_num}}}
+         {if
+            {&&
+               {!
+                  {ui in_transition}}
+               {!=
+                  pause_screen
+                  {ui current_screen}}
+               {!
+                  {game is_game_over}}
+               {==
+                  {session state}
+                  kNetInGame}
+               {!=
+                  {gamemode get pause_screen}
+                  ''}
+               {!
+                  {{pause_screen focus_panel}
+                     is_up}}
+               {!= $pausing_user_num -1}
+               {!=
+                  {band_ui current_event}
+                  pad_lost}
+               {!=
+                  {band_ui current_event}
+                  mic_lost}}
+            {input_mgr
+               set_user
+               {user_mgr get_band_user $pausing_user_num}}
+            {net_sync set_ui_state kNetUI_Pause}
+            {ui
+               push_screen
+               {gamemode get pause_screen}}
+            {game set_paused TRUE}}})
+   (player_missing_mic
+      {do
+         ($ret FALSE)
+         ($player_num)
+         ($user)
+         ($existing_mic FALSE)
+         ($mic_num 0)
+         {game
+            foreach_local_player
+            $p
+            {set
+               $player_num
+               {$p player_num}}
+            {set
+               $user
+               {user_mgr get_band_user $player_num}}
+            {if
+               {&&
+                  {!= $player_num -1}
+                  {$user is_participating}
+                  {==
+                     {$user get_track_sym}
+                     vocals}
+                  #ifndef _SHIP
+                  {==
+                     {user_mgr
+                        debug_get_controller_type_override
+                        {$user get_pad_num}}
+                     kControllerNone}
+                  #endif
+                  {!
+                     {synth
+                        is_mic_connected
+                        #ifndef HX_EE
+                        {joypad_get_players_padnum $player_num}
+                        #else
+                        {if_else
+                           {! $existing_mic}
+                           {do
+                              {set $existing_mic TRUE}
+                              $mic_num}
+                           {do
+                              {set $mic_num 1}
+                              $mic_num}}
+                        #endif}}}
+               {set $ret TRUE}}}
+         $ret})   (player_missing_mic
+      {do
+         ($ret FALSE)
+         ($player_num)
+         ($user)
+         ($existing_mic FALSE)
+         ($mic_num 0)
+         {game
+            foreach_local_player
+            $p
+            {set
+               $player_num
+               {$p player_num}}
+            {set
+               $user
+               {user_mgr get_band_user $player_num}}
+            {if
+               {&&
+                  {!= $player_num -1}
+                  {$user is_participating}
+                  {==
+                     {$user get_track_sym}
+                     vocals}
+                  #ifndef _SHIP
+                  {==
+                     {user_mgr
+                        debug_get_controller_type_override
+                        {$user get_pad_num}}
+                     kControllerNone}
+                  #endif
+                  {!
+                     {synth
+                        is_mic_connected
+                        #ifndef HX_EE
+                        {joypad_get_players_padnum $player_num}
+                        #else
+                        {if_else
+                           {! $existing_mic}
+                           {do
+                              {set $existing_mic TRUE}
+                              $mic_num}
+                           {do
+                              {set $mic_num 1}
+                              $mic_num}}
+                        #endif}}}
+               {set $ret TRUE}}}
+         $ret})
+#endif
    (TRANSITION_COMPLETE_MSG
       {if
          {'||'

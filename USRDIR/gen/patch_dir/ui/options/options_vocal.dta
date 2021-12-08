@@ -16,6 +16,7 @@
       {$this
          update_helpbar
          {$this focus_name}}
+#ifndef HX_WII
       {if_else
          {gamemode is_audition}
          {do
@@ -27,7 +28,8 @@
             {vocalstyle.btn set_showing TRUE}
             {vocalhudtype.lst set_showing TRUE}
             {$this enable vocalstyle.btn}
-            {$this enable vocalhudtype.lst}}})
+            {$this enable vocalhudtype.lst}}}
+#endif)
    (exit
       {session remove_sink $this signin_changed}
       {memcardmgr remove_sink $this save_load_all_complete_msg}
@@ -270,12 +272,18 @@
    vocal_options_panel
    (file
       "options_vocal.milo")
+   #ifdef HX_WII
+   (allow_home_menu TRUE)
+   #endif
    VOCAL_OPTIONS_PANEL_HANDERS}
 {new
    UIPanel
    pause_vocal_options_panel
    (file
       "pause_options_vocal.milo")
+   #ifdef HX_WII
+   (allow_home_menu TRUE)
+   #endif
    VOCAL_OPTIONS_PANEL_HANDERS}
 {new
    BandScreen

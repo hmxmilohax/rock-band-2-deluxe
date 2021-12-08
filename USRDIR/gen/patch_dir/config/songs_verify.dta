@@ -1,4 +1,6 @@
-
+#ifdef HX_WII
+(exclude_symbols
+#endif
 #include ../songs/songs.dta
 
 #include ../songs_download/songs.dta
@@ -60,3 +62,6 @@
 (inspirational)
 (classical)
 (fusion)
+#ifdef HX_WII
+)
+#endif

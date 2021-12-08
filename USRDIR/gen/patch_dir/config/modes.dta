@@ -109,6 +109,12 @@
          {gamemode get is_band_arrangement}})
    (is_online
       {gamemode get online_play_required})
+#ifdef HX_WII
+   (is_tow
+      {has_substr
+         {gamemode get game_mode}
+         h2h_tug_of_war})
+#endif
    (display_instrument_presence
       {'||'
          {gamemode get is_solo}
@@ -159,14 +165,18 @@
    (missing_part_type kMissingSelectCoop)
    (has_track TRUE)
    (update_leaderboards TRUE)
+#ifndef HX_WII
    (allow_achievements TRUE)
+#endif
    (rock_central TRUE)
    (keep_movie_loaded TRUE)
    (leave_if_connection_lost FALSE)
+#ifndef HX_WII
    (game_input_limit_type kLimitSession)
    (allow_all_input FALSE)
    (ignore_missing_autoplayer_controllers FALSE)
-   (allow_any_controller_to_pause_in_game FALSE))
+   (allow_any_controller_to_pause_in_game FALSE)
+#endif)
 (init
    (community_screen main_leaderboard_screen)
    (leaderboards_seltrack_screen leaderboards_seltrack_screen)
@@ -208,6 +218,9 @@
    (allow_overdrive_achievement FALSE))
 #define H2H_SCORE_DUEL_PROPERTIES
 (H2H_PROPERTIES
+#ifdef HX_WII
+   (endgame_screen score_duel_endgame_screen)
+#else
    (endgame_screen
       {if_else
          {song_mgr
@@ -215,16 +228,25 @@
             {meta_performer song}}
          ugc_score_duel_endgame_screen
          score_duel_endgame_screen})
+#endif
    (game_mode_context CONTEXT_GAME_MODE_TYPE_SCORE_DUEL))
 (h2h_score_duel_local
    H2H_SCORE_DUEL_PROPERTIES
+   #ifdef HX_EE
+   (main_mode_screen main_quickplay_screen)
+   #else
    (main_mode_screen main_score_duel_screen)
+   #endif
    (max_local_players 2)
    (ready_screen h2h_seldiff_screen)
    (missing_part_type kMissingSelectH2H))
 (h2h_tug_of_war_local
    H2H_TUG_OF_WAR_PROPERTIES
+   #ifdef HX_EE
+   (main_mode_screen main_quickplay_screen)
+   #else
    (main_mode_screen main_tug_of_war_screen)
+   #endif
    (max_local_players 2)
    (missing_part_type kMissingSelectH2H))
 (h2h_score_duel_unranked
@@ -297,6 +319,13 @@
          {meta_performer is_last_song}
          WIN
          WIN_QUICK})
+#ifdef HX_WII
+   (endgame_screen
+      {if_else
+         {meta_performer is_last_song}
+         coop_endgame_screen
+         nextsong_screen})
+#else
    (endgame_screen
       {if_else
          {&&
@@ -310,7 +339,8 @@
          {if_else
             {meta_performer is_last_song}
             coop_endgame_screen
-            nextsong_screen}}))
+            nextsong_screen}})
+#endif)
 (qp_solo
    MULTISONG_MODE_PROPERTIES
    (skip_matchmaking TRUE)
@@ -325,7 +355,15 @@
    (cannot_connect_warning solo_no_server_warning))
 #define QP_COOP_MODE_PROPERTIES
 (MULTISONG_MODE_PROPERTIES
+   #ifdef HX_EE
+   (main_mode_screen main_quickplay_screen)
+   #else
+   #ifndef NOWIINETWORKING
    (main_mode_screen main_bandcoop_screen)
+   #else
+   (main_mode_screen main_quickplay_screen)
+   #endif
+   #endif
    (allow_create_char FALSE)
    (uisink_default_screen matchmaking_screen)
    (online_mode CONTEXT_GAME_MODE_BAND_QUICKPLAY)
@@ -437,7 +475,10 @@
 (tour_local
    TOUR_MODE_PROPERTIES
    (show_pause_quit FALSE)
-   (cannot_connect_warning tour_no_server_warning))
+   (cannot_connect_warning tour_no_server_warning)
+   #ifdef HX_EE
+   (main_mode_screen tour_band_sel_screen)
+   #endif)
 (tour_online
    TOUR_MODE_PROPERTIES
    (local_network FALSE)
@@ -683,6 +724,16 @@
    (allow_any_controller_to_pause_in_game TRUE))
 (options
    (uisink_signout_screen options_screen))
+#ifdef HX_WII
+(wii_online_extra
+   (local_network FALSE)
+   (rock_central TRUE)
+   (community_screen main_community_screen)
+   (uisink_lost_connection_screen main_community_screen)
+   (uisink_default_screen main_community_screen)
+   (uisink_signout_screen main_community_screen))
+#endif
+#ifndef HX_WII
 (ugc_audition
    (is_audition TRUE)
    (game_screen
@@ -726,3 +777,4 @@
       {audition_mgr enter_audition})
    (exit
       {audition_mgr exit_audition}))
+#endif

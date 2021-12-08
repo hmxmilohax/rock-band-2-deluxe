@@ -1739,8 +1739,10 @@
                {gamemode get is_practice}}
             {!
                {gamemode get is_drum_trainer}}
+#ifndef HX_WII
             {!
-               {gamemode get is_audition}}}
+               {gamemode get is_audition}}
+#endif}
          {do
             ($intro_category
                {$world get_intro_category})
@@ -1913,9 +1915,23 @@
          ()
          {set
             [start_offset]
-            -0.125})
+            -0.125}
+#ifdef HX_WII
+         {set $mp.endcache 0}
+#endif)
       (allowed_notes 105 106)
       (midi
+#ifdef HX_WII
+         {if
+            {'||'
+               {<=
+                  {- $mp.start $mp.endcache}
+                  0}
+               {>
+                  {- $mp.start $mp.endcache}
+                  1}}
+            {$this add_message 0}}
+#endif
          {$this
             add_message
             {switch
@@ -1924,6 +1940,16 @@
                (106 2)
                kDataUnhandled}}
          {set $mp.start $mp.end}
+#ifdef HX_WII
+         {$this
+            add_message
+            {switch
+               $mp.val
+               (105 3)
+               (106 4)
+               kDataUnhandled}}
+         {set $mp.endcache $mp.end}
+#else
          {if_else
             {<=
                {$this delta}
@@ -1941,8 +1967,11 @@
                   $mp.val
                   (105 3)
                   (106 4)
-                  kDataUnhandled}}})
-      MIDIPARSER_CONVERTFUNCTIONS}
+                  kDataUnhandled}}}
+#endif)
+#ifndef HX_WII
+      MIDIPARSER_CONVERTFUNCTIONS
+#endif}
    {new
       MidiParser
       slot0_enable

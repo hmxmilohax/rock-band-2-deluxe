@@ -2,19 +2,29 @@
    UIPanel
    intro_panel
    (num_polls 3)
+#ifndef HX_WII
    (enter
       {char_cache cache_enable FALSE}
       {char_cache cache_clear})
+#endif
    (poll
       {--
          [num_polls]}
+#ifdef HX_WII
+      {if
+         {<=
+            [num_polls]
+            0}
+         {ui goto_screen intro_movie_screen}}
+#else
       {if
          {&&
             {<=
                [num_polls]
                0}
             {char_cache done_caching}}
-         {ui goto_screen intro_movie_screen}})}
+         {ui goto_screen intro_movie_screen}}
+#endif)}
 {new
    BandScreen
    intro_screen
@@ -58,6 +68,9 @@
    (last_user '')
    (alpha_threshold DEFAULT_SPLASH_ALPHA_THRESHOLD)
    (alpha_threshold_fading FALSE)
+   #ifdef HX_WII
+   (allow_home_menu TRUE)
+   #endif
    (attract_mode_timeout
       {elem
          {find $syscfg attract time_to_enter}
@@ -159,6 +172,10 @@
             {==
                {ui current_screen}
                splash_screen}
+            #ifdef HX_WII
+            {!
+               {platform_mgr home_menu_active}}
+            #endif
             #ifdef HX_PS3
             {platform_mgr trophy_registered}
             #endif}
@@ -183,7 +200,14 @@
                   TRUE}
                {meta music_stop}
                {platform_mgr disable_xmp}
-               {ui goto_screen attract_screen})}})
+               {ui goto_screen attract_screen})}}
+      #ifdef HX_WII
+      {if
+         {platform_mgr home_menu_active}
+         {set
+            [enter_time]
+            {taskmgr ui_seconds}}}
+      #endif)
    (BUTTON_DOWN_MSG
       {cond
          #ifdef HX_PS3
@@ -211,6 +235,9 @@
    (helpbar
       ((min_height 0)))
    (enter
+      #ifdef HX_EE
+      {synth suspend_mics}
+      #endif
       {char_cache cache_update})}
 #ifdef HX_PS3
 {new
@@ -291,12 +318,42 @@
    UIPanel
    first_time_instrument_panel
    (controller_type none)
+   #ifndef HX_EE
+   #ifndef HX_WII
    (file
       {sprintf
          "first_time_%s.milo"
          {elem
             (CHAR_INSTRUMENT_SYMBOLS)
             [controller_type]}})
+   #else
+   (file
+      {if_else
+         {==
+            [controller_type]
+            2}
+         {sprintf
+            "first_time_vocals_wii.milo"}
+         {sprintf
+            "first_time_%s.milo"
+            {elem
+               (CHAR_INSTRUMENT_SYMBOLS)
+               [controller_type]}}})
+   #endif
+   #else
+   (file
+      {if_else
+         {==
+            [controller_type]
+            2}
+         {sprintf
+            "first_time_vocals_ps2.milo"}
+         {sprintf
+            "first_time_%s.milo"
+            {elem
+               (CHAR_INSTRUMENT_SYMBOLS)
+               [controller_type]}}})
+   #endif
    (focus ok.btn)
    (is_loaded
       {content_mgr refresh_done})

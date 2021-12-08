@@ -109,6 +109,7 @@
          ($offer)
          {sprint
             {$offer get_icon}}))
+#ifndef HX_WII
    (by_stars
       (cmp_song_to_song
          ($lhs $rhs)
@@ -133,4 +134,5 @@
                   {sprint song_select_gold_stars})
                {sprintf
                   {localize song_select_stars}
-                  $stars}}})))
+                  $stars}}}))
+#endif)

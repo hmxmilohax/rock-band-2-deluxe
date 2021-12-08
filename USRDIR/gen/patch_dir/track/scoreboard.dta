@@ -112,6 +112,36 @@
                      {meta_performer is_battle_brand_new}
                      "-"
                      {fmt_score_or_stars $in_val}}}}
+#ifdef HX_WII
+            {set
+               [opponent_score]
+               $in_val})
+         (set_score_milo
+            ($in_val)
+            {if
+               {&&
+                  {!=
+                     $in_val
+                     [score]}
+                  {exists score.txt}}
+               {score.txt
+                  set_text
+                  {fmt_score $in_val}}}
+            {set
+               [score]
+               $in_val})
+         (set_opponent_score_milo
+            ($in_val)
+            {if
+               {&&
+                  {!=
+                     $in_val
+                     [opponent_score]}
+                  {exists score_opponent.txt}}
+               {score_opponent.txt
+                  set_text
+                  {fmt_score $in_val}}}
+#endif
             {set
                [opponent_score]
                $in_val})

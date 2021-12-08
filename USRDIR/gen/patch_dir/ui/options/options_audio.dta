@@ -9,13 +9,24 @@
    (file
       "options_audio.milo")
    (focus instruments.btn)
+   #ifdef HX_WII
+   (allow_home_menu TRUE)
+   #endif
    (set_fg_instr
       {song_preview_fg_instr guitar})
    (load
       {content_mgr start_refresh}
-      {content_loading_panel allowed_to_show TRUE})
+      #ifndef NOWIINETWORKING
+      #ifndef HX_EE
+      {content_loading_panel allowed_to_show TRUE}
+      #endif
+      #endif)
+   #ifndef NOWIINETWORKING
+   #ifndef HX_EE
    (finish_load
       {content_loading_panel allowed_to_show FALSE})
+   #endif
+   #endif
    (is_loaded
       {content_mgr refresh_done})
    (enter
@@ -163,6 +174,7 @@
          iterate
          UISlider
          $s
+         {$s set_num_steps 12}
          {$this update_from_profile $s}})
    (update_from_profile
       ($component)

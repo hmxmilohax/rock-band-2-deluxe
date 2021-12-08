@@ -203,7 +203,8 @@
             #endif
             {ui goto_screen $screen}}})}
 #define ENDGAME_PANEL_HANDLERS
-((submit_achievements
+(#ifndef HX_WII
+   (submit_achievements
       {game
          foreach_local_user
          $user
@@ -313,6 +314,7 @@
                            {process_comeback_achievement TRUE})
                         (kLost
                            {process_comeback_achievement FALSE})}}}}}})
+   #endif
    #define SELECTED_AWARDS
    (())
    (set_results
@@ -571,6 +573,22 @@
                                     {$pcfg set previous_award $some_award}
                                 {{$pxy find award.lbl} set_localized {localize $some_award}}
                                 {{$pxy find award.lbl} set_showing TRUE}}}}}}}}}))
+#ifdef HX_WII
+{new
+   UIPanel
+   endgame_background_panel
+   (file
+      "endgame_background.milo")
+   #ifdef HX_WII
+   (allow_home_menu TRUE)
+   (enter
+      {rnd set_screen_dimming TRUE})
+   #endif
+   (hide_overlay
+      {overlay_hide.trg trigger})
+   (show_overlay
+      {overlay_show.trg trigger})}
+#endif
 #include complete.dta
 #define ENDGAME_SCREEN_HANDLERS
 (#ifdef HX_XBOX
@@ -633,7 +651,18 @@
                   [more_details_screen]}})
          #endif
          (kAction_Confirm
-            {synth play button_select}
+#ifdef HX_WII
+            {game
+               foreach_local_user
+               $user
+               {if
+                  {==
+                     {session_mgr get_leader_num}
+                     {$user get_user_num}}
+                  {synth play button_select}}}
+#else
+                  {synth play button_select}
+#endif
             {if_else
                {tour band}
                {ui
@@ -653,13 +682,15 @@
                {if_else
                   {gamemode get ranked}
                   {ui goto_screen complete_ranked_screen}
-                  {ui
-                     sync_screen
-                     {if_else
-                        {gamemode get is_audition}
+                  #ifdef HX_WII
+                  {ui sync_screen complete_screen 1}
+                  #else
+                  {ui sync_screen
+                     {if_else {gamemode get is_audition}
                         audition_complete_screen
                         complete_screen}
-                     1}}})
+                     1}
+                  #endif}})
          (kAction_Cancel
             {if_else
                {&&

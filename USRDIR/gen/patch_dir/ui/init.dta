@@ -15,16 +15,29 @@
 #include loading.dta
 #include matchmaking/matchmaking.dta
 #include pause.dta
+#ifdef HX_EE
+#include naming_screen.dta
+#endif
+#ifdef HX_WII
+#include naming_screen.dta
+#endif
 #include endgame/endgame.dta
+#ifndef HX_WII
 #include endgame/ugc_rating.dta
+#endif
+#ifdef HX_EE
+#include highscore.dta
+#endif
 #include endgame/lose.dta
 #include song_select.dta
 #include tour_challenge/tour_challenge.dta
 #include tour_world/tour_world.dta
 #include tour/tour_band_sel.dta
 #include tour/tour.dta
+#ifdef HX_WII
 #include botb/details.dta
 #include botb/newsfeed.dta
+#endif
 #include seldiff.dta
 #include seltrack.dta
 #include options/options.dta
@@ -40,14 +53,21 @@
 #include leaderboards/leaderboards.dta
 #include matchmaking/invite_friends.dta
 #include net_delegator.dta
+#ifdef HX_WII
+#include matchmaking/userdata.dta
+#include matchmaking/messaging.dta
+#include dlc_wii.dta
 #include store/store.dta
+#endif
 #include jukebox.dta
 #include modifiers_screen.dta
+#ifndef HX_WII
 #include ugc_audition/audition.dta
 #include ugc_pause.dta
 #include ugc_store/ugc_store.dta
 #include ugc_store/ugc_store_browser.dta
 #include ugc_store/ugc_store_info.dta
+#endif
 #ifndef _SHIP
 #include framerate/frame_rate.dta
 #endif

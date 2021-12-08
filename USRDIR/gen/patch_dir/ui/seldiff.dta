@@ -1,8 +1,28 @@
+#ifdef HX_WII
+{new
+   UIPanel
+   seldiff_lower3rd_panel
+   (file
+      "seldiff_lower3rd.milo")
+   (set_song
+      ($song_name)
+      {song.lbl set_localized $song_name})
+   (set_by_line
+      ($by_line)
+      {by_line.lbl set_localized $by_line})
+   (set_screen_title_token
+      ($screen_title_token)
+      {choose_diff.lbl set text_token $screen_title_token})}
+#endif
 {new
    UIPanel
    seldiff_border_panel
    (file
-      "seldiff_border.milo")
+#ifdef HX_WII
+      "seldiff_lower3rd.milo"
+#else
+      "seldiff_border.milo"
+#endif)
    (enter
       {do
          ($perf
@@ -64,7 +84,19 @@
       {seldiff_03.grp
          set_showing
          {!
-            {gamemode is_h2h_arrangement}}})}
+            {gamemode is_h2h_arrangement}}}
+      #ifdef HX_WII
+      {platform_mgr
+         add_sink
+         $this
+         (storage_changed)}
+      #endif)
+   #ifdef HX_WII
+   (storage_changed
+      {band_ui trigger_event storage_changed})
+   (exit
+      {platform_mgr remove_sink $this storage_changed})
+   #endif}
 #define SELDIFF_SCREEN_PANELS
 ((slots COOP_SLOTS_ORDER)
    (type

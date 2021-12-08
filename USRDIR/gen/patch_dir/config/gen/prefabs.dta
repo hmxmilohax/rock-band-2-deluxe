@@ -8020,45 +8020,31 @@
 					0
 					0))))
 	
-#ifndef _SHIP
-	
-#include ../ui/framerate/chars/budget_chars.dta
-	
-#ifdef HX_XBOX
-	
-#include ../ui/framerate/chars/expensive_cpu_male_xbox.dta
-	
-#include ../ui/framerate/chars/expensive_cpu_female_xbox.dta
-	
-#include ../ui/framerate/chars/expensive_gs_male_xbox.dta
-	
-#include ../ui/framerate/chars/expensive_gs_female_xbox.dta
-	
-#else 
-	
-#ifdef HX_PS3
-	
-#include ../ui/framerate/chars/expensive_cpu_male_ps3.dta
-	
-#include ../ui/framerate/chars/expensive_cpu_female_ps3.dta
-	
-#include ../ui/framerate/chars/expensive_gs_male_ps3.dta
-	
-#include ../ui/framerate/chars/expensive_gs_female_ps3.dta
-	
-#else 
-	
-#include ../ui/framerate/chars/expensive_cpu_male_xbox.dta
-	
-#include ../ui/framerate/chars/expensive_cpu_female_xbox.dta
-	
-#include ../ui/framerate/chars/expensive_gs_male_xbox.dta
-	
-#include ../ui/framerate/chars/expensive_gs_female_xbox.dta
-	
-#endif 
-	
-#endif 
-	
-#endif 
-)
+   #ifndef _SHIP
+   #include ../ui/framerate/chars/budget_chars.dta
+   #ifdef HX_XBOX
+   #include ../ui/framerate/chars/expensive_cpu_male_xbox.dta
+   #include ../ui/framerate/chars/expensive_cpu_female_xbox.dta
+   #include ../ui/framerate/chars/expensive_gs_male_xbox.dta
+   #include ../ui/framerate/chars/expensive_gs_female_xbox.dta
+   #else
+   #ifdef HX_PS3
+   #include ../ui/framerate/chars/expensive_cpu_male_ps3.dta
+   #include ../ui/framerate/chars/expensive_cpu_female_ps3.dta
+   #include ../ui/framerate/chars/expensive_gs_male_ps3.dta
+   #include ../ui/framerate/chars/expensive_gs_female_ps3.dta
+   #else
+   #ifdef HX_WII
+   #include ../ui/framerate/chars/expensive_cpu_male_wii.dta
+   #include ../ui/framerate/chars/expensive_cpu_female_wii.dta
+   #include ../ui/framerate/chars/expensive_gs_male_wii.dta
+   #include ../ui/framerate/chars/expensive_gs_female_wii.dta
+   #else
+   #include ../ui/framerate/chars/expensive_cpu_male_xbox.dta
+   #include ../ui/framerate/chars/expensive_cpu_female_xbox.dta
+   #include ../ui/framerate/chars/expensive_gs_male_xbox.dta
+   #include ../ui/framerate/chars/expensive_gs_female_xbox.dta
+   #endif
+   #endif
+   #endif
+   #endif)
