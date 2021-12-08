@@ -590,13 +590,7 @@
                {==
                   groups
                   [shortcut_mode]}
-               #ifdef HX_WII
-               {'||'
-                  #endif
-                  {== $action kAction_Option}
-                  #ifdef HX_WII
-                  {== $action kAction_Option1}}
-               #endif}
+               {== $action kAction_Option}}
             {&&
                {==
                   sorts
@@ -970,10 +964,19 @@
          {do
             {song_select_details_panel
                shortcut_enter
+               #ifndef HX_WII
                {if_else
                   {== $action kAction_Option}
                   groups
-                  sorts}}
+                  sorts}
+               #else
+               {if_else
+                  {'||'
+                     {== $action kAction_Option}
+                     {== $action kAction_Option1}}
+                  groups
+                  sorts}
+               #endif}
             {if
                {&&
                   {$this is_user_local}
@@ -985,10 +988,19 @@
                      (song_select_details_panel
                         shortcut_enter
                         {','
+                           #ifndef HX_WII
                            {if_else
                               {== $action kAction_Option}
                               groups
-                              sorts}})}
+                              sorts}
+                           #else
+                           {if_else
+                              {'||'
+                                 {== $action kAction_Option}
+                                 {== $action kAction_Option1}}
+                              groups
+                              sorts}
+                           #endif})}
                   kNetReliable}}}})
    (SCROLL_MSG
       {song_offer_provider
@@ -1123,6 +1135,28 @@
                   {song_offer_provider num_data}
                   {song.lst get display_num}})
             {scroller.mesh set_showing $showing}}})
+#ifdef HX_WII
+   (poll
+      {do
+         ($last_play_delta
+            {-
+               {taskmgr ui_seconds}
+               [last_preview_play]})
+         {if
+            {&&
+               {> $last_play_delta 1.25}
+               {!
+                  [preview_playing]}
+               {!
+                  {ui in_transition}}}
+            {do
+               {song_offer_provider
+                  play_preview
+                  [tmp_ix]}
+               {set
+                  [preview_playing]
+                  TRUE}}}})
+#endif
    (refresh_sort
       {do
          ($ix

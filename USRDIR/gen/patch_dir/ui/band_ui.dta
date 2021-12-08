@@ -328,7 +328,7 @@
          ($player_name $port $controller_sym)
          {$this
             set_custom
-            #ifndef HX_WII
+            #ifdef HX_WII
             {if_else
                {== $controller_sym none}
                {sprintf
