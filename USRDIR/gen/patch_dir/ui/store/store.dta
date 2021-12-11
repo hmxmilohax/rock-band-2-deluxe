@@ -916,11 +916,22 @@
                   {store_panel get offer_provider})
                ($list
                   {store_browser_panel find song.lst})
+#ifdef HX_WII
+               {if
+                  {!=
+                     {$offer_provider
+                        shortcut_to_pos
+                        {group.lst selected_sym}}
+                     -1}       
+#endif
                {$list
                   set_selected
                   {$offer_provider
                      shortcut_to_pos
                      {group.lst selected_sym}}}
+#ifdef HX_WII
+}
+#endif
                {$list set_dirty}
                {store_browser_panel refresh}}}})}
 {new
@@ -1168,11 +1179,18 @@
                {ui push_screen wii_store_pin_screen}}
             #endif)
          (store_download_again
-            #ifdef HX_XBOX
+            #ifndef HX_PS3
             {store_preview_mgr clear_current_preview}
             {store_panel
                check_out
                {$this cur_offer}}
+            #ifdef HX_WII
+            {store_download_again_screen
+               set
+               offer
+               {$this cur_offer}}
+            {ui push_screen store_download_again_screen}
+            #endif
             #else
             {ui push_screen store_download_again_screen}
             #endif)
