@@ -144,7 +144,9 @@
       {set $bass_groove_active FALSE} {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
 	  {set $drum_groove_active FALSE}
 	  {set $guitar_groove_active FALSE}
+      #ifndef HX_OG
       {stagekit_reset}
+      #endif
       {beatmatch
          foreach_active_player
          $p
@@ -177,7 +179,12 @@
    (game_won_tie
       {$this game_won_common}
       kDataUnhandled)
-   (game_lost_disable
+   (
+#ifdef HX_WII
+game_lost
+#else
+game_lost_disable
+#endif
       {beatmatch
          foreach_active_player
          $p
@@ -185,10 +192,14 @@
       {if
          {gamecfg multiplayer}
          {{beatmatch main_performer}
-            on_game_lost}})
+            on_game_lost}}
+
+#ifndef HX_WII
+)
    (game_lost
       {beatmatch set_realtime TRUE}
       {$this game_lost_disable}
+#endif
       {script_task
          kTaskBeats
          (delay LOSE_MUSIC_SLOW_SEC)
@@ -253,6 +264,7 @@
             {ui
                push_screen
                {gamemode get pause_screen}}}})
+#ifndef HX_WII
    (on_end_demo
       {if
          {&&
@@ -268,7 +280,8 @@
                {game is_game_over}}}
          {pause_panel set end_demo TRUE}
          {net_sync set_ui_state kNetUI_Pause}
-         {ui push_screen pause_screen}})}
+         {ui push_screen pause_screen}})
+#endif}
 {new
    UIPanel
    sync_audio_net_panel
@@ -383,7 +396,9 @@
             {$this set_showing TRUE}}})
    (unload
       #ifndef HX_PC
+      #ifndef HX_OG
       {rnd suspend}
+      #endif
       #endif
       {preload_panel clear_cache}
       {char_cache reclaim_characters}
@@ -434,7 +449,10 @@
          [delayed_mic_check]
          FALSE}
       {net_sync set_ui_state kNetUI_Pause}
-      {ui push_screen pause_mics_screen})
+      {ui push_screen pause_mics_screen}
+      #ifdef HX_OG
+      {band_ui trigger_event mic_lost}
+      #endif)
    (pause_for_mic_check
       {$this pause_for_mic_check_helper FALSE})
    (pause_for_mic_check_mid_game
@@ -533,6 +551,16 @@
          add_sink
          $this
          (ui_changed)}
+      #ifdef HX_WII
+      {platform_mgr
+         add_sink
+         $this
+         (wii_disc_error)}
+      {platform_mgr
+         add_sink
+         $this
+         (wii_controller_overflow)}
+      #endif
       {if
          {game get multi_event}
          {if
@@ -551,9 +579,16 @@
             {profile_mgr update_mic_gain $player_num}}}
       {handle
          ($this my_enter)}
+#ifdef HX_WII
+      {if_else
+         {gamemode get is_jukebox}
+         {input_mgr set_limit kLimitNone}
+         {input_mgr set_limit kLimitSession}}
+#else
       {input_mgr
          set_limit
          {gamemode get game_input_limit_type}}
+#endif
       {$this milo_setup})   
    (exit
       {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
@@ -565,12 +600,24 @@
       {platform_mgr remove_sink $this wii_controller_overflow}
       #endif
       {synth stop_playback_all_mics}
+      #ifndef HX_OG
       {if
          {'||'
             {==
                {band_ui current_event}
                pad_lost}}
          {band_ui dismiss_event}}
+      #else
+      {if
+         {'||'
+            {==
+               {band_ui current_event}
+               pad_lost}
+            {==
+               {band_ui current_event}
+               mic_lost}}
+         {band_ui dismiss_event}}
+      #endif
       {input_mgr check_controllers}
 	  {$this milo_exit})
    (UI_CHANGED_MSG
@@ -676,6 +723,7 @@
                push_screen
                {gamemode get pause_screen}}
             {game set_paused TRUE}}})
+   #endif
    (player_missing_mic
       {do
          ($ret FALSE)
@@ -722,6 +770,7 @@
                               $mic_num}}
                         #endif}}}
                {set $ret TRUE}}}
+#ifndef HX_WII
          $ret})   (player_missing_mic
       {do
          ($ret FALSE)
@@ -768,15 +817,28 @@
                               $mic_num}}
                         #endif}}}
                {set $ret TRUE}}}
+#else
          $ret})
 #endif
    (TRANSITION_COMPLETE_MSG
+      #ifndef HX_OG
       {if
          {'||'
             {==
                {band_ui current_event}
                pad_lost}}
          {band_ui dismiss_event}}
+      #else
+      {if
+         {'||'
+            {==
+               {band_ui current_event}
+               pad_lost}
+            {==
+               {band_ui current_event}
+               mic_lost}}
+         {band_ui dismiss_event}}
+      #endif
       {if
          $game_unpause_on_enter
          {game set_paused FALSE}
@@ -790,9 +852,18 @@
             {if
                {'||'
                   {synth did_mics_change}
+#ifdef HX_WII
+                  {$this player_missing_mic}
+#endif
                   {!
-                     {are_all_mics_connected}}}
-               {$this pause_for_mic_check}}}}
+                     {are_all_mics_connected}}
+#ifdef HX_WII
+               {if
+                  {!
+                     {gamemode is_jukebox}}
+                  {$this pause_for_mic_check}}
+#else
+               {$this pause_for_mic_check}
       {if
          {&&
             {song_mgr
@@ -802,7 +873,8 @@
                {!
                   {gamemode get local_network}}
                {gamemode is_tour}}}
-         {band_ui content_file_read_failed '' FALSE}})
+         {band_ui content_file_read_failed '' FALSE}}
+#endif}}}})
    (on_guide_change
       {if
          {&&
