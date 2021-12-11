@@ -104,60 +104,141 @@
             (1)
             (2 3)
             (2 3)))
+      #ifndef HX_WII
       (drums2
          ((0)
             (1 2)
             (3 4)
             (3 4)
             (3 4)))
+      #else
+      (drums2
+         ((0)
+            (1)
+            (2 3)
+            (2 3)
+            (2 3)))
+      #endif
+      #ifndef HX_WII
       (drums2easy
          ((0)
             (1 2 3 4)
             (1 2 3 4)
             (1 2 3 4)
             (1 2 3 4)))
+      #else
+      (drums2easy
+         ((0)
+            (1 2 3)
+            (1 2 3)
+            (1 2 3)
+            (1 2 3)))
+      #endif
+      #ifndef HX_WII
       (drums2easynokick
          ((0)
             (1 2)
             (0 3 4)
             (0 3 4)
             (0 3 4)))
+      #else
+      (drums2easynokick
+         ((0)
+            (1 2 3)
+            (0 1 2 3)
+            (0 1 2 3)
+            (0 1 2 3)))
+      #endif
+      #ifndef HX_WII
       (drums2easysnareonly
          ((0)
             (0 1 2 3 4)
             (0 3 4)
             (0 3 4)
             (0 3 4)))
+      #else
+      (drums2easysnareonly
+         ((0)
+            (0 1 2 3)
+            (0 2 3)
+            (0 2 3)
+            (0 2 3)))
+      #endif
+      #ifndef HX_WII
       (drums2d
          ((0)
             (3 4)
             (1 2)
             (3 4)
             (3 4)))
+      #else
+      (drums2d
+         ((0)
+            (2 3)
+            (1)
+            (2 3)
+            (2 3)))
+      #endif
+      #ifndef HX_WII
       (drums3
          ((0 1)
             (2 3)
             (4 5)
             (4 5)
             (4 5)))
+      #else
+      (drums3
+         ((0)
+            (1)
+            (2 3)
+            (2 3)
+            (2 3)))
+      #endif
+      #ifndef HX_WII
       (drums3d
          ((0 1)
             (4 5)
             (2 3)
             (4 5)
             (4 5)))
+      #else
+      (drums3d
+         ((0)
+            (2 3)
+            (1)
+            (2 3)
+            (2 3)))
+      #endif
+      #ifndef HX_WII
       (drums3easy
          ((0 1)
             (2 3 4 5)
             (2 3 4 5)
             (2 3 4 5)
             (2 3 4 5)))
+      #else
+      (drums3easy
+         ((0)
+            (1 2 3)
+            (1 2 3)
+            (1 2 3)
+            (1 2 3)))
+      #endif
+      #ifndef HX_WII
       (drums3easynokick
          ((0 1)
             (2 3)
             (0 1 4 5)
             (0 1 4 5)
             (0 1 4 5)))
+      #else
+      (drums3easynokick
+         ((0)
+            (1 2 3)
+            (0 1 2 3)
+            (0 1 2 3)
+            (0 1 2 3)))
+      #endif
       (drums4
          ((0)
             (1 2)
