@@ -493,7 +493,9 @@
          {exists game}
          {set $game.play_mode coop}
          {$this sync_mode}}
+      #ifndef HX_OG
       {stagekit_reset}
+      #endif
       {if
          {exists game}
          {$this
@@ -523,6 +525,25 @@
                {$lbl
                   set_localized
                   {gamemode get band_name}}}}
+         #ifdef HX_WII
+         {if
+            {exists bandlogo_target.tex}
+            {set
+               $logopatch
+               {gamemode get band_logo}}
+            {if_else
+               $logopatch
+               {do
+                  {bandlogo_target.tex set_bitmap $logopatch}}
+               {do
+                  {set $tex bandlogo_target.tex}
+                  {if
+                     $tex
+                     {$tex
+                        iterate_refs
+                        $ref
+                        {$ref set diffuse_tex bandlogo_default.tex}}}}}}
+         #else
          {if
             {exists bandlogo.patch}
             {set
@@ -540,7 +561,8 @@
                      {$tex
                         iterate_refs
                         $ref
-                        {$ref set diffuse_tex bandlogo_default.tex}}}}}}}
+                        {$ref set diffuse_tex bandlogo_default.tex}}}}}}
+         #endif}
       {if
          {exists sponsorship.grp}
          {if_else
@@ -894,12 +916,18 @@
                      {if
                         {exists gamertag_vocals2_shadow.lbl}
                         {gamertag_vocals2_shadow.lbl set_localized $gamertag1}})}}}
+#ifdef HX_WII
+         {if
+            {!
+               {gamemode get is_practice}}
+#else
          {if
             {'||'
                {!
                   {gamemode get is_practice}}
                {!
-                  {gamemode get is_audition}}}
+                  {gamemode get is_audition}}}}
+#endif
             {do
                ($intro_category
                   {$this get_intro_category})
@@ -1073,7 +1101,9 @@
                {elem $shots 0}}}
          $shot})
    (exit
+      #ifndef HX_OG
       {stagekit_reset}
+      #endif
       {if
          {exists game}
          {game remove_sink $this}})
@@ -1474,9 +1504,21 @@
       ($seq)
       {$seq stop})
    (halfbeat
-      {stagekit_left_right kStageSweepLeft_medium kStageSweepRight_medium})
+      #ifndef HX_OG
+      {stagekit_left_right kStageSweepLeft_medium kStageSweepRight_medium}
+      #else
+      kDataUnhandled
+      #endif)
    (quarterbeat
-      {stagekit_left_right kStageSweepLeft_fast kStageSweepRight_fast})
+      #ifndef HX_OG
+      {stagekit_left_right kStageSweepLeft_fast kStageSweepRight_fast}
+      #else
+      kDataUnhandled
+      #endif)
    (beat
-      {stagekit_left_right kStageSweepLeft_slow kStageSweepRight_slow})
+      #ifndef HX_OG
+      {stagekit_left_right kStageSweepLeft_slow kStageSweepRight_slow}
+      #else
+      kDataUnhandled
+      #endif)
    WORLD_OBJECT_VALIDATE)

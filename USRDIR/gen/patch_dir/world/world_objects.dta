@@ -131,7 +131,7 @@
                         enable})}}))
       (endgame_action
          (supported_events
-            (endgame_swing_drum_0 endgame_swing_drum_1 endgame_swing_drum_2 endgame_swing_drum_3 endgame_swing_drum_4 endgame_swing_bass_0 endgame_swing_bass_1 endgame_swing_bass_2 endgame_swing_bass_3 endgame_swing_bass_4 endgame_swing_guitar_0 endgame_swing_guitar_1 endgame_swing_guitar_2 endgame_swing_guitar_3 endgame_swing_guitar_4 endgame_vocals_none endgame_vocals_low endgame_vocals_medium endgame_vocals_high)))
+            (endgame_swing_drum_0 endgame_swing_drum_1 endgame_swing_drum_2 endgame_swing_drum_3 endgame_swing_drum_4 endgame_swing_bass_0 endgame_swing_bass_1 endgame_swing_bass_2 endgame_swing_bass_3 endgame_swing_bass_4 endgame_swing_guitar_0 endgame_swing_guitar_1 endgame_swing_guitar_2 endgame_swing_guitar_3 endgame_swing_guitar_4 endgame_vocals_none endgame_vocals_low endgame_vocals_medium endgame_vocals_high #ifdef HX_WII endgame_start #endif)))
       (backlight
          (editor
             (tex1
@@ -907,6 +907,33 @@
                   $shot
                   {with
                      $shot
+#ifdef HX_WII
+                     {unless
+                        $composite_character_swap_gender
+                        {do
+                           ($player
+                              {dircut_gender_genre_focus $this})
+                           ($flags 0)
+                           {if
+                              $player
+                              {set
+                                 $flags
+                                 {'|'
+                                    {switch
+                                       {$player get gender}
+                                       (male kValidMale)
+                                       (female kValidFemale)}
+                                    {$player get attitude}}}
+                              {if
+                                 {!=
+                                    {&
+                                       [flags]
+                                       $flags}
+                                    $flags}
+                                 {set
+                                    [enabled]
+                                    FALSE}}}}}
+#else
                      {do
                         ($player
                            {dircut_gender_genre_focus $this})
@@ -930,6 +957,7 @@
                               {set
                                  [enabled]
                                  FALSE}}}}
+#endif
                      {if
                         {==
                            [category]
@@ -1025,6 +1053,25 @@
                         {$lbl
                            set_localized
                            {gamemode get band_name}}}}}
+               #ifdef HX_WII
+               {if
+                  {exists bandlogo_target.tex}
+                  {set
+                     $logopatch
+                     {gamemode get band_logo}}
+                  {if_else
+                     $logopatch
+                     {do
+                        {bandlogo_target.tex set_bitmap $logopatch}}
+                     {do
+                        {set $tex bandlogo_target.tex}
+                        {if
+                           $tex
+                           {$tex
+                              iterate_refs
+                              $ref
+                              {$ref set diffuse_tex bandlogo_default.tex}}}}}}
+               #else
                {if
                   {exists bandlogo.patch}
                   {if
@@ -1048,7 +1095,8 @@
                               {$tex
                                  iterate_refs
                                  $ref
-                                 {$ref set diffuse_tex bandlogo_default.tex}}}}}}}})
+                                 {$ref set diffuse_tex bandlogo_default.tex}}}}}}}
+               #endif})
          (update_postproc
             {if
                $edit_mode
@@ -1057,5 +1105,7 @@
                   {[postprocess]
                      select}
                   {rnd reset_postproc}}})
+#ifndef HX_WII
          (player_saved
-            ($savior)))))
+            ($savior))
+#endif)))

@@ -1,5 +1,9 @@
 #define H2H_REQUIRED_CAMS
 (INTRO INTRO_QUICK WIN_P1 WIN_P2 WIN_TIE OUTRO)
+#ifdef HX_WII
+#define PLATFORM_NAMES
+(("kPlatformWii"))
+#endif
 #define WORLD_OBJECT_SET_MISSING_CAMSHOT_DEFAULTS
 ({set
       $camname
@@ -326,6 +330,15 @@
             {notify
                {path_name $cam}
                " should not exist, video venues should have only INTRO_VENUE"}}
+#ifdef HX_WII
+         {if
+            {!=
+               {$cam get platform_only}
+               kPlatformNone}
+            {notify
+               {path_name $cam}
+               " [platform_none] must be set to kPlatformNone"}}
+#endif
          {foreach_int
             $i
             0
@@ -426,6 +439,19 @@
                         {path_name $cam}
                         " has postprocess set"}}}}}
          {$cam test_targets}
+#ifdef HX_WII
+         {if
+            {&&
+               {&&
+                  {has_substr
+                     {$cam name}
+                     "intro"}
+                  {!=
+                     INTRO_MULTI
+                     {$cam get category}}}
+               {!
+                  {$cam get lighting_override}}}
+#else
          {if
             {&&
                {has_substr
@@ -433,15 +459,22 @@
                   "intro"}
                {!
                   {$cam get lighting_override}}}
+#endif
             {notify
                {path_name $cam}
                " intro camera must have lighting_override"}}
          {if
             {&&
                {$cam get lighting_override}
+#ifdef HX_WII
+               {find_elem
+                  (NORMAL INTRO_MULTI)
+                  {$cam get category}}
+#else
                {==
                   {$cam get category}
                   NORMAL}}
+#endif}
             {notify
                {path_name $cam}
                " normal camera with lighting_override"}}
@@ -639,7 +672,18 @@
                      {path_name $next}
                      " is next_shot of "
                      $cam
-                     " but is not category NEXT_SHOT"}}}}
+                     " but is not category NEXT_SHOT"}}
+#ifdef HX_WII
+               {if
+                  {!=
+                     {$cam get platform_only}
+                     {$next get platform_only}}
+                  {notify
+                     {path_name $next}
+                     " is next_cam of "
+                     $cam
+                     " but has different platform_only flags, must match"}}
+#endif}}
          {do
             ($cat
                {$cam get category})
@@ -912,8 +956,12 @@
             "video.milo"}
          {foreach
             $cameras.platform_name
+#ifdef HX_WII
+            PLATFORM_NAMES
+#else
             ("kPlatformXBox"
                "kPlatformPS3")
+#endif
             {set
                $cameras.platform
                {macro_elem $cameras.platform_name}}
@@ -923,7 +971,14 @@
                   {$this get_type}}
                {$this
                   verify_camera_categories
-                  (INTRO INTRO_QUICK INTRO_VENUE INTRO_MULTI LOSE WIN WIN_QUICK OUTRO_MULTI OUTRO NORMAL BFTB_G_REVIVE BFTB_G_FAIL BFTB_B_REVIVE BFTB_B_FAIL BFTB_V_REVIVE BFTB_V_FAIL BFTB_D_REVIVE BFTB_D_FAIL)}
+#ifdef HX_WII
+                  {if_else
+                     $video_venue
+                     (INTRO_VENUE LOSE WIN WIN_QUICK OUTRO_MULTI OUTRO NORMAL BFTB_G_REVIVE BFTB_G_FAIL BFTB_B_REVIVE BFTB_B_FAIL BFTB_V_REVIVE BFTB_V_FAIL BFTB_D_REVIVE BFTB_D_FAIL)
+                     (INTRO INTRO_QUICK INTRO_VENUE INTRO_MULTI LOSE WIN WIN_QUICK OUTRO_MULTI OUTRO NORMAL BFTB_G_REVIVE BFTB_G_FAIL BFTB_B_REVIVE BFTB_B_FAIL BFTB_V_REVIVE BFTB_V_FAIL BFTB_D_REVIVE BFTB_D_FAIL)}
+#else
+                  (INTRO INTRO_QUICK INTRO_VENUE INTRO_MULTI LOSE WIN WIN_QUICK OUTRO_MULTI OUTRO NORMAL BFTB_G_REVIVE BFTB_G_FAIL BFTB_B_REVIVE BFTB_B_FAIL BFTB_V_REVIVE BFTB_V_FAIL BFTB_D_REVIVE BFTB_D_FAIL)
+#endif}
                {if
                   {has_substr
                      {$this name}
@@ -1466,7 +1521,14 @@
                   (bass_focus drums_focus guitar_focus vocal_focus)
                   {foreach
                      $cat
+#ifdef HX_WII
+                     {if_else
+                        $video_venue
+                        (WIN)
+                        (WIN INTRO)}
+#else
                      (WIN INTRO)
+#endif
                      {unless
                         {$this
                            find_shot
@@ -1628,10 +1690,21 @@
                   {facing_string $facing}
                   ")"}}}})
    (platform_filter
+#ifdef HX_WII
+      {switch
+         $cameras.platform
+         (kPlatformXBox
+            (kPlatformXBox kPlatformNone))
+         (kPlatformPS3
+            (kPlatformPS3 kPlatformNone))
+         {eval
+            (kPlatformNone)}}
+#else
       {if_else
          {== $cameras.platform kPlatformXBox}
          (kPlatformXBox kPlatformNone)
-         (kPlatformPS3 kPlatformNone)})
+         (kPlatformPS3 kPlatformNone)}
+#endif)
    (camera_notify
       {sprint
          {path_name $this}
