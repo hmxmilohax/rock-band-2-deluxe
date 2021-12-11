@@ -76,12 +76,14 @@
    autosave_wait_in_meta_screen
    (panels meta_loading meta)
    AUTOSAVE_WAIT_SCREEN_HANDLERS}
+#ifndef HX_WII
 #define kCheckDelete
 (0)
 #define kDeleteInProgress
 (1)
 #define kUGCDeleteDone
 (2)
+#endif
 #define META_LOADING_TRANSITION_HANDLERS
 ((transition_screen
       {object
@@ -89,15 +91,19 @@
    (show_event FALSE)
    (entered FALSE)
    (ready FALSE)
+#ifndef HX_WII
    (delete_state kCheckDelete)
+#endif
    (block_event
       ($event)
       TRUE)
    (helpbar
       ((min_height 0)))
+#ifndef HX_WII
    (song_to_delete '')
    (song_title '')
    (song_artist '')
+#endif
    (enter
       {set
          [entered]
@@ -176,9 +182,22 @@
                   {band_ui set invite_accepted TRUE}
                   {finding_panel
                      set_joining_user
+#ifdef HX_WII
+                     {if_else
+                        {==
+                           {community_panel get invited_user_pad}
+                           -1}
+                        {user_mgr
+                           get_user_from_pad_num
+                           {mm_mailbox_panel get invited_user_pad}}
+                        {user_mgr
+                           get_user_from_pad_num
+                           {community_panel get invited_user_pad}}}
+#else
                      {user_mgr
                         get_user_from_pad_num
-                        {community_panel get invited_user_pad}}}
+                        {community_panel get invited_user_pad}
+#endif}
                   {gamemode
                      set_mode
                      {{session_searcher get_last_invite_result}
@@ -197,6 +216,35 @@
          {set
             [entered]
             FALSE}
+#ifdef HX_WII
+         {if
+            {&&
+               [ready]
+               {$this check_waiting}}
+            {do
+               ($autosave_screen
+                  {if_else
+                     {meta is_up}
+                     autosave_wait_in_meta_screen
+                     autosave_wait_screen})
+               ($was_disabled
+                  {net_sync get ui_disabled})
+               {net_sync set ui_disabled FALSE}
+               {$autosave_screen
+                  set
+                  next_screen
+                  {[transition_screen]
+                     get
+                     next_screen}}
+               {save_screen set is_meta_loading TRUE}
+               {autosave_push $autosave_screen}
+               {if
+                  $was_disabled
+                  {net_sync set ui_disabled TRUE}}
+               {set
+                  [ready]
+                  FALSE}}}}
+#else
          {if
             {&&
                [ready]
@@ -269,7 +317,8 @@
                         FALSE}}
                   {set
                      [delete_state]
-                     kCheckDelete})}}}))
+                     kCheckDelete})}}}
+#endif))
 {new
    BandScreen
    meta_loading_screen
