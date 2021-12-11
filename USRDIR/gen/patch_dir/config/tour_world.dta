@@ -37,7 +37,11 @@
 (win_instruments
    (guitar stratocaster03clear)
    (bass precision01clear)
+#ifdef HX_WII
+   (drum ludclassicclear)
+#else
    (drum rewarddrumclear)
+#endif
    (vocals mic1_clear))
 (hardcore_item tour_bwt_complete)
 (buzz

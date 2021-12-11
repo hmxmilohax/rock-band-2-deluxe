@@ -257,8 +257,8 @@
             album})
       (sorts by_artist_album)
       (allow_shortcut TRUE)
-      (show_new_release TRUE)))
-   #endif
+      (show_new_release TRUE))
+   #endif)
 (sorts
    (by_artist_new_release
       (cmp_song_to_song
