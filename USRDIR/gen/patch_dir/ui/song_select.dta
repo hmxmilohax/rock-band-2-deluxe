@@ -590,7 +590,13 @@
                {==
                   groups
                   [shortcut_mode]}
-               {== $action kAction_Option}}
+#ifdef HX_WII
+               {'||'
+               {== $action kAction_Option}
+               {== $action kAction_Option1}}
+#else
+                  {== $action kAction_Option}
+#endif}
             {&&
                {==
                   sorts
@@ -1003,6 +1009,9 @@
                            #endif})}
                   kNetReliable}}}})
    (SCROLL_MSG
+#ifdef HX_WII
+      {song_offer_provider play_preview -1}
+#endif
       {song_offer_provider
          set_highlighted_ix
          {song.lst selected_pos}}
