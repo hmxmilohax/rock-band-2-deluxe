@@ -81,21 +81,21 @@
       (browser_group
          ($offer)
          {$offer genre}))
-   (by_decade
-      (cmp_song_to_song
-         ($lhs $rhs)
-         {$this
-            cmp
-            $lhs
-            $rhs
-            (kSTDecade)
-            (kSTArtist)
-            (kSTName)})
-      (browser_group
-         ($offer)
-         {sprint
-            {$offer decade}})
-      (sub by_artist))
+;   (by_decade
+;      (cmp_song_to_song
+;         ($lhs $rhs)
+;         {$this
+;            cmp
+;            $lhs
+;            $rhs
+;            (kSTDecade)
+;            (kSTArtist)
+;            (kSTName)})
+;      (browser_group
+;         ($offer)
+;         {sprint
+;            {$offer decade}})
+;      (sub by_artist))
    (by_origin
       (cmp_song_to_song
          ($lhs $rhs)

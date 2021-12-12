@@ -132,7 +132,7 @@
     modifiers_screen
     (panels meta movie_panel options_background_panel modifiers_panel)
     (focus modifiers_panel)
-    (back main_screen) ;was main_community_screen
+    (back main_community_screen)
     (helpbar
         ((cancel helpbar_back)
             (confirm helpbar_select)))}

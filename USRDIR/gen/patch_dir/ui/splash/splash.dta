@@ -111,20 +111,21 @@
             [alpha_threshold]}})
    (enter
       {if {! $rb2dx_start}
-	  {set $rb2dx_start TRUE}
-	  {set $speedmod 1.0}								;	always make sure we start at 100% speed
-	  {set $leaderspeed 1.0}								;	always make sure we start at 100% speed
-	  {set $leaderstaticfills FALSE}								;	always make sure we start at 100% speed
-	  {set $leadersongtitle FALSE}								;	always make sure we start at 100% speed
-	  {set $leadersongtitlestats FALSE}								;	always make sure we start at 100% speed
-	  {set $leaderblackvenue FALSE}								;	always make sure we start at 100% speed
-	  {set $leaderroygb FALSE}								;	always make sure we start at 100% speed
-	  {set $fpsmod 60.0}								    ;	always make sure we start at 60fps
-	  {modifier_mgr deactivate_modifier mod_staticfills}
-	  {modifier_mgr deactivate_modifier mod_songtitle}
-	  {modifier_mgr deactivate_modifier mod_songtitlestats}
-	  {modifier_mgr deactivate_modifier mod_blackvenue}
-	  {modifier_mgr deactivate_modifier mod_roygb}}
+	     {set $rb2dx_start TRUE}
+	     {set $speedmod 1.0}								;	always make sure we start at 100% speed
+	     {set $leaderspeed 1.0}								;	always make sure we start at 100% speed
+	     {set $fpsmod 60.0}								    ;	always make sure we start at 60fps
+         {set $slot1_color 0} ;0 = green, preset colors to GRYBO
+         {set $slot2_color 1} ;1 = red
+         {set $slot3_color 2} ;2 = yellow
+         {set $slot4_color 3} ;3 = blue
+         {set $slot5_color 4} ;4 = orange
+	     {modifier_mgr deactivate_modifier mod_staticfills}
+	     {modifier_mgr deactivate_modifier mod_songtitle}
+	     {modifier_mgr deactivate_modifier mod_songtitlestats}
+	     {modifier_mgr deactivate_modifier mod_blackvenue}
+;	     {modifier_mgr deactivate_modifier mod_roygb} ;removed for sliders
+      }
       {set
          [alpha_threshold_fading]
          FALSE}

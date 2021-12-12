@@ -37,9 +37,9 @@
 (loading_trivia697
    "Bon Scott was AC/DC's chauffeur before getting recruited as lead singer.")
 (hmx_store
-   "Rock Band Music Store")
+   "Speed / Framerate")
 (ugc_store
-   "Rock Band Network")
+   "Set Gem Colors")
 (ugc_store_need_to_signin
    "To visit The Rock Band Network, you must be signed into an Xbox LIVE enabled gamer profile and connected to Xbox LIVE.")
 (ugc_store_need_to_signin_not_guest
@@ -653,6 +653,15 @@
 (tour_band_marathon_warning "Take a deep breath. Have a snack. Hit the bathroom. This is a long ass marathon with NO BREAKS. It ain't for the faint of heart. Are you really ready?")
 (free_camera
    "Toggle Free Cam")
+
+(gemcolor_0 "green") ;strings for gem colors and related shit
+(gemcolor_1 "red")
+(gemcolor_2 "yellow")
+(gemcolor_3 "blue")
+(gemcolor_4 "orange")
+(colrsliderlbl "Set Gem Colors")
+(tweak_modify "tweaks")
+
 (milosliderlbl
    "Speed / Framerate")
 (speed_msg

@@ -1,15 +1,17 @@
+#define NORMALGEM_SET
+(gem_green.wid gem_red.wid gem_yellow.wid gem_blue.wid gem_orange.wid)
+
+#define HOPOGEM_SET
+(gem_green_hopo.wid gem_red_hopo.wid gem_yellow_hopo.wid gem_blue_hopo.wid gem_orange_hopo.wid)
+
 #define GUITAR_SET
 ((0
   (normal 
-  {if_else
-        $roygb
-            gem_green.wid
-            gem_red.wid})
+     {elem (NORMALGEM_SET) $slot1_color}
+  )
   (normal_hopo 
-  {if_else
-        $roygb
-            gem_green_hopo.wid
-            gem_red_hopo.wid})
+     {elem (HOPOGEM_SET) $slot1_color}
+  )
   (star star_gem.wid)
   (star_hopo star_hopo.wid)
   (unison star_gem.wid)
@@ -18,16 +20,12 @@
   (miss_hopo gem_miss_hopo.wid)
   (mash gem_mash0.wid))
  (1
-  (normal
-  {if_else
-        $roygb
-            gem_red.wid
-            gem_orange.wid})
-  (normal_hopo
-  {if_else
-        $roygb
-            gem_red_hopo.wid
-            gem_orange_hopo.wid})
+  (normal 
+     {elem (NORMALGEM_SET) $slot2_color}
+  )
+  (normal_hopo 
+     {elem (HOPOGEM_SET) $slot2_color}
+  )
   (star star_gem.wid)
   (star_hopo star_hopo.wid)
   (unison star_gem.wid)
@@ -36,8 +34,12 @@
   (miss_hopo gem_miss_hopo.wid)
   (mash gem_mash1.wid))
  (2
-  (normal gem_yellow.wid)
-  (normal_hopo gem_yellow_hopo.wid)
+  (normal 
+     {elem (NORMALGEM_SET) $slot3_color}
+  )
+  (normal_hopo 
+     {elem (HOPOGEM_SET) $slot3_color}
+  )
   (star star_gem.wid)
   (star_hopo star_hopo.wid)
   (unison star_gem.wid)
@@ -46,16 +48,12 @@
   (miss_hopo gem_miss_hopo.wid)
   (mash gem_mash2.wid))
  (3
-  (normal
-  {if_else
-        $roygb
-            gem_blue.wid
-            gem_green.wid})
-  (normal_hopo
-  {if_else
-        $roygb
-            gem_blue_hopo.wid
-            gem_green_hopo.wid})
+  (normal 
+     {elem (NORMALGEM_SET) $slot4_color}
+  )
+  (normal_hopo 
+     {elem (HOPOGEM_SET) $slot4_color}
+  )
   (star star_gem.wid)
   (star_hopo star_hopo.wid)
   (unison star_gem.wid)
@@ -64,16 +62,12 @@
   (miss_hopo gem_miss_hopo.wid)
   (mash gem_mash3.wid))
  (4
-  (normal
-  {if_else
-        $roygb
-            gem_orange.wid
-            gem_blue.wid})
-  (normal_hopo
-  {if_else
-        $roygb
-            gem_orange_hopo.wid
-            gem_blue_hopo.wid})
+  (normal 
+     {elem (NORMALGEM_SET) $slot5_color}
+  )
+  (normal_hopo 
+     {elem (HOPOGEM_SET) $slot5_color}
+  )
   (star star_gem.wid)
   (star_hopo star_hopo.wid)
   (unison_hopo star_hopo.wid)
@@ -152,26 +146,12 @@
   (crash dynamic_crash_gem_lefty.wid)))
 (use_char_tex TRUE)
 (slot_colors 
-   	  	{if_else
-			$roygb
-				green
-				red}
-   	  	{if_else
-			$roygb
-				red
-				orange}
-   	  	{if_else
-			$roygb
-				yellow
-				yellow}
-   	  	{if_else
-			$roygb
-				blue
-				green}
-   	  	{if_else
-			$roygb
-				orange
-				blue})
+   	  	{elem (GEMCOLOR_SET) $slot1_color}
+   	  	{elem (GEMCOLOR_SET) $slot2_color}
+   	  	{elem (GEMCOLOR_SET) $slot3_color}
+   	  	{elem (GEMCOLOR_SET) $slot4_color}
+   	  	{elem (GEMCOLOR_SET) $slot5_color}
+)
 (gem
  (fps 30)
  (mat_formats

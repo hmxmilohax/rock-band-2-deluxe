@@ -486,6 +486,43 @@
          {input_mgr clear_user}
          {main_panel pop_focus}}
       kDataUnhandled)}
+
+{new
+   UIPanel
+   main_tweaks_panel
+;   (enter   ;setup buttons and shit
+;     {store_hmx.btn set text_token milosliderlbl}
+;     {store_ugc.btn set text_token colrsliderlbl})
+   MAIN_SUBSCREEN_PANEL_HANDLER
+   (SELECT_MSG
+      {switch
+         $component
+         (store_hmx.btn
+            {ui goto_screen options_milo_screen} ;go to speed/fps screen
+         )
+         (store_ugc.btn
+            {ui goto_screen options_color_screen} ;go to color sliders
+         )
+      }
+   )
+}
+
+{new
+   BandScreen
+   main_tweaks_screen
+   (panels meta main_panel main_tweaks_panel)
+   (focus main_tweaks_panel)
+   (back main_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_confirm)))
+   (BUTTON_DOWN_MSG
+      {if
+         {== $action kAction_Cancel}
+         {main_panel pop_focus}}
+      kDataUnhandled)}
+
+
 {new
    BandScreen
    ugc_tow_screen
