@@ -81,6 +81,7 @@
       (browser_group
          ($offer)
          {$offer genre}))
+#ifdef HX_PS3
    (by_decade
       (cmp_song_to_song
          ($lhs $rhs)
@@ -96,6 +97,7 @@
          {sprint
             {$offer decade}})
       (sub by_artist))
+#endif
    (by_origin
       (cmp_song_to_song
          ($lhs $rhs)
