@@ -104,15 +104,7 @@
                   object
                   (class EventTrigger))
                (help
-                  "fill hits by velocity from lightest to hardest"))
-#ifdef HX_WII
-            (velocity_fill_triggers_3p
-               (array
-                  object
-                  (class EventTrigger))
-               (help
-                  "fill hits by velocity from lightest to hardest for 3 players"))
-#endif)
+                  "fill hits by velocity from lightest to hardest")))
          (glow FALSE)
          (in_danger FALSE)
          (label
@@ -123,10 +115,6 @@
          (test_velocity 0)
          (velocity_fill_triggers
             ())
-#ifdef HX_WII
-         (velocity_fill_triggers_3p
-            ())
-#endif
          (last_set_color '')
          (reset
             {$this
@@ -204,7 +192,6 @@
                      set
                      start_alpha
                      {$part get start_alpha_high}}
-                  #ifndef HX_OG
                   {$launcher set use_mid_color TRUE}
                   {$launcher
                      set
@@ -214,7 +201,6 @@
                      set
                      mid_alpha
                      {$part get mid_alpha_high}}
-                  #endif
                   {$launcher set use_end_color TRUE}
                   {$launcher
                      set
@@ -259,10 +245,6 @@
 			{$this burn}
 			{set [burning] TRUE}
 			})
-#ifdef HX_WII
-         (hit_3p
-            {hit_3p.trig trigger})
-#endif
          (hit_cymbal
 		    {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {hit.trig trigger}}
             {if {modifier_mgr is_modifier_active mod_flashbang} 
@@ -273,10 +255,6 @@
 			{$this burn}
 			{set [burning] TRUE}
 			})
-#ifdef HX_WII
-         (hit_cymbal_3p
-            {hit_cymbals_3p.trig trigger})
-#endif
          (hit_drum
 		    {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {hit_drums.trig trigger}}
             {if {modifier_mgr is_modifier_active mod_flashbang} 
@@ -287,18 +265,9 @@
 			{$this burn}
 			{set [burning] TRUE}
 			})
-#ifdef HX_WII
-         (hit_drum_3p
-            {hit_drums_3p.trig trigger})
-#endif
          (coda_hit
             {$this hit}
             {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {big_rock_hit.trig trigger}})
-#ifdef HX_WII
-         (coda_hit_3p
-            {$this hit_3p}
-            {big_rock_hit_3p.trig trigger})
-#endif
          (hit_bonus
             {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {hit_bonus.trig trigger}}
             {if {modifier_mgr is_modifier_active mod_flashbang} 
@@ -309,10 +278,6 @@
 			{$this burn}
 			{set [burning] TRUE}
 			})
-#ifdef HX_WII
-         (hit_bonus_3p
-            {hit_bonus_3p.trig trigger})
-#endif
          (hit_fill
             {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {hit_fill.trig trigger}}
             {if {modifier_mgr is_modifier_active mod_flashbang} 
@@ -323,10 +288,6 @@
 			{$this burn}
 			{set [burning] TRUE}
 			})
-#ifdef HX_WII
-         (hit_fill_3p
-            {hit_fill_3p.trig trigger})
-#endif
          (hit_fill_vel
             ($velocity)
             {if
@@ -347,28 +308,6 @@
                      {$trig trigger}
                      {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {hit_fill.trig trigger}}}}
                {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {hit_fill.trig trigger}}})
-#ifdef HX_WII
-         (hit_fill_vel_3p
-            ($velocity)
-            {if
-               {== $velocity 0}
-               {set $velocity 6}}
-            {if_else
-               {<
-                  $velocity
-                  {size
-                     [velocity_fill_triggers_3p]}}
-               {do
-                  ($trig
-                     {elem
-                        [velocity_fill_triggers_3p]
-                        $velocity})
-                  {if_else
-                     {!= $trig ''}
-                     {$trig trigger}
-                     {hit_fill_3p.trig trigger}}}
-               {hit_fill_3p.trig trigger}})
-#endif
          (finger_tap
             {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {finger_tap.trig trigger}}
             {if {modifier_mgr is_modifier_active mod_flashbang} 
@@ -420,31 +359,13 @@
             {if
                {exists spotlight_phrase_success.trig}
                {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {spotlight_phrase_success.trig trigger}}})
-#ifdef HX_WII
-         (combo_3p
-            {if
-               {exists spotlight_phrase_success_3p.trig}
-               {spotlight_phrase_success_3p.trig trigger}})
-#endif
          (last_note
             {if
                {exists BRE_final_gem_hit.trig}
                {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {BRE_final_gem_hit.trig trigger}}})
-#ifdef HX_WII
-         (last_note_3p
-            {if
-               {exists BRE_final_gem_hit_3p.trig}
-               {BRE_final_gem_hit_3p.trig trigger}})
-#endif
          (drum_fill_complete
             {if
                {exists drumfill_complete_hit.trig}
                {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {drumfill_complete_hit.trig trigger}}})
-#ifdef HX_WII
-         (drum_fill_complete_3p
-            {if
-               {exists drumfill_complete_hit_3p.trig}
-               {drumfill_complete_hit_3p.trig trigger}})
-#endif
          (set_danger
             ($in_state)))))

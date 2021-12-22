@@ -12,7 +12,6 @@
       "coop_endgame.milo")
    ENDGAME_PANEL_HANDLERS
    (enter
-   #ifndef HX_WII
       {if_else
          {gamemode is_audition}
          {do
@@ -33,12 +32,9 @@
                set
                ambient_color
                {pack_color 9.804e-2 9.804e-2 9.804e-2}}}}
-   #endif
       {platform_mgr set_notify_ui_location kOSNotifyBottomCenter}
       {$this set_results}
-      #ifndef HX_OG
       {$this submit_achievements}
-      #endif
       ENDGAME_PANEL_COMMON_ENTER
       {do
          ($frame
@@ -60,38 +56,24 @@
 {new
    BandScreen
    coop_details_endgame_screen
-   #ifndef HX_WII
    (panels coop_endgame_panel more_details_panel)
-   #else
-   (panels endgame_background_panel coop_endgame_panel more_details_panel)
-   #endif
    (focus more_details_panel)
-#ifndef HX_WII
    (is_ugc FALSE)
-#endif
    (leave
-#ifdef HX_WII
-      {ui goto_screen coop_endgame_screen}
-   (enter
-      {endgame_background_panel show_overlay})
-   #else
       {ui
          goto_screen
          {if_else
             [is_ugc]
             ugc_coop_endgame_screen
-            coop_endgame_screen}}
-   #endif)
+            coop_endgame_screen}})
    (exit
       {if
          {!
             {gamemode get ranked}}
          {net_sync enable}}
-#ifndef HX_WII
       {set
          [is_ugc]
-         FALSE}
-#endif)
+         FALSE})
    (helpbar
       ((cancel helpbar_cancel)
          (confirm helpbar_confirm)))}
@@ -124,9 +106,7 @@
    (min_time 5.0)
    (enter
       {$this set_results}
-      #ifndef HX_WII
       {$this submit_achievements}
-      #endif
       {songs.lbl
          set_localized
          {sprintf
@@ -208,26 +188,20 @@
          goto_screen
          {gamemode get game_screen}})}
 #define H2H_END_GAME_PANEL_HANDLERS
-(#ifdef HX_WII
-(focus continue.btn)
-#endif
-ENDGAME_PANEL_HANDLERS   (block_event
+(ENDGAME_PANEL_HANDLERS
+   (block_event
       ($event)
       {== $event disband})
    (enter
-#ifndef HX_WII
       {if
          {==
             {{ui current_screen}
                focus_panel}
             $this}
-         {$this set_focus continue.btn}
-#endif}
+         {$this set_focus continue.btn}}
       {platform_mgr set_notify_ui_location kOSNotifyBottomCenter}
       {$this set_results}
-      #ifndef HX_WII
       {$this submit_achievements}
-      #endif
       ENDGAME_PANEL_COMMON_ENTER
       {if
          {gamemode get ranked}
@@ -242,100 +216,56 @@ ENDGAME_PANEL_HANDLERS   (block_event
    (exit
       ENDGAME_PANEL_COMMON_EXIT
       {platform_mgr set_notify_ui_location kOSNotifyTopRight}))
-#ifndef HX_OG
 {new
    H2HEndGamePanel
    score_duel_endgame_panel
    (file
       "score_duel_endgame.milo")
    H2H_END_GAME_PANEL_HANDLERS}
-#else
-{new
-   UIPanel
-   score_duel_endgame_panel
-   (file
-      "score_duel_endgame.milo")
-   H2H_END_GAME_PANEL_HANDLERS}
-#endif
 {new
    BandScreen
    score_duel_details_endgame_screen
-   #ifdef HX_XBOX
    (panels score_duel_endgame_panel more_details_panel)
-   #else
-   (panels endgame_background_panel score_duel_endgame_panel more_details_panel)
-   #endif
    (focus more_details_panel)
    (is_ugc FALSE)
    (leave
-#ifdef HX_WII
-{ui goto_screen score_duel_endgame_screen}
-#else
       {ui
          goto_screen
          {if_else
             [is_ugc]
             ugc_score_duel_endgame_screen
-            score_duel_endgame_screen}}
-#endif)
+            score_duel_endgame_screen}})
    (exit
       {if
          {!
             {gamemode get ranked}}
          {net_sync enable}}
-#ifndef HX_WII
       {set
          [is_ugc]
-         FALSE}
-#endif)
+         FALSE})
    (helpbar
       ((cancel helpbar_cancel)
          (confirm helpbar_confirm)))}
 {new
    BandScreen
    score_duel_endgame_screen
-#ifdef HX_WII
-   (panels endgame_background_panel score_duel_endgame_panel)
-#else
    (panels score_duel_endgame_panel)
-#endif
    (focus score_duel_endgame_panel)
    ENDGAME_SCREEN_HANDLERS
-   (more_details_screen score_duel_details_endgame_screen)
-   #ifdef HX_WII
-   (enter
-      {endgame_background_panel show_overlay})
-   #endif}
-#ifndef HX_OG
+   (more_details_screen score_duel_details_endgame_screen)}
 {new
    H2HEndGamePanel
    tow_endgame_panel
    (file
       "tow_endgame.milo")
    H2H_END_GAME_PANEL_HANDLERS}
-#else
-{new
-   UIPanel
-   tow_endgame_panel
-   (file
-      "tow_endgame.milo")
-   H2H_END_GAME_PANEL_HANDLERS}
-#endif
 {new
    BandScreen
    tow_details_endgame_screen
-#ifdef HX_WII
-   (panels endgame_background_panel tow_endgame_panel more_details_panel)
-#else
    (panels tow_endgame_panel more_details_panel)
-#endif
    (focus more_details_panel)
    (leave
       {ui goto_screen tow_endgame_screen})
-   #ifdef HX_WII
-   (enter
-      {endgame_background_panel show_overlay})
-   #endif
    (exit
       {if
          {!
@@ -347,18 +277,10 @@ ENDGAME_PANEL_HANDLERS   (block_event
 {new
    BandScreen
    tow_endgame_screen
-#ifdef HX_WII
-   (panels endgame_background_panel tow_endgame_panel)
-   #else
    (panels tow_endgame_panel)
-#endif
    (focus tow_endgame_panel)
    ENDGAME_SCREEN_HANDLERS
-   (more_details_screen tow_details_endgame_screen)
-   #ifdef HX_WII
-   (enter
-      {endgame_background_panel show_overlay})
-   #endif}
+   (more_details_screen tow_details_endgame_screen)}
 #ifndef _SHIP
 {new
    BandScreen

@@ -19,7 +19,6 @@
    pause_bg_panel
    (file
       "pause_bg.milo")
-#ifndef HX_WII
    (orange
       {octopus.lit set color 31199}
       {octopus01.lit set color 31199}
@@ -27,18 +26,11 @@
    (blue
       {octopus.lit set color 16758820}
       {octopus01.lit set color 16758820}
-      {octopus02.lit set color 16758820})
-#endif
-   #ifdef HX_WII
-   (allow_home_menu TRUE)
-   #endif}
+      {octopus02.lit set color 16758820})}
 {new
    UIPanel
    pause_panel
    (file pause.milo)
-   #ifdef HX_WII
-   (allow_home_menu TRUE)
-   #endif
    (button_count 0)
    (original_flip FALSE)
    (resync_on_exit TRUE)
@@ -58,20 +50,16 @@
    (active_commands
       ())
    (chose_quit FALSE)
-#ifndef HX_WII
    (end_demo FALSE)
    (end_demo_delay 0.5)
    (enter_time 0.0)
-#endif
    PAUSE_SCREEN_HANDLERS
    (enter
-#ifndef HX_WII
       {if_else
          [end_demo]
          {pause_bg_panel orange}
          {pause_bg_panel blue}}
       {pause_title.lbl set fit_type kFitJust}
-#endif
       {set
          [chose_quit]
          FALSE}
@@ -94,10 +82,7 @@
          {tour band}
          {{tour band}
             fail_iron_bladder}}
-       {if
-#ifdef HX_WII
-         {gamemode get has_track}
-#else
+      {if
          {&&
             {!
                [end_demo]}
@@ -105,12 +90,10 @@
             {input_mgr get_user}
             {{input_mgr get_user}
                player}}
-#endif
          {{{input_mgr get_user}
                player}
             enable_swings
-            FALSE}
-}
+            FALSE}}
       {beatmatch
          foreach_active_player
          $p
@@ -160,16 +143,12 @@
          add_sink
          $this
          (remote_player_left)}
-      #ifndef HX_OG
       {stagekit_pause TRUE}
-      #endif
       kDataUnhandled)
    (TRANSITION_COMPLETE_MSG
-#ifndef HX_WII
       {set
          [enter_time]
          {taskmgr ui_seconds}}
-#endif
       {if
          {!
             {session is_local}}
@@ -211,9 +190,7 @@
             {input_mgr set_user ''}}}
       {session remove_sink $this remote_player_left}
       {session remove_sink $this game_ended}
-      #ifndef HX_OG
       {stagekit_pause FALSE}
-      #endif
       {beatmatch
          foreach_active_player
          $p
@@ -221,27 +198,13 @@
             ({$p track}
                set_enable_vocals_options
                TRUE)}}
-#ifndef HX_WII
       {set
          [end_demo]
-         FALSE}
-#endif)
+         FALSE})
    (unload
       {{input_mgr get_user}
          enable_swings
          TRUE})
-#ifndef HX_WII
-   (BUTTON_DOWN_MSG
-      {if
-         {'||'
-            {== $action kAction_Start}
-            {== $action kAction_Cancel}}
-         {set
-            [exit_destination]
-            exit_new_song}
-         {$this resume}}
-      kDataUnhandled)
-#else
    (BUTTON_DOWN_MSG
       {if_else
          {'||'
@@ -265,7 +228,6 @@
                   [end_demo_delay]}}
             TRUE
             kDataUnhandled}})
-#endif
    (REMOTE_PLAYER_LEFT_MSG
       {do
          ($ix_button -1)
@@ -411,7 +373,6 @@
                   script_set_metronome
                   $met}
                {$this update_metronome_check})
-#ifndef HX_WII
             (return_audition
                {ui goto_screen meta_loading_audition_screen})
             (ugc_buy_full_version
@@ -423,7 +384,6 @@
                #ifdef HX_XBOX
                {ui goto_screen ugc_delete_demo_confirm_screen}
                #endif)
-#endif
             (pause_quit
                {set
                   [exit_destination]
@@ -656,7 +616,6 @@
                            get
                            metronome}}
                      {$this update_metronome_check}})
-#ifndef HX_WII
                (return_audition
                   {if
                      {gamemode get is_audition}
@@ -671,7 +630,6 @@
                   {if
                      [end_demo]
                      {set $added TRUE}})
-#endif
                (pause_quit
                   {if
                      {gamemode get show_pause_quit}
@@ -748,13 +706,11 @@
             player}
          update_vocal_style})
    (on_restart
-#ifndef HX_WII
       {meta_performer
          submit_data_point
          pause_restart
          {{beatmatch main_performer}
             percent_complete}}
-#endif
       {gamemode on_pause_restart})
    (on_quit
       {set
@@ -763,13 +719,11 @@
       {switch
          [exit_destination]
          (exit_change_band
-#ifndef HX_WII
             {meta_performer
                submit_data_point
                pause_quit
                {{beatmatch main_performer}
                   percent_complete}}
-#endif
             {if
                {!
                   {is_leader_local}}
@@ -778,42 +732,34 @@
             {session end_game kQuit}
             {ui sync_screen meta_loading_changemembers_screen 1})
          (exit_forfeit
-#ifndef HX_WII
             {meta_performer
                submit_data_point
                pause_quit
                {{beatmatch main_performer}
                   percent_complete}}
-#endif
             {ui goto_screen meta_loading_matchmaking_forfeit_screen})
          (exit_new_section
-#ifndef HX_WII
             {meta_performer
                submit_data_point
                pause_quit
                {{beatmatch main_performer}
                   percent_complete}}
-#endif
             {session end_game kQuit}
             {ui sync_screen meta_loading_pause_new_section_screen 1})
          (exit_new_song
-#ifndef HX_WII
             {meta_performer
                submit_data_point
                pause_quit
                {{beatmatch main_performer}
                   percent_complete}}
-#endif
             {session end_game kQuit}
             {ui sync_screen meta_loading_pause_new_song_screen 1})
          (exit_quit
-#ifndef HX_WII
             {meta_performer
                submit_data_point
                pause_quit
                {{beatmatch main_performer}
                   percent_complete}}
-#endif
             {if_else
                {gamemode get is_drum_trainer}
                {ui goto_screen meta_loading_trainer_quit}
@@ -890,15 +836,7 @@
                      {!
                         {{tour event}
                            is_battle}}}
-#ifdef HX_WII
-                  {if_else
-                     {{tour band}
-                        has_write_permission}
-                     confirm_quit_tour_challenge
-                     confirm_quit_tour_challenge_client}
-#else
-                  confirm_quit_tour_challenge
-#endif)
+                  confirm_quit_tour_challenge)
                (TRUE confirm_quit)}}
          no.btn}
       {$this set_up_buttons}
@@ -1019,16 +957,12 @@
          {tour band}
          {{tour band}
             fail_iron_bladder}}
-      #ifndef HX_OG
-      {stagekit_pause TRUE}
-      #endif)
+      {stagekit_pause TRUE})
    (helpbar
       ((confirm helpbar_confirm)))
    (exit
       {platform_mgr set_notify_ui_location kOSNotifyTopRight}
-      #ifndef HX_OG
-      {stagekit_pause FALSE}
-      #endif)
+      {stagekit_pause FALSE})
    (on_controllers_ok
       {$this reset_controllers}
       {$this resume})
@@ -1038,7 +972,6 @@
          $p
          {$p reset_controller FALSE}}
       {tutorials_drums_main_panel reset_controller})}
-#ifndef HX_OG
 {new
    UIPanel
    pause_mics_panel
@@ -1100,9 +1033,7 @@
                {$this disable $label}
                {$group set_showing FALSE}}}}
       {$this check_mics}
-      #ifndef HX_OG
       {stagekit_pause TRUE}
-      #endif
       {$this update_anims})
    (TRANSITION_COMPLETE_MSG
       {if
@@ -1122,9 +1053,7 @@
    (exit
       {session remove_sink $this game_ended}
       {synth reset_mics_changed}
-      #ifndef HX_OG
-      {stagekit_pause FALSE}
-      #endif)
+      {stagekit_pause FALSE})
    (check_mics
       {if_else
          {are_all_mics_connected}
@@ -1256,18 +1185,3 @@
             {pause_mics_panel on_quit})
          (no.btn
             {ui goto_screen pause_mics_screen})})}
-#else
-{new
-   BandScreen
-   pause_mics_screen
-   PAUSE_SCREEN_HANDLERS
-   (enter
-      {platform_mgr set_notify_ui_location kOSNotifyBottomCenter}
-      {if
-         {session is_local}
-         {game set_paused TRUE}})
-   (exit
-      {platform_mgr set_notify_ui_location kOSNotifyTopRight})
-   (on_mics_ok
-      {$this resume})}
-#endif

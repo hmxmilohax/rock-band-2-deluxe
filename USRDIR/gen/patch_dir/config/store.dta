@@ -13,33 +13,24 @@
          (port 1000)
          (root
             "/hmx/live/")
-#ifndef HX_WII
          (ugc_root
-            "indie/")
-#endif
-            )
+            "indie/"))
       (prelive
          (server
             "")
          (port 1000)
          (root
             "/hmx/live/")
-#ifndef HX_WII
          (ugc_root
-            "indie/")
-#endif
-            )
+            "indie_test/"))
       (test
          (server
             "")
          (port 1000)
          (root
             "/hmx/test/")
-#ifndef HX_WII
          (ugc_root
-            "indie/")
-#endif
-            ))
+            "indie_test/")))
    #ifdef _SHIP
    (default_server prelive)
    #else
@@ -62,11 +53,8 @@
          (root
             "/")
          (verify_ssl TRUE)
-#ifndef HX_WII
          (ugc_root
-            "indie/")
-#endif
-            )
+            "indie/"))
       (prelive
          (server
             "qa.ps3-meta.rockband.com")
@@ -74,11 +62,8 @@
          (root
             "/")
          (verify_ssl FALSE)
-#ifndef HX_WII
          (ugc_root
-            "indie/")
-#endif
-            )
+            "indie/"))
       (test
          (server
             "qa.ps3-meta.rockband.com")
@@ -86,101 +71,15 @@
          (root
             "/")
          (verify_ssl FALSE)
-#ifndef HX_WII
          (ugc_root
-            "indie/")
-#endif
-            ))
+            "indie/")))
    #ifdef _SHIP
    (default_server live)
    #else
    (default_server live)
    #endif)
-#ifndef HX_WII
 (titles rb1)
 (rbn_titles rb2)
-#endif
-#ifdef HX_WII
-(netcache_init
-   "netcache"
-   title_name
-   512
-   204800
-   ""
-   0
-   (servers
-      (live
-         (server
-            "ps3-meta.rockband.com")
-         (port 443)
-         (root
-            "/")
-         (assetpath
-            "")
-         (key_path
-            "base64_1.bin")
-         (key_path2
-            "base64_2.bin")
-         (verify_ssl TRUE))
-      (prelive
-         (server
-            "qa.ps3-meta.rockband.com")
-         (port 443)
-         (root
-            "/")
-         (assetpath
-            "")
-         (key_path
-            "base64_1.bin")
-         (key_path2
-            "base64_2.bin")
-         (verify_ssl FALSE))
-      (test
-         (server
-            "qa.ps3-meta.rockband.com")
-         (port 443)
-         (root
-            "/")
-         (assetpath
-            "")
-         (key_path
-            "base64_1.bin")
-         (key_path2
-            "base64_2.bin")
-         (verify_ssl FALSE)))
-   #ifdef _SHIP
-   (default_server live)
-   #else
-   (default_server test)
-   #endif)
-(titles
-   "sZAE"
-   "sZBE"
-   "sZCE"
-   "sZDE"
-   "sZEE"
-   "sZFE"
-   "sZGE"
-   "sZHE"
-   "sZIE"
-   "sZJE"
-   "sZKE"
-   "sZLE"
-   "sZME"
-   "sZNE"
-   "sZOE"
-   "sZPE"
-   "sZQE"
-   "sZRE"
-   "sZSE"
-   "sZTE"
-   "sZUE"
-   "sZVE"
-   "sZWE"
-   "sZXE"
-   "sZYE"
-   "sZZE")
-#endif
 #else
 (netcache_init
    "netcache"
@@ -196,10 +95,8 @@
          (port 0)
          (root
             "test/remote_metadata/")
-#ifndef HX_WII
          (ugc_root
-            "indie/")
-#endif))
+            "indie/")))
    (default_server test))
 #endif
 #endif
@@ -239,7 +136,6 @@
       (allow_shortcut TRUE)
       (sort_difficulty_part band)
       (show_new_release TRUE))
-   #ifndef HX_WII
    (all_song_packs
       (include
          ($offer $selected_filter)
@@ -257,8 +153,7 @@
             album})
       (sorts by_artist_album)
       (allow_shortcut TRUE)
-      (show_new_release TRUE))
-   #endif)
+      (show_new_release TRUE)))
 (sorts
    (by_artist_new_release
       (cmp_song_to_song

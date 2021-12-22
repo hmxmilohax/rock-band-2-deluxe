@@ -1,28 +1,8 @@
-#ifdef HX_WII
-{new
-   UIPanel
-   seldiff_lower3rd_panel
-   (file
-      "seldiff_lower3rd.milo")
-   (set_song
-      ($song_name)
-      {song.lbl set_localized $song_name})
-   (set_by_line
-      ($by_line)
-      {by_line.lbl set_localized $by_line})
-   (set_screen_title_token
-      ($screen_title_token)
-      {choose_diff.lbl set text_token $screen_title_token})}
-#endif
 {new
    UIPanel
    seldiff_border_panel
    (file
-#ifdef HX_WII
-      "seldiff_lower3rd.milo"
-#else
-      "seldiff_border.milo"
-#endif)
+      "seldiff_border.milo")
    (enter
       {do
          ($perf
@@ -84,19 +64,7 @@
       {seldiff_03.grp
          set_showing
          {!
-            {gamemode is_h2h_arrangement}}}
-      #ifdef HX_WII
-      {platform_mgr
-         add_sink
-         $this
-         (storage_changed)}
-      #endif)
-   #ifdef HX_WII
-   (storage_changed
-      {band_ui trigger_event storage_changed})
-   (exit
-      {platform_mgr remove_sink $this storage_changed})
-   #endif}
+            {gamemode is_h2h_arrangement}}})}
 #define SELDIFF_SCREEN_PANELS
 ((slots COOP_SLOTS_ORDER)
    (type
@@ -479,80 +447,6 @@
                      export_all
                      update}}
                kDataUnhandled})
-#ifdef HX_WII
-         (SELECT_MSG
-            {do
-               ($g0_pcfg 0)
-               ($g1_pcfg 0)
-               {gamecfg
-                  foreach_user
-                  $user
-                  {if
-                     {&&
-                        {$user is_participating}
-                        {$user get_char}
-                        {==
-                           {$user get_controller_type}
-                           kControllerGuitar}}
-                     {if_else
-                        $g0_pcfg
-                        {set $g1_pcfg $user}
-                        {set $g0_pcfg $user}}}}
-               {if_else
-                  {&&
-                     $g0_pcfg
-                     $g1_pcfg
-                     {'||'
-                        {==
-                           {$g0_pcfg get player_num}
-                           $player_num}
-                        {==
-                           {$g1_pcfg get player_num}
-                           $player_num}}
-                     {!=
-                        {$g0_pcfg get_track_type}
-                        kTrackNone}
-                     {!=
-                        {$g1_pcfg get_track_type}
-                        kTrackNone}
-                     {==
-                        {$g0_pcfg get_track_type}
-                        {$g1_pcfg get_track_type}}
-                     {$g0_pcfg is_local_player}
-                     {!
-                        {gamemode is_h2h_arrangement}}}
-                  {do
-                     {if_else
-                        {$g0_pcfg is_local_player}
-                        {$g0_pcfg set_track_type kTrackNone}
-                        {gamecfg
-                           reassign_player_track_type
-                           {$g0_pcfg get player_num}
-                           kTrackNone}}
-                     {if_else
-                        {$g1_pcfg is_local_player}
-                        {$g1_pcfg set_track_type kTrackNone}
-                        {gamecfg
-                           reassign_player_track_type
-                           {$g1_pcfg get player_num}
-                           kTrackNone}}
-                     {{ui current_screen}
-                        export_all
-                        update}}
-                  {do
-                     {if_else
-                        {gamemode get is_practice}
-                        {ui goto_screen practice_preloading_screen}
-                        {{user_mgr
-                              get_band_user
-                              [player_num]}
-                           set_ready
-                           TRUE}}
-                     {{ui current_screen}
-                        update
-                        $this}}}}
-            kDataUnhandled)
-#else
          (SELECT_MSG
             {if_else
                {gamemode get is_practice}
@@ -565,8 +459,7 @@
             {{ui current_screen}
                update
                $this}
-            kDataUnhandled)
-#endif)
+            kDataUnhandled))
       (diff_selected
          (BUTTON_DOWN_MSG
             {if
@@ -690,12 +583,10 @@
             {ui goto_screen tour_world_moment_screen}
             {ui goto_screen loading_screen}}})
    (enter
-#ifndef HX_WII
       {platform_mgr
          add_sink
          $this
          (storage_changed)}
-#endif
       {do
          {switch
             {{session_mgr get_leader_user}
@@ -713,12 +604,10 @@
             "coop_select_sel_dif"}}
       {input_mgr set_limit kLimitSession}
       kDataUnhandled)
-#ifndef HX_WII
    (exit
       {platform_mgr remove_sink $this storage_changed})
    (storage_changed
-      {band_ui trigger_event storage_changed})
-#endif)
+      {band_ui trigger_event storage_changed}))
 {new
    MultiFocusScreen
    qp_seldiff_screen
@@ -918,11 +807,7 @@
       {if_else
          {is_leader_local}
          ((cancel helpbar_back)
-#ifdef HX_WII
-            (confirm helpbar_select)
-#else
-            (confirm helpbar_choosediff)
-#endif)
+            (confirm helpbar_choosediff))
          ()})
    (back song_select_screen)}
 {new

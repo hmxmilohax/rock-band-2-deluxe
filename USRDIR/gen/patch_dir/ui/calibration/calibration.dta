@@ -83,25 +83,6 @@
                   {[parent]
                      get
                      (option1_screen)}}})
-         #ifdef HX_WII
-         (kAction_Option1
-            {if
-               {&&
-                  {[parent]
-                     has
-                     (option1_screen)}
-                  {!=
-                     ''
-                     {[parent]
-                        get
-                        (option1_screen)}}}
-               {synth play button_select}
-               {ui
-                  goto_screen
-                  {[parent]
-                     get
-                     (option1_screen)}}})
-         #endif
          kDataUnhandled})}
 #define CAL_BASIC_PANEL
 ((enter

@@ -1,8 +1,4 @@
-{new SongSyncPanel song_sync_panel
-   #ifdef HX_WII
-   (exit
-      {$this disk_error FALSE})
-   #endif}
+{new SongSyncPanel song_sync_panel}
 #define SONG_PART_SYMBOLS
 (drum guitar bass vocals band)
 {new
@@ -11,15 +7,10 @@
    (file
       "song_select_lower3rd.milo")}
 {new
-#ifdef HX_WII
-   UIPanel
-#else
    MergeDirPanel
-#endif
    song_select_details_panel
    (file
       "song_select_details.milo")
-#ifndef HX_WII
    (other_file
       "song_select_demo.milo")
    (post_merge
@@ -32,7 +23,6 @@
       {demo.lbl set_state kComponentNormal}
       {demo.lbl set showing FALSE}
       {demo.mesh set showing FALSE})
-#endif
    (enter
       {if {is_leader_local} {session send_msg_to_all {` (set $speedmod {, $leaderspeed}) kNetReliable}}}
       {loading.mnm
@@ -162,10 +152,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
    (refresh_top
       ($offer_ix)
-#ifndef HX_WII
       {demo.lbl set showing FALSE}
       {demo.mesh set showing FALSE}
-#endif
       {if
          {!
             {song_offer_provider get_setlist_mode}}
@@ -185,12 +173,6 @@
                            (album_art)}}
                      {if_else
                         {song_mgr is_song_mounted $song}
-#ifdef HX_WII
-                        {album_art.pic
-                           set
-                           tex_file
-                           {$offer album_art_path}}
-#else
                         {do
                            {if
                               {song_mgr is_demo $song}
@@ -205,7 +187,6 @@
                               set
                               tex_file
                               {$offer album_art_path}}}
-#endif
                         {album_art.pic
                            set
                            tex_file
@@ -260,7 +241,6 @@
                   set
                   tex_file
                   "ui/image/blank_album_art_keep.png"}}
-               #ifndef HX_WII
             {demo.lbl
                set
                showing
@@ -268,8 +248,7 @@
             {demo.mesh
                set
                showing
-               {song_mgr is_demo $song}}
-               #endif}})
+               {song_mgr is_demo $song}}}})
    (refresh_bottom
       ($offer_ix)
       {if_else
@@ -463,9 +442,7 @@
                      ((career)
                         career_by_line)}}}}})
    (shortcut_period 1.5)
-   #ifndef HX_WII
    (demo_period 0.2)
-   #endif
    (shortcut_selected '')
    (shortcut_mode none)
    (shortcut_enter
@@ -590,13 +567,7 @@
                {==
                   groups
                   [shortcut_mode]}
-#ifdef HX_WII
-               {'||'
-               {== $action kAction_Option}
-               {== $action kAction_Option1}}
-#else
-                  {== $action kAction_Option}
-#endif}
+               {== $action kAction_Option}}
             {&&
                {==
                   sorts
@@ -673,9 +644,6 @@
    (focus song.lst)
    (held_buttons
       (kAction_Option 0.25)
-      #ifdef HX_WII
-      (kAction_Option1 0.25)
-      #endif
       (kAction_Confirm
          {if_else
             {&&
@@ -695,18 +663,8 @@
       ($song)
       {song_select_details_panel song_data_mounted $song})
    (check_setlist TRUE)
-#ifdef HX_WII
-   (last_preview_play 0.0)
-   (preview_playing FALSE)
-   (tmp_ix 0)
-#endif
    (show_warning FALSE)
    (enter
-#ifdef HX_WII
-      {user.lbl
-         set_localized
-         ""}
-#endif
       {if_else
          {song_offer_provider get is_leaderboards}
          {song_mgr reset_shared_songs}
@@ -781,18 +739,7 @@
          {==
             {gamemode get song_select_mode}
             song_select_tour}
-         {meta music_start}}
-#ifdef HX_WII
-         {if
-            {meta is_loaded}
-            {meta music_start}}
-      {set
-         [last_preview_play]
-         0.0}
-      {set
-         [tmp_ix]
-         0}
-      #endif)
+         {meta music_start}})
    (unload
       {song_offer_provider unload}
       {song_offer_provider set is_leaderboards FALSE})
@@ -828,11 +775,9 @@
             FALSE}
          {net_sync disable}
          {ui push_screen setlist_warning_screen}}
-#ifndef HX_WII
       {if
          {meta_loading_screen get song_title}
-         {ui push_screen delete_complete_screen}}
-#endif)
+         {ui push_screen delete_complete_screen}})
    (BUTTON_DOWN_MSG
       {cond
          ({&&
@@ -846,26 +791,10 @@
                   {song.lst selected_pos}}}
             {$this sync_song}
             {$this refresh_selected_song})
-         #ifdef HX_WII
-         ({&&
-               {== $action kAction_Option1}
-               {!
-                  {song.lst is_scrolling}}}
-            {song_offer_provider
-               set_highlighted_ix
-               {song_offer_provider
-                  get_next_header
-                  {song.lst selected_pos}}}
-            {$this sync_song}
-            {$this refresh_selected_song})
-         #endif
          ({&&
                {== $action kAction_ViewModify}
                {!
                   {song.lst is_scrolling}}}
-#ifdef HX_WII
-            {song.lst set circular_only FALSE}
-#endif
             {song_offer_provider next_sort}
             {$this sync_sort_method}
             {song_offer_provider init_highlight}
@@ -970,19 +899,10 @@
          {do
             {song_select_details_panel
                shortcut_enter
-               #ifndef HX_WII
                {if_else
                   {== $action kAction_Option}
                   groups
-                  sorts}
-               #else
-               {if_else
-                  {'||'
-                     {== $action kAction_Option}
-                     {== $action kAction_Option1}}
-                  groups
-                  sorts}
-               #endif}
+                  sorts}}
             {if
                {&&
                   {$this is_user_local}
@@ -994,24 +914,12 @@
                      (song_select_details_panel
                         shortcut_enter
                         {','
-                           #ifndef HX_WII
                            {if_else
                               {== $action kAction_Option}
                               groups
-                              sorts}
-                           #else
-                           {if_else
-                              {'||'
-                                 {== $action kAction_Option}
-                                 {== $action kAction_Option1}}
-                              groups
-                              sorts}
-                           #endif})}
+                              sorts}})}
                   kNetReliable}}}})
    (SCROLL_MSG
-#ifdef HX_WII
-      {song_offer_provider play_preview -1}
-#endif
       {song_offer_provider
          set_highlighted_ix
          {song.lst selected_pos}}
@@ -1144,28 +1052,6 @@
                   {song_offer_provider num_data}
                   {song.lst get display_num}})
             {scroller.mesh set_showing $showing}}})
-#ifdef HX_WII
-   (poll
-      {do
-         ($last_play_delta
-            {-
-               {taskmgr ui_seconds}
-               [last_preview_play]})
-         {if
-            {&&
-               {> $last_play_delta 1.25}
-               {!
-                  [preview_playing]}
-               {!
-                  {ui in_transition}}}
-            {do
-               {song_offer_provider
-                  play_preview
-                  [tmp_ix]}
-               {set
-                  [preview_playing]
-                  TRUE}}}})
-#endif
    (refresh_sort
       {do
          ($ix

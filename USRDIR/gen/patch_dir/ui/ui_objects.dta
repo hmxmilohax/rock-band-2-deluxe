@@ -138,7 +138,6 @@
                   (selecting 0.5 0.5 0.5)))
             (dummy
                "rocker maker"))))
-#ifndef HX_WII
    (spin_audition
       (resource_file
          "resource/list_spin_audition.milo")
@@ -176,7 +175,6 @@
                   (selecting 0.3 0.3 0.3)))
             (dummy
                "null"))))
-#endif
    (practice_section
       (resource_file
          "resource/list_practice_section.milo")
@@ -1130,7 +1128,6 @@
                   (selecting 0 0 0)))
             (dummy
                "Song Name"))))
-#ifndef HX_WII
    (ugc_store_filter
       (resource_file
          "resource/list_ugc_store_filter.milo")
@@ -1218,7 +1215,6 @@
                   (selecting 0.5 0.5 0.5)))
             (dummy
                "999,999"))))
-#endif
    (main_submenu
       (resource_file
          "resource/list_main_submenu.milo")
@@ -4248,42 +4244,7 @@
                   (disabled 0.3 0.3 0.3)
                   (selecting 0.3 0.3 0.3)))
             (dummy
-               "The Name of the Band"))))
-#ifdef HX_WII
-   (band_logo
-      (resource_file
-         "resource/list_band_logo.milo")
-      (vertical TRUE)
-      (back_arrow
-         "back.mesh")
-      (next_arrow
-         "next.mesh")
-      (highlight
-         "")
-      (element
-         (mesh
-            (object
-               mesh
-               "sticker.mesh")
-            (colors
-               (normal
-                  (normal 0.8 0.8 0.8)
-                  (focused 0.8 0.8 0.8)
-                  (disabled 0.8 0.8 0.8)
-                  (selecting 0.8 0.8 0.8))
-               (highlight
-                  (normal 0.8 0.8 0.8)
-                  (focused 0.8 0.8 0.8)
-                  (disabled 0.8 0.8 0.8)
-                  (selecting 0.8 0.8 0.8))
-               (disabled
-                  (normal 0.3 0.3 0.3)
-                  (focused 0.3 0.3 0.3)
-                  (disabled 0.3 0.3 0.3)
-                  (selecting 0.3 0.3 0.3)))
-            (dummy
-               "sticker.mat"))))
-#endif)
+               "The Name of the Band")))))
 (BandList
    (allowed_dirs PanelDir)
    (types LIST_TYPES))
@@ -4322,14 +4283,6 @@
          (texts
             (text
                "itcAvantGarde.txt")))
-#ifdef HX_WII
-      (itc_avantgarde_white
-         (resource_file
-            "resource/ITC_avante_garde_pro_Fw.milo")
-         (texts
-            (text
-               "itcAvantGarde.txt")))
-#endif
       (itc_avant_garde_zdecal
          (resource_file
             "resource/avantgarde_zdecal.milo")
@@ -4475,13 +4428,8 @@
             (text
                "instrument_icons_fade.txt")))
       (icons_tour
-         #ifndef HX_WII
          (resource_file
             "resource/icons_tour.milo")
-         #else
-         (resource_file
-            "resource/icons_tour_wii.milo")
-         #endif
          (texts
             (text
                "icons_tour.txt")))
@@ -4498,24 +4446,14 @@
             (text
                "chalet1970numbers_ingame.txt")))
       (button_icon
-#ifdef HX_WII
-         (resource_file
-            "resource/buttons_wii.milo")
-#else
          (resource_file
             "resource/buttons.milo")
-#endif
          (texts
             (text
                "buttons.txt")))
       (button_envon
-#ifdef HX_WII
-         (resource_file
-            "resource/buttons_envon_wii.milo")
-#else
          (resource_file
             "resource/buttons_envon.milo")
-#endif
          (texts
             (text
                "buttons_envon.txt")))
@@ -4624,13 +4562,8 @@
 (UIButton
    (allowed_dirs))
 #define BAND_BUTTON_MAIN_SUBMENU
-(#ifndef HX_OG
-   (enter_anim
+((enter_anim
       "enter_anim.tnm")
-   #else
-   (enter_anim
-      "enter_anim.grp")
-   #endif
    (exit_anim
       "exit_anim.tnm")
    (focus_anim_loop
@@ -5013,7 +4946,6 @@
                   "slider_disabled.mat")
                (selected
                   "slider_selected.mat"))))
-#ifndef HX_WII
       (progress
          (resource_file
             "resource/slider_progress.milo")
@@ -5036,8 +4968,7 @@
                (disabled
                   "slider_disabled.mat")
                (selected
-                  "slider_selected.mat"))))
-                  #endif))
+                  "slider_selected.mat"))))))
 (PanelDir
    (types
       (shell
@@ -5115,7 +5046,6 @@
                               "' for player #"
                               $i
                               "!\n"})}}}}))
-#ifndef HX_WII
       (audition_part_select_slot
          (editor
             (no_part
@@ -5279,8 +5209,7 @@
                   {mini_bass.lbl set_state kComponentDisabled}
                   {join_inst.lbl
                      set_localized
-                     "g"})}))
-                     #endif))
+                     "g"})}))))
 (TexMovie
    (types
       (shell

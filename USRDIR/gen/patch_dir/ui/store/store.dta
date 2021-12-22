@@ -4,15 +4,8 @@
    (file
       "store.milo")
    (saved_offer_sym '')
-   #ifdef HX_WII
-   (allow_home_menu TRUE)
-   #endif
    (load
-      #ifndef NOWIINETWORKING
-      #ifndef HX_EE
       {content_loading_panel allowed_to_show TRUE}
-      #endif
-      #endif
       {content_mgr start_refresh}
       {store_browser_panel reset}
       {set
@@ -21,11 +14,7 @@
    (is_loaded
       {content_mgr refresh_done})
    (finish_load
-      #ifndef NOWIINETWORKING
-      #ifndef HX_EE
       {content_loading_panel allowed_to_show FALSE}
-      #endif
-      #endif
       {background.tnm set_frame 0}
       {wait.grp set_showing FALSE})
    (enter
@@ -58,16 +47,7 @@
                   {rnd aspect}
                   kWidescreenAspect}
                1
-               0}}
-         #ifdef HX_WII
-         {set
-            [storage_dirty]
-            FALSE}
-         {platform_mgr
-            add_sink
-            $this
-            (storage_changed)}
-         #endif})
+               0}}})
    (enum_start
       {wait.grp set_showing TRUE}
       {wait_loop.grp set_showing TRUE}
@@ -82,10 +62,7 @@
          {wait_loop.grp set_showing FALSE}})
    (exit
       {meta music_start}
-      {platform_mgr enable_xmp}
-      #ifdef HX_WII
-      {platform_mgr remove_sink $this storage_changed}
-      #endif)
+      {platform_mgr enable_xmp})
    (show_motd
       {background.tnm
          animate
@@ -123,25 +100,7 @@
          {store_details_panel is_up}
          {store_details_panel
             refresh
-            {store_info_panel cur_offer}}})
-   #ifdef HX_WII
-   (storage_dirty FALSE)
-   (storage_changed
-      {if
-         {==
-            {content_mgr get_mode}
-            SDMODE}
-         {set
-            [storage_dirty]
-            TRUE}})
-   (check_storage
-      {if
-         [storage_dirty]
-         {set
-            [storage_dirty]
-            FALSE}
-         {$this finish_checkout}})
-   #endif}
+            {store_info_panel cur_offer}}})}
 #define STORE_UNLOAD_HANDLERS
 ((panels meta movie_panel)
    (enter
@@ -172,15 +131,11 @@
    BandScreen
    store_unloaded_screen
    STORE_UNLOADED_HANDLERS
-#ifdef HX_WII
-   (next_screen main_screen)
-#else
    (next_screen
       {if_else
          {main_panel get show_rbn_store}
          main_store_screen
-         main_screen})
-#endif}
+         main_screen})}
 {new
    BandScreen
    store_unloaded_matchmaking_screen
@@ -209,9 +164,6 @@
       "store_filter.milo")
    (force_exit TRUE)
    (focus filter.lst)
-   #ifdef HX_WII
-   (allow_home_menu TRUE)
-   #endif
    (enter
       {do
          ($provider
@@ -271,9 +223,6 @@
    store_main_panel
    (file
       "store_main.milo")
-   #ifdef HX_WII
-   (allow_home_menu TRUE)
-   #endif
    (enter
       {$this
          set_config_data
@@ -303,24 +252,13 @@
    (joypad
       (hold_ms 500)
       (repeat_ms 80))
-   #ifdef HX_WII
-   (allow_home_menu TRUE)
-   #endif
    (held_buttons
       (kAction_Option
          {if_else
             {{store_panel cur_store_filter}
                allow_shortcut}
             0.25
-            -1.0})
-      #ifdef HX_WII
-      (kAction_Option1
-         {if_else
-            {{store_panel cur_store_filter}
-               allow_shortcut}
-            0.25
-            -1.0})
-      #endif)
+            -1.0}))
    (saved_selected_pos -1)
    (saved_first_showing -1)
    (saved_sort '')
@@ -361,10 +299,6 @@
    (TRANSITION_COMPLETE_MSG
       {$this reset})
    (reset
-      #ifdef HX_WII
-      {store_details_panel set allow_preview_art FALSE}
-      {store_panel check_storage}
-      #endif
       {set
          [saved_selected_pos]
          -1}
@@ -446,48 +380,7 @@
                         set
                         saved_offer_sym
                         {song.lst selected_sym}}
-                     {$this refresh}}}})
-         #ifdef HX_WII
-         (kAction_Option1
-            {if
-               {!
-                  {song.lst is_scrolling}}
-               {do
-                  ($prev_ix
-                     {song.lst selected_pos})
-                  ($group
-                     {{store_panel get offer_provider}
-                        pos_to_group
-                        $prev_ix})
-                  ($song_ix
-                     {mod
-                        {'+' 1 $prev_ix}
-                        {{store_panel get offer_provider}
-                           num_data}})
-                  {while
-                     {&&
-                        {!= $song_ix $prev_ix}
-                        {==
-                           $group
-                           {{store_panel get offer_provider}
-                              pos_to_group
-                              $song_ix}}}
-                     {set
-                        $song_ix
-                        {mod
-                           {'+' 1 $song_ix}
-                           {{store_panel get offer_provider}
-                              num_data}}}}
-                  {if
-                     {!= $song_ix $prev_ix}
-                     {'++' $song_ix}
-                     {song.lst set_selected $song_ix}
-                     {store_panel
-                        set
-                        saved_offer_sym
-                        {song.lst selected_sym}}
-                     {$this refresh}}}})
-         #endif}
+                     {$this refresh}}}})}
       kDataUnhandled)
    (SCROLL_MSG
       {store_panel
@@ -528,7 +421,6 @@
                   {$provider num_data}
                   {song.lst get display_num}})
             {scroller.mesh set_showing $showing}}}
-      #ifndef HX_WII
       {if_else
          {{$this selected_song}
             has_data
@@ -538,8 +430,7 @@
             {{$this selected_song}
                get_data
                (preview_audio)}}
-         {store_preview_mgr clear_current_preview}}
-      #endif)
+         {store_preview_mgr clear_current_preview}})
    (SELECT_MSG
       {store_info_panel set reset TRUE}
       {store_panel
@@ -572,10 +463,6 @@
       "store_details.milo")
    (cur_preview_art
       "")
-   #ifdef HX_WII
-   (allow_preview_art FALSE)
-   (allow_home_menu TRUE)
-   #endif
    (joypad
       (hold_ms 500)
       (repeat_ms 80))
@@ -757,36 +644,6 @@
                      get_data
                      (preview_audio)}}
                FALSE}}}
-      #ifdef HX_WII
-      {if_else
-         {&&
-            [allow_preview_art]
-            {$offer has_data preview_art}}
-         {unless
-            {==
-               [cur_preview_art]
-               {$offer
-                  get_data
-                  (preview_art)}}
-            {set
-               [cur_preview_art]
-               {$offer
-                  get_data
-                  (preview_art)}}
-            {album.mesh set_showing FALSE}
-            {album.mesh set_mat album.mat}
-            {store_panel
-               load_art
-               [cur_preview_art]
-               album.tex
-               $this}}
-         {do
-            {set
-               [cur_preview_art]
-               ''}
-            {album.mesh set_showing TRUE}
-            {album.mesh set_mat album_generic.mat}}}
-      #else
       {if_else
          {$offer has_data preview_art}
          {unless
@@ -812,8 +669,7 @@
                [cur_preview_art]
                ''}
             {album.mesh set_showing TRUE}
-            {album.mesh set_mat album_generic.mat}}}
-      #endif)
+            {album.mesh set_mat album_generic.mat}}})
    (shortcut_period 1.5)
    (shortcut_selected '')
    (shortcut_enter
@@ -888,19 +744,10 @@
                      kAction_Confirm
                      $action})}}})
    (BUTTON_UP_MSG
-      #ifndef HX_WII
       {if_else
          {== $action kAction_Option}
          {$this on_select}
-         kDataUnhandled}
-      #else
-      {if_else
-         {'||'
-            {== $action kAction_Option}
-            {== $action kAction_Option1}}
-         {$this on_select}
-         kDataUnhandled}
-      #endif)
+         kDataUnhandled})
    (SELECT_MSG
       {$this on_select})
    (on_select
@@ -916,22 +763,11 @@
                   {store_panel get offer_provider})
                ($list
                   {store_browser_panel find song.lst})
-#ifdef HX_WII
-               {if
-                  {!=
-                     {$offer_provider
-                        shortcut_to_pos
-                        {group.lst selected_sym}}
-                     -1}       
-#endif
                {$list
                   set_selected
                   {$offer_provider
                      shortcut_to_pos
                      {group.lst selected_sym}}}
-#ifdef HX_WII
-}
-#endif
                {$list set_dirty}
                {store_browser_panel refresh}}}})}
 {new
@@ -1024,9 +860,6 @@
             {$this cur_offer})
          ($type
             {$offer offer_type})
-         #ifdef HX_WII
-         {store_details_panel set allow_preview_art TRUE}
-         #endif
          {$this refresh_buttons TRUE}
          {song.lbl
             set_localized
@@ -1122,9 +955,6 @@
    (BUTTON_DOWN_MSG
       {if
          {== $action kAction_Cancel}
-         #ifdef HX_WII
-         {store_preview_mgr clear_current_preview}
-         #endif
          {$this go_back}}
       kDataUnhandled)
    (cur_offer
@@ -1165,32 +995,13 @@
             {store_preview_mgr clear_current_preview}
             {store_panel
                check_out
-               {$this cur_offer}}
-            #ifdef HX_WII
-            {store_preview_mgr clear_current_preview}
-            {wii_store_summary_panel
-               set
-               offer
-               {$this cur_offer}}
-            {if_else
-               {!
-                  {platform_mgr parental_control_active}}
-               {ui push_screen wii_store_summary_screen}
-               {ui push_screen wii_store_pin_screen}}
-            #endif)
+               {$this cur_offer}})
          (store_download_again
-            #ifndef HX_PS3
+            #ifdef HX_XBOX
             {store_preview_mgr clear_current_preview}
             {store_panel
                check_out
                {$this cur_offer}}
-            #ifdef HX_WII
-            {store_download_again_screen
-               set
-               offer
-               {$this cur_offer}}
-            {ui push_screen store_download_again_screen}
-            #endif
             #else
             {ui push_screen store_download_again_screen}
             #endif)
@@ -1207,18 +1018,7 @@
                   find_pack
                   {$this cur_offer}}})
          (exit
-            #ifdef HX_WII
-            {store_preview_mgr clear_current_preview}
-            #endif
-            {$this go_back})
-         #ifdef HX_WII
-         (store_delete
-            {wii_store_delete_screen
-               set
-               offer
-               {$this cur_offer}}
-            {ui push_screen wii_store_delete_screen})
-         #endif})
+            {$this go_back})})
    (go_back
       {if_else
          [sub_offer]
@@ -1240,12 +1040,10 @@
          {do
             ($offer
                {$this cur_offer})
-        #ifndef HX_WII
             ($type
                {$offer offer_type})
             ($provider
                {store_panel get info_provider})
-        #endif
             {$this refresh_buttons FALSE}
             {cost.lbl
                set_showing
@@ -1287,11 +1085,7 @@
                   {$offer
                      get_data
                      (preview_audio)}}
-               {store_preview_mgr clear_current_preview}}}})
-   #ifdef HX_WII
-   (TRANSITION_COMPLETE_MSG
-      {store_panel check_storage})
-   #endif}
+               {store_preview_mgr clear_current_preview}}}})}
 {new
    BandScreen
    store_info_screen
@@ -1313,654 +1107,4 @@
          {localize store_download_again_ps3}})
    (SELECT_MSG
       {ui pop_screen})}
-#endif
-#ifdef HX_WII
-{new
-   BandScreen
-   store_download_again_screen
-   (panels dialog_panel)
-   (focus dialog_panel)
-   (scroll_sfx FALSE)
-   (offer 0)
-   (enter
-      {dialog_panel
-         set_yesno
-         {localize store_download_again_wii}
-         no.btn})
-   (SELECT_MSG
-      {switch
-         $component
-         (yes.btn
-            {platform_mgr set_commerce_callback $this}
-            {if
-               {!
-                  {platform_mgr
-                     request_purchase
-                     {[offer]
-                        title_id}
-                     {[offer]
-                        content_index}}}
-               {store_panel exit_error kStoreErrorEcommerce}}
-            {dialog_panel
-               set_msg
-               {localize store_loading}})
-         (no.btn
-            {ui pop_screen})})
-   (platform_mgr_op_complete
-      ($success)
-      {if_else
-         $success
-         {if_else
-            {==
-               {platform_mgr check_content_size}
-               SIZE_CHECK_OK}
-            {ui goto_screen wii_store_download_screen}
-            {ui goto_screen wii_store_insuf_space_screen}}
-         {store_panel exit_error kStoreErrorEcommerce}})}
-{new
-   BandScreen
-   wii_store_delete_screen
-   (panels dialog_panel)
-   (focus dialog_panel)
-   (scroll_sfx FALSE)
-   (offer 0)
-   (enter
-      {dialog_panel
-         set_yesno
-         {localize store_delete_wii}
-         no.btn})
-   (SELECT_MSG
-      {switch
-         $component
-         (yes.btn
-            {platform_mgr set_commerce_callback $this}
-            {if
-               {!
-                  {platform_mgr
-                     request_purchase
-                     {[offer]
-                        title_id}
-                     {[offer]
-                        content_index}}}
-               {store_panel exit_error kStoreErrorEcommerce}}
-            {dialog_panel
-               set_msg
-               {localize store_loading}})
-         (no.btn
-            {ui pop_screen})
-         (ok.btn
-            {ui pop_screen})})
-   (platform_mgr_op_complete
-      ($success)
-      {if_else
-         $success
-         {if_else
-            {&&
-               {==
-                  {content_mgr get_mode}
-                  SDMODE}
-               {!
-                  {platform_mgr is_sdcard_inserted}}}
-            {dialog_panel
-               set_ok
-               {localize dlc_backup_nosdcard}}
-            {do
-               {if_else
-                  {platform_mgr delete_content TRUE}
-                  {ui pop_screen}
-                  {ui goto_screen wii_store_delete_failed_screen}}
-               {store_panel finish_checkout}}}
-         {store_panel exit_error kStoreErrorEcommerce}})}
-{new
-   StoreUIPanel
-   wii_store_summary_panel
-   (file
-      "wii_summary.milo")
-   (focus loading.lbl)
-   (offer 0)
-   (enter
-      {data.grp set_showing FALSE}
-      {loading.lbl set_showing TRUE}
-      {platform_mgr set_commerce_callback $this}
-      {if
-         {!
-            {platform_mgr
-               request_purchase
-               {[offer]
-                  title_id}
-               {[offer]
-                  content_index}}}
-         {store_panel exit_error kStoreErrorEcommerce}}
-      {$this set_focus loading.lbl})
-   (update_data
-      {do
-         ($current_points
-            {platform_mgr current_points})
-         ($current_blocks
-            {memcardmgr get_user_blocks})
-         ($offer_blocks
-            {platform_mgr get_content_size})
-         {if_else
-            {platform_mgr check_purchasable}
-            {if_else
-               {==
-                  {[offer]
-                     price}
-                  {platform_mgr get_content_points}}
-               {do
-                  {title.lbl
-                     set
-                     text_token
-                     {sprintf
-                        "%s - %s"
-                        {[offer]
-                           offer_name}
-                        {sprintf
-                           {localize store_points}
-                           {[offer]
-                              price}}}}
-                  {data01.lbl
-                     set
-                     text_token
-                     {sprintf
-                        {localize store_points}
-                        $current_points}}
-                  {data02.lbl
-                     set
-                     text_token
-                     {sprintf
-                        {localize store_points}
-                        {[offer]
-                           price}}}
-                  {data03.lbl
-                     set
-                     text_token
-                     {sprintf
-                        {localize store_points}
-                        {if_else
-                           {<
-                              $current_points
-                              {[offer]
-                                 price}}
-                           0
-                           {-
-                              $current_points
-                              {[offer]
-                                 price}}}}}
-                  {data04.lbl
-                     set
-                     text_token
-                     {sprintf
-                        {localize store_blocks}
-                        $current_blocks}}
-                  {data05.lbl
-                     set
-                     text_token
-                     {sprintf
-                        {localize store_blocks}
-                        $offer_blocks}}
-                  {data06.lbl
-                     set
-                     text_token
-                     {sprintf
-                        {localize store_blocks}
-                        {- $current_blocks $offer_blocks}}}}
-               {ui goto_screen wii_store_pricing_failed_screen}}
-            {ui goto_screen wii_store_purchase_failed_screen}}}
-      {data.grp set_showing TRUE}
-      {loading.lbl set_showing FALSE}
-      {$this set_focus no.btn})
-   (platform_mgr_op_complete
-      ($success)
-      {if_else
-         $success
-         {$this update_data}
-         {store_panel exit_error kStoreErrorEcommerce}})
-   (SELECT_MSG
-      {switch
-         $component
-         (yes.btn
-            {if_else
-               {!
-                  {platform_mgr parental_control_active}}
-               {if_else
-                  {platform_mgr check_points}
-                  {if_else
-                     {==
-                        {platform_mgr check_content_size}
-                        SIZE_CHECK_OK}
-                     {ui goto_screen wii_store_purchase_screen}
-                     {ui goto_screen wii_store_insuf_space_screen}}
-                  {ui goto_screen wii_store_insuf_points_screen}}
-               {ui goto_screen wii_store_pin_screen}})
-         (no.btn
-            {ui pop_screen})})}
-{new
-   BandScreen
-   wii_store_summary_screen
-   (panels wii_store_summary_panel)
-   (focus wii_store_summary_panel)
-   (scroll_sfx FALSE)
-   (helpbar
-      ((confirm helpbar_select)))}
-#define WII_DLC_HANDLERS
-((file
-      "wii_dialog.milo")
-   (focus ok.btn)
-   (set_progress
-      ($progress)
-      {progress.grp set_showing TRUE}
-      {ok.btn set_showing FALSE}
-      {meter_grow.msnm set_frame $progress})
-   (set_title
-      ($title)
-      {dialog_title.lbl set_localized $title})
-   (set_msg
-      ($msg)
-      {msg.lbl set_localized $msg}
-      {$this set_focus msg.lbl}
-      {helpbar
-         set_config
-         ()})
-   (set_msg_ok
-      ($msg)
-      {progress.grp set_showing FALSE}
-      {ok.btn set_showing TRUE}
-      {$this set_msg $msg}
-      {$this set_focus ok.btn}
-      {helpbar
-         set_config
-         ((confirm helpbar_select))}))
-{new
-   StoreUIPanel
-   wii_store_purchase_panel
-   WII_DLC_HANDLERS
-   (current_item 0)
-   (enter
-      {$this set_progress 0}
-      {$this
-         set_title
-         {localize store_purchase_title}}
-      {set
-         [current_item]
-         0}
-      {platform_mgr set_commerce_callback $this}
-      {if
-         {!
-            {platform_mgr
-               purchase_content
-               [current_item]}}
-         {store_panel exit_error kStoreErrorEcommerce}}
-      {$this
-         set_msg
-         {localize store_purchasing}})
-   (SELECT_MSG
-      {ui goto_screen wii_store_download_screen})
-   (platform_mgr_op_complete
-      ($success)
-      {if_else
-         $success
-         {do
-            {if_else
-               {==
-                  [current_item]
-                  0}
-               {do
-                  {$this set_progress 50}
-                  {'++'
-                     [current_item]}
-                  {platform_mgr set_commerce_callback $this}
-                  {if
-                     {!
-                        {platform_mgr
-                           purchase_content
-                           [current_item]}}
-                     {store_panel exit_error kStoreErrorEcommerce}}}
-               {$this
-                  set_msg_ok
-                  {localize store_purchase_complete}}}}
-         {store_panel exit_error kStoreErrorEcommerce}})}
-{new
-   BandScreen
-   wii_store_purchase_screen
-   (panels wii_store_purchase_panel)
-   (focus wii_store_purchase_panel)}
-#define DL_TITLE
-(0)
-#define DL_CONTENT
-(1)
-#define DL_SONGS
-(2)
-#define DL_DONE
-(3)
-{new
-   StoreUIPanel
-   wii_store_download_panel
-   WII_DLC_HANDLERS
-   (state DL_TITLE)
-   (enter
-      {set
-         [state]
-         DL_TITLE}
-      {$this set_progress 0}
-      {$this
-         set_title
-         {localize store_download_title}}
-      {platform_mgr delete_content TRUE}
-      {platform_mgr set_commerce_callback $this}
-      {do
-         ($offer
-            {store_panel current_offer})
-         {if
-            {!
-               {platform_mgr
-                  update_title
-                  {$offer title_id}}}
-            {store_panel exit_error kStoreErrorEcommerce}}}
-      {$this
-         set_msg
-         {localize store_downloading_wii}})
-   (SELECT_MSG
-      {if_else
-         {==
-            {content_mgr get_mode}
-            SDMODE}
-         {do
-            {content_mgr start_refresh}
-            {ui goto_screen wii_store_backup_screen}}
-         {do
-            {ui pop_screen}
-            {store_panel finish_checkout}}})
-   (poll
-      {if_else
-         {==
-            [state]
-            DL_SONGS}
-         {do
-            ($status
-               {content_mgr poll_content_list_download})
-            {if
-               {< $status 0}
-               {store_panel exit_error kStoreErrorEcommerce}}
-            {if_else
-               {== $status 100}
-               {$this platform_mgr_op_complete TRUE}
-               {$this
-                  set_progress
-                  {'+'
-                     {'*'
-                        {/ $status 10}
-                        2}
-                     80}}}}
-         {if
-            {!=
-               [state]
-               DL_DONE}
-            {do
-               ($percent
-                  {platform_mgr commerce_percent})
-               {switch
-                  [state]
-                  (DL_TITLE
-                     {$this
-                        set_progress
-                        {/ $percent 10}})
-                  (DL_CONTENT
-                     {$this
-                        set_progress
-                        {'+'
-                           {'*'
-                              {/ $percent 10}
-                              7}
-                           10}})}}}})
-   (platform_mgr_op_complete
-      ($success)
-      {if_else
-         $success
-         {switch
-            [state]
-            (DL_TITLE
-               {set
-                  [state]
-                  DL_CONTENT}
-               {platform_mgr set_commerce_callback $this}
-               {do
-                  ($offer
-                     {store_panel current_offer})
-                  {if
-                     {!
-                        {platform_mgr
-                           download_content
-                           {$offer title_id}
-                           {$offer content_id}}}
-                     {store_panel exit_error kStoreErrorEcommerce}}})
-            (DL_CONTENT
-               {if_else
-                  {platform_mgr need_songs_download}
-                  {if_else
-                     {!
-                        {content_mgr start_content_list_download}}
-                     {store_panel exit_error kStoreErrorEcommerce}
-                     {set
-                        [state]
-                        DL_SONGS}}
-                  {do
-                     {$this
-                        set_msg_ok
-                        {localize store_download_complete}}
-                     {set
-                        [state]
-                        DL_DONE}}})
-            (DL_SONGS
-               {platform_mgr set_songs_download TRUE}
-               {$this
-                  set_msg_ok
-                  {localize store_download_complete}}
-               {set
-                  [state]
-                  DL_DONE})}
-         {store_panel exit_error kStoreErrorEcommerce}})}
-{new
-   BandScreen
-   wii_store_download_screen
-   (panels wii_store_download_panel)
-   (focus wii_store_download_panel)}
-{new
-   BandScreen
-   wii_store_backup_screen
-   (panels dialog_panel)
-   (focus dialog_panel)
-   (done FALSE)
-   (helpbar
-      ((min_height 0)))
-   (enter
-      {dialog_panel
-         set_msg
-         {localize dlc_sdmode_checking}}
-      {set
-         [done]
-         FALSE})
-   (poll
-      {if
-         {&&
-            {!
-               [done]}
-            {content_mgr refresh_done}}
-         {set
-            [done]
-            TRUE}
-         {content_backup_panel
-            set
-            num_contents
-            {content_mgr sd_mode_nand_check}}
-         {content_backup_panel set destination wii_store_complete_screen}
-         {content_backup_panel set fail_destination wii_store_failed_screen}
-         {ui goto_screen content_backup_screen}})}
-{new
-   BandScreen
-   wii_store_complete_screen
-   (panels dialog_panel)
-   (focus dialog_panel)
-   (enter
-      {if
-         {==
-            {content_mgr get_mode}
-            SDMODE}
-         {platform_mgr delete_content FALSE}}
-      {dialog_panel
-         set_ok
-         {localize store_backup_complete}})
-   (SELECT_MSG
-      {ui pop_screen}
-      {store_panel finish_checkout})}
-{new
-   BandScreen
-   wii_store_failed_screen
-   (panels dialog_panel)
-   (focus dialog_panel)
-   (enter
-      {dialog_panel
-         set_ok
-         {localize store_backup_failed}})
-   (SELECT_MSG
-      {ui pop_screen}
-      {store_panel finish_checkout})}
-{new
-   BandScreen
-   wii_store_error_screen
-   (panels dialog_panel)
-   (focus dialog_panel)
-   (enter
-      {dialog_panel
-         set_ok
-         {sprintf
-            {localize store_genericerror}
-            {platform_mgr commerce_error_code}}})
-   (SELECT_MSG
-      {ui pop_screen})}
-{new
-   BandScreen
-   wii_store_insuf_points_screen
-   (panels dialog_panel)
-   (focus dialog_panel)
-   (enter
-      {dialog_panel
-         set_ok
-         {localize store_needpoints}})
-   (SELECT_MSG
-      {ui pop_screen})}
-{new
-   BandScreen
-   wii_store_insuf_space_screen
-   (panels dialog_panel)
-   (focus dialog_panel)
-   (enter
-      {do
-         ($result
-            {platform_mgr check_content_size})
-         {if_else
-            {== $result SIZE_CHECK_INODES}
-            {dialog_panel
-               set_ok
-               {localize store_needinodes}}
-            {dialog_panel
-               set_ok
-               {sprintf
-                  {localize store_needblocks}
-                  $result}}}})
-   (SELECT_MSG
-      {ui pop_screen})}
-{new
-   BandScreen
-   wii_store_delete_failed_screen
-   (panels dialog_panel)
-   (focus dialog_panel)
-   (enter
-      {dialog_panel
-         set_ok
-         {localize store_delete_failed}})
-   (SELECT_MSG
-      {ui pop_screen})}
-{new
-   BandScreen
-   wii_store_purchase_failed_screen
-   (panels dialog_panel)
-   (focus dialog_panel)
-   (enter
-      {dialog_panel
-         set_ok
-         {localize store_purchase_failed}})
-   (SELECT_MSG
-      {ui pop_screen})}
-{new
-   BandScreen
-   wii_store_pricing_failed_screen
-   (panels dialog_panel)
-   (focus dialog_panel)
-   (enter
-      {dialog_panel
-         set_ok
-         {localize store_pricing_failed}})
-   (SELECT_MSG
-      {ui pop_screen})}
-{new
-   UIPanel
-   wii_store_pin_panel
-   (file
-      "wii_pin.milo")
-   (focus Username.lbl)
-   (helpbar
-      (helpbar_back helpbar_select))
-   (name_label Username.lbl)
-   (name_active TRUE)
-   (back_button_exits TRUE)
-   (randomize_button '')
-   (back_button '')
-   (for_edit_only FALSE)
-   (username '')
-   (failure_goto '')
-   NAMING_PANEL_HANDLERS
-   (enter
-      {set
-         [mask]
-         TRUE}
-      {set
-         [numbers_only]
-         TRUE}
-      {set
-         [for_pin]
-         TRUE}
-      {$this init_name}
-      {$this update_name})
-   (accept_name
-      {if_else
-         {platform_mgr
-            set_parental_control_pin
-            {$this get_name}}
-         {ui goto_screen wii_store_summary_screen}
-         {ui goto_screen wii_store_incorrect_pin_screen}})
-   (cancel_name
-      {ui pop_screen}
-      {$this stop_naming})
-   (on_exit)}
-{new
-   BandScreen
-   wii_store_pin_screen
-   (panels wii_store_pin_panel)
-   (helpbar
-      ((cancel helpbar_cancel)
-         (confirm helpbar_confirm)))
-   (focus wii_store_pin_panel)}
-{new
-   BandScreen
-   wii_store_incorrect_pin_screen
-   (panels dialog_panel)
-   (focus dialog_panel)
-   (enter
-      {dialog_panel
-         set_ok
-         {localize store_incorrect_pin}})
-   (SELECT_MSG
-      {ui goto_screen wii_store_pin_screen})}
-#endif
 #endif

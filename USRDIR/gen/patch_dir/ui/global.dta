@@ -77,53 +77,6 @@
                      {eval $prefab}}
                   {available_prefab $i}}}}
          {'++' $i}}}}
-#ifdef HX_WII
-{func
-   are_all_mics_connected
-   {do
-      ($enable_resume TRUE)
-      ($existing_mic FALSE)
-      {game
-         foreach_local_player
-         $p
-         {do
-            ($player_num
-               {$p player_num})
-            {if
-               {&&
-                  {!= $player_num -1}
-                  {game is_player_participating $player_num}
-                  {==
-                     {{gamecfg get_player_config $player_num}
-                        get_track_sym}
-                     vocals}}
-               #ifdef HX_EE
-               {do
-                  {if_else
-                     {! $existing_mic}
-                     {do
-                        {set $existing_mic TRUE}
-                        ($mic_num 0)}
-                     ($mic_num 1)}
-                  {if
-                     {&&
-                        {!= $mic_num -1}
-                        {!
-                           {synth is_mic_connected $mic_num}}}
-                     {set $enable_resume FALSE}}}
-               #else
-               {do
-                  ($mic_num
-                     {joypad_get_players_padnum $player_num})
-                  {if
-                     {&&
-                        {!= $mic_num -1}
-                        {!
-                           {synth is_mic_connected $mic_num}}}
-                     {set $enable_resume FALSE}}}
-               #endif}}}
-      $enable_resume}}
-#else
 {func
    are_all_mics_connected
    {do
@@ -184,7 +137,6 @@
                      {$user get autoplay}}}
                {set $ret TRUE}}}}
       $ret}}
-#endif
 {func
    game_restart
    {net_sync disable}
@@ -239,12 +191,8 @@
       {synth
          play
          $sfx
-#ifdef HX_WII
-(pan 0)
-#else
          (pan
-            {player_pan $player})
-#endif}}}
+            {player_pan $player})}}}
 {func
    fmt_score
    ($score)
@@ -399,7 +347,6 @@
 {func
    process_comeback_achievement
    ($win)
-   #ifndef HX_WII
    #ifndef _SHIP
    {unless
       {gamemode is_h2h_arrangement}
@@ -433,17 +380,12 @@
                   {profile_mgr get_save_data $local})
                {if
                   {$profile is_comeback_target $opponent}
-                  #ifndef HX_WII
                   {achievements
                      submit
                      {$local get player_num}
-                     ach_skill_versus_revenge}
-                  #else
-                  {set $dummyachievement 0}
-                  #endif}}
+                     ach_skill_versus_revenge}}}
             {if
                {profile_mgr get_save_data $local}
                {{profile_mgr get_save_data $local}
                   set_comeback_target
-                  $opponent}}}}}
-   #endif}
+                  $opponent}}}}}}

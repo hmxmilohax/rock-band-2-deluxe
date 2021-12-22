@@ -1,26 +1,10 @@
 (features modifier_saving_feature modifier_achievements_feature modifier_online_feature)
 (modifiers
-   (mod_nofail       (disables
-         #ifdef HX_EE
-         (modifier_saving_feature)
-         #endif
-         #ifdef HX_WII
-         (modifier_saving_feature modifier_online_feature)
-         #else
-         (modifier_saving_feature modifier_achievements_feature modifier_online_feature)
-         #endif) hidden unlocked)
+   (mod_nofail (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature)) hidden unlocked)
    (mod_doublespeed (activate {modifier_mgr deactivate_modifier mod_halfspeed}) unlocked)
    (mod_choose_venue (disables (modifier_online_feature)) unlocked)
    (mod_nohud unlocked)
-   (mod_unlockall       (disables
-         #ifdef HX_EE
-         (modifier_saving_feature)
-         #endif
-         #ifdef HX_WII
-         (modifier_saving_feature modifier_online_feature)
-         #else
-         (modifier_saving_feature modifier_achievements_feature modifier_online_feature)
-         #endif) (activate {profile_mgr unlock_all_songs}) (deactivate {profile_mgr relock_songs}))
+   (mod_unlockall (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature)) (activate {profile_mgr unlock_all_songs}) (deactivate {profile_mgr relock_songs}))
    (mod_newvenuesonly)
    (mod_demomode (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature)))
    (mod_awesome)
@@ -34,15 +18,7 @@
    (mod_nosustain unlocked)
    (mod_noflames (activate {modifier_mgr deactivate_modifier mod_flashbang}) unlocked)
    (mod_flashbang (activate {modifier_mgr deactivate_modifier mod_noflames}) unlocked)
-   (mod_auto_play       (disables
-         #ifdef HX_EE
-         (modifier_saving_feature)
-         #endif
-         #ifdef HX_WII
-         (modifier_saving_feature modifier_online_feature)
-         #else
-         (modifier_saving_feature modifier_achievements_feature modifier_online_feature)
-         #endif) unlocked)
+   (mod_auto_play (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature)) unlocked)
    ;(mod_autostrum)
    ;(mod_autokick)
    )

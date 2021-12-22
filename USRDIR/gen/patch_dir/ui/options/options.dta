@@ -38,23 +38,12 @@
 {new
    UIPanel
    options_background_panel
-   #ifdef HX_EE
    (file
-      "options_background_ps2.milo")
-   #else
-   (file
-      "options_background.milo")
-   #endif
-   #ifdef HX_WII
-   (allow_home_menu TRUE)
-   #endif}
+      "options_background.milo")}
 {new
    UIPanel
    options_panel
    MAIN_SUBSCREEN_PANEL_HANDLER
-   #ifdef HX_WII
-   (allow_home_menu TRUE)
-   #endif
    (SELECT_MSG
       {switch
          $component
@@ -322,82 +311,12 @@
          $component
          (ok.btn
             {ui pop_screen options_banddata_screen})})}
-#ifdef HX_OG
-{new
-   UIPanel
-   char_renaming_panel
-   (file
-      "../naming_dialog_char.milo")
-   (focus name.lbl)
-   (name_label name.lbl)
-   (name_active TRUE)
-   (back_button_exits TRUE)
-   NAMING_PANEL_HANDLERS
-   (enter
-      {set
-         [for_char]
-         TRUE}
-      {$this init_name})
-   (accept_name
-      {$this stop_naming}
-      {options_characterdata_panel
-         accept_name
-         {$this get_name}}
-      {ui pop_screen}
-      {if
-         {!
-            {{options_background_panel find sunrise_animation.tnm}
-               is_animating}}
-         {{options_background_panel find UITrigger.trg}
-            trigger}})
-   (cancel_name
-      {ui pop_screen}
-      {if
-         {!
-            {{options_background_panel find sunrise_animation.tnm}
-               is_animating}}
-         {{options_background_panel find UITrigger.trg}
-            trigger}})
-   (on_exit)}
-{new
-   BandScreen
-   char_renaming_screen
-   (panels char_renaming_panel)
-   (focus char_renaming_panel)}
-{new
-   BandScreen
-   charcreator_no_rename_screen
-   (panels dialog_panel)
-   (focus dialog_panel)
-   (enter
-      {dialog_panel
-         set_ok
-         {localize shell_charcreator_no_name}})
-   (SELECT_MSG
-      {ui goto_screen char_renaming_screen})}
-{new
-   BandScreen
-   charcreator_rename_not_unique_screen
-   (panels dialog_panel)
-   (focus dialog_panel)
-   (enter
-      {dialog_panel
-         set_ok
-         {sprintf
-            {localize shell_charcreator_name_not_unique_fmt}
-            {char_renaming_panel get_name}}})
-   (SELECT_MSG
-      {ui goto_screen char_renaming_screen})}
-#endif
 {new
    UIPanel
    options_characterdata_panel
    (file
       "options_characterdata.milo")
    (focus charlist.lst)
-   #ifdef HX_WII
-   (allow_home_menu TRUE)
-   #endif
    (enter
       SET_UP_GAMERTAG
       {char_data_provider
@@ -471,10 +390,6 @@
                {!
                   {net_sync has_destination_screen}}}
             {autosave_push options_savedata_screen}}})
-   #ifdef HX_OG
-   (rename_char
-      {ui push_screen char_renaming_screen})
-   #else
    (rename_char
       {virtual_keyboard
          show_keyboard
@@ -487,7 +402,6 @@
             get_char_name
             {charlist.lst selected_pos}}
          $this})
-   #endif
    (char_leaveband
       {options_quitband_list_panel
          set
@@ -547,57 +461,12 @@
                   {char_data_provider
                      get_tour_char
                      {charlist.lst selected_pos}}}
-               #ifndef HX_EE
                {network_busy_panel set_busy TRUE}
-               #endif
                {entity_uploader
                   verify_char_name
                   [char_name]
                   $this
                   $tour_char}}}})
-#ifdef HX_WII
-   (ROCK_CENTRAL_OP_COMPLETE_MSG
-      #ifndef HX_EE
-      {network_busy_panel set_busy FALSE}
-      #endif
-      {if
-         {==
-            {ui current_screen}
-            options_characterdata_screen}
-         {switch
-            $arg1
-            (RB_RETCODE_CHAR_NAME_PROFANE
-               {ui push_screen option_chardata_char_name_profane})
-            (RB_RETCODE_CHAR_NAME_IP
-               {ui push_screen option_chardata_char_name_ip})}})
-   #ifdef HX_OG
-   (accept_name
-      ($newname)
-      {set
-         [char_name]
-         $newname}
-      {set
-         $tour_char
-         {char_data_provider
-            get_tour_char
-            {charlist.lst selected_pos}}}
-      {char_data_provider
-         set_char_name
-         {charlist.lst selected_pos}
-         [char_name]}
-      {charlist.lst set_dirty}
-      {entity_uploader
-         verify_char_name
-         [char_name]
-         $this
-         $tour_char})
-   (get_charname
-      {char_data_provider
-         get_char_name
-         {charlist.lst selected_pos}})
-   #endif
-   #endif
-#ifndef HX_WII
    (ROCK_CENTRAL_OP_COMPLETE_MSG
       {network_busy_panel set_busy FALSE}
       {char_data_provider
@@ -611,7 +480,6 @@
             {ui push_screen option_chardata_char_name_profane})
          (RB_RETCODE_CHAR_NAME_IP
             {ui push_screen option_chardata_char_name_ip})})
-#endif
    (char_name
       "")}
 {new
@@ -776,80 +644,12 @@
                -1}
             {ui pop_screen})})
    (remove_char -1)}
-#ifdef HX_OG
-{new
-   UIPanel
-   band_renaming_panel
-   (file
-      "../naming_dialog_band.milo")
-   (focus name.lbl)
-   (name_label name.lbl)
-   (name_active TRUE)
-   (back_button_exits TRUE)
-   NAMING_PANEL_HANDLERS
-   (enter
-      {set
-         [for_band]
-         TRUE}
-      {$this init_name})
-   (accept_name
-      {$this stop_naming}
-      {options_banddata_panel
-         accept_name
-         {$this get_name}}
-      {ui pop_screen}
-      {if
-         {!
-            {{options_background_panel find sunrise_animation.tnm}
-               is_animating}}
-         {{options_background_panel find UITrigger.trg}
-            trigger}})
-   (cancel_name
-      {ui pop_screen}
-      {if
-         {!
-            {{options_background_panel find sunrise_animation.tnm}
-               is_animating}}
-         {{options_background_panel find UITrigger.trg}
-            trigger}})
-   (on_exit)}
-{new
-   BandScreen
-   band_renaming_screen
-   (panels band_renaming_panel)
-   (focus band_renaming_panel)}
-{new
-   BandScreen
-   tour_band_rename_error_screen
-   (panels dialog_panel)
-   (focus dialog_panel)
-   (enter
-      {dialog_panel
-         set_ok
-         {localize shell_no_band_name_error}})
-   (SELECT_MSG
-      {ui goto_screen band_renaming_screen})}
-{new
-   BandScreen
-   tour_band_rename_not_unique_screen
-   (panels dialog_panel)
-   (focus dialog_panel)
-   (enter
-      {dialog_panel
-         set_ok
-         {localize tour_band_name_not_unique}})
-   (SELECT_MSG
-      {ui goto_screen band_renaming_screen})}
-#endif
 {new
    UIPanel
    options_banddata_panel
    (file
       "options_banddata.milo")
    (focus bandlist.lst)
-   #ifdef HX_WII
-   (allow_home_menu TRUE)
-   #endif
    (enter
       SET_UP_GAMERTAG
       {band_data_provider
@@ -931,10 +731,6 @@
                {!
                   {net_sync has_destination_screen}}}
             {autosave_push options_savedata_screen}}})
-   #ifdef HX_OG
-   (rename_band
-      {ui push_screen band_renaming_screen})
-   #else
    (rename_band
       {virtual_keyboard
          show_keyboard
@@ -947,7 +743,6 @@
             get_band_name
             {bandlist.lst selected_pos}}
          $this})
-   #endif
    (SELECT_MSG
       {switch
          $component
@@ -1006,57 +801,12 @@
                   {band_data_provider
                      get_band_data
                      {bandlist.lst selected_pos}}}
-               #ifndef HX_EE
                {network_busy_panel set_busy TRUE}
-               #endif
                {entity_uploader
                   verify_band_name
                   [band_name]
                   $this
                   $band_data}}}})
-#ifdef HX_WII
-   (ROCK_CENTRAL_OP_COMPLETE_MSG
-      #ifndef HX_EE
-      {network_busy_panel set_busy FALSE}
-      #endif
-      {if
-         {==
-            {ui current_screen}
-            options_banddata_screen}
-         {switch
-            $arg1
-            (RB_RETCODE_BAND_NAME_PROFANE
-               {ui push_screen option_banddata_band_name_profane})
-            (RB_RETCODE_BAND_NAME_IP
-               {ui push_screen option_banddata_band_name_ip})}})
-   #ifdef HX_OG
-   (accept_name
-      ($newname)
-      {set
-         [band_name]
-         $newname}
-      {set
-         $band_data
-         {band_data_provider
-            get_band_data
-            {bandlist.lst selected_pos}}}
-      {band_data_provider
-         set_band_name
-         {bandlist.lst selected_pos}
-         [band_name]}
-      {bandlist.lst set_dirty}
-      {entity_uploader
-         verify_band_name
-         [band_name]
-         $this
-         $band_data})
-   (get_bandname
-      {band_data_provider
-         get_band_name
-         {bandlist.lst selected_pos}})
-   #endif                  
-   #endif       
-#ifndef HX_WII
    (ROCK_CENTRAL_OP_COMPLETE_MSG
       {network_busy_panel set_busy FALSE}
       {band_data_provider
@@ -1070,7 +820,6 @@
             {ui push_screen option_banddata_band_name_profane})
          (RB_RETCODE_BAND_NAME_IP
             {ui push_screen option_banddata_band_name_ip})})
-#endif
    (band_name
       "")}
 {new
@@ -1192,11 +941,7 @@
 {new
    BandScreen
    options_removechar_list_screen
-   (panels meta 
-   #ifdef HX_WII
-   movie_panel
-   #endif
-   options_background_panel options_removechar_list_panel)
+   (panels meta options_background_panel options_removechar_list_panel)
    (focus options_removechar_list_panel)
    (back options_banddata_screen)
    (helpbar
@@ -1379,9 +1124,6 @@
    (file
       "options_savedata.milo")
    (focus chardata.btn)
-   #ifdef HX_WII
-   (allow_home_menu TRUE)
-   #endif
    (enter
       SET_UP_GAMERTAG
       {if_else
