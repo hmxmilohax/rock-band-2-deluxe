@@ -95,28 +95,25 @@
             {$this enable lb_scoreduel.btn}}}
       #endif)
    (update_button_status
-      #ifdef HX_PS3
-      {if_else
-         {server is_connected}
-         {do
-            {if_else
-               {community_panel is_webcode_done}
-               {$this enable webcode_ps3.btn}
-               {$this disable webcode_ps3.btn}}
-            {$this enable checkinvites.btn}
-            {$this enable managefriends.btn}}
-         {do
-            {$this disable webcode_ps3.btn}
-            {$this disable checkinvites.btn}
-            {$this disable managefriends.btn}}}
-      #else
+   ;   {if_else
+   ;      {server is_connected}
+   ;      {do
+   ;         {if_else
+   ;            {community_panel is_webcode_done}
+   ;            {$this enable webcode_ps3.btn}
+   ;            {$this disable webcode_ps3.btn}}
+   ;         {$this enable checkinvites.btn}
+   ;         {$this enable managefriends.btn}}
+   ;      {do
+   ;         {$this disable webcode_ps3.btn}
+   ;         {$this disable checkinvites.btn}
+   ;         {$this disable managefriends.btn}}}
       {$this disable webcode_ps3.btn}
       {webcode_ps3.btn set_showing FALSE}
       {$this disable checkinvites.btn}
       {checkinvites.btn set_showing FALSE}
       {$this disable managefriends.btn}
-      {managefriends.btn set_showing FALSE}
-      #endif)
+      {managefriends.btn set_showing FALSE})
    (set_gameplay_button
       #ifdef HX_PS3
       {$this disable gameplay.btn}
