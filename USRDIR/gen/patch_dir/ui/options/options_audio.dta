@@ -338,10 +338,10 @@
          {do
             {set $speedmod
                {+ 1 {* {instruments.sld current} 0.05}}}
-			   {set $leaderspeed
-               {+ 1 {* {instruments.sld current} 0.05}}}
             {set $fpsmod
-               {+ 1 {background.sld current}}}}
+               {+ 1 {background.sld current}}}
+			{set $leaderspeed $speedmod}}
+            {set $leaderspeed $speedmod}
             {$this display_speed_msg $speedmod}
 			{$this display_fps_msg $fpsmod})
    (on_slider_change
@@ -444,7 +444,10 @@
       {crowd.btn set_localized {localize {sprintf "gemcolor_%i" $slot4_color}}} ;update text for button 4
       {sfx.btn set_localized {localize {sprintf "gemcolor_%i" $slot5_color}}} ;update text for button 5
    )
-   (exit)
+   (exit
+   {set $leaderspeed $speedmod}
+   {do
+      {set $leaderspeed $speedmod}})
    (TRANSITION_COMPLETE_MSG
       {$this
          update_helpbar

@@ -14,6 +14,7 @@
       {handle_type
          ($world halfbeat)})
    (beat
+   {if {is_leader_local} {session send_msg_to_all {` (beatmatch set_music_speed {, $speedmod}) kNetReliable}}}
    {beatmatch set_music_speed $speedmod}
       {if_else
          $world

@@ -25,6 +25,7 @@
       {demo.mesh set showing FALSE})
    (enter
       {if {is_leader_local} {session send_msg_to_all {` (set $speedmod {, $leaderspeed}) kNetReliable}}}
+	  {if {is_leader_local} {set $speedmod $leaderspeed}}
       {loading.mnm
          animate
          (loop)})
@@ -60,6 +61,7 @@
    (refresh_mtv
       ($offer_ix)
 	  {if {is_leader_local} {session send_msg_to_all {` (set $speedmod {, $leaderspeed}) kNetReliable}}}
+	  {if {is_leader_local} {set $speedmod $leaderspeed}}
       {if_else
          {song_offer_provider is_song $offer_ix}
          {do

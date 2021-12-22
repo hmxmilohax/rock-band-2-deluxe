@@ -473,6 +473,7 @@
    (milo_setup
 ;send to network leaders song speed
       {if {is_leader_local} {session send_msg_to_all {` (set $speedmod {, $leaderspeed}) kNetReliable}}}
+	  {if {is_leader_local} {set $speedmod $leaderspeed}}
 ;send to network leaders static fills modifier
 	  ;{if {is_leader_local} {session send_msg_to_all {` (set $netstaticfills {, $leaderstaticfills}) kNetReliable}}}
 	  ;{session send_msg_to_all {` (set $tempstaticfills $leaderstaticfills) kNetReliable}}
