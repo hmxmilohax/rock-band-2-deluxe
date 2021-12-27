@@ -29,7 +29,7 @@
       {if_else
          {modifier_mgr is_modifier_active mod_vocalgender}
 		 TRUE
-		 FALSE)
+		 FALSE})
    (local_network TRUE)
    (ranked FALSE)
    (online_play_required FALSE)
@@ -352,7 +352,7 @@
       {if_else
          {modifier_mgr is_modifier_active mod_vocalgender}
 		 TRUE
-		 FALSE)
+		 FALSE})
    (max_players 1)
    (max_local_players 1)
    (player_arrangement kArrangeBand)
@@ -719,7 +719,7 @@
       {if_else
          {modifier_mgr is_modifier_active mod_vocalgender}
 		 TRUE
-		 FALSE)
+		 FALSE})
    (allow_overdrive_phrases FALSE)
    (endgame_screen
       {if_else
