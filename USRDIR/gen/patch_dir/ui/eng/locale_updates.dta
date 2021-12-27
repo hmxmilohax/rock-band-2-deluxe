@@ -691,6 +691,12 @@
 (options_audio
    "audio settings")
 ;; Modifiers
+(mod_vocalgender
+   "Force Vocal Gender")
+(mod_vocalgender_desc 
+   "Forces a song's defined gender for the singer.")
+(mod_vocalgender_obtain 
+   "(bug, should be available by default)")
 (mod_noflames
    "No Flames")
 (mod_noflames_desc 

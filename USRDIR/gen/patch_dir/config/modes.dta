@@ -25,7 +25,11 @@
    (show_stars TRUE)
    (show_prefab_chars TRUE)
    (allow_create_char TRUE)
-   (force_player_vocal_gender FALSE)
+   (force_player_vocal_gender
+      {if_else
+         {modifier_mgr is_modifier_active mod_vocalgender}
+		 TRUE
+		 FALSE)
    (local_network TRUE)
    (ranked FALSE)
    (online_play_required FALSE)
@@ -344,7 +348,11 @@
    (skip_matchmaking TRUE)
    (main_mode_screen main_quickplay_screen)
    (allow_create_char FALSE)
-   (force_player_vocal_gender TRUE)
+   (force_player_vocal_gender
+      {if_else
+         {modifier_mgr is_modifier_active mod_vocalgender}
+		 TRUE
+		 FALSE)
    (max_players 1)
    (max_local_players 1)
    (player_arrangement kArrangeBand)
@@ -707,7 +715,11 @@
    (play_streak_sfx FALSE)
    (enable_streak FALSE)
    (enable_star_power FALSE)
-   (force_player_vocal_gender TRUE)
+   (force_player_vocal_gender
+      {if_else
+         {modifier_mgr is_modifier_active mod_vocalgender}
+		 TRUE
+		 FALSE)
    (allow_overdrive_phrases FALSE)
    (endgame_screen
       {if_else
