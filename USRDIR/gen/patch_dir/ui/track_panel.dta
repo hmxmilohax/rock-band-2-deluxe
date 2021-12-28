@@ -199,7 +199,8 @@
             {exists gamemode}
             {gamemode get play_track_intro_sfx}}
          {synth play track_beg.cue}
-		 {beatmatch set_music_speed $speedmod}}))
+		 {unless {> {gamecfg get practice_speed} 0} {beatmatch set_music_speed $speedmod}}
+		 {if {> {gamecfg get practice_speed} 0} {beatmatch set_music_speed $modifier}}}))
 {new
    TrackPanel
    coop_track_panel
