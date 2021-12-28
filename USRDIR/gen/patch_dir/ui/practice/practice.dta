@@ -14,7 +14,11 @@
    PracticeBackgroundPanel
    practice_background_panel
    (file
-      "practice_background.milo")
+      {if_else
+         {modifier_mgr is_modifier_active mod_blackvenue}
+      "practice_black_background.milo"
+      "practice_background.milo"
+      })
    (select_background
       {do
          ($player_num
