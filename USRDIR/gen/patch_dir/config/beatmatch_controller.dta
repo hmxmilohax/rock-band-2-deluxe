@@ -32,7 +32,7 @@
    (force_mercury kPad_Select))
 (hx_drums_ps3
    (dpad_for_navigation FALSE)
-   (slots kPad_L1 0 kPad_R1 0 kPad_Circle 1 kPad_Tri 2 kPad_Square 3 kPad_X 4)
+   (slots {if_else {modifier_mgr is_modifier_active mod_mididrum} kpad_null kPad_R1} {if_else {modifier_mgr is_modifier_active mod_mididrum} 0 0} kPad_L1 0 kPad_Circle 1 kPad_Tri 2 kPad_Square 3 kPad_X 4)
    (velocity_pressures
       (1 kPad_Circle)
       (2 kPad_Tri)

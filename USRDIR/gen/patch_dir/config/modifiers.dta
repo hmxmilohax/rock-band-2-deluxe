@@ -13,6 +13,7 @@
    (mod_songtitlestats unlocked)
    (mod_staticfills (activate {modifier_mgr deactivate_modifier mod_freestyledrums}) unlocked)
    (mod_freestyledrums (activate {modifier_mgr deactivate_modifier mod_staticfills}) (disables (modifier_achievements_feature modifier_online_feature)) unlocked)
+   (mod_mididrum unlocked)
 ;   (mod_roygb (activate {set $roygb TRUE}) (deactivate {set $roygb FALSE}) unlocked)
    (mod_padguitar (activate {set $padguitar TRUE}) (deactivate {set $padguitar FALSE}) unlocked)
    (mod_vocalgender unlocked)
