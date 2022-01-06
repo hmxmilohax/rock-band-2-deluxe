@@ -23,7 +23,7 @@
    (force_mercury kPad_Select))
 (hx_drums_xbox
    (dpad_for_navigation FALSE)
-   (slots 2 0 5 1 4 2 7 3 6 4)
+   (slots {if_else {modifier_mgr is_modifier_active mod_mididrum} 99 9} {if_else {modifier_mgr is_modifier_active mod_mididrum} 0 0} 2 0 5 1 4 2 7 3 6 4)
    (velocity_axes
       (1 LX)
       (2 LY)
