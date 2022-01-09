@@ -6,6 +6,7 @@
     (focus modifiers.lst)
     (is_autoloading FALSE)
     (enter
+        {modifiers.lst set circular 1}
         {$this set is_autoloading FALSE}
         {modifiers.lst set_provider modifier_mgr}
         {profile_mgr
