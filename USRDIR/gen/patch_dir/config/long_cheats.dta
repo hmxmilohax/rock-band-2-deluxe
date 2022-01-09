@@ -5,7 +5,7 @@
          {ui in_transition}}
       {==
          {ui current_screen}
-         modifier_enter_screen}})
+         modifier_enter_screen_fake}})
 #define G_RED
 (kPad_Circle)
 #define G_YELLOW
