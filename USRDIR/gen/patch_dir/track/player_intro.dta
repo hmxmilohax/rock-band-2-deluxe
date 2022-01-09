@@ -79,7 +79,6 @@
                   (delay 1.0e-2)
                   (script
                      {intro.trig trigger}
-            {unless {modifier_mgr is_modifier_active mod_legacybass}
 			{beatmatch foreach_active_player $player {switch {$player instrument}
 			(bass
 			;{set $bass_groove_active FALSE}
@@ -103,7 +102,7 @@
 			;{{{{get_track_panel} find drum} find BassSuperStreak_ON.trig} trigger}
 			;{{{{get_track_panel} find drum} find star_deploy.trig} trigger}
 			{{{{get_track_panel} find drum} find streak_meter} star_deploy}
-			)}}}
+			)}}
 			)}})
          (setup_player
             ($icon $name)
