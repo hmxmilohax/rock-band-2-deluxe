@@ -204,7 +204,17 @@
 {new
    TrackPanel
    coop_track_panel
-   (file ../track/trackpanel.milo)
+   (file
+   {if_else {&& {modifier_mgr is_modifier_active mod_oggems} {modifier_mgr is_modifier_active mod_strike}}
+   ../track/trackpanelretail.milo
+   {if_else {modifier_mgr is_modifier_active mod_oggems}
+   ../track/trackpaneloggems.milo
+   {if_else {modifier_mgr is_modifier_active mod_strike}
+   ../track/trackpanelstrike.milo
+   {if_else{modifier_mgr is_modifier_active mod_groove}
+   ../track/trackpanelgroove.milo
+   ../track/trackpanelcustom.milo}}}}
+   )
    TRACK_PANEL_HANDLERS}
 {new
    TrackPanel

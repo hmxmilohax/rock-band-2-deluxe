@@ -691,6 +691,24 @@
 (options_audio
    "audio settings")
 ;; Modifiers
+(mod_oggems
+   "OG Gems")
+(mod_oggems_desc 
+   "This restores the gems to vanilla")
+(mod_oggems_obtain 
+   "(bug, should be available by default)")
+(mod_strike
+   "OG Strikeline")
+(mod_strike_desc 
+   "This restores the strikeline to vanilla")
+(mod_strike_obtain 
+   "(bug, should be available by default)")
+(mod_groove
+   "New Highway Skins Only")
+(mod_groove_desc 
+   "This has only new groove and overdrive textures")
+(mod_groove_obtain 
+   "(bug, should be available by default)")
 (mod_vocalgender
    "Force Vocal Gender")
 (mod_vocalgender_desc 
