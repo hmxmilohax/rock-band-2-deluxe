@@ -114,9 +114,15 @@
                   {switch
                      {$user get_controller_type}
                      (kControllerDrum
-                        {$user set_track_type kTrackDrum})
+                        {$user set_track_type
+						{if_else {modifier_mgr is_modifier_active mod_forceguitar}
+						kTrackGuitar
+						kTrackDrum}})
                      (kControllerVocals
-                        {$user set_track_type kTrackVocals})
+                        {$user set_track_type
+						{if_else {modifier_mgr is_modifier_active mod_forceguitar}
+						kTrackGuitar
+						kTrackVocals}})
                      (TRUE
                         {if_else
                            {==
@@ -395,7 +401,9 @@
                         get_band_user
                         [player_num]}
                      set_track_type
-                     kTrackBass})}
+                     {if_else {modifier_mgr is_modifier_active mod_forceguitar}
+						kTrackGuitar
+						kTrackBass}})}
             {{ui current_screen}
                verify_player_change
                [player_num]}
@@ -533,11 +541,17 @@
                   {if_else
                      {random 0 1}
                      {do
-                        {set $g0_track_type kTrackBass}
+                        {set $g0_track_type 
+						{if_else {modifier_mgr is_modifier_active mod_forceguitar}
+						kTrackGuitar
+						kTrackBass}}
                         {set $g1_track_type kTrackGuitar}}
                      {do
                         {set $g0_track_type kTrackGuitar}
-                        {set $g1_track_type kTrackBass}}}
+                        {set $g1_track_type
+						{if_else {modifier_mgr is_modifier_active mod_forceguitar}
+						kTrackGuitar
+						kTrackBass}}}}
                   {if_else
                      {$g0_pcfg is_local_player}
                      {$g0_pcfg set_track_type $g0_track_type}

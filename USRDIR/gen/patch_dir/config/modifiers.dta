@@ -16,6 +16,7 @@
    (mod_mididrum unlocked)
 ;   (mod_roygb (activate {set $roygb TRUE}) (deactivate {set $roygb FALSE}) unlocked)
    (mod_padguitar (activate {set $padguitar TRUE}) (deactivate {set $padguitar FALSE}) unlocked)
+   (mod_forceguitar unlocked)
    (mod_vocalgender unlocked)
    (mod_oggems (activate {modifier_mgr deactivate_modifier mod_groove}) unlocked)
    (mod_strike (activate {modifier_mgr deactivate_modifier mod_groove}) unlocked)
