@@ -16,7 +16,7 @@
    (mod_mididrum unlocked)
 ;   (mod_roygb (activate {set $roygb TRUE}) (deactivate {set $roygb FALSE}) unlocked)
    (mod_padguitar (activate {set $padguitar TRUE}) (deactivate {set $padguitar FALSE}) unlocked)
-   (mod_forceguitar unlocked)
+   ;(mod_forceguitar unlocked) ;commented out for 1.04, will probably explore further later
    (mod_vocalgender unlocked)
    (mod_oggems (activate {modifier_mgr deactivate_modifier mod_groove}) unlocked)
    (mod_strike (activate {modifier_mgr deactivate_modifier mod_groove}) unlocked)
@@ -24,6 +24,7 @@
    (mod_legacybass unlocked)
    (mod_nosustain unlocked)
    (mod_noflames (activate {modifier_mgr deactivate_modifier mod_flashbang}) unlocked)
+   (mod_nowhammyfx (activate {set $whammyfx 0}) (deactivate {set $whammyfx 1}) unlocked)
    (mod_flashbang (activate {modifier_mgr deactivate_modifier mod_noflames}) unlocked)
    (mod_auto_play (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature)) unlocked)
    ;(mod_autostrum)

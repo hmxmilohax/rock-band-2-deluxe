@@ -691,6 +691,9 @@
 (options_audio
    "audio settings")
 ;; Modifiers
+(mod_nowhammyfx "No Whammy FX")
+(mod_nowhammyfx_desc "Removes the whammy pitchbending")
+(mod_nowhammyfx_obtain "(bug, should be available by default)")
 (mod_oggems
    "OG Gems")
 (mod_oggems_desc 
@@ -712,7 +715,7 @@
 (mod_vocalgender
    "Force Vocal Gender")
 (mod_vocalgender_desc 
-   "Forces a song's defined gender for the singer.")
+   "Forces a song's defined gender for the singer")
 (mod_vocalgender_obtain 
    "(bug, should be available by default)")
 (mod_noflames
