@@ -218,22 +218,34 @@
 	  {if_else
         $padguitar
             kControllerGuitar
-            kControllerVocals})
+            {if_else
+               $paddrum
+                  kControllerDrum
+                  kControllerVocals}})
       (digital
 	  {if_else
         $padguitar
             kControllerGuitar
-            kControllerVocals})
+            {if_else
+               $paddrum
+                  kControllerDrum
+                  kControllerVocals}})
       (analog
 	  {if_else
         $padguitar
             kControllerGuitar
-            kControllerVocals})
+            {if_else
+               $paddrum
+                  kControllerDrum
+                  kControllerVocals}})
       (dualshock 
 	  {if_else
         $padguitar
             kControllerGuitar
-            kControllerVocals})
+            {if_else
+               $paddrum
+                  kControllerDrum
+                  kControllerVocals}})
       (stagekit_xbox kControllerVocals)
 #ifdef HX_WII
       (wii_remote kControllerVocals)
