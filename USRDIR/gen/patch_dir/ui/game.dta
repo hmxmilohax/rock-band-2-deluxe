@@ -369,6 +369,7 @@
       {crowd_audio post_load})
    (hide_frames 0)
    (exit
+   {{{{gamemode get track_panel} find mtv_overlay} find fade.anim} set_frame 0}
       {set
          [hide_frames]
          2}
@@ -385,6 +386,7 @@
       #ifndef HX_PC
       {rnd suspend}
       #endif
+	  {{{{gamemode get track_panel} find mtv_overlay} find fade.anim} set_frame 0}
       {preload_panel clear_cache}
       {char_cache reclaim_characters}
       {game unload_crowd_audio}
