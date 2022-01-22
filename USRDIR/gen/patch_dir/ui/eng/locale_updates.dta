@@ -713,9 +713,9 @@
 (mod_groove_obtain 
    "(bug, should be available by default)")
 (mod_vocalgender
-   "Force Vocal Gender")
+   "Don't Force Vocal Gender")
 (mod_vocalgender_desc 
-   "Forces a song's defined gender for the singer")
+   "Doesn't force a vocal gender when active")
 (mod_vocalgender_obtain 
    "(bug, should be available by default)")
 (mod_noflames
