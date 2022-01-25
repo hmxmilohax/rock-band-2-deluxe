@@ -143,7 +143,8 @@
                 (guitar {$player add_sink fc_guitar_callback (hit miss pass check_fc check_missed num_gems_hit num_gems_combo num_gems_miss num_gems_pass)})
                 (drum {$player add_sink fc_drum_callback (hit miss pass check_fc check_missed num_gems_hit num_gems_combo num_gems_miss num_gems_pass)})}}}
 
-;{$player add_sink fc_pass_callback (pass)}}} ;pass callback test
+      {{{gamemode get track_panel} loaded_dir} set view_time_easy {* {/ 2.4 $trackspd} $speedmod}} ;implement track speed modifier
+      {{{gamemode get track_panel} loaded_dir} set view_time_expert {* {/ 1.2 $trackspd} $speedmod}}
 
       {$this
          set_showing
