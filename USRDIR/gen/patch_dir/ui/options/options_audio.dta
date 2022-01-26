@@ -236,10 +236,10 @@
 ;      {content_mgr refresh_done}
    kDataUnhandled)
    (enter
-      {instruments.sld set_num_steps 31} ;number of steps for note speed slider
+      {instruments.sld set_num_steps 41} ;number of steps for note speed slider
       {background.sld set_num_steps 31} ;number of steps for song speed slider
 	   {vocal_track.sld set_num_steps 60} ;number of steps for venue fps slider
-      {instruments.sld set_current {int {+ 0.5 {/ {- $trackspd 1} 0.05}}}} ;set note speed slider based on current value
+      {instruments.sld set_current {int {+ 0.5 {/ {+ {- $trackspd 1} 0.5} 0.05}}}} ;set note speed slider based on current value
       {background.sld set_current {int {+ 0.5 {/ {- $speedmod 1} 0.05}}}} ;set song speed slider based on current value
       {vocal_track.sld set_current {int {- $fpsmod 1}}} ;set FPS slider based on current value
       {instruments.btn set_localized {sprintf {localize trackspeed_msg} {int {+ 0.5 {* $trackspd 100}}}}} ;set note speed msg
@@ -251,7 +251,7 @@
 	  )
    (display_trackspd_msg
       ($tspd)
-      {instruments.btn set_localized {sprintf {localize trackspeed_msg} {int {+ 0.5 {* $trackspd 100}}}}})
+      {instruments.btn set_localized {sprintf {localize trackspeed_msg} {int {+ 0.5 {* $tspd 100}}}}})
    (display_speed_msg
       ($mspd)
 	  {background_music.btn set_localized {sprintf {localize speed_msg} {int {+ 0.5 {* $mspd 100}}}}})
@@ -280,8 +280,8 @@
             {background.sld store}
             {$this set_focus background.sld})
          (vocal_track.btn
-            {crowd.sld store}
-            {$this set_focus crowd.sld})
+            {vocal_track.sld store}
+            {$this set_focus vocal_track.sld})
       })
    (BUTTON_DOWN_MSG
       {switch
@@ -329,11 +329,11 @@
          kDataUnhandled})
    (set_speeds
          {do
-            {set $trackspd {+ 1 {* {instruments.sld current} 0.05}}}
+            {set $trackspd {- {+ 1 {* {instruments.sld current} 0.05}} 0.5}}
             {set $speedmod
                {+ 1 {* {background.sld current} 0.05}}}
             {set $fpsmod
-               {+ 1 {crowd.sld current}}}
+               {+ 1 {vocal_track.sld current}}}
 			{set $leaderspeed $speedmod}}
          {set $leaderspeed $speedmod}
          {$this display_trackspd_msg $trackspd}
@@ -386,7 +386,7 @@
          (instruments.sld
             {$component
                set_current
-               {int {+ 0.5 {/ {- $speedmod 1} 0.05}}}})
+               {int {+ 0.5 {/ {+ {- $trackspd 1} 0.5} 0.05}}}})
          (background.sld
             {$component
                set_current
