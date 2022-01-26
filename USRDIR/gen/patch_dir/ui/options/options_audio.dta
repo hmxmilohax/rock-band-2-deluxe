@@ -238,23 +238,25 @@
    (enter
       {instruments.sld set_num_steps 41} ;number of steps for note speed slider
       {background.sld set_num_steps 31} ;number of steps for song speed slider
-	   {vocal_track.sld set_num_steps 60} ;number of steps for venue fps slider
+      {vocal_track.sld set_num_steps 60} ;number of steps for venue fps slider
       {instruments.sld set_current {int {+ 0.5 {/ {+ {- $trackspd 1} 0.5} 0.05}}}} ;set note speed slider based on current value
       {background.sld set_current {int {+ 0.5 {/ {- $speedmod 1} 0.05}}}} ;set song speed slider based on current value
       {vocal_track.sld set_current {int {- $fpsmod 1}}} ;set FPS slider based on current value
       {instruments.btn set_localized {sprintf {localize trackspeed_msg} {int {+ 0.5 {* $trackspd 100}}}}} ;set note speed msg
+      {background_music.btn get_local_pos $labelpos_x $labelpos_y $labelpos_z}
+      {background_music.btn set_local_pos {- $labelpos_x 12} $labelpos_y $labelpos_z} ;fix the fucking text position so it doesn't look ugly
       {background_music.btn set_localized {sprintf {localize speed_msg} {int {+ 0.5 {* $speedmod 100}}}}} ;set song speed msg
-	   {vocal_track.btn set_localized {sprintf {localize fps_msg} {int $fpsmod}}} ;set venue fps msg
+      {vocal_track.btn set_localized {sprintf {localize fps_msg} {int $fpsmod}}} ;set venue fps msg
       {do {crowd.btn set_showing FALSE} {sfx.btn set_showing FALSE} {$this disable crowd.btn} {$this disable sfx.btn}
-	      {crowd.sld set_showing FALSE} {sfx.sld set_showing FALSE}}
-	  {$this update_all_from_profile}
-	  )
+         {crowd.sld set_showing FALSE} {sfx.sld set_showing FALSE}}
+     {$this update_all_from_profile}
+     )
    (display_trackspd_msg
       ($tspd)
       {instruments.btn set_localized {sprintf {localize trackspeed_msg} {int {+ 0.5 {* $tspd 100}}}}})
    (display_speed_msg
       ($mspd)
-	  {background_music.btn set_localized {sprintf {localize speed_msg} {int {+ 0.5 {* $mspd 100}}}}})
+     {background_music.btn set_localized {sprintf {localize speed_msg} {int {+ 0.5 {* $mspd 100}}}}})
    (display_fps_msg
       ($fps)
 	  {vocal_track.btn set_localized {sprintf {localize fps_msg} {int $fps}}}) ;don't add 1 here because this is being fed the actual fps
@@ -425,7 +427,7 @@
    kDataUnhandled)
    (enter
       {instruments.sld set_num_steps 5} ;slot 1
-	  {background.sld set_num_steps 5} ;slot 2
+      {background.sld set_num_steps 5} ;slot 2
       {vocal_track.sld set_num_steps 5} ;slot 3
       {crowd.sld set_num_steps 5} ;slot 4
       {sfx.sld set_num_steps 5} ;slot 5
@@ -434,8 +436,10 @@
       {vocal_track.sld set_current $slot3_color} ;set slider 3 to slot 3 color value
       {crowd.sld set_current $slot4_color} ;set slider 4 to slot 4 color value
       {sfx.sld set_current $slot5_color} ;set slider 5 to slot 5 color value
+      {background_music.btn get_local_pos $labelpos_x $labelpos_y $labelpos_z}
+      {background_music.btn set_local_pos {- $labelpos_x 12} $labelpos_y $labelpos_z} ;fix the fucking text position so it doesn't look ugly
       {instruments.btn set_localized {localize {sprintf "gemcolor_%i" $slot1_color}}} ;update text for button 1
-	  {background_music.btn set_localized {localize {sprintf "gemcolorspc_%i" $slot2_color}}} ;update text for button 2
+      {background_music.btn set_localized {localize {sprintf "gemcolor_%i" $slot2_color}}} ;update text for button 2
       {vocal_track.btn set_localized {localize {sprintf "gemcolor_%i" $slot3_color}}} ;update text for button 3
       {crowd.btn set_localized {localize {sprintf "gemcolor_%i" $slot4_color}}} ;update text for button 4
       {sfx.btn set_localized {localize {sprintf "gemcolor_%i" $slot5_color}}} ;update text for button 5
@@ -543,7 +547,7 @@
             {do 
                {set $component current}
                {set $slot2_color {$this current}} ;set color to slider value
-               {background_music.btn set_localized {localize {sprintf "gemcolorspc_%i" $slot2_color}}} ;update text for button 2
+               {background_music.btn set_localized {localize {sprintf "gemcolor_%i" $slot2_color}}} ;update text for button 2
 
             }
          )
