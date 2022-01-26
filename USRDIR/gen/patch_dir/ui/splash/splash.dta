@@ -112,7 +112,7 @@
    (enter
       {if {! $rb2dx_start}
 	     {set $rb2dx_start TRUE}
-        (set $whammyfx 1} ; ensure whammy fx enabled by default
+        {set $whammyfx 1} ; ensure whammy fx enabled by default
         {set $trackspd 1.0} ; always start out with 100% track speed multiplier
 	     {set $speedmod 1.0}								;	always make sure we start at 100% speed
 	     {set $leaderspeed 1.0}								;	always make sure we start at 100% speed
