@@ -101,11 +101,15 @@
    (by_origin
       (cmp_song_to_song
          ($lhs $rhs)
+		 {if_else
+            {$rhs has_data game_origin}
          {$this
             cmp
             $lhs
             $rhs
-            (kSTOrigin)})
+			(kSTOrigin)
+            (kSTOrigin)}
+			'Custom Songs'})
       (browser_group
          ($offer)
 		 {if_else
