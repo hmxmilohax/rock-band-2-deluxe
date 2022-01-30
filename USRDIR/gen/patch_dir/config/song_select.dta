@@ -105,12 +105,14 @@
             cmp
             $lhs
             $rhs
-            (kSTOrigin)
-            (kSTName)})
+            (kSTOrigin)})
       (browser_group
          ($offer)
-         {sprint
-            {$offer get_icon}}))
+		 {if_else
+            {$offer has_data game_origin}
+            {$offer get_data (game_origin)}
+            'Custom Songs'}
+            ))
 #ifndef HX_WII
    (by_stars
       (cmp_song_to_song
