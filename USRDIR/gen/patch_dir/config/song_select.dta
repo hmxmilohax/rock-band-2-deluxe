@@ -101,22 +101,30 @@
    (by_origin
       (cmp_song_to_song
          ($lhs $rhs)
-		 {if_else
-            {$rhs has_data game_origin}
-         {$this
-            cmp
-            $lhs
-            $rhs
-			(kSTOrigin)
-            (kSTOrigin)}
-			'Custom Songs'})
+         {if_else {$rhs has_data game_origin}
+            {$this cmp $lhs $rhs
+            (kSTOrigin)
+            (kSTName)
+            }
+         }
+      )
       (browser_group
          ($offer)
-		 {if_else
-            {$offer has_data game_origin}
-            {$offer get_data (game_origin)}
-            'Custom Songs'}
-            ))
+         {if_else {$offer has_data game_origin}
+            {switch
+               {$offer get_data (game_origin)}
+                  ("rb1" {sprint {$offer get_icon}})
+                  ("rb1_dlc" {sprint {$offer get_icon}})
+                  ("ugc" {sprint {$offer get_icon}})
+;                  ("rb1_dlc") {sprint {$offer get_icon}}
+;                  ("ugc") {sprint {$offer get_icon}}
+               {$offer get_data (game_origin)}
+            }
+            {sprint {$offer get_icon}}
+         }
+      )
+      (sub by_song)
+   )
 #ifndef HX_WII
    (by_stars
       (cmp_song_to_song
