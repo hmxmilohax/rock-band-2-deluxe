@@ -129,22 +129,21 @@
 	     {modifier_mgr deactivate_modifier mod_songtitle}
 	     {modifier_mgr deactivate_modifier mod_songtitlestats}
 	     {modifier_mgr deactivate_modifier mod_blackvenue}
-;	     {modifier_mgr deactivate_modifier mod_roygb} ;removed for sliders
 ;LocalH's modifications to preset his modifiers
-         {set $trackspd 1.25} ;125% track speed
-         {set $fpsmod 60.0} ;60fps venues
-         {set $slot1_color 1} ;ROYOR gems
-         {set $slot2_color 4}
-         {set $slot4_color 4}
-         {set $slot5_color 1}
-         {modifier_mgr activate_modifier mod_nofail} ;modifiers
-         {modifier_mgr activate_modifier mod_doublespeed}
-         {modifier_mgr activate_modifier mod_awesome}
-         {modifier_mgr activate_modifier mod_blackvenue}
-         {modifier_mgr activate_modifier mod_songtitle}
-         {modifier_mgr activate_modifier mod_nowhammyfx}
-         {modifier_mgr activate_modifier mod_nocrowd}
-         {modifier_mgr activate_modifier mod_noflames}
+;         {set $trackspd 1.25} ;125% track speed
+;         {set $fpsmod 60.0} ;60fps venues
+;         {set $slot1_color 1} ;ROYOR gems
+;         {set $slot2_color 4}
+;         {set $slot4_color 4}
+;         {set $slot5_color 1}
+;         {modifier_mgr activate_modifier mod_nofail} ;modifiers
+;         {modifier_mgr activate_modifier mod_doublespeed}
+;         {modifier_mgr activate_modifier mod_awesome}
+;         {modifier_mgr activate_modifier mod_blackvenue}
+;         {modifier_mgr activate_modifier mod_songtitle}
+;         {modifier_mgr activate_modifier mod_nowhammyfx}
+;         {modifier_mgr activate_modifier mod_nocrowd}
+;         {modifier_mgr activate_modifier mod_noflames}
       }
       {set
          [alpha_threshold_fading]
