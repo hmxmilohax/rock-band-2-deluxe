@@ -101,12 +101,13 @@
    (by_origin
       (cmp_song_to_song
          ($lhs $rhs)
-         {if_else {$rhs has_data game_origin}
+;         {if_else {$rhs has_data game_origin}
             {$this cmp $lhs $rhs
             (kSTOrigin)
+;            (kSTRank {song_offer_provider sort_difficulty_part})
             (kSTName)
             }
-         }
+;         }
       )
       (browser_group
          ($offer)
@@ -115,15 +116,14 @@
                {$offer get_data (game_origin)}
                   ("rb1" {sprint {$offer get_icon}})
                   ("rb1_dlc" {sprint {$offer get_icon}})
+                  ("rb1dlc" {sprint {$offer get_icon}})
                   ("ugc" {sprint {$offer get_icon}})
-;                  ("rb1_dlc") {sprint {$offer get_icon}}
-;                  ("ugc") {sprint {$offer get_icon}}
                {$offer get_data (game_origin)}
             }
             {sprint {$offer get_icon}}
          }
       )
-      (sub by_song)
+;      (sub by_song)
    )
 #ifndef HX_WII
    (by_stars
