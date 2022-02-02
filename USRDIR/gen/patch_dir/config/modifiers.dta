@@ -24,6 +24,7 @@
    (mod_groove (activate {modifier_mgr deactivate_modifier mod_oggems} {modifier_mgr deactivate_modifier mod_strike}) unlocked)
    (mod_legacybass unlocked)
    (mod_nosustain unlocked)
+   (mod_rb3sustain unlocked)
    (mod_nowhammyfx (activate {set $whammyfx 0}) (deactivate {set $whammyfx 1}) unlocked)
    (mod_nocrowd (activate {set $crowdaudio FALSE}) (deactivate {set $crowdaudio TRUE}) unlocked)
    (mod_noflames (activate {modifier_mgr deactivate_modifier mod_flashbang}) unlocked)
