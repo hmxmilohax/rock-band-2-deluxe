@@ -27,6 +27,7 @@
    (mod_rb3sustain unlocked)
    (mod_nowhammyfx (activate {set $whammyfx 0}) (deactivate {set $whammyfx 1}) unlocked)
    (mod_nocrowd (activate {set $crowdaudio FALSE}) (deactivate {set $crowdaudio TRUE}) unlocked)
+   (mod_nomuting (activate {set $trackmuting -0.001}) (deactivate {set $trackmuting -96.0}) unlocked)
    (mod_noflames (activate {modifier_mgr deactivate_modifier mod_flashbang}) unlocked)
    (mod_flashbang (activate {modifier_mgr deactivate_modifier mod_noflames}) unlocked)
    (mod_auto_play (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature)) unlocked)

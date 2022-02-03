@@ -54,7 +54,7 @@
    (player_slot 9))
 (audio
    (default_style unmute)
-   (mute_volume -96.0)
+   (mute_volume $trackmuting) ;-96.0 for normal muting, -0.001 for "no" muting
    (multiplayer_scale 0.33)
    (multiplayer_attenuation 3.0)
    (multiplayer_common_attenuation 1.5)

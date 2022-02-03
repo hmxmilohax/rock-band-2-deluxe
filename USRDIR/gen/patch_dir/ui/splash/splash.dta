@@ -120,6 +120,7 @@
 	     {set $leaderspeed 1.0}								;	always make sure we start at 100% speed
 	     {set $fpsmod 30.0}								    ;	always make sure we start at 30fps
         {set $crowdaudio TRUE} ;enable crowd audio by default
+        {set $trackmuting -96.0} ;-96dB on missing by default
          {set $slot1_color 0} ;0 = green, preset colors to GRYBO
          {set $slot2_color 1} ;1 = red
          {set $slot3_color 2} ;2 = yellow
@@ -143,6 +144,7 @@
 ;         {modifier_mgr activate_modifier mod_songtitle}
 ;         {modifier_mgr activate_modifier mod_nowhammyfx}
 ;         {modifier_mgr activate_modifier mod_nocrowd}
+;         {modifier_mgr activate_modifier mod_nomuting}
 ;         {modifier_mgr activate_modifier mod_noflames}
       }
       {set
