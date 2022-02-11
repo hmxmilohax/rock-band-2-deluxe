@@ -12,6 +12,7 @@
       "coop_endgame.milo")
    ENDGAME_PANEL_HANDLERS
    (enter
+      {set $already_restarted FALSE} ;ensure the next time the track loads, it restarts once to be safe
       {if_else
          {gamemode is_audition}
          {do

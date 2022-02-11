@@ -147,6 +147,8 @@
 ;         {modifier_mgr activate_modifier mod_nocrowd}
 ;         {modifier_mgr activate_modifier mod_nomuting}
 ;         {modifier_mgr activate_modifier mod_noflames}
+;         {modifier_mgr activate_modifier mod_padguitar} ;for testing the restart shit
+;         {modifier_mgr activate_modifier mod_auto_play}
       }
       {set
          [alpha_threshold_fading]

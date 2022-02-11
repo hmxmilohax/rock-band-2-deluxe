@@ -135,14 +135,14 @@
 
 #define TRACK_PANEL_HANDLERS
 ((enter
-      {if $blackvenue
-         {if {! $already_restarted} ;cheap attempt to fix the "notes too quick bug" by restarting once automatically on initial song start, this will at least work in black bg
-            {do
-               {set $already_restarted TRUE}
-               {game_restart}
-            }
-         }
-      }
+;      {if $blackvenue
+;         {if {! $already_restarted} ;cheap attempt to fix the "notes too quick bug" by restarting once automatically on initial song start, this should work in black bg
+;            {do
+;               {set $already_restarted TRUE}
+;               {game_restart}
+;            }
+;         }
+;      }
       {game add_sink $this}
       {unless {gamemode get is_h2h_arrangement}
          {beatmatch foreach_active_player $player ;handle adding the appropriate callbacks to each player
@@ -164,7 +164,7 @@
             {gamemode get show_track}
             FALSE}})
    (exit
-      {set $already_restarted FALSE}
+;      {set $already_restarted FALSE}
       {game remove_sink $this})
    (unison_hit)
    (unison_miss)
@@ -185,7 +185,7 @@
          {gamemode get show_track}}
       {$this set_track_in})
    (intro_skip
-      {$this reset}
+       {$this reset}
       {$this
          set_showing
          {gamemode get show_track}}

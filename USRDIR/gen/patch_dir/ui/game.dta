@@ -53,7 +53,7 @@
             kDataUnhandled}
          0})
    (pick_intro
-      {if_else
+       {if_else
          {'||'
             $skip_intro
             {gamemode get is_drum_trainer}
@@ -99,29 +99,39 @@
             {do
                {$world iterate PostProc $p
                {$p set brightness -800}}}
+            {do
+               {$world iterate PostProc $p
+               {$p set contrast -800}}}
+            {do
+               {$world iterate PostProc $p
+               {$p set lightness -800}}}
 				{do
 					{$world iterate PostProc $p
 					{$p set emulate_fps 1}}}}
 	 kDataUnhandled)
-;   (intro_end
-;      {if {! $already_restarted} ;cheap attempt to fix the "notes too quick bug" by restarting once automatically on initial song start
-;         {do
-;            {set $already_restarted TRUE}
-;            {game_restart}
-;         }
-;      }
-;   )
-   (intro_skip
-;      {if {! $already_restarted} ;cheap attempt to fix the "notes too quick bug" by restarting once automatically on initial song start
-;         {do
-;            {set $already_restarted TRUE}
-;            {game_restart}
-;         }
-;      }
+   (intro_end
       {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
       {set $bass_groove_active FALSE} {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
 	  {set $drum_groove_active FALSE}
 	  {set $guitar_groove_active FALSE}
+         {if {! $already_restarted} ;cheap attempt to fix the "notes too quick bug" by restarting once automatically on initial song start, this should work all the time
+            {do
+               {set $already_restarted TRUE}
+               {game_restart}
+            }
+         }
+   kDataUnhandled)
+   (intro_skip
+      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
+      {set $bass_groove_active FALSE} {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
+	  {set $drum_groove_active FALSE}
+	  {set $guitar_groove_active FALSE}
+         {if {! $already_restarted} ;cheap attempt to fix the "notes too quick bug" by restarting once automatically on initial song start, this should work all the time
+            {do
+               {set $already_restarted TRUE}
+               {game_restart}
+            }
+         }
       {if
          {'||'
             $skip_intro
@@ -154,6 +164,7 @@
                      {elem $levels $ex})}}}}
       kDataUnhandled)
    (game_over
+      {if $already_restarted {{{{gamemode get track_panel} find mtv_overlay} find fade.anim} set_frame 0}} ;remove MTV overlay when track disappears, but only if it's already been restarted by script
       {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
       {set $bass_groove_active FALSE} {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
 	  {set $drum_groove_active FALSE}
@@ -282,7 +293,8 @@
                {game is_game_over}}}
          {pause_panel set end_demo TRUE}
          {net_sync set_ui_state kNetUI_Pause}
-         {ui push_screen pause_screen}})}
+         {ui push_screen pause_screen}})
+}
 {new
    UIPanel
    sync_audio_net_panel
@@ -573,7 +585,6 @@
          {gamemode get game_input_limit_type}}
       {$this milo_setup})   
    (exit
-      {set $already_restarted FALSE} ;early note fix
       {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
       {set $bass_groove_active FALSE} {set $drum_groove_active FALSE} {set $guitar_groove_active FALSE}
       {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}

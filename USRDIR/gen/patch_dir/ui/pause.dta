@@ -385,6 +385,7 @@
                {ui goto_screen ugc_delete_demo_confirm_screen}
                #endif)
             (pause_quit
+               {set $already_restarted FALSE} ;clear flag so next song will restart once
                {set
                   [exit_destination]
                   exit_quit}
@@ -717,6 +718,7 @@
             percent_complete}}
       {gamemode on_pause_restart})
    (on_quit
+      {set $already_restarted FALSE} ;ensuring that flag is cleared when exiting a song
       {set
          [chose_quit]
          TRUE}
