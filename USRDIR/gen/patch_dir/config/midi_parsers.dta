@@ -961,7 +961,7 @@
       {set $big_space 0.75})
    (term
       {$this sec_offset_all WORLD_OFFSET_SEC})
-   (allowed_notes 26 30 34 35 40 41 46 48 50)
+   (allowed_notes 26 28 30 34 35 40 41 43 44 45 46 48 50)
    (midi
       {$this rt_compute_space}
       {$this
@@ -980,6 +980,23 @@
                      snare_big)
                   ({rt_test_space $norm_space $norm_space}
                      snare)
+                  ({rt_test_space $tap_space $tap_space}
+                     snare_tap)
+                  ({rt_test_space 0 $big_space}
+                     snare_tap)
+                  snare_hover})
+            (28
+               {cond
+                  ({rt_test_space 2.5 $norm_space}
+                     snare_tap)
+                  ({rt_test_space 2.0 $norm_space}
+                     snare_tap)
+                  ({rt_test_space 1.4 $norm_space}
+                     snare_tap)
+                  ({rt_test_space $big_space $big_space}
+                     snare_tap)
+                  ({rt_test_space $norm_space $norm_space}
+                     snare_tap)
                   ({rt_test_space $tap_space $tap_space}
                      snare_tap)
                   ({rt_test_space 0 $big_space}
@@ -1013,6 +1030,30 @@
                   crash_l_hover})
             (40 crash_r_grab)
             (41 crash_l_grab)
+            (43
+               {cond
+                  ({rt_test_space $tap_space $tap_space}
+                     crash_l)
+                  ({rt_test_space 0 $big_space}
+                     crash_l)
+                  crash_l_hover})
+            (44
+               {cond
+                  {cond
+                     ({rt_test_space $big_space $big_space}
+                        crash_l_big)
+                     ({rt_test_space $tap_space $tap_space}
+                        crash_l_soft)
+                     ({rt_test_space 0 $big_space}
+                        crash_l_soft)
+                     crash_l_hover}})
+            (45
+               {cond
+                  ({rt_test_space $tap_space $tap_space}
+                     crash_l)
+                  ({rt_test_space 0 $big_space}
+                     crash_l)
+                  crash_l_hover})
             (46
                {cond
                   ({rt_test_space $big_space $big_space}
@@ -1208,7 +1249,7 @@
          TRUE})
    (term
       {$this sec_offset_all WORLD_OFFSET_SEC})
-   (allowed_notes 34 35 36 37 38 41)
+   (allowed_notes 34 35 36 37 38 41 43 44 45)
    (midi
       {$this
          add_message
@@ -1250,6 +1291,24 @@
                   hit_norm
                   hit_tap})
             (41 hit_grab)
+            (43
+               {if_else
+                  {$this has_space 0.5 0.5}
+                  hit_norm
+                  hit_tap})
+            (44
+               {if_else
+                  {$this has_space 1.25 0.8}
+                  hit_big
+                  {if_else
+                     {$this has_space 0.25 0.25}
+                     hit_tap
+                     hit_norm}})
+            (45
+               {if_else
+                  {$this has_space 0.5 0.5}
+                  hit_norm
+                  hit_tap})
             kDataUnhandled}})
    MIDIPARSER_CONVERTFUNCTIONS}
 {new

@@ -2875,7 +2875,7 @@
                   {has_substr
                      $mp.val
                      "true"}}})
-         (allowed_notes 27 31 32 36 37 38 39 40 41 42 47 49 51)
+         (allowed_notes 27 29 31 32 36 37 38 39 40 41 42 47 49 51)
          (midi
             {$this rt_compute_space}
             {$this
@@ -2894,6 +2894,23 @@
                            snare_big)
                         ({rt_test_space NORM_SPACE NORM_SPACE}
                            snare)
+                        ({rt_test_space TAP_SPACE TAP_SPACE}
+                           snare_tap)
+                        ({rt_test_space 0 BIG_SPACE}
+                           snare_tap)
+                        snare_hover})
+                  (29
+                     {cond
+                        ({rt_test_space 2.5 NORM_SPACE}
+                           snare_tap)
+                        ({rt_test_space 2.0 NORM_SPACE}
+                           snare_tap)
+                        ({rt_test_space 1.4 NORM_SPACE}
+                           snare_tap)
+                        ({rt_test_space BIG_SPACE BIG_SPACE}
+                           snare_tap)
+                        ({rt_test_space NORM_SPACE NORM_SPACE}
+                           snare_tap)
                         ({rt_test_space TAP_SPACE TAP_SPACE}
                            snare_tap)
                         ({rt_test_space 0 BIG_SPACE}
