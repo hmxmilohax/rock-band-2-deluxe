@@ -160,7 +160,7 @@
   (tail_glow 'tail_glow_%s')
   (star 'gem_starpower_%s')
   (dot 'dot_top_hopo2_%s'))
- (tail_glow_width {if_else {modifier_mgr is_modifier_active mod_rb3sustain} 0.25 1.7})
+ (tail_glow_width {if_else {modifier_mgr is_modifier_active mod_rb3sustain} 0 1.7})
  (tail_glow_tight_width {if_else {modifier_mgr is_modifier_active mod_rb3sustain} 1.2 2})
  (sparkle_len 1000)
  (tail_pulse_rate {if_else {modifier_mgr is_modifier_active mod_rb3sustain} 32 64})
