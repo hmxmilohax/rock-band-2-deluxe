@@ -81,10 +81,15 @@ On ps3/rpcs3, copy all files in "_build/ps3/" to "/dev_hdd0/game/BLUS30147/"
 Match the file system and overwrite the files.
 
 On Xbox, copy the gen folder and the xex from "_build/xbox/" to the location you have installed Rock Band 2.
+
 Make sure you clear your song cache, as well as your system cache.
+
 To clear song cache, navigate to Storage>Rock Band 3> and delete the song cache.
+
 To clear system cache, navigate to Storage, and press Y to clear the system cache.
+
 If installing for the first time, make sure you rename the vanilla "default.xex" to "default_vanilla.xex" for safety.
+
 Also make sure to disable any enabled updates for Rock Band 2 in Aurora. Rock Band 2 deluxe rolls TU6 into its base installation.
 
 Run the build script again to pull any new updates committed to the repo and rebuild a new ark.
