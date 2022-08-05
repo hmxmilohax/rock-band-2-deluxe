@@ -725,7 +725,13 @@
          {$this sync_sort_method}
          {song_offer_provider init_highlight}
          {$this sync_song}
-         {$this refresh_selected_song}})
+         {$this refresh_selected_song}}
+         {if $songlistpos
+         {unless {== {gamemode get song_select_mode} song_select_tour}
+         {if {== {gamemode get song_select_mode} song_select_quickplay}
+         {song.lst set_selected $songlistpos}}
+         {if {== {gamemode get song_select_mode} song_select_practice}
+         {song.lst set_selected {- $songlistpos 1}}}}})
    (exit
       {meta_performer set_song_select_sync FALSE}
       {if
@@ -925,6 +931,7 @@
       {song_offer_provider
          set_highlighted_ix
          {song.lst selected_pos}}
+      {set $songlistpos {song.lst selected_pos}}
       {$this sync_song}
       {$this refresh_selected_song})
    (on_change_setlist_mode

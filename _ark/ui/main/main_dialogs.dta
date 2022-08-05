@@ -102,6 +102,7 @@
    (handle_sign_outs FALSE)
    (limit_user_signin FALSE)
    (enter
+   {set $songlistpos FALSE}
       {dialog_panel
          set_custom
          {localize main_online_tour_need_to_signin}
@@ -151,6 +152,7 @@
             {localize main_tour_cancel_button}
             opt1.btn}})
    (enter
+      {set $songlistpos FALSE}
       {$this update_display})
    (SELECT_MSG
       {switch
@@ -332,6 +334,7 @@
    (helpbar
       ())
    (enter
+      {set $songlistpos FALSE}
       {goto_else_after_network_connect store_jumping_screen main_screen TRUE})}
 {new
    BandScreen
@@ -340,6 +343,7 @@
    (helpbar
       ((min_height 0)))
    (enter
+      {set $songlistpos FALSE}
       {goto_else_after_network_connect
          store_loading_screen
          {if_else
