@@ -118,7 +118,7 @@
         {set $trackspd 1.0} ; always start out with 100% track speed multiplier
 	     {set $speedmod 1.0}								;	always make sure we start at 100% speed
 	     {set $leaderspeed 1.0}								;	always make sure we start at 100% speed
-	     {set $fpsmod 24}								    ;	always make sure we start at 30fps
+	     {set $fpsmod 24}								    ;	always make sure we start at 24fps (used to be 30, reverted for post processing compatibility)
         {set $crowdaudio TRUE} ;enable crowd audio by default
         {set $trackmuting -96.0} ;-96dB on missing by default
          {set $slot1_color 0} ;0 = green, preset colors to GRYBO
