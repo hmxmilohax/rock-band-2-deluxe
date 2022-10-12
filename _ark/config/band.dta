@@ -216,34 +216,34 @@
 #endif
       (hx_xbox
 	  {if_else
-        $padguitar
+        {modifier_mgr is_modifier_active mod_padguitar}
             kControllerGuitar
             {if_else
-               $paddrum
+               {modifier_mgr is_modifier_active mod_paddrum}
                   kControllerDrum
                   kControllerVocals}})
       (digital
 	  {if_else
-        $padguitar
+        {modifier_mgr is_modifier_active mod_padguitar}
             kControllerGuitar
             {if_else
-               $paddrum
+               {modifier_mgr is_modifier_active mod_paddrum}
                   kControllerDrum
                   kControllerVocals}})
       (analog
 	  {if_else
-        $padguitar
+        {modifier_mgr is_modifier_active mod_padguitar}
             kControllerGuitar
             {if_else
-               $paddrum
+               {modifier_mgr is_modifier_active mod_paddrum}
                   kControllerDrum
                   kControllerVocals}})
       (dualshock 
 	  {if_else
-        $padguitar
+        {modifier_mgr is_modifier_active mod_padguitar}
             kControllerGuitar
             {if_else
-               $paddrum
+               {modifier_mgr is_modifier_active mod_paddrum}
                   kControllerDrum
                   kControllerVocals}})
       (stagekit_xbox kControllerVocals)

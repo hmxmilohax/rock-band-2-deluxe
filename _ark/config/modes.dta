@@ -48,7 +48,7 @@
    (max_local_players 4)
    (min_players 2)
    (update_crowd_meter TRUE)
-   (crowd_reacts $crowdaudio) ;I think this is the crowd singalong
+   (crowd_reacts {if_else {modifier_mgr is_modifier_active mod_nocrowd} FALSE TRUE}) ;I think this is the crowd singalong
    (play_star_sfx TRUE)
    (play_track_intro_sfx TRUE)
    (play_streak_sfx TRUE)

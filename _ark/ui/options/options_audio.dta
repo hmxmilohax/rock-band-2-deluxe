@@ -239,10 +239,10 @@
       {instruments.sld set_num_steps 41} ;number of steps for note speed slider
       {background.sld set_num_steps 31} ;number of steps for song speed slider
       {vocal_track.sld set_num_steps 60} ;number of steps for venue fps slider
-      {instruments.sld set_current {int {+ 0.5 {/ {+ {- $trackspd 1} 0.5} 0.05}}}} ;set note speed slider based on current value
+      {instruments.sld set_current {int {+ 0.5 {/ {+ {- $trackspeed 1} 0.5} 0.05}}}} ;set note speed slider based on current value
       {background.sld set_current {int {+ 0.5 {/ {- $speedmod 1} 0.05}}}} ;set song speed slider based on current value
       {vocal_track.sld set_current {int {- $emulatefps 1}}} ;set FPS slider based on current value
-      {instruments.btn set_localized {sprintf {localize trackspeed_msg} {int {+ 0.5 {* $trackspd 100}}}}} ;set note speed msg
+      {instruments.btn set_localized {sprintf {localize trackspeed_msg} {int {+ 0.5 {* $trackspeed 100}}}}} ;set note speed msg
       {background_music.btn get_local_pos $labelpos_x $labelpos_y $labelpos_z}
       {background_music.btn set_local_pos {- $labelpos_x 12} $labelpos_y $labelpos_z} ;fix the fucking text position so it doesn't look ugly
       {background_music.btn set_localized {sprintf {localize speed_msg} {int {+ 0.5 {* $speedmod 100}}}}} ;set song speed msg
@@ -251,7 +251,7 @@
          {crowd.sld set_showing FALSE} {sfx.sld set_showing FALSE}}
      {$this update_all_from_profile}
      )
-   (display_trackspd_msg
+   (display_trackspeed_msg
       ($tspd)
       {instruments.btn set_localized {sprintf {localize trackspeed_msg} {int {+ 0.5 {* $tspd 100}}}}})
    (display_speed_msg
@@ -331,14 +331,14 @@
          kDataUnhandled})
    (set_speeds
          {do
-            {set $trackspd {- {+ 1 {* {instruments.sld current} 0.05}} 0.5}}
+            {set $trackspeed {- {+ 1 {* {instruments.sld current} 0.05}} 0.5}}
             {set $speedmod
                {+ 1 {* {background.sld current} 0.05}}}
             {set $emulatefps
                {+ 1 {vocal_track.sld current}}}
 			{set $leaderspeed $speedmod}}
          {set $leaderspeed $speedmod}
-         {$this display_trackspd_msg $trackspd}
+         {$this display_trackspeed_msg $trackspeed}
          {$this display_speed_msg $speedmod}
 			{$this display_fps_msg $emulatefps})
    (on_slider_change
@@ -388,7 +388,7 @@
          (instruments.sld
             {$component
                set_current
-               {int {+ 0.5 {/ {+ {- $trackspd 1} 0.5} 0.05}}}})
+               {int {+ 0.5 {/ {+ {- $trackspeed 1} 0.5} 0.05}}}})
          (background.sld
             {$component
                set_current

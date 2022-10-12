@@ -100,9 +100,3 @@
 ;{modifier_mgr activate_modifier mod_noflames}
 ;{modifier_mgr activate_modifier mod_flashbang}
 ;{modifier_mgr activate_modifier mod_auto_play}
-
-;developer settings below do not modify
-{set $leaderspeed $speedmod}
-{set $whammyfx {if_else {modifier_mgr is_modifier_active mod_nowhammyfx} 0 1}} ;set up based off init value
-{set $crowdaudio {if_else {modifier_mgr is_modifier_active mod_nocrowd} FALSE TRUE}} ;set up based off init value
-{set $trackmuting {if_else {modifier_mgr is_modifier_active mod_nomuting} -0.001 -96.0}} ;set up based off init value

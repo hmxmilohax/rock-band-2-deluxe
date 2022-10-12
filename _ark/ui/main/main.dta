@@ -158,6 +158,7 @@
    (load
       {content_mgr start_refresh})
    (enter
+      {set $leaderspeed $speedmod}
       {$this update_motd}
       {community_panel update_button_status}
       {platform_mgr
