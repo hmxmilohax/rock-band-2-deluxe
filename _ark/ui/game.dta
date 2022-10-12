@@ -533,10 +533,10 @@
          {if {== $action kAction_ViewModify} ;here is the implementation of select to activate. it's a reimplementation of activating overdrive since BUTTON_DOWN_MSG causes these buttons to not work, so must apply to all instruments
             {beatmatch foreach_active_player $player
                {switch {$player instrument}
-                   (bass {$player deploy_if_possible})
-                   (guitar {$player deploy_if_possible})
-                   (drum {$player deploy_if_possible}) ;drums can now activate at any time via the select button
-                   (vocals {$player deploy_if_possible}) ;vocals can now activate at any time via the select button. Doesn't even need to be under an activation phrase
+                   (bass {$player deploy_if_possible}) ;needs to always be here
+                   (guitar {$player deploy_if_possible}) ;needs to always be here
+                   (drum {if {modifier_mgr is_modifier_active mod_selectdeploy} {$player deploy_if_possible}}) ;drums can now activate at any time via the select button
+                   (vocals {if {modifier_mgr is_modifier_active mod_selectdeploy} {$player deploy_if_possible}}) ;vocals can now activate at any time via the select button. Doesn't even need to be under an activation phrase
                 kDataUnhandled}}})
    (milo_setup
 ;send to network leaders song speed

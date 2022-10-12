@@ -876,6 +876,8 @@
 (options_audio
    "audio settings")
 ;; Modifiers
+(mod_selectdeploy "Select to Deploy")
+(mod_selectdeploy_desc "Select button will activate OD on Drums and Vox")
 (mod_nowhammyfx "No Whammy FX")
 (mod_nowhammyfx_desc "Removes the whammy pitchbending")
 (mod_nowhammyfx_obtain "(bug, should be available by default)")
