@@ -1,6 +1,6 @@
 (features modifier_saving_feature modifier_achievements_feature modifier_online_feature)
 (modifiers
-   (mod_nofail unlocked) ;(disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature)) hidden unlocked) ;re-enable saving and shit with nofail
+   (mod_nofail unlocked)
    (mod_doublespeed (activate {modifier_mgr deactivate_modifier mod_halfspeed}) unlocked)
    (mod_choose_venue (disables (modifier_online_feature)) unlocked)
    (mod_nohud unlocked)

@@ -112,44 +112,6 @@
          {int
             [alpha_threshold]}})
    (enter
-      {if {! $rb2dx_start}
-	     {set $rb2dx_start TRUE}
-        {set $whammyfx 1} ; ensure whammy fx enabled by default
-        {set $trackspd 1.0} ; always start out with 100% track speed multiplier
-	     {set $speedmod 1.0}								;	always make sure we start at 100% speed
-	     {set $leaderspeed 1.0}								;	always make sure we start at 100% speed
-	     {set $fpsmod 24}								    ;	always make sure we start at 24fps (used to be 30, reverted for post processing compatibility)
-        {set $crowdaudio TRUE} ;enable crowd audio by default
-        {set $trackmuting -96.0} ;-96dB on missing by default
-         {set $slot1_color 0} ;0 = green, preset colors to GRYBO
-         {set $slot2_color 1} ;1 = red
-         {set $slot3_color 2} ;2 = yellow
-         {set $slot4_color 3} ;3 = blue
-         {set $slot5_color 4} ;4 = orange
-	     {modifier_mgr deactivate_modifier mod_staticfills}
-	     {modifier_mgr deactivate_modifier mod_songtitle}
-	     {modifier_mgr deactivate_modifier mod_songtitlestats}
-	     {modifier_mgr deactivate_modifier mod_blackvenue}
-;LocalH's modifications to preset his modifiers
-;         {set $trackspd 1.25} ;125% track speed
-;         {set $fpsmod 60.0} ;60fps venues
-;         {set $slot1_color 3} ;blue gems
-;         {set $slot2_color 3}
-;         {set $slot3_color 3}
-;         {set $slot4_color 3}
-;         {set $slot5_color 3}
-;         {modifier_mgr activate_modifier mod_nofail} ;modifiers
-;         {modifier_mgr activate_modifier mod_doublespeed}
-;         {modifier_mgr activate_modifier mod_awesome}
-;         {modifier_mgr activate_modifier mod_blackvenue}
-;         {modifier_mgr activate_modifier mod_songtitle}
-;         {modifier_mgr activate_modifier mod_nowhammyfx}
-;         {modifier_mgr activate_modifier mod_nocrowd}
-;         {modifier_mgr activate_modifier mod_nomuting}
-;         {modifier_mgr activate_modifier mod_noflames}
-;         {modifier_mgr activate_modifier mod_padguitar} ;for testing the restart shit
-;         {modifier_mgr activate_modifier mod_auto_play}
-      }
       {set
          [alpha_threshold_fading]
          FALSE}

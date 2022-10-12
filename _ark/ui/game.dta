@@ -567,8 +567,8 @@
 	  {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
 	  {set $drum_groove_active FALSE} {set $guitar_groove_active FALSE} {set $bass_groove_active FALSE}
 ;setup for venue fps
-	  {if {!= $fpsmod 24}{{$world iterate PostProc $p {$p set emulate_fps $fpsmod}}}
-	  {if {>= {$fpsmod 25} {$char iterate CharHair $hair {$hair reset 35}}
+	  {if {!= $emulatefps 24} {{$world iterate PostProc $p {$p set emulate_fps $emulatefps}}}
+	  {if {>= {$emulatefps 25} {$char iterate CharHair $hair {$hair reset 35}}
 	  {$world iterate WorldDir $wd {$wd iterate BandCamShot $bcs
 	  {foreach $property (shake_noisefreq shake_noiseamp) {$bcs set (keyframes $i $property) {'*' {$bcs get (keyframes $i $property)} 0.25}}}
       {foreach $component (x y) {$bcs set (keyframes $i shake_maxangle $component) {'*' {$bcs get (keyframes $i shake_maxangle $component)} 0.25}}}}}}}}
