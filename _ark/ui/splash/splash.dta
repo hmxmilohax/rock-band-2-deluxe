@@ -40,7 +40,7 @@
    (update_presence TRUE)
    (videos intro)
    (enter
-   {ui goto_screen splash_screen})
+   {ui goto_screen meta_loading_main_screen})
    (movie_done
       {ui goto_screen splash_screen})
    (enter
