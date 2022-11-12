@@ -498,46 +498,46 @@
                {$this pause_for_mic}
                TRUE}}
          FALSE})
-   (BUTTON_DOWN_MSG ;this whole BUTTON_DOWN_MSG macro is for allowing overdrive activation via the select button for vocals and drums
-         {if {== $action kAction_Start} ;reimplement the pause button (start). adding BUTTON_DOWN_MSG causes pause to stop working, have to add back the function here. all of this is vanilla just taken 1:1 from above in on_button_held
-            {do
-         {if
-            {&&
-               {!
-                  {ui in_transition}}
-               {!=
-                  pause_screen
-                  {ui current_screen}}
-               {'||'
-                  {gamemode get allow_any_controller_to_pause_in_game}
-                  {&&
-                     {gamecfg is_player_participating $user_num}
-                     {beatmatch player $user_num}
-                     {{beatmatch player $user_num}
-                        can_pause}}}
-               {!
-                  {game is_game_over}}
-               {==
-                  {session state}
-                  kNetInGame}
-               {!=
-                  {gamemode get pause_screen}
-                  ''}}
-            {input_mgr
-               set_user
-               {user_mgr get_band_user $user_num}}
-            {net_sync set_ui_state kNetUI_Pause}
-            {ui
-               push_screen
-               {gamemode get pause_screen}}}}}
-         {if {== $action kAction_ViewModify} ;here is the implementation of select to activate. it's a reimplementation of activating overdrive since BUTTON_DOWN_MSG causes these buttons to not work, so must apply to all instruments
-            {beatmatch foreach_active_player $player
-               {switch {$player instrument}
-                   (bass {$player deploy_if_possible}) ;needs to always be here
-                   (guitar {$player deploy_if_possible}) ;needs to always be here
-                   (drum {if {modifier_mgr is_modifier_active mod_selectdeploy} {$player deploy_if_possible}}) ;drums can now activate at any time via the select button
-                   (vocals {if {modifier_mgr is_modifier_active mod_selectdeploy} {$player deploy_if_possible}}) ;vocals can now activate at any time via the select button. Doesn't even need to be under an activation phrase
-                kDataUnhandled}}})
+;   (BUTTON_DOWN_MSG ;this whole BUTTON_DOWN_MSG macro is for allowing overdrive activation via the select button for vocals and drums
+;         {if {== $action kAction_Start} ;reimplement the pause button (start). adding BUTTON_DOWN_MSG causes pause to stop working, have to add back the function here. all of this is vanilla just taken 1:1 from above in on_button_held
+;            {do
+;         {if
+;            {&&
+;               {!
+;                  {ui in_transition}}
+;               {!=
+;                  pause_screen
+;                  {ui current_screen}}
+;               {'||'
+;                  {gamemode get allow_any_controller_to_pause_in_game}
+;                  {&&
+;                     {gamecfg is_player_participating $user_num}
+;                     {beatmatch player $user_num}
+;                     {{beatmatch player $user_num}
+;                        can_pause}}}
+;               {!
+;                  {game is_game_over}}
+;               {==
+;                  {session state}
+;                  kNetInGame}
+;               {!=
+;                  {gamemode get pause_screen}
+;                  ''}}
+;            {input_mgr
+;               set_user
+;               {user_mgr get_band_user $user_num}}
+;            {net_sync set_ui_state kNetUI_Pause}
+;            {ui
+;               push_screen
+;               {gamemode get pause_screen}}}}}
+;         {if {== $action kAction_ViewModify} ;here is the implementation of select to activate. it's a reimplementation of activating overdrive since BUTTON_DOWN_MSG causes these buttons to not work, so must apply to all instruments
+;            {beatmatch foreach_active_player $player
+;               {switch {$player instrument}
+;                   (bass {$player deploy_if_possible}) ;needs to always be here
+;                   (guitar {$player deploy_if_possible}) ;needs to always be here
+;                   (drum {if {modifier_mgr is_modifier_active mod_selectdeploy} {$player deploy_if_possible}}) ;drums can now activate at any time via the select button
+;                   (vocals {if {modifier_mgr is_modifier_active mod_selectdeploy} {$player deploy_if_possible}}) ;vocals can now activate at any time via the select button. Doesn't even need to be under an activation phrase
+;                kDataUnhandled}}})
    (milo_setup
 ;send to network leaders song speed
       {if {is_leader_local} {session send_msg_to_all {` (set $speedmod {, $leaderspeed}) kNetReliable}}}
