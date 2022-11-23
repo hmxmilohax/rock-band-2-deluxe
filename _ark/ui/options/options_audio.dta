@@ -437,7 +437,7 @@
       {crowd.sld set_current $slot4_color} ;set slider 4 to slot 4 color value
       {sfx.sld set_current $slot5_color} ;set slider 5 to slot 5 color value
       {background_music.btn get_local_pos $labelpos_x $labelpos_y $labelpos_z}
-      {background_music.btn set_local_pos {- $labelpos_x 12} $labelpos_y $labelpos_z} ;fix the fucking text position so it doesn't look ugly
+      {background_music.btn set_local_pos {- $labelpos_x 13.2} $labelpos_y $labelpos_z} ;fix the fucking text position so it doesn't look ugly, for real this time
       {instruments.btn set_localized {localize {sprintf "gemcolor_%i" $slot1_color}}} ;update text for button 1
       {background_music.btn set_localized {localize {sprintf "gemcolor_%i" $slot2_color}}} ;update text for button 2
       {vocal_track.btn set_localized {localize {sprintf "gemcolor_%i" $slot3_color}}} ;update text for button 3
