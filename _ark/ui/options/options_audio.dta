@@ -244,7 +244,7 @@
       {vocal_track.sld set_current {int {- $emulatefps 1}}} ;set FPS slider based on current value
       {instruments.btn set_localized {sprintf {localize trackspeed_msg} {int {+ 0.5 {* $trackspeed 100}}}}} ;set note speed msg
       {background_music.btn get_local_pos $labelpos_x $labelpos_y $labelpos_z}
-      {background_music.btn set_local_pos {- $labelpos_x 12} $labelpos_y $labelpos_z} ;fix the fucking text position so it doesn't look ugly
+      {background_music.btn set_local_pos {- $labelpos_x 13.2} $labelpos_y $labelpos_z} ;fix the fucking text position so it doesn't look ugly
       {background_music.btn set_localized {sprintf {localize speed_msg} {int {+ 0.5 {* $speedmod 100}}}}} ;set song speed msg
       {vocal_track.btn set_localized {sprintf {localize fps_msg} {int $emulatefps}}} ;set venue fps msg
       {do {crowd.btn set_showing FALSE} {sfx.btn set_showing FALSE} {$this disable crowd.btn} {$this disable sfx.btn}
