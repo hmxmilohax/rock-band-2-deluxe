@@ -143,7 +143,7 @@
    (intro_category INTRO)
    (win_camera WIN)
    (outro_camera OUTRO)
-   (crowd_audio $crowdaudio) ;crowd audio modifier
+   (crowd_audio {if_else {modifier_mgr is_modifier_active mod_nocrowd} FALSE TRUE}) ;crowd audio modifier
    (game_mode_context CONTEXT_GAME_MODE_TYPE_SOLO_QUICKPLAY)
    (pause_screen pause_screen)
    (song_select_mode song_select_quickplay)
