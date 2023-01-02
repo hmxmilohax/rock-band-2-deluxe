@@ -56,7 +56,7 @@
    PAUSE_SCREEN_HANDLERS
    (enter
       {if_else
-         [end_demo]
+         $fakeenddemovar
          {pause_bg_panel orange}
          {pause_bg_panel blue}}
       {pause_title.lbl set fit_type kFitJust}
@@ -85,7 +85,7 @@
       {if
          {&&
             {!
-               [end_demo]}
+               $fakeenddemovar}
             {gamemode get has_track}
             {input_mgr get_user}
             {{input_mgr get_user}
@@ -106,13 +106,13 @@
          set
          text_token
          {if_else
-            [end_demo]
+            $fakeenddemovar
             ugc_demo_end
             PAUSED}}
       {if_else
          {&&
             {!
-               [end_demo]}
+               $fakeenddemovar}
             {input_mgr get_user}
             {{input_mgr get_user}
                player}
@@ -199,7 +199,7 @@
                set_enable_vocals_options
                TRUE)}}
       {set
-         [end_demo]
+         $fakeenddemovar
          FALSE})
    (unload
       {{input_mgr get_user}
@@ -211,7 +211,7 @@
             {== $action kAction_Start}
             {== $action kAction_Cancel}}
          {if_else
-            [end_demo]
+            $fakeenddemovar
             TRUE
             {do
                {set
@@ -220,7 +220,7 @@
                {$this resume}}}
          {if_else
             {&&
-               [end_demo]
+               $fakeenddemovar
                {<
                   {-
                      {taskmgr ui_seconds}
@@ -289,7 +289,7 @@
                   exit_restart}
                {if_else
                   {'||'
-                     [end_demo]
+                     $fakeenddemovar
                      {==
                         {gamemode get confirm_restart_screen}
                         ''}}
@@ -341,7 +341,7 @@
                   {'||'
                      {gamemode get is_practice}
                      {gamemode get is_jukebox}
-                     [end_demo]}
+                     $fakeenddemovar}
                   {$this on_quit}
                   {ui
                      goto_screen
@@ -397,7 +397,7 @@
                      {gamemode get is_drum_trainer}
                      {gamemode get is_practice}
                      {gamemode get is_jukebox}
-                     [end_demo]}
+                     $fakeenddemovar}
                   {$this on_quit}
                   {ui
                      goto_screen
@@ -444,7 +444,7 @@
                (pause_resume
                   {if
                      {!
-                        [end_demo]}
+                        $fakeenddemovar}
                      {set $added TRUE}})
                (pause_restart
                   {if
@@ -474,7 +474,7 @@
                   {if
                      {&&
                         {!
-                           [end_demo]}
+                           $fakeenddemovar}
                         {gamemode get has_track}
                         {$band_user is_participating}
                         {$band_user player}
@@ -499,7 +499,7 @@
                   {if
                      {&&
                         {!
-                           [end_demo]}
+                           $fakeenddemovar}
                         {gamemode get has_track}
                         {$band_user is_participating}
                         {$band_user player}
@@ -516,7 +516,7 @@
                   {if
                      {&&
                         {!
-                           [end_demo]}
+                           $fakeenddemovar}
                         {gamemode get is_practice}
                         {!=
                            vocals
@@ -549,7 +549,7 @@
                   {if
                      {&&
                         {!
-                           [end_demo]}
+                           $fakeenddemovar}
                         {'||'
                            {gamemode get local_network}
                            {is_leader_local}}
@@ -585,7 +585,7 @@
                   {if
                      {&&
                         {!
-                           [end_demo]}
+                           $fakeenddemovar}
                         {!
                            {gamemode get is_audition}}
                         {!
@@ -630,10 +630,10 @@
                      {song_mgr
                         is_demo
                         {meta_performer song}}
-                     {set $added TRUE}})
+                     {set $added FALSE}})
                (ugc_delete_demo
                   {if
-                     [end_demo]
+                     $fakeenddemovar
                      {set $added TRUE}})
                (pause_quit
                   {if

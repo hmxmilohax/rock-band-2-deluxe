@@ -23,12 +23,13 @@
                get_section_at_ms
                {$mp progress_ms}}}}
       {if_else
-         {&&
+         ;{&&
             {gamemode get show_practice_on_lose}
-            {!
-               {song_mgr
-                  is_demo
-                  {meta_performer song}}}}
+            ;{!
+            ;   {song_mgr
+            ;      is_demo
+            ;      {meta_performer song}}}
+            ;      }
          {do
             {set
                [quit_button]
@@ -44,25 +45,25 @@
                text_token
                QUIT}
             {menu_item_3.btn set text_token practice}}
-         {if_else
-            {song_mgr
-               is_demo
-               {meta_performer song}}
-            {do
-               {set
-                  [quit_button]
-                  lose_quit.btn}
-               {$this
-                  enable
-                  [quit_button]}
-               {[quit_button]
-                  set_showing
-                  TRUE}
-               {[quit_button]
-                  set
-                  text_token
-                  QUIT}
-               {menu_item_3.btn set text_token ugc_delete_demo}}
+        ; {if_else
+           ; {song_mgr
+           ;    is_demo
+           ;    {meta_performer song}}
+           ; {do
+           ;    {set
+           ;       [quit_button]
+           ;       lose_quit.btn}
+           ;    {$this
+           ;       enable
+           ;       [quit_button]}
+           ;    {[quit_button]
+           ;       set_showing
+           ;       TRUE}
+           ;    {[quit_button]
+           ;       set
+           ;       text_token
+           ;       QUIT}
+           ;    {menu_item_3.btn set text_token ugc_delete_demo}}
             {do
                {lose_quit.btn set_showing FALSE}
                {$this disable lose_quit.btn}
@@ -72,7 +73,9 @@
                {[quit_button]
                   set
                   text_token
-                  QUIT}}}}
+                  QUIT}}
+            ;      }
+                  }
       {session
          add_sink
          $this

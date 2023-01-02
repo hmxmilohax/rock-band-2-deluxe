@@ -279,21 +279,7 @@
                push_screen
                {gamemode get pause_screen}}}})
    (on_end_demo
-      {if
-         {&&
-            {!
-               {ui in_transition}}
-            {==
-               game
-               {ui focus_panel}}
-            {==
-               {session state}
-               kNetInGame}
-            {!
-               {game is_game_over}}}
-         {pause_panel set end_demo TRUE}
-         {net_sync set_ui_state kNetUI_Pause}
-         {ui push_screen pause_screen}})
+      kDataUnhandled)
 }
 {new
    UIPanel
@@ -663,16 +649,17 @@
                   {!
                      {are_all_mics_connected}}}
                {$this pause_for_mic_check}}}}
-      {if
-         {&&
-            {song_mgr
-               is_demo
-               {meta_performer song}}
-            {'||'
-               {!
-                  {gamemode get local_network}}
-               {gamemode is_tour}}}
-         {band_ui content_file_read_failed '' FALSE}})
+     ; {if
+     ;    {&&
+     ;       {song_mgr
+     ;          is_demo
+     ;          {meta_performer song}}
+     ;       {'||'
+     ;          {!
+     ;             {gamemode get local_network}}
+     ;          {gamemode is_tour}}}
+     ;    {band_ui content_file_read_failed '' FALSE}}
+         )
    (on_guide_change
       {if
          {&&

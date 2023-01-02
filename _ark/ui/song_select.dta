@@ -176,15 +176,15 @@
                      {if_else
                         {song_mgr is_song_mounted $song}
                         {do
-                           {if
-                              {song_mgr is_demo $song}
-                              {demo.lbl set showing TRUE}
-                              {demo.mesh set showing TRUE}
-                              {demo.anim
-                                 animate
-                                 (range 0.0 6.0)
-                                 (period
-                                    [demo_period])}}
+                        ;   {if
+                        ;      {song_mgr is_demo $song}
+                        ;      {demo.lbl set showing TRUE}
+                        ;      {demo.mesh set showing TRUE}
+                        ;      {demo.anim
+                        ;         animate
+                        ;         (range 0.0 6.0)
+                        ;         (period
+                        ;            [demo_period])}}
                            {album_art.pic
                               set
                               tex_file
@@ -243,14 +243,15 @@
                   set
                   tex_file
                   "ui/image/blank_album_art_keep.png"}}
-            {demo.lbl
-               set
-               showing
-               {song_mgr is_demo $song}}
-            {demo.mesh
-               set
-               showing
-               {song_mgr is_demo $song}}}})
+           ; {demo.lbl
+           ;    set
+           ;    showing
+           ;    {song_mgr is_demo $song}}
+           ; {demo.mesh
+           ;    set
+           ;    showing
+           ;    {song_mgr is_demo $song}}
+           }})
    (refresh_bottom
       ($offer_ix)
       {if_else
@@ -1276,31 +1277,31 @@
                {net_sync disable}
                {ui push_screen ugc_tow_screen}
                FALSE)
-            ({&&
-                  {gamemode get is_practice}
-                  {song_mgr is_demo $song}}
-               {net_sync disable}
-               {ui push_screen ugc_demo_practice}
-               FALSE)
+            ;({&&
+            ;      {gamemode get is_practice}
+            ;      {song_mgr is_demo $song}}
+            ;   {net_sync disable}
+            ;   {ui push_screen ugc_demo_practice}
+            ;   FALSE)
             ({&&
                   {gamemode get is_practice}
                   {song_mgr is_ugc $song}
                   {!
                      {song_mgr is_song_mounted $song}}}
                FALSE)
-            ({&&
-                  {!
-                     {gamemode get local_network}}
-                  {song_mgr is_demo $song}}
-               {net_sync disable}
-               {ui push_screen ugc_demo_online}
-               FALSE)
-            ({&&
-                  {song_offer_provider get_setlist_mode}
-                  {song_mgr is_demo $song}}
-               {net_sync disable}
-               {ui push_screen ugc_demo_setlist}
-               FALSE)
+            ;({&&
+            ;      {!
+            ;         {gamemode get local_network}}
+            ;      {song_mgr is_demo $song}}
+            ;   {net_sync disable}
+            ;   {ui push_screen ugc_demo_online}
+            ;   FALSE)
+            ;({&&
+            ;      {song_offer_provider get_setlist_mode}
+            ;      {song_mgr is_demo $song}}
+            ;   {net_sync disable}
+            ;   {ui push_screen ugc_demo_setlist}
+            ;   FALSE)
             ({&&
                   {song_mgr is_song_exported $song}
                   {!
