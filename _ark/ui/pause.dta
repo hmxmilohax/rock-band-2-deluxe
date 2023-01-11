@@ -19,14 +19,16 @@
    pause_bg_panel
    (file
       "pause_bg.milo")
+   ;;31199 OG
    (orange
       {octopus.lit set color 31199}
       {octopus01.lit set color 31199}
       {octopus02.lit set color 31199})
+   ;;16758820 OG
    (blue
-      {octopus.lit set color 16758820}
-      {octopus01.lit set color 16758820}
-      {octopus02.lit set color 16758820})}
+      {octopus.lit set color 190}
+      {octopus01.lit set color 190}
+      {octopus02.lit set color 190})}
 {new
    UIPanel
    pause_panel
