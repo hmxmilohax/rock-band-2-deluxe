@@ -106,7 +106,7 @@ internal_display_resolution = 8                   	# Allow game that support dif
                                                   	#    15=1920x540
                                                   	#    16=1920x1080
 
-postprocess_antialiasing = "fxaa_extreme"         	# Post-processing anti-aliasing effect to apply to the image output of the game.
+postprocess_antialiasing = ""                     	# Post-processing anti-aliasing effect to apply to the image output of the game.
                                                   	# Using post-process anti-aliasing is heavily recommended when AMD FidelityFX Contrast Adaptive Sharpening or Super Resolution 1.0 is active.
                                                   	# Use: [none, fxaa, fxaa_extreme]
                                                   	#  none (or any value not listed here):
@@ -130,7 +130,7 @@ postprocess_ffx_fsr_max_upsampling_passes = 4     	# Maximum number of upsamplin
 postprocess_ffx_fsr_sharpness_reduction = 0.20000000298023224	# Sharpness reduction for AMD FidelityFX Super Resolution 1.0 (FSR), in stops.
                                                   	# Lower is sharper.
 
-postprocess_scaling_and_sharpening = "cas"        	# Post-processing effect to use for resampling and/or sharpening of the final display output.
+postprocess_scaling_and_sharpening = ""           	# Post-processing effect to use for resampling and/or sharpening of the final display output.
                                                   	# Use: [bilinear, cas, fsr]
                                                   	#  bilinear (or any value not listed here):
                                                   	#   Original image at 1:1, simple bilinear stretching for resampling.

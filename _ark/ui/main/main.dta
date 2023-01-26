@@ -186,8 +186,8 @@
          {game reset_config}}
       {meta music_start}
       {BandHighlight.hlit register_focus}
-;      {store.btn set_state kComponentDisabled} ;disable music store button, we don't need it rn
-;      {store.btn set_showing FALSE} ;hide it too
+      {store.btn set_state kComponentDisabled} ;disable music store button, we don't need it rn
+      {store.btn set_showing FALSE} ;hide it too
    )
    (exit
       {fx fade_out}
@@ -756,7 +756,7 @@
                ((min_height 0))}
             {ui goto_screen credits_movie_screen})
          (modifygame.btn
-            {ui goto_screen modifiers_screen})
+            {ui goto_screen modifiers_screen_with_bg})
          (audition.btn
             {if_else
                {platform_mgr has_hard_drive}
