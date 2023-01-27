@@ -1,3 +1,244 @@
+; Rock Band unexportables
+
+('entersandman'
+(
+   'name'
+   "Enter Sandman"
+)
+(
+   'artist'
+   "Metallica"
+)
+('master' 1)
+('context' 58)
+(
+   'song'
+   ('name' 'songs/entersandman/entersandman')
+   (
+      'tracks'
+      (
+         (
+            'drum'
+            (0 1 2 3)
+         )
+         ('bass' 4)
+         (
+            'guitar'
+            (5 6)
+         )
+         (
+            'vocals'
+            (7 8)
+
+         )
+      )
+   )
+   ('crowd_channels' 11 12)
+   (
+      'pans'
+      (0.00 0.00 -1.00 1.00 0.00 -1.00 1.00 -1.00 1.00 -1.00 1.00 -2.50 2.50)
+   )
+   (
+      'vols'
+      (-1.00 -0.50 -2.50 -2.50 -1.50 -3.00 -3.00 -5.00 -5.00 -3.00 -3.00 -6.00 -6.00)
+   )
+   (
+      'cores'
+      (-1 -1 -1 -1 -1 1 1 -1 -1 -1 -1 -1 -1)
+   )
+   (
+      'drum_solo'
+      (
+         'seqs'
+         ('kick.cue' 'snare.cue' 'tom1.cue' 'tom2.cue' 'crash.cue')
+      )
+   )
+   (
+      'drum_freestyle'
+      (
+         'seqs'
+         ('kick.cue' 'snare.cue' 'hat.cue' 'ride.cue' 'crash.cue')
+      )
+   )
+   ('midi_file' 'songs/entersandman/entersandman.mid')
+)
+('song_scroll_speed' 2300)
+('bank' 'sfx/tambourine_bank.milo')
+('anim_tempo' 32)
+('preview' 89250 126750)
+(
+   'rank'
+   ('drum' 420)
+   ('guitar' 375)
+   ('bass' 400)
+   ('vocals' 230)
+   ('band' 420)
+)
+('genre' 'metal')
+('decade' 'the90s')
+('vocal_gender' 'male')
+('song_location' 2)
+   (downloaded TRUE)
+   (exported TRUE)
+)
+('paranoid'
+(
+   'name'
+   "Paranoid"
+)
+(
+   'artist'
+   "Black Sabbath"
+)
+('context' 18)
+(
+   'song'
+   ('name' 'songs/paranoid/paranoid')
+   (
+      'tracks'
+      (
+         (
+            'drum'
+            (0 1 2 3)
+         )
+         ('bass' 4)
+         (
+            'guitar'
+            (5 6)
+         )
+         (
+            'vocals'
+            (7 8)
+
+         )
+      )
+   )
+   (
+      'pans'
+      (0.00 0.00 -1.00 1.00 0.00 -1.00 1.00 -1.00 1.00 -1.00 1.00)
+   )
+   (
+      'vols'
+      (0.00 0.00 -1.50 -1.50 -1.50 -4.50 -4.50 -6.00 -6.00 -6.00 -6.00)
+   )
+   (
+      'cores'
+      (-1 -1 -1 -1 -1 1 1 -1 -1 -1 -1)
+   )
+   (
+      'drum_solo'
+      (
+         'seqs'
+         ('kick.cue' 'snare.cue' 'tom1.cue' 'tom2.cue' 'crash.cue')
+      )
+   )
+   (
+      'drum_freestyle'
+      (
+         'seqs'
+         ('kick.cue' 'snare.cue' 'hat.cue' 'ride.cue' 'crash.cue')
+      )
+   )
+   ('midi_file' 'songs/paranoid/paranoid.mid')
+)
+('song_scroll_speed' 2300)
+('bank' 'sfx/tambourine_bank.milo')
+('anim_tempo' 64)
+('preview' 15000 38600)
+(
+   'rank'
+   ('drum' 270)
+   ('guitar' 310)
+   ('bass' 310)
+   ('vocals' 105)
+   ('band' 310)
+)
+('genre' 'metal')
+('decade' 'the70s')
+('vocal_gender' 'male')
+('song_location' 2)
+   (downloaded TRUE)
+   (exported TRUE)
+)
+('runtothehills'
+(
+   'name'
+   "Run to the Hills"
+)
+(
+   'artist'
+   "Iron Maiden"
+)
+('context' 21)
+(
+   'song'
+   ('name' 'songs/runtothehills/runtothehills')
+   (
+      'tracks'
+      (
+         (
+            'drum'
+            (0 1 2 3 4)
+         )
+         ('bass' 5)
+         (
+            'guitar'
+            (6 7)
+         )
+         (
+            'vocals'
+            (8 9)
+         )
+      )
+   )
+   ('crowd_channels' 12 13)
+   (
+      'pans'
+      (0.00 -1.00 1.00 -1.00 1.00 0.00 -1.00 1.00 -1.00 1.00 -1.00 1.00 -2.50 2.50)
+   )
+   (
+      'vols'
+      (0.00 -2.50 -2.50 -1.00 -1.00 -1.50 -3.00 -3.00 -2.50 -2.50 -6.00 -6.00 -5.50 -5.50)
+   )
+   (
+      'cores'
+      (-1 -1 -1 -1 -1 -1 1 1 -1 -1 -1 -1 -1 -1)
+   )
+   (
+      'drum_solo'
+      (
+         'seqs'
+         ('kick.cue' 'snare.cue' 'tom1.cue' 'tom2.cue' 'crash.cue')
+      )
+   )
+   (
+      'drum_freestyle'
+      (
+         'seqs'
+         ('kick.cue' 'snare.cue' 'hat.cue' 'ride.cue' 'crash.cue')
+      )
+   )
+   ('midi_file' 'songs/runtothehills/runtothehills.mid')
+)
+('song_scroll_speed' 2300)
+('bank' 'sfx/tambourine_bank.milo')
+('anim_tempo' 64)
+('preview' 11000 53175)
+(
+   'rank'
+   ('drum' 490)
+   ('guitar' 450)
+   ('bass' 450)
+   ('vocals' 300)
+   ('band' 600)
+)
+('genre' 'metal')
+('decade' 'the80s')
+('vocal_gender' 'male')
+('song_location' 2)
+   (downloaded TRUE)
+   (exported TRUE)
+)
 #ifndef MINIMAL_SONGS
 (aceofspades
    (name
