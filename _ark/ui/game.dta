@@ -56,7 +56,6 @@
        {if_else
          {'||'
             $skip_intro
-            {gamemode get is_drum_trainer}
             {gamemode get is_framerate_test}}
          {handle
             ($this intro_skip)}
