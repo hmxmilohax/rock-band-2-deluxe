@@ -30,6 +30,6 @@
    (mod_nomuting unlocked)
    (mod_noflames (activate {modifier_mgr deactivate_modifier mod_flashbang}) unlocked)
    (mod_flashbang (activate {modifier_mgr deactivate_modifier mod_noflames}) unlocked)
-   (mod_auto_play (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature)) (deactivate {modifier_mgr deactivate_modifier mod_fakejuke}) unlocked)
+   (mod_auto_play (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature)) (deactivate {modifier_mgr deactivate_modifier mod_fakejuke}) (activate {modifier_mgr deactivate_modifier mod_staticfills}) unlocked)
    (mod_fakejuke (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature)) (activate {modifier_mgr activate_modifier mod_auto_play} {modifier_mgr activate_modifier mod_nohud} {modifier_mgr activate_modifier mod_choose_venue} {modifier_mgr activate_modifier mod_vocalgender}) (deactivate {modifier_mgr deactivate_modifier mod_auto_play} {modifier_mgr deactivate_modifier mod_choose_venue} {modifier_mgr deactivate_modifier mod_vocalgender} {modifier_mgr deactivate_modifier mod_nohud}) unlocked)
    )
