@@ -108,6 +108,39 @@
 					{$world iterate PostProc $p
 					{$p set emulate_fps 1}}}}
 	 kDataUnhandled)
+   (intro_end
+      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
+      {set $bass_groove_active FALSE} {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
+	  {set $drum_groove_active FALSE}
+	  {set $guitar_groove_active FALSE}
+	  {if {modifier_mgr is_modifier_active mod_blackvenue}
+         {if {! $already_restarted} ;cheap attempt to fix the "notes too quick bug" by restarting once automatically on initial song start, this should work all the time
+            {do
+               {set $already_restarted TRUE}
+               {game_restart}
+            }
+         }
+	  }
+   kDataUnhandled)
+   (intro_skip
+      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
+      {set $bass_groove_active FALSE} {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
+	  {set $drum_groove_active FALSE}
+	  {set $guitar_groove_active FALSE}
+	  {if {modifier_mgr is_modifier_active mod_blackvenue}
+         {if {! $already_restarted} ;cheap attempt to fix the "notes too quick bug" by restarting once automatically on initial song start, this should work all the time
+            {do
+               {set $already_restarted TRUE}
+               {game_restart}
+            }
+         }
+	  }
+      {if
+         {'||'
+            $skip_intro
+            {gamemode get is_framerate_test}}
+         {beatmatch set_intro_real_time 0}}
+      kDataUnhandled)
    (music_start
       {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
       {set $bass_groove_active FALSE} {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
