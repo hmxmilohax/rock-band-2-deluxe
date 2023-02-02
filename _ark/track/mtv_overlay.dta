@@ -21,6 +21,8 @@
                      {exists fade.anim}
                      {fade.anim animate}})))
          (enter
+			{if {modifier_mgr is_modifier_active mod_fakejuke}
+				{Group.grp set_local_pos 0 0 -210}}
             {if
                {exists game}
                {game
@@ -64,7 +66,7 @@
                {if
                   {exists artist.lbl}
 				  {if_else {modifier_mgr is_modifier_active mod_fakejuke}
-				    {artist.lbl set_localized {sprint $artist_text "\nJUKEBOX " "\nAuthor: " $author_text}}
+				    {artist.lbl set_localized {sprint $artist_text ", " $year_text "\n" $album_text}}
 				  {if_else {modifier_mgr is_modifier_active mod_auto_play}
 				    {artist.lbl set_localized {sprint $artist_text "\nAUTOPLAY " "\nAuthor: " $author_text}}
 				  {if_else {modifier_mgr is_modifier_active mod_songtitlestats}
