@@ -6555,6 +6555,110 @@
          (mic
             sm58_resource
             (colors 0 0))))
+   (guitar38
+      (gender male)
+      (selectable TRUE)
+      (instrument guitar)
+      (attitude kGenreSpazz)
+      (skin_color_index 2)
+      (eye_color_index 9)
+      (eyebrow_color_index 4)
+      (height 1.0)
+      (weight 0.25)
+      (outfit
+         (hair
+            longlayered_resource
+            (colors 4 0))
+         (heads
+            head_12
+            (colors 4 0))
+         (eyes none)
+         (lips none)
+         (facehair
+            head_12_flavorsaver
+            (colors 4 0))
+         (glasses naked)
+         (torso
+            flannelcoat_checked
+            (colors 14 5))
+         (hands naked)
+         (legs
+            flaredistressedjeans_bleachedjeans
+            (colors 5))
+         (feet
+            highchucks_solid
+            (colors 15 4))
+         (wrist naked)
+         (rings
+            malerings_rubberbands
+            (colors 3 0))
+         (earrings none)
+         (piercings none)
+         (guitar
+            corvette_sunbursttortoise
+            (colors 20 20))
+         (bass
+            jazz03_paint
+            (colors 36 0))
+         (drum
+            ludvista_clear
+            (colors 14 0))
+         (mic sm58_resource)))
+   (guitar39
+      (gender female)
+      (instrument guitar)
+      (selectable TRUE)
+      (attitude kGenreDramatic)
+      (weight 0.50)
+      (height 0.50)
+      (skin_color_index 2)
+      (eye_color_index 9)
+      (eyebrow_color_index 3)
+      (outfit
+         (hair
+            femalehair_long
+            (colors 3 0))
+         (heads
+            head_1)
+         (eyes
+            head_1_eyes_3
+            (colors 0 0))
+         (lips
+            head_1_lips_3
+            (colors 0 0))
+         (facehair none)
+         (glasses
+            none)
+         (torso
+            busselcoat_lace
+            (colors 1 20))
+         (hands
+            naked)
+         (legs
+            gothminiflare_barelegs
+            (colors 0 0))
+         (feet
+            femalesambas_leather
+            (colors 0 0))
+         (wrist
+            none)
+         (rings none)
+         (earrings 
+            none)
+         (piercings 
+            none)
+         (bass
+            neonbass_resource
+            (colors 18 7))
+         (drum
+            electronic
+            (colors 0 0))
+         (guitar
+            neon_resource
+            (colors 18 7))
+         (mic
+            knife_resource
+            (colors 3 0))))
 	
 #ifdef RAM_PREFABS
 	(guitar35
