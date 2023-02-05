@@ -434,8 +434,8 @@
         {title.lbl set_localized {localize os_strk}})
     (exit)
     (SELECT_MSG
-      {set $smashercustomtexture TRUE}
-      {set $smasher {$component selected_sym}}
+      {set $streakcustomtexture TRUE}
+      {set $streak {$component selected_sym}}
       {ui goto_screen overshell_track_screen}
       {ui pop_screen}
     )
