@@ -539,7 +539,7 @@
          {if_else
             {== $action kAction_Cancel}
             {do
-            {ui goto_screen overshell_main_screen}
+            {ui goto_screen overshell_track_screen}
             {ui pop_screen}}
          kDataUnhandled}})
    (on_slider_change

@@ -19,9 +19,6 @@
    (mod_selectdeploy unlocked) ;select button to activate OD for drums and vox
    ;(mod_forceguitar unlocked) ;commented out for 1.04, will probably explore further later
    (mod_vocalgender unlocked)
-   (mod_oggems (activate {modifier_mgr deactivate_modifier mod_groove}) unlocked)
-   (mod_strike (activate {modifier_mgr deactivate_modifier mod_groove}) unlocked)
-   (mod_groove (activate {modifier_mgr deactivate_modifier mod_oggems} {modifier_mgr deactivate_modifier mod_strike}) unlocked)
    (mod_legacybass unlocked)
    (mod_nosustain unlocked)
    (mod_rb3sustain unlocked)

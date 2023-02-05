@@ -203,7 +203,46 @@
       {{$this loaded_dir}
          reset})
    (on_extend
-      {$this play_intro}
+   {if $gemcustomtexture
+      {{$this find prism_gems.tex} set_bitmap {sprint "track/gems/prism_gems_" $gem ".png"}}
+   }
+
+   {if $smashercustomtexture
+   {do
+      {{$this find black_smasher_blue_nomip.tex} set_bitmap {sprint "track/smashers/black_smasher_blue_" $smasher ".png"}}
+      {{$this find black_smasher_green_nomip.tex} set_bitmap {sprint "track/smashers/black_smasher_green_" $smasher ".png"}}
+      {{$this find black_smasher_norm.tex} set_bitmap {sprint "track/smashers/black_smasher_norm_" $smasher ".png"}}
+      {{$this find black_smasher_spec.tex} set_bitmap {sprint "track/smashers/black_smasher_spec_" $smasher ".png"}}
+      {{$this find black_smasher_norm_drums.tex} set_bitmap {sprint "track/smashers/black_smasher_norm_drums_" $smasher ".png"}}
+      {{$this find black_smasher_orange_nomip.tex} set_bitmap {sprint "track/smashers/black_smasher_orange_" $smasher ".png"}}
+      {{$this find black_smasher_red_nomip.tex} set_bitmap {sprint "track/smashers/black_smasher_red_" $smasher ".png"}}
+      {{$this find black_smasher_yellow_nomip.tex} set_bitmap {sprint "track/smashers/black_smasher_yellow_" $smasher ".png"}}
+      {{$this find square_smasher_bright_blue.tex} set_bitmap {sprint "track/smashers/square_smasher_bright_blue_" $smasher ".png"}}
+      {{$this find square_smasher_bright_green.tex} set_bitmap {sprint "track/smashers/square_smasher_bright_green_" $smasher ".png"}}
+      {{$this find square_smasher_bright_orange.tex} set_bitmap {sprint "track/smashers/square_smasher_bright_orange_" $smasher ".png"}}
+      {{$this find square_smasher_bright_red.tex} set_bitmap {sprint "track/smashers/square_smasher_bright_red_" $smasher ".png"}}
+      {{$this find square_smasher_bright_yellow.tex} set_bitmap {sprint "track/smashers/square_smasher_bright_yellow_" $smasher ".png"}}
+   }
+   }
+   {if $streakcustomtexture
+      {{$this find bass_superstreak_pattern.tex} set_bitmap {sprint "track/streak/" $streak ".png"}}
+   }
+   {if $spotlightcustomtexture
+      {{$this find spotlight_bass_track.tex} set_bitmap {sprint "track/spotlight/" $spotlight ".png"}}
+      {{$this find spotlight_guitar_track.tex} set_bitmap {sprint "track/spotlight/" $spotlight ".png"}}
+      {{$this find spotlight_drums_track.tex} set_bitmap {sprint "track/spotlight/" $spotlight ".png"}}
+      {if_else {exists {sprint "track/spotlight/" $spotlight "_emissive.png"}}
+         {do
+            {{$this find spotlight_bass_track_emissive.tex} set_bitmap {sprint "track/spotlight/" $spotlight "_emissive.png"}}
+            {{$this find spotlight_guitar_track_emmissive.tex} set_bitmap {sprint "track/spotlight/" $spotlight "_emissive.png"}}
+         }
+         {do
+            {{$this find spotlight_bass_track_emissive.tex} set_bitmap "track/custom_track_textures/_no_highway.png"}
+            {{$this find spotlight_guitar_track_emmissive.tex} set_bitmap "track/custom_track_textures/_no_highway.png"}
+         }
+      }
+   }
+   {$this play_intro}
       {if
          {&&
             {exists gamemode}
@@ -215,15 +254,7 @@
    TrackPanel
    coop_track_panel
    (file
-   {if_else {&& {modifier_mgr is_modifier_active mod_oggems} {modifier_mgr is_modifier_active mod_strike}}
-   ../track/trackpanelretail.milo
-   {if_else {modifier_mgr is_modifier_active mod_oggems}
-   ../track/trackpaneloggems.milo
-   {if_else {modifier_mgr is_modifier_active mod_strike}
-   ../track/trackpanelstrike.milo
-   {if_else{modifier_mgr is_modifier_active mod_groove}
-   ../track/trackpanelgroove.milo
-   ../track/trackpanelcustom.milo}}}}
+   ../track/trackpanel.milo
    )
    TRACK_PANEL_HANDLERS}
 {new
@@ -236,15 +267,7 @@
                get_track_sym}
             vocals}
          ../track/trackpanel_h2h_vocals.milo
-   {if_else {&& {modifier_mgr is_modifier_active mod_oggems} {modifier_mgr is_modifier_active mod_strike}}
-   ../track/trackretailh2h.milo
-   {if_else {modifier_mgr is_modifier_active mod_oggems}
-   ../track/trackoggemsh2h.milo
-   {if_else {modifier_mgr is_modifier_active mod_strike}
-   ../track/trackstrikeh2h.milo
-   {if_else{modifier_mgr is_modifier_active mod_groove}
-   ../track/trackgrooveh2h.milo
-   ../track/trackcustomh2h.milo}}}}
+   ../track/trackpanel_h2h.milo
    })
    TRACK_PANEL_HANDLERS}
 {func
