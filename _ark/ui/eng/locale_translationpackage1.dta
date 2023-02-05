@@ -1301,6 +1301,15 @@
    "Attempting to connect to Rock Central...")
 (motd_online_disabled
    "Cannot connect to Rock Central while modifiers are enabled.")
+#ifdef HX_XBOX
+(motd_overshell_tip
+   "Press the BACK button twice on any menu to change modifiers, textures, speeds, and more.")
+#else
+(motd_overshell_tip
+   "Press the SELECT button twice on any menu to change modifiers, textures, speeds, and more.")
+#endif
+(motd_nosaving
+   "Saving is currently disabled due to modifiers")
 (privileges_restricted_strict
    "Connecting to the Rock Central server is disabled on your PLAYSTATION<sup>®</sup>Network account due to parental control restrictions.\n\nYou are not allowed to access this mode.")
 (privileges_restricted_lenient
@@ -10245,7 +10254,7 @@
 (loading_help59
    "Having trouble winning over the crowd? Choose the \qNo Fail\q Game Modifier from the Extras menu!")
 (loading_help60
-   "Want to listen to your music? Check out Jukebox Mode in the Extras section.")
+   "Want to listen to your music? Check out Jukebox Mode in Modifiers.")
 (loading_help61
    "Battle of the Bands events are updated daily! Make sure you check back often to compete in the latest battles.")
 (loading_help62
@@ -10253,7 +10262,7 @@
 (loading_help63
    "You can pause any Tour Challenge you're playing by choosing \qSave and Quit\q from the pause menu. The next time you play this challenge, you'll resume from where you left off!")
 (loading_help64
-   "You can change your game experience with Game Modifiers, found in the Extras menu.")
+   "You can change your game experience with Game Modifiers, found in the Deluxe Settings menu.")
 (loading_help65
    "Want to improve your freeform fills? Check out the Fill Trainer section of the Drum Trainer.")
 (loading_help66
