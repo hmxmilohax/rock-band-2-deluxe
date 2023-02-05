@@ -124,37 +124,9 @@
       {options.anim set_frame 0}
       #endif)
    (update_motd
-      #ifdef HX_XBOX
       {motd.grp set_showing TRUE}
-      {cond
-         ({!
-               {platform_mgr is_ethernet_cable_connected}}
-            {motd.lbl set_showing FALSE})
-         ({!
-               {modifier_mgr is_feature_enabled modifier_online_feature}}
-            {motd.lbl set text_token motd_online_disabled}
+            {motd.lbl set text_token motd_overshell_tip}
             {motd.lbl set_showing TRUE})
-         ({!
-               {platform_mgr is_connected}}
-            {motd.lbl set text_token motd_not_signed_in}
-            {motd.lbl set_showing TRUE})
-         ({!=
-               {rock_central state}
-               kRCOnline}
-            {motd.lbl set text_token motd_no_rock_central}
-            {motd.lbl set_showing TRUE})
-         ({&&
-               {server is_connected}
-               [motd_done]}
-            {motd.lbl
-               set_localized
-               [motd_message]}
-            {motd.lbl set_showing TRUE})
-         (TRUE
-            {motd.lbl set_showing FALSE})}
-      #else
-      {motd.grp set_showing FALSE}
-      #endif)
    (load
       {content_mgr start_refresh})
    (enter

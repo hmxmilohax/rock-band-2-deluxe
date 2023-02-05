@@ -639,7 +639,7 @@
 (pause_quit
    "QUIT")
 (main_cheat_msg_fmt
-   "GAME MODIFIER UNLOCKED: %s")
+   "MODIFIER UNLOCKED: %s")
 (me_notes_hit
    "Notes Hit")
 (me_percent_format
@@ -1266,10 +1266,10 @@
    "Please reconnect %s's %s controller as controller #%i.  Selecting \qReturn to Main Menu\q will result in loss of unsaved progress.")
 #ifdef HX_PS3
 (error_cheating
-   "Sorry, you have a game modifier activated that disables online play. You cannot access any online features until the game modifier is disabled.")
+   "Sorry, you have a modifier activated that disables online play. You cannot access any online features until the modifier is disabled.")
 #else
 (error_cheating
-   "Sorry, you have a game modifier activated that disables Xbox LIVE play. You cannot access any Xbox LIVE features until the game modifier is disabled.")
+   "Sorry, you have a modifier activated that disables Xbox LIVE play. You cannot access any Xbox LIVE features until the modifier is disabled.")
 #endif
 #ifdef HX_PS3
 (leaderboards_not_available_connection
@@ -1301,6 +1301,15 @@
    "Attempting to connect to Rock Central...")
 (motd_online_disabled
    "Cannot connect to Rock Central while modifiers are enabled.")
+#ifdef HX_XBOX
+(motd_overshell_tip
+   "Press the BACK button twice on any menu to change modifiers, textures, speeds, and more on the fly.")
+#else
+(motd_overshell_tip
+   "Press the SELECT button twice on any menu to change modifiers, textures, speeds, and more on the fly.")
+#endif
+(motd_nosaving
+   "Saving is currently disabled due to modifiers")
 (privileges_restricted_strict
    "Connecting to the Rock Central server is disabled on your PLAYSTATION<sup>®</sup>Network account due to parental control restrictions.\n\nYou are not allowed to access this mode.")
 (privileges_restricted_lenient
@@ -10239,13 +10248,13 @@
    "If you want to sing, you need both an Xbox 360 Controller and a microphone plugged in.")
 #endif
 (loading_help57
-   "Having a hard time playing Easy? Turn on the No Fail game modifier from the Extras menu!")
+   "Having a hard time playing Easy? Turn on the No Fail modifier from the Modifiers menu!")
 (loading_help58
    "The clothes that you buy or win get put neatly into the \qMy Closet\q section -- it's way better than throwing them in a heap on the floor.")
 (loading_help59
-   "Having trouble winning over the crowd? Choose the \qNo Fail\q Game Modifier from the Extras menu!")
+   "Having trouble winning over the crowd? Choose the \qNo Fail\q Modifier from the Modifiers menu!")
 (loading_help60
-   "Want to listen to your music? Check out Jukebox Mode in the Extras section.")
+   "Want to listen to your music? Check out Jukebox Mode in the Modifiers menu.")
 (loading_help61
    "Battle of the Bands events are updated daily! Make sure you check back often to compete in the latest battles.")
 (loading_help62
@@ -10253,7 +10262,7 @@
 (loading_help63
    "You can pause any Tour Challenge you're playing by choosing \qSave and Quit\q from the pause menu. The next time you play this challenge, you'll resume from where you left off!")
 (loading_help64
-   "You can change your game experience with Game Modifiers, found in the Extras menu.")
+   "You can change your game experience with Modifiers, Track Options, and Speeds, found in the Deluxe Settings menu.")
 (loading_help65
    "Want to improve your freeform fills? Check out the Fill Trainer section of the Drum Trainer.")
 (loading_help66
@@ -10268,9 +10277,9 @@
 (loading_help68
    "Do you feel like you're missing notes when you shouldn't be? Try calibrating from the Options menu.")
 (loading_help69
-   "Hey parents! Are your kids failing out of songs and getting sad? Hey kids! Are your parents failing out of songs and ruining your fun? Choose the \qNo Fail\q game modifier from the Extras menu!")
+   "Hey parents! Are your kids failing out of songs and getting sad? Hey kids! Are your parents failing out of songs and ruining your fun? Choose the \qNo Fail\q modifier from the Modifiers menu!")
 (loading_help70
-   "Would you rather just scream nonsense and wail randomly on the drums than try to get a good score? You are not alone! Choose the \qNo Fail\q game modifier from the Extras menu.")
+   "Would you rather just scream nonsense and wail randomly on the drums than try to get a good score? You are not alone! Choose the \qNo Fail\q modifier from the Modifiers menu.")
 (loading_trivia1
    "Audience member Scot Halpin took the stage as drummer for The Who for three songs at a concert in 1973 after drummer Keith Moon passed out mid-gig.")
 (loading_trivia2
