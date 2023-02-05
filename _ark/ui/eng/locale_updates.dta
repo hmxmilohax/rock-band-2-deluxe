@@ -16,7 +16,7 @@
 (ugc2 "Rock Band Network 2.0")
 (ugc_lost "Lost Rock Band Network")
 (rb1_dlc "Rock Band 1/2 DLC")
-(rb2 "Custom Songs")
+(rb2 "Rock Band 2")
 (rb3dlc "Rock Band 3 DLC")
 (rb4dlc "Rock Band 4 DLC")
 (rb4_dlc "Rock Band 4 DLC")
@@ -877,9 +877,14 @@
 (options_audio
    "audio settings")
 ;overshell
-(os_clr "Set Gem Colors")
+(os_clr "Gem Colors")
 (os_spd "Set Speeds")
 (os_mod "Modifiers")
+(os_gems "Gems")
+(os_smashers "Smashers")
+(os_strk "Streak")
+(os_spotlight "Overdrive")
+(os_trkset "Track Settings")
 (os_dxsettings "DELUXE SETTINGS")
 ;; Modifiers
 (mod_selectdeploy "Select to Deploy")
@@ -1145,6 +1150,8 @@
 (prefab_guitar33 "Raquelle Jihiman")
 (prefab_guitar34 "Dan LaMona")
 (prefab_guitar37 "Kimberley Monroe")
+(prefab_guitar38 "Dawson Blake")
+(prefab_guitar39 "Luna")
    
    
 (prefab_vocals0 "Jeremy Kitty")
