@@ -230,7 +230,7 @@
 (hmx_store
    "Speed / Framerate")
 (ugc_store
-   "Set Gem Colors")
+   "Note Colors")
 (ugc_store_need_to_signin
    "To visit The Rock Band Network, you must be signed into an Xbox LIVE enabled gamer profile and connected to Xbox LIVE.")
 (ugc_store_need_to_signin_not_guest
@@ -859,7 +859,7 @@
 (gemcolor_3 "blue")
 (gemcolor_4 "orange")
 
-(colrsliderlbl "Set Gem Colors")
+(colrsliderlbl "Note Colors")
 (tweak_modify "tweaks")
 
 (milosliderlbl
@@ -877,7 +877,7 @@
 (options_audio
    "audio settings")
 ;overshell
-(os_clr "Gem Colors")
+(os_clr "Note Colors")
 (os_spd "Set Speeds")
 (os_mod "Modifiers")
 (os_gems "Gems")
@@ -886,14 +886,28 @@
 (os_spotlight "Overdrive")
 (os_trkset "Track Options")
 (os_dxsettings "DELUXE SETTINGS")
+; track settings
+(rb1 "Rock Band 1")
+(rb2 "Rock Band 2")
+(rb3 "Rock Band 3")
+(rb4 "Rock Band 4")
+(rb2_bass "RB2 Bass")
+(rb2_drums "RB2 Drums")
+(rb2_guitar "RB2 Guitar")
 ;; Modifiers
-(mod_selectdeploy "Select to Deploy")
-(mod_selectdeploy_desc "Select button will activate OD on Drums and Vox")
+(mod_awesome_desc "Let MiloHax know that you are really awesome!")
+#ifdef HX_XBOX
+(mod_selectdeploy "BACK Button to Deploy")
+(mod_selectdeploy_desc "BACK button activates overdrive on Drums and Vocals.")
+#else
+(mod_selectdeploy "SELECT Button to Deploy")
+(mod_selectdeploy_desc "SELECT button activates overdrive on Drums and Vocals.")
+#endif
 (mod_nowhammyfx "No Whammy FX")
 (mod_nowhammyfx_desc "Removes the whammy pitchbending")
 (mod_nowhammyfx_obtain "(bug, should be available by default)")
 (mod_rb3sustain "RB3 Sustain Tails")
-(mod_rb3sustain_desc "If you like change, toggle this option!")
+(mod_rb3sustain_desc "Makes sustains look similar to RB3")
 (mod_rb3sustain_obtain "(bug, should be available by default)")
 (mod_nocrowd "No Crowd Audio")
 (mod_nocrowd_desc "Shut those pesky fans up!")
@@ -922,7 +936,7 @@
 (mod_vocalgender
    "Don't Force Vocal Gender")
 (mod_vocalgender_desc 
-   "Doesn't force a vocal gender when active")
+   "Doesn't force a vocalist based on gender")
 (mod_vocalgender_obtain 
    "(bug, should be available by default)")
 (mod_noflames
@@ -934,7 +948,7 @@
 (mod_legacybass
    "Legacy Bass Streak")
 (mod_legacybass_desc 
-   "Remove groove from guitar and drum tracks")
+   "Removes the groove texture from guitar and drum tracks")
 (mod_legacybass_obtain 
    "(bug, should be available by default)")
 (mod_forceguitar
@@ -960,15 +974,20 @@
 (mod_auto_play_obtain 
    "(bug, should be available by default)")
 (mod_blackvenue 
-   "Black Venues")
+   "Black Background")
+#ifdef HX_XBOX
 (mod_blackvenue_desc 
-   "Complete black background while playing")
+   "Completely black background in-game. Good for focus and Xenia performance")
+#else
+(mod_blackvenue_desc 
+   "Completely black background in-game. Good for focus and RPCS3 performance")
+#endif
 (mod_blackvenue_obtain 
    "(bug, should be available by default)")
 (mod_songtitle
    "Song Title Always On")
 (mod_songtitle_desc 
-   "Give credit where credit is due")
+   "Reccomended for streamers")
 (mod_songtitle_obtain 
    "(bug, should be available by default)")
 (mod_songtitlestats
