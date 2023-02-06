@@ -8183,7 +8183,85 @@
 				(colors
 					0
 					0))))
-	
+	(vocals22
+		(gender female)
+		(selectable TRUE)
+		(instrument vocals)
+		(attitude kGenreRocker)
+		(skin_color_index 0)
+		(eye_color_index 9)
+		(eyebrow_color_index 50)
+		(height 0.50)
+		(weight 0.50)
+		(outfit
+			(hair
+				femalehair_long
+				(colors
+					50
+					0))
+			(heads
+				head_1
+				(colors
+					4
+					0))
+			(eyes
+				head_1_eyes_7)
+			(lips
+				head_1_lips_3)
+			(facehair none)
+			(glasses none)
+			(torso
+				thermalundertee_moped
+				(colors
+					0
+					3))
+			(hands
+				femalegloves_fingerlessdriving
+				(colors
+					0
+					0))
+			(legs
+				cargopants_camo
+				(colors
+					31
+					14))
+			(feet
+				lowtopsneaks_skater
+				(colors
+					0
+					31))
+			(wrist
+				femalewrist_studdedgauntlet_right
+				(colors
+					0
+					0))
+			(rings
+				femalerings_chief
+				(colors
+					11
+					0))
+			(earrings none)
+			(piercings none)
+			(drum
+				ludclassic_diamond
+				(colors
+					23
+					0))
+			(bass
+				precision01_paint
+				(colors
+					0
+					0))
+			(guitar
+				stratocaster02_paint
+				(colors
+					0
+					0))
+			(mic
+				sm58_resource
+				(colors
+					0
+					0))))	
 #ifndef _SHIP
 	
 #include ../ui/framerate/chars/budget_chars.dta
