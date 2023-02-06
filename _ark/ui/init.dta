@@ -70,6 +70,30 @@
 {set $slot4_color 3} ;3 = blue
 {set $slot5_color 4} ;4 = orange
 
+;do gem custom textures
+{set $gemcustomtexture FALSE}
+
+;gem texture
+{set $gem "rb2"}
+
+;do smasher custom textures
+{set $smashercustomtexture FALSE}
+
+;smasher texture
+{set $smasher "rb2"}
+
+;do streak custom texture
+{set $streakcustomtexture FALSE}
+
+;streak texture
+{set $streak "rb2"}
+
+;do overdrive custom textures
+{set $spotlightcustomtexture FALSE}
+
+;overdrive texture
+{set $spotlight "rb2"}
+
 ;{modifier_mgr activate_modifier mod_nofail}
 ;{modifier_mgr activate_modifier mod_doublespeed}
 ;{modifier_mgr activate_modifier mod_choose_venue}
@@ -88,9 +112,6 @@
 ;{modifier_mgr activate_modifier mod_paddrum}
 ;{modifier_mgr activate_modifier mod_selectdeploy}
 ;{modifier_mgr activate_modifier mod_vocalgender}
-;{modifier_mgr activate_modifier mod_oggems}
-;{modifier_mgr activate_modifier mod_strike}
-;{modifier_mgr activate_modifier mod_groove}
 ;{modifier_mgr activate_modifier mod_legacybass}
 ;{modifier_mgr activate_modifier mod_nosustain}
 ;{modifier_mgr activate_modifier mod_rb3sustain}

@@ -8,7 +8,7 @@
    (mod_newvenuesonly unlocked)
    (mod_demomode (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature)) unlocked)
    (mod_awesome unlocked)
-   (mod_blackvenue (activate {set $blackvenue TRUE} {modifier_mgr deactivate_modifier mod_nohud} {modifier_mgr deactivate_modifier mod_choose_venue}) (deactivate {set $blackvenue FALSE}) unlocked)
+   (mod_blackvenue (activate {set $blackvenue TRUE} {modifier_mgr deactivate_modifier mod_nohud} {modifier_mgr deactivate_modifier mod_choose_venue} {modifier_mgr activate_modifier mod_nocrowd}) (deactivate {set $blackvenue FALSE} {modifier_mgr deactivate_modifier mod_nocrowd}) unlocked)
    (mod_songtitle unlocked)
    (mod_songtitlestats unlocked)
    (mod_staticfills (activate {modifier_mgr deactivate_modifier mod_freestyledrums}) unlocked)
@@ -19,9 +19,6 @@
    (mod_selectdeploy unlocked) ;select button to activate OD for drums and vox
    ;(mod_forceguitar unlocked) ;commented out for 1.04, will probably explore further later
    (mod_vocalgender unlocked)
-   (mod_oggems (activate {modifier_mgr deactivate_modifier mod_groove}) unlocked)
-   (mod_strike (activate {modifier_mgr deactivate_modifier mod_groove}) unlocked)
-   (mod_groove (activate {modifier_mgr deactivate_modifier mod_oggems} {modifier_mgr deactivate_modifier mod_strike}) unlocked)
    (mod_legacybass unlocked)
    (mod_nosustain unlocked)
    (mod_rb3sustain unlocked)
