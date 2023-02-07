@@ -125,8 +125,18 @@
       #endif)
    (update_motd
       {motd.grp set_showing TRUE}
-            {motd.lbl set text_token motd_overshell_tip}
+      {cond
+		 ({!
+               {modifier_mgr is_feature_enabled modifier_saving_feature}}
+            {motd.lbl set text_token motd_nosaving}
             {motd.lbl set_showing TRUE})
+	     ({!
+               {modifier_mgr is_feature_enabled modifier_online_feature}}
+            {motd.lbl set text_token motd_online_disabled}
+            {motd.lbl set_showing TRUE})
+		 (&&
+            {motd.lbl set text_token motd_overshell_tip}
+            {motd.lbl set_showing TRUE})})
    (load
       {content_mgr start_refresh})
    (enter

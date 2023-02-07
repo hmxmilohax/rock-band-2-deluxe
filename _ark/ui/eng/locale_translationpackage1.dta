@@ -1299,8 +1299,13 @@
    "Your website code is: %s")
 (motd_no_rock_central
    "Attempting to connect to Rock Central...")
+#ifdef HX_XBOX
 (motd_online_disabled
-   "Cannot connect to Rock Central while modifiers are enabled.")
+   "Xbox LIVE is currently disabled due to modifiers.")
+#else
+(motd_online_disabled
+   "Online is currently disabled due to modifiers.")
+#endif
 #ifdef HX_XBOX
 (motd_overshell_tip
    "Press the BACK button twice on any menu to change modifiers, textures, speeds, and more on the fly.")
@@ -1309,7 +1314,7 @@
    "Press the SELECT button twice on any menu to change modifiers, textures, speeds, and more on the fly.")
 #endif
 (motd_nosaving
-   "Saving is currently disabled due to modifiers")
+   "Saving is currently disabled due to modifiers.")
 (privileges_restricted_strict
    "Connecting to the Rock Central server is disabled on your PLAYSTATION<sup>®</sup>Network account due to parental control restrictions.\n\nYou are not allowed to access this mode.")
 (privileges_restricted_lenient
