@@ -34,6 +34,7 @@ This Repo contains everything you need to build an ark for Rock Band 2 Deluxe fo
 * Default difficulty on first load is Expert
 * Song title always visible modifier
 * Detailed song title modifier including album, year, track number (does not work properly in random/setlists)
+* Manual calibration adjusts by 1ms instad of 5ms
 
 ### Authoring
 * Author shown on song title - in your songs.dta `(author "Author Name")`
