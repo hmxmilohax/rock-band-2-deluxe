@@ -12,6 +12,7 @@ This Repo contains everything you need to build an ark for Rock Band 2 Deluxe fo
 * No strum limit executable modification by GMS
 * Fast start executable modification by ihatecompvir
 * Additional intro skip scripting to skip the intro movie
+* "Overshell" - a custom on-screen menu system for changing modifiers, speeds, textures, and more. Opened by pressing `SELECT, SELECT` on most menu screens.
 * 1080p support via PS3/RPCS3
 * Full Combo indicator per instrument via the multiplier
 * New tour setlists utilizing the Rock Band 1 setlist by C0Assassin
