@@ -70,7 +70,7 @@ NOTE: You WILL need a modded/hacked console to play this mod on console. I hope 
 
 ### Actions
 
-There are now pre compiled ARK files available in many flavors in the [Actions](https://github.com/hmxmilohax/rock-band-2-deluxe/actions) tab of this repo, as well as the [Nightly](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main) link. These are ready to install files for RB2DX per platform. 
+There are now pre compiled ARK files available in the [Actions](https://github.com/hmxmilohax/rock-band-2-deluxe/actions) tab of this repo, as well as the [Nightly](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main) link. These are ready to install files for RB2DX per platform.
 
 * RB2DX-*platform*-Base - The default build of Rock Band 3 Deluxe
 
