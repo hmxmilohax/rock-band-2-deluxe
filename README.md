@@ -64,6 +64,18 @@ This Repo contains everything you need to build an ark for Rock Band 2 Deluxe fo
 * No sustain tails modifier
 * Rock Band 3 Sustain look modifier
 
+## Setup
+
+NOTE: You WILL need a modded/hacked console to play this mod on console. I hope this is clear
+
+### Actions
+
+There are now pre compiled ARK files available in many flavors in the [Actions](https://github.com/hmxmilohax/rock-band-2-deluxe/actions) tab of this repo, as well as the [Nightly](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main) link. These are ready to install files for RB2DX per platform. 
+
+* RB2DX-*platform*-Base - The default build of Rock Band 3 Deluxe
+
+If using pre built actions, skip down to the [Install](#install) section of this readme and assume any mention of `_build` is the contents of your zip file you downloaded from the Actions tab.
+
 ### Repo-Setup
 Setting up the Rock Band 2 Deluxe repo for the first time is meant to be as easy as possible.
 As well, it is designed to allow you to automatically receive updates as the repo is updated.
