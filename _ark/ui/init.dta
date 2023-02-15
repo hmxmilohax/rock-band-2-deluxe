@@ -95,6 +95,17 @@
 ;overdrive texture
 {set $spotlight "rb2"}
 
+;custom track scaling/angles/rotation
+;highly experimental, don't edit unless you know what you're doing
+{set $trackangle TRUE}
+;the default angles set here is rb3's
+{set $track_pitch -41} ;camera pitch
+{set $track_fov 19} ;field of view of the track camera
+{set $track_y_pos -100} ;y position of the camera (in/out)
+{set $track_z_pos 22} ;z position of the camera (up/down)
+{set $track_fade_start 70} ;start point of the fadeout at the end of the track
+{set $track_fade_length 50} ;length of the fadeout at the end of the track
+
 ;{modifier_mgr activate_modifier mod_nofail}
 ;{modifier_mgr activate_modifier mod_doublespeed}
 ;{modifier_mgr activate_modifier mod_choose_venue}
