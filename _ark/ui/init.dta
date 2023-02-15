@@ -97,7 +97,7 @@
 
 ;custom track scaling/angles/rotation
 ;highly experimental, don't edit unless you know what you're doing
-{set $trackangle TRUE}
+{set $trackangle FALSE}
 ;the default angles set here is rb3's
 {set $track_pitch -41} ;camera pitch
 {set $track_fov 19} ;field of view of the track camera
