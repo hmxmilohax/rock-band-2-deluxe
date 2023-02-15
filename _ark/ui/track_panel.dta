@@ -203,7 +203,6 @@
       {{$this loaded_dir}
          reset})
    (on_extend
-   {{$this find rails.tex} set_bitmap "track/custom_track_textures/rails.png"}
    {if $gemcustomtexture
       {{$this find prism_gems.tex} set_bitmap {sprint "track/gems/prism_gems_" $gem ".png"}}
 	  {if_else {exists {sprint "track/gems/prism_gem_emissive_" $gem ".png"}}
