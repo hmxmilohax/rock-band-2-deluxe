@@ -114,22 +114,248 @@
 ;{modifier_mgr activate_modifier mod_newvenuesonly}
 ;{modifier_mgr activate_modifier mod_demomode}
 ;{modifier_mgr activate_modifier mod_awesome}
-;{modifier_mgr activate_modifier mod_blackvenue}
-;{modifier_mgr activate_modifier mod_songtitle}
-;{modifier_mgr activate_modifier mod_songtitlestats}
-;{modifier_mgr activate_modifier mod_staticfills}
-;{modifier_mgr activate_modifier mod_freestyledrums}
-;{modifier_mgr activate_modifier mod_mididrum}
-;{modifier_mgr activate_modifier mod_padguitar}
-;{modifier_mgr activate_modifier mod_paddrum}
 ;{modifier_mgr activate_modifier mod_selectdeploy}
-;{modifier_mgr activate_modifier mod_vocalgender}
-;{modifier_mgr activate_modifier mod_legacybass}
-;{modifier_mgr activate_modifier mod_nosustain}
-;{modifier_mgr activate_modifier mod_rb3sustain}
-;{modifier_mgr activate_modifier mod_nowhammyfx}
-;{modifier_mgr activate_modifier mod_nocrowd}
-;{modifier_mgr activate_modifier mod_nomuting}
-;{modifier_mgr activate_modifier mod_noflames}
-;{modifier_mgr activate_modifier mod_flashbang}
 ;{modifier_mgr activate_modifier mod_auto_play}
+
+#define INIT_DTA_READER
+(
+   {set $dxsettings {read_file #ifdef HX_XBOX "GAME:/dx.dta" #endif #ifdef HX_PS3 "GD:/dev_hdd0/game/BLUS30147/USRDIR/dx.dta" #endif}}
+   {foreach $entry $dxsettings
+      {if {== {elem $entry 0} {basename mic_vols}}
+         {set $mic_vol_1
+            {elem {find $entry mic_vols} 1}
+         }
+         {set $mic_vol_2
+            {elem {find $entry mic_vols} 2}
+         }
+         {set $mic_vol_3
+            {elem {find $entry mic_vols} 3}
+         }
+      }
+      {if {== {elem $entry 0} {basename gem_colors}}
+         {set $slot1_color
+            {elem {find $entry gem_colors} 1}
+         }
+         {set $slot2_color
+            {elem {find $entry gem_colors} 2}
+         }
+         {set $slot3_color
+            {elem {find $entry gem_colors} 3}
+         }
+         {set $slot4_color
+            {elem {find $entry gem_colors} 4}
+         }
+         {set $slot5_color
+            {elem {find $entry gem_colors} 5}
+         }
+      }
+      {if {== {elem $entry 0} {basename sustain_colors}}
+         {set $sus1_color
+            {elem {find $entry sustain_colors} 1}
+         }
+         {set $sus2_color
+            {elem {find $entry sustain_colors} 2}
+         }
+         {set $sus3_color
+            {elem {find $entry sustain_colors} 3}
+         }
+         {set $sus4_color
+            {elem {find $entry sustain_colors} 4}
+         }
+         {set $sus5_color
+            {elem {find $entry sustain_colors} 5}
+         }
+      }
+      {if {== {elem $entry 0} {basename smasher_colors}}
+         {set $fret1_color
+            {elem {find $entry smasher_colors} 1}
+         }
+         {set $fret2_color
+            {elem {find $entry smasher_colors} 2}
+         }
+         {set $fret3_color
+            {elem {find $entry smasher_colors} 3}
+         }
+         {set $fret4_color
+            {elem {find $entry smasher_colors} 4}
+         }
+         {set $fret5_color
+            {elem {find $entry smasher_colors} 5}
+         }
+      }
+      {if {== {elem $entry 0} {basename drum_smasher_colors}}
+         {set $smasher1_color
+            {elem {find $entry drum_smasher_colors} 1}
+         }
+         {set $smasher2_color
+            {elem {find $entry drum_smasher_colors} 2}
+         }
+         {set $smasher3_color
+            {elem {find $entry drum_smasher_colors} 3}
+         }
+         {set $smasher4_color
+            {elem {find $entry drum_smasher_colors} 4}
+         }
+      }
+      {if {== {elem $entry 0} {basename drum_tom_colors}}
+         {set $drum1_color
+            {elem {find $entry drum_tom_colors} 1}
+         }
+         {set $drum2_color
+            {elem {find $entry drum_tom_colors} 2}
+         }
+         {set $drum3_color
+            {elem {find $entry drum_tom_colors} 3}
+         }
+         {set $drum4_color
+            {elem {find $entry drum_tom_colors} 4}
+         }
+      }
+      {if {== {elem $entry 0} {basename drum_cymbal_color}}
+         {set $cym1_color
+            {elem {find $entry drum_cymbal_color} 1}
+         }
+         {set $cym2_color
+            {elem {find $entry drum_cymbal_color} 2}
+         }
+         {set $cym3_color
+            {elem {find $entry drum_cymbal_color} 3}
+         }
+         {set $cym4_color
+            {elem {find $entry drum_cymbal_color} 4}
+         }
+      }
+      {if {== {elem $entry 0} {basename kick_color}}
+         {set $kick_color
+            {elem {find $entry kick_color} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename emulate_fps}}
+         {set $emulatefps
+            {elem {find $entry emulate_fps} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename track_speed}}
+         {set $trackspeed
+            {elem {find $entry track_speed} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename song_speed}}
+         {set $speedmod
+            {elem {find $entry song_speed} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename gem_texture}}
+         {set $gem
+            {elem {find $entry gem_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename smasher_texture}}
+         {set $smasher
+            {elem {find $entry smasher_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename emissive_texture}}
+         {set $emissive
+            {elem {find $entry emissive_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename spotlight_texture}}
+         {set $spotlight
+            {elem {find $entry spotlight_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename blackbg}}
+         {if {== {elem {find $entry blackbg} 1} 1}
+            {modifier_mgr activate_modifier mod_blackvenue}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_songtitle}}
+         {if {== {elem {find $entry mod_songtitle} 1} 1}
+            {modifier_mgr activate_modifier mod_songtitle}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_songtitlestats}}
+         {if {== {elem {find $entry mod_songtitlestats} 1} 1}
+            {modifier_mgr activate_modifier mod_songtitlestats}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_staticfills}}
+         {if {== {elem {find $entry mod_staticfills} 1} 1}
+            {modifier_mgr activate_modifier mod_staticfills}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_freestyledrums}}
+         {if {== {elem {find $entry mod_freestyledrums} 1} 1}
+            {modifier_mgr activate_modifier mod_freestyledrums}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_mididrum}}
+         {if {== {elem {find $entry mod_mididrum} 1} 1}
+            {modifier_mgr activate_modifier mod_mididrum}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_padguitar}}
+         {if {== {elem {find $entry mod_padguitar} 1} 1}
+            {modifier_mgr activate_modifier mod_padguitar}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_paddrum}}
+         {if {== {elem {find $entry mod_paddrum} 1} 1}
+            {modifier_mgr activate_modifier mod_paddrum}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_vocalgender}}
+         {if {== {elem {find $entry mod_vocalgender} 1} 1}
+            {modifier_mgr activate_modifier mod_vocalgender}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_legacybass}}
+         {if {== {elem {find $entry mod_legacybass} 1} 1}
+            {modifier_mgr activate_modifier mod_legacybass}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_nosustain}}
+         {if {== {elem {find $entry mod_nosustain} 1} 1}
+            {modifier_mgr activate_modifier mod_nosustain}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_rb3sustain}}
+         {if {== {elem {find $entry mod_rb3sustain} 1} 1}
+            {modifier_mgr activate_modifier mod_rb3sustain}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_nowhammyfx}}
+         {if {== {elem {find $entry mod_nowhammyfx} 1} 1}
+            {modifier_mgr activate_modifier mod_nowhammyfx}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_nocrowd}}
+         {if {== {elem {find $entry mod_nocrowd} 1} 1}
+            {modifier_mgr activate_modifier mod_nocrowd}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_nomuting}}
+         {if {== {elem {find $entry mod_nomuting} 1} 1}
+            {modifier_mgr activate_modifier mod_nomuting}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_noflames}}
+         {if {== {elem {find $entry mod_noflames} 1} 1}
+            {modifier_mgr activate_modifier mod_noflames}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_flashbang}}
+         {if {== {elem {find $entry mod_flashbang} 1} 1}
+            {modifier_mgr activate_modifier mod_flashbang}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_fakejuke}}
+         {if {== {elem {find $entry mod_fakejuke} 1} 1}
+            {modifier_mgr activate_modifier mod_fakejuke}
+         }
+      }
+   }
+)
+;{unless {file_exists dx.dta} INIT_DTA_WRITER}
+INIT_DTA_READER
