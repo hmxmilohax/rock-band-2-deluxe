@@ -98,11 +98,17 @@
 ;custom track scaling/angles/rotation
 ;highly experimental, don't edit unless you know what you're doing
 {set $trackangle FALSE}
+
+;track angle presets that closely match the source games
+;available options: "rb2", "rb3", "rb4", "rr" "none"
+{set $anglepreset "rb2"}
+;set to "none" if you want to manually edit the numbers below
+
 ;the default angles set here is rb3's
-{set $track_pitch -41} ;camera pitch
+{set $track_pitch -41} ;camera pitch in degrees
 {set $track_fov 19} ;field of view of the track camera
-{set $track_y_pos -100} ;y position of the camera (in/out)
-{set $track_z_pos 22} ;z position of the camera (up/down)
+{set $track_y_pos -100} ;y position of the camera (+in/-out)
+{set $track_z_pos 22} ;z position of the camera (-up/+down)
 {set $track_fade_start 70} ;start point of the fadeout at the end of the track
 {set $track_fade_length 50} ;length of the fadeout at the end of the track
 
@@ -359,3 +365,4 @@
 )
 ;{unless {file_exists dx.dta} INIT_DTA_WRITER}
 INIT_DTA_READER
+#include init_dev.dta

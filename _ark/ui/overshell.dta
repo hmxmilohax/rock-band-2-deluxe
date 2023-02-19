@@ -251,7 +251,7 @@
     (focus sel_section.lst)
     (enter
         {sel_section.lst set_data
-            (rb2 rb3 rb4)}
+            (rb2 rb3 rb4 rr)}
         {title.lbl set_localized {localize os_angle}})
     (exit)
     (SELECT_MSG
@@ -276,6 +276,15 @@
       {set $track_z_pos 26.51}
       {set $track_fade_start 90}
       {set $track_fade_length 30}
+      )
+      (rr
+      {set $trackangle TRUE}
+      {set $track_pitch -90}
+      {set $track_fov 19}
+      {set $track_y_pos -165}
+      {set $track_z_pos 36}
+      {set $track_fade_start 15}
+      {set $track_fade_length 45}
       )
       }
       {ui goto_screen overshell_track_screen}
