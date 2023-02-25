@@ -4,9 +4,9 @@
 
 # Introduction
 
-### Rock Band 3 Deluxe is a Massive Quality-of-Life Improvement Mod by [MiloHax](https://github.com/hmxmilohax)
+### Rock Band 2 Deluxe is a Massive Quality-of-Life Improvement Mod by [MiloHax](https://github.com/hmxmilohax)
 
-This repo contains everything you need to build Rock Band 3 Deluxe for PlayStation 3 or Xbox 360.
+This repo contains everything you need to build Rock Band 2 Deluxe for PlayStation 3 or Xbox 360.
 
 # Table of Contents  
 - [Rock Band 2 Deluxe](#rock-band-2-deluxe)
