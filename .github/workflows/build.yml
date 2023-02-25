@@ -15,7 +15,7 @@ jobs:
           chmod +x dependencies/linux/dtab
           chmod +x dependencies/linux/superfreq
           find . -name "*.*_ps3" -type f -delete
-          dependencies/arkhelper dir2ark ./_ark ./_build/xbox/gen -n "patch_xbox" -e -v 5
+          dependencies/linux/arkhelper dir2ark ./_ark ./_build/xbox/gen -n "patch_xbox" -e -v 5
       
       - name: Upload result
         uses: actions/upload-artifact@v2
@@ -35,7 +35,7 @@ jobs:
           chmod +x dependencies/linux/dtab
           chmod +x dependencies/linux/superfreq
           find . -name "*.*_xbox" -type f -delete
-          dependencies/arkhelper dir2ark ./_ark ./_build/ps3/USRDIR/gen -n "patch_ps3" -e -v 5
+          dependencies/linux/arkhelper dir2ark ./_ark ./_build/ps3/USRDIR/gen -n "patch_ps3" -e -v 5
       
       - name: Upload result
         uses: actions/upload-artifact@v2
