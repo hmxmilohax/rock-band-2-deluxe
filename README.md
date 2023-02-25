@@ -46,7 +46,7 @@ This repo contains everything you need to build Rock Band 2 Deluxe for PlayStati
 * No strum limit executable modification by GMS
 * Fast start executable modification by ihatecompvir
 * Additional intro skip scripting to skip the intro movie
-* Custom settings loader as a frontend for Xbox and Xenia
+* [Custom settings loader](https://github.com/hmxmilohax/dx-settings-loader) as a frontend for Xbox and Xenia
 * `Overshell` - a custom on-screen menu system for changing modifiers, speeds, textures, and more. Opened by pressing `SELECT, SELECT` on most menu screens
 * 1080p support via PS3/RPCS3
 * Full Combo indicator per instrument via the multiplier
