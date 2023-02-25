@@ -46,6 +46,7 @@ This repo contains everything you need to build Rock Band 2 Deluxe for PlayStati
 * No strum limit executable modification by GMS
 * Fast start executable modification by ihatecompvir
 * Additional intro skip scripting to skip the intro movie
+* Custom settings loader as a frontend for Xbox and Xenia
 * `Overshell` - a custom on-screen menu system for changing modifiers, speeds, textures, and more. Opened by pressing `SELECT, SELECT` on most menu screens
 * 1080p support via PS3/RPCS3
 * Full Combo indicator per instrument via the multiplier
@@ -69,7 +70,7 @@ This repo contains everything you need to build Rock Band 2 Deluxe for PlayStati
 * Default difficulty on first load is Expert
 * Song title always visible modifier
 * Detailed song title modifier including album, year, track number (does not work properly in random/setlists)
-* Manual calibration adjusts by 1ms instad of 5ms
+* Manual calibration adjusts by 1ms instead of 5ms
 
 ## Authoring
 * Author shown on song title - in your songs.dta `(author `Author Name`)`
