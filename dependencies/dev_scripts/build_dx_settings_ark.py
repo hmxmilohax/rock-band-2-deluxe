@@ -38,7 +38,11 @@ def build_dxsl_ark():
     print("Building DX Settings Loader...")
 
     ark_location = dx_settings_loader_path.joinpath("_ark")
+    relative_ark_location = f"dependencies{str(ark_location).split('dependencies', 1)[1]}"
+    # print(relative_ark_location)
     build_location = dx_settings_loader_path.joinpath("_build/xbox/gen")
+    relative_build_location = f"dependencies{str(build_location).split('dependencies', 1)[1]}"
+    # print(relative_build_location)
 
     # build the binaries if on linux/other OS
     if platform != "win32" and platform != "darwin":
@@ -46,7 +50,7 @@ def build_dxsl_ark():
         
     patch_hdr_version = "dxsl_xbox"
 
-    # pull the latest changes from the Rock Band 2 Deluxe repo if necessary
+    # pull the latest changes from the Rock Band 3 Deluxe repo if necessary
     if not check_git_updated(repo_url="https://github.com/hmxmilohax/dx-settings-loader", repo_root_path=dx_settings_loader_path):
         cmd_pull = "git pull https://github.com/hmxmilohax/dx-settings-loader main".split()
         subprocess.run(cmd_pull, shell=(platform == "win32"))
@@ -55,11 +59,11 @@ def build_dxsl_ark():
     failed = False
     try:
         if platform == "win32":
-            cmd_build = f"dependencies\windows\\arkhelper.exe dir2ark {ark_location} {build_location} -n {patch_hdr_version} -e -v 5".split()
+            cmd_build = f"dependencies\windows\\arkhelper.exe dir2ark {relative_ark_location} {relative_build_location} -n {patch_hdr_version} -e -v 5".split()
         elif platform == "darwin":
-            cmd_build = f"dependencies/macos/arkhelper dir2ark {ark_location} {build_location} -n {patch_hdr_version} -e -v 5".split()
+            cmd_build = f"dependencies/macos/arkhelper dir2ark {relative_ark_location} {relative_build_location} -n {patch_hdr_version} -e -v 5".split()
         else:
-            cmd_build = f"dependencies/linux/arkhelper dir2ark {ark_location} {build_location} -n {patch_hdr_version} -e -v 5".split()
+            cmd_build = f"dependencies/linux/arkhelper dir2ark {relative_ark_location} {relative_build_location} -n {patch_hdr_version} -e -v 5".split()
         subprocess.check_output(cmd_build, shell=(platform == "win32"), cwd="..")
     except CalledProcessError as e:
         print(e.output)
