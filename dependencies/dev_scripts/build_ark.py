@@ -79,7 +79,7 @@ def build_patch_ark(xbox: bool):
     rm_tree(root_dir.joinpath("_tmp"))
 
     if not failed:
-        print("Successfully built Rock Band 3 Deluxe ARK.")
+        print("Successfully built Rock Band 2 Deluxe ARK.")
         return True
     else:
         print("Error building ARK. Check your modifications or run git_reset.py to rebase your repo.")
