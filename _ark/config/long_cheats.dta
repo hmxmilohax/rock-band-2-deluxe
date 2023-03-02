@@ -6,6 +6,8 @@
    {== {ui current_screen} overshell_main_screen}
    {== {ui current_screen} modifiers_screen}
    {== {ui current_screen} options_milo_screen} 
+   {== {ui current_screen} song_select_screen} 
+   {== {ui current_screen} endgame_screen} 
    {== {ui current_screen} options_color_screen}})
 #define G_RED
 (kPad_Circle)
