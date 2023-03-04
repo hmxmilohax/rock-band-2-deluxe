@@ -1,4 +1,4 @@
-cd "custom_textures/custom_track_textures"
+cd "..\custom_textures/custom_track_textures"
 FOR /F "tokens=*" %%G IN ('dir /b *.png') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\custom_track_textures/%%G" "%~dp0..\custom_textures\custom_track_textures\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.jpg') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\custom_track_textures/%%G" "%~dp0..\custom_textures\custom_track_textures\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.bmp') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\custom_track_textures/%%G" "%~dp0..\custom_textures\custom_track_textures\%%~nG.png"
