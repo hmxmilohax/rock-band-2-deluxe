@@ -51,7 +51,7 @@
         "practice/practice_sel_section.milo")
     (focus sel_section.lst)
     (enter
-        {sel_section.lst set_data (os_clr os_gems os_smashers os_strk os_spotlight os_angle)}
+        {sel_section.lst set_data (os_clr os_tex os_angle)}
         {title.lbl set_localized {localize os_trkset}})
     (exit)
     (SELECT_MSG
@@ -59,17 +59,8 @@
          (os_clr
             {ui push_screen options_color_screen}
          )
-         (os_gems
-            {ui push_screen overshell_gems_screen}
-         )
-         (os_smashers
-            {ui push_screen overshell_smashers_screen}
-         )
-         (os_strk
-            {ui push_screen overshell_streak_screen}
-         )
-         (os_spotlight
-            {ui push_screen overshell_spotlight_screen}
+         (os_tex
+            {ui push_screen overshell_tex_screen}
          )
          (os_angle
             {ui push_screen overshell_angle_screen}
@@ -94,6 +85,57 @@
    overshell_track_screen
    (panels overshell_track_panel practice_mode_panel practice_lower3rd_panel)
    (focus overshell_track_panel)}
+;
+{new
+    UIPanel
+    overshell_tex_panel
+    (file
+        "practice/practice_sel_section.milo")
+    (focus sel_section.lst)
+    (enter
+        {sel_section.lst set_data (os_gems os_smashers os_odbar os_multi_ring os_strk os_spotlight)}
+        {title.lbl set_localized {localize os_tex}})
+    (exit)
+    (SELECT_MSG
+    {switch {$component selected_sym}
+         (os_gems
+            {ui push_screen overshell_gems_screen}
+         )
+         (os_smashers
+            {ui push_screen overshell_smashers_screen}
+         )
+         (os_strk
+            {ui push_screen overshell_streak_screen}
+         )
+         (os_spotlight
+            {ui push_screen overshell_spotlight_screen}
+         )
+         (os_odbar
+            {ui push_screen overshell_odbar_screen}
+         )
+         (os_multi_ring
+            {ui push_screen overshell_multiplier_ring_screen}
+         )
+      })
+    (update_helpbar
+            {helpbar
+                set_config
+                ((cancel helpbar_back)
+                    (confirm helpbar_select))})
+    (SCROLL_MSG)
+    (BUTTON_DOWN_MSG
+        {if
+        {== $action kAction_Cancel}
+         {ui goto_screen overshell_main_screen}
+         {ui pop_screen}}
+         kDataUnhandled)
+    (TRANSITION_COMPLETE_MSG
+        {$this update_helpbar})}
+{new
+   BandScreen
+   overshell_tex_screen
+   (panels overshell_tex_panel practice_mode_panel practice_lower3rd_panel)
+   (focus overshell_tex_panel)}
 ;
 {new
     UIPanel
@@ -168,6 +210,80 @@
    overshell_smashers_screen
    (panels overshell_smashers_panel practice_mode_panel practice_lower3rd_panel)
    (focus overshell_smashers_panel)}
+;
+{new
+    UIPanel
+    overshell_odbar_panel
+    (file
+        "practice/practice_sel_section.milo")
+    (focus sel_section.lst)
+    (enter
+        {sel_section.lst set_data
+            (#include ../track/overdrive_bar/overdrive_bar.dta)}
+        {title.lbl set_localized {localize os_odbar}})
+    (exit)
+    (SELECT_MSG
+      {set $odbarcustomtexture TRUE}
+      {set $odbar {$component selected_sym}}
+      {ui goto_screen overshell_track_screen}
+      {ui pop_screen}
+    )
+    (update_helpbar
+            {helpbar
+                set_config
+                ((cancel helpbar_back)
+                    (confirm helpbar_select))})
+    (SCROLL_MSG)
+    (BUTTON_DOWN_MSG
+        {if
+        {== $action kAction_Cancel}
+         {ui goto_screen overshell_track_screen}
+         {ui pop_screen}}
+         kDataUnhandled)
+    (TRANSITION_COMPLETE_MSG
+        {$this update_helpbar})}
+{new
+   BandScreen
+   overshell_odbar_screen
+   (panels overshell_odbar_panel practice_mode_panel practice_lower3rd_panel)
+   (focus overshell_odbar_panel)}
+;
+   {new
+    UIPanel
+    overshell_multiplier_ring_panel
+    (file
+        "practice/practice_sel_section.milo")
+    (focus sel_section.lst)
+    (enter
+        {sel_section.lst set_data
+            (#include ../track/multiplier_ring/multiplier_ring.dta)}
+        {title.lbl set_localized {localize os_multi_ring}})
+    (exit)
+    (SELECT_MSG
+      {set $multiringcustomtexture TRUE}
+      {set $multiring {$component selected_sym}}
+      {ui goto_screen overshell_track_screen}
+      {ui pop_screen}
+    )
+    (update_helpbar
+            {helpbar
+                set_config
+                ((cancel helpbar_back)
+                    (confirm helpbar_select))})
+    (SCROLL_MSG)
+    (BUTTON_DOWN_MSG
+        {if
+        {== $action kAction_Cancel}
+         {ui goto_screen overshell_track_screen}
+         {ui pop_screen}}
+         kDataUnhandled)
+    (TRANSITION_COMPLETE_MSG
+        {$this update_helpbar})}
+{new
+   BandScreen
+   overshell_multiplier_ring_screen
+   (panels overshell_multiplier_ring_panel practice_mode_panel practice_lower3rd_panel)
+   (focus overshell_multiplier_ring_panel)}
 ;
 {new
     UIPanel

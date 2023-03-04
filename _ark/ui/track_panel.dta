@@ -236,9 +236,23 @@
       {{$this find square_smasher_bright_yellow.tex} set_bitmap {sprint "track/smashers/square_smasher_bright_yellow_" $smasher ".png"}}
    }
    }
+
+   {if $odbarcustomtexture
+      {{$this find rb2_player_meter_background.tex} set_bitmap {sprint "track/overdrive_bar/player_meter_background_" $odbar ".png"}}
+      {{$this find player_meter_long.tex} set_bitmap {sprint "track/overdrive_bar/player_meter_long_" $odbar ".png"}}
+   }
+
+   {if $multiringcustomtexture
+      {{$this find multiplier_cap_glass_vox.tex} set_bitmap {sprint "track/multiplier_ring/multiplier_cap_glass_vox_" $multiring ".png"}}
+      {{$this find multiplier_meter_glow.tex} set_bitmap {sprint "track/multiplier_ring/multiplier_meter_glow_" $multiring ".png"}}
+      {{$this find multiplier_meter.tex} set_bitmap {sprint "track/multiplier_ring/multiplier_meter_" $multiring ".png"}}
+      {{$this find multiplier_meter_solid..tex} set_bitmap {sprint "track/multiplier_ring/multiplier_meter_solid_" $multiring ".png"}}
+   }
+
    {if $streakcustomtexture
       {{$this find bass_superstreak_pattern.tex} set_bitmap {sprint "track/streak/" $streak ".png"}}
    }
+
    {if $spotlightcustomtexture
       {{$this find spotlight_bass_track.tex} set_bitmap {sprint "track/spotlight/" $spotlight ".png"}}
       {{$this find spotlight_guitar_track.tex} set_bitmap {sprint "track/spotlight/" $spotlight ".png"}}
@@ -254,6 +268,7 @@
          }
       }
    }
+
    {$this play_intro}
       {if
          {&&

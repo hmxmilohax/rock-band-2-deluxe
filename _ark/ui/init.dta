@@ -95,6 +95,18 @@
 ;overdrive texture
 {set $spotlight "rb2"}
 
+;do multiplier ring custom textures
+{set $multiringcustomtexture FALSE}
+
+;multiplier ring texture
+{set $multiring "rb2"}
+
+;do overdrive bar custom textures
+{set $odbarcustomtexture FALSE}
+
+;overdrive bar texture
+{set $odbar "rb2"}
+
 ;custom track scaling/angles/rotation
 ;highly experimental, don't edit unless you know what you're doing
 {set $trackangle FALSE}
