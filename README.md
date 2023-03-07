@@ -136,7 +136,7 @@ As well, it is designed to allow you to automatically receive updates as the rep
 
 *If you get stuck here at any point, try using the [Pre-Built Versions](#pre-built-versions) instead.*
 
-## Installing Required Dependencies
+### Installing Required Dependencies
 
 ***Before you do anything***, you'll need to install a few things before you can properly set up and build Rock Band 2 Deluxe.
 
@@ -307,7 +307,7 @@ These will resize your images accordingly, including those with arbitrary resolu
 
 ### ***The `.bat`/`.py` files open and immediately close!***
 * You don't have all the required dependencies installed.
-    * Head back to [Repo Setup](#repo-setup) and make sure you followed the directions properly.
+    * Head back to [Installing Required Dependencies](#installing-required-dependencies) and make sure you followed the directions properly.
 
 ## Xenia Troubleshooting
 
