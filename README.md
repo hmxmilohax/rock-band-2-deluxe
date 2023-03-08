@@ -189,7 +189,7 @@ Then, navigate to `user_scripts` and **run `build_xenia.py` to automatically upd
 
 First, **extract your vanilla USA (`BLUS30147`) Rock Band 2 game disc** and place it in the `games` folder in your RPCS3 directory. ***Do NOT touch this folder once it's in `games`, Rock Band 2 Deluxe installs as a PS3 game update and installs in its own separate folder, shown below.***
 
-Next, you will need the **latest update for Rock Band 2** installed on RPCS3. [Get it Here](http://b0.ww.np.dl.playstation.net/tppkg/np/BLUS30147/BLUS30147_T1/c8b8d16f692b3672/UP0006-BLUS30147_00-ROCKBAND2PATCH02-A0102-V0100-PE.pkg) and drag and drop it on top of the main RPCS3 window to install it.
+Next, you will need the **latest update for Rock Band 2** installed on RPCS3. [Get it Here](http://b0.ww.np.dl.playstation.net/tppkg/np/BLUS30147/BLUS30147_T1/c8b8d16f692b3672/UP0006-BLUS30147_00-ROCKBAND2PATCH02-A0102-V0100-PE.pkg) and drag and drop it on top of the main RPCS3 window to install it. ***This is not the Deluxe download***, *but it is required to ensure you install everything to its proper place.*
 
 *If it doesn't download, right-click it and select `Save link as...` If your browser says it "can't be downloaded safely", ignore it and select `Keep`.*
 
