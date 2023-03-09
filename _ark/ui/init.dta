@@ -107,6 +107,30 @@
 ;overdrive bar texture
 {set $odbar "rb2"}
 
+;do score custom textures
+{set $scorecustomtexture FALSE}
+
+;score texture
+{set $scoretex "rb2"}
+
+;do vocal arrow custom textures
+{set $voxarrowcustomtexture FALSE}
+
+;vocal arrow texture
+{set $voxarrow "rb2"}
+
+;do vocal notes custom textures
+{set $voxnotescustomtexture FALSE}
+
+;vocal notes texture
+{set $voxnotes "rb2"}
+
+;do vocal overdrive custom textures
+{set $voxodcustomtexture FALSE}
+
+;vocal overdrive texture
+{set $voxod "rb2"}
+
 ;custom track scaling/angles/rotation
 ;highly experimental, don't edit unless you know what you're doing
 {set $trackangle FALSE}
