@@ -205,18 +205,12 @@
    (on_extend
    {if $gemcustomtexture
       {{$this find prism_gems.tex} set_bitmap {sprint "track/gems/prism_gems_" $gem ".png"}}
-	  {if_else {exists {sprint "track/gems/prism_gem_emissive_" $gem ".png"}}
-		{do
-			{{$this find prism_gem_emissive.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_" $gem ".png"}}
-			{if_else {exists {sprint "track/gems/prism_gem_emissive_3_player_" $gem ".png"}}
-				{{$this find prism_gem_emissive_3_player.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_3_player_" $gem ".png"}}
-				{{$this find prism_gem_emissive_3_player.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_" $gem ".png"}}
-			}
-		}
-		{if {exists {sprint "track/gems/prism_gem_emissive_3_player_" $gem ".png"}}
-			{{$this find prism_gem_emissive.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_3_player_" $gem ".png"}}
-		}
-	  }
+	  {{$this find prism_gem_emissive.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_" $gem ".png"}}
+	  {{$this find prism_gem_emissive_3_player.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_3_player_" $gem ".png"}}
+	  {{$this find prism_gem_emissive_dynamic.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_dynamic_" $gem ".png"}}
+	  {{$this find prism_gem_emissive_dynamic_red.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_dynamic_red_" $gem ".png"}}
+	  {{$this find prism_green.tex} set_bitmap {sprint "track/gems/prism_green_" $gem ".png"}}
+	  {{$this find prism_red.tex} set_bitmap {sprint "track/gems/prism_red_" $gem ".png"}}
    }
 
    {if $smashercustomtexture
