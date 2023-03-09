@@ -236,6 +236,32 @@
       {{$this find square_smasher_bright_yellow.tex} set_bitmap {sprint "track/smashers/square_smasher_bright_yellow_" $smasher ".png"}}
    }
    }
+   
+   {if $voxarrowcustomtexture
+      {{$this find pitch_arrow_split.tex} set_bitmap {sprint "track/voxarrow/pitch_arrow_split_" $voxarrow ".png"}}
+   }
+   
+   {if $voxnotescustomtexture
+	  {{$this find 3d_tube_pitched.tex} set_bitmap {sprint "track/voxnotes/3d_tube_pitched_" $voxnotes ".png"}}
+	  {{$this find tube_1.tex} set_bitmap {sprint "track/voxnotes/3d_tube_pitched_star_anim1_" $voxnotes ".png"}}
+	  {{$this find tube_2.tex} set_bitmap {sprint "track/voxnotes/3d_tube_pitched_star_anim2_" $voxnotes ".png"}}
+	  {{$this find tube_3.tex} set_bitmap {sprint "track/voxnotes/3d_tube_pitched_star_anim3_" $voxnotes ".png"}}
+	  {{$this find tube_4.tex} set_bitmap {sprint "track/voxnotes/3d_tube_pitched_star_anim4_" $voxnotes ".png"}}
+   }
+   
+   {if $voxodcustomtexture
+	  {{$this find sunburst.tex} set_bitmap {sprint "track/voxod/sunburst_" $voxod ".png"}}
+	  {{$this find freestyle_nowbar_FX.tex} set_bitmap {sprint "track/voxod/vox_now_bar_effect_" $voxod ".png"}}
+   }
+
+   {if $scorecustomtexture
+      {{$this find indv_player_meter_circle.tex} set_bitmap {sprint "track/score/indv_player_meter_circle_" $scoretex ".png"}}
+      {{$this find indv_player_meter_glass.tex} set_bitmap {sprint "track/score/indv_player_meter_glass_" $scoretex ".png"}}
+	  {{$this find indv_player_meter_glow.tex} set_bitmap {sprint "track/score/indv_player_meter_glow_" $scoretex ".png"}}
+	  {{$this find indv_player_meter.png} set_bitmap {sprint "track/score/indv_player_meter_" $scoretex ".png"}}
+	  {{$this find star_sheet.tex} set_bitmap {sprint "track/score/star_power_" $scoretex ".png"}}
+	  {{$this find score_meter_wipe.tex} set_bitmap {sprint "track/score/score_meter_wipe_" $scoretex ".png"}}
+   }
 
    {if $odbarcustomtexture
       {{$this find rb2_player_meter_background.tex} set_bitmap {sprint "track/overdrive_bar/player_meter_background_" $odbar ".png"}}
