@@ -228,6 +228,9 @@
       {{$this find square_smasher_bright_orange.tex} set_bitmap {sprint "track/smashers/square_smasher_bright_orange_" $smasher ".png"}}
       {{$this find square_smasher_bright_red.tex} set_bitmap {sprint "track/smashers/square_smasher_bright_red_" $smasher ".png"}}
       {{$this find square_smasher_bright_yellow.tex} set_bitmap {sprint "track/smashers/square_smasher_bright_yellow_" $smasher ".png"}}
+	  {{$this find radial_shockwave.tex} set_bitmap {sprint "track/smashers/radial_shockwave_" $smasher ".png"}}
+	  {{$this find radial_shockwave_subtract.tex} set_bitmap {sprint "track/smashers/radial_shockwave_subtract_" $smasher ".png"}}
+	  {{$this find shockwave.tex} set_bitmap {sprint "track/smashers/shockwave_" $smasher ".png"}}
    }
    }
    
@@ -260,6 +263,7 @@
    {if $odbarcustomtexture
       {{$this find rb2_player_meter_background.tex} set_bitmap {sprint "track/overdrive_bar/player_meter_background_" $odbar ".png"}}
       {{$this find player_meter_long.tex} set_bitmap {sprint "track/overdrive_bar/player_meter_long_" $odbar ".png"}}
+	  {{$this find rising_sun_fx_small.tex} set_bitmap {sprint "track/overdrive_bar/rising_sun_fx_small_" $odbar ".png"}}
    }
 
    {if $multiringcustomtexture

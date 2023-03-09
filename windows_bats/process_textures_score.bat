@@ -7,9 +7,12 @@ for %%i in (*.bmp) do @echo "%%~ni">> score.dta
 for %%i in (*.png) do @echo "%%~ni">> score.dta
 for %%i in (*.jpg) do @echo "%%~ni">> score.dta
 move "%~dp0..\custom_textures\score\score.dta" "%~dp0..\_ark\track\score\score.dta"
-"%~dp0..\dependencies/sed.exe" -i -e "s/player_meter_//g" "%~dp0..\_ark\track\score\score.dta"
-"%~dp0..\dependencies/sed.exe" -i -e "s/long_//g" "%~dp0..\_ark\track\score\score.dta"
-"%~dp0..\dependencies/sed.exe" -i -e "s/background_//g" "%~dp0..\_ark\track\score\score.dta"
+"%~dp0..\dependencies/sed.exe" -i -e "s/indv_player_meter_//g" "%~dp0..\_ark\track\score\score.dta"
+"%~dp0..\dependencies/sed.exe" -i -e "s/circle_//g" "%~dp0..\_ark\track\score\score.dta"
+"%~dp0..\dependencies/sed.exe" -i -e "s/glass_//g" "%~dp0..\_ark\track\score\score.dta"
+"%~dp0..\dependencies/sed.exe" -i -e "s/glow_//g" "%~dp0..\_ark\track\score\score.dta"
+"%~dp0..\dependencies/sed.exe" -i -e "s/score_meter_wipe_//g" "%~dp0..\_ark\track\score\score.dta"
+"%~dp0..\dependencies/sed.exe" -i -e "s/star_power_//g" "%~dp0..\_ark\track\score\score.dta"
 FOR /F "tokens=*" %%G IN ('dir /b *.png') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\score/%%G" "%~dp0..\custom_textures\score\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.jpg') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\score/%%G" "%~dp0..\custom_textures\score\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.bmp') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\score/%%G" "%~dp0..\custom_textures\score\%%~nG.png"

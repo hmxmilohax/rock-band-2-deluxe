@@ -7,9 +7,11 @@ for %%i in (*.bmp) do @echo "%%~ni">> voxnotes.dta
 for %%i in (*.png) do @echo "%%~ni">> voxnotes.dta
 for %%i in (*.jpg) do @echo "%%~ni">> voxnotes.dta
 move "%~dp0..\custom_textures\voxnotes\voxnotes.dta" "%~dp0..\_ark\track\voxnotes\voxnotes.dta"
-"%~dp0..\dependencies/sed.exe" -i -e "s/player_meter_//g" "%~dp0..\_ark\track\voxnotes\voxnotes.dta"
-"%~dp0..\dependencies/sed.exe" -i -e "s/long_//g" "%~dp0..\_ark\track\voxnotes\voxnotes.dta"
-"%~dp0..\dependencies/sed.exe" -i -e "s/background_//g" "%~dp0..\_ark\track\voxnotes\voxnotes.dta"
+"%~dp0..\dependencies/sed.exe" -i -e "s/3d_tube_pitched_//g" "%~dp0..\_ark\track\voxnotes\voxnotes.dta"
+"%~dp0..\dependencies/sed.exe" -i -e "s/star_anim1_//g" "%~dp0..\_ark\track\voxnotes\voxnotes.dta"
+"%~dp0..\dependencies/sed.exe" -i -e "s/star_anim2_//g" "%~dp0..\_ark\track\voxnotes\voxnotes.dta"
+"%~dp0..\dependencies/sed.exe" -i -e "s/star_anim3_//g" "%~dp0..\_ark\track\voxnotes\voxnotes.dta"
+"%~dp0..\dependencies/sed.exe" -i -e "s/star_anim4_//g" "%~dp0..\_ark\track\voxnotes\voxnotes.dta"
 FOR /F "tokens=*" %%G IN ('dir /b *.png') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\voxnotes/%%G" "%~dp0..\custom_textures\voxnotes\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.jpg') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\voxnotes/%%G" "%~dp0..\custom_textures\voxnotes\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.bmp') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\voxnotes/%%G" "%~dp0..\custom_textures\voxnotes\%%~nG.png"
