@@ -17,6 +17,7 @@
    (mod_padguitar (activate {modifier_mgr deactivate_modifier mod_paddrum}) unlocked) ;updated padguitar to disable paddrum
    (mod_paddrum (activate {modifier_mgr deactivate_modifier mod_padguitar}) unlocked) ;paddrum disables padguitar
    (mod_selectdeploy unlocked) ;select button to activate OD for drums and vox
+   (mod_noquickrestart unlocked)
    ;(mod_forceguitar unlocked) ;commented out for 1.04, will probably explore further later
    (mod_vocalgender unlocked)
    (mod_legacybass unlocked)

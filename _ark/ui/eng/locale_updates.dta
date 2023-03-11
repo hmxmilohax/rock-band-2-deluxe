@@ -979,6 +979,10 @@
    "Forces Guitar on every instrument *Alpha")
 (mod_forceguitar_obtain 
    "(bug, should be available by default)")
+(mod_noquickrestart
+   "No SELECT in Practice")
+(mod_noquickrestart_desc
+   "Disables the quick restart in Practice mode")
 (mod_flashbang 
    "Firework Gems")
 (mod_flashbang_desc 
