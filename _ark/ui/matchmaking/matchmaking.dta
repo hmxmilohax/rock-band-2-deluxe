@@ -11,14 +11,14 @@
    (enter
       {$this refresh}
       {meta music_stop}
-      {synth play bwt_practice_amb.cue}
-      #ifdef HX_PS3
-      {rnd set_sync 2}
-      #endif)
-   #ifdef HX_PS3
-   (exit
-      {rnd set_sync 1})
-   #endif
+      {synth play bwt_practice_amb.cue})
+;      #ifdef HX_PS3
+;      {rnd set_sync 2}
+;      #endif)
+;   #ifdef HX_PS3
+   (exit)
+;      {rnd set_sync 1})
+;   #endif
    (load
       {if
          {gamemode get keep_movie_loaded}
