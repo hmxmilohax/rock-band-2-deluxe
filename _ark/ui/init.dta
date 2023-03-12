@@ -131,6 +131,12 @@
 ;vocal overdrive texture
 {set $voxod "rb2"}
 
+;do vocal highway custom textures
+{set $voxhwcustomtexture FALSE}
+
+;vocal highway texture
+{set $voxhw "rb2"}
+
 ;custom track scaling/angles/rotation
 ;highly experimental, don't edit unless you know what you're doing
 {set $trackangle FALSE}
