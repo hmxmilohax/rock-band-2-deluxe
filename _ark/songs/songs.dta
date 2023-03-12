@@ -1,3 +1,7 @@
+#ifndef MINIMAL_SONGS
+#ifdef DEBUG_SONGS
+#include songs/songs_debug.dta
+#endif
 (afterlife
    (name
       "Afterlife")
@@ -62,3 +66,1108 @@
          (-1 -1 -1 -1 -1 1 1))
       (midi_file songs/afterlife/afterlife.mid))
    (base_song TRUE))
+(drum_trainer_beats
+   (name
+      "Drum Trainer - Beats")
+   (artist
+      "Mister Beats")
+   (song
+      (name drum_trainer/songs/beats/beats)
+      (tracks
+         ((drum
+               (0 1))
+            (bass 2)))
+      (pans
+         (-1.0 1.0 0.0))
+      (vols
+         (-96.0 -96.0 -96.0))
+      (cores
+         (-1 -1 -1))
+      (drum_solo
+         (seqs
+            (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+      (drum_freestyle
+         (seqs
+            (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+      (midi_file drum_trainer/songs/beats/beats.mid))
+   (song_scroll_speed 2300)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoSlow)
+   (preview 16000 46000)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(drum_trainer_fills
+   (name
+      "Drum Trainer - Beats")
+   (artist
+      "Mister Beats")
+   (song
+      (name drum_trainer/songs/fills/fills)
+      (tracks
+         ((drum
+               (0 1))
+            (bass 2)))
+      (pans
+         (-1.0 1.0 0.0))
+      (vols
+         (-96.0 -96.0 -96.0))
+      (cores
+         (-1 -1 -1))
+      (drum_solo
+         (seqs
+            (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+      (drum_freestyle
+         (seqs
+            (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+      (midi_file drum_trainer/songs/fills/fills.mid))
+   (song_scroll_speed 2300)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoSlow)
+   (preview 16000 46000)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(drum_trainer_freestyle
+   (name
+      "Drum Trainer - Freestyle")
+   (artist
+      "Mister Beats")
+   (song
+      (name drum_trainer/songs/freestyle/freestyle)
+      (tracks
+         ((drum
+               (0 1))
+            (bass 2)))
+      (pans
+         (-1.0 1.0 0.0))
+      (vols
+         (-96.0 -96.0 -96.0))
+      (cores
+         (-1 -1 -1))
+      (drum_solo
+         (seqs
+            (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+      (drum_freestyle
+         (seqs
+            (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+      (midi_file drum_trainer/songs/freestyle/freestyle.mid))
+   (song_scroll_speed 2300)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoSlow)
+   (preview 16000 46000)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(vocals_basics_singing_demo
+   (name
+      "Vocals - Singing Demo")
+   (artist
+      "Helen")
+   (song
+      (name tutorial/songs/vocals_basics_singing_demo/vocals_basics_singing_demo)
+      (tracks
+         ((vocals 0)))
+      (pans
+         (0.0 -1.0 1.0))
+      (vols
+         (-6.0 -6.0 -6.0))
+      (cores
+         (-1 -1 -1))
+      (drum_solo
+         (seqs
+            (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+      (drum_freestyle
+         (seqs
+            (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+      (midi_file tutorial/songs/vocals_basics_singing_demo/vocals_basics_singing_demo.mid))
+   (song_scroll_speed 2300)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoSlow)
+   (preview 16000 46000)
+   (genre alternative)
+   (decade the90s)
+   (year_released 1909)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(vocals_basics_singing
+   (name
+      "Vocals - Singing")
+   (artist
+      "Helen")
+   (song
+      (name tutorial/songs/vocals_basics_singing/vocals_basics_singing)
+      (tracks
+         ((vocals 0)))
+      (pans
+         (0.0 -1.0 1.0))
+      (vols
+         (-6.0 -6.0 -6.0))
+      (cores
+         (-1 -1 -1))
+      (drum_solo
+         (seqs
+            (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+      (drum_freestyle
+         (seqs
+            (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+      (midi_file tutorial/songs/vocals_basics_singing/vocals_basics_singing.mid))
+   (song_scroll_speed 2300)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoSlow)
+   (preview 16000 46000)
+   (genre alternative)
+   (decade the90s)
+   (year_released 1909)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(vocals_basics_nonpitched
+   (name
+      "Vocals - Nonpitched Notes")
+   (artist
+      "Helen")
+   (song
+      (name tutorial/songs/vocals_basics_nonpitched/vocals_basics_nonpitched)
+      (tracks
+         ((vocals 0)))
+      (pans
+         (0.0 -1.0 1.0))
+      (vols
+         (-6.0 -6.0 -6.0))
+      (cores
+         (-1 -1 -1))
+      (drum_solo
+         (seqs
+            (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+      (drum_freestyle
+         (seqs
+            (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+      (midi_file tutorial/songs/vocals_basics_nonpitched/vocals_basics_nonpitched.mid))
+   (song_scroll_speed 2300)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoSlow)
+   (preview 16000 46000)
+   (genre hardrock)
+   (decade the90s)
+   (year_released 1909)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(vocals_basics_mechanics
+   (name
+      "Vocals - Mechanics")
+   (artist
+      "Helen")
+   (song
+      (name tutorial/songs/vocals_basics_mechanics/vocals_basics_mechanics)
+      (tracks
+         ((vocals 0)))
+      (pans
+         (0.0 -1.0 1.0))
+      (vols
+         (-6.0 -6.0 -6.0))
+      (cores
+         (-1 -1 -1))
+      (drum_solo
+         (seqs
+            (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+      (drum_freestyle
+         (seqs
+            (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+      (midi_file tutorial/songs/vocals_basics_mechanics/vocals_basics_mechanics.mid))
+   (song_scroll_speed 2300)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoSlow)
+   (preview 16000 46000)
+   (genre alternative)
+   (decade the90s)
+   (year_released 1909)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(vocals_basics_rhythm
+   (name
+      "Vocals - Rhythm")
+   (artist
+      "Helen")
+   (song
+      (name tutorial/songs/vocals_basics_rhythm/vocals_basics_rhythm)
+      (tracks
+         ((vocals 0)))
+      (pans
+         (0.0 -1.0 1.0))
+      (vols
+         (-6.0 -6.0 -6.0))
+      (cores
+         (-1 -1 -1))
+      (drum_solo
+         (seqs
+            (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+      (drum_freestyle
+         (seqs
+            (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+      (midi_file tutorial/songs/vocals_basics_rhythm/vocals_basics_rhythm.mid))
+   (song_scroll_speed 2300)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoFast)
+   (preview 16000 46000)
+   (genre hardrock)
+   (decade the70s)
+   (year_released 1907)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(vocals_basics_rhythm_muted
+   (name
+      "Vocals - Rhythm Muted")
+   (artist
+      "Helen")
+   (song
+      (name tutorial/songs/vocals_basics_rhythm/vocals_basics_rhythm)
+      (tracks
+         ((vocals 0)))
+      (pans
+         (0.0 -1.0 1.0))
+      (vols
+         (-96.0 -96.0 -96.0))
+      (cores
+         (-1 -1 -1))
+      (drum_solo
+         (seqs
+            (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+      (drum_freestyle
+         (seqs
+            (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+      (midi_file tutorial/songs/vocals_basics_rhythm/vocals_basics_rhythm.mid))
+   (song_scroll_speed 2300)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoFast)
+   (preview 16000 46000)
+   (genre hardrock)
+   (decade the70s)
+   (year_released 1907)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(vocals_basics_starpower
+   (name
+      "Vocals - Star Power")
+   (artist
+      "Helen")
+   (song
+      (name tutorial/songs/vocals_basics_starpower/vocals_basics_starpower)
+      (tracks
+         ((vocals 0)))
+      (pans
+         (0.0 -1.0 1.0))
+      (vols
+         (-6.0 -6.0 -6.0))
+      (cores
+         (-1 -1 -1))
+      (drum_solo
+         (seqs
+            (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+      (drum_freestyle
+         (seqs
+            (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+      (midi_file tutorial/songs/vocals_basics_starpower/vocals_basics_starpower.mid))
+   (song_scroll_speed 2300)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoSlow)
+   (preview 16000 46000)
+   (genre alternative)
+   (decade the90s)
+   (year_released 1909)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(guitar_basics_notes
+   (name
+      "Guitar Basics - Notes")
+   (artist
+      "Izzy")
+   (song
+      (name tutorial/songs/guitar_basics_notes/guitar_basics_notes)
+      (tracks
+         ((guitar 0)))
+      (pans
+         (0.0 0.0))
+      (vols
+         (-4.5 -6.0))
+      (cores
+         (1 -1))
+      (midi_file tutorial/songs/guitar_basics_notes/guitar_basics_notes.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(guitar_basics_notes_muted
+   (name
+      "Guitar Basics - Notes Muted")
+   (artist
+      "Izzy")
+   (song
+      (name tutorial/songs/guitar_basics_notes/guitar_basics_notes)
+      (tracks
+         ((guitar 0)))
+      (pans
+         (0.0 0.0))
+      (vols
+         (-96.0 -96.0))
+      (cores
+         (1 -1))
+      (midi_file tutorial/songs/guitar_basics_notes/guitar_basics_notes.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(guitar_basics_diff_notes
+   (name
+      "Guitar Basics - Diff Notes")
+   (artist
+      "Izzy")
+   (song
+      (name tutorial/songs/guitar_basics_diff_notes/guitar_basics_diff_notes)
+      (tracks
+         ((guitar 0)))
+      (pans
+         (0.0 0.0))
+      (vols
+         (-4.5 -7.0))
+      (cores
+         (1 -1))
+      (midi_file tutorial/songs/guitar_basics_diff_notes/guitar_basics_diff_notes.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(guitar_basics_held_notes
+   (name
+      "Guitar Basics - Held Notes")
+   (artist
+      "Izzy")
+   (song
+      (name tutorial/songs/guitar_basics_held_notes/guitar_basics_held_notes)
+      (tracks
+         ((guitar 0)))
+      (pans
+         (0.0 0.0))
+      (vols
+         (-4.5 -7.0))
+      (cores
+         (1 -1))
+      (midi_file tutorial/songs/guitar_basics_held_notes/guitar_basics_held_notes.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(guitar_basics_chords
+   (name
+      "Guitar Basics - Chords")
+   (artist
+      "Izzy")
+   (song
+      (name tutorial/songs/guitar_basics_chords/guitar_basics_chords)
+      (tracks
+         ((guitar 0)))
+      (pans
+         (0.0 0.0))
+      (vols
+         (-4.5 -7.0))
+      (cores
+         (1 -1))
+      (midi_file tutorial/songs/guitar_basics_chords/guitar_basics_chords.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(guitar_basics_interface
+   (name
+      "Guitar Basics - Interface")
+   (artist
+      "Izzy")
+   (song
+      (name tutorial/songs/guitar_basics_interface/guitar_basics_interface)
+      (tracks
+         ((guitar 0)))
+      (pans
+         (0.0 0.0))
+      (vols
+         (-96.0 -96.0))
+      (cores
+         (1 -1))
+      (midi_file tutorial/songs/guitar_basics_interface/guitar_basics_interface.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(guitar_basics_bre_demo
+   (name
+      "Guitar Basics - BRE DEMO")
+   (artist
+      "Izzy")
+   (song
+      (name tutorial/songs/guitar_basics_bre/guitar_basics_bre_demo)
+      (tracks
+         ((guitar 0)))
+      (pans
+         (0.0 0.0))
+      (vols
+         (-4.5 -96.0))
+      (cores
+         (1 -1))
+      (midi_file tutorial/songs/guitar_basics_bre/guitar_basics_bre_demo.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(guitar_basics_bre
+   (name
+      "Guitar Basics - BRE")
+   (artist
+      "Izzy")
+   (song
+      (name tutorial/songs/guitar_basics_bre/guitar_basics_bre)
+      (tracks
+         ((guitar 0)))
+      (pans
+         (0.0 0.0))
+      (vols
+         (-4.5 -96.0))
+      (cores
+         (1 -1))
+      (midi_file tutorial/songs/guitar_basics_bre/guitar_basics_bre.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(guitar_medium_consecutive
+   (name
+      "Guitar Medium - Consecutive")
+   (artist
+      "Izzy")
+   (song
+      (name tutorial/songs/guitar_medium_consecutive/guitar_medium_consecutive)
+      (tracks
+         ((guitar 0)))
+      (pans
+         (0.0 0.0))
+      (vols
+         (-4.5 -7.0))
+      (cores
+         (1 -1))
+      (midi_file tutorial/songs/guitar_medium_consecutive/guitar_medium_consecutive.mid))
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(guitar_medium_consecutive_muted
+   (name
+      "Guitar Medium - Consecutive Muted")
+   (artist
+      "Izzy")
+   (song
+      (name tutorial/songs/guitar_medium_consecutive/guitar_medium_consecutive)
+      (tracks
+         ((guitar 0)))
+      (pans
+         (0.0 0.0))
+      (vols
+         (-96.0 -96.0))
+      (cores
+         (1 -1))
+      (midi_file tutorial/songs/guitar_medium_consecutive/guitar_medium_consecutive.mid))
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(guitar_medium_combos
+   (name
+      "Guitar Medium - Combos")
+   (artist
+      "Izzy")
+   (song
+      (name tutorial/songs/guitar_medium_combos/guitar_medium_combos)
+      (tracks
+         ((guitar 0)))
+      (pans
+         (0.0 0.0))
+      (vols
+         (-4.5 -7.0))
+      (cores
+         (1 -1))
+      (midi_file tutorial/songs/guitar_medium_combos/guitar_medium_combos.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(guitar_medium_whammy
+   (name
+      "Guitar Medium - Whammy")
+   (artist
+      "Izzy")
+   (song
+      (name tutorial/songs/guitar_medium_whammy/guitar_medium_whammy)
+      (tracks
+         ((guitar 0)))
+      (pans
+         (0.0 0.0))
+      (vols
+         (-4.5 -7.0))
+      (cores
+         (1 -1))
+      (midi_file tutorial/songs/guitar_medium_whammy/guitar_medium_whammy.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(guitar_medium_deploy
+   (name
+      "Guitar Medium - Deploy")
+   (artist
+      "Izzy")
+   (song
+      (name tutorial/songs/guitar_medium_whammy/guitar_medium_whammy)
+      (tracks
+         ((guitar 0)))
+      (pans
+         (0.0 0.0))
+      (vols
+         (-4.5 -7.0))
+      (cores
+         (1 -1))
+      (midi_file tutorial/songs/guitar_medium_whammy/guitar_medium_deploy.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(guitar_medium_solo
+   (name
+      "Guitar Medium - Solo Explained")
+   (artist
+      "Izzy")
+   (song
+      (name tutorial/songs/guitar_medium_solo/guitar_medium_solo)
+      (tracks
+         ((guitar 0)))
+      (pans
+         (0.0 0.0))
+      (vols
+         (-4.5 -7.0))
+      (cores
+         (1 -1))
+      (midi_file tutorial/songs/guitar_medium_solo/guitar_medium_solo.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(guitar_advanced_fingering
+   (name
+      "Guitar Advanced - Fingering")
+   (artist
+      "Izzy")
+   (song
+      (name tutorial/songs/guitar_advanced_fingering/guitar_advanced_fingering)
+      (tracks
+         ((guitar 0)))
+      (pans
+         (0.0 0.0))
+      (vols
+         (-4.5 -7.0))
+      (cores
+         (1 -1))
+      (midi_file tutorial/songs/guitar_advanced_fingering/guitar_advanced_fingering.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(guitar_advanced_fingering_muted
+   (name
+      "Guitar Advanced - Fingering Muted")
+   (artist
+      "Izzy")
+   (song
+      (name tutorial/songs/guitar_advanced_fingering/guitar_advanced_fingering)
+      (tracks
+         ((guitar 0)))
+      (pans
+         (0.0 0.0))
+      (vols
+         (-96.0 -96.0))
+      (cores
+         (1 -1))
+      (midi_file tutorial/songs/guitar_advanced_fingering/guitar_advanced_fingering.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(guitar_advanced_strings
+   (name
+      "Guitar Advanced - Strings")
+   (artist
+      "Izzy")
+   (song
+      (name tutorial/songs/guitar_advanced_strings/guitar_advanced_strings)
+      (tracks
+         ((guitar 0)))
+      (pans
+         (0.0 0.0))
+      (vols
+         (-4.5 -7.0))
+      (cores
+         (1 -1))
+      (midi_file tutorial/songs/guitar_advanced_strings/guitar_advanced_strings.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(guitar_advanced_hopos
+   (name
+      "Guitar Advanced - HOPOs")
+   (artist
+      "Izzy")
+   (song
+      (name tutorial/songs/guitar_advanced_hopos/guitar_advanced_hopos)
+      (tracks
+         ((guitar 0)))
+      (pans
+         (0.0 0.0))
+      (vols
+         (-4.5 -7.0))
+      (cores
+         (1 -1))
+      (midi_file tutorial/songs/guitar_advanced_hopos/guitar_advanced_hopos.mid))
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(guitar_advanced_mixed
+   (name
+      "Guitar Advanced - Mixed Practice")
+   (artist
+      "Izzy")
+   (song
+      (name tutorial/songs/guitar_advanced_mixed/guitar_advanced_mixed)
+      (tracks
+         ((guitar 0)))
+      (pans
+         (0.0 0.0))
+      (vols
+         (-4.5 -7.0))
+      (cores
+         (1 -1))
+      (midi_file tutorial/songs/guitar_advanced_mixed/guitar_advanced_mixed.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(drum_basics_onehand
+   (name
+      "Drum Basics - One Hand")
+   (artist
+      "Kurt")
+   (song
+      (name tutorial/songs/drum_basics_kick/drum_basics_kick)
+      (tracks
+         ((drum
+               (0 1 2 3))))
+      (pans
+         (0.0 0.0 -1.0 1.0 0.0))
+      (vols
+         (-96.0 0.0 -96.0 -96.0 -6.0))
+      (cores
+         (-1 -1 -1 -1 -1))
+      (midi_file tutorial/songs/drum_basics_onehand/drum_basics_onehand.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(drum_basics_onehand_muted
+   (name
+      "Drum Basics - One Hand Muted")
+   (artist
+      "Kurt")
+   (song
+      (name tutorial/songs/drum_basics_kick/drum_basics_kick)
+      (tracks
+         ((drum
+               (0 1 2 3))))
+      (pans
+         (0.0 0.0 -1.0 1.0 0.0))
+      (vols
+         (-96.0 -96.0 -96.0 -96.0 -96.0))
+      (cores
+         (-1 -1 -1 -1 -1))
+      (midi_file tutorial/songs/drum_basics_onehand/drum_basics_onehand.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(drum_basics_twohands
+   (name
+      "Drum Basics - Two Hands")
+   (artist
+      "Kurt")
+   (song
+      (name tutorial/songs/drum_basics_kick/drum_basics_kick)
+      (tracks
+         ((drum
+               (0 1 2 3))))
+      (pans
+         (0.0 0.0 -1.0 1.0 0.0))
+      (vols
+         (-96.0 0.0 -3.0 -3.0 -6.0))
+      (cores
+         (-1 -1 -1 -1 -1))
+      (midi_file tutorial/songs/drum_basics_twohands/drum_basics_twohands.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(drum_basics_kick
+   (name
+      "Drum Basics - The Kick Drum")
+   (artist
+      "Kurt")
+   (song
+      (name tutorial/songs/drum_basics_kick/drum_basics_kick)
+      (tracks
+         ((drum
+               (0 1 2 3))))
+      (pans
+         (0.0 0.0 -1.0 1.0 0.0))
+      (vols
+         (0.0 -96.0 -96.0 -96.0 -6.0))
+      (cores
+         (-1 -1 -1 -1 -1))
+      (midi_file tutorial/songs/drum_basics_kick/drum_basics_kick.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(drum_basics_interface
+   (name
+      "Drum Basics - Interface")
+   (artist
+      "Kurt")
+   (song
+      (name tutorial/songs/drum_basics_kick/drum_basics_kick)
+      (tracks
+         ((drum
+               (0 1 2 3))))
+      (pans
+         (0.0 0.0 -1.0 1.0 0.0))
+      (vols
+         (-96.0 -96.0 -96.0 -96.0 -96.0))
+      (cores
+         (-1 -1 -1 -1 -1))
+      (midi_file tutorial/songs/drum_basics_interface/drum_basics_interface.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(drum_basics_bre
+   (name
+      "Drum Basics - BRE")
+   (artist
+      "Kurt")
+   (song
+      (name tutorial/songs/drum_basics_bre/drum_basics_bre)
+      (tracks
+         ((drum
+               (0 1 2 3))))
+      (pans
+         (0.0 0.0 -1.0 1.0 0.0))
+      (vols
+         (-96.0 0.0 -3.0 -3.0 -96.0))
+      (cores
+         (-1 -1 -1 -1 -1))
+      (drum_solo
+         (seqs
+            (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+      (midi_file tutorial/songs/drum_basics_bre/drum_basics_bre.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(drum_beat_rockbeat
+   (name
+      "Beat Basics - Rock Beat")
+   (artist
+      "Kurt")
+   (song
+      (name tutorial/songs/drum_beat_rockbeat/drum_beat_rockbeat)
+      (tracks
+         ((drum
+               (0 1 2 3))))
+      (pans
+         (0.0 0.0 -1.0 1.0 0.0))
+      (vols
+         (0.0 0.0 -3.0 -3.0 -6.0))
+      (cores
+         (-1 -1 -1 -1 -1))
+      (midi_file tutorial/songs/drum_beat_rockbeat/drum_beat_rockbeat.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(drum_beat_rockbeat_muted
+   (name
+      "Beat Basics - Rock Beat Muted")
+   (artist
+      "Kurt")
+   (song
+      (name tutorial/songs/drum_beat_rockbeat/drum_beat_rockbeat)
+      (tracks
+         ((drum
+               (0 1 2 3))))
+      (pans
+         (0.0 0.0 -1.0 1.0 0.0))
+      (vols
+         (-96.0 -96.0 -96.0 -96.0 -96.0))
+      (cores
+         (-1 -1 -1 -1 -1))
+      (midi_file tutorial/songs/drum_beat_rockbeat/drum_beat_rockbeat.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(drum_beat_rockbeat_hat
+   (name
+      "Beat Basics - Rock Beat Hat only")
+   (artist
+      "Kurt")
+   (song
+      (name tutorial/songs/drum_beat_rockbeat/drum_beat_rockbeat)
+      (tracks
+         ((drum
+               (0 1 2 3))))
+      (pans
+         (0.0 0.0 -1.0 1.0 0.0))
+      (vols
+         (-96.0 -96.0 -3.0 -3.0 -6.0))
+      (cores
+         (-1 -1 -1 -1 -1))
+      (midi_file tutorial/songs/drum_beat_rockbeat/drum_beat_rockbeat.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(drum_beat_rockbeat_hatsnare
+   (name
+      "Beat Basics - Rock Beat Hat & Snare only")
+   (artist
+      "Kurt")
+   (song
+      (name tutorial/songs/drum_beat_rockbeat/drum_beat_rockbeat)
+      (tracks
+         ((drum
+               (0 1 2 3))))
+      (pans
+         (0.0 0.0 -1.0 1.0 0.0))
+      (vols
+         (-96.0 0.0 -3.0 -3.0 -6.0))
+      (cores
+         (-1 -1 -1 -1 -1))
+      (midi_file tutorial/songs/drum_beat_rockbeat/drum_beat_rockbeat.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(drum_beat_combos
+   (name
+      "Beat Basics - Combos")
+   (artist
+      "Kurt")
+   (song
+      (name tutorial/songs/drum_beat_rockbeat/drum_beat_rockbeat)
+      (tracks
+         ((drum
+               (0 1 2 3))))
+      (pans
+         (0.0 0.0 -1.0 1.0 0.0))
+      (vols
+         (0.0 0.0 -3.0 -3.0 -6.0))
+      (cores
+         (-1 -1 -1 -1 -1))
+      (midi_file tutorial/songs/drum_beat_combos/drum_beat_combos.mid))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+(drum_beat_deploy
+   (name
+      "Beat Basics - Deploy")
+   (artist
+      "Kurt")
+   (song
+      (name tutorial/songs/drum_beat_rockbeat/drum_beat_rockbeat)
+      (tracks
+         ((drum
+               (0 1 2 3))))
+      (pans
+         (0.0 0.0 -1.0 1.0 0.0))
+      (vols
+         (0.0 0.0 -3.0 -3.0 -6.0))
+      (cores
+         (-1 -1 -1 -1 -1))
+      (midi_file tutorial/songs/drum_beat_deploy/drum_beat_deploy.mid)
+      (drum_solo
+         (seqs
+            (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+      (drum_freestyle
+         (seqs
+            (kick.cue snare.cue hat.cue ride.cue crash.cue))))
+   (song_scroll_speed 3000)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (anim_tempo kTempoMedium)
+   (preview 11981 35990)
+   (validate_ignore TRUE)
+   (tutorial TRUE))
+#endif
+(audio_sliders
+   (name
+      "Audio Sliders")
+   (song
+      (name sfx/streams/audio_sliders)
+      (tracks
+         ((drum
+               (0 1))
+            (guitar
+               (2 3))
+            (crowd
+               (6 7))))
+      (pans
+         (-1.0 1.0 -1.0 1.0 -1.0 1.0 -3.0 3.0))
+      (vols
+         (-3.0 -3.0 -3.0 -3.0 -3.0 -3.0 -3.0 -3.0))
+      (cores
+         (-1 -1 -1 -1 -1 -1 -1 -1))
+      (midi_file sfx/streams/audio_sliders.mid))
+   (validate_ignore TRUE)
+   (fake TRUE)
+   (preview 0 13500))
+#ifndef _SHIP
+(framerate
+   (name
+      "Frame Rate Test")
+   (artist
+      "EricB")
+   (master FALSE)
+   (context 1)
+   (song
+      (name ui/framerate/worstcase)
+      (tracks
+         ((drum
+               (0 1 2 3 4))
+            (bass 5)
+            (guitar
+               (6 7))
+            (vocals
+               (8 9))))
+      (pans
+         (0.0 -1.0 1.0 -1.0 1.0 0.0 -1.0 1.0 -1.0 1.0 -1.0 1.0))
+      (vols
+         (-96.0 -96.0 -96.0 -96.0 -96.0 -96.0 -96.0 -96.0 -96.0 -96.0 -96.0 -96.0))
+      (cores
+         (-1 -1 -1 -1 -1 -1 1 1 -1 -1 -1 -1))
+      (midi_file ui/framerate/worstcase.mid))
+   (validate_ignore TRUE)
+   (fake TRUE)
+   (bank sfx/tambourine_bank.milo)
+   (venue_bank none)
+   (song_scroll_speed 2300)
+   (anim_tempo kTempoSlow)
+   (genre rock)
+   (decade the00s))
+#endif
