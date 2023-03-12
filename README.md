@@ -178,6 +178,7 @@ First, **extract your vanilla Rock Band 2 game disc** and copy **ONLY** the *con
 Navigate to `_xenia` and **map your controller with x360ce**. If it asks you to create `xinput1_3.dll`, create it and **rename it to `xinput1_4.dll`**.
 
 Then, navigate to `user_scripts` and **run `build_xenia.py` to automatically update, build, and run Rock Band 2 Deluxe.** You need to run this script every time you want to play. `run_xenia.py`, however, will not automatically build and update the game and will only run it.
+If you are on Windows you'll want to go into `windows_bats` instead and **run anything with the `.bat` extension** instead.
 
 ***Rock Band 2 Deluxe should now be installed!*** We highly recommend you check out [Optional Upgrades](#optional-upgrades) for songs and other cool stuff you can add to your game.
 
@@ -193,7 +194,8 @@ Next, you will need the **latest update for Rock Band 2** installed on RPCS3. [G
 
 *If it doesn't download, right-click it and select `Save link as...` If your browser says it "can't be downloaded safely", ignore it and select `Keep`.*
 
-Then, if you set up the repo, navigate to `user_scripts` and **run `build_ps3.py`**.
+Then, if you set up the repo on Windows, navigate to `windows_bats` and **run `build_ps3.bat`**.
+Then, if you set up the repo on Linux/Mac, navigate to `user_scripts` and **run `build_ps3.py`**.
 
 After that, **copy the contents** of `\_build\ps3\` to `\dev_hdd0\game\BLUS30147\` in your RPCS3 directory. Click `Yes` to overwrite the files.
 
@@ -213,7 +215,8 @@ After that, **copy the contents** of `\_build\ps3\` to `\dev_hdd0\game\BLUS30147
 
 First, you will need the **latest update for Rock Band 2** installed on your system. You can check for updates by inserting your disc, pressing `Triangle`, and selecting `Check for Update`. Update to version `1.02` if it asks you.
 
-Then, if you set up the repo, navigate to `user_scripts` and **run `build_ps3.py`**.
+Then, if you set up the repo on Windows, navigate to `windows_bats` and **run `build_ps3.bat`**.
+Then, if you set up the repo on Linux/Mac, navigate to `user_scripts` and **run `build_ps3.py`**.
 
 After that, **copy the contents** of `\_build\ps3\` to `\dev_hdd0\game\BLUS30147\`. Click `Yes` to overwrite the files.
 
@@ -229,7 +232,8 @@ After that, **copy the contents** of `\_build\ps3\` to `\dev_hdd0\game\BLUS30147
 
 First, **dump or extract your Rock Band 2 game disc** to a place where Aurora can see it.
 
-Then, if you set up the repo, navigate to `user_scripts` and **run `build_xbox.py`**.
+Then, if you set up the repo on Windows, navigate to `windows_bats` and **run `build_xbox.bat`**.
+Then, if you set up the repo on Linux/Mac, navigate to `user_scripts` and **run `build_xbox.py`**.
 
 After that, **copy the contents** of `\_build\xbox\` to the location you extracted your disc to. Select `Yes` to overwrite the files.
 
@@ -322,7 +326,8 @@ These will resize your images accordingly, including those with arbitrary resolu
 
 ### ***The game doesn't get past the splash screens!***
 * You are not supposed to replace `default.xex` in `\_build\xbox\`, only the contents of the `gen` folder.
-    * Navigate to `user_scripts` and run `git_reset.py` to rebase your repo.
+    * Navigate to `user_scripts` and run `git_reset.py` to rebase your repo. **(If you're on Linux)**
+    * Navigate to `windows_bats` and run `git_reset.bat` to rebase your repo. **(If you're on Windows)**
 
 ### ***My controller isn't working even though I have x360ce set up!***
 * Navigate to `_xenia` and rename `xinput1_3.dll` to `xinput1_4.dll`.
