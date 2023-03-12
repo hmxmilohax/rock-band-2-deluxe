@@ -1,0 +1,5 @@
+(songs
+   #include ../songs/songs.dta)
+(scoring
+   #include scoring.dta)
+#merge ../../../system/run/config/default.dta

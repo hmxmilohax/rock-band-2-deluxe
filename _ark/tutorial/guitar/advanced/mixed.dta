@@ -1,0 +1,146 @@
+#define TOTAL_MIXED_NOTES
+(178)
+#define TOTAL_MIXED_HELDS
+(12)
+#define TOTAL_MIXED_PHRASES
+(7)
+#define MIXED_NOTES_GREAT
+(135)
+#define MIXED_HELDS_GREAT
+(10)
+#define MIXED_PHRASES_GREAT
+(5)
+#define MIXED_NOTES_OK
+(100)
+#define MIXED_HELDS_OK
+(3)
+#define MIXED_PHRASES_OK
+(3)
+SETUP_GUITAR_TUTORIAL
+GUITAR_TV_WHITE
+START_BG_MUSIC
+{setup_lesson_banner tutorial_guitar_advanced_mixed_part}
+{meta_performer set_song guitar_advanced_mixed}
+LOAD_NEW_GUITAR_SONG_NO_FADE
+HIDE_TRACK_PLAYER_UI
+UNHIDE_SOLO_FEEDBACK
+UNPAUSE_TRACK
+SYNC_PAUSE
+{new
+   Object
+   tutorial_guitar_advanced_mixed_callback
+   (hit
+      {set
+         [gems_hit]
+         {'+'
+            [gems_hit]
+            1}})
+   (unison_hit
+      {set
+         [phrases_hit]
+         {'+'
+            [phrases_hit]
+            1}})
+   (held_note_released_callback
+      ($fraction)
+      {if
+         {== $fraction 1}
+         {set
+            [helds_hit]
+            {'+'
+               [helds_hit]
+               1}}})
+   (was_great
+      {&&
+         {&&
+            {>=
+               [gems_hit]
+               MIXED_NOTES_GREAT}
+            {>=
+               [helds_hit]
+               MIXED_HELDS_GREAT}}
+         {>=
+            [phrases_hit]
+            MIXED_PHRASES_GREAT}})
+   (was_ok
+      {&&
+         {&&
+            {>=
+               [gems_hit]
+               MIXED_NOTES_OK}
+            {>=
+               [helds_hit]
+               MIXED_HELDS_OK}}
+         {>=
+            [phrases_hit]
+            MIXED_PHRASES_OK}})
+   (was_bad
+      {&&
+         {!
+            {$this was_great}}
+         {!
+            {$this was_ok}}})
+   (lesson_running
+      {<
+         {{beatmatch active_player 0}
+            percent_complete}
+         END_OF_SONG_PERCENT})
+   (gems_hit 0)
+   (helds_hit 0)
+   (phrases_hit 0)}
+{play_vo tute_guitar3_finaltest}
+STOP_BG_MUSIC
+WAIT_FOR_VO
+LONG_VO_GAP
+GUITAR_TV_OFF
+UNHIDE_TRACK_PLAYER_UI
+UNHIDE_TRACK_STREAK_METER
+LONG_VO_GAP
+{set_info_text
+   {localize tutorial_guitar_advanced_mixed_task}}
+{show_info_text TRUE}
+{{beatmatch active_player 0}
+   add_sink
+   tutorial_guitar_advanced_mixed_callback}
+FADE_SONG_IN
+{gamemode set play_star_sfx TRUE}
+{gamemode set play_streak_sfx TRUE}
+UNPAUSE_TRACK
+{$task
+   wait
+   {tutorial_guitar_advanced_mixed_callback lesson_running}}
+FREEZE_SCORE_TEXT
+TRACK_OUT
+PAUSE_TRACK
+RESET_TUTORIAL_GAMEMODE
+HIDE_TRACK_PLAYER_UI
+WAIT_FOR_VO
+{if_else
+   {tutorial_guitar_advanced_mixed_callback was_great}
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_advanced_mixed_done_great}}
+      {play_vo tute_guitar3_finalwin2}}
+   {if_else
+      {tutorial_guitar_advanced_mixed_callback was_ok}
+      {do
+         {set_banner_text
+            {localize tutorial_guitar_advanced_mixed_done_ok}}
+         {play_vo tute_guitar3_finalwin}}
+      {do
+         {set_banner_text
+            {localize tutorial_guitar_advanced_mixed_failed}}
+         {play_vo tute_guitar3_finalfail}}}}
+{show_info_text FALSE}
+{show_part_text FALSE}
+{show_banner_text TRUE}
+HIDE_SCORE
+HIDE_TRACK_STREAK_METER
+START_BG_MUSIC
+GUITAR_TV_WHITE
+WAIT_FOR_VO
+SHORT_VO_GAP
+{do_fail_menu
+   {tutorial_guitar_advanced_mixed_callback was_bad}}
+RETURN_FROM_FAIL_MENU
+{tutorials_state_panel switch_to_next_state}

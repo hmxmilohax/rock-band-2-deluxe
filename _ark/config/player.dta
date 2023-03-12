@@ -1,0 +1,317 @@
+(pausing
+   (disable_pause_ms 2000))
+(handlers
+   (hit
+      ($slot $star $hopoable $hopoed $player_num)
+      {if
+         $star
+         {play_game_seq_player sp_gemhit sp_gemhit $player_num}}
+      kDataUnhandled)
+   (hopo
+      {hopo_callback}
+      kDataUnhandled)
+   (swingAtHopo
+      {swingAtHopo_callback})
+   (miss
+      ($player_num $slot)
+      {do
+         ($seq
+            {switch
+               {{game get_player_config $player_num}
+                  get_track_type}
+               (kTrackDrum
+                  {if_else
+                     {== $slot 0}
+                     miss_kick.cue
+                     miss_drum})
+               (kTrackBass
+                  {if_else
+                     {== $slot 0}
+                     miss_bass
+                     miss_bass})
+               miss_gtr.cue})
+         {play_game_seq_player $seq $seq $player_num}}
+      kDataUnhandled)
+   (swing kDataUnhandled)
+   (set_tambourine
+      ($on)
+      {$this send_track_val set_tambourine $on}
+      {if
+         $on
+         {$this solo_start}})
+   (set_tambourine_percent
+      ($pct)
+      {$this solo_hit $pct})
+   (send_track
+      ($message)
+      {do
+         ($track
+            {$this track})
+         {if
+            $track
+            {$track $message}}})
+   (send_track_val
+      ($message $val)
+      {do
+         ($track
+            {$this track})
+         {if
+            $track
+            {$track $message $val}}})
+   (get_track_obj
+      ($obj_name)
+      {do
+         ($track
+            {$this track})
+         {if_else
+            $track
+            {$track get_obj $obj_name}
+            0}})
+   (star_power_meter
+      {{{$this track}
+            get_dir}
+         get
+         star_power_meter})
+   (player_feedback
+      {{{$this track}
+            get_dir}
+         get
+         player_feedback})
+   (ending_bonus
+      {if_else
+         {{get_track_panel}
+            exists
+            ending_bonus}
+         {{get_track_panel}
+            find
+            ending_bonus}
+         ""})
+   (whammy_start
+      {whammy_start_callback})
+   (whammy_end
+      {whammy_end_callback})
+   #ifdef HX_XBOX
+   (deploy
+      {do
+         ($sfx
+            {sprintf
+               "rp_deployed_%s.cue"
+               {{$this config}
+                  get_track_sym}})
+         {synth play $sfx}}
+      {$this send_track deploy}
+      {$this popup_help deploy FALSE}
+      kDataUnhandled)
+   (stop_deploy
+      {do
+         ($sfx
+            {sprintf
+               "rp_depleted_%s.cue"
+               {{$this config}
+                  get_track_sym}})
+         {synth play $sfx}}
+      {$this send_track stop_deploy}
+      {handle
+         ($this
+            set_energy
+            {$this band_energy})}
+      kDataUnhandled)
+   #endif
+   (unison_miss_guilty
+      ($phrase)
+      {$this send_track_val on_miss_phrase $phrase}
+      {$this send_track spotlight_fail_guilty})
+   (unison_miss
+      ($phrase)
+      kDataUnhandled)
+   #ifdef HX_XBOX
+   (unison_hit
+      {$this send_track spotlight_phrase_success}
+      {script_task
+         kTaskSeconds
+         (delay 0)
+         (script
+            {do
+               ($sfx
+                  {sprintf
+                     "rp_captured_%s.cue"
+                     {{$this config}
+                        get_track_sym}})
+               {synth play $sfx}})}
+      kDataUnhandled)
+   #endif
+   (coda_blown
+      {$this send_track coda_blown}
+      kDataUnhandled)
+   (coda_fail
+      {$this send_track coda_fail}
+      kDataUnhandled)
+   (coda_success
+      {$this send_track coda_success}
+      kDataUnhandled)
+   (play_instrument_cue
+      ($format)
+      {do
+         ($num
+            {$this player_num})
+         ($inst
+            {{game get_player_config $num}
+               get_track_sym})
+         ($seq
+            {sprintf $format $inst})
+         {play_game_seq_player $seq $seq $num}})
+   (enable_player
+      {$this send_track enable_player})
+   (disable_player
+      ($strikes)
+      {$this
+         play_instrument_cue
+         "%s_died.cue"}
+      {$this send_track_val disable_player $strikes}
+      {if
+         $world
+         {$world
+            player_failed
+            {{game
+                  get_player_config
+                  {$this player_num}}
+               get_track_sym}}}
+      #ifndef HX_XBOX
+      {game
+         game_player_failed
+         {$this player_num}}
+      #endif
+      #ifdef HX_WII
+      {set
+         $pcfg
+         {game
+            get_player_config
+            {$this player_num}}}
+      {{get_track_panel}
+         toggle_track_fade_instrument
+         {$pcfg get_track_sym}}
+      #endif)
+   (save_player
+      ($causer)
+      {$this
+         play_instrument_cue
+         "%s_regen.cue"}
+      {$this send_track save_player}
+      {if
+         $world
+         {$world
+            player_saved
+            {{game get_player_config $causer}
+               get_track_sym}}}
+      #ifndef HX_XBOX
+      {game game_player_saved $causer}
+      #endif
+      #ifdef HX_WII
+      {script_task
+         kTaskUISeconds
+         (delay 0.4)
+         (script
+            {set
+               $pcfg
+               {game
+                  get_player_config
+                  {$this player_num}}}
+            {{get_track_panel}
+               toggle_track_fade_instrument
+               {$pcfg get_track_sym}})}
+      #endif)
+   (set_multiplier
+      ($multiplier)
+      {$this send_track_val set_multiplier $multiplier})
+   #ifdef HX_XBOX
+   (set_energy
+      ($in_energy)
+      {do
+         ($instrument
+            {{game
+                  get_player_config
+                  {$this player_num}}
+               get_track_sym})
+         {if
+            {$this track}
+            {do
+               ($meter
+                  {$this star_power_meter})
+               ($threshold 0.5)
+               ($player_state
+                  {cond
+                     ({$this is_deploying}
+                        deploying)
+                     ({$this can_deploy}
+                        ready)
+                     none})
+               {if
+                  $meter
+                  {if
+                     {&&
+                        {<
+                           {$meter get energy}
+                           $threshold}
+                        {>= $in_energy $threshold}}
+                     {if
+                        {== $instrument drum}
+                        {$this enable_drum_solos TRUE}}}
+                  {if
+                     {!= $player_state ready}
+                     {if
+                        {== $instrument drum}
+                        {$this enable_drum_solos FALSE}}}
+                  {$meter set_energy $in_energy $player_state $instrument}}}}}
+      kDataUnhandled)
+   #endif
+   (enable_drum_solos
+      ($in_enable)
+      {if_else
+         $in_enable
+         {do
+            {$this enable_solos 2400}}
+         {$this disable_solos}})
+   (scream
+      {$this deploy_if_possible})
+   (solo_start
+      {do
+         ($feedback
+            {$this player_feedback})
+         {if
+            $feedback
+            {$feedback start_solo}}}
+      #ifdef HX_XBOX
+      {do
+         ($trigger
+            {$this get_track_obj guitar_solo_start.trig})
+         {if
+            $trigger
+            {$trigger trigger}}}
+      #endif)
+   (solo_end
+      ($in_points $result)
+      {do
+         ($feedback
+            {$this player_feedback})
+         {if
+            $feedback
+            {$feedback set_result $result}
+            {$feedback set_award $in_points}
+            {$feedback end_solo}}}
+      #ifdef HX_XBOX
+      {do
+         ($trigger
+            {$this get_track_obj guitar_solo_stop.trig})
+         {if
+            $trigger
+            {$trigger trigger}}}
+      #endif)
+   (solo_hit
+      ($in_val)
+      {do
+         ($feedback
+            {$this player_feedback})
+         {if
+            $feedback
+            {$feedback set_percent $in_val}}})
+   #include player_net.dta)

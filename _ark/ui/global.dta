@@ -15,14 +15,23 @@
       1}}
 {func
    band_leader_char
-   {{session_mgr get_leader_user}
+   {{game
+         get_player_config
+         {game get leader_num}}
       get_char}}
+{func
+   set_char_from_controller
+   ($player_num)
+   {{game get_player_config $player_num}
+      set_char
+      {available_prefab $player_num}}}
 {func
    setup_game
    ($song $venue $player_list)
    {do
       ($i 0)
       ($slot_index 0)
+      {tour set_bwtmode kMetaTour_StartNew}
       {foreach
          $player
          $player_list
@@ -47,11 +56,12 @@
                   kControllerNone}}
             {$pcfg
                set_difficulty
-               {elem $player 1}}}
+               {elem $player 1}}
+            {$pcfg set_ready TRUE}}
          {'++' $i}}
       {game set_venue $venue}
       {meta_performer set_song $song}
-      {session_mgr set_leader_num 0}
+      {game set leader_num 0}
       {gamecfg auto_assign_missing_slots}
       {set $i 0}
       {foreach
@@ -73,81 +83,25 @@
                set_char
                {if_else
                   $prefab
-                  {find_prefab
-                     {eval $prefab}}
-                  {available_prefab $i}}}}
+                  {find_prefab $prefab}
+                  {available_prefab
+                     {if_else
+                        {== $track bass}
+                        guitar
+                        $track}}}}}
          {'++' $i}}}}
 {func
-   are_all_mics_connected
-   {do
-      ($ret TRUE)
-      {game
-         foreach_local_player
-         $p
-         {do
-            ($player_num
-               {$p player_num})
-            ($user
-               {user_mgr get_band_user $player_num})
-            ($mic_num
-               {joypad_get_players_padnum $player_num})
-            {if
-               {&&
-                  {!= $player_num -1}
-                  {!= $mic_num -1}
-                  {game is_player_participating $player_num}
-                  {==
-                     {$user get_track_sym}
-                     vocals}
-                  #ifndef _SHIP
-                  {==
-                     {user_mgr
-                        debug_get_controller_type_override
-                        {$user get_pad_num}}
-                     kControllerNone}
-                  #endif
-                  {!
-                     {&&
-                        {gamemode get ignore_missing_autoplayer_controllers}
-                        {$user get autoplay}}}
-                  {!
-                     {synth is_mic_connected $mic_num}}}
-               {set $ret FALSE}}}}
-      $ret}}
-{func
-   any_non_autoplay_vocalists
-   {do
-      ($ret FALSE)
-      {game
-         foreach_local_player
-         $p
-         {do
-            ($player_num
-               {$p player_num})
-            ($user
-               {user_mgr get_band_user $player_num})
-            {if
-               {&&
-                  {!= $player_num -1}
-                  {game is_player_participating $player_num}
-                  {==
-                     {$user get_track_sym}
-                     vocals}
-                  {!
-                     {$user get autoplay}}}
-               {set $ret TRUE}}}}
-      $ret}}
-{func
    game_restart
-   {net_sync disable}
-   {if_else
+   {{gamemode get game_screen}
+      reenter_screen}
+   {world_panel setup}
+   {if
       {&&
          {ui current_screen}
          {!=
             {ui current_screen}
             {gamemode get game_screen}}}
-      {ui goto_screen sync_audio_net_screen}
-      {ui push_screen sync_audio_net_screen}}}
+      {ui pop_screen}}}
 {func
    set_all_hud_showing
    ($show)
@@ -172,7 +126,7 @@
    {if_else
       {game multiplayer}
       {elem
-         (-1 1 -1 1)
+         (-1 1 -1 1 -1 1 -1 1)
          $player}
       0}}
 {func
@@ -193,72 +147,85 @@
          $sfx
          (pan
             {player_pan $player})}}}
+#ifdef HX_XBOX
+{func
+   fmt_money
+   ($money)
+   {sprintf
+      "%s%s"
+      {localize locale_currency}
+      {localize_separated_int $money}}}
+#endif
 {func
    fmt_score
    ($score)
-   {localize_separated_int
-      {int $score}}}
+   {localize_separated_int $score}}
 {func
-   fmt_score_or_stars
-   ($score)
+   fmt_songs_played
+   ($num_played $num_total)
+   {sprintf
+      {localize tour_solo_progress}
+      $num_played
+      $num_total}}
+{func
+   is_leader_local
+   {do
+      ($leader_num
+         {gamecfg get leader_num})
+      {&&
+         {!= $leader_num -1}
+         {gamecfg is_player_local $leader_num}}}}
+{func
+   local_to_leader_player_num
    {if_else
-      {==
-         {meta_performer win_metric}
-         kMetricStars}
-      {sprintf
-         "%.2f"
-         {/
-            {int
-               {'*' $score 100}}
-            100}}
-      {sprintf
-         "%s"
-         {fmt_score $score}}}}
+      {is_leader_local}
+      -1
+      {game get leader_num}}}
 {func
    update_tour_display
-   {ui
-      foreach_screen
-      $s
-      {$s
-         foreach_panel
-         $p
-         {if
-            {$p is_up}
-            {handle
-               ($p refresh)}}}}}
-{func
-   update_meta_performer
-   {ui
-      foreach_screen
-      $s
-      {$s
-         foreach_panel
-         $p
-         {if
-            {$p is_up}
-            {handle
-               ($p update_meta_performer)}}}}}
+   {foreach
+      $a
+      (tour_solo_diff_panel tour_solo_event_panel tour_band_event_panel tour_band_town_panel tour_world_status tour_selsong_panel)
+      {if
+         {$a is_up}
+         {$a refresh}}}}
 {func
    missing_slot_to_track_icon
    ($slot)
    {cnv_instrumenttoicon
       {if_else
-         {== kGameCoopSlotGuitar1 $slot}
+         {== 3 $slot}
          {do
-            ($user
-               {user_mgr get_user_from_slot kGameCoopSlotGuitar0})
+            ($guitar_player_idx
+               {game get_player_num_from_slot_num 0})
             {if_else
                {&&
-                  $user
-                  {$user is_participating}
+                  {!= -1 $guitar_player_idx}
+                  {game is_player_participating $guitar_player_idx}
                   {==
                      bass
-                     {$user get_track_sym}}}
+                     {{game get_player_config $guitar_player_idx}
+                        get_track_sym}}}
                guitar
                bass}}
-         {elem
-            (COOP_SLOTS_ORDER)
-            $slot}}}}
+         {if_else
+            {== 0 $slot}
+            {do
+               ($bass_player_idx
+                  {game get_player_num_from_slot_num 3})
+               {if_else
+                  {&&
+                     {!= -1 $bass_player_idx}
+                     {game is_player_participating $bass_player_idx}
+                     {==
+                        guitar
+                        {{game get_player_config $bass_player_idx}
+                           get_track_sym}}}
+                  bass
+                  guitar}}
+            {elem
+               (COOP_SLOTS_ORDER)
+               $slot}}}}}
 {func
    get_player_icon
    ($player)
@@ -276,28 +243,8 @@
             {$player_char
                track_icon
                {$pcfg get_track_sym}}
-            ''}}
-      ''}}
-{func
-   get_user_name_from_player
-   ($player)
-   {if_else
-      $player
-      {do
-         ($user
-            {$player config})
-         {$user get_user_name}}
-      ""}}
-{func
-   get_character_name
-   ($player)
-   {if_else
-      $player
-      {do
-         ($pcfg
-            {$player config})
-         {$pcfg char_name}}
-      ""}}
+            G}}
+      G}}
 {func
    get_player_name
    ($player)
@@ -314,78 +261,5 @@
    {do
       ($player_num
          {game get_player_num_from_slot_num $slot})
-      {get_user_name_from_player
+      {get_player_name
          {game get_player $player_num}}}}
-{func
-   get_char_name_from_slot
-   ($slot)
-   {do
-      ($player_num
-         {game get_player_num_from_slot_num $slot})
-      {get_character_name
-         {game get_player $player_num}}}}
-{func
-   get_track_icon_from_slot
-   ($slot $track)
-   {do
-      ($player_num
-         {game get_player_num_from_slot_num $slot})
-      ($player_config
-         {game get_player_config $player_num})
-      {{$player_config get_char}
-         track_icon
-         $track}}}
-{func
-   frac
-   ($x)
-   {int
-      {'*' $x 256}}}
-{func
-   defrac
-   ($x)
-   {/ $x 256.0}}
-{func
-   process_comeback_achievement
-   ($win)
-   #ifndef _SHIP
-   {unless
-      {gamemode is_h2h_arrangement}
-      {fail
-         "Can't process comeback achievement unless we're playing h2h"}}
-   {if
-      {>
-         {user_mgr get_num_participants}
-         2}
-      {fail
-         "Shouln't be more than 2 participants in h2h"}}
-   #endif
-   {if
-      {==
-         {user_mgr get_num_participants}
-         2}
-      {do
-         ($local -1)
-         ($opponent -1)
-         {gamecfg
-            foreach_user
-            $user
-            {if_else
-               {$user is_local_player}
-               {set $local $user}
-               {set $opponent $user}}}
-         {if_else
-            $win
-            {do
-               ($profile
-                  {profile_mgr get_save_data $local})
-               {if
-                  {$profile is_comeback_target $opponent}
-                  {achievements
-                     submit
-                     {$local get player_num}
-                     ach_skill_versus_revenge}}}
-            {if
-               {profile_mgr get_save_data $local}
-               {{profile_mgr get_save_data $local}
-                  set_comeback_target
-                  $opponent}}}}}}

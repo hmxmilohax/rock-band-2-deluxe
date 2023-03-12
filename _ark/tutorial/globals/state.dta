@@ -1,0 +1,63 @@
+#define RESET_TUTORIAL_GAMEMODE
+({gamemode set play_star_sfx FALSE}
+   {gamemode set play_streak_sfx FALSE})
+#define LOAD_BG_MUSIC
+()
+#define START_BG_MUSIC
+()
+#define STOP_BG_MUSIC
+()
+#define STOP_BRE_AUTOPLAYER
+({{gamemode get main_panel}
+      stop_autoplay_bre})
+#define START_BRE_AUTOPLAYER_GUITAR
+({{gamemode get main_panel}
+      start_autoplay_bre
+      0.2
+      FALSE})
+#define START_BRE_AUTOPLAYER_DRUMS
+({{gamemode get main_panel}
+      start_autoplay_bre
+      0.7
+      TRUE})
+#define ENABLE_TUTORIAL_BEAT_CALLBACK
+({tutorials_state_panel beat_callback_set_enabled TRUE})
+#define DISABLE_TUTORIAL_BEAT_CALLBACK
+({tutorials_state_panel beat_callback_set_enabled FALSE})
+#define RETURN_FROM_FAIL_MENU
+({$task sleep 0.1}
+   {$task
+      wait
+      {tutorials_state_panel get is_paused}}
+   {switch
+      {tutorials_state_panel get fail_menu_response}
+      ("retry"
+         HIDE_UI_ELEMENTS
+         {tutorials_state_panel restart_state})
+      ("skip"
+         {tutorials_state_panel switch_to_next_state})})
+#define RETURN_FROM_FAIL_MENU_NOSKIP
+({$task sleep 0.1}
+   {$task
+      wait
+      {tutorials_state_panel get is_paused}}
+   {switch
+      {tutorials_state_panel get fail_menu_response}
+      ("retry"
+         HIDE_UI_ELEMENTS
+         {tutorials_state_panel restart_state})})
+{func
+   set_inc_dec
+   ($inc $dec)
+   {{gamemode get main_panel}
+      set_inc_dec
+      $inc
+      $dec}}
+{func
+   do_fail_menu
+   ($test)
+   {tutorials_state_panel set fail_menu_response ''}
+   {if
+      $test
+      {tutorials_state_panel pause}
+      {ui push_screen tutorials_fail_screen}}}

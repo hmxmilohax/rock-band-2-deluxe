@@ -23,13 +23,10 @@
             [just_entered]
             FALSE}
          {game add_sink tutorials_event_handlers}
-         {platform_mgr
-            add_sink
-            tutorials_event_handlers
-            (ui_changed)}
+         {platform_mgr add_sink tutorials_event_handlers ui_changed}
          {$this on_guide_change}
          {$this on_mics_change}
-         {$this on_controllers_change}})
+         {$this check_lost_controller}})
    (exit
       {set
          [just_entered]
@@ -76,21 +73,33 @@
                   [is_paused]}}
             {tutorials_pause_mic_screen pre_enter}
             {ui push_screen tutorials_pause_mic_screen}}})
-   (on_controllers_change
-      {if
+   (check_lost_controller
+      {if_else
          {&&
             {ui current_screen}
+            {!=
+               {ui current_screen}
+               pause_screen}
+            {!=
+               {ui current_screen}
+               {gamemode get confirm_quit_screen}}
+            {!=
+               {ui current_screen}
+               {gamemode get confirm_restart_screen}}
             {!
                {ui in_transition}}
-            {==
-               {ui current_screen}
-               {gamemode get main_screen}}
             {!
-               {input_mgr check_controllers}}
-            {!
-               [is_paused]}}
-         {tutorials_pause_controllers_screen pre_enter}
-         {ui push_screen tutorials_pause_controllers_screen}})
+               {tutorials_pause_screen get_is_quitting}}
+            {game missing_controllers}}
+         {do
+            {set
+               [unpause_on_transition]
+               TRUE}
+            {tutorials_state_panel pause}
+            {band_ui_sink set_net_sync FALSE}
+            {ui push_screen tutorials_pause_controller_screen}
+            TRUE}
+         FALSE})
    #ifdef HX_PS3
    (on_guide_change
       {if
@@ -388,7 +397,9 @@
                      TRUE}
                   {{gamemode get main_panel}
                      pause}
-                  {stagekit_pause TRUE}}}
+                  #ifndef HX_OG
+                  {stagekit_pause TRUE}
+                  #endif}}
             {set
                [is_paused]
                TRUE}}})
@@ -439,7 +450,9 @@
                      FALSE}
                   {{gamemode get main_panel}
                      unpause}
-                  {stagekit_pause FALSE}}
+                  #ifndef HX_OG
+                  {stagekit_pause FALSE}
+                  #endif}
                {do
                   {synth pause_all_sfx FALSE}
                   {{gamemode get main_panel}
@@ -484,12 +497,10 @@
          (back_to_main_menu
             {tutorials_state_panel reset_tutorial}
             {gamemode set main_screen main_screen}
-            {ui
-               goto_screen
-               {gamemode get quit_screen}})
+            {ui goto_screen meta_loading_tutorial_main_screen})
          (back_to_lesson_menu
             {tutorials_state_panel reset_tutorial}
-            {ui goto_screen tutorials_lesson_menu_screen})
+            {ui goto_screen meta_loading_tutorial_screen})
          {{gamemode get main_panel}
             set_local_state
             $state}})
@@ -608,3 +619,11 @@
    (amb_playing FALSE)
    (is_loading_song FALSE)
    (game_paused FALSE)}
+{new
+   BandScreen
+   tutorial_to_main_screen
+   (panels)
+   (TRANSITION_COMPLETE
+      {ui
+         goto_screen
+         {gamemode get quit_screen}})}

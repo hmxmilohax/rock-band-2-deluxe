@@ -1,0 +1,910 @@
+#define kSaveSignin
+(0)
+#define kSaveSet
+(1)
+#define kSaveDisable
+(2)
+#define kSaveDelete
+(3)
+#define kAutosaveTypePushPop
+(0)
+#define kAutosaveTypePushPopGoto
+(1)
+#define kAutosaveTypeGotoPop
+(2)
+#define kAutosaveTypeGotoGoto
+(3)
+#define SAVE_HELPBAR
+({if
+      {helpbar_dialog is_up}
+      {helpbar_dialog
+         set_config
+         ('' helpbar_select)}
+      {helpbar_dialog set_limit_to_player_num -1}}
+   {script_task
+      kTaskUISeconds
+      (delay 0.5)
+      (script
+         {if
+            {helpbar_dialog is_up}
+            {helpbar_dialog
+               set_config
+               ('' helpbar_select)}
+            {helpbar_dialog set_limit_to_player_num -1}})})
+#define SAVE_HELPBAR_CONTINUE
+({helpbar reset_icons}
+   {if
+      {helpbar_dialog is_up}
+      {helpbar_dialog
+         set_config
+         ('' helpbar_continue)}
+      {helpbar_dialog set_limit_to_player_num -1}}
+   {script_task
+      kTaskUISeconds
+      (delay 0.5)
+      (script
+         {if
+            {helpbar_dialog is_up}
+            {helpbar_dialog
+               set_config
+               ('' helpbar_continue)}
+            {helpbar_dialog set_limit_to_player_num -1}})})
+{func
+   wii_autoload_start
+   ($goto_type $next_screen)
+   {if
+      {&&
+         {! $saveload_ui_is_up}
+         {! $autoload_complete}}
+      {set $save_load_mode kAutoLoad}
+      {set $saveload_goto_type $goto_type}
+      {set $saveload_goto_screen $next_screen}
+      {set $saveload_player_num 0}
+      {wii_saveload_begin_async}
+      {set $autoload_complete TRUE}
+      {ui push_screen auto_load_screen}}}
+{func
+   wii_saveload_begin_async
+   {if
+      $saveload_ui_is_up
+      {fail
+         "wii_saveload_begin called, but $saveload_ui_is_up is already true\n"}}
+   {set
+      $progressive_scan_previous_setting
+      {profile_mgr get_progressive_scan}}
+   {set $saveload_ui_is_up TRUE}}
+{new
+   BandScreen
+   progressive_scan_warning_screen
+   (panels dialog_panel helpbar_dialog)
+   (focus dialog_panel)
+   (enter
+      SAVE_HELPBAR_CONTINUE
+      {helpbar_dialog
+         set_config
+         (""
+            helpbar_select)}
+      {dialog_panel
+         set_yesno
+         {localize_token mc_progressive_scan_warning}
+         no.btn})
+   (SELECT_MSG
+      {switch
+         $component
+         (yes.btn
+            {ui goto_screen progressive_scan_intro_continue_screen})
+         (no.btn
+            {profile_mgr set_progressive_scan FALSE}
+            {goto_next_save_screen})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   progressive_scan_intro_continue_screen
+   (panels dialog_panel helpbar_dialog)
+   (focus dialog_panel)
+   (enter
+      SAVE_HELPBAR_CONTINUE
+      {helpbar_dialog
+         set_config
+         (""
+            helpbar_select)}
+      {dialog_panel
+         set_ok
+         {localize_token progressive_scan_notice}}
+      {dialog_panel
+         set_title
+         {localize_token progressive_scan_notice_title}})
+   (SELECT_MSG
+      {ui goto_screen progressive_scan_intro_confirm_screen})}
+{new
+   BandScreen
+   progressive_scan_intro_confirm_screen
+   PROGRESSIVE_SCAN_CONFIRM_SCREEN
+   (progressive_scan_choice
+      {goto_next_save_screen})}
+{new
+   BandScreen
+   auto_load_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {$this setup_msg mc_auto_load_looking_wii}
+      {$this set_title mc_title_checking}
+      {memcardmgr select_device $saveload_player_num TRUE $this}
+      {memcardmgr load_game $saveload_player_num})
+   (MEMCARD_RESULT_MSG
+      {switch
+         $result
+         (kMCNoError
+            {$this setup_msg mc_auto_load_complete}
+            {$this set_title mc_title_loading}
+            {profile_mgr set_global_options_pad 0}
+            {script_task
+               kTaskUISeconds
+               (delay 0.5)
+               (script
+                  {on_saveload_done kMetaSaveLoaded})})
+         ((kMCCorrupt kMCObsoleteVersion kMCNewerVersion)
+            {ui goto_screen auto_load_corrupt_screen})
+         (kMCFileNotFound
+            {ui goto_screen auto_load_missing_data_screen})
+         (kMCNotEnoughSpace
+            {ui goto_screen load_no_space_screen})
+         (kMCInsufficientInodes
+            {ui goto_screen load_no_inodes_screen})
+         (kMCSystemCorrupt
+            {ui goto_screen load_failed_corrupt_screen})
+         (kMCAccessError
+            {ui goto_screen load_failed_access_screen})
+         (kMCMaxedSysMem
+            {ui goto_screen load_failed_maxed_screen})
+         {ui goto_screen load_failed_screen}})}
+{new
+   BandScreen
+   auto_load_corrupt_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   (enter
+      SAVE_HELPBAR
+      {$this setup_2btn mc_auto_load_corrupt_wii mc_button_continue_no_load mc_button_delete_saves opt1}
+      {$this set_title mc_title_caution})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {ui goto_screen auto_load_corrupt_notify_no_save_screen})
+         (option2.btn
+            {goto_save_screen_with_overwrite})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   auto_load_missing_data_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   (enter
+      SAVE_HELPBAR
+      {$this
+         setup_2btn_localized
+         {localize_token mc_save_missing_data_wii}
+         mc_button_yes
+         mc_button_no
+         opt1}
+      {$this set_title mc_title_saving})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {ui goto_screen save_screen})
+         (option2.btn
+            {ui goto_screen auto_load_missing_notify_no_save_screen})})}
+{new
+   BandScreen
+   auto_load_missing_notify_no_save_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   (enter
+      SAVE_HELPBAR
+      {$this setup_2btn mc_save_autoload_disable_wii mc_button_yes mc_button_cancel opt1}
+      {$this set_title mc_title_caution})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {profile_mgr set_autosave_enabled FALSE}
+            {on_saveload_done kMetaSaveError})
+         (option2.btn
+            {ui goto_screen auto_load_missing_data_screen})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   load_no_space_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   (enter
+      SAVE_HELPBAR
+      {{$this find option1.btn}
+         set
+         caps_mode
+         kCapsModeNone}
+      {{$this find option2.btn}
+         set
+         caps_mode
+         kCapsModeNone}
+      {$this
+         setup_2btn_localized
+         {localize_token mc_save_not_enough_space_wii}
+         mc_button_wii_cont_no_save
+         mc_button_wii_back_to_home
+         opt1}
+      {$this set_title mc_title_caution})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {ui goto_screen load_no_space_notify_no_save_screen})
+         (option2.btn
+            {memcardmgr return_to_DM_menu})}
+      kDataUnhandled)
+   (exit
+      {{$this find option1.btn}
+         set
+         caps_mode
+         kForceUpper}
+      {{$this find option2.btn}
+         set
+         caps_mode
+         kForceUpper})}
+{new
+   BandScreen
+   load_no_inodes_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   (enter
+      SAVE_HELPBAR
+      {{$this find option1.btn}
+         set
+         caps_mode
+         kCapsModeNone}
+      {{$this find option2.btn}
+         set
+         caps_mode
+         kCapsModeNone}
+      {$this
+         setup_2btn_localized
+         {localize_token mc_save_not_enough_inodes_wii}
+         mc_button_wii_cont_no_save
+         mc_button_wii_back_to_home
+         opt1}
+      {$this set_title mc_title_caution})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {ui goto_screen load_no_inodes_notify_no_save_screen})
+         (option2.btn
+            {memcardmgr return_to_DM_menu})}
+      kDataUnhandled)
+   (exit
+      {{$this find option1.btn}
+         set
+         caps_mode
+         kForceUpper}
+      {{$this find option2.btn}
+         set
+         caps_mode
+         kForceUpper})}
+{new
+   BandScreen
+   load_no_space_notify_no_save_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   (enter
+      SAVE_HELPBAR
+      {$this setup_2btn mc_save_autoload_disable_wii mc_button_yes mc_button_cancel opt1}
+      {$this set_title mc_title_caution})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {profile_mgr set_autosave_enabled FALSE}
+            {on_saveload_done kMetaSaveError})
+         (option2.btn
+            {ui goto_screen load_no_space_screen})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   load_no_inodes_notify_no_save_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   (enter
+      SAVE_HELPBAR
+      {$this setup_2btn mc_save_autoload_disable_wii mc_button_yes mc_button_cancel opt1}
+      {$this set_title mc_title_caution})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {profile_mgr set_autosave_enabled FALSE}
+            {on_saveload_done kMetaSaveError})
+         (option2.btn
+            {ui goto_screen load_no_inodes_screen})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   load_failed_corrupt_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   (enter
+      SAVE_HELPBAR_CONTINUE
+      {$this setup_continue mc_sys_corrupt_wii}
+      {$this set_title mc_title_caution})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {on_saveload_done kMetaSaveError})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   load_failed_access_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   (enter
+      SAVE_HELPBAR_CONTINUE
+      {$this setup_continue mc_access_err_wii}
+      {$this set_title mc_title_caution})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {on_saveload_done kMetaSaveError})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   load_failed_maxed_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   (enter
+      SAVE_HELPBAR_CONTINUE
+      {$this setup_continue mc_sys_maxed_wii}
+      {$this set_title mc_title_caution})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {on_saveload_done kMetaSaveError})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   load_failed_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   (enter
+      SAVE_HELPBAR_CONTINUE
+      {$this setup_continue mc_load_failed}
+      {$this set_title mc_title_caution})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {on_saveload_done kMetaSaveError})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   auto_load_corrupt_notify_no_save_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   (enter
+      SAVE_HELPBAR
+      {$this setup_2btn mc_save_autoload_disable_wii mc_button_yes mc_button_cancel opt1}
+      {$this set_title mc_title_caution})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {profile_mgr set_autosave_enabled FALSE}
+            {on_saveload_done kMetaSaveError})
+         (option2.btn
+            {ui goto_screen auto_load_corrupt_screen})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   load_continue_no_save_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   (enter
+      SAVE_HELPBAR_CONTINUE
+      {$this setup_continue mc_autosave_disabled}
+      {$this set_title mc_title_caution})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {profile_mgr set_autosave_enabled FALSE}
+            {on_saveload_done kMetaSaveError})}
+      kDataUnhandled)}
+{func
+   manual_load_start
+   ($player_num)
+   {wii_saveload_begin_async}
+   {set $save_load_mode kManualLoad}
+   {set $saveload_player_num 0}
+   {set $saveload_goto_type kMetaNextTypePushPop}
+   {if_else
+      {profile_mgr has_unsaved_data $player_num}
+      {ui push_screen manual_load_confirm_screen}
+      {ui push_screen manual_load_screen}}}
+{new
+   BandScreen
+   manual_load_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {$this setup_msg mc_auto_load_looking_wii}
+      {$this set_title mc_title_checking}
+      {memcardmgr load_game $player_num})
+   (MEMCARD_RESULT_MSG
+      {switch
+         $result
+         (kMCNoError
+            {$this setup_msg mc_auto_load_complete}
+            {$this set_title mc_title_loading}
+            {profile_mgr set_global_options_pad 0}
+            {script_task
+               kTaskUISeconds
+               (delay 0.5)
+               (script
+                  {on_saveload_done kMetaSaveLoaded})})
+         ((kMCCorrupt kMCObsoleteVersion kMCNewerVersion)
+            {ui goto_screen manual_load_corrupt_screen})
+         (kMCFileNotFound
+            {ui goto_screen manual_load_missing_data_screen})
+         (kMCNotEnoughSpace
+            {ui goto_screen load_no_space_screen})
+         (kMCInsufficientInodes
+            {ui goto_screen load_no_inodes_screen})
+         (kMCSystemCorrupt
+            {ui goto_screen load_failed_corrupt_screen})
+         (kMCAccessError
+            {ui goto_screen load_failed_access_screen})
+         (kMCMaxedSysMem
+            {ui goto_screen load_failed_maxed_screen})
+         {ui goto_screen load_failed_screen}})}
+{new
+   BandScreen
+   manual_load_confirm_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   (enter
+      SAVE_HELPBAR
+      {$this setup_2btn mc_manual_load_confirm_unsaved_wii mc_button_yes mc_button_no opt2}
+      {$this set_title mc_title_caution})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {ui goto_screen manual_load_screen})
+         (option2.btn
+            {on_saveload_done kMetaSaveUnchanged})
+         kDataUnhandled})}
+{new
+   BandScreen
+   manual_load_corrupt_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   (enter
+      SAVE_HELPBAR
+      {$this setup_2btn mc_auto_load_corrupt_wii mc_button_continue_no_load mc_button_delete_saves opt1}
+      {$this set_title mc_title_caution})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {ui goto_screen manual_load_corrupt_notify_no_save_screen})
+         (option2.btn
+            {goto_save_screen_with_overwrite})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   manual_load_corrupt_notify_no_save_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   (enter
+      SAVE_HELPBAR
+      {$this setup_2btn mc_save_autoload_disable_wii mc_button_yes mc_button_cancel opt1}
+      {$this set_title mc_title_caution})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {profile_mgr set_autosave_enabled FALSE}
+            {on_saveload_done kMetaSaveError})
+         (option2.btn
+            {ui goto_screen manual_load_corrupt_screen})}
+      kDataUnhandled)}
+{func
+   wii_autosave_start
+   ($goto_type $next_screen)
+   {if
+      {! $saveload_ui_is_up}
+      {set $save_load_mode kAutoSave}
+      {set $saveload_goto_screen $next_screen}
+      {set $saveload_goto_type $goto_type}
+      {if_else
+         {&&
+            {profile_mgr has_unsaved_data FALSE}
+            {profile_mgr get_should_autosave}}
+         {do
+            {wii_saveload_begin_async}
+            {set $saveload_player_num 0}
+            {switch
+               $saveload_goto_type
+               ((kMetaNextTypeGotoPop kMetaNextTypeGotoGoto kMetaNextTypeGotoPopGoto)
+                  {goto_save_screen_with_overwrite})
+               {push_save_screen_with_overwrite}}}
+         {wii_saveload_cleanup_and_shutdown}}}}
+{new
+   BandScreen
+   save_screen
+   SAVELOAD_DIALOG_SCREEN
+   (overwrite 0)
+   (enter_time 0.0)
+   (save_time 0.0)
+   (done_saving FALSE)
+   (done_polling FALSE)
+   (long FALSE)
+   (enter
+      {if
+         {helpbar is_up}
+         {helpbar hide_helpbar}}
+      {set
+         [enter_time]
+         {taskmgr ui_seconds}}
+      {set
+         [save_time]
+         0.0}
+      {set
+         [done_saving]
+         FALSE}
+      {set
+         [done_polling]
+         FALSE}
+      {$this setup_msg mc_save_wii}
+      {$this set_title mc_title_saving}
+      {memcardmgr
+         save_game
+         $saveload_player_num
+         [overwrite]})
+   (exit
+      {if
+         {helpbar is_up}
+         {helpbar unhide_helpbar}})
+   (MEMCARD_RESULT_MSG
+      {switch
+         $result
+         (kMCNoError
+            {set
+               [done_saving]
+               TRUE}
+            {set
+               [save_time]
+               {taskmgr ui_seconds}}
+            {ui goto_screen save_complete_screen})
+         (kMCFileExists
+            {set
+               [done_polling]
+               TRUE}
+            {ui goto_screen save_confirm_overwrite_screen})
+         (kMCNotEnoughSpace
+            {set
+               [done_polling]
+               TRUE}
+            {ui goto_screen save_not_enough_space_screen})
+         (kMCInsufficientInodes
+            {set
+               [done_polling]
+               TRUE}
+            {ui goto_screen save_not_enough_inodes_screen})
+         (kMCSystemCorrupt
+            {set
+               [done_polling]
+               TRUE}
+            {ui goto_screen save_failed_corrupt_screen})
+         (kMCAccessError
+            {set
+               [done_polling]
+               TRUE}
+            {ui goto_screen save_failed_access_screen})
+         (kMCMaxedSysMem
+            {set
+               [done_polling]
+               TRUE}
+            {ui goto_screen save_failed_maxed_screen})
+         {set
+            [done_polling]
+            TRUE}
+         {ui goto_screen save_failed_screen}})}
+{new
+   BandScreen
+   save_failed_maxed_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   (enter
+      SAVE_HELPBAR_CONTINUE
+      {$this setup_continue mc_sys_maxed_wii}
+      {$this set_title mc_title_caution})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {profile_mgr set_autosave_enabled FALSE}
+            {on_saveload_done kMetaSaveError})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   save_failed_access_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   (enter
+      SAVE_HELPBAR_CONTINUE
+      {$this setup_continue mc_access_err_wii}
+      {$this set_title mc_title_caution})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {profile_mgr set_autosave_enabled FALSE}
+            {on_saveload_done kMetaSaveError})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   save_failed_corrupt_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   (enter
+      SAVE_HELPBAR_CONTINUE
+      {$this setup_continue mc_sys_corrupt_wii}
+      {$this set_title mc_title_caution})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {profile_mgr set_autosave_enabled FALSE}
+            {on_saveload_done kMetaSaveError})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   save_failed_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   (enter
+      SAVE_HELPBAR_CONTINUE
+      {$this setup_continue mc_save_failed_wii}
+      {$this set_title mc_title_caution})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {profile_mgr set_autosave_enabled FALSE}
+            {on_saveload_done kMetaSaveError})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   save_complete_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {if
+         {helpbar is_up}
+         {helpbar hide_helpbar}}
+      {$this setup_msg mc_save_complete}
+      {$this set_title mc_title_saving})
+   (TRANSITION_COMPLETE_MSG
+      {script_task
+         kTaskUISeconds
+         (delay 0.5)
+         (script
+            {do
+               {if
+                  {helpbar is_up}
+                  {helpbar unhide_helpbar}}
+               {on_saveload_done kMetaSaveLoaded}})})
+   (exit
+      {if
+         {helpbar is_up}
+         {helpbar unhide_helpbar}})}
+{new
+   BandScreen
+   manual_load_missing_data_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   (enter
+      SAVE_HELPBAR
+      {$this
+         setup_2btn_localized
+         {localize_token mc_save_missing_data_wii}
+         mc_button_yes
+         mc_button_no
+         opt1}
+      {$this set_title mc_title_saving})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {ui goto_screen save_screen})
+         (option2.btn
+            {ui goto_screen auto_load_missing_notify_no_save_screen})})}
+{func
+   manual_save_start
+   ($player_num)
+   {wii_saveload_begin_async}
+   {set $save_load_mode kManualSave}
+   {set $saveload_player_num 0}
+   {set $saveload_goto_type kMetaNextTypePushPop}
+   {push_save_screen_no_overwrite}}
+{new
+   BandScreen
+   save_not_enough_space_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   (enter
+      SAVE_HELPBAR
+      {{$this find option1.btn}
+         set
+         caps_mode
+         kCapsModeNone}
+      {{$this find option2.btn}
+         set
+         caps_mode
+         kCapsModeNone}
+      {$this
+         setup_2btn_localized
+         {localize_token mc_save_not_enough_space_wii}
+         mc_button_wii_cont_no_save
+         mc_button_wii_back_to_home
+         opt1}
+      {$this set_title mc_title_caution})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {ui goto_screen not_enough_space_save_screen})
+         (option2.btn
+            {memcardmgr return_to_DM_menu})}
+      kDataUnhandled)
+   (exit
+      {{$this find option1.btn}
+         set
+         caps_mode
+         kForceUpper}
+      {{$this find option2.btn}
+         set
+         caps_mode
+         kForceUpper})}
+{new
+   BandScreen
+   save_not_enough_inodes_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   (enter
+      SAVE_HELPBAR
+      {{$this find option1.btn}
+         set
+         caps_mode
+         kCapsModeNone}
+      {{$this find option2.btn}
+         set
+         caps_mode
+         kCapsModeNone}
+      {$this
+         setup_2btn_localized
+         {localize_token mc_save_not_enough_inodes_wii}
+         mc_button_wii_cont_no_save
+         mc_button_wii_back_to_home
+         opt1}
+      {$this set_title mc_title_caution})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {ui goto_screen not_enough_inodes_save_screen})
+         (option2.btn
+            {memcardmgr return_to_DM_menu})}
+      kDataUnhandled)
+   (exit
+      {{$this find option1.btn}
+         set
+         caps_mode
+         kForceUpper}
+      {{$this find option2.btn}
+         set
+         caps_mode
+         kForceUpper})}
+{new
+   BandScreen
+   not_enough_space_save_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   (enter
+      SAVE_HELPBAR
+      {$this setup_2btn mc_save_autoload_disable_wii mc_button_yes mc_button_cancel opt1}
+      {$this set_title mc_title_caution})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {profile_mgr set_autosave_enabled FALSE}
+            {on_saveload_done kMetaSaveError})
+         (option2.btn
+            {ui goto_screen save_not_enough_space_screen})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   not_enough_inodes_save_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   (enter
+      SAVE_HELPBAR
+      {$this setup_2btn mc_save_autoload_disable_wii mc_button_yes mc_button_cancel opt1}
+      {$this set_title mc_title_caution})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {profile_mgr set_autosave_enabled FALSE}
+            {on_saveload_done kMetaSaveError})
+         (option2.btn
+            {ui goto_screen save_not_enough_inodes_screen})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   save_confirm_overwrite_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   (enter
+      SAVE_HELPBAR
+      {if
+         {helpbar is_up}
+         {helpbar hide_helpbar}}
+      {$this setup_2btn mc_save_confirm_overwrite mc_button_yes mc_button_no opt2}
+      {$this set_title mc_title_caution})
+   (exit
+      {helpbar unhide_helpbar})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {$this clear_all}
+            {goto_save_screen_with_overwrite})
+         (option2.btn
+            {$this clear_all}
+            {on_saveload_done kMetaSaveUnchanged})}
+      kDataUnhandled)}
+{func
+   goto_save_screen_no_overwrite
+   {save_screen set overwrite FALSE}
+   {ui goto_screen save_screen}}
+{func
+   goto_save_screen_with_overwrite
+   {save_screen set overwrite TRUE}
+   {ui goto_screen save_screen}}
+{func
+   push_save_screen_no_overwrite
+   {save_screen set overwrite FALSE}
+   {ui push_screen save_screen}}
+{func
+   push_save_screen_with_overwrite
+   {save_screen set overwrite TRUE}
+   {ui push_screen save_screen}}
+{func
+   on_saveload_done
+   ($state)
+   {memcardmgr saveload_profile_complete $saveload_player_num $state}
+   {wii_saveload_cleanup_and_shutdown}}
+{func
+   wii_saveload_cleanup_and_shutdown
+   {memcardmgr saveload_all_complete}
+   {if_else
+      {&&
+         {'||'
+            {== $save_load_mode kManualLoad}
+            {== $save_load_mode kAutoLoad}}
+         {profile_mgr get_progressive_scan}
+         {!=
+            {profile_mgr get_progressive_scan}
+            $progressive_scan_previous_setting}}
+      {goto_next_save_screen}
+      {goto_next_save_screen}}}
+{func
+   goto_next_save_screen
+   {if_else
+      $saveload_ui_is_up
+      {do
+         {switch
+            $saveload_goto_type
+            ((kMetaNextTypePushPopGoto kMetaNextTypeGotoPopGoto)
+               {ui pop_screen $saveload_goto_screen})
+            (kMetaNextTypeGotoGoto
+               {ui goto_screen $saveload_goto_screen})
+            {ui pop_screen}}
+         {set $saveload_ui_is_up FALSE}}
+      {do
+         {switch
+            $saveload_goto_type
+            ((kMetaNextTypePushPopGoto kMetaNextTypeGotoGoto)
+               {ui goto_screen $saveload_goto_screen})
+            (kMetaNextTypeGotoPopGoto
+               {ui pop_screen $saveload_goto_screen})
+            (kMetaNextTypeGotoPop
+               {ui pop_screen})}}}}

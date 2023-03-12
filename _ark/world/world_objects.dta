@@ -96,7 +96,7 @@
             "Flags defining CameraShot behavior"))))
 (EventTrigger
    (supported_events
-      (start p0_hit p1_hit p2_hit p3_hit excitement_bad excitement_okay excitement_great excitement_peak intro_start intro_end kick_drum snare_drum crash_hit bass_hit post_switch_cam music_start game_lost game_won game_won_band0 game_won_band1 game_won_tie game_won_finale verse chorus bonusfx bonusfx_optional bre_success spotlight_bass_on spotlight_bass_off spotlight_drums_on spotlight_drums_off spotlight_guitar_on spotlight_guitar_off spotlight_vocal_on spotlight_vocal_off spotlight_h2h_p1_on spotlight_h2h_p1_off spotlight_h2h_p2_on spotlight_h2h_p2_off lighting_INTRO lighting_WIN lighting_LOSE lighting_VERSE lighting_CHORUS lighting_blackout_fast lighting_blackout_slow lighting_dischord lighting_flare_fast lighting_flare_slow lighting_frenzy lighting_harmony lighting_manual_cool lighting_manual_warm lighting_searchlights lighting_silhouettes lighting_stomp lighting_strobe_fast lighting_strobe_slow lighting_sweep lighting_loop_cool lighting_loop_warm lighting_win_bre lighting_bre mode_coop mode_h2hb mode_h2hd mode_h2hg mode_h2hv))
+      (start p0_hit p1_hit p2_hit p3_hit excitement_bad excitement_okay excitement_great excitement_peak intro_start intro_end kick_drum snare_drum crash_hit bass_hit post_switch_cam music_start game_lost game_won game_won_band0 game_won_band1 game_won_tie verse chorus bonusfx bonusfx_optional bre_success spotlight_bass_on spotlight_bass_off spotlight_drums_on spotlight_drums_off spotlight_guitar_on spotlight_guitar_off spotlight_vocal_on spotlight_vocal_off spotlight_h2h_p1_on spotlight_h2h_p1_off spotlight_h2h_p2_on spotlight_h2h_p2_off lighting_INTRO lighting_WIN lighting_LOSE lighting_VERSE lighting_CHORUS lighting_blackout_fast lighting_blackout_slow lighting_dischord lighting_flare_fast lighting_flare_slow lighting_frenzy lighting_harmony lighting_manual_cool lighting_manual_warm lighting_searchlights lighting_silhouettes lighting_stomp lighting_strobe_fast lighting_strobe_slow lighting_sweep lighting_loop_cool lighting_loop_warm lighting_win_bre lighting_bre mode_coop mode_h2hb mode_h2hd mode_h2hg mode_h2hv))
    (types
       (toggler
          (editor
@@ -129,9 +129,9 @@
                   (script
                      {[enable]
                         enable})}}))
-      (endgame_action
-         (supported_events
-            (endgame_swing_drum_0 endgame_swing_drum_1 endgame_swing_drum_2 endgame_swing_drum_3 endgame_swing_drum_4 endgame_swing_bass_0 endgame_swing_bass_1 endgame_swing_bass_2 endgame_swing_bass_3 endgame_swing_bass_4 endgame_swing_guitar_0 endgame_swing_guitar_1 endgame_swing_guitar_2 endgame_swing_guitar_3 endgame_swing_guitar_4 endgame_vocals_none endgame_vocals_low endgame_vocals_medium endgame_vocals_high #ifdef HX_WII endgame_start #endif)))
+      (endgamesequence
+         (trigger
+            {$world win_final_start_load}))
       (backlight
          (editor
             (tex1
@@ -218,9 +218,7 @@
          ("looping"
             [looping])
          ("manual"
-            [manual])
-         ("platform_only"
-            [platform_only])))
+            [manual])))
    (types
       (target_animator
          (editor
@@ -739,30 +737,22 @@
                      {has_substr
                         {$lbl name}
                         "bandname"}
-                     {if
-                        {&&
-                           {exists tour}
-                           {tour band}}
-                        {$lbl
-                           set_localized
-                           {gamemode get band_name}}}}}
-               {if
-                  {&&
-                     {exists tour}
-                     {tour band}}
-                  {set
-                     $logopatch
-                     {gamemode get band_logo}}
-                  {unless
-                     $logopatch
-                     {if
-                        {&&
-                           {exists bandlogo_default.tex}
-                           {exists bandlogo_target.tex}}
-                        {bandlogo_target.tex
-                           iterate_refs
-                           $ref
-                           {$ref set diffuse_tex bandlogo_default.tex}}}}}}))
+                     {$lbl
+                        set_localized
+                        {gamemode get band_name}}}}
+               {set
+                  $logopatch
+                  {gamemode get band_logo}}
+               {unless
+                  $logopatch
+                  {if
+                     {&&
+                        {exists bandlogo_default.tex}
+                        {exists bandlogo_target.tex}}
+                     {bandlogo_target.tex
+                        iterate_refs
+                        $ref
+                        {$ref set diffuse_tex bandlogo_default.tex}}}}}))
       (color_passthrough
          (editor
             (color1 color)
@@ -894,118 +884,7 @@
          WORLD_OBJECT_VALIDATE)
       (variant
          (editor WORLD_OBJECT_EDITOR_COMMON WORLD_MODE_EDITOR_COMMON)
-         WORLD_OBJECT_BASE
-         (sync_objects
-            {if
-               {exists gamecfg}
-               {$this
-                  camera_random_seed
-                  {gamecfg get net_random_seed}}
-               {$this
-                  iterate
-                  BandCamShot
-                  $shot
-                  {with
-                     $shot
-#ifdef HX_WII
-                     {unless
-                        $composite_character_swap_gender
-                        {do
-                           ($player
-                              {dircut_gender_genre_focus $this})
-                           ($flags 0)
-                           {if
-                              $player
-                              {set
-                                 $flags
-                                 {'|'
-                                    {switch
-                                       {$player get gender}
-                                       (male kValidMale)
-                                       (female kValidFemale)}
-                                    {$player get attitude}}}
-                              {if
-                                 {!=
-                                    {&
-                                       [flags]
-                                       $flags}
-                                    $flags}
-                                 {set
-                                    [enabled]
-                                    FALSE}}}}}
-#else
-                     {do
-                        ($player
-                           {dircut_gender_genre_focus $this})
-                        ($flags 0)
-                        {if
-                           $player
-                           {set
-                              $flags
-                              {'|'
-                                 {switch
-                                    {$player get gender}
-                                    (male kValidMale)
-                                    (female kValidFemale)}
-                                 {$player get attitude}}}
-                           {if
-                              {!=
-                                 {&
-                                    [flags]
-                                    $flags}
-                                 $flags}
-                              {set
-                                 [enabled]
-                                 FALSE}}}}
-#endif
-                     {if
-                        {==
-                           [category]
-                           NORMAL}
-                        {switch
-                           $game.play_mode
-                           (coop
-                              {set
-                                 [category]
-                                 {sprint
-                                    "NORMAL"
-                                    [bass_focus]
-                                    [drums_focus]
-                                    [guitar_focus]
-                                    [vocal_focus]}}
-                              {if
-                                 {&
-                                    [flags]
-                                    kBCSBDistFar}
-                                 {set
-                                    [category]
-                                    "NORMAL1111"}})
-                           (h2h_drum
-                              {set
-                                 [category]
-                                 {sprint
-                                    "NORMAL"
-                                    [drums2_focus]
-                                    [drums_focus]
-                                    [guitar_focus]
-                                    [vocal_focus]}})
-                           (h2h_vocals
-                              {set
-                                 [category]
-                                 {sprint
-                                    "NORMAL"
-                                    [vocal2_focus]
-                                    [drums_focus]
-                                    [guitar_focus]
-                                    [vocal_focus]}})
-                           {set
-                              [category]
-                              {sprint
-                                 "NORMAL"
-                                 [guitar2_focus]
-                                 [drums_focus]
-                                 [guitar_focus]
-                                 [vocal_focus]}}}}}}}))
+         WORLD_OBJECT_BASE)
       (blank_variant
          (editor WORLD_OBJECT_EDITOR_COMMON)
          WORLD_OBJECT_BASE)
@@ -1046,57 +925,27 @@
                      {has_substr
                         {$lbl name}
                         "bandname"}
-                     {if
-                        {&&
-                           {exists tour}
-                           {tour band}}
-                        {$lbl
-                           set_localized
-                           {gamemode get band_name}}}}}
-               #ifdef HX_WII
+                     {$lbl
+                        set_localized
+                        {gamemode get band_name}}}}
                {if
-                  {exists bandlogo_target.tex}
+                  {exists bandlogo.patch}
                   {set
                      $logopatch
                      {gamemode get band_logo}}
                   {if_else
                      $logopatch
+                     {bandlogo.patch set proxy $logopatch}
                      {do
-                        {bandlogo_target.tex set_bitmap $logopatch}}
-                     {do
-                        {set $tex bandlogo_target.tex}
+                        {set
+                           $tex
+                           {bandlogo.patch get output_texture}}
                         {if
                            $tex
                            {$tex
                               iterate_refs
                               $ref
-                              {$ref set diffuse_tex bandlogo_default.tex}}}}}}
-               #else
-               {if
-                  {exists bandlogo.patch}
-                  {if
-                     {&&
-                        {exists tour}
-                        {tour band}}
-                     {set
-                        $logopatch
-                        {gamemode get band_logo}}
-                     {if_else
-                        $logopatch
-                        {bandlogo.patch set proxy $logopatch}
-                        {do
-                           {set
-                              $tex
-                              {bandlogo.patch get output_texture}}
-                           {if
-                              {&&
-                                 $tex
-                                 {exists bandlogo_default.tex}}
-                              {$tex
-                                 iterate_refs
-                                 $ref
-                                 {$ref set diffuse_tex bandlogo_default.tex}}}}}}}
-               #endif})
+                              {$ref set diffuse_tex bandlogo_default.tex}}}}}}})
          (update_postproc
             {if
                $edit_mode
@@ -1104,8 +953,4 @@
                   [postprocess]
                   {[postprocess]
                      select}
-                  {rnd reset_postproc}}})
-#ifndef HX_WII
-         (player_saved
-            ($savior))
-#endif)))
+                  {rnd reset_postproc}}}))))

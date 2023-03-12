@@ -1,0 +1,257 @@
+#define VOCAL_OPTIONS_PANEL_HANDERS
+((signin_change_waiting FALSE)
+   (original_hud kVocalStyleScrolling)
+   (enter
+      #ifdef HX_WII
+      {disc_error_check TRUE}
+      #endif
+      {$this update_all_from_profile}
+      {session add_sink $this signin_changed}
+      {memcardmgr add_sink $this save_load_all_complete_msg}
+      {set_up_instrument_and_gamertag
+         [player_num]}
+      {helpbar
+         set_limit_to_player_num
+         [player_num]})
+   (exit
+      {session remove_sink $this signin_changed}
+      {memcardmgr remove_sink $this save_load_all_complete_msg}
+      {helpbar set_limit_to_player_num -1}
+      #ifdef HX_WII
+      {disc_error_check FALSE}
+      #endif)
+   (TRANSITION_COMPLETE_MSG
+      COMMON_TRANSITION_HANDLERS_FOR_SIGN_OUT
+      {$this
+         update_helpbar
+         {$this focus_name}})
+   (save_load_all_complete_msg
+      {$this update_all_from_profile})
+   (BUTTON_DOWN_MSG
+      {if_else
+         {&&
+            {!=
+               [player_num]
+               -1}
+            {!=
+               [player_num]
+               $player_num}}
+         TRUE
+         {switch
+            {$this focus_name}
+            (vocalhudtype.lst
+               {switch
+                  $button
+                  (kPad_X
+                     {vocalhudtype.lst confirm}
+                     {$this set_focus vocalstyle.btn})
+                  (kPad_Tri
+                     {vocalhudtype.lst undo $player_num}
+                     {$this set_focus vocalstyle.btn})
+                  kDataUnhandled})
+            (mic_gain.sld
+               {switch
+                  $button
+                  (kPad_X
+                     {mic_gain.sld confirm}
+                     {$this set_focus mic_gain.btn})
+                  (kPad_Tri
+                     {mic_gain.sld undo $player_num}
+                     {$this set_focus mic_gain.btn})
+                  kDataUnhandled})
+            (mic_level.sld
+               {switch
+                  $button
+                  (kPad_X
+                     {mic_level.sld confirm}
+                     {$this set_focus mic_level.btn})
+                  (kPad_Tri
+                     {mic_level.sld undo $player_num}
+                     {$this set_focus mic_level.btn})
+                  kDataUnhandled})
+            (cue_level.sld
+               {switch
+                  $button
+                  (kPad_X
+                     {cue_level.sld confirm}
+                     {$this set_focus cue_level.btn})
+                  (kPad_Tri
+                     {cue_level.sld undo $player_num}
+                     {$this set_focus cue_level.btn})
+                  kDataUnhandled})
+            kDataUnhandled}})
+   (SELECT_MSG
+      {switch
+         $component
+         (mic_gain.btn
+            {mic_gain.sld store}
+            {$this set_focus mic_gain.sld})
+         (mic_level.btn
+            {mic_level.sld store}
+            {$this set_focus mic_level.sld})
+         (cue_level.btn
+            {cue_level.sld store}
+            {$this set_focus cue_level.sld})
+         (audio_options.btn
+            {ui goto_screen vocals_audio_screen})})
+   (FOCUS_MSG
+      {$this update_helpbar $new_focus})
+   (SCROLL_SELECT_MSG
+      {if_else
+         $selected
+         {helpbar
+            set_config
+            ((cancel helpbar_cancel)
+               (confirm helpbar_confirm))}
+         {do
+            {$this update_helpbar $component}
+            {$this on_slider_change $component}}})
+   (update_helpbar
+      ($component)
+      {switch
+         $component
+         ((vocalstyle.btn mic_gain.btn mic_level.btn cue_level.btn)
+            {helpbar
+               set_config
+               ((cancel helpbar_back)
+                  (confirm helpbar_changesetting))})
+         ((mic_gain.sld mic_level.sld cue_level.sld)
+            {helpbar
+               set_config
+               ((cancel helpbar_cancel)
+                  (confirm helpbar_confirmsetting))})
+         (audio_options.btn
+            {helpbar
+               set_config
+               ((cancel helpbar_back)
+                  (confirm helpbar_select))})
+         FAIL})
+   (SCROLL_MSG
+      {$this on_slider_change $component})
+   (on_slider_change
+      ($component)
+      {switch
+         $component
+         (mic_gain.sld
+            {profile_mgr set_dirty TRUE}
+            {{profile_mgr
+                  get_char_options_from_player
+                  [player_num]}
+               set_mic_gain
+               {$component current}}
+            {profile_mgr
+               update_mic_gain
+               [player_num]})
+         (mic_level.sld
+            {profile_mgr set_dirty TRUE}
+            {{profile_mgr
+                  get_char_options_from_player
+                  [player_num]}
+               set_vocal_volume
+               {$component current}}
+            {profile_mgr
+               update_vocal_volume
+               [player_num]})
+         (cue_level.sld
+            {profile_mgr set_dirty TRUE}
+            {profile_mgr
+               set_vocal_cue_volume
+               {$component current}})})
+   (update_all_from_profile
+      {$this
+         iterate
+         UISlider
+         $s
+         {$s set_num_steps 12}
+         {$this update_from_profile $s}})
+   (update_from_profile
+      ($component)
+      {switch
+         $component
+         (mic_gain.sld
+            {$component
+               set_current
+               {{profile_mgr
+                     get_char_options_from_player
+                     [player_num]}
+                  get_mic_gain}})
+         (mic_level.sld
+            {$component
+               set_current
+               {{profile_mgr
+                     get_char_options_from_player
+                     [player_num]}
+                  get_vocal_volume}})
+         (cue_level.sld
+            {$component
+               set_current
+               {profile_mgr get_vocal_cue_volume}})})
+   (signin_changed
+      {autoload})
+   (process_signin_change
+      {if
+         {'||'
+            {==
+               {ui current_screen}
+               vocal_options_screen}
+            {==
+               {ui current_screen}
+               pause_vocal_options_screen}}
+         {ui push_screen option_profile_change_warning_screen}}))
+{new
+   UIPanel
+   vocal_options_panel
+   (file
+      "options_vocal_og.milo")
+   (focus mic_gain.btn)
+   (player_num -1)
+   VOCAL_OPTIONS_PANEL_HANDERS
+   (JOYPAD_CONNECT_MSG
+      {if
+         {&&
+            $connected
+            {==
+               $player_num
+               [player_num]}}
+         {set_up_instrument_and_gamertag
+            [player_num]}}
+      kDataUnhandled)}
+{new
+   UIScreen
+   vocal_options_screen
+   (panels meta menu_background_movie_panel vocal_options_panel)
+   (focus vocal_options_panel)
+   (back options_audio_screen)}
+{new
+   UIPanel
+   pause_vocal_options_panel
+   (file
+      "pause_options_vocal.milo")
+   VOCAL_OPTIONS_PANEL_HANDERS
+   (focus mic_gain.btn)
+   (player_num -1)
+   (JOYPAD_CONNECT_MSG
+      {if
+         {&&
+            $connected
+            {==
+               $player_num
+               [player_num]}}
+         {set_up_instrument_and_gamertag
+            [player_num]}}
+      kDataUnhandled)}
+{new
+   UIScreen
+   pause_vocal_options_screen
+   (panels pause_bg_panel pause_vocal_options_panel)
+   (focus pause_vocal_options_panel)
+   (back pause_screen)
+   (JOYPAD_CONNECT_MSG
+      {if
+         {&&
+            {! $connected}
+            {==
+               $player_num
+               {vocal_options_panel get player_num}}}
+         {pause_panel set cancel_pause TRUE}
+         {ui goto_screen pause_screen}})}

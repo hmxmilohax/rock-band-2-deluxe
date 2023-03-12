@@ -1,0 +1,373 @@
+{new
+   UIPanel
+   tour_lower3rd_panel
+   (file
+      "../tour_band_lower3rd_og.milo")}
+{new
+   TourChallengeTierPanel
+   tour_challenge_tier_panel
+   (file
+      "tour_challenge_tier.milo")
+   LIMIT_TO_SESSION
+   (BUTTON_DOWN_MSG
+      {if_else
+         {&&
+            {== $button kPad_X}
+            {!
+               {$this
+                  has_available
+                  {{tour_challenge_tier_render find tiers.lst}
+                     selected_pos}}}}
+         {synth play button_error}
+         kDataUnhandled})
+   (SELECT_MSG
+      {ui goto_screen tour_challenge_screen})
+   (enter
+      {$this
+         set_focus
+         {tour_challenge_tier_render find tiers.lst}})}
+{new
+   BandScreen
+   tour_challenge_tier_screen
+   (panels meta practice_drum_panel tour_challenge_tier_panel tour_lower3rd_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (focus tour_challenge_tier_panel)
+   (back matchmaking_band_transition)
+   (enter
+      {helpbar set_limit_to_session TRUE})}
+#define TOUR_CHALLENGE_PANEL
+((new_challenges FALSE)
+   (file
+      "tour_challenge.milo")
+   (focus
+      "challenges.lst")
+   (BUTTON_DOWN_MSG
+      {if_else
+         {&&
+            {== $button kPad_X}
+            {==
+               {{tour performer}
+                  challenge_status
+                  {$this selected_event}}
+               kTourLocked}}
+         {synth play button_error}
+         kDataUnhandled}))
+{new
+   TourChallengePanel
+   tour_challenge_panel
+   TOUR_CHALLENGE_PANEL
+   LIMIT_TO_SESSION
+   (register_for_content TRUE)
+   (SELECT_MSG
+      {ui goto_screen tour_challenge_details_screen})
+   (enter
+      {helpbar set_limit_to_session TRUE})
+   (refresh)}
+{new
+   BandScreen
+   tour_challenge_screen
+   (panels meta tour_challenge_panel tour_lower3rd_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (focus tour_challenge_panel)
+   (back tour_challenge_tier_screen)
+   (enter)}
+{new
+   TourChallengeDetailsPanel
+   tour_challenge_details_panel
+   (file
+      "tour_challenge_details.milo")
+   LIMIT_TO_SESSION
+   (enter
+      {do
+         ($event
+            {{tour performer}
+               event_challenge})
+         ($band
+            {tour performer})
+         {name.lbl
+            set_localized
+            {$event display_name}}
+         {description.lbl
+            set_localized
+            {$event description}}
+         {songs.lst
+            set_provider
+            {$this song_provider}}
+         {$this
+            set_focus
+            {$this find songs.lst}}
+         {do
+            ($met
+               {$band challenge_event_reqs $event})
+            ($status
+               {$band challenge_status $event})
+            {requirements.grp
+               set_showing
+               {! $met}}
+            {unless
+               $met
+               {do
+                  ($p
+                     {tour requirement_provider})
+                  {$p set_by_challenge $band $event}
+                  {requirements.lst set_provider $p}}}
+            {unlock.grp set_showing $met}
+            {if
+               $met
+               {do
+                  ($num_new
+                     {$band num_new_challenges $event})
+                  {unlock_challenge.lbl set_showing $num_new}
+                  {unlock_challenge.lbl
+                     set_localized
+                     {sprintf
+                        {localize
+                           {if_else
+                              {== $num_new 1}
+                              tour_challenge_num_new_singular
+                              tour_challenge_num_new}}
+                        $num_new}}
+                  {unlock_char.lbl set_showing FALSE}
+                  {unlock.grp
+                     set_showing
+                     {unlock_challenge.lbl showing}}}}
+            {played.grp
+               set_showing
+               {== $status kTourPlayed}}
+            {if
+               {== $status kTourPlayed}
+               {playerdiff.pdiff
+                  set
+                  num_players
+                  {$band challenge_max_players $event}}
+               {playerdiff.pdiff
+                  set
+                  diff
+                  {$band challenge_max_diff $event}}
+               {stars.lbl
+                  set_localized
+                  {sprintf
+                     "%i/%i"
+                     {$band challenge_stars $event}
+                     {$event total_stars}}}}}})
+   (BUTTON_DOWN_MSG
+      {if_else
+         {== $button kPad_X}
+         {if_else
+            {{tour performer}
+               challenge_event_reqs
+               {{tour performer}
+                  event_challenge}}
+            {do
+               {synth play button_select}
+               {{tour performer}
+                  confirm_event}
+               {ui goto_screen tour_challenge_seldiff_screen}}
+            {do
+               {synth play button_error}
+               {requirements.lst animate_elements TRUE}}}
+         kDataUnhandled})}
+{new
+   BandScreen
+   tour_challenge_details_screen
+   (panels meta tour_challenge_details_panel tour_lower3rd_panel)
+   (focus tour_challenge_details_panel)
+   (back tour_challenge_screen)
+   (helpbar
+      {if_else
+         {{tour performer}
+            is_local}
+         {if_else
+            {==
+               {{tour performer}
+                  challenge_status
+                  {{tour performer}
+                     event_challenge}}
+               kTourLocked}
+            ((cancel helpbar_back))
+            ((cancel helpbar_back)
+               (confirm tour_challenge_play))}
+         ()})
+   (enter
+      {helpbar set_limit_to_session TRUE})}
+{new
+   TourChallengePanel
+   tour_challenge_complete_panel
+   (new_challenges TRUE)
+   (file
+      "tour_challenge_complete.milo")
+   LIMIT_TO_SESSION
+   (focus
+      "")
+   (register_for_content TRUE)
+   (BUTTON_DOWN_MSG
+      {if
+         {== $button kPad_X}
+         {synth play button_select}
+         {unless
+            {$this skip}
+            {ui goto_screen meta_loading_continue_screen}}}
+      kDataUnhandled)
+   (enter
+      {do
+         ($band
+            {tour performer})
+         ($event
+            {{tour performer}
+               event_challenge})
+         ($num_new
+            {$band num_new_challenge_unlocks})
+         {{tour performer}
+            complete_event}
+         {{tour performer}
+            unlock_new_challenge_songs}
+         {stars.lbl
+            set_localized
+            {sprintf
+               "%i/%i"
+               {$band challenge_stars $event}
+               {$event total_stars}}}
+         {heading.lbl
+            set_localized
+            {localize tour_challenge_complete}}
+         {challenge.grp set_showing TRUE}
+         {botb.grp set_showing FALSE}
+         {if
+            $num_new
+            {$this
+               add_item
+               "U"
+               {localize tour_challenge_complete_num_new}
+               get_unlock.cue
+               0
+               $num_new}}
+         {$this play}})}
+{new
+   BandScreen
+   tour_challenge_complete_screen
+   #ifdef HX_XBOX
+   (panels tour_challenge_complete_panel)
+   #else
+   (panels endgame_background_panel tour_challenge_complete_panel)
+   #endif
+   (focus tour_challenge_complete_panel)
+   (helpbar
+      {if_else
+         {is_leader_local}
+         ((confirm tour_hb_challenge_return))
+         ()})
+   (allow_remote_exit TRUE)
+   (scroll_sfx FALSE)}
+{new
+   UIPanel
+   tour_retry_panel
+   (file
+      "../tour_retry.milo")
+   LIMIT_TO_SESSION
+   (focus retry.btn)
+   (reset_focus TRUE)
+   (enter
+      {song.lbl
+         set_localized
+         {song_mgr
+            song_name
+            {meta_performer song}}}
+      {do
+         ($mp
+            {beatmatch main_performer})
+         {song_progress.lbl
+            set_localized
+            {sprintf
+               {localize percent_complete_format}
+               {$mp percent_complete}}}
+         {song_section.lbl
+            set
+            text_token
+            {beatmatch
+               get_section_at_ms
+               {{beatmatch main_performer}
+                  poll_ms}}}}
+      {if_else
+         {gamemode get is_tour}
+         {do
+            ($change
+               {{tour performer}
+                  fans_change
+                  TRUE})
+            {if
+               {> $change 0}
+               {notify
+                  "Song lost, but fans gained??? "
+                  $change}}
+            {buzz.lbl set_showing $change}
+            {buzz.lbl
+               set_localized
+               {sprintf
+                  {localize tour_band_fans_lost}
+                  {localize_separated_int
+                     {abs $change}}}}}
+         {buzz.lbl set_showing FALSE}}
+      {if_else
+         {gamemode get show_practice_on_lose}
+         {do
+            {practice.btn set_showing TRUE}
+            {$this enable practice.btn}}
+         {do
+            {practice.btn set_showing FALSE}
+            {$this disable practice.btn}}})
+   (SELECT_MSG
+      {switch
+         $component
+         (retry.btn
+            #ifndef HX_EE
+            {game send_restart_game_net_msg}
+            #endif
+            {game_restart})
+         (quit.btn
+            {tour_lose_confirm_quit_screen
+               set
+               return_screen
+               {ui current_screen}}
+            {tour_lose_confirm_quit_screen set confirm_screen meta_loading_continue_screen}
+            {tour_lose_confirm_quit_screen set from_challenges FALSE}
+            {ui goto_screen tour_lose_confirm_quit_screen})
+         (practice.btn
+            {tour_lose_confirm_quit_screen
+               set
+               return_screen
+               {ui current_screen}}
+            {tour_lose_confirm_quit_screen
+               set
+               confirm_screen
+               {if_else
+                  {==
+                     {{game
+                           get_player_config
+                           {gamecfg get leader_num}}
+                        get_track_sym}
+                     vocals}
+                  meta_loading_practice_vocals_screen
+                  meta_loading_practice_screen}}
+            {tour_lose_confirm_quit_screen set from_challenges TRUE}
+            {ui goto_screen tour_lose_confirm_quit_screen})})}
+{new
+   BandScreen
+   tour_retry_screen
+   (panels tour_retry_panel)
+   (focus tour_retry_panel)
+   (helpbar
+      {if_else
+         {is_leader_local}
+         ((confirm helpbar_select))
+         ((cancel helpbar_back))})
+   (allow_remote_exit TRUE)}
+{new
+   BandScreen
+   tour_lose_confirm_quit_screen
+   (panels tour_retry_panel dialog_panel)
+   COMMON_LOSE_QUIT_CONFIRM}
+#include tour_challenge_hints.dta

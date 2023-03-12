@@ -1,0 +1,863 @@
+#define SAMPLE_0
+([sfxmaps 0 sample])
+#define SAMPLE_1
+([sfxmaps 1 sample])
+#define VOLUME_0
+([sfxmaps 0 volume])
+#define VOLUME_1
+([sfxmaps 1 volume])
+#define PAN_0
+([sfxmaps 0 pan])
+#define PAN_1
+([sfxmaps 1 pan])
+#define FX_CORE_0
+([sfxmaps 0 fx_core])
+#define FX_CORE_1
+([sfxmaps 1 fx_core])
+#define TRANSPOSE_0
+([sfxmaps 0 transpose])
+#define TRANSPOSE_1
+([sfxmaps 1 transpose])
+#define ADSR_0
+(sfxmaps 0 adsr)
+#define ADSR_1
+(sfxmaps 1 adsr)
+#define FADER_0
+([faders 0])
+#define FADER_1
+([faders 1])
+#define FADER_2
+([faders 2])
+(FxSend
+   (description
+      "Base class for all sound FX processors")
+   (allowed_dirs)
+   (editor
+      (wet_gain
+         float
+         (range -96 10)
+         (help
+            "Gain applied to effect output (dB)"))
+      (dry_gain
+         float
+         (range -96 10)
+         (help
+            "Gain applied to dry signal (dB)"))
+      (input_gain
+         float
+         (range -96 10)
+         (help
+            "Gain applied to effect input (dB)"))
+      (bypass
+         bool
+         (help
+            "Bypass the effect and stop it from processing"))
+      (channels
+         int
+         (list
+            ("kSendAll"
+               "kSendCenter"
+               "kSendStereo"))
+         (help
+            "Which channels the FX applies to"))
+      (stage
+         int
+         (range 0 9)
+         (help
+            "The relative order that this send is processed compared to other sends."))
+      (next_send
+         object
+         (no_test)
+         (class FxSend)
+         (help
+            "The next effect in the chain"))
+      (test_with_mic
+         script
+         (script
+            {$this test_with_mic})
+         (help
+            "Attach microphone to this send, for testing"))))
+(FxSendEQ
+   (description
+      "An equalizer effect.")
+   (ext send)
+   (types)
+   (superclasses FxSend)
+   (editor
+      (high_frequency
+         float
+         (range 0 24000)
+         (help
+            "High frequency cutoff, in Hz"))
+      (high_gain
+         float
+         (range -42 42)
+         (help
+            "High frequency gain, in dB"))
+      (mid_frequency
+         float
+         (range 0 24000)
+         (help
+            "Mid frequency cutoff, in Hz"))
+      (mid_bandwidth
+         float
+         (range 0 24000)
+         (help
+            "Mid frequency bandwidth, in Hz"))
+      (mid_gain
+         float
+         (range -42 42)
+         (help
+            "Mid frequency gain, in dB"))
+      (low_frequency
+         float
+         (range 0 24000)
+         (help
+            "Low frequency cutoff, in Hz"))
+      (low_gain
+         float
+         (range -42 42)
+         (help
+            "Low frequency gain, in dB"))))
+#define SYNC_TYPES
+(sixteenth eighth dotted_eighth quarter dotted_quarter half whole)
+(FxSendChorus
+   (description
+      "A chorus effect.")
+   (ext send)
+   (types)
+   (superclasses FxSend)
+   (editor
+      (delay_ms
+         float
+         (range 0 100)
+         (help
+            "Maximum delay time in milliseconds"))
+      (depth
+         float
+         (range 0 1000)
+         (help
+            "Depth of pitch modulation, in centitones"))
+      (feedback_pct
+         int
+         (range 0 100)
+         (help
+            "Percent of output that is fed back to input"))
+      (offset_pct
+         int
+         (range 0 100)
+         (help
+            "LFO phase offset between channels (for wider stereo effect)"))
+      (tempo_sync
+         bool
+         (refresh)
+         (help
+            "Sync modulation to song tempo?"))
+      (rate
+         float
+         (range 0 10)
+         (hide
+            [tempo_sync])
+         (help
+            "Rate at which pitch is modulated (Hz)"))
+      (sync_type
+         symbol
+         (list
+            (SYNC_TYPES))
+         (hide
+            {!
+               [tempo_sync]})
+         (help
+            "Note value to synchronize modulation to"))
+      (tempo
+         float
+         (range 20 300)
+         (hide
+            {!
+               [tempo_sync]})
+         (help
+            "Tempo for modulation; can be driven by game code"))))
+(FxSendFlanger
+   (description
+      "A flanger effect.")
+   (ext send)
+   (types)
+   (superclasses FxSend)
+   (editor
+      (delay_ms
+         float
+         (range 0 10)
+         (help
+            "Maximum delay time in milliseconds"))
+      (depth_pct
+         int
+         (range 0 100)
+         (help
+            "Percent depth of delay modulation"))
+      (feedback_pct
+         int
+         (range 0 100)
+         (help
+            "Percent of output that is fed back to input"))
+      (offset_pct
+         int
+         (range 0 100)
+         (help
+            "LFO phase offset between channels (for wider stereo effect)"))
+      (tempo_sync
+         bool
+         (refresh)
+         (help
+            "Sync modulation to song tempo?"))
+      (rate
+         float
+         (range 0 10)
+         (hide
+            [tempo_sync])
+         (help
+            "Rate at which delay is modulated (Hz)"))
+      (sync_type
+         symbol
+         (list
+            (SYNC_TYPES))
+         (hide
+            {!
+               [tempo_sync]})
+         (help
+            "Note value to synchronize modulation to"))
+      (tempo
+         float
+         (range 20 300)
+         (hide
+            {!
+               [tempo_sync]})
+         (help
+            "Tempo for modulation; can be driven by game code"))))
+(FxSendCompress
+   (description
+      "A compression/expansion effect.")
+   (ext send)
+   (types)
+   (superclasses FxSend)
+   (editor
+      (threshold
+         float
+         (range -96 0)
+         (help
+            "threshold (in dB) at which compression is applied"))
+      (comp_ratio
+         float
+         (range 1 20)
+         (help
+            "Compression factor - ratio of input level to output level"))
+      (output_level
+         float
+         (range -10 10)
+         (help
+            "output level for a maxed signal, in dB"))
+      (attack
+         float
+         (range 1.0e-3 1)
+         (help
+            "Attack time in seconds"))
+      (release
+         float
+         (range 1.0e-3 2)
+         (help
+            "Release time in seconds"))
+      (expander
+         (indent
+            (exp_ratio
+               float
+               (range 1 20)
+               (help
+                  "Expansion factor - ratio of input level to output level.  The expander uses the same threshold as the compressor."))
+            (exp_attack
+               float
+               (range 1.0e-3 2)
+               (help
+                  "Attack time in seconds"))
+            (exp_release
+               float
+               (range 1.0e-3 1)
+               (help
+                  "Release time in seconds"))))))
+(FxSendDelay
+   (description
+      "A delay effect.")
+   (ext send)
+   (types)
+   (superclasses FxSend)
+   (editor
+      (feedback
+         float
+         (range -96 0)
+         (help
+            "Feedback of delayed signal, in dB"))
+      (ping_pong_pct
+         float
+         (range 0 100)
+         (help
+            "Depth of ping pong effect (percent)"))
+      (tempo_sync
+         bool
+         (refresh)
+         (help
+            "Sync delay to song tempo?"))
+      (delay_time
+         float
+         (range 0 1)
+         (hide
+            [tempo_sync])
+         (help
+            "Delay time, in seconds"))
+      (sync_type
+         symbol
+         (list
+            (SYNC_TYPES))
+         (hide
+            {!
+               [tempo_sync]})
+         (help
+            "Note value of delay"))
+      (tempo
+         float
+         (range 20 300)
+         (hide
+            {!
+               [tempo_sync]})
+         (help
+            "Tempo for delay; can be driven by game code"))))
+(FxSendReverb
+   (description
+      "A reverb effect.")
+   (ext send)
+   (types)
+   (superclasses FxSend)
+   (editor
+      (environment
+         symbol
+         (list
+            (default generic padded_cell room bath_room living_room stone_room auditorium concert_hall cave arena hangar carpeted_hallway hallway stone_corridor alley forest city mountains quarry plain parking_lot sewer_pipe underwater small_room medium_room large_room medium_hall large_hall plate))
+         (help
+            "The reverb environment to simulate."))
+      (ps3_params
+         (indent
+            (pre_delay_ms
+               float
+               (range 0 148)
+               (help
+                  "Pre-delay in milliseconds"))
+            (high_cut
+               float
+               (range 0 20000)
+               (help
+                  "High cutoff frequency in Hz"))
+            (low_cut
+               float
+               (range 0 20000)
+               (help
+                  "Low cutoff frequency in Hz"))
+            (room_size
+               float
+               (range 0 1)
+               (help
+                  "Room size (0-1)"))
+            (damping
+               float
+               (range 0 1)
+               (help
+                  "Amount of damping (0-1)"))
+            (diffusion
+               float
+               (range 0 1)
+               (help
+                  "Amount of dffusion (0-1)"))
+            (early_late
+               float
+               (range 0 1)
+               (help
+                  "Balance of early and late reflections; 0=early only, 1=late only"))))))
+(FxSendPitchShift
+   (description
+      "real-time pitch shift effect")
+   (ext send)
+   (types)
+   (superclasses FxSend)
+   (editor
+      (pitch_ratio
+         float
+         (range 0.2 5)
+         (help
+            "Pitch ratio (1 = normal, 2 = up one octave, etc.)"))))
+(FxSendWah
+   (description
+      "wah-wah effect")
+   (ext send)
+   (types)
+   (superclasses FxSend)
+   (editor
+      (resonance
+         float
+         (range 1 10)
+         (help
+            "amount of resonance (1-10)"))
+      (lower_freq
+         float
+         (range 100 10000)
+         (help
+            "low frequency peak of resonant filter (Hz)"))
+      (upper_freq
+         float
+         (range 100 10000)
+         (help
+            "high frequency peak of resonant filter (Hz)"))
+      (magic
+         float
+         (range 0 1)
+         (help
+            "magic number (0-1)"))
+      (tempo_sync
+         bool
+         (refresh)
+         (help
+            "Sync delay to song tempo?"))
+      (lfo_freq
+         float
+         (range 0.1 10)
+         (hide
+            [tempo_sync])
+         (help
+            "rate of LFO oscillations (Hz)"))
+      (sync_type
+         symbol
+         (list
+            (SYNC_TYPES))
+         (hide
+            {!
+               [tempo_sync]})
+         (help
+            "Note value of delay"))
+      (tempo
+         float
+         (range 20 300)
+         (hide
+            {!
+               [tempo_sync]})
+         (help
+            "Tempo for delay; can be driven by game code"))))
+(SynthDir
+   (description
+      "Container for Synth objects, registers itself as a bank")
+   (superclasses ObjectDir)
+   (types)
+   (editor))
+(SynthSample
+   (description
+      "A single mono waveform residing in a bank.")
+   (ext wav)
+   (types)
+   (editor
+      (file
+         file
+         (ext
+            "WAV files"
+            wav)
+         (wav_dlg TRUE)
+         (refresh sample_rate size_ps2 bank_size_kb_ps2)
+         (help
+            "Mono, 16-bit sample file"))
+      (looped
+         bool
+         (help
+            "Loop this sample"))
+      (loop_start_sample
+         int
+         (help
+            "Start of the loop, in samples. Ignored if \qlooped\q is unchecked."))
+      (loop_end_sample
+         int
+         (help
+            "End of the loop, in samples.  Use -1 for the end of the sample."))
+      (sample_rate
+         int
+         (read_only TRUE)
+         (help
+            "Sample rate, in Hz"))
+      (size_ps2
+         int
+         (read_only TRUE)
+         (help
+            "Memory that will be taken up by the sample on the PS2, in bytes"))
+      (bank_size_kb_ps2
+         string
+         (read_only TRUE)
+         (help
+            "Total memory taken up by this file on the PS2")))
+   (views
+      (all
+         ("file"
+            [file])
+         ("looped"
+            [looped])
+         ("start sample"
+            [loop_start_sample])
+         ("end sample"
+            [loop_end_sample])
+         ("sample_rate"
+            [sample_rate])
+         ("size_ps2"
+            [size_ps2])
+         ("bank_size_ps2"
+            [bank_size_kb_ps2]))))
+(Sequence
+   (description
+      "A set of audio tasks")
+   (allowed_dirs)
+   (types)
+   (editor
+      (play
+         script
+         (script
+            {$this play})
+         (help
+            "Play the sequence"))
+      (stop
+         script
+         (script
+            {$this stop})
+         (help
+            "Stop all instances of this sequence"))
+      (avg_volume
+         float
+         (help
+            "Average volume this sequence will be played at, in dB"))
+      (volume_spread
+         float
+         (help
+            "Amount to vary the volume above and below the average, in dB"))
+      (avg_transpose
+         float
+         (help
+            "Average transpose this sequence will be played at, in semitones"))
+      (transpose_spread
+         float
+         (help
+            "Amount to vary the transpose, in semitones"))
+      (avg_pan
+         float
+         (help
+            "Average pan to apply to this sequence (-1 - 1)"))
+      (pan_spread
+         float
+         (help
+            "Amount to vary the pan"))))
+(Sfx
+   (description
+      "Basic sound effect object.  Plays several samples with a given volume, pan, transpose, and envelope settings.")
+   (superclasses Sequence)
+   (ext cue)
+   (types)
+   (editor
+      (sfxmaps
+         (array
+            (struct
+               (sample
+                  object
+                  (class SynthSample)
+                  (help
+                     "Which sample to play"))
+               (volume
+                  float
+                  (help
+                     "Volume in dB (0 is full volume, -96 is silence)"))
+               (pan
+                  float
+                  (help
+                     "Surround pan, between -4 and 4")
+                  (range -4 4))
+               (transpose
+                  float
+                  (help
+                     "Transpose in half steps"))
+               (fx_core
+                  int
+                  (list FX_CORES)
+                  (help
+                     "Which core's digital FX should be used in playing this sample"))
+               (adsr
+                  (struct
+                     (attack_mode
+                        int
+                        (list ATTACK_MODES)
+                        (help
+                           "Attack mode"))
+                     (attack_rate
+                        float
+                        (help
+                           "Duration of attack in seconds"))
+                     (decay_rate
+                        float
+                        (help
+                           "Duration of decay in seconds"))
+                     (sustain_mode
+                        int
+                        (list SUSTAIN_MODES)
+                        (help
+                           "Sustain mode"))
+                     (sustain_rate
+                        float
+                        (help
+                           "Duration of sustain in seconds"))
+                     (sustain_level
+                        float
+                        (help
+                           "Level of sustain volume (0-1)"))
+                     (release_mode
+                        int
+                        (list RELEASE_MODES)
+                        (help
+                           "Release mode"))
+                     (release_rate
+                        float
+                        (help
+                           "Duration of release in seconds")))))))
+      (send
+         object
+         (class FxSend)
+         (help
+            "Effect chain to use"))
+      (faders
+         (array
+            object
+            (class SynthFader))
+         (help
+            "Faders affecting this sound effect")))
+   (views
+      (all
+         ("play"
+            (script
+               {$this play}))
+         ("sample 0"
+            SAMPLE_0)
+         ("volume 0"
+            VOLUME_0
+            (dec 2))
+         ("pan 0"
+            PAN_0
+            (dec 2))
+         ("transpose 0"
+            TRANSPOSE_0
+            (dec 2))
+         ("fader 0"
+            FADER_0)
+         ("fader 1"
+            FADER_1)
+         ("fader 2"
+            FADER_2)
+         ("fx_core 0"
+            FX_CORE_0)
+         ("attack_mode 0"
+            [ADSR_0 attack_mode])
+         ("attack_rate 0"
+            [ADSR_0 attack_rate]
+            (dec 2))
+         ("decay_rate 0"
+            [ADSR_0 decay_rate]
+            (dec 2))
+         ("sustain_mode 0"
+            [ADSR_0 sustain_mode])
+         ("sustain_rate 0"
+            [ADSR_0 sustain_rate]
+            (dec 2))
+         ("sustain_level 0"
+            [ADSR_0 sustain_level]
+            (dec 2))
+         ("release_mode 0"
+            [ADSR_0 release_mode])
+         ("release_rate 0"
+            [ADSR_0 release_rate]
+            (dec 2))
+         ("sample 1"
+            SAMPLE_1)
+         ("volume 1"
+            VOLUME_1
+            (dec 2))
+         ("pan 1"
+            [sfxmaps 1 pan]
+            (dec 2))
+         ("transpose 1"
+            TRANSPOSE_1
+            (dec 2))
+         ("fx_core 1"
+            FX_CORE_1)
+         ("attack_mode 1"
+            [ADSR_1 attack_mode])
+         ("attack_rate 1"
+            [ADSR_1 attack_rate]
+            (dec 2))
+         ("decay_rate 1"
+            [ADSR_1 decay_rate]
+            (dec 2))
+         ("sustain_mode 1"
+            [ADSR_1 sustain_mode])
+         ("sustain_rate 1"
+            [ADSR_1 sustain_rate]
+            (dec 2))
+         ("sustain_level 1"
+            [ADSR_1 sustain_level]
+            (dec 2))
+         ("release_mode 1"
+            [ADSR_1 release_mode])
+         ("release_rate 1"
+            [ADSR_1 release_rate]
+            (dec 2)))
+      (volume
+         ("play"
+            (script
+               {$this play}))
+         ("sample 0"
+            SAMPLE_0)
+         ("volume 0"
+            VOLUME_0
+            (dec 2))
+         ("sample 1"
+            SAMPLE_1)
+         ("volume 1"
+            VOLUME_1
+            (dec 2)))
+      (pan
+         ("play"
+            (script
+               {$this play}))
+         ("sample 0"
+            SAMPLE_0)
+         ("pan 0"
+            PAN_0
+            (dec 2))
+         ("sample 1"
+            SAMPLE_1)
+         ("pan 1"
+            PAN_1
+            (dec 2)))
+      (core
+         ("play"
+            (script
+               {$this play}))
+         ("sample 0"
+            SAMPLE_0)
+         ("core A"
+            FX_CORE_0)
+         ("sample 1"
+            SAMPLE_1)
+         ("core B"
+            FX_CORE_1))
+      (faders
+         ("play"
+            (script
+               {$this play}))
+         ("fader 0"
+            FADER_0)
+         ("fader 1"
+            FADER_1)
+         ("fader 2"
+            FADER_2))))
+(WaitSeq
+   (description
+      "A Sequence type which just waits a specified duration, generating\n       no sound.  Useful for tweaking the timing of other events.")
+   (superclasses Sequence)
+   (ext cue)
+   (editor
+      (avg_wait_seconds
+         float
+         (help
+            "Average wait time, in seconds"))
+      (wait_spread
+         float
+         (help
+            "Amount to vary the wait time, in seconds"))))
+(GroupSeq
+   (description
+      "A sequence which plays other sequences.  Abstract base class.")
+   (superclasses Sequence)
+   (allowed_dirs)
+   (ext cue)
+   (types)
+   (editor
+      (children
+         (array
+            object
+            (class Sequence))
+         (help
+            "The children of this sequence"))))
+(RandomGroupSeq
+   (description
+      "Plays one or more of its child sequences, selected at random.")
+   (superclasses GroupSeq)
+   (ext cue)
+   (types)
+   (editor
+      (num_simul
+         int
+         (help
+            "Number of children to play simultaneously"))))
+(SerialGroupSeq
+   (description
+      "Plays its child sequences in order, waiting for each to stop\n      before moving on to the next.")
+   (superclasses GroupSeq)
+   (ext cue)
+   (types))
+(ParallelGroupSeq
+   (description
+      "Plays all of its child sequences at the same time.")
+   (superclasses GroupSeq)
+   (ext cue)
+   (types))
+(SynthEmitter
+   (description
+      "A 3D positional emitter.  The volume and surround-panning of\n      a sfx are controlled by its position relative to a listener (usually the\n      camera).")
+   (superclasses Draw Trans)
+   (ext emit)
+   (types)
+   (editor
+      (sfx
+         object
+         (class Sfx)
+         (help
+            "sfx this emitter should play"))
+      (listener
+         object
+         (class Trans)
+         (help
+            "object representing the listener's position"))
+      (enabled
+         bool
+         (help
+            "enable/disable the emitter"))
+      (outer_radius
+         float
+         (help
+            "the sound starts playing when you cross inside this radius."))
+      (outer_volume
+         float
+         (help
+            "volume at outer radius, in dB"))
+      (inner_radius
+         float
+         (help
+            "volume and pan are fixed inside this radius."))
+      (inner_volume
+         float
+         (help
+            "volume at inner radius (and inside)"))))
+(SynthFader
+   (description
+      "A fader controls the volume level of one or more sound effects.")
+   (ext fade)
+   (types)
+   (editor
+      (level
+         float
+         (range -96 6)
+         (help
+            "volume level in dB"))))

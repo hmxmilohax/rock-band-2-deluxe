@@ -1,0 +1,111 @@
+#define END_OF_SONG_PERCENT
+(97)
+{func
+   jump_to_point_in_song
+   ($time_ms)
+   {beatmatch jump $time_ms}
+   {beatmatch start}}
+#define LOAD_NEW_SONG_START
+({tutorials_state_panel started_loading_song}
+   {band_0 set_crowd_meter_active TRUE}
+   RESET_SYNC_PAUSE
+   ENABLE_SYNC_PAUSE
+   {game
+      load_song
+      {meta_performer song}}
+   {$task
+      wait
+      {!
+         {game is_loaded}}}
+   {$this setup_fader}
+   {$this set_song_volume kDbSilence})
+#define LOAD_NEW_SONG_AFTER
+({game start_song_now}
+   {{beatmatch active_player 0}
+      popup_help
+      deploy
+      FALSE}
+   {{gamemode get main_panel}
+      disable_controller})
+#define FADE_SONG_OUT
+({{gamemode get main_panel}
+      fade_song_out
+      1.0})
+#define FADE_SONG_IN
+({{gamemode get main_panel}
+      fade_song_in
+      1.0})
+#define FADE_SONG_IN_FAST
+({{gamemode get main_panel}
+      fade_song_in
+      0.15})
+#define LOAD_NEW_GUITAR_SONG_NO_FADE
+(FORCE_TRACK_OUT
+   LOAD_NEW_SONG_START
+   {{{get_track_panel}
+         get_first_track}
+      handle_new_song}
+   LOAD_NEW_SONG_AFTER
+   TRACK_IN_LANES_ANIMATE
+   HIDE_TRACK_PLAYER_UI
+   GUITAR_TV_RESET
+   {tutorials_state_panel finished_loading_song})
+#define LOAD_NEW_DRUMS_SONG_NO_FADE
+(FORCE_TRACK_OUT
+   LOAD_NEW_SONG_START
+   {{{get_track_panel}
+         get_first_track}
+      handle_new_song}
+   LOAD_NEW_SONG_AFTER
+   TRACK_IN_LANES_ANIMATE
+   HIDE_TRACK_PLAYER_UI
+   DRUM_TV_RESET
+   {{{get_track_panel}
+         get_first_track}
+      enable_slot
+      KICK_SLOT}
+   {{{get_track_panel}
+         get_first_track}
+      enable_slot
+      SNARE_SLOT}
+   {{{get_track_panel}
+         get_first_track}
+      enable_slot
+      HIHAT_SLOT}
+   {tutorials_state_panel finished_loading_song})
+#define LOAD_NEW_VOCALS_SONG_NO_FADE
+(FORCE_VOCALS_OUT
+   LOAD_NEW_SONG_START
+   LOAD_NEW_SONG_AFTER
+   UNHIDE_PITCH_ARROW
+   {{{get_track_panel}
+         find
+         vocals}
+      set_arrow_visible
+      TRUE}
+   {{{{get_track_panel}
+            find
+            vocals}
+         find
+         pitch_arrow.grp}
+      set_frame
+      0}
+   {{{get_track_panel}
+         find
+         vocals}
+      set_enable_vocals_options
+      {if_else
+         {==
+            {tutorials_state_panel get tv_state}
+            0}
+         TRUE
+         FALSE}}
+   HIDE_VOCALS_PLAYER_UI
+   VOCALS_TV_RESET
+   {tutorials_state_panel finished_loading_song})
+#define LOAD_NEW_GUITAR_SONG
+(LOAD_NEW_GUITAR_SONG_NO_FADE FADE_SONG_IN)
+#define LOAD_NEW_DRUMS_SONG
+(LOAD_NEW_DRUMS_SONG_NO_FADE FADE_SONG_IN)
+#define LOAD_NEW_VOCALS_SONG
+(LOAD_NEW_VOCALS_SONG_NO_FADE FADE_SONG_IN)

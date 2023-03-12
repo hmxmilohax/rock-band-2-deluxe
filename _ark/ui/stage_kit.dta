@@ -1,0 +1,67 @@
+{func
+   j
+   ($x $y)
+   {joypad_stage_kit_raw $x $y}}
+{new
+   Object
+   stage_kit
+   (bank1 0)
+   (bank2 0)
+   (bank3 0)
+   (bank4 0)
+   (fog
+      ($state)
+      {joypad_stage_kit_raw
+         0
+         {if_else $state 1 2}})
+   (strobe
+      ($hz)
+      {switch
+         $hz
+         (6
+            {joypad_stage_kit_raw 0 3})
+         (8
+            {joypad_stage_kit_raw 0 4})
+         (10
+            {joypad_stage_kit_raw 0 5})
+         (12
+            {joypad_stage_kit_raw 0 6})
+         (0
+            {joypad_stage_kit_raw 0 7})
+         {printf
+            "bad strobe hz %d\n"
+            '%hz'}})
+   (leds
+      ($bank1 $bank2 $bank3 $bank4)
+      {if
+         {!=
+            $bank1
+            [bank1]}
+         {joypad_stage_kit_raw $bank1 32}
+         {set
+            [bank1]
+            $bank1}}
+      {if
+         {!=
+            $bank2
+            [bank2]}
+         {joypad_stage_kit_raw $bank2 64}
+         {set
+            [bank2]
+            $bank2}}
+      {if
+         {!=
+            $bank3
+            [bank3]}
+         {joypad_stage_kit_raw $bank3 96}
+         {set
+            [bank3]
+            $bank3}}
+      {if
+         {!=
+            $bank4
+            [bank4]}
+         {joypad_stage_kit_raw $bank4 128}
+         {set
+            [bank4]
+            $bank4}})}

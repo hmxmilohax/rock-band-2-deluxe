@@ -25,7 +25,7 @@
       "Save the current colors as a preset"))
 (BandLabel
    (description
-      "Label with color presets")
+      "Label with jitter, and text fitting, alignment, and kerning options.")
    (allowed_dirs PanelDir)
    (superclasses UILabel)
    (ext lbl)
@@ -67,7 +67,7 @@
    (types))
 (BandButton
    (description
-      "Button with color presets")
+      "Button with jitter, text fitting, alignment, and kerning options")
    (allowed_dirs)
    (superclasses UIButton)
    (resource_file
@@ -131,51 +131,31 @@
                   "normal.mat")
                (disabled
                   "disabled.mat"))))))
-(PlayerDiffIcon
-   (description
-      "Overloaded player/difficulty display")
-   (allowed_dirs)
-   (superclasses UIComponent)
-   (ext pdiff)
-   (editor
-      (num_players
-         int
-         (range 0 4)
-         (help
-            "Number of players"))
-      (diff
-         int
-         (range 0 3)
-         (help
-            "Difficulty")))
-   (types))
 (BandList
    (description
-      "Band specific UIList")
+      "List that shows navigation icons next to the selected list item")
    (allowed_dirs)
    (superclasses UIList)
    (init
       {$this set_type default})
    (ext lst)
-   (editor
-      (animate_elements
-         script
-         (script
-            {$this animate_elements FALSE})
-         (help
-            "Test element animation")))
    (types
       (default
          (resource_file
             "../ui/list.milo")
          (vertical TRUE)
          (element
-            (text
-               (object
-                  text
-                  "list.lbl")
-               (colors
-                  (normal
+            ((text
+                  "list.lbl")))
+         (back_arrow
+            "back.mesh")
+         (next_arrow
+            "next.mesh")
+         (highlight
+            "highlight.mesh")
+         (icon_margin -10)
+         (colors
+            (((normal
                      (normal 0.5 0.5 0.5)
                      (focused 1 1 1)
                      (disabled 0.3 0.3 0.3)
@@ -189,15 +169,9 @@
                      (normal 0.1 0.1 0)
                      (focused 0.1 0.1 0)
                      (disabled 0.1 0.1 0)
-                     (selecting 0.1 0.1 0)))
-               (dummy
-                  "text")))
-         (back_arrow
-            "back.mesh")
-         (next_arrow
-            "next.mesh")
-         (highlight
-            "highlight.mesh"))))
+                     (selecting 0.1 0.1 0)))))
+         (provider
+            ("text")))))
 (BandSwatch
    (description
       "Special list for selecting colors")
@@ -218,22 +192,20 @@
             "swatch.milo")
          (vertical FALSE)
          (element
-            (color
-               (object
-                  mesh
-                  "color.mesh")
-               (colors
-                  (normal 0.3 0.3 0.3)
-                  (focused 1 1 1)
-                  (disabled 0.1 0.1 0.1)
-                  (selecting 1 1 1)
-                  (selected 1 1 0))))
+            ((mesh
+                  "color.mesh")))
          (back_arrow
             "back.mesh")
          (next_arrow
             "next.mesh")
          (highlight
-            "highlight.mesh"))))
+            "highlight.mesh")
+         (colors
+            ((normal 0.3 0.3 0.3)
+               (focused 1 1 1)
+               (disabled 0.1 0.1 0.1)
+               (selecting 1 1 1)
+               (selected 1 1 0))))))
 (Label3d
    (description
       "3d label")
@@ -271,13 +243,9 @@
    (description
       "Band specific camera shot")
    (superclasses CamShot)
-   (allowed_dirs WorldDir LoadingPanelDir)
+   (allowed_dirs WorldDir)
    (init
       {$this set_type band}
-      {$this
-         set
-         flags
-         {'|' kValidAll kBCSBFacingNull kBCSBDistNull}}
       {$this set category NORMAL}
       {foreach
          $char
@@ -317,26 +285,25 @@
             (struct
                (target
                   object
-                  (class Trans)
-                  (refresh targets))
+                  (class Trans))
                (anim
-                  string
-                  (list
+                  object
+                  (class CharClipGroup)
+                  (dir
                      {do
-                        ($drv
-                           {find_obj
-                              [targets
-                                 {elem $milo_prop_path 1}
-                                 target]
-                              main.drv})
-                        {object_list
-                           {if_else
-                              $drv
-                              {$drv get clips_ptr}
-                              ''}
-                           CharClipGroup}})
-                  (help
-                     "Name of CharClipGroup to play on character"))
+                        ($target
+                           [targets
+                              {elem $milo_prop_path 1}
+                              target])
+                        {if_else
+                           {&&
+                              $target
+                              {$target is_a Character}
+                              {$target find main.drv}}
+                           {{$target find main.drv}
+                              get
+                              clips_ptr}
+                           {milo cur_dir}}}))
                (teleport
                   bool
                   (help
@@ -345,10 +312,6 @@
                   TRANSFORM
                   (help
                      "the transform to teleport the character to"))
-               (teleport_hold
-                  bool
-                  (help
-                     "keep the target teleported every frame"))
                (return
                   bool
                   (help
@@ -384,14 +347,12 @@
                   (list
                      ('' freeze)))
                (target_ik
-                  string
-                  (list
-                     {object_list
-                        [targets
-                           {elem $milo_prop_path 1}
-                           target]
-                        Trans
-                        TRUE})
+                  object
+                  (class Trans)
+                  (dir
+                     [targets
+                        {elem $milo_prop_path 1}
+                        target])
                   (help
                      "Trans inside of target that you want to hit a Trans in the world"))
                (world_ik
@@ -411,23 +372,19 @@
                            adjust_ik
                            [targets $i world_ik]
                            [targets $i world_ik]
-                           {find_obj
-                              [targets $i target]
-                              [targets $i target_ik]}}}))
+                           [targets $i target_ik]}}))
                (world_prop
                   object
                   (class Trans)
                   (help
                      "Object in the world to position at target_prop"))
                (target_prop
-                  string
-                  (list
-                     {object_list
-                        [targets
-                           {elem $milo_prop_path 1}
-                           target]
-                        Trans
-                        TRUE})
+                  object
+                  (class Trans)
+                  (dir
+                     [targets
+                        {elem $milo_prop_path 1}
+                        target])
                   (help
                      "Trans inside target that world_prop should hit"))
                (env_override
@@ -435,44 +392,10 @@
                   (class Environ)
                   (help
                      "environment override for this target during this shot")))))
-      (triggers
-         (array
-            (struct
-               (frame
-                  float
-                  (help
-                     "Frame number for this trigger to go off"))
-               (trigger
-                  object
-                  (class EventTrigger)
-                  (help
-                     "Event trigger")))
-            (alias
-               "trigger"))
-         (post_sync
-            {milo update_open_editor $this}))
-      (event_at_start
-         object
-         (class EventTrigger)
-         (help
-            "Event Trigger to fire when this camshot starts"))
-      (event_at_end
-         object
-         (class EventTrigger)
-         (help
-            "Event Trigger to fire when this camshot ends"))
       (zero_time
          float
          (help
             "synchronization time for this camshot"))
-      (min_time
-         int
-         (help
-            "30fps reg: minimum time this shot can last, DCuts: time past zero time in which the shot can be interupted"))
-      (max_time
-         int
-         (help
-            "30fps maximum duration for this shot, 0 is infinite"))
       (store
          script
          (script
@@ -511,8 +434,19 @@
                "kValidDramatic"
                "kValidRocker"
                "kValidSpazz"))
-         (worst FALSE)
          (editor
+            (distance
+               symbol
+               (list
+                  (null near far closeup behind))
+               (help
+                  "Distance categorization of the shot"))
+            (facing
+               symbol
+               (list
+                  (null left right))
+               (help
+                  "Facing categorization of the shot"))
             (bass_focus
                bool
                (help
@@ -541,6 +475,18 @@
                bool
                (help
                   "Is the vocalist a major focus of this shot?"))
+            (min_time
+               int
+               (help
+                  "reg: minimum time this shot can last, DCuts: time past zero time in which the shot can be interupted"))
+            (max_time
+               int
+               (help
+                  "maximum duration for this shot, 0 is infinite"))
+            (special
+               bool
+               (help
+                  "if true, this shot won't be picked as part of the normal logic"))
             (postprocess
                object
                (class PostProc)
@@ -556,11 +502,6 @@
                (range 0 1)
                (help
                   "density of crowd"))
-            (crowd_lod
-               int
-               (range 0 2)
-               (help
-                  "LOD of crowd texture (0 =  256x512) (1 = 128x256) (2 = 64x128)"))
             (crowd_face_camera
                bool
                (help
@@ -575,6 +516,70 @@
                bool
                (help
                   "only play this camera once per song"))
+            (event_start
+               object
+               (class EventTrigger)
+               (help
+                  "Event Trigger to fire when this camshot starts"))
+            (event_end
+               object
+               (class EventTrigger)
+               (help
+                  "Event Trigger to fire when this camshot ends"))
+            (valid_male
+               bool
+               (hide
+                  {!
+                     {has_substr
+                        [category]
+                        "directed"}})
+               (help
+                  "is this shot valid if the target is male?"))
+            (valid_female
+               bool
+               (hide
+                  {!
+                     {has_substr
+                        [category]
+                        "directed"}})
+               (help
+                  "is this shot valid for if the target is female?"))
+            (valid_banger
+               bool
+               (hide
+                  {!
+                     {has_substr
+                        [category]
+                        "directed"}})
+               (help
+                  "is this shot valid for the Banger genre?"))
+            (valid_dramatic
+               bool
+               (hide
+                  {!
+                     {has_substr
+                        [category]
+                        "directed"}})
+               (help
+                  "is this shot valid for the Dramatic genre?"))
+            (valid_rocker
+               bool
+               (hide
+                  {!
+                     {has_substr
+                        [category]
+                        "directed"}})
+               (help
+                  "is this shot valid for the Rocker genre?"))
+            (valid_spazz
+               bool
+               (hide
+                  {!
+                     {has_substr
+                        [category]
+                        "directed"}})
+               (help
+                  "is this shot valid for the Spazz genre?"))
             (lighting_override
                bool
                (help
@@ -589,10 +594,6 @@
                (list LIGHTING_CATEGORIES)
                (help
                   "Permanently change the lighting category, lighting override must be on with no preset selected."))
-            (worst
-               bool
-               (help
-                  "When using -worst_only with venuetest, only looks at these shots"))
             (play_anim
                object
                (class Anim)
@@ -610,9 +611,15 @@
                   "stop the current shot from playing")
                (script
                   {$world force_shot ''})))
+         (distance null)
+         (facing null)
+         (low_excitement_ok TRUE)
          (postprocess
             {object
                ""})
+         (min_time 0)
+         (max_time 0)
+         (special FALSE)
          (bass_focus FALSE)
          (drums_focus FALSE)
          (guitar_focus FALSE)
@@ -621,10 +628,18 @@
          (guitar2_focus FALSE)
          (vocal2_focus FALSE)
          (crowd_density 1)
-         (crowd_lod 0)
          (crowd_face_camera FALSE)
          (crowd_anim '')
          (one_time FALSE)
+         (one_time_played FALSE)
+         (valid_male TRUE)
+         (valid_female TRUE)
+         (valid_banger TRUE)
+         (valid_dramatic TRUE)
+         (valid_rocker TRUE)
+         (valid_spazz TRUE)
+         (event_start '')
+         (event_end '')
          (lighting_preset '')
          (lighting_override FALSE)
          (lighting_category INTRO)
@@ -644,103 +659,27 @@
                      [next_shot]}}
                {handle
                   ($world camshot_end)}})
+         (freeze_char
+            ($char $freeze $units)
+            {$char freeze_char $freeze $units})
          (play_group
             ($char $grp $fwd $units $event)
-            {if
-               {'||' $composite_character_swap_gender $edit_mode}
-               {do
-                  ($focus
-                     {dircut_gender_genre_focus $this})
-                  ($gender
-                     {$char get gender})
-                  {if
-                     {'||'
-                        {&&
-                           {== $char $focus}
-                           {$this invalid_gender $gender}}
-                        {&&
-                           {!=
-                              $gender
-                              {$this preferred_gender $char}}
-                           {'||'
-                              {!= $char $focus}
-                              {!
-                                 {$this
-                                    invalid_gender
-                                    {if_else
-                                       {== $gender male}
-                                       female
-                                       male}}}}}}
-                     {$char do_toggle_gender}}
-                  {if
-                     {&&
-                        {== $char $focus}
-                        {==
-                           {&
-                              [flags]
-                              {$char get attitude}}
-                           0}}
-                     {do
-                        ($valid
-                           {lowest_bit
-                              {&
-                                 [flags]
-                                 kValidAllAttitude}})
-                        {if_else
-                           $valid
-                           {do
-                              {$char clear_group}
-                              {$char set attitude $valid}
-                              {$char load_clips FALSE}}
-                           {notify
-                              {path_name $this}
-                              " is dircut with no valid attitude!"}}}}}}
-            {$char change_group $grp $edit_mode FALSE $fwd $units $event})
-         (invalid_gender
-            ($gender)
-            {==
-               0
-               {&
-                  [flags]
-                  {if_else
-                     {== $gender male}
-                     kValidMale
-                     kValidFemale}}})
-         (preferred_gender
+            {$char
+               change_group
+               $grp
+               {!
+                  {exists game}}
+               FALSE
+               $fwd
+               $units
+               $event})
+         (freeze
             ($char)
-            {if_else
-               $venue_test
-               {do
-                  ($arr
-                     {find
-                        (VENUETEST_PREFABS)
-                        {symbol
-                           {$char name}}})
-                  {if_else
-                     {>
-                        {elem
-                           {find
-                              {find $arr budget_cpu_male}
-                              cost}
-                           1}
-                        {elem
-                           {find
-                              {find $arr budget_cpu_female}
-                              cost}
-                           1}}
-                     male
-                     female}}
-               {if_else
-                  $edit_mode
-                  {$char get gender}
-                  {if_else
-                     {gamemode get is_framerate_test}
-                     $framerate_gender
-                     {$char get gender}}}})
-         (teleport_char
+            {$char freeze})
+         (unfreeze
             ($char)
-            {$char reset_hair})
-         (update_overlay
+            {$char unfreeze})
+         (start_shot
             #ifndef _SHIP
             {rnd
                reflect
@@ -753,11 +692,9 @@
                   "\n"}
                {print
                   " distance:"
-                  {dist_string
-                     [flags]}
+                  [distance]
                   " facing:"
-                  {facing_string
-                     [flags]}
+                  [facing]
                   "\n"}
                {print
                   "bass_focus:"
@@ -782,6 +719,8 @@
                   [min_time]
                   " max_time:"
                   [max_time]
+                  " special:"
+                  [special]
                   {if_else
                      $camera.postproc_override
                      {sprint
@@ -791,10 +730,6 @@
                         " postprocess: "
                         [postprocess]}}
                   "\n"}}
-            #endif)
-         (start_shot
-            #ifndef _SHIP
-            {$this update_overlay}
             #endif
             {if
                [play_anim]
@@ -864,30 +799,22 @@
                      ()
                      FALSE}}}
             {if
+               [event_start]
+               {[event_start]
+                  trigger}}
+            {if
                [one_time]
-               {'|='
-                  [flags]
-                  kBCSBOneTimePlayed}}
+               {set
+                  [one_time_played]
+                  TRUE}}
             {unless
                $camera.disable_picking
                {if
                   {find_elem
-                     (LOSE WIN_PRE WIN WIN_P1 WIN_P2 WIN_TIE WIN_QUICK WIN_PRE_FINALE)
+                     (LOSE WIN WIN_P1 WIN_P2 WIN_TIE WIN_QUICK)
                      [category]}
                   {handle
-                     ($world playing_final_cam)}}
-               {if
-                  {==
-                     [category]
-                     WIN_PRE_FINALE}
-                  {set $camera.disable_picking TRUE}}}
-            {if
-               {&&
-                  {exists game}
-                  {==
-                     {$this name}
-                     "coop_final_win13.shot"}}
-               {game disable_all_controllers}}
+                     ($world playing_final_cam)}}}
             {if
                [crowd]
                {[crowd]
@@ -899,29 +826,26 @@
                   set
                   rotate
                   [crowd_face_camera]}
-               #ifdef HX_PS3
                {[crowd]
                   set_fullness
                   [crowd_density]
-                  [crowd_density]}
-               #endif
-               {[crowd]
-                  set
-                  lod
-                  [crowd_lod]}})
+                  [crowd_density]}})
          (stop_shot
             {if
-               $world
-               {if
-                  [crowd]
-                  {[crowd]
-                     override_anim
-                     ''}}
-               {if
-                  {&&
-                     [lighting_override]
-                     [lighting_preset]}
-                  {$world force_preset ''}}})
+               [event_end]
+               {[event_end]
+                  trigger}}
+            {if
+               [crowd]
+               {[crowd]
+                  override_anim
+                  ''}}
+            {if
+               {&&
+                  [lighting_override]
+                  [lighting_preset]
+                  $world}
+               {$world force_preset ''}})
          (test_targets
             {do
                ($bass FALSE)
@@ -966,8 +890,9 @@
                                  {unless
                                     $tanim
                                     {notify
-                                       {path_name $cam}
-                                       " missing bass animation"}}}
+                                       "missing bass animation on "
+                                       $cam
+                                       " camera"}}}
                               {if
                                  {has_substr
                                     $tname
@@ -976,8 +901,9 @@
                                  {unless
                                     $tanim
                                     {notify
-                                       {path_name $cam}
-                                       " missing drum animation"}}}
+                                       "missing drum animation on "
+                                       $cam
+                                       " camera"}}}
                               {if
                                  {has_substr
                                     $tname
@@ -986,8 +912,9 @@
                                  {unless
                                     $tanim
                                     {notify
-                                       {path_name $cam}
-                                       " missing guitar animation"}}}
+                                       "missing guitar animation on "
+                                       $cam
+                                       " camera"}}}
                               {if
                                  {has_substr
                                     $tname
@@ -996,18 +923,17 @@
                                  {unless
                                     $tanim
                                     {notify
-                                       {path_name $cam}
-                                       " missing vocal animation"}}}}
+                                       "missing vocal animation on "
+                                       $cam
+                                       " camera"}}}}
                            {notify
-                              {path_name $cam}
-                              " target "
-                              $i
-                              " is NULL"}}}}
+                              $cam
+                              " has empty target"}}}}
                   {unless
                      {&& $bass $drum $guitar $vocal}
                      {notify
                         "camera "
-                        {path_name $cam}
+                        $cam
                         " missing all 4 required targets!"}}}
                {if
                   {&&
@@ -1043,7 +969,7 @@
                                     $tanim
                                     {notify
                                        "missing drum animation on "
-                                       {path_name $cam}
+                                       $cam
                                        " camera"}}}
                               {if
                                  {has_substr
@@ -1054,7 +980,7 @@
                                     $tanim
                                     {notify
                                        "missing drum1 animation on "
-                                       {path_name $cam}
+                                       $cam
                                        " camera"}}}
                               {if
                                  {has_substr
@@ -1065,7 +991,7 @@
                                     $tanim
                                     {notify
                                        "missing guitar animation on "
-                                       {path_name $cam}
+                                       $cam
                                        " camera"}}}
                               {if
                                  {has_substr
@@ -1076,7 +1002,7 @@
                                     $tanim
                                     {notify
                                        "missing vocal animation on "
-                                       {path_name $cam}
+                                       $cam
                                        " camera"}}}}
                            {notify
                               $cam
@@ -1121,7 +1047,7 @@
                                     $tanim
                                     {notify
                                        "missing drum animation on "
-                                       {path_name $cam}
+                                       $cam
                                        " camera"}}}
                               {if
                                  {has_substr
@@ -1132,7 +1058,7 @@
                                     $tanim
                                     {notify
                                        "missing guitar0 animation on "
-                                       {path_name $cam}
+                                       $cam
                                        " camera"}}}
                               {if
                                  {has_substr
@@ -1143,7 +1069,7 @@
                                     $tanim
                                     {notify
                                        "missing guitar1 animation on "
-                                       {path_name $cam}
+                                       $cam
                                        " camera"}}}
                               {if
                                  {has_substr
@@ -1154,7 +1080,7 @@
                                     $tanim
                                     {notify
                                        "missing vocal animation on "
-                                       {path_name $cam}
+                                       $cam
                                        " camera"}}}}
                            {notify
                               $cam
@@ -1199,7 +1125,7 @@
                                     $tanim
                                     {notify
                                        "missing drum animation on "
-                                       {path_name $cam}
+                                       $cam
                                        " camera"}}}
                               {if
                                  {has_substr
@@ -1210,7 +1136,7 @@
                                     $tanim
                                     {notify
                                        "missing guitar animation on "
-                                       {path_name $cam}
+                                       $cam
                                        " camera"}}}
                               {if
                                  {has_substr
@@ -1221,7 +1147,7 @@
                                     $tanim
                                     {notify
                                        "missing drum animation on "
-                                       {path_name $cam}
+                                       $cam
                                        " camera"}}}
                               {if
                                  {has_substr
@@ -1232,7 +1158,7 @@
                                     $tanim
                                     {notify
                                        "missing vocal1 animation on "
-                                       {path_name $cam}
+                                       $cam
                                        " camera"}}}}
                            {notify
                               $cam
@@ -1249,34 +1175,104 @@
                {has_substr
                   {$this name}
                   "_dir"}
-               TRUE
+               1
                {if_else
-                  $shot_ok.bie
-                  {$this test_delta $shot_ok.delta_30fps}
-                  {if_else
-                     $cameras.validating
-                     {has_substr
-                        {$this name}
-                        $cameras.namefilter}
-                     TRUE}}}))
+                  $cameras.validating
+                  {do
+                     {if_else
+                        {has_substr
+                           {$this name}
+                           $cameras.namefilter}
+                        TRUE
+                        FALSE}}
+                  {do
+                     {if_else
+                        {&&
+                           [min_time]
+                           {! $edit_mode}}
+                        {do
+                           {set
+                              $mt
+                              {beatmatch
+                                 sec_to_beat
+                                 {'+'
+                                    {taskmgr seconds}
+                                    {/
+                                       [min_time]
+                                       30}}}}
+                           {if_else
+                              {< $camera.next_cam_beat $mt}
+                              FALSE
+                              {if_else
+                                 [max_time]
+                                 {do
+                                    {set
+                                       $mt
+                                       {beatmatch
+                                          sec_to_beat
+                                          {'+'
+                                             {taskmgr seconds}
+                                             {/
+                                                [max_time]
+                                                30}}}}
+                                    {if_else
+                                       {> $camera.next_cam_beat $mt}
+                                       FALSE
+                                       TRUE}}
+                                 TRUE}}}
+                        {if_else
+                           {&&
+                              [max_time]
+                              {! $edit_mode}}
+                           {do
+                              {set
+                                 $mt
+                                 {beatmatch
+                                    sec_to_beat
+                                    {'+'
+                                       {taskmgr seconds}
+                                       {/
+                                          [max_time]
+                                          30}}}}
+                              {if_else
+                                 {> $camera.next_cam_beat $mt}
+                                 FALSE
+                                 TRUE}}
+                           TRUE}}}}}))
       (shell
-         (abs_regulate TRUE)
          (editor
-            (abs_regulate
+            (seated
                bool
                (help
-                  "If true regulates the character so they can't move too far from their start")))
+                  "Are the focus characters seated or not")))
+         (seated FALSE)
          (play_group
             ($char $grp $fwd $units $event)
-            {$char change_group $grp $edit_mode FALSE $fwd $units $event})
-         (teleport_char
-            ($char)
-            {$char sync_waypoint}
+            {$char
+               change_group
+               $grp
+               {!
+                  {exists game}}
+               FALSE
+               $fwd
+               $units
+               $event})
+         (teleport
+            ($thing)
             {handle
-               ($char
-                  set_abs_regulate
-                  [abs_regulate])})
+               ($thing sync_waypoint)})
          (start_shot
+            {if
+               [seated]
+               {foreach_int
+                  $i
+                  0
+                  {$this
+                     size
+                     (targets)}
+                  {handle
+                     ([targets $i target]
+                        disable_pelvis_ik)}}}
             #ifndef _SHIP
             {rnd
                reflect
@@ -1289,19 +1285,17 @@
                   "\n"}}
             #endif)
          (stop_shot
-            {foreach_int
-               $i
-               0
-               {$this
-                  size
-                  (targets)}
-               {do
-                  ($char
-                     [targets $i target])
-                  {if
-                     $char
-                     {handle
-                        ($char set_abs_regulate TRUE)}}}}))
+            {if
+               [seated]
+               {foreach_int
+                  $i
+                  0
+                  {$this
+                     size
+                     (targets)}
+                  {handle
+                     ([targets $i target]
+                        enable_pelvis_ik)}}}))
       (snapshot
          (target0_face '')
          (target1_face '')
@@ -1383,7 +1377,15 @@
                CharDriver
                $d
                {$d enter}}
-            {$char change_group $grp $edit_mode FALSE $fwd $units $event})
+            {$char
+               change_group
+               $grp
+               {!
+                  {exists game}}
+               FALSE
+               $fwd
+               $units
+               $event})
          (start_shot
             {$this
                set_face_anim
@@ -1409,7 +1411,7 @@
                [postprocess]
                {[postprocess]
                   select}}
-            {taskmgr set_seconds 0.0 TRUE}
+            {taskmgr set_seconds_beat 0 0 TRUE}
             {foreach_int
                $i
                0
@@ -1421,7 +1423,6 @@
                      [targets $i target])
                   {if
                      $char
-                     {$char set force_vertical FALSE}
                      {with
                         {$char find bone.servo}
                         {set
@@ -1434,29 +1435,29 @@
                         enter}
                      {{$char find left_eye.lookat}
                         enter}
-                     {$char set frozen FALSE}
+                     {{$char find lip.faceservo}
+                        set
+                        enable_blink
+                        FALSE}
+                     {$char unfreeze}
                      {$char poll}
                      {$this
                         adjust_ik
                         [targets $i target]
-                        {find_obj
-                           [targets $i target]
-                           [targets $i target_ik]}
+                        [targets $i target_ik]
                         [targets $i world_ik]}
+                     {$char poll}
                      {$char
                         iterate
                         CharHair
                         $hair
                         {$hair reset 15}}
-                     {$char poll}
                      {$this
                         adjust_ik
                         [targets $i world_prop]
                         [targets $i world_prop]
-                        {find_obj
-                           [targets $i target]
-                           [targets $i target_prop]}}
-                     {$char set frozen TRUE}
+                        [targets $i target_prop]}
+                     {$char freeze}
                      {with
                         {$char find bone.servo}
                         {set
@@ -1465,7 +1466,10 @@
                         {set
                            [delta_changed]
                            FALSE}}
-                     {$char set force_vertical TRUE}}}})
+                     {{$char find lip.faceservo}
+                        set
+                        enable_blink
+                        TRUE}}}})
          (set_face_anim
             ($i $clip $frame)
             {if
@@ -1537,8 +1541,6 @@
       (flags
          ("Category"
             [category])
-         ("Platform Only"
-            [platform_only])
          ("DoF"
             [use_depth_of_field])
          ("Target 0"
@@ -1560,9 +1562,7 @@
          ("Shake Max x"
             [keyframes 0 shake_maxangle x])
          ("Shake Max y"
-            [keyframes 0 shake_maxangle y])
-         ("PS3 Per Pixel"
-            [ps3_per_pixel]))
+            [keyframes 0 shake_maxangle y]))
       (Shadows
          ("Category"
             [category])
@@ -1589,12 +1589,7 @@
          ("Vocal Cutout"
             [targets 3 spot_cutout])
          ("Vocal Floorspot"
-            [targets 3 floor_shadow]))
-      (CrowdDensity
-         ("Crowd density"
-            [crowd_density])
-         ("Crowd lod"
-            [crowd_lod]))))
+            [targets 3 floor_shadow]))))
 #define PLAYER_SETTINGS
 (("kPlayer1"
       "kPlayer2"
@@ -1633,122 +1628,7 @@
       (peak_value
          float
          (help
-            "Peak state value"))
-      (value
-         float
-         (range 0 1)
-         (post_sync
-            {$this
-               set_crowd
-               [value]})
-         (help
-            "Band health. Animates crowd_meter.grp")
-         (no_test))
-      (guitar
-         float
-         (range -1 1)
-         (post_sync
-            {$this
-               set_val
-               guitar
-               [guitar]})
-         (help
-            "Guitar health. Animates guitar.tnm"))
-      (drum
-         float
-         (range -1 1)
-         (post_sync
-            {$this
-               set_val
-               drum
-               [drum]})
-         (help
-            "Drummer health. Animates drum.tnm"))
-      (bass
-         float
-         (range -1 1)
-         (post_sync
-            {$this
-               set_val
-               bass
-               [bass]})
-         (help
-            "Bass health. Animates bass.tnm"))
-      (vocals
-         float
-         (range -1 1)
-         (post_sync
-            {$this
-               set_val
-               vocals
-               [vocals]})
-         (help
-            "Vocal health. Animates vocals.tnm"))
-      (reset
-         script
-         (script
-            {$this reset}))
-      (level_colors
-         (array color))
-      (maxed
-         bool
-         (post_sync
-            {$this
-               set_maxed
-               [maxed]})
-         (help
-            "Turned on when in the 'meter maxed' state. Animates maxed.tnm")
-         (no_test))
-      (worst_case
-         script
-         (script
-            {$this worst_case}))))
-(CrowdMeterIcon
-   (description
-      "Individual player icon for crowd meter")
-   (superclasses RndDir)
-   (types)
-   (editor
-      (reset
-         script
-         (script
-            {$this reset}))
-      (arrow_hide
-         script
-         (script
-            {$this arrow_hide}))
-      (arrow_show
-         script
-         (script
-            {$this arrow_show}))
-      (deploy
-         script
-         (script
-            {$this deploy}))
-      (stop_deploy
-         script
-         (script
-            {$this stop_deploy}))
-      (glow
-         script
-         (script
-            {$this set_glowing 1}))
-      (glow_stop
-         script
-         (script
-            {$this set_glowing 0}))
-      (state_normal
-         script
-         (script
-            {$this set_state 0}))
-      (state_warning
-         script
-         (script
-            {$this set_state 1}))
-      (state_failed
-         script
-         (script
-            {$this set_state 2}))))
+            "Peak state value"))))
 (BandStarMeterDir
    (description
       "Star meter hud element")
@@ -2290,21 +2170,10 @@
       "Character with outfits and compositing decal texture tech")
    (superclasses Character)
    (editor
-      (height
-         float
-         (help
-            "Deformation height 0-1")
-         (range 0 1))
-      (weight
-         float
-         (help
-            "Deformation weight 0-1")
-         (range 0 1))
       (skin_color_index
          int
          (help
-            "Skin color index")
-         (no_test))
+            "Skin color index"))
       (skin_color_palette
          object
          (class ColorPalette)
@@ -2328,60 +2197,22 @@
          int
          (help
             "Eyebrow color index, uses hair.pal"))
-      (skin_shader
-         object
-         (class Tex)
-         (help
-            "Always use this skin shader for this character"))
       (attitude
          int
          (help
             "Character attitude")
          (list
-            ("kGenreBanger"
+            ("kNoAttitude"
+               "kGenreBanger"
                "kGenreDramatic"
                "kGenreRocker"
                "kGenreSpazz")))
-      (tempo
-         int
-         (help
-            "Character tempo")
-         (list
-            ("kTempoSlow"
-               "kTempoMedium"
-               "kTempoFast")))
-      (clip_mode
-         int
-         (help
-            "Which clips it will load")
-         (list
-            ("kClipModeNone"
-               "kClipModeMeta"
-               "kClipModeLoadingScreen"
-               "kClipModeRealtime"
-               "kClipModeWorld"
-               "kClipModeFinale")))
       (gender
          symbol
          (help
             "gender")
          (list
             (male female)))
-      (frozen
-         bool
-         (help
-            "if true, is frozen in place"))
-      (force_poll
-         bool
-         (help
-            "if true, forces the character to poll even if hidden, used for video venue")
-         (no_test))
-      (load_clips
-         script
-         (help
-            "loads clips according to clips_mode, attitude, and tempo")
-         (script
-            {$this load_clips FALSE}))
       (randomize_colors
          script
          (script
@@ -2395,13 +2226,7 @@
          (script
             {$this write_character})
          (help
-            "Writes out character definition to band\\run\\character_config.dta"))
-      (clear_ram
-         script
-         (script
-            {$this clear_ram})
-         (help
-            "Clears out all unneeded stuff, made for Pi as example."))))
+            "Writes out character definition to band\\run\\character_config.dta"))))
 (LayerDir
    (description
       "Draws configurable layer planes from an orthographic camera")
@@ -2578,7 +2403,6 @@
 (OutfitConfig
    (description
       "Configurable options for outfits")
-   (superclasses Poll)
    (allowed_dirs Character)
    (types)
    (ext cfg)
@@ -2635,10 +2459,15 @@
    (description
       "Special texture renderer for character patches")
    (allowed_dirs)
-   (superclasses TexRenderer)
+   (superclasses Anim Draw)
    (types)
    (ext patch)
    (editor
+      (output_texture
+         object
+         (class Tex)
+         (help
+            "Patch texture to write to"))
       (test_mode
          symbol
          (list
@@ -2698,1670 +2527,16 @@
                   {[postprocess]
                      select}
                   {rnd reset_postproc}}}))))
-(WorldMapDir
-   (description
-      "A panel dir for the world tour map.")
-   (allowed_dirs)
-   (superclasses PanelDir)
-   (editor
-      SHELL_EDITOR
-      (focal_distance
-         float
-         (help
-            "Focal distance."))
-      (blur_depth
-         float
-         (help
-            "Blur depth."))
-      (min_blur
-         float
-         (help
-            "The min blur."))
-      (max_blur
-         float
-         (help
-            "The max blur."))
-      (do_culling
-         bool
-         (help
-            "Should hidden towns be culled?"))
-      (town
-         symbol
-         (list
-            {$this get_town_list})
-         (help
-            "Select a town to rotate the world to it."))
-      (zoom_in
-         script
-         (script
-            {$this zoom_in_impl})
-         (help
-            "Zoom in to a town."))
-      (zoom_out
-         script
-         (script
-            {$this zoom_out_impl})
-         (help
-            "Zoom out from a town."))
-      (animate_plane
-         bool
-         (help
-            "Animate the plane when zooming?")
-         (no_test)))
-   SHELL_TYPE
-   (init
-      {$this set_type default})
-   (types
-      (default
-         (animate_plane TRUE)
-         (zoom_in_grp '')
-         (zoom_out_grp '')
-         (update_postproc
-            {print
-               "Update called for WorldMapDir!\n\n"}
-            {if
-               $edit_mode
-               {if_else
-                  [postprocess]
-                  {[postprocess]
-                     select}
-                  {rnd reset_postproc}}})
-         (get_random_numbered_object
-            ($name_fmt)
-            {do
-               ($array
-                  {array 0})
-               ($obj '')
-               {foreach_int
-                  $i
-                  0
-                  9
-                  {set
-                     $obj
-                     {sprintf $name_fmt $i}}
-                  {if
-                     {exists $obj}
-                     {push_back $array $obj}}}
-               {if_else
-                  {>
-                     {size $array}
-                     0}
-                  {random_elem $array}
-                  ''}})
-         (zoom_in_impl
-            {zoom.grp
-               animate
-               (dest
-                  {zoom.grp end_frame})}
-            {if
-               {exists zoom_in_cancel.grp}
-               {zoom_in_cancel.grp set_frame 0}}
-            {if
-               [animate_plane]
-               {set
-                  [zoom_in_grp]
-                  {$this
-                     get_random_numbered_object
-                     "zoom_in_%d.grp"}}
-               {set
-                  [zoom_out_grp]
-                  {$this
-                     get_random_numbered_object
-                     "zoom_out_%d.grp"}}
-               {if
-                  [zoom_in_grp]
-                  {[zoom_in_grp]
-                     animate}}})
-         (zoom_out_impl
-            {zoom.grp
-               animate
-               (dest 0)}
-            {if
-               [animate_plane]
-               {if
-                  [zoom_in_grp]
-                  {if_else
-                     {[zoom_in_grp]
-                        is_animating}
-                     {if
-                        {exists zoom_in_cancel.grp}
-                        {zoom_in_cancel.grp animate}}
-                     {if
-                        [zoom_out_grp]
-                        {[zoom_out_grp]
-                           animate}}}}}))))
-#define TAP_SPACE
-(0.22)
-#define NORM_SPACE
-(0.33)
-#define BIG_SPACE
-(0.75)
-(MidiParser
-   (description
-      "For controlling behavior from authored midi files")
-   (editor)
-   (init
-      {$this set_type default})
-   (types
-      (default
-         (inverted FALSE)
-         (track_name 'PART DRUMS')
-         (append_length FALSE)
-         (text 0))
-      (drums_right_hand
-         (track_name 'PART DRUMS')
-         (inverted TRUE)
-         (append_length TRUE)
-         (compress TRUE)
-         (message_type drum_rhand)
-         (init
-            {set
-               [zero_length]
-               TRUE}
-            {set
-               [max_gap]
-               2}
-            {set $mp.ride_side TRUE}
-            {set $mp.ride_dir FALSE})
-         (term
-            {$this sec_offset_all WORLD_OFFSET_SEC})
-         (text
-            {if
-               {has_substr
-                  $mp.val
-                  "ride_side"}
-               {set
-                  $mp.ride_side
-                  {has_substr
-                     $mp.val
-                     "true"}}})
-         (allowed_notes 27 29 31 32 36 37 38 39 40 41 42 47 49 51)
-         (midi
-            {$this rt_compute_space}
-            {$this
-               add_message
-               {switch
-                  $mp.val
-                  (27
-                     {cond
-                        ({rt_test_space 2.5 NORM_SPACE}
-                           snare_sticktwirl_long)
-                        ({rt_test_space 2.0 NORM_SPACE}
-                           snare_sticktwirl_med)
-                        ({rt_test_space 1.4 NORM_SPACE}
-                           snare_sticktwirl_short)
-                        ({rt_test_space BIG_SPACE BIG_SPACE}
-                           snare_big)
-                        ({rt_test_space NORM_SPACE NORM_SPACE}
-                           snare)
-                        ({rt_test_space TAP_SPACE TAP_SPACE}
-                           snare_tap)
-                        ({rt_test_space 0 BIG_SPACE}
-                           snare_tap)
-                        snare_hover})
-                  (29
-                     {cond
-                        ({rt_test_space 2.5 NORM_SPACE}
-                           snare_tap)
-                        ({rt_test_space 2.0 NORM_SPACE}
-                           snare_tap)
-                        ({rt_test_space 1.4 NORM_SPACE}
-                           snare_tap)
-                        ({rt_test_space BIG_SPACE BIG_SPACE}
-                           snare_tap)
-                        ({rt_test_space NORM_SPACE NORM_SPACE}
-                           snare_tap)
-                        ({rt_test_space TAP_SPACE TAP_SPACE}
-                           snare_tap)
-                        ({rt_test_space 0 BIG_SPACE}
-                           snare_tap)
-                        snare_hover})
-                  (31
-                     {cond
-                        ({rt_test_space NORM_SPACE NORM_SPACE}
-                           hihat)
-                        ({rt_test_space TAP_SPACE TAP_SPACE}
-                           hihat_tap)
-                        ({rt_test_space 0 BIG_SPACE}
-                           hihat_tap)
-                        hihat_hover})
-                  (32
-                     {cond
-                        ({rt_test_space TAP_SPACE TAP_SPACE}
-                           cowbell_r)
-                        ({rt_test_space 0 BIG_SPACE}
-                           cowbell_r)
-                        cowbell_r_hover})
-                  (36
-                     {if_else
-                        {==
-                           {$this prev_val}
-                           38}
-                        {cond
-                           ({&&
-                                 {<=
-                                    {$this delta}
-                                    1}
-                                 {rt_test_space TAP_SPACE TAP_SPACE}}
-                              crash_l_side)
-                           ({<=
-                                 {$this delta}
-                                 1}
-                              crash_l_hover)
-                           ({rt_test_space BIG_SPACE BIG_SPACE}
-                              crash_l_big)
-                           ({rt_test_space TAP_SPACE TAP_SPACE}
-                              crash_l_soft)
-                           ({rt_test_space 0 BIG_SPACE}
-                              crash_l_soft)
-                           crash_l_hover}
-                        {cond
-                           ({rt_test_space BIG_SPACE BIG_SPACE}
-                              crash_l_big)
-                           ({rt_test_space TAP_SPACE TAP_SPACE}
-                              crash_l_soft)
-                           ({rt_test_space 0 BIG_SPACE}
-                              crash_l_soft)
-                           crash_l_hover}})
-                  (37
-                     {cond
-                        ({rt_test_space TAP_SPACE TAP_SPACE}
-                           crash_l)
-                        ({rt_test_space 0 BIG_SPACE}
-                           crash_l)
-                        crash_l_hover})
-                  (38
-                     {if_else
-                        {==
-                           {$this prev_val}
-                           36}
-                        {cond
-                           ({&&
-                                 {<=
-                                    {$this delta}
-                                    1}
-                                 {rt_test_space TAP_SPACE TAP_SPACE}}
-                              crash_r_side)
-                           ({<=
-                                 {$this delta}
-                                 1}
-                              crash_r_hover)
-                           ({rt_test_space BIG_SPACE BIG_SPACE}
-                              crash_r_big)
-                           ({rt_test_space TAP_SPACE TAP_SPACE}
-                              crash_r_soft)
-                           ({rt_test_space 0 BIG_SPACE}
-                              crash_r_soft)
-                           crash_r_hover}
-                        {cond
-                           ({rt_test_space BIG_SPACE BIG_SPACE}
-                              crash_r_big)
-                           ({rt_test_space TAP_SPACE TAP_SPACE}
-                              crash_r_soft)
-                           ({rt_test_space 0 BIG_SPACE}
-                              crash_r_soft)
-                           crash_r_hover}})
-                  (39
-                     {cond
-                        ({rt_test_space TAP_SPACE TAP_SPACE}
-                           crash_r)
-                        ({rt_test_space 0 BIG_SPACE}
-                           crash_r)
-                        crash_r_hover})
-                  (40 crash_r_grab)
-                  (41 crash_l_grab)
-                  (42
-                     {if_else
-                        {&&
-                           $mp.ride_side
-                           {'||'
-                              {&&
-                                 {==
-                                    {$this prev_val}
-                                    42}
-                                 {< $mp.prev_start 2}}
-                              {&&
-                                 {==
-                                    {$this next_val}
-                                    42}
-                                 {<
-                                    {$this delta}
-                                    2}}}}
-                        {if_else
-                           {rt_test_space TAP_SPACE TAP_SPACE}
-                           {if_else
-                              {==
-                                 {{$this dir}
-                                    get
-                                    attitude}
-                                 kGenreRocker}
-                              {if_else
-                                 $mp.ride_dir
-                                 {do
-                                    {set $mp.ride_dir FALSE}
-                                    ride_side_r}
-                                 {do
-                                    {set $mp.ride_dir TRUE}
-                                    ride_side_l}}
-                              {do
-                                 {set $mp.ride_dir FALSE}
-                                 ride_tap}}
-                           {do
-                              {set $mp.ride_dir FALSE}
-                              ride_tap}}
-                        {do
-                           {set $mp.ride_dir FALSE}
-                           ride_hover}})
-                  (47
-                     {cond
-                        ({rt_test_space BIG_SPACE BIG_SPACE}
-                           tom_l_big)
-                        ({rt_test_space NORM_SPACE NORM_SPACE}
-                           tom_l)
-                        ({rt_test_space TAP_SPACE TAP_SPACE}
-                           tom_l_tap)
-                        ({rt_test_space 0 BIG_SPACE}
-                           tom_l_tap)
-                        tom_l_hover})
-                  (49
-                     {cond
-                        ({rt_test_space BIG_SPACE BIG_SPACE}
-                           tom_r_big)
-                        ({rt_test_space NORM_SPACE NORM_SPACE}
-                           tom_r)
-                        ({rt_test_space TAP_SPACE TAP_SPACE}
-                           tom_r_tap)
-                        ({rt_test_space 0 BIG_SPACE}
-                           tom_r_tap)
-                        tom_r_hover})
-                  (51
-                     {cond
-                        ({rt_test_space BIG_SPACE BIG_SPACE}
-                           floortom_big)
-                        ({rt_test_space NORM_SPACE NORM_SPACE}
-                           floortom)
-                        ({rt_test_space TAP_SPACE TAP_SPACE}
-                           floortom_tap)
-                        ({rt_test_space 0 BIG_SPACE}
-                           floortom_tap)
-                        floortom_hover})
-                  kDataUnhandled}})
-         MIDIPARSER_CONVERTFUNCTIONS)
-      (eq_bass_parser
-         (track_name 'PART BASS')
-         (inverted TRUE)
-         (append_length TRUE)
-         (compress TRUE)
-         (message_type midi_parser)
-         (init
-            {set
-               [max_gap]
-               0.24}
-            {set
-               [min_gap]
-               0.2})
-         (idle
-            {$this insert_idle still 0.1 0.3 0.2})
-         (gem
-            {$this add_message bass}))
-      (eq_guitar_parser
-         (track_name 'PART GUITAR')
-         (inverted TRUE)
-         (append_length TRUE)
-         (compress TRUE)
-         (message_type midi_parser)
-         (init
-            {set
-               [max_gap]
-               0.24}
-            {set
-               [min_gap]
-               0.2})
-         (idle
-            {$this insert_idle still 0.1 0.3 0.2})
-         (gem
-            {$this add_message guitar}))
-      (eq_kick_parser
-         (track_name 'PART DRUMS')
-         (inverted TRUE)
-         (append_length TRUE)
-         (compress TRUE)
-         (message_type midi_parser)
-         (init
-            {set
-               [max_gap]
-               0.24}
-            {set
-               [min_gap]
-               0.2})
-         (idle
-            {$this insert_idle still 0.1 0.1 0.1})
-         (gem
-            {switch
-               $mp.val
-               (kMPGem1
-                  {$this add_message kick})}))
-      (eq_snare_parser
-         (track_name 'PART DRUMS')
-         (inverted TRUE)
-         (append_length TRUE)
-         (compress TRUE)
-         (message_type midi_parser)
-         (init
-            {set
-               [max_gap]
-               0.24}
-            {set
-               [min_gap]
-               0.2})
-         (idle
-            {$this insert_idle still 0.1 0.1 0.1})
-         (gem
-            {switch
-               $mp.val
-               (kMPGem2
-                  {$this add_message snare})}))
-      (eq_cymbal_parser
-         (track_name 'PART DRUMS')
-         (inverted TRUE)
-         (append_length TRUE)
-         (compress TRUE)
-         (message_type midi_parser)
-         (init
-            {set
-               [max_gap]
-               0.15}
-            {set
-               [min_gap]
-               0.125})
-         (idle
-            {$this insert_idle still 7.5e-2 7.5e-2 7.5e-2})
-         (gem
-            {switch
-               $mp.val
-               ((kMPGem3 kMPGem4 kMPGem5)
-                  {$this add_message cymbal})}))
-      (eq_vocal_parser
-         (track_name 'PART VOCALS')
-         (inverted TRUE)
-         (append_length TRUE)
-         (compress TRUE)
-         (message_type midi_parser)
-         (init
-            {set
-               [max_gap]
-               0.24}
-            {set
-               [min_gap]
-               0.2})
-         (idle
-            {$this insert_idle still 0.1 0.3 0.2})
-         (midi
-            {$this add_message vocal}))))
-#define COMMON_BANDTRACK_EDITOR
-((instrument
-      symbol
-      (list
-         ('' bass drum guitar vocals)))
-   (player_intro
-      object
-      (class RndDir))
-   (star_power_meter
-      object
-      (class RndDir))
-   (streak_meter
-      object
-      (class StreakMeterDir))
-   (popup_object
-      object
-      (class RndDir))
-   (player_feedback
-      object
-      (class RndDir))
-   (failed_feedback
-      object
-      (class RndDir))
-   (retract_trig
-      object
-      (class EventTrigger))
-   (reset_trig
-      object
-      (class EventTrigger))
-   (deploy_trig
-      object
-      (class EventTrigger))
-   (stop_deploy_trig
-      object
-      (class EventTrigger))
-   (intro_trig
-      object
-      (class EventTrigger))
-   (disable_player
-      script
-      (script
-         {$this disable_player 1}))
-   (save_player
-      script
-      (script
-         {$this save_player}
-         {script_task
-            kTaskSeconds
-            (delay 1.5)
-            (script
-               {$this enable_player})})))
-#define COMMON_BANDTRACK_DATA
-((min_finale_help_time 5.0))
-(GemTrackDir
-   (description
-      "band 2 TrackDir for gem tracks")
-   (superclasses TrackDir)
-   (editor
-      (reset
-         script
-         (script
-            {$this reset}))
-      (deploy
-         script
-         (script
-            {$this deploy}))
-      (stop_deploy
-         script
-         (script
-            {$this stop_deploy}))
-      (mash
-         script
-         (script
-            {$this mash 0}))
-      (effect_selector
-         object
-         (class RndDir))
-      (practice_reset
-         script
-         (script
-            {$this practice_reset}))
-      (config_cam
-         (indent
-            (1_player_regular
-               script
-               (script
-                  {$this set_pitch -44.5}
-                  {$this set_fov 21.0516}
-                  {$this set_cam_pos 0 -83.5 18.5})
-               (help
-                  "1 gem track, regular aspect"))
-            (1_player_wide
-               script
-               (script
-                  {$this set_pitch -44.5}
-                  {$this set_fov 21.0516}
-                  {$this set_cam_pos 0 -80.98 18.7})
-               (help
-                  "1 gem track, widescreen aspect"))
-            (2_players_regular
-               script
-               (script
-                  {$this set_pitch -41.4}
-                  {$this set_fov 19}
-                  {$this set_cam_pos 0 -114 26})
-               (help
-                  "2 gem tracks, regular aspect"))
-            (2_players_wide
-               script
-               (script
-                  {$this set_pitch -41.4}
-                  {$this set_fov 19}
-                  {$this set_cam_pos 0 -107.56 24.54})
-               (help
-                  "2 gem tracks, widescreen aspect"))
-            (3_players_regular
-               script
-               (script
-                  {$this set_pitch -39.25}
-                  {$this set_fov 19}
-                  {$this set_cam_pos 0 -163 38.5})
-               (help
-                  "3 gem tracks, regular aspect"))
-            (3_players_wide
-               script
-               (script
-                  {$this set_pitch -40}
-                  {$this set_fov 19}
-                  {$this set_cam_pos 0 -129.7 29.7})
-               (help
-                  "3 gem tracks, widescreen aspect")))
-         (help
-            "Configure the camera as we would in game"))
-      (streak_meter_offset
-         float
-         (help
-            "The projected distance between the now bar and the streak meter")
-         (post_sync
-            {$this
-               set_pitch
-               [track_pitch]}))
-      (streak_meter_tilt
-         float
-         (help
-            "The tilt of the streak meter relative to game.cam, in degrees")
-         (post_sync
-            {$this
-               set_pitch
-               [track_pitch]}))
-      COMMON_BANDTRACK_EDITOR
-      (rotater
-         object
-         (class Group))
-      (surface_objects
-         (indent
-            (surface_mesh
-               object
-               (class Mesh))
-            (surface_texture
-               object
-               (class Tex))
-            (surface_mat
-               object
-               (class Mat))))
-      (track_env
-         object
-         (class Environ))
-      (game_cam
-         object
-         (class Cam))
-      (super_streak_triggers
-         (indent
-            (super_streak_on_trig
-               object
-               (class EventTrigger))
-            (super_streak_off_trig
-               object
-               (class EventTrigger))))
-      (spotlight_phrase_success_trig
-         object
-         (class EventTrigger))
-      (solo_hit_trig
-         object
-         (class EventTrigger))
-      (gem_mash_anims
-         (indent
-            (gem_mash_0_anim
-               object
-               (class PropAnim))
-            (gem_mash_1_anim
-               object
-               (class PropAnim))
-            (gem_mash_2_anim
-               object
-               (class PropAnim))
-            (gem_mash_3_anim
-               object
-               (class PropAnim))
-            (gem_mash_4_anim
-               object
-               (class PropAnim))))
-      (drum_mash_anims
-         (indent
-            (drum_mash_1_anim
-               object
-               (class PropAnim))
-            (drum_mash_2_anim
-               object
-               (class PropAnim))
-            (drum_mash_3_anim
-               object
-               (class PropAnim))
-            (drum_mash_4_anim
-               object
-               (class PropAnim))))
-      (fill_hit_trigs
-         (indent
-            (fill_hit_1_trig
-               object
-               (class EventTrigger))
-            (fill_hit_2_trig
-               object
-               (class EventTrigger))
-            (fill_hit_3_trig
-               object
-               (class EventTrigger))))
-      (drummer_objects
-         (indent
-            (kick_drummer_trig
-               object
-               (class EventTrigger))
-            (drum_fill_reset_trig
-               object
-               (class EventTrigger))
-            (drum_mash_2nd_pass_activate_anim
-               object
-               (class PropAnim))
-            (drum_mash_hit_anim_grp
-               object
-               (class Group))))
-      (fill_colors_grp
-         object
-         (class Group))
-      (lod_anim
-         object
-         (class PropAnim))
-      (glow_widgets
-         (array
-            object
-            (class TrackWidget))))
-   (types
-      (test
-         (editor
-            (spew_gems
-               script
-               (script
-                  {$this spew_gems}))
-            (clear_gems
-               script
-               (script
-                  {$this clear_gems}))
-            (fit_meshes
-               (array
-                  object
-                  (class Mesh))
-               (help
-                  "Meshes which need to be fit to the cross section of the track surface."))
-            (dump
-               script
-               (script
-                  {$this dump})))
-         (fit_meshes
-            ())
-         (object_type_list
-            ($obj_type)
-            {do
-               ($array
-                  {array 0})
-               {push_back $array none}
-               {$this
-                  iterate
-                  $obj_type
-                  $obj
-                  {push_back
-                     $array
-                     {symbol
-                        {$obj name}}}}
-               {sort $array}
-               $array})
-         (spew_gems
-            {if
-               {!
-                  {exists spew_gems_test}}
-               {$this toggle_running}
-               {thread_task
-                  kTaskBeats
-                  (name spew_gems_test)
-                  (script
-                     {set $lane 0}
-                     {switch
-                        $beat
-                        (0
-                           {$this
-                              add_test_widget
-                              "bar_measure.wid"
-                              2}
-                           {set $beat 1})
-                        (1
-                           {$this
-                              add_test_widget
-                              "bar_half_beat.wid"
-                              2}
-                           {set $beat 2})
-                        (2
-                           {$this
-                              add_test_widget
-                              "bar_beat.wid"
-                              2}
-                           {set $beat 3})
-                        (3
-                           {$this
-                              add_test_widget
-                              "bar_half_beat.wid"
-                              2}
-                           {set $beat 4})
-                        (4
-                           {$this
-                              add_test_widget
-                              "bar_beat.wid"
-                              2}
-                           {set $beat 5})
-                        (5
-                           {$this
-                              add_test_widget
-                              "bar_half_beat.wid"
-                              2}
-                           {set $beat 6})
-                        (6
-                           {$this
-                              add_test_widget
-                              "bar_beat.wid"
-                              2}
-                           {set $beat 7})
-                        (7
-                           {$this
-                              add_test_widget
-                              "bar_half_beat.wid"
-                              2}
-                           {set $beat 0})}
-                     {set
-                        $num_gems
-                        {random_int 3 4}}
-                     {if
-                        {== $num_gems 1}
-                        {set
-                           $hopo
-                           {random_int 0 2}}}
-                     {foreach_int
-                        $gem
-                        0
-                        $num_gems
-                        {set
-                           $lane
-                           {random_int 0 5}}
-                        {if_else
-                           {==
-                              [instrument]
-                              drum}
-                           {switch
-                              $lane
-                              (0
-                                 {$this
-                                    add_test_widget
-                                    "drum_red.wid"
-                                    $lane})
-                              (1
-                                 {$this
-                                    add_test_widget
-                                    "drum_yellow.wid"
-                                    $lane})
-                              (2
-                                 {$this
-                                    add_test_widget
-                                    "gem_kick.wid"
-                                    $lane})
-                              (3
-                                 {$this
-                                    add_test_widget
-                                    "drum_blue.wid"
-                                    $lane})
-                              (4
-                                 {$this
-                                    add_test_widget
-                                    "drum_green.wid"
-                                    $lane})}
-                           {switch
-                              $lane
-                              (0
-                                 {if_else
-                                    $hopo
-                                    {$this
-                                       add_test_widget
-                                       "gem_green_hopo.wid"
-                                       $lane}
-                                    {$this
-                                       add_test_widget
-                                       "gem_green.wid"
-                                       $lane}})
-                              (1
-                                 {if_else
-                                    $hopo
-                                    {$this
-                                       add_test_widget
-                                       "gem_red_hopo.wid"
-                                       $lane}
-                                    {$this
-                                       add_test_widget
-                                       "gem_red.wid"
-                                       $lane}})
-                              (2
-                                 {if_else
-                                    $hopo
-                                    {$this
-                                       add_test_widget
-                                       "gem_yellow_hopo.wid"
-                                       $lane}
-                                    {$this
-                                       add_test_widget
-                                       "gem_yellow.wid"
-                                       $lane}})
-                              (3
-                                 {if_else
-                                    $hopo
-                                    {$this
-                                       add_test_widget
-                                       "gem_blue_hopo.wid"
-                                       $lane}
-                                    {$this
-                                       add_test_widget
-                                       "gem_blue.wid"
-                                       $lane}})
-                              (4
-                                 {if_else
-                                    $hopo
-                                    {$this
-                                       add_test_widget
-                                       "gem_orange_hopo.wid"
-                                       $lane}
-                                    {$this
-                                       add_test_widget
-                                       "gem_orange.wid"
-                                       $lane}})}}}
-                     {$task sleep 1}
-                     {$task loop})}})
-         (clear_gems
-            {if
-               {exists spew_gems_test}
-               {delete spew_gems_test}
-               {$this toggle_running}})
-         (dump
-            {print
-               "surface_texture: "
-               [surface_texture]
-               "\n"}
-            {print
-               "surface_mesh: "
-               [surface_mesh]
-               "\n"}
-            {print
-               "effect_selector: "
-               [effect_selector]
-               "\n"}
-            {print
-               "gem_track_index: "
-               [gem_track_index]
-               "\n"}
-            {print
-               "num_tracks: "
-               [num_tracks]
-               "\n"}
-            {print
-               "multiplier: "
-               [multiplier]
-               "\n"}
-            {print
-               "kick_pass_counter: "
-               [kick_pass_counter]
-               "\n"})))
-   COMMON_BANDTRACK_DATA)
-(VocalTrackDir
-   (description
-      "band 2 dir for vocal track")
-   (superclasses RndDir)
-   (editor
-      (reset
-         script
-         (script
-            {$this reset}))
-      (deploy
-         script
-         (script
-            {$this deploy}))
-      (stop_deploy
-         script
-         (script
-            {$this stop_deploy}))
-      (static_vocals
-         bool
-         (post_sync
-            {$this
-               set_static_vocals
-               [static_vocals]})
-         (no_test))
-      (test_phrase_meter
-         float
-         (post_sync
-            {$this
-               set_phrase_meter
-               [test_phrase_meter]})
-         (no_test))
-      (scrolling_lyric_colors
-         (indent
-            (scrolling_normal
-               color
-               (help
-                  "Color of the normal lyrics."))
-            (scrolling_now
-               color
-               (help
-                  "Color of the current lyric."))
-            (scrolling_past
-               color
-               (help
-                  "Color of the lyrics after they have been read."))
-            (scrolling_style
-               color
-               (help
-                  "Color of the normal lyrics."))
-            (scrolling_style_now
-               color
-               (help
-                  "Color of the current lyric."))
-            (scrolling_style_past
-               color
-               (help
-                  "Color of the lyrics after they have been read."))))
-      (static_lyric_colors
-         (indent
-            (static_preview
-               color
-               (help
-                  "Color of the preview lyrics"))
-            (static_normal
-               color
-               (help
-                  "Color of the normal lyrics."))
-            (static_now
-               color
-               (help
-                  "Color of the current lyric."))
-            (static_past
-               color
-               (help
-                  "Color of the lyrics after they have been read."))
-            (static_preview_style
-               color
-               (help
-                  "Color of the preview lyrics"))
-            (static_normal_style
-               color
-               (help
-                  "Color of the normal lyrics."))
-            (static_now_style
-               color
-               (help
-                  "Color of the current lyric."))
-            (static_past_style
-               color
-               (help
-                  "Color of the lyrics after they have been read."))))
-      (note_tubes
-         (indent
-            (scrolling_pitched_tube
-               object
-               (class Line))
-            (scrolling_unpitched_tube
-               object
-               (class Line))
-            (scrolling_pitched_style_tube
-               object
-               (class Line))
-            (scrolling_unpitched_style_tube
-               object
-               (class Line))
-            (static_pitched_tube
-               object
-               (class Line))
-            (static_unpitched_tube
-               object
-               (class Line))
-            (static_pitched_style_tube
-               object
-               (class Line))
-            (static_unpitched_style_tube
-               object
-               (class Line))))
-      (background_colors
-         (indent
-            (background
-               color
-               (help
-                  "Color of the background."))
-            (background_spotlight
-               color
-               (help
-                  "Color of the background in a spotlight phrase."))))
-      (feedback_colors
-         (array color)
-         (help
-            "Colors of the rating text for the different ratings."))
-      (feedback_state
-         int
-         (range 0 4)
-         (post_sync
-            {$this
-               set_feedback_state
-               [feedback_state]})
-         (help
-            "Rating after a phrase 0 - Lousy 1 - Poor 2 - Ok 3 - Good 4 - Great.")
-         (no_test))
-      (preview_z
-         float
-         (help
-            "The height at which preview lyrics are shown"))
-      (current_z
-         float
-         (help
-            "The height at which current lyrics are shown"))
-      (test_arrow_visible
-         bool
-         (post_sync
-            {$this
-               set_arrow_visible
-               [test_arrow_visible]})
-         (no_test))
-      (test_pitched
-         bool
-         (post_sync
-            {$this
-               set_pitched
-               [test_pitched]})
-         (no_test))
-      (tube_widths
-         (array float)
-         (fixed_size TRUE)
-         (help
-            "note tube widths per difficulty"))
-      (phonome_tube_width
-         float
-         (help
-            "width of the phonome tube"))
-      (vocalist_volume
-         object
-         (class RndDir))
-      (configurable_objects
-         (array
-            object
-            (class Trans))
-         (help
-            "Objects which can change transform or showing per configuration."))
-      (side_fade_length
-         float
-         (post_sync
-            {$this update_fade}))
-      COMMON_BANDTRACK_EDITOR
-      (tambourine_objects
-         (indent
-            (tambourine_smasher
-               object
-               (class RndDir))
-            (tambourine_now_show_trig
-               object
-               (class EventTrigger))
-            (tambourine_now_hide_trig
-               object
-               (class EventTrigger))))
-      (pitch_arrow_objects
-         (indent
-            (pitch_arrow_group
-               object
-               (class Group))
-            (arrow_visible_anim
-               object
-               (class PropAnim))
-            (pitch_arrow_split_close_trig
-               object
-               (class EventTrigger))
-            (pitch_arrow_split_open_trig
-               object
-               (class EventTrigger))))
-      (phrase_feedback_objects
-         (indent
-            (phrase_feedback_txt
-               object
-               (class Text))
-            (phrase_feedback_trig
-               object
-               (class EventTrigger))))
-      (spotlight_success_objects
-         (indent
-            (spotlight_sparkles_only_trig
-               object
-               (class EventTrigger))
-            (spotlight_phrase_success_trig
-               object
-               (class EventTrigger))))
-      (new_phrase_objects
-         (indent
-            (new_phrase_trig
-               object
-               (class EventTrigger))
-            (flare_trig
-               object
-               (class EventTrigger))))
-      (scoring_objects
-         (indent
-            (scoring_trig
-               object
-               (class EventTrigger))
-            (scoring_stop_trig
-               object
-               (class EventTrigger)))))
-   (types
-      (test
-         (editor
-            (text_lyrics
-               script
-               (script
-                  {$this test_lyrics})))
-         (test_lyrics
-            {word.txt
-               set_text
-               "Current Line"})))
-   COMMON_BANDTRACK_DATA)
-#define COMMON_TRACKPANELDIR_EDITOR
-((view_time_easy
-      float
-      (post_sync
-         {$this configure_tracks}))
-   (view_time_expert
-      float
-      (post_sync
-         {$this configure_tracks}))
-   (net_track_alpha
-      float
-      (post_sync
-         {$this configure_tracks}))
-   (configuration
-      object
-      (class Object)
-      (post_sync
-         {$this
-            set_configuration
-            [configuration]})
-      (help
-         "current configuration")
-      (no_test))
-   (configurable_objects
-      (array
-         object
-         (class Trans))
-      (help
-         "Objects which can change transform or showing per configuration.")))
-(H2HTrackPanelDir
-   (description
-      "panel dir that handles tracks & hud in head-to-head mode")
-   (superclasses PanelDir)
-   (editor
-      (reset
-         script
-         (script
-            {$this configure_tracks}
-            {$this reset}))
-      (track_0_net
-         bool
-         (post_sync
-            {$this configure_tracks})
-         (no_test))
-      (track_1_net
-         bool
-         (post_sync
-            {$this configure_tracks})
-         (no_test))
-      (test_score
-         int
-         (post_sync
-            {$this
-               set_score_diff
-               [test_score]})
-         (no_test))
-      (score_duel
-         bool
-         (post_sync
-            {$this configure_tracks})
-         (no_test))
-      COMMON_TRACKPANELDIR_EDITOR
-      (vocal_game
-         bool
-         (post_sync
-            {$this configure_tracks}
-            {$this play_intro})
-         (read_only TRUE)))
-   (types))
-(TrackPanelDir
-   (description
-      "panel dir that handles tracks & hud")
-   (superclasses PanelDir)
-   (editor
-      (reset
-         script
-         (script
-            {$this configure_tracks}
-            {$this reset}))
-      (bass
-         int
-         (list
-            ("kTrackOff"
-               "kTrackLocal"
-               "kTrackNet"))
-         (post_sync
-            {bass
-               set
-               simulated_net
-               {==
-                  [bass]
-                  kTrackNet}}
-            {$this configure_tracks}))
-      (drum
-         int
-         (list
-            ("kTrackOff"
-               "kTrackLocal"
-               "kTrackNet"))
-         (post_sync
-            {drum
-               set
-               simulated_net
-               {==
-                  [drum]
-                  kTrackNet}}
-            {$this configure_tracks}))
-      (guitar
-         int
-         (list
-            ("kTrackOff"
-               "kTrackLocal"
-               "kTrackNet"))
-         (post_sync
-            {guitar
-               set
-               simulated_net
-               {==
-                  [guitar]
-                  kTrackNet}}
-            {$this configure_tracks}))
-      (vocals
-         int
-         (list
-            ("kTrackOff"
-               "kTrackLocal"
-               "kTrackNet"))
-         (post_sync
-            {vocals
-               set
-               simulated_net
-               {==
-                  [vocals]
-                  kTrackNet}}
-            {$this configure_tracks}))
-      (test_multiplier
-         int
-         (post_sync
-            {$this
-               set_multiplier
-               [test_multiplier]})
-         (no_test))
-      (normal_mode
-         script
-         (script
-            {applause_meter.grp set_showing FALSE}
-            {scoreboard set_config normal}))
-      (botb_mode
-         script
-         (script
-            {applause_meter.grp set_showing TRUE}
-            {scoreboard set_config botb}))
-      (botb_star_mode
-         script
-         (script
-            {applause_meter.grp set_showing TRUE}
-            {scoreboard set_config botb_star}))
-      COMMON_TRACKPANELDIR_EDITOR
-      (turn_everything_on
-         script
-         (script
-            {player_intro_01 intro}
-            {player_intro_02 intro}
-            {player_intro_03 intro}
-            {player_feedback_01 start_solo}
-            {player_feedback_01 set_percent 25}
-            {player_feedback_02 start_solo}
-            {player_feedback_02 set_percent 100}
-            {player_feedback_03 start_solo}
-            {player_feedback_03 set_percent 50}
-            {failed_feedback_01 failed 3}
-            {failed_feedback_02 failed 3}
-            {failed_feedback_03 failed 3}
-            {popup_help_01 drum_fill}
-            {popup_help_02 drum_fill}
-            {popup_help_03 drum_fill}
-            {scoreboard set_score 20}
-            {scoreboard set_score 40}
-            {scoreboard set_score 60}
-            {scoreboard set_score 80}
-            {scoreboard set_score 1234567}
-            {crowd_meter set_maxed TRUE}
-            {ending_bonus start}
-            {$this set_multiplier 4}
-            {endgame_feedback_01 end_game_start}
-            {endgame_feedback_02 end_game_start}
-            {endgame_feedback_03 end_game_start}
-            {endgame_feedback_vox end_game_start}
-            {do
-               ($obj)
-               {set
-                  $obj
-                  {vocals get popup_object}}
-               {if
-                  {!=
-                     $obj
-                     ""}
-                  {$obj scream}}
-               {set
-                  $obj
-                  {vocals get player_feedback}}
-               {if
-                  {!=
-                     $obj
-                     ""}
-                  {$obj start_solo}
-                  {$obj set_percent 35}}}))
-      (turn_everything_off
-         script
-         (script
-            {player_intro_01 reset}
-            {player_intro_02 reset}
-            {player_intro_03 reset}
-            {player_feedback_01 reset}
-            {player_feedback_02 reset}
-            {player_feedback_03 reset}
-            {failed_feedback_01 reset}
-            {failed_feedback_02 reset}
-            {failed_feedback_03 reset}
-            {popup_help_01 reset}
-            {popup_help_02 reset}
-            {popup_help_03 reset}
-            {vocals reset}
-            {scoreboard reset}
-            {crowd_meter reset}
-            {ending_bonus reset}
-            {$this set_multiplier 1}
-            {endgame_feedback_01 end_game_end}
-            {endgame_feedback_02 end_game_end}
-            {endgame_feedback_03 end_game_end}
-            {endgame_feedback_vox end_game_end}))
-      (game_won
-         script
-         (script
-            {$this game_won}))
-      (game_lost
-         script
-         (script
-            {$this game_lost}))
-      (everyone_deploy
-         script
-         (script
-            {bass deploy}
-            {guitar deploy}
-            {drum deploy}
-            {vocals deploy}
-            {crowd_meter deploy bass}
-            {crowd_meter deploy guitar}
-            {crowd_meter deploy drum}
-            {crowd_meter deploy vocals}))
-      (everyone_stop_deploy
-         script
-         (script
-            {bass stop_deploy}
-            {guitar stop_deploy}
-            {drum stop_deploy}
-            {vocals stop_deploy}
-            {crowd_meter stop_deploy bass}
-            {crowd_meter stop_deploy guitar}
-            {crowd_meter stop_deploy drum}
-            {crowd_meter stop_deploy vocals}))
-      (spew_gems
-         script
-         (script
-            {guitar spew_gems}
-            {drum spew_gems}
-            {bass spew_gems}
-            {{guitar find smasher_plate_guitar}
-               fast_test}
-            {{bass find smasher_plate_guitar}
-               fast_test}
-            {{drum find smasher_plate_drum}
-               fast_test}))
-      (clear_gems
-         script
-         (script
-            {guitar clear_gems}
-            {drum clear_gems}
-            {bass clear_gems}
-            {{guitar find smasher_plate_guitar}
-               stop_test}
-            {{bass find smasher_plate_guitar}
-               stop_test}
-            {{drum find smasher_plate_drum}
-               stop_test}))
-      (start_finale
-         script
-         (script
-            {$this game_won_finale})))
-   (types))
-(StreakMeterDir
-   (description
-      "streak meter for band tracks")
-   (superclasses RndDir))
-(EndingBonusDir
-   (description
-      "BRE/unison phrase popup")
-   (superclasses RndDir)
-   (editor
-      (start
-         script
-         (script
-            {$this start})
-         (help
-            "Start the ending bonus."))
-      (reset
-         script
-         (script
-            {$this reset})
-         (help
-            "Reset the ending bonus."))
-      (success
-         script
-         (script
-            {$this success})
-         (help
-            "Plays success.trig at the end of the bonus."))
-      (failure
-         script
-         (script
-            {$this coda_end})
-         (help
-            "Plays failure.trig at the end of the bonus."))
-      (score
-         int
-         (post_sync
-            {$this
-               set_score
-               [score]})
-         (help
-            "Ending bonus score.")
-         (no_test))
-      (unison_start
-         script
-         (script
-            {$this unison_start}))
-      (unison_end
-         script
-         (script
-            {$this unison_end}))
-      (unison_succeed
-         script
-         (script
-            {$this unison_succeed})))
-   (types))
-(LoadingPanelDir
-   (description
-      "Panel for loading screens w/characters")
-   (superclasses WorldDir)
-   (editor
-      (clip_file_path
-         file
-         (help
-            "Milo CharClipSet from which to set poses"))
-      (import
-         script
-         (script
-            {do
-               {$this import_clip}
-               {if
-                  {$this exists bass}
-                  {set
-                     [edit_char]
-                     {$this find bass}}
-                  {$this save_pose}}
-               {if
-                  {$this exists drum}
-                  {set
-                     [edit_char]
-                     {$this find drum}}
-                  {$this save_pose}}
-               {if
-                  {$this exists guitar}
-                  {set
-                     [edit_char]
-                     {$this find guitar}}
-                  {$this save_pose}}
-               {if
-                  {$this exists vocals}
-                  {set
-                     [edit_char]
-                     {$this find vocals}}
-                  {$this save_pose}}})
-         (help
-            "Reset char poses from CharClipSet"))
-      (edit_char
-         object
-         (class CompositeCharacter)
-         (help
-            "Pick a character to edit"))
-      (h2h_char_type
-         symbol
-         (list
-            (guitar bass drum vocals))
-         (help
-            "Type for H2H character, use whichever for non-H2H screens"))
-      (finalize_pose
-         script
-         (script
-            {$this save_pose})
-         (help
-            "Pose character from skeleton")))
-   (types
-      (shell
-         (clip_flags
-            ("kLeftArm"
-               "kRightArm"
-               "kLeftLeg"
-               "kRightLeg"
-               "kAnimateEyes"
-               "kLookAtCam"))
-         (change_proxies
-            {handle
-               (char_cache change_characters $this)}))))
 #define kMomentNone
 (0)
 #define kMomentSuccess
 (1)
 #define kMomentFail
 (2)
+#define kIcon
+(0)
+#define kInstrument
+(1)
 (EventCompleteDir
    (description
       "PanelDir for tour event complete screens")
@@ -4389,6 +2564,9 @@
                   object
                   (class Anim))
                (icon_label
+                  object
+                  (class BandLabel))
+               (instrument_label
                   object
                   (class BandLabel))
                (icon_label_str string)
@@ -4425,7 +2603,12 @@
                   (list
                      ("kMomentNone"
                         "kMomentSuccess"
-                        "kMomentFail"))))))
+                        "kMomentFail")))
+               (item_type
+                  int
+                  (list
+                     ("kIcon"
+                        "kInstrument"))))))
       (initial_delay
          float
          range

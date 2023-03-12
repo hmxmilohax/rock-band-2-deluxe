@@ -1,0 +1,259 @@
+{new
+   UIPanel
+   tutorials_pause_mic_panel
+   (file
+      "tutorial_pause_mic_real.milo")
+   (enter
+      {$this set_focus pause_resume.btn}
+      {talk.mnm set_frame 1}
+      {$this on_mics_change})
+   (poll
+      {print
+         "poll\n"}
+      {if_else
+         {tutorials_state_panel is_mic_talking}
+         {do
+            {print
+               {tutorials_state_panel mic_percent_talking}
+               "\n"}
+            #ifdef HX_XBOX
+            {talk.mnm
+               set_frame
+               {tutorials_state_panel mic_percent_talking}}
+            #else
+            {talk.mnm set_frame 1}
+            #endif}
+         {talk.mnm set_frame 0}})
+   (on_mics_change
+      {if_else
+         {tutorials_state_panel is_mic_disconnected}
+         {do
+            {$this disable pause_resume.btn}
+            {$this set_focus pause_quit.btn}}
+         {do
+            {$this enable pause_resume.btn}
+            {$this set_focus pause_resume.btn}}})}
+{new
+   BandScreen
+   tutorials_pause_mic_screen
+   #ifdef HX_XBOX
+   (panels tutorials_pause_mic_panel)
+   #else
+   (panels pause_bg_panel tutorials_pause_mic_panel)
+   #endif
+   (focus tutorials_pause_mic_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (allow_back FALSE)
+   (animate_transition FALSE)
+   (microphones_changed
+      ($vocalists_mic_changed)
+      {tutorials_pause_mic_panel on_mics_change})
+   (pre_enter
+      {set
+         [is_quitting]
+         FALSE}
+      {tutorials_state_panel pause})
+   (enter
+      {set
+         [is_quitting]
+         FALSE}
+      {set
+         [is_done]
+         FALSE})
+   (exit
+      {if
+         {!
+            [is_quitting]}
+         {tutorials_state_panel unpause}})
+   (resume_tutorial
+      {ui pop_screen})
+   (quit_tutorial
+      {set
+         [is_quitting]
+         TRUE}
+      {tutorials_state_panel reset_tutorial}
+      {gamemode set main_screen main_screen}
+      {ui goto_screen meta_loading_tutorial_main_screen})
+   (SELECT_MSG
+      {if_else
+         {&&
+            {==
+               $player_num
+               {{gamemode get main_panel}
+                  get_tutorial_player}}
+            {!
+               [is_done]}}
+         {do
+            {set
+               [is_done]
+               TRUE}
+            {switch
+               $component
+               (pause_resume.btn
+                  {$this resume_tutorial})
+               (pause_quit.btn
+                  {$this quit_tutorial})}
+            kDataUnhandled}
+         TRUE})
+   (BUTTON_DOWN_MSG
+      {if_else
+         {&&
+            {==
+               $player_num
+               {{gamemode get main_panel}
+                  get_tutorial_player}}
+            {!
+               [is_done]}}
+         {do kDataUnhandled}
+         TRUE})
+   (BUTTON_UP_MSG
+      {if_else
+         {&&
+            {==
+               $player_num
+               {{gamemode get main_panel}
+                  get_tutorial_player}}
+            {!
+               [is_done]}}
+         {do kDataUnhandled}
+         TRUE})
+   (is_quitting FALSE)
+   (is_done FALSE)}
+{new
+   UIPanel
+   tutorials_pause_controller_panel
+   (file ../ui/dialog_og.milo)
+   (enter
+      {helpbar set_limit_to_player_num -1}
+      {helpbar set_limit_to_session FALSE}
+      {no.btn set_showing FALSE}
+      {yes.btn set_showing FALSE}
+      {ok.btn set_showing FALSE}
+      {dialog_title.lbl set_showing FALSE}
+      {opt1.btn
+         set
+         text_token
+         {localize continue}}
+      {opt2.btn
+         set
+         text_token
+         {localize error_return_to_main}}
+      {$this set_focus opt2.btn}
+      {$this
+         disable
+         {$this find opt1.btn}}
+      {$this on_joypad_change})
+   (BUTTON_DOWN_MSG
+      {do
+         {if
+            {&&
+               {!
+                  {game missing_controllers}}
+               {== $button kPad_Start}}
+            {ui pop_screen}}
+         kDataUnhandled})
+   (SELECT_MSG
+      {switch
+         $component
+         (opt1.btn
+            {if_else
+               {==
+                  {ui previous_screen}
+                  tutorials_fail_screen}
+               {ui goto_screen tutorials_fail_screen}
+               {ui pop_screen}})
+         (opt2.btn
+            {$this on_quit})})
+   (JOYPAD_CONNECT_MSG
+      {$this on_joypad_change})
+   (on_joypad_change
+      {if
+         {!
+            {tutorials_pause_screen get_is_quitting}}
+         {if_else
+            {game missing_controllers}
+            {do
+               {$this update_labels}
+               {$this
+                  disable
+                  {$this find opt1.btn}}}
+            {do
+               {$this
+                  set_focus
+                  {$this find opt1.btn}}}}})
+   (update_labels
+      {do
+         ($missing_controllers
+            {game missing_controllers})
+         ($who
+            "")
+         ($i 0)
+         ($total 0)
+         ($instrument
+            "")
+         ($pcfg 0)
+         ($slot 0)
+         {foreach
+            $j
+            (1 2 4 8 16 32 64 128)
+            {set
+               $pcfg
+               {game get_player_config $i}}
+            {set
+               $slot
+               {'+'
+                  {gamecfg
+                     get_slot_num_from_player_num
+                     {gamecfg get leader_num}}
+                  1}}
+            {if
+               {& $j $missing_controllers}
+               {set
+                  $who
+                  {if_else
+                     {==
+                        ""
+                        $who}
+                     {set
+                        $who
+                        {$pcfg get player_name}}
+                     {sprintf
+                        {localize controller_who}
+                        $who
+                        {$pcfg get player_name}}}}
+               {switch
+                  {$pcfg get_controller_type}
+                  (kControllerVocals
+                     {set
+                        $instrument
+                        "DUALSHOCK 2"})
+                  {set
+                     $instrument
+                     {$pcfg get_controller_sym}}}
+               {'++' $total}}
+            {'++' $i}}
+         {{$this find msg.lbl}
+            set_localized
+            {if_else
+               {==
+                  ""
+                  $instrument}
+               {sprintf
+                  {localize error_pad_lost_none}
+                  $who
+                  $slot}
+               {sprintf
+                  {localize error_pad_lost}
+                  $who
+                  $instrument
+                  $slot}}}})
+   (on_quit
+      {ui goto_screen meta_loading_quit_early_screen})}
+{new
+   BandScreen
+   tutorials_pause_controller_screen
+   (panels tutorials_pause_controller_panel)
+   (focus tutorials_pause_controller_panel)
+   (helpbar
+      ((confirm helpbar_select)))}

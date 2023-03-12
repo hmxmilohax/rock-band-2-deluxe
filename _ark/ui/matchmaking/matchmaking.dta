@@ -7,18 +7,11 @@
    CharSelectPanel
    practice_space_panel
    (file
-      "../practice/practice_space.milo")
+      "../practice/practice_space_og.milo")
    (enter
       {$this refresh}
       {meta music_stop}
       {synth play bwt_practice_amb.cue})
-;      #ifdef HX_PS3
-;      {rnd set_sync 2}
-;      #endif)
-;   #ifdef HX_PS3
-   (exit)
-;      {rnd set_sync 1})
-;   #endif
    (load
       {if
          {gamemode get keep_movie_loaded}
@@ -29,13 +22,15 @@
          {movie_panel unload}}
       {synth stop bwt_practice_amb.cue})
    (refresh
-      {band_name.lbl
-         set_localized
-         {if_else
-            {tour band}
-            {{tour band}
-               band_name}
-            ""}}
+      {if
+         {exists band_name.lbl}
+         {band_name.lbl
+            set_localized
+            {if_else
+               {tour band}
+               {{tour band}
+                  band_name}
+               ""}}}
       {win_expert.grp set_showing FALSE}
       {win_hard.grp set_showing FALSE}
       {win_medium.grp set_showing FALSE}
@@ -52,30 +47,14 @@
                {win_hard.grp set_showing TRUE}
                {win_medium.grp set_showing TRUE})
             (kDifficultyMedium
-               {win_medium.grp set_showing TRUE})}}
-      {logo.rndtex set force FALSE}
-      {logo.mesh
-         set_showing
-         {!
-            {!
-               {tour band}}}}
-      {if
-         {tour band}
-         {logo.rndtex
-            set
-            proxy
-            {{tour band}
-               logo_patch}}})}
+               {win_medium.grp set_showing TRUE})}})}
 {new
-   CharLoadingPanel
+   UIPanel
    matchmaking_panel
    (file
       "matchmaking.milo")
    (load
-      {content_mgr start_refresh}
-      {content_loading_panel allowed_to_show TRUE})
-   (finish_load
-      {content_loading_panel allowed_to_show FALSE})
+      {content_mgr start_refresh})
    (is_loaded
       {content_mgr refresh_done})
    (enter
@@ -83,7 +62,7 @@
       {waiting.tnm set_frame 0}
       {waiting.mnm set_frame 0}
       {if_else
-         {gamemode get is_h2h_arrangement}
+         {gamemode get is_hth_arrangement}
          {do
             {band_only_slots.grp set_showing FALSE}
             {h2h_slot0.tnm set_frame 1}
@@ -113,11 +92,11 @@
          animate
          (dest 0)})}
 {new
-   MatchmakingScreen
+   BandScreen
    matchmaking_screen
    (panels meta practice_space_panel matchmaking_panel tour_lower3rd_panel)
    (helpbar
-      ())
+      ((min_height 0)))
    (back
       {do
          {main_panel
@@ -125,10 +104,11 @@
             {gamemode get main_mode_screen}}
          {gamemode get main_mode_screen}})
    (poll
-      {if
-         {!
-            {is_leader_local}}
-         {botb_challenge_loader check_load}})
+      #ifndef NOWIINETWORKING
+      #ifndef HX_EE
+      {botb_challenge_loader check_load}
+      #endif
+      #endif)
    (on_confirm_abandon
       {ui push_screen mm_confirm_abandon_screen})
    (on_confirm_back
@@ -137,7 +117,7 @@
       (panel matchmaking_panel)
       (slots
          {if_else
-            {gamemode get is_h2h_arrangement}
+            {gamemode get is_hth_arrangement}
             (none none)
             (COOP_SLOTS_ORDER)})
       (type
@@ -213,7 +193,7 @@
                set
                message
                {if_else
-                  {gamemode get is_h2h_arrangement}
+                  {gamemode get is_hth_arrangement}
                   h2h_vocalist_needs_mic
                   band_vocalist_needs_mic}}
             {ui push_screen vocalist_must_have_mic_screen})
@@ -227,7 +207,7 @@
             {$this preserve_last_button}
             {input_mgr set_user $user}
             {if_else
-               {gamemode get is_h2h_arrangement}
+               {gamemode get is_hth_arrangement}
                {ui push_screen mm_signin_h2h_guest_screen}
                {ui push_screen mm_signin_guest_not_first_screen}})
          (on_join_failed
@@ -321,6 +301,7 @@
             ($user_name $char_name $pad_num)
             {user_name.lbl set_localized $user_name}
             {char_name.lbl set_localized $char_name}
+            #ifndef HX_EE
             {if_else
                $pad_num
                {do
@@ -330,7 +311,10 @@
                         "%d"
                         $pad_num}}
                   {pad_num.lbl set_showing TRUE}}
-               {pad_num.lbl set_showing FALSE}})
+               {pad_num.lbl set_showing FALSE}}
+            #else
+            {pad_num.lbl set_showing FALSE}
+            #endif)
          (update_instrument_icons
             ($icon_char $icon_enabled)
             {user_name_instrument_icon.lbl set_localized $icon_char}
@@ -380,29 +364,7 @@
                         $pos}}
                   {$trans get_local_pos $x $y $z}
                   {join_icon_vocals.lbl set_local_pos $x $y $z}}
-               {join_icon_vocals.lbl set_showing $is_vocals}
-               {if_else
-                  {platform_mgr is_confirm_cancel_swapped}
-                  {do
-                     {join_icon_guitar.lbl
-                        set_localized
-                        "r"}
-                     {join_icon_drum.lbl
-                        set_localized
-                        "2"}
-                     {join_icon_vocals.lbl
-                        set_localized
-                        "B"}}
-                  {do
-                     {join_icon_guitar.lbl
-                        set_localized
-                        "g"}
-                     {join_icon_drum.lbl
-                        set_localized
-                        "1"}
-                     {join_icon_vocals.lbl
-                        set_localized
-                        "A"}}}})
+               {join_icon_vocals.lbl set_showing $is_vocals}})
          (update_online_enabled
             ($show)
             {online_enabled.grp set_showing $show})
@@ -545,7 +507,7 @@
       {band_ui set handle_remote_player_left FALSE}
       {matchmaking_panel hide_waiting}
       {if_else
-         {gamemode get is_h2h_arrangement}
+         {gamemode get is_hth_arrangement}
          {practice_space_panel
             select_cam
             "hth_enter"}
@@ -553,7 +515,9 @@
             select_cam
             "coop_enter"}}
       {gamecfg set coop_intro_category INTRO}
+      #ifndef HX_OG
       {presence_mgr set_assembling_band}
+      #endif
       {net_sync set_ui_state kNetUI_Matchmaking}
       {input_mgr set_limit kLimitNone}
       {song_offer_provider set_highlighted_ix -1}
@@ -568,9 +532,13 @@
          {gamemode get is_tour}
          {gamecfg set_joining_allowed FALSE}}
       {band_ui set handle_remote_player_left TRUE}
+      #ifndef HX_OG
       {presence_mgr set_prepare_to_rock}
+      #endif
       {synth reset_mics_changed}
-      {input_mgr set_limit kLimitSessionLeader})
+      {helpbar
+         set_limit_to_player_num
+         {game get leader_num}})
    (allow_input
       {!
          {session is_busy}})
@@ -586,7 +554,7 @@
       ($player_num)
       {net_sync set_ui_state kNetUI_Matchmaking}
       {if
-         {gamemode get is_h2h_arrangement}
+         {gamemode get is_hth_arrangement}
          {do
             ($controller_sym none)
             {gamecfg
@@ -722,6 +690,7 @@
    (SELECT_MSG
       {input_mgr clear_user}
       {ui pop_screen})}
+#ifdef FIXME_DELETE_NETOWRKING
 {new
    SigninScreen
    mm_signin_net_screen
@@ -869,6 +838,7 @@
    (on_not_multiplayer_capable)
    (on_signed_in
       {ui pop_screen})}
+#endif
 {new
    UIPanel
    mm_net_options_panel
@@ -910,12 +880,13 @@
          {session is_local}
          {$this disable opt3.btn}
          {$this enable opt3.btn kMaybeFocus}}
+      #endif
+      #ifdef HX_WII
+      {$this disable opt3.btn}
+      {opt3.btn set_showing FALSE}
       #endif)
-   (enter
-      {input_mgr set_limit kLimitSession})
    (exit
-      {session remove_sink $this}
-      {input_mgr set_limit kLimitNone})
+      {session remove_sink $this})
    (BUTTON_DOWN_MSG
       {switch
          $action
@@ -932,6 +903,9 @@
             {ui pop_screen}
             #endif
             #ifdef HX_PS3
+            {ui goto_screen invite_friends_screen}
+            #endif
+            #ifdef HX_WII
             {ui goto_screen invite_friends_screen}
             #endif)
          (opt2.btn
@@ -1036,12 +1010,6 @@
    (helpbar
       ((cancel helpbar_back)
          (confirm helpbar_select)))
-   (enter
-      {input_mgr set_limit kLimitSession})
-   (exit
-      {input_mgr set_limit kLimitNone}
-      {session remove_sink $this}
-      {remote_players_provider cleanup})
    (BUTTON_DOWN_MSG
       {if_else
          {== $action kAction_Cancel}
@@ -1067,7 +1035,10 @@
       {players.lst set_provider remote_players_provider}
       {if
          {session is_local}
-         {ui pop_screen}})}
+         {ui pop_screen}})
+   (exit
+      {session remove_sink $this}
+      {remote_players_provider cleanup})}
 {new
    BandScreen
    kick_player_screen
@@ -1170,16 +1141,13 @@
    (panels more_details_panel)
    (focus more_details_panel)
    MATCHMAKING_SCREEN_ERROR_HANDLERS
-   (enter
-      {input_mgr set_limit kLimitSession})
-   (exit
-      {input_mgr set_limit kLimitNone})
    (leave
       {ui goto_screen mm_net_options_screen})
    (helpbar
       ((cancel helpbar_cancel)
          (confirm helpbar_confirm)))
    ALLOW_LEADER_TO_CONTINUE}
+#ifdef FIXME_DELETE_NETOWRKING
 #define kFindingPanelSubstitute
 (0)
 #define kFindingPanelFindLeader
@@ -1235,7 +1203,7 @@
       {$this disable retry.btn}
       {$this update_helpbar}
       {if_else
-         {gamemode get is_h2h_arrangement}
+         {gamemode get is_hth_arrangement}
          {practice_space_panel
             select_cam
             "hth_enter"}
@@ -1265,11 +1233,13 @@
             kNetJoining}
          {do
             {$this set_joining_presence}
-            {helpbar cancel ''}
+            {helpbar
+               ((cancel cancel))}
             {$this disable continue.btn}
             {$this update_helpbar}}
          {do
-            {helpbar cancel helpbar_back}
+            {helpbar
+               ((cancel helpbar_back))}
             {if
                {==
                   {continue.btn get_state}
@@ -1300,8 +1270,10 @@
          {!=
             {$this focus_name}
             ''}
-         {helpbar confirm helpbar_select}
-         {helpbar confirm ''}})
+         {helpbar
+            ((confirm helpbar_select))}
+         {helpbar
+            ((confirm confirm))}})
    (enable_retry
       {matchmaker cancel_find}
       {session clear}
@@ -1401,13 +1373,13 @@
    BandScreen
    finding_screen
    (panels meta practice_space_panel finding_panel)
-   (enter {set $songlistpos FALSE})
    (back
       {finding_panel back_screen})
    (focus finding_panel)
    (allow_input_while_network_busy TRUE)
    (helpbar
       ((cancel helpbar_back)))}
+#endif
 {new
    UIPanel
    selchannel_panel

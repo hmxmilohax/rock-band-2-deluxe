@@ -1,0 +1,25 @@
+{new TutorialBackgroundPanel tutorials_background_panel}
+{new TutorialTVScreenPanel tutorials_tv_screen_panel}
+{new TutorialTVOverlayPanel tutorials_tv_overlay_panel}
+#include globals/vo.dta
+#include globals/game.dta
+#include globals/sync.dta
+#include globals/labels.dta
+#include globals/hud.dta
+#include globals/tv.dta
+#include globals/song.dta
+#include globals/score.dta
+#include globals/state.dta
+#include tutorial_preload.dta
+#include tutorial_base.dta
+#include tutorial_fail.dta
+#include tutorial_pause.dta
+#include tutorial_pause_mic.dta
+#include tutorial_pause_controllers.dta
+#include tutorial_loading.dta
+#include tutorial_lesson_menu.dta
+#include tutorial_state.dta
+#include tutorial_events.dta
+#include drum_tutorial.dta
+#include guitar_tutorial.dta
+#include vocals_tutorial.dta

@@ -47,9 +47,7 @@
             (do_hit_fill
                script
                (script
-                  {$this
-                     hit_fill_vel
-                     [test_velocity]}))
+                  {$this hit_fill}))
             (do_hit_drum
                script
                (script
@@ -93,18 +91,7 @@
             (last_note
                script
                (script
-                  {$this last_note}))
-            (test_velocity
-               int
-               (range 0 10)
-               (help
-                  "velocity of fill hit from soft to loud"))
-            (velocity_fill_triggers
-               (array
-                  object
-                  (class EventTrigger))
-               (help
-                  "fill hits by velocity from lightest to hardest")))
+                  {$this last_note})))
          (glow FALSE)
          (in_danger FALSE)
          (label
@@ -112,63 +99,41 @@
          (color green proxy_save)
          (burning FALSE)
          (base_frame 0)
-         (test_velocity 0)
-         (velocity_fill_triggers
-            ())
-         (last_set_color '')
-         (reset
-            {$this
-               set_color
-               [color]}
-            {reset.trig trigger}
-            {set
-               [burning]
-               FALSE}
-            {if
-               {exists LOD.anim}
-               {LOD.anim set_frame $track_LOD}})
          (set_color
             ($in_color)
-            {if
-               {!=
-                  [last_set_color]
-                  $in_color}
-               {do
-                  ($slot)
-                  ($frame)
-                  {set
-                     [color]
-                     $in_color}
-                  {switch
-                     $in_color
-                     (green
-                        {set $slot 0})
-                     (red
-                        {set $slot 1})
-                     (yellow
-                        {set $slot 2})
-                     (blue
-                        {set $slot 3})
-                     (orange
-                        {set $slot 4})}
-                  {set $frame $slot}
-                  {if
-                     {exists particle_slot_colors.anim}
-                     {particle_slot_colors.anim set_frame $frame}}
-                  {set
-                     [base_frame]
-                     {'*' 20 $frame}}
-                  {if
-                     {exists smasher_glow.anim}
-                     {smasher_glow.anim
-                        set_frame
-                        [base_frame]}}
-                  {$this set_launcher_color broken_glass_squares.ml}
-                  {$this set_launcher_color broken_glass_triangles.ml}
-                  {$this set_launcher_color radial_debris.ml}}
+            {do
+               ($slot)
+               ($frame)
                {set
-                  [last_set_color]
-                  $in_color}})
+                  [color]
+                  $in_color}
+               {switch
+                  $in_color
+                  (green
+                     {set $slot 0})
+                  (red
+                     {set $slot 1})
+                  (yellow
+                     {set $slot 2})
+                  (blue
+                     {set $slot 3})
+                  (orange
+                     {set $slot 4})}
+               {set $frame $slot}
+               {if
+                  {exists particle_slot_colors.anim}
+                  {particle_slot_colors.anim set_frame $frame}}
+               {set
+                  [base_frame]
+                  {'*' 20 $frame}}
+               {if
+                  {exists smasher_glow.anim}
+                  {smasher_glow.anim
+                     set_frame
+                     [base_frame]}}
+               {$this set_launcher_color broken_glass_squares.ml}
+               {$this set_launcher_color broken_glass_triangles.ml}
+               {$this set_launcher_color radial_debris.ml}})
          (set_launcher_color
             ($launcher)
             {if
@@ -178,38 +143,39 @@
                      {{object $launcher}
                         get
                         part})
-                  {set
-                     $part
-                     {$this
-                        find
-                        {$part name}}}
-                  {$launcher set use_start_color TRUE}
-                  {$launcher
-                     set
-                     start_color
-                     {$part get start_color_high}}
-                  {$launcher
-                     set
-                     start_alpha
-                     {$part get start_alpha_high}}
-                  {$launcher set use_mid_color TRUE}
-                  {$launcher
-                     set
-                     mid_color
-                     {$part get mid_color_high}}
-                  {$launcher
-                     set
-                     mid_alpha
-                     {$part get mid_alpha_high}}
-                  {$launcher set use_end_color TRUE}
-                  {$launcher
-                     set
-                     end_color
-                     {$part get end_color_high}}
-                  {$launcher
-                     set
-                     end_alpha
-                     {$part get end_alpha_high}}}})
+                  {if
+                     {==
+                        {$part dir}
+                        $this}
+                     {$launcher set use_start_color TRUE}
+                     {$launcher
+                        set
+                        start_color
+                        {$part get start_color_high}}
+                     {$launcher
+                        set
+                        start_alpha
+                        {$part get start_alpha_high}}
+                     #ifndef HX_EE
+                     {$launcher set use_mid_color TRUE}
+                     {$launcher
+                        set
+                        mid_color
+                        {$part get mid_color_high}}
+                     {$launcher
+                        set
+                        mid_alpha
+                        {$part get mid_alpha_high}}
+                     #endif
+                     {$launcher set use_end_color TRUE}
+                     {$launcher
+                        set
+                        end_color
+                        {$part get start_color_high}}
+                     {$launcher
+                        set
+                        end_alpha
+                        {$part get end_alpha_high}}}}})
          (set_glow
             ($in_state)
             {set
@@ -230,142 +196,88 @@
                            19})}
                   {smasher_glow.anim
                      animate
-                     (range
-                        [base_frame]
+                     (dest
                         [base_frame])}}})
          (set_label
             ($in_val))
          (hit
-            {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {hit.trig trigger}}
-            {if {modifier_mgr is_modifier_active mod_flashbang} 
-			{big_rock_hit.trig trigger}
-			{big_rock_burn.trig trigger}
-			{burn.trig trigger}
-			{$this burn_bonus}
-			{$this burn}
-			{set [burning] TRUE}
-			})
+            {hit.trig trigger})
          (hit_cymbal
-		    {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {hit.trig trigger}}
-            {if {modifier_mgr is_modifier_active mod_flashbang} 
-			{big_rock_hit.trig trigger}
-			{big_rock_burn.trig trigger}
-			{burn.trig trigger}
-			{$this burn_bonus}
-			{$this burn}
-			{set [burning] TRUE}
-			})
+            {hit_cymbals.trig trigger})
          (hit_drum
-		    {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {hit_drums.trig trigger}}
-            {if {modifier_mgr is_modifier_active mod_flashbang} 
-			{big_rock_hit.trig trigger}
-			{big_rock_burn.trig trigger}
-			{burn.trig trigger}
-			{$this burn_bonus}
-			{$this burn}
-			{set [burning] TRUE}
-			})
+            {hit_drums.trig trigger})
          (coda_hit
             {$this hit}
-            {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {big_rock_hit.trig trigger}})
+            {big_rock_hit.trig trigger})
          (hit_bonus
-            {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {hit_bonus.trig trigger}}
-            {if {modifier_mgr is_modifier_active mod_flashbang} 
-			{big_rock_hit.trig trigger}
-			{big_rock_burn.trig trigger}
-			{burn.trig trigger}
-			{$this burn_bonus}
-			{$this burn}
-			{set [burning] TRUE}
-			})
+            {hit_bonus.trig trigger})
          (hit_fill
-            {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {hit_fill.trig trigger}}
-            {if {modifier_mgr is_modifier_active mod_flashbang} 
-			{big_rock_hit.trig trigger}
-			{big_rock_burn.trig trigger}
-			{burn.trig trigger}
-			{$this burn_bonus}
-			{$this burn}
-			{set [burning] TRUE}
-			})
-         (hit_fill_vel
-            ($velocity)
-            {if
-               {== $velocity 0}
-               {set $velocity 6}}
-            {if_else
-               {<
-                  $velocity
-                  {size
-                     [velocity_fill_triggers]}}
-               {do
-                  ($trig
-                     {elem
-                        [velocity_fill_triggers]
-                        $velocity})
-                  {if_else
-                     {!= $trig ''}
-                     {$trig trigger}
-                     {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {hit_fill.trig trigger}}}}
-               {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {hit_fill.trig trigger}}})
+            {hit_fill.trig trigger})
          (finger_tap
-            {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {finger_tap.trig trigger}}
-            {if {modifier_mgr is_modifier_active mod_flashbang} 
-			{big_rock_hit.trig trigger}
-			{big_rock_burn.trig trigger}
-			{burn.trig trigger}
-			{$this burn_bonus}
-			{$this burn}
-			{set [burning] TRUE}
-			})
+            {finger_tap.trig trigger})
          (finger_tap_bonus
-            {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {finger_tap_bonus.trig trigger}}
-            {if {modifier_mgr is_modifier_active mod_flashbang} 
-			{big_rock_hit.trig trigger}
-			{big_rock_burn.trig trigger}
-			{burn.trig trigger}
-			{$this burn_bonus}
-			{$this burn}
-			{set [burning] TRUE}
-			})
+            {finger_tap_bonus.trig trigger})
          (miss
             {miss.trig trigger}
             {$this stop_burn})
          (burn
-            {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {burn.trig trigger}}
-            {unless {modifier_mgr is_modifier_active mod_noflames} {set
+            {burn.trig trigger}
+            {set
                [burning]
-               TRUE}})
+               TRUE})
          (coda_burn
             {$this burn}
-            {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {big_rock_burn.trig trigger}}
-            {unless {modifier_mgr is_modifier_active mod_noflames} {set
+            {big_rock_burn.trig trigger}
+            {set
                [burning]
-               TRUE}})
+               TRUE})
          (burn_bonus
-            {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {burn_bonus.trig trigger}}
-            {unless {modifier_mgr is_modifier_active mod_noflames} {set
+            {burn_bonus.trig trigger}
+            {set
                [burning]
-               TRUE}})
+               TRUE})
          (stop_burn
-		 {unless {modifier_mgr is_modifier_active mod_flashbang} 
             {if
                [burning]
                {stop_burn.trig trigger}
                {set
                   [burning]
-                  FALSE}}})
+                  FALSE}})
          (combo
             {if
                {exists spotlight_phrase_success.trig}
-               {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {spotlight_phrase_success.trig trigger}}})
+               {spotlight_phrase_success.trig trigger}})
          (last_note
             {if
                {exists BRE_final_gem_hit.trig}
-               {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {BRE_final_gem_hit.trig trigger}}})
+               {BRE_final_gem_hit.trig trigger}})
          (drum_fill_complete
             {if
                {exists drumfill_complete_hit.trig}
-               {if_else {modifier_mgr is_modifier_active mod_noflames} {miss.trig trigger} {drumfill_complete_hit.trig trigger}}})
+               {drumfill_complete_hit.trig trigger}})
          (set_danger
-            ($in_state)))))
+            ($in_state))
+         (reset
+            {$this
+               set_color
+               [color]}
+            {reset.trig trigger}
+            {set
+               [burning]
+               FALSE}
+            {if
+               {exists LOD.anim}
+               {LOD.anim set_frame $track_LOD}}
+            #ifdef HX_WII
+            {if
+               {exists square_smasher_plate.mat}
+               {if_else
+                  {exists finger_tap_anims.grp}
+                  {do
+                     {square_smasher_plate.mat set diffuse_tex smasher_wii.tex}
+                     {glow.mat set diffuse_tex smasher_color_wii.tex}}
+                  {do
+                     {square_smasher_plate.mat set diffuse_tex smasher_wii_drum.tex}
+                     {glow.mat set diffuse_tex smasher_color_wii_drum.tex}}}
+               {radial_flare.ml set life 3.0}}
+            #endif))))

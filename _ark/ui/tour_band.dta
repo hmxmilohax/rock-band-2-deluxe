@@ -1,0 +1,2364 @@
+{new
+   UIPanel
+   tour_gigguide_lower3rd_panel
+   (file
+      "tour_gigguide_lower3rd.milo")
+   (refresh
+      {do
+         ($show_venue
+            {'||'
+               {tour_band_event_panel is_up}
+               {tour_eventdetails_panel is_up}})
+         ($show_town
+            {tour_band_venue_panel is_up})
+         ($perf
+            {tour performer})
+         {bandname.lbl
+            set_localized
+            {{tour performer}
+               band_name}}
+         {townname.lbl
+            set_showing
+            {'||' $show_venue $show_town}}
+         {cond
+            ($show_venue
+               {townname.lbl
+                  set
+                  text_token
+                  {tour venue_token}})
+            ($show_town
+               {townname.lbl
+                  set
+                  text_token
+                  {tour town}})}
+         {if_else
+            {==
+               {$perf world_fame}
+               0}
+            {stats.grp set_showing FALSE}
+            {stats.grp set_showing TRUE}}
+         {if_else
+            {==
+               {rnd aspect}
+               kWidescreenAspect}
+            {aspect_ratio.tnm set_frame 1}
+            {aspect_ratio.tnm set_frame 0}}
+         {fame.lbl
+            set_localized
+            {fmt_score
+               {$perf world_fame}}}
+         {buzz.lbl
+            set_localized
+            {fmt_score
+               {$perf fans}}}})
+   (enter
+      {$this refresh})}
+{new
+   UIPanel
+   tour_band_lower3rd_panel
+   (file
+      "tour_band_lower3rd.milo")}
+{new
+   BandScreen
+   tour_band_name_error_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   LIMIT_TO_LEADER_SESSION
+   (enter
+      {dialog_panel
+         set_ok
+         {localize_token shell_no_band_name_error}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   tour_band_create_name_not_unique_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   LIMIT_TO_LEADER_SESSION
+   (enter
+      {dialog_panel
+         set_ok
+         {localize_token tour_band_name_not_unique}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandCreatePanel
+   tour_band_create_panel
+   (file tour_name_band.milo)
+   (focus name.btn)
+   (reset_focus TRUE)
+   LIMIT_TO_LEADER_SESSION
+   (enter
+      {hometown.lst
+         set_provider
+         {tour hometown_provider}}
+      {$this update_band})
+   (update_band
+      {if_else
+         {==
+            {{tour performer}
+               band_name}
+            ''}
+         {name.lbl set text_token shell_enter_name}
+         {name.lbl
+            set_localized
+            {{tour performer}
+               band_name}}}
+      {hometown.lst
+         set_selected
+         {{tour performer}
+            hometown}})
+   (SCROLL_MSG
+      {switch
+         $component
+         (hometown.lst
+            {{tour performer}
+               set_hometown
+               {hometown.lst selected_sym}})})
+   (SELECT_MSG
+      {switch
+         $component
+         (name.btn
+            {platform_mgr
+               show_keyboard
+               $player_num
+               {get_band_name_length}
+               {localize create_band_vk_title}
+               {localize create_band_vk_desc}
+               {if_else
+                  {==
+                     {{tour performer}
+                        band_name}
+                     ''}
+                  {$this random_band_name}
+                  {{tour performer}
+                     band_name}}
+               $this})
+         (hometown.btn
+            {hometown.lst store}
+            {$this set_focus hometown.lst})
+         (hometown.lst
+            {hometown.lst confirm}
+            {$this set_focus hometown.btn})
+         (accept.btn
+            {cond
+               ({==
+                     {{tour performer}
+                        band_name}
+                     ""}
+                  {ui push_screen tour_band_name_error_screen})
+               ({!
+                     {profile_mgr
+                        is_band_name_unique
+                        {gamecfg get leader_num}
+                        {{tour performer}
+                           band_name}}}
+                  {ui push_screen tour_band_create_name_not_unique_screen})
+               (TRUE
+                  {{tour performer}
+                     init}
+                  {tour
+                     give_new_band_to_profile
+                     {profile_mgr
+                        get_mapped_profile_from_player
+                        {gamecfg get leader_num}}}
+                  {band_ui_sink show_network_busy_icon}
+                  {entity_uploader
+                     update_band
+                     {tour performer}
+                     $this})})
+         (cancel.btn
+            {ui
+               goto_screen
+               {gamemode get matchmaking_screen}})})
+   (VIRTUAL_KEYBOARD_RESULT_MSG
+      {if
+         {&&
+            $ok
+            $this
+            {ui focus_panel}
+            {==
+               {ui focus_panel}
+               $this}}
+         {{tour performer}
+            set_band_name
+            $text}
+         {$this update_band}})
+   (ROCK_CENTRAL_OP_COMPLETE_MSG
+      {band_ui_sink hide_network_busy_icon}
+      {switch
+         $arg1
+         (RB_RETCODE_BAND_NAME_PROFANE
+            {ui push_screen tour_band_name_profane_screen})
+         (RB_RETCODE_BAND_NAME_DUP
+            {ui push_screen tour_band_name_dup_screen})
+         (RB_RETCODE_BAND_NAME_IP
+            {ui push_screen tour_band_name_ip_screen})
+         {if
+            {{tour performer}
+               is_local}
+            {{tour performer}
+               update_members}}
+         {tour_band_hub_panel set reset TRUE}
+         {ui goto_screen tour_band_hub_screen}})
+   (BUTTON_DOWN_MSG
+      {cond
+         ({band_ui_sink is_network_busy}
+            TRUE)
+         ({== $button kPad_Tri}
+            {switch
+               {$this focus_name}
+               (hometown.lst
+                  {hometown.lst undo $player_num}
+                  {$this set_focus hometown.btn})
+               kDataUnhandled})
+         (TRUE kDataUnhandled)})}
+{new
+   BandScreen
+   tour_band_create_screen
+   (panels meta practice_space_panel tour_band_create_panel)
+   (back
+      {gamemode get matchmaking_screen})
+   (focus tour_band_create_panel)
+   (helpbar
+      {if_else
+         {is_leader_local}
+         ((cancel helpbar_back)
+            (confirm helpbar_select))
+         ((cancel helpbar_back))})
+   (enter
+      {practice_space_panel
+         select_cam
+         "createband"})}
+{new
+   BandScreen
+   tour_band_name_profane_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   LIMIT_TO_LEADER_SESSION
+   (enter
+      {dialog_panel
+         set_ok
+         {localize_token tour_profile_create_band_name_profane}})
+   (SELECT_MSG
+      {if
+         {{tour performer}
+            is_local}
+         {{tour performer}
+            update_members}}
+      {tour_band_hub_panel set reset TRUE}
+      {ui pop_screen tour_band_hub_screen})}
+{new
+   BandScreen
+   tour_band_name_dup_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   LIMIT_TO_LEADER_SESSION
+   (enter
+      {dialog_panel
+         set_ok
+         {localize_token tour_profile_create_band_name_dup}})
+   (SELECT_MSG
+      {if
+         {{tour performer}
+            is_local}
+         {{tour performer}
+            update_members}}
+      {tour_band_hub_panel set reset TRUE}
+      {ui pop_screen tour_band_hub_screen})}
+{new
+   BandScreen
+   tour_band_name_ip_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   LIMIT_TO_LEADER_SESSION
+   (enter
+      {dialog_panel
+         set_ok
+         {localize_token tour_profile_create_band_name_ip}})
+   (SELECT_MSG
+      {if
+         {{tour performer}
+            is_local}
+         {{tour performer}
+            update_members}}
+      {tour_band_hub_panel set reset TRUE}
+      {ui pop_screen tour_band_hub_screen})}
+{new
+   BandScreen
+   tour_band_min_participants_screen
+   (panels dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {sprintf
+            {localize tour_band_min_participants}
+            {gamemode get min_num_participants}}}
+      {dialog_panel set limit leader_session})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   hub_welcome_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   LIMIT_TO_LEADER_SESSION
+   (enter
+      {dialog_panel
+         set_ok
+         {localize_token tour_hub_welcome_message}})
+   (SELECT_MSG
+      {{profile_mgr
+            get_mapped_profile_from_player
+            {gamecfg get leader_num}}
+         set_first_hub_visit_done}
+      {ui pop_screen})}
+{new
+   UIPanel
+   tour_band_hub_panel
+   (file tour_band_hub.milo)
+   (reset TRUE)
+   LIMIT_TO_SESSION
+   (enter
+      {if
+         [reset]
+         {$this set_focus gigguide.btn}}
+      {set
+         [reset]
+         FALSE}
+      {if
+         {==
+            {gamecfg get leader_num}
+            -1}
+         {$this disable gigguide.btn}
+         {$this disable bandprofile.btn}
+         {$this disable bandlineup.btn}
+         {$this set_focus rokkshoppe.btn}}
+      {$this refresh}
+      {unless
+         {==
+            {session mode}
+            kNetLocal}
+         {game
+            foreach_local_player_config
+            $pcfg
+            {$pcfg set_ui_waiting TRUE}}})
+   (TRANSITION_COMPLETE_MSG
+      {autosave}
+      {band_ui_sink set_net_sync FALSE}
+      {band_ui_sink set block_mode kBlockNone}
+      {unless
+         {==
+            {ui current_screen}
+            ''}
+         {do
+            ($p_profile
+               {profile_mgr
+                  get_mapped_profile_from_player
+                  {gamecfg get leader_num}})
+            {if
+               {&&
+                  $p_profile
+                  {$p_profile is_first_hub_visit}}
+               {ui push_screen hub_welcome_screen}}}})
+   (refresh
+      {if_else
+         {==
+            {{tour performer}
+               world_fame}
+            0}
+         {gigguide.btn set text_token tour_gigguide_start}
+         {gigguide.btn set text_token tour_gigguide_continue}}
+      {bandname.lbl
+         set_localized
+         {{tour performer}
+            band_name}}
+      {do
+         ($perf
+            {tour performer})
+         {stats.grp
+            set_showing
+            {!=
+               {$perf world_fame}
+               0}}
+         {fame.lbl
+            set_localized
+            {fmt_score
+               {$perf world_fame}}}
+         {buzz.lbl
+            set_localized
+            {fmt_score
+               {$perf fans}}}}
+      {foreach_int
+         $slot
+         0
+         {player_names.set
+            size
+            (objects)}
+         {do
+            ($name
+               {player_names.set
+                  get
+                  (objects $slot)})
+            ($part
+               {player_parts.set
+                  get
+                  (objects $slot)})
+            ($money
+               {player_money.set
+                  get
+                  (objects $slot)})
+            ($leader
+               {player_leaders.set
+                  get
+                  (objects $slot)})
+            ($no_instrument
+               {player_no_instruments.set
+                  get
+                  (objects $slot)})
+            ($player_num
+               {game get_player_num_from_slot_num $slot})
+            ($active
+               {!= $player_num -1})
+            {$name set_showing $active}
+            {$money set_showing FALSE}
+            {$part set_showing $active}
+            {$leader
+               set_showing
+               {&&
+                  $active
+                  {==
+                     $player_num
+                     {game get leader_num}}}}
+            {$no_instrument
+               set_showing
+               {! $active}}
+            {if_else
+               $active
+               {do
+                  ($char
+                     {{game get_player_config $player_num}
+                        get_char})
+                  {$name
+                     set_localized
+                     {$char get_char_name}}
+                  {$part
+                     set_localized
+                     {$char instrument_icon}}
+                  {$money
+                     set_localized
+                     {fmt_money
+                        {$char money}}}}
+               {$no_instrument
+                  set_localized
+                  {cnv_instrumenttoicon
+                     {elem
+                        (COOP_SLOTS_ORDER)
+                        $slot}}}}}})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (gigguide.btn
+            {if
+               {>=
+                  {game get_num_participants}
+                  {gamemode get min_num_participants}}
+               {if_else
+                  {==
+                     {session mode}
+                     kNetLocal}
+                  {tour_band_waiting_panel advance}
+                  {ui goto_screen tour_band_waiting_screen}}})
+         (rokkshoppe.btn
+            {band_ui_sink set block_mode kBlockShop}
+            {shop_char_panel set char_player_num $player_num}
+            {shop_panel set reset_on_enter TRUE}
+            {ui goto_screen shop_screen})
+         (bandprofile.btn
+            {band_ui_sink set block_mode kBlockShop}
+            {ui goto_screen tour_band_profile_screen})
+         (bandlineup.btn
+            {band_ui_sink set block_mode kBlockShop}
+            {ui goto_screen tour_band_lineup_screen})
+         (playerprofile.btn
+            {band_ui_sink set block_mode kBlockShop}
+            {tour_char_profile_panel set player_num $player_num}
+            {tour_char_profile_panel set profile_player_num $player_num}
+            {ui goto_screen tour_band_char_profile_screen})
+         (community.btn
+            {band_ui_sink set block_mode kBlockShop}
+            {ui goto_screen tour_hub_community_screen})}
+      kDataUnhandled)
+   (SELECT_MSG
+      {switch
+         $component
+         (gigguide.btn
+            {if
+               {<
+                  {game get_num_participants}
+                  {gamemode get min_num_participants}}
+               {ui push_screen tour_band_min_participants_screen}})})}
+{new
+   BandScreen
+   tour_band_hub_screen
+   (panels meta practice_space_panel tour_band_hub_panel tour_band_lower3rd_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (focus tour_band_hub_panel)
+   (back
+      {gamemode get matchmaking_screen})
+   LIMIT_TO_SESSION
+   (enter
+      {presence_mgr set_prepare_to_rock}
+      {switch
+         {tour bwtmode}
+         (kMetaTour_StartNew
+            {tour set_bwtmode kMetaTour_KnownLocal})
+         (kMetaTour_UnknownRemote
+            {tour set_bwtmode kMetaTour_KnownRemote})}
+      {practice_space_panel
+         select_cam
+         "coop_hub"})}
+{new
+   UIPanel
+   tour_band_waiting_panel
+   (file
+      "tour_band_waiting.milo")
+   LIMIT_TO_SESSION
+   (enter
+      {game
+         foreach_local_player_config
+         $pcfg
+         {$pcfg set_ui_waiting FALSE}}
+      {if
+         {is_leader_local}
+         {session add_sink $this}
+         {$this check_advance}})
+   (exit
+      {if
+         {is_leader_local}
+         {session remove_sink $this}})
+   (BUTTON_DOWN_MSG
+      {if
+         {&&
+            {!
+               {$this all_ready}}
+            {== $button kPad_Tri}}
+         {game
+            foreach_local_player_config
+            $pcfg
+            {$pcfg set_ui_waiting TRUE}}
+         {ui goto_screen tour_band_hub_screen FALSE TRUE}}
+      kDataUnhandlded)
+   (REMOTE_PLAYER_CHANGED_MSG
+      {$this check_advance})
+   (REMOTE_PLAYER_LEFT_MSG
+      {$this check_advance})
+   (check_advance
+      {if
+         {$this all_ready}
+         {$this advance}})
+   (advance
+      {band_ui_sink
+         sync_screen
+         {cond
+            ({tour hint}
+               {{tour hint}
+                  get
+                  screen})
+            ({{tour performer}
+                  can_leave_hometown}
+               tour_band_town_screen)
+            ({{tour performer}
+                  can_leave_home_venue}
+               tour_band_venue_screen)
+            (TRUE tour_band_event_screen)}
+         0})
+   (all_ready
+      {do
+         ($ready TRUE)
+         {game
+            foreach_player_config
+            $pcfg
+            {if
+               {$pcfg ui_waiting}
+               {set $ready FALSE}}}
+         $ready})}
+{new
+   BandScreen
+   tour_band_waiting_screen
+   (panels meta practice_space_panel tour_band_waiting_panel)
+   (focus tour_band_waiting_panel)
+   (helpbar
+      ((cancel helpbar_back)))}
+#define SET_BAND_PROFILE_DATA
+({editname.btn
+      set_localized
+      {$this get_band_name}}
+   {creation_date.lbl
+      set_localized
+      {$this get_create_date_string}}
+   {hometown.lbl
+      set_localized
+      {$this get_hometown_string}}
+   {buzz.lbl
+      set_localized
+      {$this get_fans_string}}
+   {fame.lbl
+      set_localized
+      {$this get_fame_string}}
+   {motto.lbl
+      set_localized
+      {$this get_motto}}
+   {members.lst
+      set_provider
+      {$this get_member_provider}}
+   {logo.rndtex
+      set
+      proxy
+      {$this get_logo_patch}})
+#define kKeyboardModeName
+(0)
+#define kKeyboardModeMotto
+(1)
+{new
+   UIPanel
+   tour_band_profile_panel
+   (file tour_band_profile.milo)
+   (focus logo.btn)
+   (player_num -1)
+   LIMIT_TO_SESSION
+   (keyboard_mode kKeyboardModeName)
+   (enter
+      {$this
+         set_band
+         {tour performer}}
+      {top5.grp set_showing FALSE}
+      {song.lst
+         set_provider
+         {$this get_top_five_provider}}
+      {practice_space_panel
+         select_cam
+         "coop_enter"}
+      SET_BAND_PROFILE_DATA
+      {$this disable members.btn}
+      {$this disable topsongs.btn}
+      {$this enable editname.btn}
+      {$this enable logo.btn}
+      {$this enable motto.btn})
+   (SELECT_MSG
+      {switch
+         $component
+         (editname.btn
+            {$this set keyboard_mode kKeyboardModeName}
+            {platform_mgr
+               show_keyboard
+               $player_num
+               {get_band_name_length}
+               {localize create_band_vk_title}
+               {localize create_band_vk_desc}
+               {$this get_band_name}
+               $this})
+         (logo.btn
+            {patch_panel set patch_player_num $player_num}
+            {patch_panel
+               set
+               patch
+               {{tour performer}
+                  edit_logo_patch}}
+            {patch_panel set exit_screen tour_band_profile_screen}
+            {patch_panel
+               set
+               bg_color
+               {pack_color 1 1 1}}
+            {patch_panel set set general}
+            {practice_space_panel
+               select_cam
+               "logo"}
+            {{practice_space_panel find logo.rndtex}
+               set
+               proxy
+               {{tour performer}
+                  edit_logo_patch}}
+            {{practice_space_panel find logo.rndtex}
+               set
+               force
+               TRUE}
+            {if_else
+               {patch_panel get help_shown}
+               {ui goto_screen bandlogo_patch_screen}
+               {ui goto_screen bandlogo_help_screen}})
+         (motto.btn
+            {$this set keyboard_mode kKeyboardModeMotto}
+            {platform_mgr
+               show_keyboard
+               $player_num
+               {get_motto_length}
+               {localize band_profile_vk_motto_title}
+               {localize band_profile_vk_motto_desc}
+               {$this get_motto}
+               $this})
+         (members.btn kDataUnhandled)
+         (topsongs.btn kDataUnhandled)
+         kDataUnhandled})
+   (VIRTUAL_KEYBOARD_RESULT_MSG
+      {if
+         {&&
+            $ok
+            $this
+            {ui focus_panel}
+            {==
+               {ui focus_panel}
+               $this}}
+         {switch
+            {$this get keyboard_mode}
+            (kKeyboardModeName
+               {if
+                  {!=
+                     $text
+                     ""}
+                  {if_else
+                     {!
+                        {profile_mgr
+                           is_band_name_unique
+                           {gamecfg get leader_num}
+                           $text}}
+                     {ui push_screen tour_band_create_name_not_unique_screen}
+                     {do
+                        {$this set_band_name $text}
+                        {editname.btn set_localized $text}
+                        {band_ui_sink show_network_busy_icon}
+                        {entity_uploader
+                           verify_band_name
+                           {{tour performer}
+                              band_name}
+                           $this}}}})
+            (kKeyboardModeMotto
+               {$this set_motto $text}
+               {motto.lbl set_localized $text}
+               {band_ui_sink show_network_busy_icon}
+               {entity_uploader verify_band_motto $text $this})}})
+   (BUTTON_DOWN_MSG
+      {if_else
+         {band_ui_sink is_network_busy}
+         TRUE
+         {do
+            {if
+               {&&
+                  {== $button kPad_Tri}
+                  {{tour performer}
+                     is_local}}
+               {{tour performer}
+                  update_data}}
+            kDataUnhandled}})
+   (ROCK_CENTRAL_OP_COMPLETE_MSG
+      {band_ui_sink hide_network_busy_icon}
+      {switch
+         {$this get keyboard_mode}
+         (kKeyboardModeName
+            {switch
+               $arg1
+               (RB_RETCODE_BAND_NAME_PROFANE
+                  {ui push_screen tour_band_rename_profane_screen})
+               (RB_RETCODE_BAND_NAME_DUP
+                  {ui push_screen tour_band_rename_dup_screen})
+               (RB_RETCODE_BAND_NAME_IP
+                  {ui push_screen tour_band_rename_ip_screen})})
+         (kKeyboardModeMotto
+            {switch
+               $arg1
+               (RB_RETCODE_BAND_MOTTO_PROFANE
+                  {ui push_screen tour_band_motto_profane_screen})
+               (RB_RETCODE_BAND_MOTTO_IP
+                  {ui push_screen tour_band_motto_ip_screen})})})}
+{new
+   BandScreen
+   tour_band_profile_screen
+   (panels meta practice_space_panel tour_band_profile_panel tour_band_lower3rd_panel)
+   (focus tour_band_profile_panel)
+   (back tour_band_hub_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (confirm
+      {patch_panel cache_patch}
+      {{tour performer}
+         set_dirty
+         TRUE
+         {'|' kTourPerfDirtySave kTourPerfDirtyUpload}}
+      {tour_band_profile_panel
+         set
+         player_num
+         {patch_panel get patch_player_num}}
+      {ui goto_screen tour_band_profile_screen})}
+{new
+   BandScreen
+   tour_band_rename_profane_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   LIMIT_TO_SESSION
+   (enter
+      {dialog_panel
+         set_ok
+         {localize_token tour_profile_rename_band_name_profane}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   tour_band_rename_dup_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   LIMIT_TO_SESSION
+   (enter
+      {dialog_panel
+         set_ok
+         {localize_token tour_profile_rename_band_name_dup}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   tour_band_rename_ip_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   LIMIT_TO_SESSION
+   (enter
+      {dialog_panel
+         set_ok
+         {localize_token tour_profile_rename_band_name_ip}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   tour_band_motto_profane_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   LIMIT_TO_SESSION
+   (enter
+      {dialog_panel
+         set_ok
+         {localize_token tour_profile_motto_profane}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   tour_band_motto_ip_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   LIMIT_TO_SESSION
+   (enter
+      {dialog_panel
+         set_ok
+         {localize_token tour_profile_motto_ip}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   UIPanel
+   remote_band_profile_panel
+   (file tour_band_profile.milo)
+   (focus logo.btn)
+   (player_num -1)
+   LIMIT_TO_SESSION
+   (enter
+      {data.grp set_showing FALSE}
+      {top5.grp set_showing FALSE}
+      {band_ui_sink show_network_busy_icon}
+      {$this request_band_profile})
+   (exit
+      {data.grp set_showing TRUE}
+      {band_ui_sink hide_network_busy_icon})
+   (ROCK_CENTRAL_OP_COMPLETE_MSG
+      {band_ui_sink hide_network_busy_icon}
+      {if
+         $success
+         SET_BAND_PROFILE_DATA
+         {data.grp set_showing TRUE}})}
+{new
+   UIPanel
+   tour_active_moment_panel
+   (file
+      "tour_active_moment.milo")
+   (focus yes.btn)
+   (reset_focus TRUE)
+   LIMIT_TO_LEADER_SESSION
+   (enter
+      {song.lbl
+         set_localized
+         {tour event_display_name}}
+      {by_line.lbl
+         set_localized
+         {tour event_description}}
+      {do
+         ($moment
+            {{tour performer}
+               next_moment})
+         {if_else
+            {{tour performer}
+               has_next_moment}
+            {do
+               ($moment_token
+                  {elem $moment 0})
+               {title.lbl set text_token $moment_token}
+               {desc.lbl
+                  set
+                  text_token
+                  {sprint
+                     $moment_token
+                     "_desc"}}}
+            {notify
+               "Could not find active rock moment"}}})
+   (SELECT_MSG
+      {{tour performer}
+         set_active_moment
+         {if_else
+            {&&
+               {{tour performer}
+                  has_next_moment}
+               {== $component yes.btn}}
+            {{tour performer}
+               next_moment}
+            0}}
+      {ui goto_screen loading_screen})}
+{new
+   BandScreen
+   tour_active_moment_screen
+   (panels meta tour_world_bg_panel tour_active_moment_panel)
+   (focus tour_active_moment_panel)
+   (helpbar
+      {if_else
+         {is_leader_local}
+         ((confirm helpbar_select))
+         ((cancel helpbar_back))})}
+#define TOUR_BAND_GIGGUIDE_HANDLERS
+(LIMIT_TO_LEADER_SESSION
+   (set_num_new
+      ($num $label)
+      {$label set_showing $num}
+      {$label
+         set_localized
+         {sprintf
+            {localize
+               {if_else
+                  {== $num 1}
+                  tour_gigguide_new_event
+                  tour_gigguide_new_events}}
+            $num}}))
+{new
+   UIPanel
+   tour_band_town_panel
+   TOUR_BAND_GIGGUIDE_HANDLERS
+   (file
+      "tour_band_town.milo")
+   (focus towns.lst)
+   (enter
+      {$this refresh}
+      {tour_world_bg_panel zoom_out})
+   (refresh
+      {towns.lst
+         set_provider
+         {tour town_provider}}
+      {do
+         ($num_towns
+            {min
+               {towns.lst num_display}
+               {{tour town_provider}
+                  num_towns}})
+         {towns.lst
+            set_num_display
+            {-
+               $num_towns
+               {if_else
+                  {mod $num_towns 2}
+                  0
+                  1}}}}
+      {towns.lst
+         set_selected
+         {{tour performer}
+            town}}
+      {$this update_tooltip})
+   (update_tooltip
+      {tour_gigguide_lower3rd_panel refresh}
+      {do
+         ($perf
+            {tour performer})
+         ($town
+            {$perf town})
+         {fans_count.lbl
+            set_localized
+            {fmt_score
+               {$perf town_fame $town}}}
+         {fans_total.lbl
+            set_localized
+            {sprintf
+               "/%s"
+               {fmt_score
+                  {$perf total_town_fame $town}}}}
+         {tour_world_bg_panel set town $town}
+         {tour_world_bg_panel update}
+         {$this
+            set_num_new
+            {$perf num_new_town_events}
+            town_new_events.lbl}})
+   (BUTTON_DOWN_MSG
+      {switch
+         $button
+         (kPad_R1
+            {do
+               {ui push_screen tour_band_carrot_screen}
+               {synth play button_select}})
+         kDataUnhandled})
+   (SCROLL_MSG
+      {synth play bwt_swish.cue}
+      {{tour performer}
+         set_town
+         {towns.lst selected_sym}}
+      {$this update_tooltip})
+   (SELECT_START_MSG
+      {ui goto_screen tour_band_venue_screen}
+      kDataUnhandled)}
+{new
+   BandScreen
+   tour_band_town_screen
+   (panels meta tour_world_bg_panel tour_band_town_panel tour_gigguide_lower3rd_panel)
+   (helpbar
+      {if_else
+         {is_leader_local}
+         ((cancel helpbar_returntohub)
+            (confirm helpbar_choose_city)
+            (option helpbar_callmanager))
+         ((cancel helpbar_back))})
+   (focus tour_band_town_panel)
+   (back tour_band_hub_screen)
+   (enter
+      {tour_world_bg_panel play_town_loop FALSE})}
+{new
+   UIPanel
+   tour_band_venue_panel
+   TOUR_BAND_GIGGUIDE_HANDLERS
+   (file
+      "tour_band_venue.milo")
+   (focus venue.lst)
+   (SCROLL_MSG
+      {$this
+         set_venue
+         {venue.lst selected_sym}})
+   (enter
+      {tour_gigguide_lower3rd_panel refresh}
+      {tour_world_bg_panel zoom_in}
+      {venue.lst
+         set_provider
+         {tour venue_provider}}
+      {$this refresh}
+      {venue.lst
+         set_selected
+         {{tour performer}
+            venue}})
+   (refresh
+      {$this
+         set_venue
+         {{tour performer}
+            venue}})
+   (set_venue
+      ($venue)
+      {if
+         {{tour performer}
+            is_local}
+         {{tour performer}
+            set_venue
+            {symbol $venue}}}
+      {tour_world_bg_panel set venue $venue}
+      {tour_world_bg_panel update}
+      {cond
+         ({!=
+               kTourLocked
+               {{tour performer}
+                  venue_status
+                  {tour venue}}}
+            {summary_unlocked.grp set_showing TRUE}
+            {summary_require.grp set_showing FALSE}
+            {$this
+               set_num_new
+               {{tour performer}
+                  num_new_venue_events}
+               venue_new_events.lbl}
+            {fans_count.lbl
+               set_localized
+               {sprintf
+                  "%i"
+                  {{tour performer}
+                     venue_fame}}}
+            {fans_total.lbl
+               set_localized
+               {sprintf
+                  "/%i "
+                  {{tour performer}
+                     total_venue_fame}}})
+         (TRUE
+            {summary_unlocked.grp set_showing FALSE}
+            {summary_require.grp set_showing TRUE}
+            {do
+               ($p
+                  {tour requirement_provider})
+               {$p
+                  set_by_venue
+                  {tour performer}}
+               {requirements.lst set_provider $p}})}
+      {tour_gigguide_lower3rd_panel refresh})
+   (BUTTON_DOWN_MSG
+      {switch
+         $button
+         (kPad_X
+            {if_else
+               {==
+                  kTourLocked
+                  {{tour performer}
+                     venue_status
+                     {tour venue}}}
+               TRUE
+               kDataUnhandled})
+         (kPad_R1
+            {if
+               {{tour performer}
+                  can_leave_hometown}
+               {do
+                  {ui push_screen tour_band_carrot_screen}
+                  {synth play button_select}}})
+         (kPad_Tri
+            {tour_world_bg_panel zoom_out}
+            kDataUnhandled)
+         kDataUnhandled})
+   (SELECT_START_MSG
+      {ui goto_screen tour_band_event_screen}
+      kDataUnhandled)}
+{new
+   BandScreen
+   tour_band_venue_screen
+   (panels meta tour_world_bg_panel tour_band_venue_panel tour_gigguide_lower3rd_panel)
+   (helpbar
+      {if_else
+         {is_leader_local}
+         {if_else
+            {{tour performer}
+               can_leave_hometown}
+            ((cancel helpbar_leavetown)
+               (confirm helpbar_choose_city)
+               (option helpbar_callmanager))
+            ((cancel helpbar_returntohub)
+               (confirm helpbar_choose_city))}
+         ((cancel helpbar_back))})
+   (focus tour_band_venue_panel)
+   (back
+      {if_else
+         {{tour performer}
+            can_leave_hometown}
+         tour_band_town_screen
+         tour_band_hub_screen})
+   (enter
+      {tour_world_bg_panel play_town_loop TRUE})}
+{new
+   UIPanel
+   tour_band_event_panel
+   TOUR_EVENT_PANEL_HANDLERS
+   COMMON_SONG_PREVIEW
+   (file
+      "tour_band_event.milo")
+   (focus event.lst)
+   (player_num
+      {local_to_leader_player_num})
+   (refresh
+      {event.lst
+         set_provider
+         {tour event_provider}}
+      {if
+         {tour event}
+         {event.lst
+            set_selected
+            {{tour event}
+               get
+               event_name}}}
+      {$this update_selection}
+      {if
+         {tour hint}
+         {ui
+            goto_screen
+            {{tour hint}
+               get
+               screen}}})
+   (enter
+      {venue_name.lbl
+         set
+         text_token
+         {tour venue_token}}
+      {venue_desc.lbl
+         set
+         text_token
+         {tour venue_desc_token}}
+      {tour_gigguide_lower3rd_panel refresh}
+      {tour_world_bg_panel zoom_in}
+      {$this refresh}
+      {$this update_preview TRUE})
+   (exit
+      #ifdef HX_EE
+      {meta music_stop_stream}
+      #else
+      {song_preview ''}
+      #endif)
+   (play_preview
+      ($on)
+      {if_else
+         ($on)
+         {do
+            ($event
+               {tour event})
+            #ifndef _SHIP
+            {unless
+               $event
+               {fail
+                  "Tried to play preview, but no event!"}}
+            #endif
+            {if_else
+               {&&
+                  {$this is_event_playable}
+                  {==
+                     {$event num_songs}
+                     1}
+                  {!=
+                     {tour event_concrete_song}
+                     ''}}
+               {do
+                  #ifdef HX_EE
+                  {song_mgr
+                     set_song_preview_clip
+                     {tour event_concrete_song}}
+                  {meta music_start_stream}
+                  #else
+                  {song_preview
+                     {tour event_concrete_song}}
+                  #endif}
+               {do
+                  #ifdef HX_EE
+                  {meta music_stop_stream}
+                  #else
+                  {song_preview ''}
+                  #endif}}}
+         {do
+            #ifdef HX_EE
+            {meta music_stop_stream}
+            #else
+            {song_preview ''}
+            #endif}})
+   (update_preview
+      ($on)
+      {if
+         {is_leader_local}
+         {$this play_preview $on}
+         {session
+            send_to_all
+            (tour_band_event_panel play_preview $on)
+            kNetReliable}})
+   (update_selection
+      {{tour performer}
+         set_event
+         {event.lst selected_sym}
+         {game get leader_num}})
+   (is_event_playable
+      {!=
+         kTourLocked
+         {{tour performer}
+            event_status}})
+   (SCROLL_MSG
+      {$this update_selection})
+   (start_event_select
+      {if_else
+         {==
+            {{tour performer}
+               next_any_index}
+            -1}
+         {do
+            {$this confirm_event}
+            {ui
+               goto_screen
+               {gamemode get ready_screen}}}
+         {ui goto_screen tour_selsong_screen}})
+   (SELECT_START_MSG
+      {if_else
+         {$this is_event_playable}
+         {$this start_event_select}
+         {ui goto_screen tour_eventdetails_screen}}
+      kDataUnhandled)
+   (BUTTON_DOWN_MSG
+      {cond
+         ({== $button kPad_R1}
+            {synth play button_select}
+            {ui goto_screen tour_eventdetails_screen})
+         ({$this is_updown $button}
+            {$this update_preview FALSE})}
+      kDataUnhandled)
+   (BUTTON_UP_MSG
+      {if
+         {&&
+            {!
+               {ui in_transition}}
+            {$this is_updown $button}}
+         {$this update_preview TRUE}}
+      kDataUnhandled)}
+{new
+   BandScreen
+   tour_band_event_screen
+   (panels meta tour_world_bg_panel tour_band_event_panel tour_gigguide_lower3rd_panel)
+   (helpbar
+      {if_else
+         {is_leader_local}
+         ((cancel helpbar_leavevenue)
+            (confirm helpbar_chooseset)
+            (option helpbar_eventdetails))
+         ((cancel helpbar_back))})
+   (focus tour_band_event_panel)
+   (back
+      {if_else
+         {{tour performer}
+            can_leave_home_venue}
+         tour_band_venue_screen
+         tour_band_hub_screen})
+   (enter
+      {helpbar
+         set_limit_to_player_num
+         {game get leader_num}}
+      {tour_world_bg_panel play_town_loop TRUE})}
+{new
+   UIPanel
+   tour_eventdetails_panel
+   (file
+      "tour_eventdetails.milo")
+   LIMIT_TO_LEADER_SESSION
+   (enter
+      {do
+         ($event
+            {tour event})
+         {event_name.lbl
+            set_localized
+            {tour event_display_name}}
+         {do
+            ($award
+               {$event get award_item})
+            ($show_award
+               {&&
+                  {!= $award ''}
+                  {!
+                     {{tour performer}
+                        has_item
+                        $award}}})
+            {award.grp set_showing $show_award}
+            {if
+               $show_award
+               {icon.lbl
+                  set_localized
+                  {{tour performer}
+                     item_to_str
+                     $award}}
+               {item.lbl set text_token $award}}}
+         {do
+            ($can_play
+               {!=
+                  kTourLocked
+                  {{tour performer}
+                     event_status}})
+            {event_playable.grp set_showing $can_play}
+            {event_locked.grp
+               set_showing
+               {! $can_play}}
+            {if_else
+               $can_play
+               {do
+                  {song.lst
+                     set_provider
+                     {tour event_song_provider}}
+                  {$this set_focus song.lst}}
+               {do
+                  ($p
+                     {tour requirement_provider})
+                  {$p
+                     set_by_event
+                     {tour performer}
+                     $event}
+                  {requirements.lst set_provider $p}
+                  {$this set_focus ''}}}}})
+   (BUTTON_DOWN_MSG
+      {if
+         {&&
+            {== $button kPad_X}
+            {!=
+               kTourLocked
+               {{tour performer}
+                  event_status}}}
+         {synth play button_select}
+         {tour_band_event_panel start_event_select}}
+      kDataUnhandled)}
+{new
+   BandScreen
+   tour_eventdetails_screen
+   (panels meta tour_world_bg_panel tour_eventdetails_panel tour_gigguide_lower3rd_panel)
+   (helpbar
+      {if_else
+         {&&
+            {is_leader_local}
+            {!=
+               kTourLocked
+               {{tour performer}
+                  event_status}}}
+         ((cancel helpbar_back)
+            (confirm helpbar_chooseset))
+         ((cancel helpbar_back))})
+   LIMIT_TO_LEADER_SESSION
+   (focus tour_eventdetails_panel)
+   (back tour_band_event_screen)}
+{new
+   BandScreen
+   tour_band_marathon_screen
+   (panels meta tour_world_bg_panel dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      {if_else
+         {is_leader_local}
+         ((confirm helpbar_continue))
+         ((cancel helpbar_back))})
+   LIMIT_TO_LEADER_SESSION
+   (enter
+      {dialog_panel
+         set_yesno
+         {localize_token tour_band_marathon_warning}
+         no.btn}
+      {dialog_panel
+         set_title
+         {localize_token are_you_sure}})
+   (SELECT_START_MSG
+      {ui
+         goto_screen
+         {switch
+            $component
+            (yes.btn tour_band_seldiff_screen)
+            (no.btn tour_band_event_screen)}}
+      kDataUnhandled)}
+#define TOUR_ENDGAME_HANDLERS
+(ENDGAME_PANEL_HANDLERS
+   (complete_song
+      {$this set_results}
+      {$this submit_achievements}))
+{new
+   BandScreen
+   tour_nextsong_screen
+   (enter
+      {ui pop_screen tour_nextstats_screen})}
+{new
+   NextSongPanel
+   tour_nextsong_panel
+   TOUR_ENDGAME_HANDLERS
+   (file
+      "tour_nextsong.milo")
+   (min_time 5.0)
+   (enter
+      {$this complete_song}
+      {songs.lbl
+         set_localized
+         {sprintf
+            {localize tour_event_songs}
+            {{tour performer}
+               num_completed}
+            {{tour event}
+               num_songs}}}
+      {ui goto_screen tour_preload_song_screen})}
+{new
+   BandScreen
+   tour_nextstats_screen
+   (panels game world_panel mtv_overlay coop_track_panel tour_nextsong_panel)}
+{new
+   PreloadPanel
+   tour_preload_song_panel
+   (load
+      {meta_performer
+         set_song
+         {{tour performer}
+            next_song}})
+   (enter
+      {if_else
+         [preload_ok]
+         {ui goto_screen tour_load_song_screen}
+         {band_ui_sink content_file_read_failed}})}
+{new
+   BandScreen
+   tour_preload_song_screen
+   (panels game world_panel mtv_overlay coop_track_panel tour_nextsong_panel tour_preload_song_panel)}
+{new
+   BandScreen
+   tour_load_song_screen
+   (panels world_panel mtv_overlay coop_track_panel tour_nextsong_panel)
+   (TRANSITION_COMPLETE_MSG
+      {set $multi_event TRUE}
+      {coop_track_panel set_paused TRUE}
+      {ui goto_screen game_screen})}
+{new
+   UIPanel
+   tour_band_endgame_panel
+   (file
+      "tour_endgame.milo")
+   (focus continue.btn)
+   TOUR_ENDGAME_HANDLERS
+   (enter
+      {platform_mgr set_notify_ui_location kOSNotifyBottomCenter}
+      {$this complete_song}
+      {tour_band_gigcomplete_panel
+         init_was_town_complete
+         {tour performer}}
+      {tour_band_gigcomplete_panel
+         init_did_have_vehicles
+         {tour performer}}
+      {{tour performer}
+         complete_event}
+      {if_else
+         {{tour performer}
+            is_local}
+         {do
+            {continue.btn set text_token tour_finish_gig}
+            {$this enable continue.btn}}
+         {do
+            {continue.btn set text_token tour_waiting}
+            {$this disable continue.btn}}})
+   (exit
+      {platform_mgr set_notify_ui_location kOSNotifyTopRight})
+   (SELECT_MSG
+      {ui goto_screen tour_band_gigcomplete_screen})}
+{new
+   BandScreen
+   tour_band_endgame_screen
+   (panels tour_band_endgame_panel)
+   (focus tour_band_endgame_panel)
+   (helpbar
+      {if_else
+         {is_leader_local}
+         #ifdef HX_XBOX
+         {if_else
+            {&&
+               {gamemode get online_play_required}
+               {>
+                  {session num_players}
+                  0}}
+            ((confirm helpbar_finishgig)
+               (option helpbar_details))
+            ((confirm helpbar_finishgig))}
+         #else
+         ((confirm helpbar_finishgig))
+         #endif
+         ((cancel helpbar_back))})}
+{new
+   UIPanel
+   tour_band_gigcomplete_panel
+   (file
+      "tour_band_gigcomplete.milo")
+   (focus continue.btn)
+   LIMIT_TO_LEADER_SESSION
+   (was_town_complete FALSE)
+   (init_was_town_complete
+      ($tp)
+      {set
+         [was_town_complete]
+         {$tp is_town_complete}})
+   (did_have_vehicles
+      ((tour_vehicle_van FALSE)
+         (tour_vehicle_bus FALSE)
+         (tour_vehicle_jet FALSE)))
+   (init_did_have_vehicles
+      ($tp)
+      {foreach
+         $vehicle
+         (tour_vehicle_van tour_vehicle_bus tour_vehicle_jet)
+         {do
+            ($thearray
+               {find
+                  [did_have_vehicles]
+                  $vehicle})
+            {set_elem
+               $thearray
+               1
+               {$tp has_item $vehicle}}}})
+   (enter
+      {platform_mgr set_notify_ui_location kOSNotifyBottomCenter}
+      {do
+         ($tp
+            {tour performer})
+         ($carrot_event
+            {$tp next_item_event})
+         ($num_unlocked_events
+            {{tour performer}
+               num_unlocked_events})
+         ($num_unlocked_venues
+            {$tp num_unlocked_venues})
+         ($num_unlocked_towns
+            {$tp num_unlocked_towns})
+         ($unlocked_item
+            {$tp unlocked_item})
+         {if_else
+            {&&
+               $carrot_event
+               {== $unlocked_item ''}}
+            {do
+               ($item
+                  {$carrot_event get award_item})
+               {carrot.grp set_showing TRUE}
+               {if_else
+                  {==
+                     kTourNew
+                     {$tp event_status $carrot_event}}
+                  {do
+                     {carrot_item.lbl
+                        set
+                        text_token
+                        {sprintf
+                           "%s_carrot_canwin"
+                           $item}}
+                     {carrot_desc.lbl set_showing FALSE}}
+                  {do
+                     ($world_fame
+                        {$tp world_fame})
+                     ($required_world_fame
+                        {$carrot_event get world_fame_required})
+                     ($town
+                        {$tp find_event_town $carrot_event})
+                     ($town_fame
+                        {$tp town_fame $town})
+                     ($required_town_fame
+                        {$carrot_event get town_fame_required})
+                     ($fans
+                        {$tp fans})
+                     ($required_fans
+                        {$tp
+                           buzz_to_fans
+                           {$carrot_event get buzz_required}})
+                     {carrot_item.lbl
+                        set
+                        text_token
+                        {sprintf
+                           "%s_carrot_needmore"
+                           $item}}
+                     {carrot_desc.lbl set_showing TRUE}
+                     {cond
+                        ({> $required_town_fame $town_fame}
+                           {carrot_desc.lbl
+                              set_localized
+                              {sprintf
+                                 {localize tour_band_need_townfame}
+                                 {localize_token $town}}})
+                        ({> $required_world_fame $world_fame}
+                           {carrot_desc.lbl set text_token tour_band_need_worldfame})
+                        ({> $required_fans $fans}
+                           {carrot_desc.lbl set text_token tour_band_need_fans})
+                        (TRUE
+                           {fail
+                              "unknown event requirement!"})}}}}
+            {carrot.grp set_showing FALSE}}
+         {if_else
+            {!= $unlocked_item ''}
+            {do
+               {newitem.lbl
+                  set_localized
+                  {sprintf
+                     {localize tour_endgame_newitem}
+                     {localize_token $unlocked_item}}}
+               {newitem.lbl set_showing TRUE}}
+            {newitem.lbl set_showing FALSE}}
+         {if_else
+            $num_unlocked_towns
+            {do
+               {newtowns.lbl
+                  set_localized
+                  {sprintf
+                     {localize tour_band_new_towns}
+                     $num_unlocked_towns}}
+               {newtowns.lbl set_showing TRUE}}
+            {newtowns.lbl set_showing FALSE}}
+         {if_else
+            $num_unlocked_venues
+            {do
+               {newvenues.lbl
+                  set_localized
+                  {if_else
+                     {== $num_unlocked_venues 1}
+                     {sprintf
+                        {localize tour_band_new_venue}
+                        {localize_token
+                           {$tp unlocked_venue_token}}
+                        {localize_token
+                           {$tp unlocked_venue_town}}}
+                     {sprintf
+                        {localize tour_band_new_venues}
+                        $num_unlocked_venues}}}
+               {newvenues.lbl set_showing TRUE}}
+            {do
+               {newvenues.lbl set_showing FALSE}
+               {icon_newvenue.mesh set_showing FALSE}}}
+         {if_else
+            $num_unlocked_events
+            {do
+               {newgigs.lbl
+                  set_localized
+                  {sprintf
+                     {localize
+                        {if_else
+                           {== $num_unlocked_events 1}
+                           tour_band_new_event
+                           tour_band_new_events}}
+                     $num_unlocked_events}}}
+            {do
+               {newgigs.lbl set_showing FALSE}
+               {icon_newgig.mesh set_showing FALSE}}}
+         {if_else
+            {==
+               5
+               {{tour event}
+                  total_fame}}
+            {do
+               {stars.lbl
+                  set_localized
+                  {{beatmatch main_performer}
+                     star_rating}}
+               {starcount.lbl set_showing FALSE}}
+            {do
+               {stars.lbl
+                  set_localized
+                  "*"}
+               {starcount.lbl set_showing TRUE}
+               {starcount.lbl
+                  set_localized
+                  {sprintf
+                     "%d/%d"
+                     {{tour performer}
+                        total_fame_stars}
+                     {{tour event}
+                        total_fame}}}}}
+         {buzz.lbl
+            set_showing
+            {'||'
+               {$tp fans_change}
+               {==
+                  {$tp buzz_state}
+                  kTourBuzzCap}}}
+         {buzz.lbl
+            set_localized
+            {$tp fans_update_str}}
+         {money.lbl
+            set_localized
+            {sprintf
+               {localize tour_band_reward}
+               {fmt_money
+                  {$tp reward}}}}
+         {if_else
+            {==
+               {{tour performer}
+                  town_torso_unlock}
+               ''}
+            {do
+               {newoutfit.lbl set_showing FALSE}
+               {icon_newoutfit.mesh set_showing FALSE}}
+            {do
+               {newoutfit.lbl set_showing TRUE}
+               {icon_newoutfit.mesh set_showing TRUE}
+               {newoutfit.lbl set text_token tour_band_outfit}}}
+         {score.lbl
+            set_localized
+            {fmt_score
+               {{beatmatch main_performer}
+                  score}}}
+         {foreach
+            $vehicle
+            (tour_vehicle_van tour_vehicle_bus tour_vehicle_jet)
+            {if
+               {&&
+                  {!
+                     {elem
+                        {find
+                           [did_have_vehicles]
+                           $vehicle}
+                        1}}
+                  {$tp has_item $vehicle}}
+               {$this
+                  submit_band_achievement
+                  {symbol
+                     {sprintf
+                        "ach_band_%s"
+                        $vehicle}}}}}
+         {if
+            {>=
+               {$tp buzz}
+               {$tp buzz_achievement}}
+            {$this submit_band_achievement ach_band_of_the_moment}}
+         {unless
+            {==
+               {$tp min_difficulty_sym}
+               easy}
+            {if
+               {==
+                  {{tour event}
+                     get
+                     award_item}
+                  tour_bwt_complete}
+               {$this
+                  submit_band_achievement
+                  {symbol
+                     {sprintf
+                        "ach_band_complete_%s"
+                        {$tp min_difficulty_sym}}}}}}
+         {if
+            {==
+               {{tour event}
+                  get
+                  award_item}
+               tour_halloffame_complete}
+            {$this submit_band_achievement ach_hall_of_fame}}
+         {if
+            {&&
+               {$tp is_town_complete}
+               {!
+                  [was_town_complete]}}
+            {$this
+               submit_band_achievement
+               {symbol
+                  {sprintf
+                     "ach_band_complete_%s"
+                     {$tp town}}}}}})
+   (exit
+      {platform_mgr set_notify_ui_location kOSNotifyTopRight})
+   (submit_band_achievement
+      ($ach)
+      {game
+         foreach_local_player
+         $p
+         {unless
+            {profile_mgr
+               has_profile_map
+               {$p player_num}}
+            {achievements
+               submit
+               {$p player_num}
+               $ach}
+            {if
+               {== $ach ach_band_complete_expert}
+               {{profile_mgr
+                     get_save_data_from_player
+                     {$p player_num}}
+                  set_platinum_artist}}}})
+   (SELECT_START_MSG
+      {ui
+         goto_screen
+         {if_else
+            {{tour performer}
+               is_winning}
+            meta_loading_tour_win_screen
+            meta_loading_continue_screen}}
+      kDataUnhandled)}
+{new
+   BandScreen
+   tour_band_gigcomplete_screen
+   (panels tour_band_gigcomplete_panel)
+   (focus tour_band_gigcomplete_panel)
+   (helpbar
+      {if_else
+         {is_leader_local}
+         ((confirm helpbar_returntomap))
+         ((cancel helpbar_back))})}
+{new
+   BandScreen
+   tour_band_lose_screen
+   (enter
+      {if
+         {{tour performer}
+            is_local}
+         {{tour performer}
+            lose_song}}
+      {ui goto_screen tour_band_retry_screen})}
+{new
+   UIPanel
+   tour_band_retry_panel
+   (file
+      "tour_band_retry.milo")
+   (focus retry.btn)
+   (reset_focus TRUE)
+   LIMIT_TO_LEADER_SESSION
+   (enter
+      {song.lbl
+         set_localized
+         {song_mgr
+            song_name
+            {game get_song}}}
+      {song_progress.lbl
+         set_localized
+         {sprintf
+            {localize percent_complete_format}
+            {{beatmatch main_performer}
+               percent_complete}}}
+      {buzz.lbl
+         set_showing
+         {{tour performer}
+            fans_change}}
+      {buzz.lbl
+         set_localized
+         {{tour performer}
+            fans_update_str}})
+   (SELECT_MSG
+      {switch
+         $component
+         (retry.btn
+            {log_tour
+               "ENDGAME "
+               "Retrying song"}
+            {session
+               send_to_all
+               (game_restart)
+               kNetReliable}
+            {game_restart})
+         (quit.btn
+            {ui goto_screen meta_loading_continue_screen})})}
+{new
+   BandScreen
+   tour_band_retry_screen
+   (panels tour_band_retry_panel)
+   (focus tour_band_retry_panel)
+   (helpbar
+      {if_else
+         {is_leader_local}
+         ((confirm helpbar_select))
+         ((cancel helpbar_back))})}
+#define BAND_HINT_PANEL_HANDLERS
+(TOUR_HINT_PANEL_HANDLERS
+   (player_num
+      {local_to_leader_player_num}))
+#define BAND_HINT_SCREEN_HANDLERS
+((enter
+      {tour_world_bg_panel
+         {if_else
+            {{tour performer}
+               can_leave_hometown}
+            zoom_out
+            zoom_in}}
+      {tour_world_bg_panel update}))
+{new
+   UIPanel
+   tour_band_welcome_panel
+   (file
+      "tour_band_welcome.milo")
+   BAND_HINT_PANEL_HANDLERS
+   (enter
+      {welcome.lbl
+         set_localized
+         {sprintf
+            {localize tour_band_welcome}
+            {localize_token
+               {tour venue_token}}}})}
+{new
+   BandScreen
+   tour_band_welcome_screen
+   (panels meta tour_world_bg_panel tour_band_welcome_panel)
+   (focus tour_band_welcome_panel)
+   BAND_HINT_SCREEN_HANDLERS}
+{new
+   UIPanel
+   tour_band_firstgig_panel
+   (file
+      "tour_band_firstgig.milo")
+   BAND_HINT_PANEL_HANDLERS}
+{new
+   BandScreen
+   tour_band_firstgig_screen
+   (panels meta tour_world_bg_panel tour_band_firstgig_panel)
+   (focus tour_band_firstgig_panel)
+   BAND_HINT_SCREEN_HANDLERS}
+{new
+   UIPanel
+   tour_band_firstmanager_panel
+   (file
+      "tour_band_firstmanager.milo")
+   BAND_HINT_PANEL_HANDLERS}
+{new
+   BandScreen
+   tour_band_firstmanager_screen
+   (panels meta tour_world_bg_panel tour_band_firstmanager_panel)
+   (focus tour_band_firstmanager_panel)
+   BAND_HINT_SCREEN_HANDLERS}
+{new
+   UIPanel
+   tour_band_firstvenue_panel
+   (file
+      "tour_band_firstvenue.milo")
+   BAND_HINT_PANEL_HANDLERS
+   (enter
+      {venue.lbl
+         set_localized
+         {sprintf
+            {localize tour_band_firstvenue}
+            {localize_token
+               {{tour performer}
+                  unlocked_venue_token}}}})}
+{new
+   BandScreen
+   tour_band_firstvenue_screen
+   (panels meta tour_world_bg_panel tour_band_firstvenue_panel)
+   (focus tour_band_firstvenue_panel)
+   BAND_HINT_SCREEN_HANDLERS}
+{new
+   UIPanel
+   tour_band_canwinitem_panel
+   (file
+      "tour_band_canwinitem.milo")
+   BAND_HINT_PANEL_HANDLERS
+   (enter
+      {do
+         ($event
+            {{tour performer}
+               next_item_event})
+         ($item
+            {$event get award_item})
+         ($venue
+            {$event get venue})
+         ($town
+            {{tour performer}
+               find_event_town
+               $event})
+         {event.lbl
+            set_localized
+            {sprintf
+               {localize tour_band_canwin_event}
+               {tour event_display_name $event}
+               {localize_token
+                  {tour venue_token $town $venue}}
+               {localize_token $town}}}
+         {desc.lbl
+            set
+            text_token
+            {sprint
+               "tour_band_canwin_"
+               $item}}
+         {item.lbl set text_token $item}
+         {icon.lbl
+            set_localized
+            {{tour performer}
+               item_to_str
+               $item}}})}
+{new
+   BandScreen
+   tour_band_canwinitem_screen
+   (panels meta tour_world_bg_panel tour_band_canwinitem_panel)
+   (focus tour_band_canwinitem_panel)
+   BAND_HINT_SCREEN_HANDLERS}
+{new
+   UIPanel
+   tour_band_newitem_panel
+   (file
+      "tour_band_newitem.milo")
+   BAND_HINT_PANEL_HANDLERS
+   (enter
+      {do
+         ($item
+            {{tour performer}
+               unlocked_item})
+         {item.lbl set text_token $item}
+         {item_desc.lbl
+            set
+            text_token
+            {sprint
+               "tour_hint_new_"
+               $item}}})}
+{new
+   BandScreen
+   tour_band_newitem_screen
+   (panels meta tour_world_bg_panel tour_band_newitem_panel)
+   (focus tour_band_newitem_panel)
+   BAND_HINT_SCREEN_HANDLERS}
+{new
+   UIPanel
+   tour_band_newvan_panel
+   (file
+      "tour_band_newvan.milo")
+   BAND_HINT_PANEL_HANDLERS}
+{new
+   BandScreen
+   tour_band_newvan_screen
+   (panels meta tour_world_bg_panel tour_band_newvan_panel)
+   (focus tour_band_newvan_panel)
+   BAND_HINT_SCREEN_HANDLERS}
+{new
+   UIPanel
+   tour_band_newbus_panel
+   (file
+      "tour_band_newbus.milo")
+   BAND_HINT_PANEL_HANDLERS}
+{new
+   BandScreen
+   tour_band_newbus_screen
+   (panels meta tour_world_bg_panel tour_band_newbus_panel)
+   (focus tour_band_newbus_panel)
+   BAND_HINT_SCREEN_HANDLERS}
+{new
+   UIPanel
+   tour_band_newjet_panel
+   (file
+      "tour_band_newjet.milo")
+   BAND_HINT_PANEL_HANDLERS}
+{new
+   BandScreen
+   tour_band_newjet_screen
+   (panels meta tour_world_bg_panel tour_band_newjet_panel)
+   (focus tour_band_newjet_panel)
+   BAND_HINT_SCREEN_HANDLERS}
+{new
+   UIPanel
+   tour_band_firstgig_checkmarks_panel
+   (file
+      "tour_band_firstgig_checkmarks.milo")
+   BAND_HINT_PANEL_HANDLERS}
+{new
+   BandScreen
+   tour_band_firstgig_checkmarks_screen
+   (panels meta tour_world_bg_panel tour_band_firstgig_checkmarks_panel)
+   (focus tour_band_firstgig_checkmarks_panel)
+   BAND_HINT_SCREEN_HANDLERS}
+{new
+   UIPanel
+   tour_band_buzzcap_panel
+   (file
+      "tour_band_buzzcap.milo")
+   BAND_HINT_PANEL_HANDLERS}
+{new
+   BandScreen
+   tour_band_buzzcap_screen
+   (panels meta tour_world_bg_panel tour_band_buzzcap_panel)
+   (focus tour_band_buzzcap_panel)
+   BAND_HINT_SCREEN_HANDLERS}
+{new
+   UIPanel
+   tour_band_buzzmaxcap_panel
+   (file
+      "tour_band_buzzmaxcap.milo")
+   BAND_HINT_PANEL_HANDLERS}
+{new
+   BandScreen
+   tour_band_buzzmaxcap_screen
+   (panels meta tour_world_bg_panel tour_band_buzzmaxcap_panel)
+   (focus tour_band_buzzmaxcap_panel)
+   BAND_HINT_SCREEN_HANDLERS}
+{new
+   UIPanel
+   tour_band_fanslost_panel
+   (file
+      "tour_band_fanslost.milo")
+   BAND_HINT_PANEL_HANDLERS}
+{new
+   BandScreen
+   tour_band_fanslost_screen
+   (panels meta tour_world_bg_panel tour_band_fanslost_panel)
+   (focus tour_band_fanslost_panel)
+   BAND_HINT_SCREEN_HANDLERS}
+#define BAND_WIN_SCREEN_HANDLERS
+((helpbar
+      {if_else
+         {is_leader_local}
+         ((confirm helpbar_continue))
+         ((cancel helpbar_back))}))
+{new
+   UIPanel
+   tour_band_congrats_panel
+   (file
+      "tour_band_congrats.milo")
+   (focus continue.btn)
+   (BUTTON_DOWN_MSG
+      {if
+         {== $button kPad_X}
+         {ui goto_screen tour_band_video_credits_screen}})}
+{new
+   BandScreen
+   tour_band_win_screen
+   (panels tour_band_congrats_panel)
+   (focus tour_band_congrats_panel)
+   (TRANSITION_COMPLETE_MSG
+      {ui goto_screen tour_band_win_movie_screen})}
+{new
+   MoviePanel
+   tour_band_video_credits_panel
+   (preload FALSE)
+   (audio TRUE)
+   (loop FALSE)
+   (update_presence TRUE)
+   (videos win_credits)
+   (movie_done
+      {ui goto_screen tour_band_text_credits_screen})
+   (BUTTON_DOWN_MSG
+      {if
+         {'||'
+            {== $button kPad_Start}
+            {== $button kPad_X}}
+         {ui goto_screen tour_band_text_credits_screen}})}
+{new
+   BandScreen
+   tour_band_video_credits_screen
+   BAND_WIN_SCREEN_HANDLERS
+   (panels tour_band_video_credits_panel)}
+{new
+   BandScreen
+   tour_band_text_credits_screen
+   BAND_WIN_SCREEN_HANDLERS
+   (panels credits_panel)
+   (scroll_sfx FALSE)
+   (BUTTON_DOWN_MSG
+      {if
+         {'||'
+            {== $button kPad_Start}
+            {== $button kPad_X}}
+         {ui
+            goto_screen
+            {if_else
+               {==
+                  {{tour performer}
+                     min_difficulty}
+                  kDifficultyEasy}
+               {gamemode get continue_screen}
+               tour_band_item_reward_screen}}})}
+{new
+   UIPanel
+   tour_band_item_reward_panel
+   (file
+      "tour_band_item_rewards.milo")
+   (enter
+      {foreach_int
+         $slot
+         0
+         4
+         {do
+            ($player_num
+               {game get_player_num_from_slot_num $slot})
+            ($active_label
+               {sprintf
+                  "instrument%i.lbl"
+                  $slot})
+            ($inactive_label
+               {sprintf
+                  "inactive%i.lbl"
+                  $slot})
+            ($char_label
+               {sprintf
+                  "char%i.lbl"
+                  $slot})
+            {$active_label
+               set_showing
+               {!= $player_num -1}}
+            {$char_label
+               set_showing
+               {!= $player_num -1}}
+            {$inactive_label
+               set_showing
+               {== $player_num -1}}
+            {if_else
+               {== $player_num -1}
+               {$inactive_label
+                  set_localized
+                  {missing_slot_to_track_icon $slot}}
+               {do
+                  ($pcfg
+                     {game get_player_config $player_num})
+                  ($char
+                     {$pcfg get_char})
+                  {$char_label
+                     set_localized
+                     {$char get_char_name}}
+                  {$active_label
+                     set_localized
+                     {$char
+                        track_icon
+                        {$pcfg get_track_sym}}}}}}})
+   (BUTTON_DOWN_MSG
+      {if
+         {'||'
+            {== $button kPad_Start}
+            {== $button kPad_X}}
+         {ui
+            goto_screen
+            {gamemode get continue_screen}}})}
+{new
+   BandScreen
+   tour_band_item_reward_screen
+   BAND_WIN_SCREEN_HANDLERS
+   (panels tour_band_item_reward_panel)
+   (focus tour_band_item_reward_panel)}
+{new
+   UIPanel
+   tour_band_carrot_panel
+   (file
+      "tour_band_carrot.milo")
+   (enter
+      {do
+         ($tp
+            {tour performer})
+         ($carrot_event
+            {$tp next_item_event})
+         ($unlocked_item
+            {$tp unlocked_item})
+         ($item
+            {$carrot_event get award_item})
+         {if_else
+            {==
+               kTourNew
+               {$tp event_status $carrot_event}}
+            {do
+               {carrot_item.lbl
+                  set
+                  text_token
+                  {sprintf
+                     "manager%s_carrot_canwin"
+                     $item}}
+               {carrot_desc.lbl set_showing FALSE}}
+            {do
+               ($world_fame
+                  {$tp world_fame})
+               ($required_world_fame
+                  {$carrot_event get world_fame_required})
+               ($town
+                  {$tp find_event_town $carrot_event})
+               ($town_fame
+                  {$tp town_fame $town})
+               ($required_town_fame
+                  {$carrot_event get town_fame_required})
+               ($fans
+                  {$tp fans})
+               ($required_fans
+                  {$tp
+                     buzz_to_fans
+                     {$carrot_event get buzz_required}})
+               {carrot_item.lbl
+                  set
+                  text_token
+                  {sprintf
+                     "manager%s_carrot_needmore"
+                     $item}}
+               {carrot_desc.lbl set_showing TRUE}
+               {cond
+                  ({> $required_town_fame $town_fame}
+                     {carrot_desc.lbl
+                        set_localized
+                        {sprintf
+                           {localize managertour_band_need_townfame}
+                           {localize_token $town}}})
+                  ({> $required_world_fame $world_fame}
+                     {carrot_desc.lbl set text_token managertour_band_need_worldfame})
+                  ({> $required_fans $fans}
+                     {carrot_desc.lbl set text_token managertour_band_need_fans})
+                  (TRUE
+                     {fail
+                        "Your manager is stumped!"})}}}})
+   (BUTTON_DOWN_MSG
+      {if
+         {'||'
+            {== $button kPad_Start}
+            {== $button kPad_X}}
+         {ui pop_screen}})}
+{new
+   BandScreen
+   tour_band_carrot_screen
+   (panels tour_band_carrot_panel)
+   (focus tour_band_carrot_panel)}

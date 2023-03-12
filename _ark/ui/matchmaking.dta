@@ -1,0 +1,759 @@
+#define PRINT_SLOT
+(print
+   "["
+   [slot]
+   ", "
+   [slot_num]
+   ", "
+   [player_num]
+   "] ")
+{new
+   UIPanel
+   practice_couch_panel
+   (file
+      "practice/practice_couch.milo")}
+{new
+   UIPanel
+   practice_drum_panel
+   (file
+      "practice/practice_drums.milo")}
+#define MATCHMAKING_LOAD_CHAR_METHODS
+((load_char
+      ($char))
+   (load_char_from_list
+      {if
+         {[char_provider]
+            is_non_prefab_char
+            {char.lst selected_pos}}
+         {$this
+            load_char
+            {[char_provider]
+               get_char
+               {char.lst selected_pos}}}})
+   (release_char
+      {{game
+            get_player_config
+            [player_num]}
+         set_char
+         0}
+      {session_mgr update_band_leader}
+      {{gamemode get matchmaking_screen}
+         export_all
+         update})
+   (show_char
+      {'||'
+         {!
+            {gamecfg
+               is_player_local
+               [player_num]}}
+         [choose_gender]
+         {[char_provider]
+            is_non_prefab_char
+            {char.lst selected_pos}}
+         {{game
+               get_player_config
+               [player_num]}
+            get_char}}))
+#define MATCHMAKING_CHOOSE_GENDER
+((choose_gender
+      (init
+         {$this set_focus male.btn})
+      (FOCUS_MSG
+         {charcreator_panel
+            request
+            [player_num]
+            {basename
+               {$new_focus name}}})
+      (SELECT_START_MSG
+         {if_else
+            {ui in_transition}
+            TRUE
+            {do
+               {charcreator_panel
+                  set
+                  char_player_num
+                  [player_num]}
+               {ui goto_screen charcreator_maker_screen}
+               kDataUnhandled}})
+      (BUTTON_DOWN_MSG
+         {if_else
+            {== $button kPad_Tri}
+            {do
+               {set
+                  [choose_gender]
+                  FALSE}
+               {charcreator_panel
+                  free
+                  [player_num]}
+               {{gamemode get matchmaking_screen}
+                  export_all
+                  update}}
+            kDataUnhandled})))
+{func
+   autoload_allowed
+   {&&
+      {==
+         {session mode}
+         kNetLocal}
+      {!
+         {session_mgr is_finding}}}}
+#define MM_READY_LEADER_BUTTON_FOCUS
+({$this set_focus continue.btn})
+{func
+   release_char
+   ($panel)
+   {$panel release_char}
+   #ifdef HX_XBOX
+   {if
+      {gamemode get auto_choose_char}
+      {$panel remove_player}}
+   #else
+   {$panel remove_player}
+   #endif}
+{func
+   mm_hide_search
+   {$this disable search.btn}
+   {search.btn set_showing FALSE}
+   {$this disable search_continue.btn}
+   {search_continue.btn set_showing FALSE}
+   {continue.btn set_showing TRUE}
+   {$this enable continue.btn}}
+{func
+   mm_set_search
+   ($text_token $show_search $enable_search)
+   {search.btn set text_token $text_token}
+   {if_else
+      $show_search
+      {do
+         {search.btn set_showing TRUE}
+         {$this
+            {if_else $enable_search enable disable}
+            search.btn}}
+      {do
+         {search.btn set_showing FALSE}
+         {$this disable search.btn}}}
+   {$this disable search_continue.btn}
+   {search_continue.btn set_showing FALSE}
+   {search_continue.btn set text_token $text_token}
+   {continue.btn set_showing TRUE}
+   {$this enable continue.btn}}
+{func
+   mm_set_search_continue
+   ($text_token $show_search $enable_search)
+   {$this disable search.btn}
+   {search.btn set_showing FALSE}
+   {search.btn set text_token $text_token}
+   {search_continue.btn set text_token $text_token}
+   {if_else
+      $show_search
+      {do
+         {search_continue.btn set_showing TRUE}
+         {$this
+            {if_else $enable_search enable disable}
+            search_continue.btn}}
+      {do
+         {search_continue.btn set_showing FALSE}
+         {$this disable search_continue.btn}}}
+   {$this disable continue.btn}
+   {continue.btn set_showing FALSE}}
+#define MATCHMAKING_UPDATE_COMMON
+({if_else
+      {==
+         [slot]
+         none}
+      {instrument_join.lbl set_showing FALSE}
+      {do
+         {join_icon.lbl
+            set_localized
+            {switch
+               {cnv_instrumenttoicon
+                  [slot]}
+               (G
+                  "g")
+               (D
+                  "1")
+               (V
+                  "A")
+               "A"}}
+         {cancel_icon.lbl
+            set_localized
+            {switch
+               {cnv_instrumenttoicon
+                  [slot]}
+               (G
+                  "r")
+               (D
+                  "2")
+               (V
+                  "B")
+               "B"}}
+         {instrument_join.lbl
+            set_localized
+            {cnv_instrumenttoicon
+               [slot]}}
+         {instrument_join.lbl set_showing TRUE}
+         {if_else
+            {'||'
+               {gamemode get is_tour}
+               {gamemode get is_tour_challenge}}
+            {instrument_active.lbl
+               set_localized
+               {{tour performer}
+                  track_icon
+                  [slot]}}
+            {instrument_active.lbl
+               set_localized
+               {cnv_instrumenttoicon
+                  [slot]}}}}}
+   {if_else
+      {!
+         {$this is_participating}}
+      {do
+         {join.grp set_showing TRUE}
+         {switch
+            {gamecfg
+               get_join_state_for_instrument
+               [slot]
+               [slot_num]}
+            (kGameJoinNoInstrument
+               {canjoin.grp set_showing FALSE}
+               {nojoin.grp set_showing TRUE}
+               {nojoin.lbl set text_token matchmaker_join_in_missing}
+               {gamertag_list.grp set_showing FALSE})
+            (kGameJoinNotSignedIn
+               {canjoin.grp set_showing FALSE}
+               {nojoin.grp set_showing TRUE}
+               {nojoin.lbl set text_token matchmaker_join_not_signed_in})
+            (kGameJoinGuestWithoutOwner
+               {canjoin.grp set_showing FALSE}
+               {nojoin.grp set_showing TRUE}
+               {nojoin.lbl set text_token matchmaker_join_no_owner_signed_in})
+            (kGameJoinNoRoomForLocal
+               {canjoin.grp set_showing FALSE}
+               {nojoin.grp set_showing TRUE}
+               {nojoin.lbl set text_token matchmaker_join_remote_only})
+            {canjoin.grp set_showing TRUE}
+            {nojoin.grp set_showing FALSE}
+            {gamertag_list.grp set_showing TRUE}}
+         {if
+            {gamemode is_hth_arrangement}
+            {do
+               {join_icon.lbl set_showing FALSE}}}
+         {if
+            {'||'
+               {session_mgr is_finding}
+               {!=
+                  {session mode}
+                  kNetLocal}}
+            {canjoin.grp set_showing FALSE}
+            {nojoin.grp set_showing TRUE}
+            {nojoin.lbl set text_token matchmaker_join_remote_only}}
+         {if
+            {&&
+               {==
+                  {gamemode get max_local_players}
+                  1}
+               {>
+                  [slot_num]
+                  0}}
+            {canjoin.grp set_showing FALSE}
+            {nojoin.grp set_showing TRUE}
+            {nojoin.lbl set text_token matchmaker_join_remote_only}}
+         {if_else
+            {&&
+               {<
+                  {session num_players}
+                  {gamemode get max_local_players}}
+               {'||'
+                  {!
+                     {nojoin.grp showing}}
+                  {!=
+                     {nojoin.lbl get text_token}
+                     matchmaker_join_remote_only}}}
+            {do
+               ($provider
+                  {get_gamertag_provider
+                     [slot]
+                     [slot_num]
+                     {gamemode get is_hth_arrangement}
+                     {gamemode get local_network}})
+               {gamertag_list.grp set_showing TRUE}
+               {if
+                  $provider
+                  {gamertag.lst set_provider $provider}}}
+            {do
+               {gamertag_list.grp set_showing FALSE}}}}
+      {do
+         {join.grp set_showing FALSE}
+         {gamertag_list.grp set_showing FALSE}
+         {if
+            {gamemode is_hth_arrangement}
+            {do
+               {join_icon.lbl set_showing FALSE}}}}}
+   #ifdef HX_XBOX
+   {if
+      {gamemode get is_band_arrangement}
+      {$this update_char_hints_grp}}
+   #endif
+   #ifdef HX_XBOX
+   {live_enabled.grp
+      set_showing
+      {'||' $has_online $remote}}
+   #else
+   {live_enabled.grp set_showing FALSE}
+   #endif
+   {if_else
+      {!=
+         [player_num]
+         -1}
+      {do
+         {active.grp set_showing TRUE}
+         {gamertag.lbl
+            set_localized
+            {if_else
+               {&&
+                  $remote
+                  {gamemode get ranked}}
+               {localize matchmaker_ranked_hidden_player}
+               {{game
+                     get_player_config
+                     [player_num]}
+                  get
+                  player_name}}}}
+      {active.grp set_showing FALSE}}
+   #ifndef HX_XBOX
+   #else
+   {if_else
+      {!=
+         [player_num]
+         -1}
+      {do
+         ($char
+            {{game
+                  get_player_config
+                  [player_num]}
+               get_char})
+         {if_else
+            $char
+            {do
+               {character_name.grp set_showing TRUE}
+               {character_name.lbl
+                  set_localized
+                  {if_else
+                     {&&
+                        $remote
+                        {gamemode get ranked}}
+                     {localize matchmaker_ranked_hidden_character}
+                     {$char get_char_name}}}}
+            {character_name.grp set_showing FALSE}}}
+      {character_name.grp set_showing FALSE}}
+   #endif
+   #ifdef HX_XBOX
+   {leader.grp
+      set_showing
+      {&&
+         $leader
+         $has_char
+         {! $part_sel}}}
+   #else
+   {continue.btn set_showing $leader}
+   #endif
+   #ifdef HX_XBOX
+   {leader_banner.grp
+      set_showing
+      {&&
+         $leader
+         {!
+            {gamemode get ranked}}}}
+   {do
+      ($show_no_leader
+         {&&
+            $has_char
+            {! $session_busy}
+            {==
+               {gamecfg get leader_num}
+               -1}})
+      {no_leader.grp set_showing $show_no_leader}
+      {$this
+         {if_else $show_no_leader enable disable}
+         continue_no_leader.btn}}
+   {non_leader.grp
+      set_showing
+      {&&
+         $has_char
+         {! $session_busy}
+         {! $leader}}}
+   {if_else
+      {&&
+         $has_char
+         {! $session_busy}
+         {&&
+            {!
+               {session_mgr is_finding}}
+            {==
+               {session mode}
+               kNetLocal}}}
+      {do
+         {if_else
+            {'||'
+               {==
+                  {gamecfg get leader_num}
+                  -1}
+               {! $leader}}
+            {do
+               {$this disable choose_char.btn}
+               {$this enable choose_char_non_leader.btn}}
+            {do
+               {$this enable choose_char.btn}
+               {$this disable choose_char_non_leader.btn}}}}
+      {do
+         {$this disable choose_char.btn}
+         {$this disable choose_char_non_leader.btn}}}
+   #endif
+   #ifdef HX_XBOX
+   {if
+      $leader
+      {do
+         ($show
+            {!
+               {'||'
+                  $session_busy
+                  {gamemode get local_network}}})
+         ($invite_kick_show
+            {&&
+               $show
+               {!
+                  {gamemode get ranked}}
+               {'||'
+                  {!
+                     {is_leader_local}}
+                  {&&
+                     {'||'
+                        {!
+                           {gamemode get is_bwt}}
+                        {&&
+                           {!=
+                              {tour bwtmode}
+                              kMetaTour_UnknownRemote}
+                           {!=
+                              {tour bwtmode}
+                              kMetaTour_KnownRemote}}}
+                     {!
+                        {band_ui_sink get invite_accepted}}}}})
+         ($search_enable
+            {&&
+               $show
+               {'||'
+                  {==
+                     {session num_players}
+                     1}
+                  {{gamemode get matchmaking_screen}
+                     all_ready}}
+               {>
+                  {session num_open_slots}
+                  0}
+               {<
+                  {session num_players}
+                  {gamemode get max_players}}})
+         {invite.btn set_showing $invite_kick_show}
+         {kick.btn set_showing $invite_kick_show}
+         {if_else
+            $invite_kick_show
+            {if_else
+               {&&
+                  {'||'
+                     {==
+                        {session num_players}
+                        1}
+                     {{gamemode get matchmaking_screen}
+                        all_ready}}
+                  {>
+                     {session num_open_slots}
+                     0}
+                  {<
+                     {session num_players}
+                     {gamemode get max_players}}}
+               {$this enable invite.btn}
+               {$this disable invite.btn}}
+            {$this disable invite.btn}}
+         {do
+            ($enable_kick FALSE)
+            {gamecfg
+               foreach_player_config
+               $pcfg
+               {if
+                  {!
+                     {$pcfg is_local_player}}
+                  {set $enable_kick TRUE}}}
+            {unless
+               $invite_kick_show
+               {set $enable_kick FALSE}}
+            {$this
+               {if_else $enable_kick enable disable}
+               kick.btn}}
+         {cond
+            ({! $show}
+               {mm_hide_search})
+            ({session_mgr is_finding}
+               {mm_set_search matchmaker_search_cancel $show $search_enable})
+            ({band_ui_sink get invite_accepted}
+               {cond
+                  ({gamemode get is_bwt}
+                     {if_else
+                        {is_leader_local}
+                        {mm_set_search_continue matchmaker_invite_join_band $show $search_enable}
+                        {mm_set_search matchmaker_find_new_bandmates $show $search_enable}})
+                  ({gamemode get is_band_arrangement}
+                     {if_else
+                        {is_leader_local}
+                        {mm_set_search_continue matchmaker_invite_join_band $show $search_enable}
+                        {mm_set_search matchmaker_search_band $show $search_enable}})
+                  ({gamemode get is_hth_arrangement}
+                     {if_else
+                        {gamemode get ranked}
+                        {mm_set_search_continue matchmaker_search_hth $show $search_enable}
+                        {if_else
+                           {is_leader_local}
+                           {mm_set_search_continue matchmaker_invite_join_game $show $search_enable}
+                           {mm_set_search matchmaker_search_hth $show $search_enable}}})
+                  (TRUE
+                     {fail
+                        "Unknown MM combination of invite and game mode\n"})})
+            ({&&
+                  {!
+                     {gamemode get is_bwt}}
+                  {gamemode get is_hth_arrangement}}
+               {if_else
+                  {gamemode get ranked}
+                  {mm_set_search_continue matchmaker_search_hth $show $search_enable}
+                  {mm_set_search matchmaker_search_hth $show $search_enable}})
+            ({!
+                  {gamemode get is_bwt}}
+               {mm_set_search matchmaker_search_band $show $search_enable})
+            (TRUE
+               {switch
+                  {tour bwtmode}
+                  (kMetaTour_StartNew
+                     {mm_set_search matchmaker_find_new_bandmates $show $search_enable})
+                  (kMetaTour_UnknownRemote
+                     {if_else
+                        {is_leader_local}
+                        {mm_set_search_continue matchmaker_find_new_leader $show $search_enable}
+                        {mm_set_search matchmaker_find_new_bandmates $show $search_enable}})
+                  (kMetaTour_KnownLocal
+                     {mm_set_search matchmaker_find_bandmates $show $search_enable})
+                  (kMetaTour_KnownRemote
+                     {if_else
+                        {is_leader_local}
+                        {mm_set_search matchmaker_find_leader $show $search_enable}
+                        {mm_set_search matchmaker_find_bandmates $show $search_enable}})
+                  {fail
+                     "Unknown bwtmode\n"}})}}}
+   #endif
+   {do
+      ($token
+         {if_else
+            {{gamemode get matchmaking_screen}
+               all_ready}
+            continue
+            waiting})
+      {continue.btn set text_token $token}}
+   {unless
+      $session_busy
+      {if_else
+         {!=
+            {gamecfg get leader_num}
+            -1}
+         {session
+            set_invites_allowed
+            {&&
+               {is_leader_local}
+               {>
+                  {session num_open_slots}
+                  0}
+               {!
+                  {band_ui_sink get invite_accepted}}}}
+         {session set_invites_allowed FALSE}}}
+   #ifndef HX_XBOX
+   {helpbar set_limit_to_player_num -1}
+   {if
+      {!
+         {gamemode is_hth_arrangement}}}
+   #endif
+   {helpbar
+      set_config
+      #ifdef HX_XBOX
+      {if_else
+         {&&
+            {gamemode get online_play_required}
+            {>
+               {session num_players}
+               0}
+            {!
+               {gamemode get ranked}}}
+         ((cancel helpbar_back)
+            (confirm helpbar_select)
+            (options helpbar_details))
+         ((cancel helpbar_back)
+            (confirm helpbar_select))}
+      #else
+      {if_else
+         {&&
+            {!=
+               {gamecfg get leader_num}
+               -1}
+            {!=
+               {continue.btn get text_token}
+               waiting}}
+         ((cancel helpbar_back)
+            (confirm helpbar_select)
+            (start matchmaking_pressstart))
+         ((cancel helpbar_back)
+            (confirm helpbar_select))}
+      #endif})
+#define MATCHMAKING_POPUP_ENTER
+({platform_mgr add_sink $this signin_changed}
+   {gamecfg set joining_allowed FALSE})
+#define MATCHMAKING_POPUP_HANDLERS
+((exit
+      {platform_mgr remove_sink $this signin_changed}
+      {gamecfg set joining_allowed TRUE})
+   (signin_changed
+      {ui pop_screen}))
+{new
+   DialogPanel
+   kick_player_panel
+   (file player_names_dialog.milo)
+   (focus players.lst)
+   (player_num
+      {local_to_leader_player_num})
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (BUTTON_DOWN_MSG
+      {if_else
+         {== $button kPad_Tri}
+         {ui pop_screen}
+         kDataUnhandled})
+   (SELECT_START_MSG
+      {remote_players_provider
+         kick_player
+         {players.lst selected_pos}}
+      {ui pop_screen}
+      kDataUnhandled)
+   (REMOTE_PLAYER_LEFT_MSG
+      {if_else
+         {==
+            {session mode}
+            kNetLocal}
+         {ui pop_screen}
+         {do
+            {remote_players_provider refresh_player_list}
+            {players.lst set_dirty}}})
+   (NEW_REMOTE_PLAYER_MSG
+      {remote_players_provider refresh_player_list}
+      {players.lst set_dirty})
+   (TRANSITION_COMPLETE_MSG
+      {title.lbl set text_token kick_player}
+      {session add_sink $this}
+      {players.lst set_provider remote_players_provider}
+      {if
+         {==
+            {session mode}
+            kNetLocal}
+         {ui pop_screen}})
+   (exit
+      {session remove_sink $this}
+      {remote_players_provider cleanup}
+      {band_ui_sink set_net_sync TRUE})}
+{new
+   BandScreen
+   kick_player_screen
+   (panels kick_player_panel)
+   (focus kick_player_panel)}
+{new
+   DialogPanel
+   more_details_panel
+   (file player_names_dialog.milo)
+   (focus players.lst)
+   (helpbar
+      ((min_height 0)))
+   (BUTTON_DOWN_MSG
+      {if_else
+         {== $button kPad_Tri}
+         {{ui current_screen}
+            leave}
+         kDataUnhandled})
+   (SELECT_START_MSG
+      {session_players_provider
+         show_gamercard
+         {players.lst selected_pos}
+         $player_num}
+      kDataUnhandled)
+   (session_disabled
+      {{ui current_screen}
+         leave})
+   (REMOTE_PLAYER_LEFT_MSG
+      {session_players_provider refresh_player_list}
+      {players.lst set_dirty})
+   (NEW_REMOTE_PLAYER_MSG
+      {session_players_provider refresh_player_list}
+      {players.lst set_dirty})
+   (enter
+      {title.lbl set text_token more_details_panel_title}
+      {players.lst set_provider session_players_provider}
+      {helpbar
+         set_config
+         ((confirm helpbar_details))})
+   (TRANSITION_COMPLETE_MSG
+      {session add_sink $this}
+      {if
+         {session disabled}
+         {{ui current_screen}
+            leave}})
+   (exit
+      {session remove_sink $this}
+      {session_players_provider cleanup})}
+{new
+   BandScreen
+   more_details_screen
+   (panels more_details_panel)
+   (focus more_details_panel)
+   (leave
+      {ui pop_screen})
+   (exit
+      {band_ui_sink set_net_sync TRUE})}
+{new
+   UIPanel
+   selchannel_panel
+   (file
+      "selchanneldialog.milo")
+   (enter
+      {channels.lst
+         set_data
+         (Fun QA 'Design Meeting' Debug A B C D)}
+      {$this set_focus channels.lst})
+   (SELECT_START_MSG
+      {gamecfg
+         set
+         channel
+         {channels.lst selected_pos}}
+      {if_else
+         {!
+            {gamemode get is_bwt}}
+         {session_mgr find_players}
+         {if_else
+            {tour performer}
+            {session_mgr find_bandmates}
+            {session_mgr find_leader}}}
+      {ui pop_screen})
+   (BUTTON_DOWN_MSG
+      {if_else
+         {== $button kPad_Tri}
+         {ui pop_screen}
+         kDataUnhandled})}
+{new
+   BandScreen
+   selchannel_screen
+   (panels selchannel_panel)
+   (focus selchannel_panel)}

@@ -1,127 +1,3 @@
-(StreakMeterDir
-   (types
-      (test_streak_meter
-         (editor
-            (max_multiplier
-               int
-               (help
-                  "The maximum multiplier this track can reach w/o overdrive")
-               (range 0 25))
-            (test
-               script
-               (help
-                  "Test the streak meter")
-               (script
-                  {$this test}))
-            (break
-               script
-               (help
-                  "Break the streak")
-               (script
-                  {$this break}))
-            (stop_test
-               script
-               (help
-                  "Stop the streak meter test")
-               (script
-                  {$this stop_test}))
-            (star_deploy
-               script
-               (help
-                  "Deploy overdrive")
-               (script
-                  {$this star_deploy}))
-            (star_deploy_stop
-               script
-               (help
-                  "Stop deploying overdrive")
-               (script
-                  {$this star_deploy_stop}))
-            (reset
-               script
-               (help
-                  "Reset everything")
-               (script
-                  {$this test_reset})))
-         (test_hit_val 0)
-         (test_streak_multiplier 1)
-         (max_multiplier 4)
-         (test
-            {$this test_reset}
-            {set
-               [test_hit_val]
-               0}
-            {set
-               [test_streak_multiplier]
-               1}
-            {thread_task
-               kTaskSeconds
-               (name streak_meter_test)
-               (script
-                  {set
-                     [test_hit_val]
-                     [test_hit_val]}
-                  {set
-                     [test_hit_val]
-                     {'+'
-                        [test_hit_val]
-                        1}}
-                  {if
-                     {>
-                        [test_hit_val]
-                        20}
-                     {set
-                        [test_hit_val]
-                        {-
-                           [test_hit_val]
-                           20}}}
-                  {if
-                     {==
-                        [test_hit_val]
-                        20}
-                     {set
-                        [test_streak_multiplier]
-                        {'+'
-                           [test_streak_multiplier]
-                           1}}}
-                  {if
-                     {>
-                        [test_streak_multiplier]
-                        4}
-                     {$this super_streak}}
-                  {if_else
-                     {>
-                        [test_streak_multiplier]
-                        [max_multiplier]}
-                     {$this set_wipe 1}
-                     {do
-                        {$this
-                           set_wipe
-                           {/
-                              [test_hit_val]
-                              20}}
-                        {$this
-                           set_multiplier
-                           [test_streak_multiplier]}}}
-                  {$task sleep 0.1}
-                  {$task loop})})
-         (test_reset
-            {$this stop_test}
-            {$this reset}
-            {star_deploy_stop.trig trigger})
-         (break
-            {$this set_multiplier 1}
-            {$this break_streak}
-            {set
-               [test_hit_val]
-               0}
-            {set
-               [test_streak_multiplier]
-               1})
-         (stop_test
-            {if
-               {exists streak_meter_test}
-               {delete streak_meter_test}}))))
 (RndDir
    (types
       (streak_meter
@@ -148,59 +24,8 @@
                script
                (script
                   {$this star_deploy_stop})))
-         (streak_sfx
-            {&&
-               {exists gamemode}
-               {gamemode get play_streak_sfx}})
          (color_list
             ())
-         (on_build_streak
-            ($super_streak)
-            {if
-               {== $super_streak TRUE}
-               {show_blue.trig trigger}}
-            {if
-               [streak_sfx]
-               {synth play streak_success.cue}})
-         (on_break_streak
-            {if
-               [streak_sfx]
-               {synth play streak_fail.cue}}
-            {broken_glow.trig trigger}
-            {hide_blue.trig trigger})
-         (multiplier_changed
-            ($count)
-            {if_else
-               {> $count 1}
-               {do
-                  {switch
-                     $count
-                     (2
-                        {multi-meter_anim.tnm
-                           animate
-                           (range 0 8)})
-                     (5
-                        {multi-meter_anim.tnm set_frame 8})
-                     (6
-                        {multi-meter_anim.tnm set_frame 8})
-                     (10
-                        {multi-meter_anim.tnm set_frame 10})
-                     (12
-                        {multi-meter_anim.tnm set_frame 9})}
-                  {multiplier.txt set_showing TRUE}
-                  {multiplier.txt
-                     set_text
-                     {sprint
-                        $count
-                        "x"}}}
-               {multiplier.txt set_showing FALSE}}
-            {if
-               {> $count 1}
-               {new_streak.trig trigger}})
-         (set_pct
-            ($hit_pct)
-            {meter_wipe.mnm set_frame $hit_pct})
-         (test_hit_val 0)
          (streak_multiplier 1)
          (band_multiplier 1)
          (max_multiplier 4)
@@ -223,14 +48,68 @@
                {set
                   [streak_multiplier]
                   $mult}
-               {$this
-                  on_build_streak
-                  {>
+               {if_else
+                  {>=
                      $mult
-                     [max_multiplier]}}
-               {$this
-                  multiplier_changed
-                  {$this get_total_multiplier}}})
+                     [max_multiplier]}
+                  {$this start_super_streak}
+                  {$this end_super_streak}}
+               {if
+                  {> $mult 1}
+                  {if
+                     {&&
+                        {exists gamemode}
+                        {gamemode get play_streak_sfx}}
+                     {synth play streak_success.cue}}}
+               {$this multiplier_changed}})
+         (multiplier_changed
+            {do
+               ($count
+                  {$this get_total_multiplier})
+               {if_else
+                  {> $count 1}
+                  {do
+                     {switch
+                        $count
+                        (2
+                           {multi-meter_anim.tnm
+                              animate
+                              (range 0 8)})
+                        (5
+                           {multi-meter_anim.tnm set_frame 8})
+                        (6
+                           {multi-meter_anim.tnm set_frame 8})
+                        (10
+                           {multi-meter_anim.tnm set_frame 10})
+                        (12
+                           {multi-meter_anim.tnm set_frame 9})}
+                     {multiplier.txt set_showing TRUE}
+                     {multiplier.txt
+                        set_text
+                        {sprint
+                           $count
+                           "x"}}}
+                  {multiplier.txt set_showing FALSE}}
+               {if
+                  {> $count 1}
+                  {new_streak.trig trigger}}})
+         (set_hit
+            ($hit_pct)
+            {meter_wipe.mnm set_frame $hit_pct})
+         (break
+            {if
+               {>
+                  [streak_multiplier]
+                  1}
+               {broken_glow.trig trigger}}
+            {$this set_multiplier 1}
+            {meter_wipe.mnm set_frame 0}
+            {set
+               [test_hit_val]
+               0})
+         (reset
+            {$this set_multiplier 1}
+            {reset.trig trigger})
          (get_total_multiplier
             {if_else
                $edit_mode
@@ -243,6 +122,11 @@
                   {'*'
                      [streak_multiplier]
                      [band_multiplier]}}})
+         (start_super_streak
+            {show_blue.trig trigger})
+         (end_super_streak
+            {hide_blue.trig trigger})
+         (test_hit_val 0)
          (test
             {$this stop_test}
             {set
@@ -275,21 +159,16 @@
                         [test_hit_val]
                         5.0e-2}}
                   {$this
-                     set_pct
+                     set_hit
                      [test_hit_val]}
                   {$task sleep 0.1}
                   {$task loop})})
-         (reset
-            {$this set_multiplier 1}
-            {reset.trig trigger})
-         (break
-            {$this on_break_streak})
          (stop_test
             {if
                {exists streak_meter_test}
                {delete streak_meter_test}}
             {$this set_multiplier 1}
-            {$this set_pct 0})
+            {$this set_hit 0})
          (star_deploy
             {star_deploy.trig trigger})
          (star_deploy_stop

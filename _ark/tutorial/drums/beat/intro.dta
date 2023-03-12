@@ -1,0 +1,17 @@
+SETUP_DRUM_TUTORIAL
+DRUM_TV_OFF
+{$task sleep 0.5}
+{{gamemode get main_panel}
+   start_ambient_loop}
+{$task sleep 0.8}
+{music_intro.cue play}
+DRUM_TV_COLORBARS
+START_BG_MUSIC
+{$task sleep 1.0e-2}
+{$task sleep 6.9}
+{$task sleep 1.0e-2}
+{setup_big_banner tutorial_drum_beat_title}
+{play_vo tute_drum2_intro}
+WAIT_FOR_VO
+LONG_VO_GAP
+{tutorials_state_panel switch_to_next_state}

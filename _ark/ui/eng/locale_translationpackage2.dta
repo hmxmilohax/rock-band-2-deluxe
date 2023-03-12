@@ -1,0 +1,2283 @@
+(error_pad_lost_none
+   "Please reconnect %s's controller.  Selecting \qReturn to Main Menu\q will result in loss of unsaved progress.")
+(error_saveload_pad_lost
+   "Please reconnect %s's %s controller.  Selecting \qDisable Autosave\q will disable loading and saving for this profile.  To re-enable autosaving, you will need to return to the main menu and choose \qSave\q or \qLoad\q by selecting \qManage Data\q on the \qOptions\q menu.")
+(error_saveload_pad_lost_none
+   "Please reconnect %s's controller.  Selecting \qDisable Autosave\q will disable loading and saving for this profile.  To re-enable autosaving, you will need to return to the main menu and choose \qSave\q or \qLoad\q by selecting \qManage Data\q on the \qOptions\q menu.")
+(error_matchmaking_pad_lost
+   "Please reconnect %s's %s controller.  Selecting \qAbandon Session\q will disconnect any remote players.")
+(error_matchmaking_pad_lost_none
+   "Please reconnect %s's controller.  Selecting \qAbandon Session\q will disconnect any remote players.")
+(error_abandon_session
+   "Abandon Session")
+(boston_theater_hmxmara
+   "Harmonix Marathon")
+(rome_theater_mediacommara
+   "Media and Community Marathon")
+(harmonixbands
+   "Harmonix Bands")
+(guitarandvocals
+   "Guitar and Vocals")
+(alltier0b
+   "Warmup Marathon Part 2")
+(alltier1b
+   "Apprentice Marathon Part 2")
+(alltier2b
+   "Solid Marathon Part 2")
+(alltier3b
+   "Moderate Marathon Part 2")
+(alltier4b
+   "Challenging Marathon Part 2")
+(alltier5b
+   "Nightmare Marathon Part 2")
+(alltier6b
+   "Impossible Marathon Part 2")
+(band5_2
+   "More Band Nightmares")
+(femvox2
+   "Femme Fatale Challenge Part 2")
+(helpbar_start_setlist_hold
+   "Hold To Make A Setlist")
+(mod_awesome
+   "Awesomeness Detection")
+(mod_awesome_obtain
+   "")
+(mod_awesome_desc
+   "Let Harmonix know that you are really awesome!")
+(band_chooser_profile_header
+   "%s's Bands")
+(band_chooser_create_desc
+   "Start a band and rock the world!")
+(band_chooser_join_desc
+   "Join another band's rise to fame!")
+(band_chooser_not_signed_in_desc
+   "(You must be signed into a gamer profile to view its bands)")
+(band_chooser_not_active_desc
+   "(Press a button on this gamer profile's controller to view bands)")
+(band_chooser_non_active_select
+   "To view this gamer profile's bands, please press a button on the controller they are currently signed into.")
+(char_provider_profile_possessive
+   "%s's")
+(char_provider_profile_members
+   "BAND MEMBERS")
+(char_provider_profile_chars
+   "CHARACTERS")
+(char_provider_prefab
+   "(Default)")
+(char_unlock_sponsor_fender
+   "Fender<sup>TM</sup> rewards")
+(char_unlock_tshirt
+   "A new t-shirt")
+(song_select_clear_setlist
+   "Do you want to clear your setlist?")
+(set_list_title
+   "Setlist")
+(set_list_song_count
+   "%d songs")
+(by_origin
+   "By Location")
+(download
+   "Downloaded")
+(rb2_icon
+   "Rock Band 2")
+(rb1_icon
+   "Rock Band")
+(fail_add_header_too_big
+   "This category has too many songs to play all at once!")
+(leaderboards_not_ranked
+   "Unranked! You need %s %s to get on the board.")
+(fans
+   "fans")
+(points
+   "points")
+(on_select_band_error
+   "This band's profile can't be viewed.")
+(on_select_gamertag_error
+   "This player's gamer card can't be viewed.")
+(mm_create_char_choose_owner_title
+   "Choose Character Owner")
+(mm_create_char_choose_owner
+   "Please choose the gamer profile that should own this charater:")
+(tour_band_create_band_choose_owner_title
+   "Choose Band Owner")
+(tour_band_create_band_choose_owner
+   "Please choose the gamer profile that should own this band:")
+(tour_band_guest_cannot_select
+   "I'm sorry, but guests aren't allowed to select this option. Please try again with a signed-in gamer profile.")
+(shell_band_name_chosen
+   "[Band Name Chosen]")
+(passive_message_auto_join_failed
+   "One or more local players could not be joined")
+(mm_cannot_continue
+   "A remote player is not ready to continue.")
+(mc_save_disabled_by_cheat
+   "Saving is currently disabled due to an enabled Game Modifier.  Please turn off all modifiers that disable saving in order to re-enable the saving feature.")
+(song_info_cache_corrupt
+   "The Rock Band 2 Song Cache file is corrupt. Rock Band 2 may take longer to find downloaded content without a Song Cache.  Would you like to overwrite the existing corrupted file with a new file?")
+(song_info_cache_button_corrupt_overwrite
+   "Overwrite")
+(song_info_cache_saving_long
+   "Saving Rock Band 2 Song Cache.  Please don't turn off your console.")
+(global_options_corrupt
+   "The Rock Band 2 audio/video settings file is corrupt. Rock Band 2 needs to delete the corrupted file in order to save these settings in the future.  Would you like to overwrite the existing corrupted file with a new file, or would you like to proceed without saving this file?")
+(global_options_button_corrupt_overwrite
+   "Overwrite")
+(global_options_saving_long
+   "Saving Rock Band 2 audio/video settings.  Please don't turn off your console.")
+(practice_select_start
+   "Select Start Section")
+(practice_select_end
+   "Select End Section")
+(vox_practice_percent
+   "%s - %0.0f%%")
+(practice_select_section
+   "select section")
+(practice
+   "Practice")
+(practice_percent_format
+   "%.0f%%")
+(practice_vocalstyle_static
+   "Static Vocal Style")
+(practice_vocalstyle_scrolling
+   "Scrolling Vocal Style")
+(practice_slower_faster
+   "Slower   Faster")
+(practice_speed_percent
+   "%.0f%%")
+(practice_best_percent
+   "Best Percentage")
+(practice_press_start
+   "Press START To Exit")
+(botb_rank_failed
+   "This battle finished while you were playing. Your performance was not ranked.")
+(botb_unranked
+   "You are currently unranked.")
+(botb_hist_unranked
+   "unranked")
+(botb_hist_rank
+   "%s of %d")
+(botb_wm_percent_complete
+   "Ranked by percentage completed")
+(botb_wm_streak
+   "Ranked by longest streak")
+(botb_wm_multiplier
+   "Ranked by highest star count")
+(botb_missing_dlc
+   "Sorry, this battle requires that everyone in your band has the song '%s'.")
+(botb_missing_dlc_multi
+   "Sorry, this battle requires that everyone in your band has the song '%s' and %d other songs.")
+(botb_missing_dlc_multi_two
+   "Sorry, this battle requires that everyone in your band has the song '%s' and 1 other song.")
+(botb_buy_dlc
+   "Purchase it in the Rock Band Music Store!")
+(botb_buy_dlc_multi
+   "Purchase them in the Rock Band Music Store!")
+(botb_need_rb1_license
+   "This song can be exported from the original Rock Band disc.")
+(botb_need_rb1_license_multi
+   "These songs can be exported from the original Rock Band disc.")
+(botb_license_and_store
+   "Some of these songs can be purchased in the Rock Band Music Store, and others can be exported from the original Rock Band disc.")
+(botb_perf_default
+   "Rock Central is still determining your performance...")
+(botb_rank_default
+   "Rock Central is still determining your rank...")
+(botb_news_passed_headline_singular
+   "%d band beat your ranking on the %s.")
+(botb_news_overall_headline_singular
+   "In the last 24 hours, %d band beat your global ranking on the %s.")
+(botb_pref_award_multiple_singular
+   "You beat %d friend! You are now #%d on your friends list.")
+(botb_news_new_text_singular
+   "%s band has already posted a score in this battle.")
+(botb_news_new_text_none
+   "No bands have yet posted a score in this battle.")
+(no_filters_offline
+   "Local Scores")
+#ifdef HX_PS3
+(error_abandoned
+   "Your online band session has ended.")
+(botb_ec_not_classy
+   "Sorry, but you're unable to play Battle of the Bands at the moment. Please make sure your band name and motto are considered 'classy', and that any online-restricting game modifers are disabled.")
+(tour_no_botb
+   "Sorry, but you're unable to connect to Battle of the Bands at the moment. Please make sure that your band is connected to Rock Central.")
+(mc_auto_load_no_save_found
+   "No Rock Band 2 save data has been found for this profile.  To save your progress, choose a storage device on which we will create your save game file.  If you cancel, you may play the game but your progress will not automatically save.")
+(mc_auto_load_multiple_saves_found
+   "Multiple save games have been found for this profile.  Please choose a storage device to load from (or to save to if you choose a device with nothing on it).  If you cancel, you may play the game but your progress will not automatically save.")
+(finding_presence_no_multiplayer_privilege
+   "You are not signed into an online enabled profile.")
+#else
+#ifdef HX_XBOX
+(mc_auto_load_no_save_found
+   "No Rock Band 2 save data has been found for this gamer profile.  To save your progress, choose a storage device on which we will create your save game file.  If you cancel, you may play the game but your progress will not automatically save.")
+(mc_auto_load_multiple_saves_found
+   "Multiple save games have been found for this gamer profile.  Please choose a storage device to load from (or to save to if you choose a device with nothing on it).  If you cancel, you may play the game but your progress will not automatically save.")
+(finding_presence_no_multiplayer_privilege
+   "You must be signed into an Xbox LIVE enabled profile and connected to Xbox LIVE.")
+(error_abandoned
+   "Your Xbox LIVE band session has ended.")
+(botb_ec_not_classy
+   "Sorry, but you're unable to play Battle of the Bands at the moment. Please make sure your band name and motto are considered 'classy', the band is owned by an Xbox LIVE enabled profile, and that any online-restricting game modifers are disabled.")
+(tour_no_botb
+   "Sorry, but you're unable to connect to Battle of the Bands at the moment. Please make sure that your band is connected to Xbox LIVE and Rock Central.")
+#else
+(error_abandoned
+   "Your online band session has ended.")
+(botb_ec_not_classy
+   "Sorry, but you're unable to play Battle of the Bands at the moment. Please make sure your band name and motto are considered 'classy', and that any online-restricting game modifers are disabled.")
+(tour_no_botb
+   "Sorry, but you're unable to connect to Battle of the Bands at the moment. Please make sure that your band is connected to Rock Central.")
+#endif
+#endif
+(tour_no_botb_connecting
+   "Sorry, but you're unable to play Battle of the Bands at the moment.  You are currently attempting to connect to Rock Central.")
+(finding_presence_no_instrument
+   "You do not have a controller connected.")
+(finding_presence_joining
+   "Joining...")
+(band_profile_choose_standin
+   "No Stand-In")
+(band_profile_standin
+   "Stand-In")
+(tour_standin_none
+   "[None]")
+(tour_select_standin
+   "Choose Stand-In Character")
+(tour_standin_unavailable
+   "Character Unavailable")
+(band_profile_stars
+   "%d Stars")
+(tour_profile_band_full
+   "This character cannot be promoted because your band is already full.")
+(tour_profile_no_songs_played
+   "No songs played")
+(band_profile_confirm_promote
+   "You have chosen to promote %s to a permanent member of the band. Are you sure you want to go ahead with this?")
+(patch_delete_layer_confirm
+   "Are you sure you want to delete this layer?")
+(invalid_license
+   "We couldn't find your license for your exported Rock Band songs. Please re-export these songs from the original Rock Band disc or re-download the license key to revalidate these songs.")
+(song_select_user
+   "%s is choosing song")
+(confirm_quit_tour_challenge
+   "Quitting will save your current setlist progress, but will not save your progress on this specific song. Do you want to continue?")
+(choose_new_battle
+   "Choose New Battle")
+(practice_new_section
+   "Practice New Section")
+(tour_world_first_staff_singular
+   "Nice job! %s can now be hired! More staff will become available for hire as you gain fans and stars. To change your staff members, call your manager at any time on the world map.")
+(tour_world_first_staff_plural
+   "Nice job! %i new staff members can now be hired! More staff will become available for hire as you gain fans and stars. To change your staff members, call your manager at any time on the world map.")
+(tour_world_lose_staff_title
+   "Staff Resignation!")
+(tour_world_lose_staff
+   "Some of your potential staff hires have decided that your band isn't big enough to work for and have decided to withdraw their job applications! Earn more fans to regain the opportunity to hire them back!")
+(tour_band_reward_no_money
+   "You didn't earn any money.")
+(full_song
+   "Full Song")
+(intro
+   "Intro")
+(intro_a
+   "Intro a")
+(intro_b
+   "Intro b")
+(intro_c
+   "Intro c")
+(intro_d
+   "Intro d")
+(intro_e
+   "Intro e")
+(intro_slow
+   "Intro slow")
+(intro_fast
+   "Intro fast")
+(intro_heavy
+   "Intro heavy")
+(intro_heavy_a
+   "Intro heavy a")
+(intro_heavy_b
+   "Intro heavy b")
+(quiet_intro
+   "Quiet intro")
+(noise_intro
+   "Noise intro")
+(drum_intro
+   "Drum intro")
+(bass_intro
+   "Bass intro")
+(vocal_intro
+   "Vocal intro")
+(gtr_intro
+   "Gtr intro")
+(gtr_intro_a
+   "Gtr intro a")
+(gtr_intro_b
+   "Gtr intro b")
+(gtr_intro_c
+   "Gtr intro c")
+(gtr_intro_d
+   "Gtr intro d")
+(gtr_intro_e
+   "Gtr intro e")
+(aco_gtr_intro
+   "Aco Gtr intro")
+(violin_intro
+   "Violin intro")
+(strings_intro
+   "Strings intro")
+(orch_intro
+   "Orch intro")
+(horn_intro
+   "Horn intro")
+(harmonica_intro
+   "Harmonica intro")
+(organ_intro
+   "Organ intro")
+(piano_intro
+   "Piano intro")
+(kybd_intro
+   "Kybd intro")
+(intro_hook
+   "Intro hook")
+(intro_riff
+   "Intro riff")
+(intro_riff_a
+   "Intro riff a")
+(intro_riff_b
+   "Intro riff b")
+(intro_riff_c
+   "Intro riff c")
+(drums_enter
+   "Drums enter")
+(bass_enters
+   "Bass enters")
+(gtr_enters
+   "Gtr enters")
+(rhy_enters
+   "Gtr2 enters")
+(band_enters
+   "Band enters")
+(kick_it
+   "Kick It!")
+(foreplay_intro
+   "Foreplay intro")
+(longtome_intro
+   "Long Time intro")
+(intro_verse
+   "Intro verse")
+(intro_verse_a
+   "Intro verse a")
+(verse_1
+   "Verse 1")
+(verse_1a
+   "Verse 1a")
+(verse_1b
+   "Verse 1b")
+(verse_1c
+   "Verse 1c")
+(verse_1d
+   "Verse 1d")
+(verse_1e
+   "Verse 1e")
+(verse_1f
+   "Verse 1f")
+(verse_2
+   "Verse 2")
+(verse_2a
+   "Verse 2a")
+(verse_2b
+   "Verse 2b")
+(verse_2c
+   "Verse 2c")
+(verse_2d
+   "Verse 2d")
+(verse_2e
+   "Verse 2e")
+(verse_2f
+   "Verse 2f")
+(verse_3
+   "Verse 3")
+(verse_3a
+   "Verse 3a")
+(verse_3b
+   "Verse 3b")
+(verse_3c
+   "Verse 3c")
+(verse_3d
+   "Verse 3d")
+(verse_3e
+   "Verse 3e")
+(verse_3f
+   "Verse 3f")
+(verse_4
+   "Verse 4")
+(verse_4a
+   "Verse 4a")
+(verse_4b
+   "Verse 4b")
+(verse_4c
+   "Verse 4c")
+(verse_4d
+   "Verse 4d")
+(verse_5
+   "Verse 5")
+(verse_5a
+   "Verse 5a")
+(verse_5b
+   "Verse 5b")
+(verse_5c
+   "Verse 5c")
+(verse_5d
+   "Verse 5d")
+(verse_6
+   "Verse 6")
+(verse_6a
+   "Verse 6a")
+(verse_6b
+   "Verse 6b")
+(verse_6c
+   "Verse 6c")
+(verse_6d
+   "Verse 6d")
+(verse_7
+   "Verse 7")
+(verse_7a
+   "Verse 7a")
+(verse_7b
+   "Verse 7b")
+(verse_7c
+   "Verse 7c")
+(verse_7d
+   "Verse 7d")
+(verse_8
+   "Verse 8")
+(verse_8a
+   "Verse 8a")
+(verse_8b
+   "Verse 8b")
+(verse_8c
+   "Verse 8c")
+(verse_8d
+   "Verse 8d")
+(verse_9
+   "Verse 9")
+(verse_9a
+   "Verse 9a")
+(verse_9b
+   "Verse 9b")
+(verse_9c
+   "Verse 9c")
+(verse_9d
+   "Verse 9d")
+(preverse_1
+   "Pre-verse 1")
+(preverse_2
+   "Pre-verse 2")
+(preverse_3
+   "Pre-verse 3")
+(preverse_4
+   "Pre-verse 4")
+(preverse_5
+   "Pre-verse 5")
+(postverse_1
+   "Post-verse 1")
+(postverse_2
+   "Post-verse 2")
+(postverse_3
+   "Post-verse 3")
+(postverse_4
+   "Post-verse 4")
+(postverse_5
+   "Post-verse 5")
+(quiet_verse
+   "Quiet verse")
+(chorus
+   "Chorus")
+(chorus_1
+   "Chorus 1")
+(chorus_1a
+   "Chorus 1a")
+(chorus_1b
+   "Chorus 1b")
+(chorus_1c
+   "Chorus 1c")
+(chorus_1d
+   "Chorus 1d")
+(chorus_2
+   "Chorus 2")
+(chorus_2a
+   "Chorus 2a")
+(chorus_2b
+   "Chorus 2b")
+(chorus_2c
+   "Chorus 2c")
+(chorus_3
+   "Chorus 3")
+(chorus_3a
+   "Chorus 3a")
+(chorus_3b
+   "Chorus 3b")
+(chorus_3c
+   "Chorus 3c")
+(chorus_4
+   "Chorus 4")
+(chorus_4a
+   "Chorus 4a")
+(chorus_4b
+   "Chorus 4b")
+(chorus_4c
+   "Chorus 4c")
+(chorus_5
+   "Chorus 5")
+(chorus_5a
+   "Chorus 5a")
+(chorus_5b
+   "Chorus 5b")
+(chorus_5c
+   "Chorus 5c")
+(chorus_6
+   "Chorus 6")
+(chorus_6a
+   "Chorus 6a")
+(chorus_6b
+   "Chorus 6b")
+(chorus_6c
+   "Chorus 6c")
+(chorus_7
+   "Chorus 7")
+(chorus_7a
+   "Chorus 7a")
+(chorus_7b
+   "Chorus 7b")
+(chorus_7c
+   "Chorus 7c")
+(chorus_8
+   "Chorus 8")
+(chorus_8a
+   "Chorus 8a")
+(chorus_8b
+   "Chorus 8b")
+(chorus_8c
+   "Chorus 8c")
+(chorus_9
+   "Chorus 9")
+(chorus_9a
+   "Chorus 9a")
+(chorus_9b
+   "Chorus 9b")
+(chorus_9c
+   "Chorus 9c")
+(chorus_break
+   "Chorus break")
+(prechorus_1
+   "Pre-chorus 1")
+(prechorus_2
+   "Pre-chorus 2")
+(prechorus_3
+   "Pre-chorus 3")
+(prechorus_4
+   "Pre-chorus 4")
+(prechorus_5
+   "Pre-chorus 5")
+(postchorus_1
+   "Post-chorus 1")
+(postchorus_2
+   "Post-chorus 2")
+(postchorus_3
+   "Post-chorus 3")
+(postchorus_4
+   "Post-chorus 4")
+(postchorus_5
+   "Post-chorus 5")
+(gtr_solo
+   "Gtr solo")
+(gtr_solo_a
+   "Gtr solo a")
+(gtr_solo_b
+   "Gtr solo b")
+(gtr_solo_c
+   "Gtr solo c")
+(gtr_solo_d
+   "Gtr solo d")
+(gtr_solo_e
+   "Gtr solo e")
+(gtr_solo_f
+   "Gtr solo f")
+(gtr_solo_g
+   "Gtr solo g")
+(gtr_solo_h
+   "Gtr solo h")
+(gtr_solo_i
+   "Gtr solo i")
+(gtr_solo_j
+   "Gtr solo j")
+(gtr_solo_k
+   "Gtr solo k")
+(gtr_solo_l
+   "Gtr solo l")
+(gtr_solo_m
+   "Gtr solo m")
+(gtr_solo_n
+   "Gtr solo n")
+(gtr_solo_o
+   "Gtr solo o")
+(gtr_solo_p
+   "Gtr solo p")
+(gtr_solo_q
+   "Gtr solo q")
+(gtr_solo_r
+   "Gtr solo r")
+(gtr_solo_s
+   "Gtr solo s")
+(gtr_solo_1
+   "Gtr solo 1")
+(gtr_solo_1a
+   "Gtr solo 1a")
+(gtr_solo_1b
+   "Gtr solo 1b")
+(gtr_solo_1c
+   "Gtr solo 1c")
+(gtr_solo_1d
+   "Gtr solo 1d")
+(gtr_solo_1e
+   "Gtr solo 1e")
+(gtr_solo_1f
+   "Gtr solo 1f")
+(gtr_solo_1g
+   "Gtr solo 1g")
+(gtr_solo_1h
+   "Gtr solo 1h")
+(gtr_solo_2
+   "Gtr solo 2")
+(gtr_solo_2a
+   "Gtr solo 2a")
+(gtr_solo_2b
+   "Gtr solo 2b")
+(gtr_solo_2c
+   "Gtr solo 2c")
+(gtr_solo_2d
+   "Gtr solo 2d")
+(gtr_solo_2e
+   "Gtr solo 2e")
+(gtr_solo_2f
+   "Gtr solo 2f")
+(gtr_solo_2g
+   "Gtr solo 2g")
+(gtr_solo_2h
+   "Gtr solo 2h")
+(gtr_solo_2i
+   "Gtr solo 2i")
+(gtr_solo_2j
+   "Gtr solo 2j")
+(gtr_solo_2k
+   "Gtr solo 2k")
+(gtr_solo_2l
+   "Gtr solo 2l")
+(gtr_solo_2m
+   "Gtr solo 2m")
+(gtr_solo_2n
+   "Gtr solo 2n")
+(gtr_solo_3
+   "Gtr solo 3")
+(gtr_solo_3a
+   "Gtr solo 3a")
+(gtr_solo_3b
+   "Gtr solo 3b")
+(gtr_solo_3c
+   "Gtr solo 3c")
+(gtr_solo_3d
+   "Gtr solo 3d")
+(gtr_solo_3e
+   "Gtr solo 3e")
+(gtr_solo_4
+   "Gtr solo 4")
+(gtr_solo_4a
+   "Gtr solo 4a")
+(gtr_solo_4b
+   "Gtr solo 4b")
+(gtr_solo_4c
+   "Gtr solo 4c")
+(gtr_solo_4d
+   "Gtr solo 4d")
+(gtr_solo_4e
+   "Gtr solo 4e")
+(gtr_solo_5
+   "Gtr solo 5")
+(gtr_solo_5a
+   "Gtr solo 5a")
+(gtr_solo_5b
+   "Gtr solo 5b")
+(gtr_solo_5c
+   "Gtr solo 5c")
+(gtr_solo_6
+   "Gtr solo 6")
+(gtr_solo_7
+   "Gtr solo 7!")
+(gtr_solo_8
+   "Gtr solo 8!!")
+(gtr_solo_9
+   "Gtr solo 9!!!")
+(slide_solo_1
+   "Slide solo 1")
+(slide_solo_2
+   "Slide solo 2")
+(drum_solo
+   "Drum solo")
+(drum_solo_a
+   "Drum solo a")
+(drum_solo_b
+   "Drum solo b")
+(drum_solo_c
+   "Drum solo c")
+(drum_solo_1
+   "Drum solo 1")
+(drum_solo_2
+   "Drum solo 2")
+(drum_solo_3
+   "Drum solo 3")
+(bass_solo
+   "Bass solo")
+(bass_solo_a
+   "Bass solo a")
+(bass_solo_b
+   "Bass solo b")
+(bass_solo_c
+   "Bass solo c")
+(bass_solo_1
+   "Bass solo 1")
+(bass_solo_2
+   "Bass solo 2")
+(bass_solo_3
+   "Bass solo 3")
+(organ_solo
+   "Organ solo")
+(organ_solo_a
+   "Organ solo a")
+(organ_solo_b
+   "Organ solo b")
+(organ_solo_c
+   "Organ solo c")
+(organ_solo_1
+   "Organ solo 1")
+(organ_solo_2
+   "Organ solo 2")
+(piano_solo
+   "Piano solo")
+(piano_solo_1
+   "Piano solo 1")
+(piano_solo_2
+   "Piano solo 2")
+(keyboard_solo
+   "Keyboard solo")
+(noise_solo
+   "Noise solo")
+(synth_solo
+   "Synth solo")
+(harmonica_solo
+   "Harmonica solo")
+(sax_solo
+   "Sax solo")
+(horn_solo
+   "Horn solo")
+(drum_roll
+   "Drum roll")
+(drum_roll_1
+   "Drum roll 1")
+(drum_roll_2
+   "Drum roll 2")
+(ah
+   "Ah!")
+(yeah
+   "Yeah!")
+(yeah!
+   "Yeah!!!")
+(oohs
+   "Oohs and Ahs")
+(prayer
+   "Prayer")
+(fast_part
+   "Fast part")
+(spacey
+   "Spacey")
+(very_spacey
+   "Very spacey")
+(quiet_part
+   "Quiet part")
+(quiet_part_1
+   "Quiet part 1")
+(quiet_part_2
+   "Quiet part 2")
+(loud_part
+   "Loud part")
+(loud_part_1
+   "Loud part 1")
+(loud_part_2
+   "Loud part 2")
+(hvy_part
+   "Hvy part")
+(trippy_part
+   "Trippy part")
+(wam-bam
+   "Wam-Bam")
+(gtr_lead
+   "Gtr lead")
+(gtr_lead_1
+   "Gtr lead 1")
+(gtr_lead_2
+   "Gtr lead 2")
+(gtr_lead_3
+   "Gtr lead 3")
+(fast_picking
+   "Fast picking")
+(bridge
+   "Bridge")
+(bridge_a
+   "Bridge a")
+(bridge_b
+   "Bridge b")
+(bridge_c
+   "Bridge c")
+(bridge_d
+   "Bridge d")
+(bridge_1
+   "Bridge 1")
+(bridge_1a
+   "Bridge 1a")
+(bridge_1b
+   "Bridge 1b")
+(bridge_2
+   "Bridge 2")
+(bridge_2a
+   "Bridge 2a")
+(bridge_2b
+   "Bridge 2b")
+(bridge_2c
+   "Bridge 2c")
+(bridge_3
+   "Bridge 3")
+(bridge_3a
+   "Bridge 3a")
+(bridge_3b
+   "Bridge 3b")
+(bridge_3c
+   "Bridge 3c")
+(bridge_4
+   "Bridge 4")
+(bridge_4a
+   "Bridge 4a")
+(bridge_4b
+   "Bridge 4b")
+(bridge_4c
+   "Bridge 4c")
+(break
+   "Break")
+(break_a
+   "Break a")
+(break_b
+   "Break b")
+(break_1
+   "Break 1")
+(break_1a
+   "Break 1a")
+(break_1b
+   "Break 1b")
+(break_2
+   "Break 2")
+(break_2a
+   "Break 2a")
+(break_2b
+   "Break 2b")
+(breakdown
+   "Breakdown")
+(sctrach_break
+   "Scratch break")
+(scratch_break_1
+   "Scratch break 1")
+(scratch_break_2
+   "Scratch break 2")
+(organ_break
+   "Organ break")
+(synth_break
+   "Synth break")
+(horn_break
+   "Horn break")
+(jam
+   "Jam")
+(jam_a
+   "Jam a")
+(jam_b
+   "Jam b")
+(jam_c
+   "Jam c")
+(space_jam
+   "Space jam")
+(gtr_break
+   "Gtr break")
+(gtr_break_1
+   "Gtr break 1")
+(gtr_break_2
+   "Gtr break 2")
+(gtr_break_3
+   "Gtr break 3")
+(gtr_break_4
+   "Gtr break 4")
+(gtr_fill
+   "Gtr fill")
+(gtr_fills
+   "Gtr fills")
+(gtr_hook
+   "Gtr hook")
+(gtr_hook_1
+   "Gtr hook 1")
+(gtr_hook_2
+   "Gtr hook 2")
+(gtr_hook_3
+   "Gtr hook 3")
+(gtr_melody
+   "Gtr melody")
+(gtr_mel_1
+   "Gtr melody 1")
+(gtr_mel_2
+   "Gtr melody 2")
+(gtr_mel_3
+   "Gtr melody 3")
+(gtr_line
+   "Gtr line")
+(gtr_line_1
+   "Gtr line 1")
+(gtr_line_2
+   "Gtr line 2")
+(gtr_line_3
+   "Gtr line 3")
+(gtr_lick
+   "Gtr lick")
+(gtr_lick_1
+   "Gtr lick 1")
+(gtr_lick_2
+   "Gtr lick 2")
+(gtr_lick_3
+   "Gtr lick 3")
+(gtr_lick_4
+   "Gtr lick 4")
+(gtr_ostinato
+   "Gtr ostinato")
+(hook
+   "Hook")
+(hook_1
+   "Hook 1")
+(hook_2
+   "Hook 2")
+(hook_3
+   "Hook 3")
+(chant_1
+   "Chant 1")
+(chant_2
+   "Chant 2")
+(chant_3
+   "Chant 3")
+(vocal_break
+   "Vocal break")
+(vocal_break_1
+   "Vocal break 1")
+(vocal_break_2
+   "Vocal break 2")
+(vocal_break_3
+   "Vocal break 3")
+(buildup
+   "Build up")
+(speedup
+   "Speed up")
+(speedup_a
+   "Speed up a")
+(speedup_b
+   "Speed up b")
+(slow_part
+   "Slow part")
+(slow_part_a
+   "Slow part a")
+(slow_part_b
+   "Slow part b")
+(noise_build
+   "Noise build")
+(release
+   "Release")
+(melody_1
+   "Melody 1")
+(melody_2
+   "Melody 2")
+(lo_melody
+   "Low melody")
+(hi_melody
+   "High melody")
+(main_riff
+   "Main riff")
+(main_riff_1
+   "Main riff 1")
+(main_riff_2
+   "Main riff 2")
+(main_riff_3
+   "Main riff 3")
+(main_riff_4
+   "Main riff 4")
+(main_riff_5
+   "Main riff 5")
+(main_riff_6
+   "Main riff 6")
+(main_riff_7
+   "Main riff 7")
+(verse_riff
+   "Verse riff")
+(verse_riff_1
+   "Verse riff 1")
+(verse_riff_2
+   "Verse riff 2")
+(verse_riff_3
+   "Verse riff 3")
+(chorus_riff
+   "Chorus riff")
+(chorus_riff_1
+   "Chorus riff 1")
+(chorus_riff_2
+   "Chorus riff 2")
+(chorus_riff_3
+   "Chorus riff 3")
+(gtr_riff_1
+   "Gtr riff 1")
+(gtr_riff_1a
+   "Gtr riff 1a")
+(gtr_riff_1b
+   "Gtr riff 1b")
+(gtr_riff_2
+   "Gtr riff 2")
+(gtr_riff_2a
+   "Gtr riff 2a")
+(gtr_riff_2b
+   "Gtr riff 2b")
+(gtr_riff_3
+   "Gtr riff 3")
+(gtr_riff_3a
+   "Gtr riff 3a")
+(gtr_riff_3b
+   "Gtr riff 3b")
+(gtr_riff
+   "Gtr riff")
+(bass_riff
+   "Bass riff")
+(big_riff_1
+   "Big riff 1")
+(big_riff_2
+   "Big riff 2")
+(bigger_riff
+   "Bigger riff")
+(swing_riff_1
+   "Swing riff 1")
+(swing_riff_2
+   "Swing riff 2")
+(swing_riff_3
+   "Swing riff 3")
+(swing_riff_4
+   "Swing riff 4")
+(chunky_riff_1
+   "Chunk riff 1")
+(chunky_riff_2
+   "Chunk riff 2")
+(odd_riff_1
+   "Odd riff 1")
+(odd_riff_2
+   "Odd riff 2")
+(odd_riff_3
+   "Odd riff 3")
+(outro
+   "Outro")
+(outro_a
+   "Outro a")
+(outro_b
+   "Outro b")
+(outro_c
+   "Outro c")
+(outro_d
+   "Outro d")
+(outro_e
+   "Outro e")
+(outro_solo
+   "Outro solo")
+(outro_solo_a
+   "Outro solo a")
+(outro_solo_b
+   "Outro solo b")
+(outro_solo_c
+   "Outro solo c")
+(ending
+   "Ending")
+(big_rock_ending
+   "Big Rock Ending!")
+(cal_video_desc_guitar
+   "This test determines the amount of Video Latency in your system. When you see the needle hit either side of the meter, strum.")
+(cal_video_desc_drum
+   "This test determines the amount of Video Latency in your system. When you see the needle hit either side of the meter, hit the green pad.")
+#ifdef HX_PS3
+(cal_video_desc_pad
+   "This test determines the amount of Video Latency in your system. When you see the needle hit either side of the meter, press the X button.")
+(cal_video_desc_pad_swapped
+   "This test determines the amount of Video Latency in your system. When you see the needle hit either side of the meter, press the circle button.")
+#else
+#ifdef HX_EE
+(cal_video_desc_pad
+   "This test determines the amount of Video Latency in your system. When you see the needle hit either side of the meter, press the X button.")
+(cal_video_desc_pad_swapped
+   "This test determines the amount of Video Latency in your system. When you see the needle hit either side of the meter, press the circle button.")
+#else
+#ifndef HX_WII
+(cal_video_desc_pad
+   "This test determines the amount of Video Latency in your system. When you see the needle hit either side of the meter, press the A button.")
+#else
+(cal_video_desc_pad
+   "This test determines the amount of Video Latency in your system. When you see the needle hit either side of the meter, press the A Button.")
+#endif
+#endif
+#endif
+(cal_audio_desc_guitar
+   "This test determines the amount of Audio Latency in your system. Every time you hear a drum hit, strum.")
+(cal_audio_desc_drum
+   "This test determines the amount of Audio Latency in your system. Every time you hear a drum hit, hit the green pad.")
+#ifdef HX_PS3
+(cal_audio_desc_pad
+   "This test determines the amount of Audio Latency in your system. Every time you hear a drum hit, press the X button.")
+(cal_audio_desc_pad_swapped
+   "This test determines the amount of Audio Latency in your system. Every time you hear a drum hit, press the circle button.")
+#else
+#ifdef HX_EE
+(cal_audio_desc_pad
+   "This test determines the amount of Audio Latency in your system. Every time you hear a drum hit, press the X button.")
+(cal_audio_desc_pad_swapped
+   "This test determines the amount of Audio Latency in your system. Every time you hear a drum hit, press the circle button.")
+#else
+#ifndef HX_WII
+(cal_audio_desc_pad
+   "This test determines the amount of Audio Latency in your system. Every time you hear a drum hit, press the A button.")
+#else
+(cal_audio_desc_pad
+   "This test determines the amount of Audio Latency in your system. Every time you hear a drum hit, press the A Button.")
+#endif
+#endif
+#endif
+#ifdef HX_PS3
+(tour_band_create_band_no_owner_fmt
+   "You are at your limit of %d bands.  Please delete an old band in order to create a new one.")
+#else
+(tour_band_create_band_no_owner_fmt
+   "We couldn't find a profile to save the band to. Make sure you're signed in and have less than %d bands, then try again.")
+#endif
+#ifdef HX_XBOX
+(motd_not_signed_in
+   "You must be connected to Xbox LIVE and signed-in to an Xbox LIVE enabled Profile to connect to Rock Central")
+#endif
+(extra_managefriends
+   "manage friends")
+(helpbar_edit_roster
+   "Edit Roster")
+(helpbar_edit_standins
+   "Edit Stand-Ins")
+(helpbar_choose_standin
+   "Choose Stand-In")
+(tour_refreshing_botb
+   "Loading Battles...")
+(select_venue
+   "Select Venue")
+(helpbar_waiting_for
+   "Waiting for\n%s...")
+(tour_first_staff_title
+   "Staff Available")
+(cal_audio_desc_calbert
+   "Audio calibration: Hold your Rock Band 2 Fender<sup>TM</sup> Stratocaster<sup>TM</sup> Guitar Controller up to your TV or sound system's speaker, then press the Green Fret.")
+(cal_video_desc_calbert
+   "Video calibration: Hold your Rock Band 2 Fender<sup>TM</sup> Stratocaster<sup>TM</sup> Guitar Controller up close to the TV, with the front of the guitar facing the TV, then press the Green Fret.")
+(cal_audio_fail_calbert
+   "We couldn't get a reliable audio reading. Please ensure the guitar controller is in front of a speaker and try again.\n\nIf you are in a room with a lot of echo, try lowering the volume of your speakers and try again.")
+(cal_video_fail_calbert
+   "We couldn't get a reliable video reading. Please ensure that the guitar controller is held facing the center of the TV and try again. Video calibration works best in a dark room - turn the lights down or off for best results.")
+(fire_water
+   "Fire Water")
+(crowned_heart
+   "Crowned Heart")
+(water_tower
+   "Water Tower")
+(stay_up
+   "Stay Up")
+(hydrant
+   "Hydrant")
+(home
+   "home")
+(in_spades
+   "In Spades")
+(roses
+   "Roses")
+(city_block
+   "City Block")
+(turntables
+   "Turntables")
+(mic
+   "Mic")
+(futurebike
+   "Futurebike")
+(caferacer
+   "Caferacer")
+(scooter
+   "Scooter")
+(chopper
+   "Chopper")
+(retroracer
+   "Retroracer")
+(sunburst_futurebike
+   "Sunburst Futurebike")
+(paisley_caferacer
+   "Paisley Caferacer")
+(square_bubbles_scooter
+   "Square Bubbles Scooter")
+(nouveau_racer
+   "Nouveau Racer")
+(flaming_chopper
+   "Flaming Chopper")
+(electric_retroracer
+   "Electro Retroracer")
+(bull_head
+   "Bull Head")
+(diamond_dog
+   "Diamond Dog")
+(coyote
+   "Coyote")
+(wolf_bite
+   "Wolf Bite")
+(tall_man
+   "Tall Man")
+(sun_fish
+   "Sun Fish")
+(louse
+   "Louse")
+(rhode_island_red
+   "Rhode Island Red")
+(pawn
+   "Pawn")
+(stare
+   "Stare")
+(skiing
+   "Skiing")
+(grouper
+   "Grouper")
+(croc
+   "Croc")
+(viper
+   "Viper")
+(biter
+   "Biter")
+(mad_bird
+   "Mad Bird")
+(mad_mask
+   "Mad Mask")
+(wolf_head
+   "Wolf Head")
+(wolf_tail
+   "Wolf Tail")
+(bird_head
+   "Bird Head")
+(piglet_head
+   "Piglet Head")
+(double
+   "Double")
+(disapearing_man
+   "Disapearing Man")
+(lost_in_space
+   "Lost In Space")
+(give_me_thoughts
+   "Give Me Thoughts")
+(screamin_scars
+   "Screamin Stars")
+(girl_tree
+   "Girl Tree")
+(claws_for_paws
+   "Claws for Paws")
+(manchine
+   "Manchine")
+(mountain_man
+   "Mountain Man")
+(bottle_something
+   "Bottle Something")
+(bottle_label
+   "Bottle Label")
+(examine_something
+   "Examine Something")
+(bubbles_or_fire
+   "Bubbles or Fire")
+(fire
+   "Fire")
+(bubbles
+   "Bubbles")
+(aw_shucks
+   "Aw Shucks")
+(baking
+   "Baking")
+(bees
+   "Bees")
+(caffeinating
+   "Caffeinating")
+(crisping
+   "Crisping")
+(flattening
+   "Flattening")
+(ga_is_for_lovers
+   "GA is for Lovers")
+(humans_rule
+   "Humans Rule")
+(im_cool
+   "I'm Cool")
+(i_couldnt_possibly
+   "I Couldn't Possibly")
+(iron_maiden
+   "Iron Maiden")
+(nuking
+   "Nuking")
+(one_two
+   "One Two")
+(pulverizing
+   "Pulverizing")
+(stitiching
+   "Stitiching")
+(tada
+   "Tada")
+(twisting
+   "Twisting")
+(abdomin
+   "Abdomin")
+(bicep
+   "Bicep")
+(brachialis
+   "Brachialis")
+(deltoids
+   "Deltoids")
+(pectoral
+   "Pectoral")
+(rider
+   "Rider")
+(serratus
+   "Serratus")
+(sternum
+   "Sternum")
+(tricep
+   "Tricep")
+(eagle_body
+   "Eagle Body")
+(koala_body
+   "Koala Body")
+(fox_body
+   "Fox Body")
+(cougar_body
+   "Cougar Body")
+(pizza
+   "Pizza")
+(peace
+   "Peace")
+(index
+   "Index")
+(thumbs_up
+   "Thumbs Up")
+(yearbook_pose
+   "Yearbook Pose")
+(cds
+   "CDs")
+(tgif_chain
+   "TGIF Chain")
+(sunglasses
+   "Sunglasses")
+(basketball
+   "Basketball")
+(flag_bandana
+   "Flag Bandana")
+(backwards_hat
+   "Backwards Hat")
+(alien_button
+   "Alien Button")
+(pacifier_necklace
+   "Pacifier Necklace")
+(shark_tooth_necklace
+   "Shark Tooth Necklace")
+(dangly_earring
+   "Dangly Earring")
+(tropical_background
+   "Tropical Background")
+(triangle_background
+   "Triangle Background")
+(paint_stroke_background
+   "Paint Stroke Background")
+(birdsheart
+   "Birdsheart")
+(bot_flock
+   "Bot Flock")
+(cell_crew
+   "Cell Crew")
+(deathboth_123
+   "Deathbot 123")
+(dog_smokin
+   "Dog Smokin")
+(giraffe
+   "Girraffe")
+(lake_creature
+   "Lake Creature")
+(mummy
+   "Mummy")
+(robo_ladies_123
+   "Robo Ladies 123")
+(skeleton
+   "Skeleton")
+(two_headed_tiger
+   "two headed tiger")
+(classic_tiger
+   "classic tiger")
+(battlephant
+   "battlephant")
+(octorod
+   "octorod")
+(koi_fish
+   "koi fish")
+(demon_skulls
+   "demon skulls")
+(horned_tentacles
+   "horned tentacles")
+(skull_1
+   "skull 1")
+(skull_2
+   "skull 2")
+(skull_3
+   "skull 3")
+(splatter_one
+   "Splatter One")
+(splatter_two
+   "Splatter Two")
+(splatter_three
+   "Splatter Three")
+(splatter_four
+   "Splatter Four")
+(rectangle
+   "Rectangle")
+(line
+   "Line")
+(the_skull
+   "The Skull")
+(mask
+   "Mask")
+(mouth
+   "Mouth")
+(clown
+   "Clown")
+(business_suit
+   "Business Suit")
+(woman
+   "Woman")
+(puppet
+   "Puppet")
+(bear_head
+   "Bear Head")
+(bug
+   "Bug")
+(cat
+   "Cat")
+(rattlesnake
+   "Rattlesnake")
+(flaming_palm
+   "Flaming Palm")
+(lolling
+   "Lolling")
+(hands_of_glory
+   "Hands of Glory")
+(cyclops
+   "Cyclops")
+(friends
+   "Friends")
+(grog
+   "Grog")
+(hand_of_fate
+   "Hand of Fate")
+(george
+   "George")
+(demon
+   "Demon")
+(sparky
+   "Sparky")
+(dagger_of_justice
+   "Dagger of Justice")
+(glowskull
+   "Glowskull")
+(guy_next_door
+   "Guy Next Door")
+(dire_wolf
+   "Dire Wolf")
+(femur
+   "Femur")
+(mastadon
+   "Mastodon")
+(piranha
+   "Piranha")
+(rib
+   "Rib")
+(sabertooth
+   "Sabertooth")
+(vertebrae
+   "Vertebrae")
+(racer
+   "Racer")
+(race_car
+   "Race Car")
+(friendly_skies
+   "Friendly Skies")
+(super_sonic
+   "Super Sonic")
+(thief
+   "Thief")
+(eight_track
+   "Eight Track")
+(burlesque
+   "Burlesque")
+(mini
+   "Mini")
+(vampiro
+   "Vampiro")
+(coffin
+   "Coffin")
+(emotional_fallout
+   "Emotional Fallout")
+(kiss_of_death
+   "Kiss of Death")
+(flapjack
+   "Flapjack")
+(biohazard
+   "Biohazard")
+(nuclear_embrace
+   "Nuclear Embrace")
+(id_buy_that_for_a_dollar
+   "I'd Buy That For A Dollar")
+(boys_night
+   "Boy's Night")
+(uncompromised_hatred
+   "Uncompromised Hatred")
+(im_your_huckleberry
+   "I'm Your Huckleberry")
+(blast
+   "Blast")
+(kaboom
+   "Kaboom")
+(lander
+   "Lander")
+(planet
+   "Planet")
+(raygun
+   "Raygun")
+(robot_1
+   "Robot 1")
+(robot_2
+   "Robot 2")
+(rocket
+   "Rocket")
+(spacelady_1
+   "Spacelady 1")
+(spacelady_2
+   "Spacelady 2")
+(spaceman_1
+   "Spaceman 1")
+(spaceman_2
+   "Spaceman 2")
+(spaceman_3
+   "Spaceman 3")
+(spacemonkey
+   "Spacemonkey")
+(ufo
+   "UFO")
+(reflection
+   "Reflection")
+(origin
+   "Origin")
+(3rd_eye
+   "3rd Eye")
+(rosie_the_demon
+   "Rosie The Demon")
+(4th_eye
+   "4th Eye")
+(purple_flames
+   "Purple Flames")
+(lesser_demon
+   "Lesser Demon")
+(big_mouth
+   "Big Mouth")
+(brit
+   "Brit")
+(bush_streamer
+   "Bush Streamer")
+(dino_head
+   "Dino Head")
+(evil_duck
+   "Evil Duck")
+(happy_head
+   "Happy Head")
+(limp_pocky_streamer
+   "Limp Pocky Streamer")
+(mautew
+   "Mautew")
+(oppy_mate
+   "Oppy Mate")
+(painbow
+   "Painbow")
+(pocky_streamer
+   "Pocky Streamer")
+(rock_hand_1
+   "Rock Hand 1")
+(rock_hand_2
+   "Rock Hand 2")
+(rock_hand_3
+   "Rock Hand 3")
+(rockstar
+   "Rockstar")
+(star_streamer
+   "Star Streamer")
+(student
+   "Student")
+(tonguel
+   "Tonguel")
+(brig
+   "Brig")
+(coho
+   "Coho")
+(compass
+   "Compass")
+(knot
+   "Knot")
+(nautilus
+   "Nautilus")
+(waves
+   "Waves")
+(into_the_depths
+   "Into The Depths")
+(bat_wing
+   "Bat Wing")
+(feather
+   "Feather")
+(feather_skin
+   "Feather Skin")
+(omen
+   "Omen")
+(skull_fang
+   "Skull Fang")
+(skull_jaw
+   "Skull Jaw")
+(uroboros
+   "Uroboros")
+(wreck
+   "Wreck")
+(petrol_finch
+   "Petrol Finch")
+(paramount_skeleton
+   "Paramount Skeleton")
+(paramount_a
+   "Paramount A")
+(paramount_b
+   "Paramount B")
+(paramount_c
+   "Paramount C")
+(paramount_d
+   "Paramount D")
+(paramount_e
+   "Paramount E")
+(paramount_f
+   "Paramount F")
+(paramount_g
+   "Paramount g")
+(paramount_h
+   "Paramount h")
+(paramount_i
+   "Paramount i")
+(paramount_j
+   "Paramount j")
+(paramount_k
+   "Paramount k")
+(paramount_l
+   "Paramount l")
+(paramount_m
+   "Paramount m")
+(paramount_n
+   "Paramount n")
+(paramount_o
+   "Paramount o")
+(paramount_p
+   "Paramount p")
+(paramount_q
+   "Paramount q")
+(paramount_r
+   "Paramount r")
+(paramount_s
+   "Paramount s")
+(paramount_t
+   "Paramount t")
+(paramount_u
+   "Paramount u")
+(paramount_v
+   "Paramount v")
+(paramount_w
+   "Paramount w")
+(paramount_x
+   "Paramount x")
+(paramount_y
+   "Paramount y")
+(paramount_z
+   "Paramount z")
+(white_rabbit
+   "White Rabbit")
+(turtle_shell
+   "Turtle Shell")
+(cat_face
+   "Cat Face")
+(snake_head
+   "Snake Head")
+(butterfly_wing
+   "Butterfly Wing")
+(chicken_foot
+   "Chicken Foot")
+(crab_leg
+   "Crab Leg")
+(lobster_legs
+   "Lobster Legs")
+(narwhal_head
+   "Narwhal Head")
+(narwhal_tail
+   "Narwhal Tail")
+(horse_head
+   "Horse Head")
+(horse_torso
+   "Horse Torso")
+(horse_hind
+   "Horse Hind")
+(squid_body
+   "Squid Body")
+(tentacles
+   "Tentacles")
+(the_salesman
+   "The Salesman")
+(the_secretary
+   "The Secretary")
+(the_executive
+   "The Executive")
+(okay_eye
+   "Okay Eye")
+(wise_eyes
+   "Wise Eyes")
+(crazy_eyes
+   "Crazy Eyes")
+(caterpillar_brow
+   "Caterpillar Brow")
+(narrow_eye
+   "Narrow Eye")
+(true_grit
+   "True Grit")
+(the_boxer
+   "The Boxer")
+(crease
+   "Crease")
+(the_sniffer
+   "The Sniffer")
+(the_negotiator
+   "The Negotiator")
+(kissable_lips
+   "Kissable Lips")
+(smooth_operator
+   "Smooth Operator")
+(computer_chip
+   "Computer Chip")
+(eyeball
+   "Eyeball")
+(safety_pin
+   "Safety Pin")
+(razor_blade
+   "Razor Blade")
+(graffiti_star
+   "Graffiti Star")
+(trying_to_get_out
+   "Trying to Get Out")
+(black_widow
+   "Black Widow")
+(eagle_wing
+   "Eagle Wing")
+(gargoyle_wing
+   "Gargoyle Wing")
+(goat_head
+   "Goat Head")
+(goldfish
+   "Goldfish")
+(hammerhead
+   "Hammerhead")
+(horse
+   "Horse")
+(moth_wing
+   "Moth Wing")
+(octopus
+   "Octopus")
+(ram_head
+   "Ram Head")
+(raptor_wing
+   "Raptor Wing")
+(serpent
+   "Serpent")
+(swallow
+   "Swallow")
+(tiger_head
+   "Tiger Head")
+(banner_1
+   "Banner 1")
+(banner_2
+   "Banner 2")
+(flag_1
+   "Flag 1")
+(flag_2
+   "Flag 2")
+(fleur
+   "Fleur")
+(framing_corner_1
+   "Framing Corner 1")
+(framing_corner_2
+   "Framing Corner 2")
+(framing_corner_3
+   "Framing Corner 3")
+(framing_corner_4
+   "Framing Corner 4")
+(framing_element_1
+   "Framing Element 1")
+(framing_element_2
+   "Framing Element 2")
+(framing_element_3
+   "Framing Element 3")
+(the_grave_bass
+   "The Grave Bass")
+(shield
+   "Shield")
+(spiral_bubbles
+   "Spiral Bubbles")
+(circle_slash
+   "Circle_Slash")
+(u_slash
+   "U Slash")
+(cherries
+   "Cherries")
+(chief
+   "Chief")
+(clover
+   "Clover")
+(diamond
+   "Diamond")
+(dice
+   "Dice")
+(eightball
+   "Eightball")
+(horseshoe
+   "Horseshoe")
+(key
+   "Key")
+(noose
+   "Noose")
+(spade
+   "Spade")
+(spider_web
+   "Spider Web")
+(primitive_skull
+   "Primitive Skull")
+(sinister_skull
+   "Sinister Skull")
+(skull_and_crossbones
+   "Skull and Crossbones")
+(dagger
+   "Dagger")
+(short_sword
+   "Short Sword")
+(stiletto
+   "Stiletto")
+(switchblade
+   "Switchblade")
+(cartoon_heart
+   "Cartoon Heart")
+(cut
+   "Cut")
+(jack
+   "Jack")
+(queen
+   "Queen")
+(bass_cleff
+   "Bass Cleff")
+(eighth_note
+   "Eighth Note")
+(g_cleff
+   "G Cleff")
+(quarter_notes
+   "Quarter Notes")
+(bathing_shorts
+   "Bathing Shorts")
+(grass_skirt
+   "Grass Skirt")
+(lei
+   "Lei")
+(mermaid_tail
+   "Mermaid Tail")
+(pin_up
+   "Pin Up")
+(shell_top
+   "Shell Top")
+(brambles
+   "Brambles")
+(branch
+   "Branch")
+(flower_1
+   "Flower 1")
+(flower_2
+   "Flower 2")
+(flower_3
+   "Flower 3")
+(flower_4
+   "Flower 4")
+(flower_5
+   "Flower 5")
+(flower_6
+   "Flower 6")
+(flower_7
+   "Flower 7")
+(grass
+   "Grass")
+(leaf
+   "Leaf")
+(stems
+   "Stems")
+(tangle
+   "Tangle")
+(thorns
+   "Thorns")
+(weeds
+   "Weeds")
+(road_rash
+   "Road Rash")
+(stitches
+   "Stitches")
+(boils
+   "Boils")
+(skin_abnormality
+   "Skin Abnormality")
+(specks
+   "Specks")
+(rips
+   "Rips")
+(hair_1
+   "Hair 1")
+(hair_2
+   "Hair 2")
+(hair_3
+   "Hair 3")
+(hair_4
+   "Hair 4")
+(dark_eyes
+   "Dark Eyes")
+(dark_hole
+   "Dark Hole")
+(teeth_1
+   "Teeth_1")
+(teeth_2
+   "Teeth_2")
+(nostrils
+   "Nostrils")
+(odd_triangle
+   "Odd Triangle")
+(odd_smear
+   "Odd Smear")
+(odd_circle
+   "Odd Circle")
+(ribs_1
+   "Ribs 1")
+(ribs_2
+   "Ribs 2")
+(ribs_3
+   "Ribs 3")
+(slash
+   "Slash")
+(zombie_teeth
+   "Zombie Teeth")
+(cloud_1
+   "Cloud 1")
+(cloud_2
+   "Cloud 2")
+(fire_1
+   "Fire 1")
+(fire_2
+   "Fire 2")
+(fire_3
+   "Fire 3")
+(fire_4
+   "Fire 4")
+(fire_5
+   "Fire 5")
+(fire_6
+   "Fire 6")
+(lightning_1
+   "Lightning 1")
+(lightning_2
+   "Lightning 2")
+(rays_1
+   "Rays 1")
+(rays_2
+   "Rays 2")
+(star_1
+   "Star 1")
+(star_02
+   "Star 2")
+(wave_1
+   "Wave 1")
+(wave_2
+   "Wave 2")
+(wave_3
+   "Wave 3")
+(palm_out
+   "palm out")
+(palm_in
+   "palm in")
+(thumb_opened
+   "thumb opened")
+(thumb_closed
+   "thumb closed")
+(four_knuckles
+   "four knuckles")
+(one_knuckle
+   "one knuckle")
+(finger_in
+   "finger in")
+(finger_out
+   "finger out")
+(two_finger
+   "two fingers")
+(anchor
+   "Anchor")
+(current_lag_setting
+   "Current delay is %d ms")
+(cal_final_audio_offset
+   "Audio Offset: %d MS")
+(cal_final_video_offset
+   "Video Offset: %d MS")
+(shop_unlock_all
+   "Dev unlock all is on! BUG ME IF YOU SEE THIS!")
+(harmonixbandsnew
+   "Breakout Harmonix Bands Challenge")
+(harmonixbandsold
+   "Touring Harmonix Bands Challenge")
+(harmonixbandsimpossible
+   "Impossible Harmonix Bands Challenge")
+(botb_mini_rank_vs_friend_score
+   "You need %s more points to beat %s!")
+(botb_mini_rank_vs_friend_streak
+   "You need %s nore notes to beat %s!")
+(botb_mini_rank_vs_friend_mult
+   "You need %s more stars to beat %s!")
+(botb_mini_rank_overall_score
+   "You need %s more points to enter the Top 100.")
+(botb_mini_rank_overall_streak
+   "You need %s more notes to enter the Top 100.")
+(botb_mini_rank_overall_mult
+   "You need %s more stars to enter the Top 100.")
+(botb_mini_rank_top100_score
+   "You need %s more points to beat %s and advance to %s place.")
+(botb_mini_rank_top100_streak
+   "You need %s more notes to beat %s and advance to %s place.")
+(botb_mini_rank_top100_mult
+   "You need %s more stars to beat %s and advance to %s place.")
+(botb_rank_vs_friend_score
+   "You need %s more points to overtake %s for the #%d friend position.")
+(botb_rank_vs_friend_streak
+   "You need %s more notes to overtake %s for the #%d friend position.")
+(botb_rank_vs_friend_mult
+   "You need %s more stars to overtake %s for the #%d friend position.")
+(botb_rank_overall_score
+   "You need %s more points to enter the Top 100.")
+(botb_rank_overall_streak
+   "You need %s more notes to enter the Top 100.")
+(botb_rank_overall_mult
+   "You need %s more stars to enter the Top 100.")
+(botb_rank_top100_score
+   "You need %s more points to overtake %s for the #%d overall position.")
+(botb_rank_top100_streak
+   "You need %s more notes to overtake %s for the #%d overall position.")
+(botb_rank_top100_mult
+   "You need %s more stars to overtake %s for the #%d overall position.")
+(botb_perf_award_suck_score
+   "You were %s points off your personal best.")
+(botb_perf_award_suck_streak
+   "You were %s notes off your personal best.")
+(botb_perf_award_suck_mult
+   "You were %s stars off your personal best.")
+(botb_best_score_score
+   "Score: %s")
+(botb_best_score_streak
+   "Streak: %s")
+(botb_best_score_mult
+   "%s")
+(botb_result_score
+   "%s")
+(botb_result_streak
+   "%s Note Streak")
+(botb_result_mult
+   "%s")
+(tour_profile_user_not_present
+   "Absent")
+(none_bandanas
+   "[none]")
+(none_bandanas_desc
+   " ")
+(rewarddrumgold
+   "Gold Kit")
+(rewarddrumgold_desc
+   "It's hard to get attention sitting way in the back behind a ton of hardware with your guitarist strutting like a tarted-up peacock in front of you! You know what you need? A GOLD DRUM KIT.")
+(rewarddrumsilver
+   "Silver Kit")
+(rewarddrumsilver_desc
+   "What could say \qcheck out these huge fills and these amazing biceps\q louder than a shiny, silver drum set? The answer just might be NOTHING.")
+(rewarddrumclear
+   "Glowing Kit")
+(rewarddrumclear_desc
+   "You'll be a lot less likely to leave these drums at the venue by accident. Because... you know... they glow.")
+(choose_character
+   "Choose Character")
+#ifdef HX_XBOX
+(online_enabled
+   "Xbox LIVE enabled")
+#else
+(online_enabled
+   "Temp online enabled")
+#endif
+(guest_cannot_be_first
+   "Guest cannot be first to join session")
+(finding_players
+   "Finding Players")
+(ready_battle
+   "Ready for Battle of the Bands")
+(drum_trainer_kit_05
+   "Vintage Kit")
+(drum_trainer_kit_06
+   "Rock Band 1 Kit")
+(loading_trivia772
+   "Eddie Vedder wrote the lyrics to \qAlive\q after learning that the man he thought was his father was actually his stepfather. This revelation prompted a handful of Vedder's songs.")
+(loading_trivia773
+   "When they recorded \qAlive,\q Pearl Jam were still going by their original band moniker, Mookie Blaylock, named after the New Jersey Nets basketball player.")
+(loading_trivia774
+   "At the Seattle release show for Pearl Jam's \qTen\q album, Eddie Vedder climbed a wobbly tower of speaker cabinets and managed to avoid getting hurt.")
+(loading_trivia775
+   "\qAlive\q is the second-most frequently played song at Pearl Jam concerts; only \qEven Flow\q has been played more often.")
+(loading_trivia776
+   "Abnormality, like Prince, was once represented by only a symbol.")
+(loading_trivia777
+   "Abnormality has an ongoing contest to see who can kill the most spiders during practice.")
+(loading_trivia778
+   "Abnormality cannot be found in the Guinness Book of World Records.")
+(loading_trivia779
+   "Abnormality's motto is \qSuck it up, that's what we train for.\q")
+(loading_trivia780
+   "Harmonix artist Mallika Sundaramurthy is the lead singer of Abnormality. Yup, that's a girl singing. For real.")
+(loading_trivia781
+   "Anarchy Club records everything in an apartment living room. If you listen carefully, there's at least one car horn audible in almost every song.")
+(loading_trivia782
+   "Anarchy Club's Adam Von Buhler speaks Japanese and can juggle like a circus clown, while Keith Smith occasionally mumbles in Mandarin and throws rocks at mimes.")
+(loading_trivia783
+   "Jimmy Fallon once joined Bang Camaro onstage in NYC for a performance of their song \qSwallow the Razor.\q")
+(loading_trivia784
+   "Members of Bang Camaro play Dungeons & Dragons weekly, but tell their girlfriends that it's \qpoker night.\q")
+(loading_trivia785
+   "\qBang\q and \qCamaro\q are the two sexiest words in the English language.")
+(loading_trivia786
+   "Bang Camaro wants to start old-school beef with the other unlock bands... but why bother? They all suck.")
+(loading_trivia787
+   "Breaking Wheel is somewhat successfully trying to cultivate a sound which might be termed \qSouthern-fried-pirate-stoner-death-rock.\q")
+(loading_trivia788
+   "Breaking Wheel once was named \qArtillery\q, until they discovered that \qArtillery\q was actually the name of a seminal thrash band from the '80s. Way to know your metal history, doo-bags.")
+(loading_trivia789
+   "The drums for Breaking Wheel's debut were tracked in a creepy colonial barn in Maine. In February.")
+(loading_trivia790
+   "Breaking Wheel plays exclusively on pointy guitars.")
+(loading_trivia791
+   "Libyans went on their first Midwest tour with a cassette, and an eight minute set.")
+(loading_trivia792
+   "Harmonix lighting artist and Libyans bassist Aaron DeMuth was once told that he should unplug his bass the next time Libyans play live.")
+(loading_trivia793
+   "Former Harmonix employee Carl Harders is the sole reason the Libyans started playing music together, and he continues to be an inspiration for the band... and the rest of the world.")
+(loading_trivia795
+   "The Main Drag has way too many people in it. They should kick someone out. And then that person should make delicious cookies for the rest of the band all day long.")
+(loading_trivia796
+   "Main Drag drummer John Drake is more energetic than a shopping cart full of puppies being wheeled through a bacon factory.")
+(loading_trivia797
+   "The Main DRAG often performs in... you guessed it... Boston.")
+(loading_trivia799
+   "The music video for \qA Jagged Gorgeous Winter\q was filmed in 4 hours in Vermont and edited in the van on the ride back to Boston.")
+(loading_trivia800
+   "Speck is composed entirely of Harmonix employees, consisting of three Rock Band 2 leads and a director.")
+(loading_trivia801
+   "Speck's first album, \qWorking as Intended,\q was recorded as part of the \qrecord an album in a month\q RPM Challenge for 2007. The laziness of the band's members meant they didn't start writing songs until halfway through the month.")
+(loading_trivia802
+   "Speck lead guitarist Kelly Scott has been permanently banned from multiple clubs in Boston, due to what her friends refer to as her \qencourageable\q personality.")
+(loading_trivia803
+   "When not playing drums for Speck, Mike Verrette is known for kicking people off Rock Band 2 demonstrations in order to drunkenly sing \qAny Way You Want It\q by Journey.")
+(loading_trivia804
+   "Struggling for a nickname for Speck bassist Dan Teasdale? Try \qKangaroo Dan\q, \qRespectable Australian Dan\q, or \qCrocodile DanT\q.")
+(loading_trivia805
+   "Despite what you might infer from this song's lyrics, all four members of Speck have actually felt the touch of a woman. Different women, probably.")
+(loading_trivia806
+   "That Handsome Devil's hobbies include, but aren't limited to: muttering to themselves, plotting against the establishment, and throwing punches in the air.")
+(loading_trivia807
+   "After a near-fatal staring contest, That Handsome Devil's drummer now violently refuses to remove his helmet and mouthguard.")
+(loading_trivia808
+   "That Handsome Devil once toured the amazon by piggyback.")
+(loading_trivia809
+   "Do you know how long a human being can last without food water or sunlight? That Handsome Devil does!")
+(loading_trivia810
+   "When not making music, That Handsome Devil participates in cults, and cons simple folk.")
+(loading_trivia811
+   "Members of That Handsome Devil met while handcuffed in the back of the same cop car.")
+(loading_trivia812
+   "That Handsome Devil's first show took place in the cafeteria of a mental institution. The crowd went crazy.")
+(loading_trivia813
+   "Supreme Girl is actually a reference to failed supreme court nominee Harriet Miers.")
+(loading_trivia814
+   "\qSupreme Girl\q was recorded on the same 2\q tape machine formerly used for doing voiceovers on the hit TV series \qFamily Ties.\q The tape machine is now named Alex, for the show's Alex P. Keaton, who happens to bear resemblance to The Sterns' own Alex Stern. Hooray!")
+(cal_to_manual_all
+   "Calibrate Manually")
+(cal_to_auto_all
+   "Calibrate Automatically")
+(cal_hw_audio_title
+   "Autocalibration")
+(cal_hw_video_title
+   "Autocalibration")
+(tour_challenge_description_singular
+   "%i Song, %s")
+(tour_challenge_in_progress
+   "IN PROGRESS")
+(botb_results_net_failed
+   "Could not communicate with RockCentral. Your performance may not be ranked.")
+#ifdef HX_PS3
+(error_cannot_accept_invite
+   "You cannot accept invites because a game modifier is disabling online play.")
+#else
+(error_cannot_accept_invite
+   "You cannot accept invites because a game modifier is disabling Xbox LIVE play.")
+#endif
+(no_part
+   "NO PART")
+(tour_am_doubleornothingfourstar_desc
+   "For each song you finish in this gig with 4 stars or more, you'll get DOUBLE the cash! But if you get less than 4 stars, you'll get nothing for that song!! Willing to risk it?")
+(tour_am_quadrupleornothingfivestar_desc
+   "For each song you finish in this gig with 5 stars or more, you'll get QUADRUPLE the cash! But if you get less than 5 stars, you'll get nothing for that song!! Wanna go for it?")
+#ifdef HX_PS3
+(trophy_disk_space_error
+   "Trophies are disabled due to low disk space. Should you continue anyway, trophy unlock events may be skipped. Please quit the game and free %.2fMB of space or continue at your own risk.")
+(trophy_initialization_please_wait
+   "Installing Trophies...")
+#endif
+(slow_speed
+   "Slow Speed")
+(practice_change_speed
+   "CHANGE SPEED")

@@ -4,45 +4,23 @@
    #include midi_parsers.dta)
 (callbacks
    (sixteenth_note
-      {if_else
-         $world
-         {handle_type
-            ($world quarterbeat)}
-         {handle
-            (game quarterbeat)}})
-   (eighth_note
-      {handle_type
-         ($world halfbeat)})
-   (beat
-   {unless {> {gamecfg get practice_speed} 0} {if {is_leader_local} {session send_msg_to_all {` (beatmatch set_music_speed {, $speedmod}) kNetReliable}}}}
-   {unless {> {gamecfg get practice_speed} 0} {beatmatch set_music_speed $speedmod}}
-      {if_else
-         $world
-         {handle_type
-            ($world beat)}
-         {handle
-            (game beat)}})
-   (downbeat
-   {unless {> {gamecfg get practice_speed} 0} {beatmatch set_music_speed $speedmod}}
-      {if_else
-          {modifier_mgr is_modifier_active mod_auto_play} {beatmatch foreach_active_player $player {unless {mod $measure 4} {$player deploy_if_possible}}}
-          {unless {modifier_mgr is_modifier_active mod_staticfills} {beatmatch foreach_active_player $player {switch {$player instrument} (bass) (guitar) (vocals) (drum {unless {mod $measure 4} {$player deploy_if_possible}})}}}}
-      {if_else
-         $world
-         {handle_type
-            ($world downbeat)}
-         {handle
-            (game downbeat)}})
-   (reset
       {handle
-         ($world start)}))
+         (game quarterbeat)})
+   (eighth_note)
+   (beat
+      {handle
+         (game beat)})
+   (downbeat
+      {handle
+         (game downbeat)})
+   (reset))
 (watcher
    (can_switch_tracks FALSE)
    (slop 100)
    (cheat_error 0)
    (autoplay_accuracy
-      (100 100 100 100))
-   (pitch_bend_range {if_else {modifier_mgr is_modifier_active mod_nowhammyfx} 0 1}) ;no whammy fx modifier support
+      (100 100 100 100 100 100 100 100))
+   (pitch_bend_range 1)
    (ms_to_full_pitch_bend 1000))
 (parser
    (drum_style_instruments
@@ -54,11 +32,11 @@
    (player_slot 9))
 (audio
    (default_style unmute)
-   (mute_volume {if_else {modifier_mgr is_modifier_active mod_nomuting} -0.001 -96.0}) ;-96.0 for normal muting, -0.001 for "no" muting
+   (mute_volume -96.0)
    (multiplayer_scale 0.33)
    (multiplayer_attenuation 3.0)
    (multiplayer_common_attenuation 1.5)
-   (background_attenuation 2.2)
+   (background_attenuation 1.5)
    (cue_attenuation 0.0)
    (remote_attenuation 1.5)
    (drum_velocity_to_db
@@ -105,58 +83,58 @@
             (2 3)))
       (drums2
          ((0)
-            (1 2)
-            (3 4)
-            (3 4)
-            (3 4)))
+            (1)
+            (2 3)
+            (2 3)
+            (2 3)))
       (drums2easy
          ((0)
-            (1 2 3 4)
-            (1 2 3 4)
-            (1 2 3 4)
-            (1 2 3 4)))
+            (1 2 3)
+            (1 2 3)
+            (1 2 3)
+            (1 2 3)))
       (drums2easynokick
          ((0)
-            (1 2)
-            (0 3 4)
-            (0 3 4)
-            (0 3 4)))
+            (1)
+            (0 2 3)
+            (0 2 3)
+            (0 2 3)))
       (drums2easysnareonly
          ((0)
-            (0 1 2 3 4)
-            (0 3 4)
-            (0 3 4)
-            (0 3 4)))
+            (0 1 2 3)
+            (0 1 2 3)
+            (0 1 2 3)
+            (0 1 2 3)))
       (drums2d
          ((0)
-            (3 4)
-            (1 2)
-            (3 4)
-            (3 4)))
+            (2 3)
+            (1)
+            (2 3)
+            (2 3)))
       (drums3
-         ((0 1)
+         ((0)
+            (1)
             (2 3)
-            (4 5)
-            (4 5)
-            (4 5)))
+            (2 3)
+            (2 3)))
       (drums3d
-         ((0 1)
-            (4 5)
+         ((0)
             (2 3)
-            (4 5)
-            (4 5)))
+            (1)
+            (2 3)
+            (2 3)))
       (drums3easy
-         ((0 1)
-            (2 3 4 5)
-            (2 3 4 5)
-            (2 3 4 5)
-            (2 3 4 5)))
+         ((0)
+            (1 2 3)
+            (1 2 3)
+            (1 2 3)
+            (1 2 3)))
       (drums3easynokick
-         ((0 1)
-            (2 3)
-            (0 1 4 5)
-            (0 1 4 5)
-            (0 1 4 5)))
+         ((0)
+            (1 2 3)
+            (0 2 3)
+            (0 2 3)
+            (0 2 3)))
       (drums4
          ((0)
             (1 2)

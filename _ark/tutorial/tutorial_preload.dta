@@ -1,0 +1,17 @@
+{new
+   UIPanel
+   tutorials_pause_preload
+   (file
+      "tutorial_pause_preload.milo")}
+{new
+   UIPanel
+   tutorials_fail_preload
+   (file
+      "tutorial_fail_preload.milo")}
+{new
+   UIPanel
+   tutorials_pause_mic_preload
+   (file
+      "tutorial_pause_mic_preload.milo")}
+#define TUTORIALS_PRELOAD_PANELS
+(tutorials_pause_preload tutorials_fail_preload tutorials_pause_mic_preload)

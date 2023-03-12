@@ -1,0 +1,377 @@
+(send_hit
+   {do
+      ($player_num
+         {$this player_num})
+      {session
+         send_to_all
+         {'`'
+            (z
+               _
+               kRemoteHit
+               {',' $player_num}
+               0
+               0
+               0)}
+         kNetUnreliable}})
+(send_penalize
+   {do
+      ($player_num
+         {$this player_num})
+      {session
+         send_to_all
+         {'`'
+            (z
+               _
+               kRemotePenalize
+               {',' $player_num}
+               0
+               0
+               0)}
+         kNetUnreliable}})
+(send_whammy
+   ($val)
+   {do
+      ($player_num
+         {$this player_num})
+      {session
+         send_to_all
+         {'`'
+            (z
+               _
+               kRemoteWhammy
+               {',' $player_num}
+               {',' $val}
+               0
+               0)}
+         kNetUnreliable}})
+(send_streak
+   {do
+      ($player_num
+         {$this player_num})
+      {session
+         send_to_all
+         {'`'
+            (z
+               _
+               kRemoteStreak
+               {',' $player_num}
+               {','
+                  {$this current_streak}}
+               0
+               0)}
+         kNetUnreliable}})
+(send_update_score
+   {do
+      ($player_num
+         {$this player_num})
+      ($score
+         {$this score})
+      {session
+         send_to_all
+         {'`'
+            (z
+               _
+               kRemoteScore
+               {',' $player_num}
+               {',' $score}
+               0
+               0)}
+         kNetUnreliable}})
+(send_update_crowd
+   {do
+      ($player_num
+         {$this player_num})
+      ($crowd
+         {$this raw_crowd_rating})
+      {session
+         send_to_all
+         {'`'
+            (z
+               _
+               kRemoteCrowd
+               {',' $player_num}
+               {',' $crowd}
+               0
+               0)}
+         kNetUnreliable}})
+(send_update_energy
+   {do
+      ($player_num
+         {$this player_num})
+      ($energy
+         {$this band_energy})
+      {session
+         send_to_all
+         {'`'
+            (z
+               _
+               kRemoteEnergy
+               {',' $player_num}
+               {',' $energy}
+               0
+               0)}
+         kNetUnreliable}})
+(send_deploy
+   {do
+      ($player_num
+         {$this player_num})
+      {session
+         send_to_all
+         {'`'
+            (z
+               _
+               kRemoteDeploy
+               {',' $player_num}
+               0
+               0
+               0)}
+         kNetReliable}})
+(send_enabled_state
+   ($state $tick $causer)
+   {do
+      ($player_num
+         {$this player_num})
+      {session
+         send_to_all
+         {'`'
+            (z
+               _
+               kRemoteEnabled
+               {',' $player_num}
+               {',' $state}
+               {',' $tick}
+               {',' $causer})}
+         kNetReliable}})
+(send_already_saved
+   ($causer)
+   {do
+      ($player_num
+         {$this player_num})
+      {session
+         send_to_player
+         $causer
+         {'`'
+            (z
+               _
+               kRemoteAlreadySaved
+               {',' $player_num}
+               0
+               0
+               0)}
+         kNetReliable}})
+(send_hit_last_unison_gem
+   ($phrase $track)
+   {do
+      ($player_num
+         {$this player_num})
+      {session
+         send_to_all
+         {'`'
+            ({beatmatch
+                  player
+                  {',' $player_num}}
+               remote_hit_last_unison_gem
+               {',' $phrase}
+               {',' $track})}
+         kNetReliable}})
+(send_fail_unison_phrase
+   ($phrase $track)
+   {do
+      ($player_num
+         {$this player_num})
+      {session
+         send_to_all
+         {'`'
+            ({beatmatch
+                  player
+                  {',' $player_num}}
+               remote_fail_unison_phrase
+               {',' $phrase}
+               {',' $track})}
+         kNetReliable}})
+(send_fill
+   ($soloing)
+   {do
+      ($player_num
+         {$this player_num})
+      {session
+         send_to_all
+         {'`'
+            (z
+               _
+               kRemoteFill
+               {',' $player_num}
+               {',' $soloing}
+               0
+               0)}
+         kNetUnreliable}})
+(send_fill_hit
+   ($slot)
+   {do
+      ($player_num
+         {$this player_num})
+      {session
+         send_to_all
+         {'`'
+            (z
+               _
+               kRemoteFillHit
+               {',' $player_num}
+               {',' $slot}
+               0
+               0)}
+         kNetUnreliable}})
+(send_solo_start
+   {do
+      ($player_num
+         {$this player_num})
+      {session
+         send_to_all
+         {'`'
+            (z
+               _
+               kRemoteSoloStart
+               {',' $player_num}
+               0
+               0
+               0)}
+         kNetReliable}})
+(send_solo_hit
+   ($pct)
+   {do
+      ($player_num
+         {$this player_num})
+      {session
+         send_to_all
+         {'`'
+            (z
+               _
+               kRemoteSoloHit
+               {',' $player_num}
+               {',' $pct}
+               0
+               0)}
+         kNetUnreliable}})
+(send_solo_end
+   ($pct $num_notes)
+   {do
+      ($player_num
+         {$this player_num})
+      {session
+         send_to_all
+         {'`'
+            (z
+               _
+               kRemoteSoloEnd
+               {',' $player_num}
+               {',' $pct}
+               {',' $num_notes}
+               0)}
+         kNetReliable}})
+(send_guitar_fx
+   ($pos)
+   {do
+      ($player_num
+         {$this player_num})
+      {session
+         send_to_all
+         {'`'
+            (z
+               _
+               kRemoteGuitarFx
+               {',' $player_num}
+               {',' $pos}
+               0
+               0)}
+         kNetUnreliable}})
+(send_vocal_state
+   ($pitch_shift $singing)
+   {do
+      ($player_num
+         {$this player_num})
+      {session
+         send_to_all
+         {'`'
+            (z
+               _
+               kRemoteVocalState
+               {',' $player_num}
+               {',' $pitch_shift}
+               {',' $singing}
+               0)}
+         kNetUnreliable}})
+(send_tambourine_succeeding
+   ($ok $pct)
+   {do
+      ($player_num
+         {$this player_num})
+      {session
+         send_to_all
+         {'`'
+            (z
+               _
+               kRemoteTambourine
+               {',' $player_num}
+               {',' $ok}
+               {',' $pct}
+               0)}
+         kNetUnreliable}})
+(send_coda_points
+   ($pts)
+   {do
+      ($player_num
+         {$this player_num})
+      {session
+         send_to_all
+         {'`'
+            (z
+               _
+               kRemoteCodaPoints
+               {',' $player_num}
+               {',' $pts}
+               0
+               0)}
+         kNetUnreliable}})
+(send_hit_last_coda_gem
+   ($pts)
+   {do
+      ($player_num
+         {$this player_num})
+      {session
+         send_to_all
+         {'`'
+            (z
+               _
+               kRemoteCodaLastGem
+               {',' $player_num}
+               {',' $pts}
+               0
+               0)}
+         kNetUnreliable}})
+(send_blow_coda
+   {do
+      ($player_num
+         {$this player_num})
+      {session
+         send_to_all
+         {'`'
+            (z
+               _
+               kRemoteBlowCoda
+               {',' $player_num}
+               0
+               0
+               0)}
+         kNetUnreliable}})
+(send_finished_song
+   {do
+      ($player_num
+         {$this player_num})
+      {session
+         send_to_all
+         {'`'
+            ({beatmatch
+                  player
+                  {',' $player_num}}
+               remote_finished_song)}
+         kNetReliable}})

@@ -1,0 +1,482 @@
+#include macros.dta
+(system
+   (iop_modules
+      (iop/scrtchpd.irx)
+      (iop/sio2man.irx)
+      (iop/mtapman.irx)
+      (iop/mcman.irx)
+      (iop/mcserv.irx)
+      (iop/usbd.irx)
+      #ifndef _SHIP
+      (iop/usbkb.irx
+         "keybd=1"
+         "debug=0")
+      #endif
+      (iop/padman.irx)
+      (iop/msifrpc.irx)
+      (iop/libsd.irx)
+      (iop/sdrdrv.irx)
+      (iop/cdvdstm.irx))
+   (profiler
+      (enabled FALSE)
+      (buffer_size 8192)
+      (sample_rate k4KHz))
+   (keyboard
+      (disable FALSE))
+   (multitap
+      (disable FALSE)
+      //
+      PGM
+      -
+      was
+      'TRUE,'
+      but
+      we
+      want
+      multitap
+      support)
+   (language
+      (default eng))
+   (region
+      (default na))
+   (fp_exceptions TRUE)
+   (main_dir 19997 150000)
+   (dir_sort Tex Mat Font Text Mesh Blur Group Trans RndDir)
+   (xbox_map_file
+      "%s/default_%s.map")
+   (ng FALSE)
+   #ifdef HX_PS3
+   (np_communication_id
+      "NPWR00198_00")
+   #endif)
+(content_mgr
+   (roots
+      "."))
+(platform_mgr
+   (keyboard_allowed_chars
+      " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!\q#$%&'()*+,-./:;<=>?@[\\]^_`{|}~∞©Æ°ø¿¡¬√ƒ≈∆«»… ÀÃÕŒœ–—“”‘’÷ÿŸ⁄€‹›ﬁﬂ‡·‚„‰ÂÊÁËÈÍÎÏÌÓÔÒÚÛÙıˆ¯˘˙˚¸˝˛ˇ"))
+(objects
+   #include objects.dta)
+(mem
+   (heaps
+      #ifdef HX_EE
+      (main
+         (size 18000000))
+      (rnd
+         (size 8000000)
+         (handle TRUE))
+      #else
+      #ifdef HX_PS3
+      (main
+         (size 260000000))
+      (local
+         (size 0)
+         (debug 0))
+      #else
+      #ifdef HX_WII
+      (main
+         (size 32000000))
+      (rnd
+         (size 8000000)
+         (handle TRUE))
+      #else
+      (main
+         (size 500000000))
+      #endif
+      #endif
+      #endif
+      #ifdef HX_PC
+      (synth
+         (size 10000000))
+      #endif)
+   (pool
+      (big_hunk 3100000)
+      (small_hunk 50000))
+   (disable_mgr FALSE)
+   (enable_tracking FALSE)
+   (track_stl FALSE)
+   (check_consistency FALSE))
+(joypad
+   #include joypad.dta)
+(synth
+   (build_banks TRUE)
+   (use_null_synth FALSE)
+   (mute FALSE)
+   (stream_buf_size 1.2)
+   (stream_readahead 3)
+   (use_xma TRUE)
+   (enable_headset_output FALSE)
+   (oggvorbis
+      #ifdef HX_XBOX
+      #ifdef _DEBUG
+      (throttle 0.5)
+      #else
+      (throttle 0.1)
+      #endif
+      #else
+      (throttle 0.1)
+      #endif)
+   (mics 1)
+   (iop
+      (max_sfx 100)
+      (max_streams 8)
+      (spu_buffers 16)
+      (max_slip 300))
+   (iop_modules
+      ('iop/synth_%.irx'))
+   (mic_iop_modules
+      (iop/lgaud.irx
+         "rpc=0"
+         "maxstream=0")
+      ('iop/synmic_%.irx'))
+   (mic_types
+      (ps3
+         (rb_supercool
+            (type -1 -1)
+            (priority 1))
+         (rb_logitech
+            (type 268435456 74254851)
+            (priority 2))
+         (singstar
+            (type 268435456 336920576)
+            (priority 3)
+            (mic_per_channel TRUE))
+         (generic_usb
+            (priority 4))
+         (generic_bluetooth
+            (priority 5))))
+   (mic
+      (gain 0.1)
+      (volume -1)
+      (fx FALSE)
+      (dma FALSE)
+      (compressor TRUE 0.7)
+      (talk_threshold 5.0e-2))
+   (fx
+      (chain FALSE)
+      (core_0
+         (mode kFXModeDelay)
+         (volume -15)
+         (delay 0.6)
+         (feedback -19))
+      (core_1
+         (mode kFXModeMedStudio)
+         (volume kDbSilence)
+         (delay 0.0)
+         (feedback kDbSilence)))
+   (metamusic
+      (volume -6)
+      (fade_time 1.0)
+      (play_from_memory TRUE)
+      (use_rnd_heap FALSE))
+   (scratcher
+      #include scratcher.dta)
+   (xbox_headset
+      (noise_threshold -30)
+      (low_cut 300)
+      (local_gain -6)
+      (remote_gain 3))
+   (limiter
+      (threshold -1)
+      (ratio 20)
+      (attack_ms 1)
+      (release_ms 250)))
+(disable_cheats FALSE)
+(quick_cheats
+   (left
+      (kPad_DLeft
+         "Heap Summary"
+         {if
+            {exists heap_report}
+            {heap_report}})
+      (kPad_DRight
+         "Full Heap Dump"
+         {if
+            {exists heap_dump}
+            {heap_dump}})
+      (kPad_DUp
+         "Toggle Framerate"
+         {rnd toggle_overlay rate})
+      (kPad_DDown
+         "Toggle Heap"
+         {rnd toggle_heap})
+      (kPad_Select
+         "Screen Dump"
+         {rnd screen_dump screendump})
+      (kPad_Circle
+         "Toggle Stats"
+         {rnd toggle_overlay stats})
+      (kPad_X
+         "Toggle Timers"
+         {rnd toggle_timers})
+      (kPad_Square
+         "Print Symbol Table"
+         {print_symbol_table})
+      (kPad_Start
+         "Toggle Synth HUD"
+         {synth toggle_hud})
+      (kPad_L3
+         "Show Cheats"
+         {show_cheats})
+      (kPad_R3
+         "Hi-reZ screen shot"
+         {rnd hi_res_screen 3}))
+   (right)
+   (keyboard
+      (KB_ESCAPE
+         "Toggle Console"
+         {rnd show_console})
+      (KB_F1
+         "Show Cheats"
+         {show_cheats})))
+(long_cheats)
+(spew)
+(math
+   (sin_table_size 64)
+   (bsp_check_scale 1.1)
+   (bsp_pos_tol 1.0e-2)
+   (bsp_dir_tol 0.996)
+   (bsp_max_candidates 20)
+   (bsp_max_depth 40))
+(timer
+   (anim)
+   (array_exec)
+   (asm)
+   (cam_find)
+   (cam_switch)
+   (camera)
+   (char_draw)
+   (char_poll)
+   (collide)
+   (crowd_iter)
+   (crowd_set)
+   (crowd_set3d)
+   (debug)
+   (draw)
+   (etfx)
+   (facefx)
+   (facefx_bones)
+   (facefx_reg)
+   (facefx_tick)
+   (faces)
+   (file_read)
+   (light)
+   (mesh)
+   (movie)
+   (multimesh)
+   (particles)
+   (psysmove)
+   (skin)
+   (spotlight)
+   (spotlight_xfm)
+   (synth)
+   (update)
+   (updateworldxfm)
+   (vorbis)
+   (world)
+   (xfms)
+   (cpu
+      (enable TRUE)
+      (budget 16.7))
+   (gs
+      (enable TRUE)
+      (budget 16.7))
+   #ifdef HX_PS3
+   (gs_idle)
+   #endif)
+(rnd
+   #ifdef HX_EE
+   (width 640)
+   (height 448)
+   #else
+   (width 640)
+   (height 480)
+   #endif
+   (bpp 16)
+   (gamma 0.85)
+   (sync TRUE)
+   (guard_band 0 0)
+   (title
+      "Hmx App")
+   (clear_color 0.0 0.0 0.0)
+   (cache_shaders TRUE)
+   (overlays
+      (rate
+         (color 0 0.2 0 0.2))
+      (heap)
+      (stats
+         (lines 12))
+      (timers)
+      (gpu_queue
+         (lines 1))
+      (input
+         (color 0 0.4 0.4 1))
+      (output
+         (lines 23))
+      (paramedit
+         (color 0 0 0 0.5))
+      (camera
+         (lines 3))
+      (free_camera)
+      (guitar)
+      (light_preset
+         (lines 4)
+         (color 0 0 0 0.5))
+      (char_debug)
+      (char_test)
+      (synth_hud)
+      #ifdef INIT_BAND
+      (char_status
+         (lines 4)
+         (showing FALSE))
+      #endif)
+   (console_buffer 50)
+   (shadow_plane 0 0 1 0)
+   (limit_uv_range 6)
+   (estimated_cost_divisor 100.0)
+   (shaders bloom blur common depth depthvolume downsample downsample_collapse downsample_depth error furtest furtest_transform furtest_vs gradient lighting line movie multimesh newspot particles postprocess postproc_error pulse shadowfactor shadowmap standard standard_ps standard_vs test transform)
+   #ifdef HX_XBOX
+   (force_hd FALSE)
+   #endif
+   #ifdef HX_WII
+   (gpu_queue 280000)
+   #endif
+   (movie_readahead 0)
+   (font
+      #include rnd_font.dta))
+(world
+   (free_camera
+      (rotate_rate 1.0e-3)
+      (slew_rate 0.1)
+      (near_far_plane 10 1000)))
+(ui
+   (use_joypad TRUE)
+   (cam
+      (fov 34.516)
+      (y -768)
+      (near 1)
+      (far 1000)
+      (z-range 0 1))
+   (env
+      (ambient 1 1 1))
+   (transition_time 0.5)
+   (min_splash_time 1.0)
+   (cheat_init
+      #include cheat_init.dta)
+   (color_presets))
+(locale)
+(net
+   (messenger
+      (udp_port 1001)
+      (signature 10))
+   (session
+      (join_wait_time 8000)
+      (game_start_delay 2000)
+      (connection_timeout 15000))
+   (searcher
+      (search_limit 8))
+   (server
+      (access_key
+         "hd9j4s")
+      (port 9880)
+      (address
+         "harmonix1.quazal.net"))
+   (emulator
+      (bandwidth 0 0)
+      (jitter 0 0)
+      (latency 0 0)))
+(digimask
+   (namespace 400 5000)
+   (landmarks 'FT  ' CHPT 'S9  ' 'S8  ' EYR4 EYL4 'RBC ' 'LBC ' 'S2  ' SP01 SP02)
+   (meshes
+      (henw
+         ((prefix lod0)
+            (max_tris 1700)
+            (uv_chop 0 0 0.176 8.9e-2)
+            (normals 'VC5 '))
+         ((prefix lod1)
+            (max_tris 100)
+            (uv_chop 0 0 0.176 8.9e-2)
+            (sub 1)))
+      (eylw
+         ((prefix lod0)
+            (max_tris 150)
+            (normal_chop 0 0 -1 -0.5)))
+      (eyrw
+         ((prefix lod0)
+            (max_tris 150)
+            (normal_chop 0 0 -1 -0.5)))
+      (thtw
+         ((prefix lod0)
+            (max_tris 70)))
+      (thbw
+         ((prefix lod0)
+            (max_tris 70)))
+      (eblw
+         ((prefix lod0)
+            (max_tris 30)))
+      (ebrw
+         ((prefix lod0)
+            (max_tris 30)))
+      (etlw
+         ((prefix lod0)
+            (max_tris 30)))
+      (etrw
+         ((prefix lod0)
+            (max_tris 30))))
+   (sublist1_frames 'grt ' 'VC5 ' SKBA)
+   (ignore_frames hgrp SGEO THRT SKTP EPUL EPUR TONB CREA CHIL CHIR CHIE 'CCL ' 'CCR ' CHML CHMR CHGL CHGR NOSL NOSR NOSE CHUL CHUR CHRL CHRR 'ECL ' 'ECR ' ILLL ILLR FORL FORR EARL EARR)
+   (clips
+      (visemes
+         (poses
+            ((DEFT))
+            (('EAT '))
+            ((ERTH))
+            (('IF  ')
+               (weight 2.5))
+            (('OX  ')
+               (weight 2.5))
+            (('OAT '))
+            (('WET '))
+            ((SIZE)
+               (weight 1.5))
+            ((CHUR))
+            ((FAVE))
+            ((THOU)
+               (weight 1.5))
+            ((TOLD)
+               (weight 1.3))
+            ((BUMP))
+            (('NEW ')
+               (weight 1.5))
+            ((ROAR))
+            ((CAGE)))
+         (bones 'JAW ' TONM TONT LILL LILR LLML LLMR LIEL LIER CCEL CCER LIUL LIUR LUML LUMR))
+      (lids
+         (poses
+            ((DEFT))
+            ((WIKL WIKR)))
+         (bones ILUL ILUR))
+      (brows
+         (poses
+            ((DEFT))
+            ((EBRR EBRL)))
+         (bones BROL BROR BRIL BRIR))))
+(charsys
+   #include charsys.dta)
+(audio_analysis
+   (num_slots
+      (2 2 3 4))
+   (slot_offset
+      (1 1 0 0))
+   (gem_density
+      (0.5 0.62 0.75 1.0))
+   (combo_density
+      (0.0 0.0 5.0e-2 0.1))
+   (gems_per_phrase
+      (8 10 12 16))
+   (long_phrase_penalty 0.1)
+   (max_repeated_gem_num 2)
+   (max_repeated_gem_time 1000)
+   (min_combo_spacing 200))
+(holmes)

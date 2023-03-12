@@ -1,10 +1,8 @@
 #include endgame_helpers.dta
 #define ENDGAME_PANEL_COMMON_ENTER
-({input_mgr set_limit kLimitSession})
+({helpbar set_limit_to_session TRUE})
 #define ENDGAME_PANEL_COMMON_EXIT
-({unless
-      {gamemode get ranked}
-      {input_mgr set_limit kLimitSessionLeader}})
+()
 {new
    UIPanel
    coop_endgame_panel
@@ -12,30 +10,26 @@
       "coop_endgame.milo")
    ENDGAME_PANEL_HANDLERS
    (enter
-      {set $already_restarted FALSE} ;ensure the next time the track loads, it restarts once to be safe
-      {if_else
-         {gamemode is_audition}
-         {do
-            {512_poste_black01.mat
-               set
-               color
-               {pack_color 0.5 0.0 0.0}}
-            {splash.env
-               set
-               ambient_color
-               {pack_color 0.5 0.0 0.0}}}
-         {do
-            {512_poste_black01.mat
-               set
-               color
-               {pack_color 0.0 0.20784314 0.309804}}
-            {splash.env
-               set
-               ambient_color
-               {pack_color 9.804e-2 9.804e-2 9.804e-2}}}}
       {platform_mgr set_notify_ui_location kOSNotifyBottomCenter}
       {$this set_results}
-      {$this submit_achievements}
+      {if
+         {gamemode is_tour_challenge}
+         {do
+            {if
+               {highscores
+                  is_high_score
+                  {meta_performer completed_song}
+                  band
+                  {{beatmatch main_performer}
+                     score}}
+               {highscores
+                  save_high_score
+                  {meta_performer completed_song}
+                  band
+                  {{beatmatch main_performer}
+                     score}
+                  {{tour performer}
+                     get_char_name}}}}}
       ENDGAME_PANEL_COMMON_ENTER
       {do
          ($frame
@@ -46,45 +40,31 @@
          {player0.tnm set_frame $frame}
          {player01.tnm set_frame $frame}
          {player02.tnm set_frame $frame}
-         {player03.tnm set_frame $frame}}
-      {if
-         {tour band}
-         {{tour band}
-            complete_event}})
+         {player03.tnm set_frame $frame}})
    (exit
       ENDGAME_PANEL_COMMON_EXIT
       {platform_mgr set_notify_ui_location kOSNotifyTopRight})}
 {new
    BandScreen
    coop_details_endgame_screen
-   (panels coop_endgame_panel more_details_panel)
+   (panels endgame_background_panel coop_endgame_panel more_details_panel)
    (focus more_details_panel)
-   (is_ugc FALSE)
    (leave
-      {ui
-         goto_screen
-         {if_else
-            [is_ugc]
-            ugc_coop_endgame_screen
-            coop_endgame_screen}})
-   (exit
-      {if
-         {!
-            {gamemode get ranked}}
-         {net_sync enable}}
-      {set
-         [is_ugc]
-         FALSE})
+      {ui goto_screen coop_endgame_screen})
+   (enter
+      {endgame_background_panel show_overlay})
    (helpbar
       ((cancel helpbar_cancel)
          (confirm helpbar_confirm)))}
 {new
    BandScreen
    coop_endgame_screen
-   (panels coop_endgame_panel)
+   (panels endgame_background_panel coop_endgame_panel)
    (focus coop_endgame_panel)
    ENDGAME_SCREEN_HANDLERS
-   (more_details_screen coop_details_endgame_screen)}
+   (more_details_screen coop_details_endgame_screen)
+   (enter
+      {endgame_background_panel show_overlay})}
 #define NEXTSONG_SCREEN_HANDLERS
 ((helpbar
       ((min_height 0)))
@@ -94,7 +74,6 @@
    nextsong_screen
    NEXTSONG_SCREEN_HANDLERS
    (enter
-      {net_sync disable}
       {ui
          pop_screen
          {gamemode get nextstats_screen}})}
@@ -107,7 +86,26 @@
    (min_time 5.0)
    (enter
       {$this set_results}
-      {$this submit_achievements}
+      {if
+         {'||'
+            {gamemode is_tour}
+            {gamemode is_tour_challenge}}
+         {do
+            {if
+               {highscores
+                  is_high_score
+                  {meta_performer completed_song}
+                  band
+                  {{beatmatch main_performer}
+                     score}}
+               {highscores
+                  save_high_score
+                  {meta_performer completed_song}
+                  band
+                  {{beatmatch main_performer}
+                     score}
+                  {{tour performer}
+                     get_char_name}}}}}
       {songs.lbl
          set_localized
          {sprintf
@@ -116,11 +114,11 @@
             {meta_performer num_songs}}}
       {ui
          goto_screen
-         {gamemode get preload_nextsong_screen}})}
+         {gamemode get load_nextsong_screen}})}
 {new
    BandScreen
    nextstats_screen
-   (panels game world_panel coop_track_panel nextsong_panel)
+   (panels game coop_track_panel nextsong_panel)
    NEXTSONG_SCREEN_HANDLERS}
 {new
    BandScreen
@@ -147,7 +145,7 @@
             [content_name]
             [corrupt]}})}
 {new
-   GameTimePanel
+   UIPanel
    game_time_panel
    (load
       {game set multi_event TRUE})}
@@ -169,9 +167,7 @@
    (panels game_time_panel world_panel coop_track_panel nextsong_panel)
    NEXTSONG_SCREEN_HANDLERS
    (TRANSITION_COMPLETE_MSG
-      {song_mgr
-         add_recent_song
-         {meta_performer song}}
+      {set $multi_event TRUE}
       {coop_track_panel set_paused TRUE}
       {ui
          goto_screen
@@ -182,27 +178,18 @@
    (panels game_time_panel world_panel nextsong_panel)
    NEXTSONG_SCREEN_HANDLERS
    (TRANSITION_COMPLETE_MSG
-      {song_mgr
-         add_recent_song
-         {meta_performer song}}
       {ui
          goto_screen
          {gamemode get game_screen}})}
 #define H2H_END_GAME_PANEL_HANDLERS
-(ENDGAME_PANEL_HANDLERS
+((focus continue.btn)
+   ENDGAME_PANEL_HANDLERS
    (block_event
       ($event)
       {== $event disband})
    (enter
-      {if
-         {==
-            {{ui current_screen}
-               focus_panel}
-            $this}
-         {$this set_focus continue.btn}}
       {platform_mgr set_notify_ui_location kOSNotifyBottomCenter}
       {$this set_results}
-      {$this submit_achievements}
       ENDGAME_PANEL_COMMON_ENTER
       {if
          {gamemode get ranked}
@@ -218,7 +205,7 @@
       ENDGAME_PANEL_COMMON_EXIT
       {platform_mgr set_notify_ui_location kOSNotifyTopRight}))
 {new
-   H2HEndGamePanel
+   UIPanel
    score_duel_endgame_panel
    (file
       "score_duel_endgame.milo")
@@ -226,36 +213,26 @@
 {new
    BandScreen
    score_duel_details_endgame_screen
-   (panels score_duel_endgame_panel more_details_panel)
+   (panels endgame_background_panel score_duel_endgame_panel more_details_panel)
    (focus more_details_panel)
-   (is_ugc FALSE)
    (leave
-      {ui
-         goto_screen
-         {if_else
-            [is_ugc]
-            ugc_score_duel_endgame_screen
-            score_duel_endgame_screen}})
-   (exit
-      {if
-         {!
-            {gamemode get ranked}}
-         {net_sync enable}}
-      {set
-         [is_ugc]
-         FALSE})
+      {ui goto_screen score_duel_endgame_screen})
+   (enter
+      {endgame_background_panel show_overlay})
    (helpbar
       ((cancel helpbar_cancel)
          (confirm helpbar_confirm)))}
 {new
    BandScreen
    score_duel_endgame_screen
-   (panels score_duel_endgame_panel)
+   (panels endgame_background_panel score_duel_endgame_panel)
    (focus score_duel_endgame_panel)
    ENDGAME_SCREEN_HANDLERS
-   (more_details_screen score_duel_details_endgame_screen)}
+   (more_details_screen score_duel_details_endgame_screen)
+   (enter
+      {endgame_background_panel show_overlay})}
 {new
-   H2HEndGamePanel
+   UIPanel
    tow_endgame_panel
    (file
       "tow_endgame.milo")
@@ -263,50 +240,21 @@
 {new
    BandScreen
    tow_details_endgame_screen
-   (panels tow_endgame_panel more_details_panel)
+   (panels endgame_background_panel tow_endgame_panel more_details_panel)
    (focus more_details_panel)
    (leave
       {ui goto_screen tow_endgame_screen})
-   (exit
-      {if
-         {!
-            {gamemode get ranked}}
-         {net_sync enable}})
+   (enter
+      {endgame_background_panel show_overlay})
    (helpbar
       ((cancel helpbar_cancel)
          (confirm helpbar_confirm)))}
 {new
    BandScreen
    tow_endgame_screen
-   (panels tow_endgame_panel)
+   (panels endgame_background_panel tow_endgame_panel)
    (focus tow_endgame_panel)
    ENDGAME_SCREEN_HANDLERS
-   (more_details_screen tow_details_endgame_screen)}
-#ifndef _SHIP
-{new
-   BandScreen
-   reload_load_screen
-   (panels meta_loading)
+   (more_details_screen tow_details_endgame_screen)
    (enter
-      {ui_goto reload_song_dta_screen})}
-{new
-   UIPanel
-   reload_song_dta_panel
-   (previous_screen '')
-   (load
-      {set
-         [previous_screen]
-         {ui current_screen}}
-      {content_mgr set_dirty}
-      {content_mgr start_refresh})
-   (is_loaded
-      {content_mgr refresh_done})
-   (enter
-      {ui
-         goto_screen
-         [previous_screen]})}
-{new
-   BandScreen
-   reload_song_dta_screen
-   (panels meta_loading reload_song_dta_panel)}
-#endif
+      {endgame_background_panel show_overlay})}

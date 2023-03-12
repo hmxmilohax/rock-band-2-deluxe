@@ -1,0 +1,67 @@
+#define FREEZE_SCORE_TEXT
+({tutorials_state_panel set score_text_frozen TRUE})
+#define UNFREEZE_SCORE_TEXT
+({tutorials_state_panel set score_text_frozen FALSE})
+#define HIDE_SCORE
+({show_score_text FALSE}
+   {tv_score.grp set_showing FALSE})
+#define SHOW_SCORE
+({show_score_text TRUE}
+   {score.mnm set_frame 0})
+#define ANIMATE_SCORE
+({if
+      {tutorials_state_panel can_update_score}
+      {do
+         {score_animate.tnm
+            animate
+            (units kTaskTutorialSeconds)
+            (period 0.15)
+            (range 0 2)}
+         {tv_score_animate.tnm
+            animate
+            (units kTaskTutorialSeconds)
+            (period 0.15)
+            (range 0 2)}}})
+{func
+   set_score_graphic
+   ($score)
+   {if
+      {tutorials_state_panel can_update_score}
+      {score.mnm set_frame $score}}}
+{func
+   update_score_graphic
+   ($score $total)
+   {set_score_graphic
+      {int
+         {'*'
+            8.0
+            {/
+               $score
+               {'*' 1.0 $total}}}}}}
+{func
+   update_task_score
+   ($label $score $total)
+   {update_score_graphic $score $total}
+   {set_score_text
+      {sprintf
+         {localize
+            {gamemode get notes_format}}
+         {- $total $score}}}}
+{func
+   update_task_score_percent
+   ($label $score $total)
+   {update_score_graphic $score $total}
+   {set_score_text
+      {sprintf
+         {localize
+            {gamemode get percent_format}}
+         {-
+            100
+            {int
+               {'*'
+                  100.0
+                  {/ $score $total}}}}}}}
+{func
+   zero_task_score_percent
+   ($label)
+   {update_task_score_percent $label 0 1}}

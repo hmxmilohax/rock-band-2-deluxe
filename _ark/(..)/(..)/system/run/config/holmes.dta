@@ -1,0 +1,9 @@
+#include macros.dta
+(mem
+   (heaps
+      (main
+         (size 5500000))
+      (synth
+         (size 1024))))
+(disable_cheats TRUE)
+#merge default.dta

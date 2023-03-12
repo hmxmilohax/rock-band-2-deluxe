@@ -4,271 +4,225 @@
          set_showing
          FALSE}
       {if
-         {session is_local}
+         {==
+            {session mode}
+            kNetLocal}
          {game set_paused TRUE}
          {{$this find pause_title.lbl}
             set_showing
             TRUE}})
    (resume
       {if
-         {session is_local}
+         {==
+            {session mode}
+            kNetLocal}
          {set $game_unpause_on_enter TRUE}}
+      {ui pop_screen})
+   (hide
+      {set $game_pause_on_enter TRUE}
       {ui pop_screen}))
 {new
    UIPanel
    pause_bg_panel
    (file
-      "pause_bg.milo")
-   ;;31199 OG
-   (orange
-      {octopus.lit set color 31199}
-      {octopus01.lit set color 31199}
-      {octopus02.lit set color 31199})
-   ;;16758820 OG
-   ;;190 red
-   (blue
-      {octopus.lit set color 16758820}
-      {octopus01.lit set color 16758820}
-      {octopus02.lit set color 16758820})}
+      "pause_bg.milo")}
 {new
    UIPanel
    pause_panel
+   #ifdef HX_XBOX
    (file pause.milo)
+   #else
+   (file pause_og.milo)
+   #endif
+   (drum_pad_swapped TRUE)
    (button_count 0)
    (original_flip FALSE)
+   (original_hud kVocalStyleScrolling)
    (resync_on_exit TRUE)
-   (reset_input_mgr TRUE)
    (exit_destination exit_quit)
    (pause_buttons
       (0.btn 1.btn 2.btn 3.btn 4.btn 5.btn 6.btn))
    (check_icons
-      (check00.mesh check01.mesh check02.mesh check03.mesh check04.mesh check05.mesh))
+      (check00.mesh check01.mesh check02.mesh check03.mesh check04.mesh check05.mesh check06.mesh))
    (check_boxes
-      (check_bg.mesh check_bg01.mesh check_bg02.mesh check_bg03.mesh check_bg04.mesh check_bg05.mesh))
+      (check_bg.mesh check_bg01.mesh check_bg02.mesh check_bg03.mesh check_bg04.mesh check_bg05.mesh check_bg06.mesh))
    (flip_check_index 0)
    (metronome_check_index 0)
    (hud_check_index 0)
    (pause_commands
-      (pause_resume pause_restart lefty_flip vocal_options practice_new_section new_song return_world_map choose_new_challenge free_camera choose_new_battle band_members forfeit metronome return_audition ugc_buy_full_version ugc_delete_demo pause_quit))
+      (pause_resume
+         pause_restart
+         lefty_flip
+         vocal_hud
+         vocal_options
+         practice_new_section
+         #ifdef HX_EE
+         practice_change_speed
+         #endif
+         new_song
+         return_world_map
+         choose_new_challenge
+         band_members
+         forfeit
+         metronome
+         pause_quit))
    (active_commands
       ())
-   (chose_quit FALSE)
-   (end_demo FALSE)
-   (end_demo_delay 0.5)
-   (enter_time 0.0)
+   (cancel_pause FALSE)
+   (leaving_pause FALSE)
    PAUSE_SCREEN_HANDLERS
    (enter
-      {if_else
-         $fakeenddemovar
-         {pause_bg_panel orange}
-         {pause_bg_panel blue}}
-      {pause_title.lbl set fit_type kFitJust}
       {set
-         [chose_quit]
+         [leaving_pause]
          FALSE}
-      {if_else
-         {gamemode get is_drum_trainer}
-         {set
-            [exit_destination]
-            exit_drum_trainer}
-         {set
-            [exit_destination]
-            exit_new_song}}
+      {set
+         [exit_destination]
+         exit_new_song}
       {set
          [resync_on_exit]
          TRUE}
-      {set
-         [reset_input_mgr]
-         TRUE}
-      {$this pause_if_local}
-      {if
-         {tour band}
-         {{tour band}
-            fail_iron_bladder}}
-      {if
-         {&&
-            {!
-               $fakeenddemovar}
-            {gamemode get has_track}
-            {input_mgr get_user}
-            {{input_mgr get_user}
-               player}}
-         {{{input_mgr get_user}
-               player}
-            enable_swings
-            FALSE}}
-      {beatmatch
-         foreach_active_player
-         $p
-         {handle
-            ({$p track}
-               set_enable_vocals_options
-               FALSE)}}
-      {beatmatch never_allow_input TRUE}
-      {pause_title.lbl
-         set
-         text_token
-         {if_else
-            $fakeenddemovar
-            ugc_demo_end
-            PAUSED}}
-      {if_else
-         {&&
-            {!
-               $fakeenddemovar}
-            {input_mgr get_user}
-            {{input_mgr get_user}
-               player}
-            {'||'
-               {!
-                  {gamemode is_audition}}
-               {!
-                  {{input_mgr get_user}
-                     get
-                     autoplay}}}}
-         {do
-            ($player
-               {{input_mgr get_user}
-                  player})
-            {gamertag.lbl set showing TRUE}
-            {instrument.lbl set showing TRUE}
-            {gamertag.lbl
-               set_localized
-               {get_player_name $player}}
-            {instrument.lbl
-               set_localized
-               {get_player_icon $player}}}
-         {do
-            {gamertag.lbl set showing FALSE}
-            {instrument.lbl set showing FALSE}}}
-      {$this set_up_buttons}
-      {session
-         add_sink
-         $this
-         (remote_player_left)}
-      {stagekit_pause TRUE}
-      kDataUnhandled)
-   (TRANSITION_COMPLETE_MSG
-      {set
-         [enter_time]
-         {taskmgr ui_seconds}}
       {if
          {!
-            {session is_local}}
-         {session
-            add_sink
-            $this
-            (game_ended)}
-         {if
-            {!=
-               {session state}
-               kNetInGame}
-            {ui pop_screen}}})
-   (GAME_ENDED_MSG
-      {unless
-         [chose_quit]
-         {ui pop_screen}})
-   (exit
-      {if_else
-         {gamemode get has_track}
-         {do
-            ($band_user
-               {input_mgr get_user})
-            {if
-               [reset_input_mgr]
-               {input_mgr set_user ''}}
-            {beatmatch never_allow_input FALSE}
-            {if
-               {&&
-                  $band_user
-                  {$band_user player}
-                  {!=
-                     [original_flip]
-                     {{$band_user get_gameplay_options}
-                        get_lefty}}}
-               {{$band_user player}
-                  update_lefty_flip}}}
-         {if
-            [reset_input_mgr]
-            {input_mgr set_user ''}}}
-      {session remove_sink $this remote_player_left}
-      {session remove_sink $this game_ended}
-      {stagekit_pause FALSE}
-      {beatmatch
-         foreach_active_player
-         $p
-         {handle
-            ({$p track}
-               set_enable_vocals_options
-               TRUE)}}
-      {set
-         $fakeenddemovar
-         FALSE})
-   (unload
-      {{input_mgr get_user}
+            {game is_game_over}}
+         {$this pause_if_local}}
+      {{game
+            get_player
+            [player_number]}
          enable_swings
-         TRUE})
+         FALSE}
+      {beatmatch never_allow_input TRUE}
+      {do
+         ($player
+            {beatmatch
+               player
+               [player_number]})
+         {gamertag.lbl
+            set_localized
+            {get_player_name $player}}
+         {instrument.lbl
+            set_localized
+            {get_player_icon $player}}}
+      {helpbar
+         set
+         limit_to_player_num
+         [player_number]}
+      {$this set_up_buttons}
+      {session add_sink $this remote_player_left_msg}
+      {stagekit_pause TRUE}
+      {set
+         [drum_pad_swapped]
+         {game get_drumpad_is_dpad}}
+      {game set_drumpad_is_dpad TRUE}
+      kDataUnhandled)
+   (TRANSITION_COMPLETE_MSG
+      {session add_sink $this end_game_msg}
+      {if
+         [cancel_pause]
+         {$this hide}}
+      {if
+         {!=
+            {session state}
+            kNetInGame}
+         {ui pop_screen}})
+   (END_GAME_MSG
+      {ui pop_screen})
+   (exit
+      {set
+         [cancel_pause]
+         FALSE}
+      {game
+         set_drumpad_is_dpad
+         [drum_pad_swapped]}
+      {session remove_sink $this remote_player_left_msg}
+      {{game
+            get_player
+            [player_number]}
+         enable_swings
+         TRUE}
+      {beatmatch never_allow_input FALSE}
+      {if
+         {&&
+            {!=
+               [player_number]
+               -1}
+            {!=
+               [original_flip]
+               {{profile_mgr
+                     get_char_options_from_player
+                     [player_number]}
+                  get_lefty}}}
+         {{game
+               get_player
+               [player_number]}
+            update_lefty_flip}}
+      {if
+         {&&
+            {!=
+               [player_number]
+               -1}
+            {!=
+               [original_hud]
+               {{profile_mgr
+                     get_char_options_from_player
+                     [player_number]}
+                  get_vocal_style}}}
+         {{game
+               get_player
+               [player_number]}
+            update_vocal_style}}
+      {session remove_sink $this end_game_msg}
+      {if
+         [resync_on_exit]
+         {band_ui_sink set_net_sync TRUE}}
+      #ifdef HX_WII
+      {beatmatch wait_for_alt_disc_read}
+      #endif
+      {stagekit_pause FALSE})
    (BUTTON_DOWN_MSG
       {if_else
-         {'||'
-            {== $action kAction_Start}
-            {== $action kAction_Cancel}}
-         {if_else
-            $fakeenddemovar
-            TRUE
-            {do
+         {==
+            [player_number]
+            $player_num}
+         {do
+            {if
+               {'||'
+                  {== $button kPad_Start}
+                  {== $button kPad_Tri}}
                {set
                   [exit_destination]
                   exit_new_song}
-               {$this resume}}}
-         {if_else
-            {&&
-               $fakeenddemovar
-               {<
-                  {-
-                     {taskmgr ui_seconds}
-                     [enter_time]}
-                  [end_demo_delay]}}
-            TRUE
-            kDataUnhandled}})
+               {$this resume}}
+            kDataUnhandled}
+         TRUE})
+   (BUTTON_UP_MSG
+      {if_else
+         {==
+            [player_number]
+            $player_num}
+         kDataUnhandled
+         TRUE})
    (REMOTE_PLAYER_LEFT_MSG
-      {do
-         ($ix_button -1)
-         {foreach_int
-            $i
-            0
-            {size
-               [pause_buttons]}
-            {do
-               ($state
-                  {{elem
-                        [pause_buttons]
-                        $i}
-                     get_state})
-               {if
-                  {'||'
-                     {== kComponentFocused $state}
-                     {== kComponentSelecting $state}}
-                  {set $ix_button $i}}}}
-         {if
-            {== $ix_button -1}
-            {fail
-               "could not find focused/selecting pause button!"}
-            {set $ix_button 0}}
-         {$this set_up_buttons}
-         {while
-            {==
-               kComponentDisabled
-               {{elem
-                     [pause_buttons]
-                     $ix_button}
-                  get_state}}
-            {-- $ix_button}}
-         {$this
-            set_focus
-            {elem
-               [pause_buttons]
-               $ix_button}}})
+      {$this set_up_buttons})
+   (FOCUS_MSG
+      {$this
+         update_pause_helpbar
+         {$new_focus name}})
+   (update_pause_helpbar
+      ($button)
+      {find_elem
+         [pause_buttons]
+         $button
+         $ix_button}
+      {switch
+         {elem
+            [active_commands]
+            $ix_button}
+         (lefty_flip)
+         (vocal_hud)
+         {helpbar
+            set_config
+            ((cancel helpbar_back)
+               (confirm helpbar_select))}})
    (SELECT_MSG
       {set
          [exit_destination]
@@ -277,134 +231,159 @@
          [pause_buttons]
          $component
          $ix_button}
-      {do
-         ($band_user
-            {input_mgr get_user})
-         {switch
-            {elem
-               [active_commands]
-               $ix_button}
-            (pause_resume
-               {$this resume})
-            (pause_restart
-               {set
-                  [exit_destination]
-                  exit_restart}
-               {if_else
-                  {'||'
-                     $fakeenddemovar
-                     {==
-                        {gamemode get confirm_restart_screen}
-                        ''}}
-                  {$this on_restart}
-                  {ui
-                     goto_screen
-                     {gamemode get confirm_restart_screen}}})
-					 
-			(free_camera
-               {cycle_free_camera})
-			   
-            (lefty_flip
-               {if
-                  {!=
-                     vocals
-                     {$band_user get_track_sym}}
-                  {do
-                     ($options
-                        {$band_user get_gameplay_options})
-                     ($lefty_flipped
-                        {$options get_lefty})
-                     {$options
-                        set_lefty
-                        {! $lefty_flipped}}
-                     {$this update_lefty_check}}})
-            (vocal_options
-               {if
-                  {==
-                     vocals
-                     {$band_user get_track_sym}}
-                  {do
-                     {set
-                        [resync_on_exit]
-                        FALSE}
-                     {set
-                        [reset_input_mgr]
-                        FALSE}
-                     {ui goto_screen pause_vocal_options_screen}}})
-            (practice_new_section
-               {set
-                  [exit_destination]
-                  exit_new_section}
-               {$this on_quit})
-            ((new_song return_world_map choose_new_challenge choose_new_battle)
-               {set
-                  [exit_destination]
-                  exit_new_song}
-               {if_else
-                  {'||'
-                     {gamemode get is_practice}
-                     {gamemode get is_jukebox}
-                     $fakeenddemovar}
-                  {$this on_quit}
-                  {ui
-                     goto_screen
-                     {gamemode get confirm_quit_screen}}})
-            (band_members
-               {set
-                  [exit_destination]
-                  exit_change_band}
+      {switch
+         {elem
+            [active_commands]
+            $ix_button}
+         (pause_resume
+            {$this resume})
+         (pause_restart
+            {set
+               [exit_destination]
+               exit_restart}
+            {if_else
+               {==
+                  {gamemode get confirm_restart_screen}
+                  ''}
+               {$this on_restart}
                {ui
                   goto_screen
-                  {gamemode get confirm_quit_screen}})
-            (forfeit
-               {set
-                  [exit_destination]
-                  exit_forfeit}
-               {set
-                  [resync_on_exit]
-                  FALSE}
+                  {gamemode get confirm_restart_screen}}})
+         (lefty_flip
+            {if_else
+               {!=
+                  vocals
+                  {{game
+                        get_player_config
+                        [player_number]}
+                     get_track_sym}}
+               {do
+                  ($options
+                     {profile_mgr
+                        get_char_options_from_player
+                        [player_number]})
+                  ($lefty_flipped
+                     {$options get_lefty})
+                  {$options
+                     set_lefty
+                     {! $lefty_flipped}}
+                  {$this update_lefty_check}}
+               kDataUnhandled})
+         (vocal_hud
+            {if_else
+               {==
+                  vocals
+                  {{game
+                        get_player_config
+                        [player_number]}
+                     get_track_sym}}
+               {do
+                  ($options
+                     {profile_mgr
+                        get_char_options_from_player
+                        [player_number]})
+                  ($hud_style
+                     {$options get_vocal_style})
+                  {$options
+                     set_vocal_style
+                     {! $hud_style}}
+                  {$this update_vocal_style}}
+               kDataUnhandled})
+         (vocal_options
+            {if_else
+               {==
+                  vocals
+                  {{game
+                        get_player_config
+                        [player_number]}
+                     get_track_sym}}
+               {do
+                  {set
+                     [resync_on_exit]
+                     FALSE}
+                  {pause_vocal_options_panel
+                     set
+                     player_num
+                     [player_number]}
+                  {ui goto_screen pause_vocal_options_screen}}
+               kDataUnhandled})
+         (practice_new_section
+            {set
+               [exit_destination]
+               exit_new_section}
+            {$this on_quit})
+         ((new_song return_world_map choose_new_challenge choose_new_battle)
+            {set
+               [exit_destination]
+               exit_new_song}
+            {if_else
+               {'||'
+                  {gamemode get is_practice}
+                  {gamemode get is_jukebox}}
+               {$this on_quit}
                {ui
                   goto_screen
-                  {gamemode get confirm_quit_screen}})
-            (metronome
-               {set
-                  $met
-                  {!
-                     {{gamemode get game_panel}
-                        get_metronome}}}
-               {{gamemode get game_panel}
-                  script_set_metronome
-                  $met}
-               {$this update_metronome_check})
-            (return_audition
-               {ui goto_screen meta_loading_audition_screen})
-            (ugc_buy_full_version
-               #ifdef HX_XBOX
-               {ugc_buy_now_confirm_screen set user $player}
-               {ui goto_screen ugc_buy_now_confirm_screen}
-               #endif)
-            (ugc_delete_demo
-               #ifdef HX_XBOX
-               {ui goto_screen ugc_delete_demo_confirm_screen}
-               #endif)
-            (pause_quit
-               {set $already_restarted FALSE} ;clear flag so next song will restart once
-               {set
-                  [exit_destination]
-                  exit_quit}
-               {set
-                  [resync_on_exit]
-                  FALSE}
-               {if_else
-                  {'||'
-                     {gamemode get is_drum_trainer}
-                     {gamemode get is_practice}
-                     {gamemode get is_jukebox}
-                     $fakeenddemovar}
-                  {$this on_quit}
-                  {ui
-                     goto_screen
-                     {gamemode get confirm_quit_screen}}})}})
+                  {gamemode get confirm_quit_screen}}})
+         #ifdef HX_EE
+         (practice_change_speed
+            {set
+               [exit_destination]
+               exit_change_speed}
+            {$this on_quit})
+         #endif
+         ((new_song gig_guide)
+            {set
+               [exit_destination]
+               exit_new_song}
+            {if_else
+               {gamemode get is_practice}
+               {$this on_quit}
+               {ui
+                  goto_screen
+                  {gamemode get confirm_quit_screen}}})
+         (band_members
+            {set
+               [exit_destination]
+               exit_change_band}
+            {ui
+               goto_screen
+               {gamemode get confirm_quit_screen}})
+         (forfeit
+            {set
+               [exit_destination]
+               exit_forfeit}
+            {set
+               [resync_on_exit]
+               FALSE}
+            {ui
+               goto_screen
+               {gamemode get confirm_quit_screen}})
+         (metronome
+            {set
+               $met
+               {!
+                  {{gamemode get game_panel}
+                     get_metronome}}}
+            {{gamemode get game_panel}
+               script_set_metronome
+               $met}
+            {$this update_metronome_check})
+         (pause_quit
+            {set
+               [exit_destination]
+               exit_quit}
+            {set
+               [resync_on_exit]
+               FALSE}
+            {if_else
+               {'||'
+                  {gamemode get is_drum_trainer}
+                  {gamemode get is_practice}}
+               {$this on_quit}
+               {ui
+                  goto_screen
+                  {gamemode get confirm_quit_screen}}})
+         kDataUnhandled})
    (set_up_buttons
       {set
          [button_count]
@@ -419,7 +398,6 @@
             $button
             [pause_buttons]
             {$button set_showing FALSE}
-            {$this enable $button}
             {if
                {!=
                   $previous
@@ -436,8 +414,6 @@
          {$check set_showing FALSE}}
       {do
          ($added)
-         ($band_user
-            {input_mgr get_user})
          {foreach
             $command
             [pause_commands]
@@ -445,10 +421,7 @@
             {switch
                $command
                (pause_resume
-                  {if
-                     {!
-                        $fakeenddemovar}
-                     {set $added TRUE}})
+                  {set $added TRUE})
                (pause_restart
                   {if
                      {!
@@ -471,70 +444,97 @@
                               {elem
                                  [pause_buttons]
                                  [button_count]}}}}})
-               
-					 
-			   (lefty_flip
+               (lefty_flip
                   {if
-                     {&&
-                        {!
-                           $fakeenddemovar}
-                        {gamemode get has_track}
-                        {$band_user is_participating}
-                        {$band_user player}
-                        {!=
-                           vocals
-                           {$band_user get_track_sym}}
-                        {'||'
-                           {!
-                              {gamemode is_audition}}
-                           {!
-                              {$band_user get autoplay}}}}
+                     {!=
+                        vocals
+                        {{game
+                              get_player_config
+                              [player_number]}
+                           get_track_sym}}
                      {set $added TRUE}
                      {set
                         [flip_check_index]
                         [button_count]}
                      {set
                         [original_flip]
-                        {{$band_user get_gameplay_options}
+                        {{profile_mgr
+                              get_char_options_from_player
+                              [player_number]}
                            get_lefty}}
-                     {$this update_lefty_check}})
+                     {$this update_lefty_check}
+                     {helpbar
+                        set_config
+                        ((cancel helpbar_back)
+                           (confirm helpbar_select))}})
+               (vocal_hud
+                  {if
+                     {==
+                        vocals
+                        {{game
+                              get_player_config
+                              [player_number]}
+                           get_track_sym}}
+                     {set $added TRUE}
+                     {set
+                        [hud_check_index]
+                        [button_count]}
+                     {set
+                        [original_hud]
+                        {{profile_mgr
+                              get_char_options_from_player
+                              [player_number]}
+                           get_vocal_style}}
+                     {$this update_vocal_style}})
                (vocal_options
                   {if
-                     {&&
-                        {!
-                           $fakeenddemovar}
-                        {gamemode get has_track}
-                        {$band_user is_participating}
-                        {$band_user player}
-                        {==
-                           vocals
-                           {$band_user get_track_sym}}
-                        {'||'
-                           {!
-                              {gamemode is_audition}}
-                           {!
-                              {$band_user get autoplay}}}}
+                     {==
+                        vocals
+                        {{game
+                              get_player_config
+                              [player_number]}
+                           get_track_sym}}
                      {set $added TRUE}})
                (practice_new_section
                   {if
                      {&&
-                        {!
-                           $fakeenddemovar}
                         {gamemode get is_practice}
                         {!=
                            vocals
-                           {$band_user get_track_sym}}}
+                           {{game
+                                 get_player_config
+                                 [player_number]}
+                              get_track_sym}}
+                        #ifdef HX_EE
+                        {!=
+                           {gamecfg get practice_speed}
+                           0}
+                        #endif}
                      {set $added TRUE}})
+               #ifdef HX_EE
+               (practice_change_speed
+                  {if
+                     {&&
+                        {gamemode get is_practice}
+                        {!=
+                           {game
+                              get_instrument_from_controller
+                              {game get leader_num}}
+                           vocals}}
+                     {set $added TRUE}})
+               #endif
                (new_song
                   {if
                      {&&
-                        {!
-                           {gamemode get is_audition}}
                         {!=
                            {gamemode get pause_new_song_screen}
                            ''}
                         {!
-                           {gamemode is_tour}}
+                           {gamemode is_bwt}}
+                        {!
+                           {gamemode is_tour_challenge}}
+                        {!
+                           {gamemode is_solo_tour}}
                         {'||'
                            {gamemode get local_network}
                            {is_leader_local}}}
@@ -548,32 +548,57 @@
                            {elem
                               [pause_buttons]
                               [button_count]}}}})
-               ((return_world_map choose_new_challenge choose_new_battle)
+               (gig_guide
                   {if
                      {&&
-                        {!
-                           $fakeenddemovar}
+                        {'||'
+                           {gamemode get local_network}
+                           {is_leader_local}}
+                        {'||'
+                           {gamemode is_bwt}
+                           {gamemode is_solo_tour}}}
+                     {set $added TRUE}
+                     {if
+                        {<
+                           {session num_players}
+                           {gamemode get min_players}}
+                        {$this
+                           disable
+                           {elem
+                              [pause_buttons]
+                              [button_count]}}}})
+               (return_world_map
+                  {if
+                     {&&
                         {'||'
                            {gamemode get local_network}
                            {is_leader_local}}
                         {gamemode is_tour}
                         {do
                            ($event_type
-                              {{tour band}
-                                 event_type})
+                              {{tour performer}
+                                 get_event_type})
                            {if_else
                               {== $command return_world_map}
                               {== $event_type kTourEventWorld}
-                              {&&
-                                 {== $event_type kTourEventChallenge}
-                                 {do
-                                    ($battle
-                                       {{tour event}
-                                          is_battle})
-                                    {if_else
-                                       {== $command choose_new_battle}
-                                       $battle
-                                       {! $battle}}}}}}}
+                              {== $event_type kTourEventChallenge}}}}
+                     {set $added TRUE}
+                     {if
+                        {<
+                           {session num_players}
+                           {gamemode get min_players}}
+                        {$this
+                           disable
+                           {elem
+                              [pause_buttons]
+                              [button_count]}}}})
+               (choose_new_challenge
+                  {if
+                     {&&
+                        {'||'
+                           {gamemode get local_network}
+                           {is_leader_local}}
+                        {gamemode is_tour_challenge}}
                      {set $added TRUE}
                      {if
                         {<
@@ -588,28 +613,23 @@
                   {if
                      {&&
                         {!
-                           $fakeenddemovar}
-                        {!
-                           {gamemode get is_audition}}
-                        {!
                            {gamemode is_solo}}
                         {==
                            {gamemode get player_arrangement}
                            kArrangeBand}
                         {'||'
                            {gamemode get local_network}
-                           {is_leader_local}}
-                        {!
-                           {gamemode is_jukebox}}}
+                           {is_leader_local}}}
                      {set $added TRUE}})
-               (free_camera
-                  {if
-                     {modifier_mgr is_modifier_active mod_auto_play}
-                     {if {! {modifier_mgr is_modifier_active mod_blackvenue}}
-                        {set $added TRUE}}})
                (forfeit
                   {if
-                     {gamemode get ranked}
+                     {&&
+                        {gamemode get ranked}
+                        {==
+                           {gamemode get player_arrangement}
+                           kArrangeHth}
+                        {!
+                           {gamemode get local_network}}}
                      {set $added TRUE}})
                (metronome
                   {if
@@ -624,20 +644,6 @@
                            get
                            metronome}}
                      {$this update_metronome_check}})
-               (return_audition
-                  {if
-                     {gamemode get is_audition}
-                     {set $added TRUE}})
-               (ugc_buy_full_version
-                  {if
-                     {song_mgr
-                        is_demo
-                        {meta_performer song}}
-                     {set $added FALSE}})
-               (ugc_delete_demo
-                  {if
-                     $fakeenddemovar
-                     {set $added TRUE}})
                (pause_quit
                   {if
                      {gamemode get show_pause_quit}
@@ -670,19 +676,19 @@
          ''}
       {$this set_focus 0.btn})
    (update_lefty_check
-      {do
-         {{elem
-               [check_icons]
-               [flip_check_index]}
-            set_showing
-            {{{input_mgr get_user}
-                  get_gameplay_options}
-               get_lefty}}
-         {{elem
-               [check_boxes]
-               [flip_check_index]}
-            set_showing
-            TRUE}})
+      {{elem
+            [check_icons]
+            [flip_check_index]}
+         set_showing
+         {{profile_mgr
+               get_char_options_from_player
+               [player_number]}
+            get_lefty}}
+      {{elem
+            [check_boxes]
+            [flip_check_index]}
+         set_showing
+         TRUE})
    (update_metronome_check
       {do
          {{elem
@@ -702,114 +708,100 @@
             [hud_check_index]}
          set_showing
          {!
-            {{{input_mgr get_user}
-                  get_gameplay_options}
+            {{profile_mgr
+                  get_char_options_from_player
+                  [player_number]}
                get_vocal_style}}}
       {{elem
             [check_boxes]
             [hud_check_index]}
          set_showing
-         TRUE}
-      {{{input_mgr get_user}
-            player}
-         update_vocal_style})
+         TRUE})
    (on_restart
-      {meta_performer
-         submit_data_point
-         pause_restart
-         {{beatmatch main_performer}
-            percent_complete}}
+      {set
+         [leaving_pause]
+         TRUE}
+      {synth stop_all_sfx}
+      {do
+         ($feedback
+            {{game
+                  get_player
+                  [player_number]}
+               player_feedback})
+         {if
+            $feedback
+            {$feedback reset}}}
       {gamemode on_pause_restart})
    (on_quit
-      {set $already_restarted FALSE} ;ensuring that flag is cleared when exiting a song
       {set
-         [chose_quit]
+         [leaving_pause]
          TRUE}
       {switch
          [exit_destination]
          (exit_change_band
-            {meta_performer
-               submit_data_point
-               pause_quit
-               {{beatmatch main_performer}
-                  percent_complete}}
             {if
                {!
                   {is_leader_local}}
                {notify
                   "WARNING: change band triggered by non-leader"}}
             {session end_game kQuit}
-            {ui sync_screen meta_loading_changemembers_screen 1})
+            {band_ui_sink sync_screen meta_loading_changemembers_screen 1})
          (exit_forfeit
-            {meta_performer
-               submit_data_point
-               pause_quit
-               {{beatmatch main_performer}
-                  percent_complete}}
             {ui goto_screen meta_loading_matchmaking_forfeit_screen})
+         #ifndef HX_XBOX
+         (exit_change_speed
+            {session end_game kQuit}
+            {band_ui_sink sync_screen meta_loading_pause_change_speed_screen 1})
+         #endif
          (exit_new_section
-            {meta_performer
-               submit_data_point
-               pause_quit
-               {{beatmatch main_performer}
-                  percent_complete}}
             {session end_game kQuit}
-            {ui sync_screen meta_loading_pause_new_section_screen 1})
+            {band_ui_sink sync_screen meta_loading_pause_new_section_screen 1})
          (exit_new_song
-            {meta_performer
-               submit_data_point
-               pause_quit
-               {{beatmatch main_performer}
-                  percent_complete}}
             {session end_game kQuit}
-            {ui sync_screen meta_loading_pause_new_song_screen 1})
+            {band_ui_sink sync_screen meta_loading_pause_new_song_screen 1})
          (exit_quit
-            {meta_performer
-               submit_data_point
-               pause_quit
-               {{beatmatch main_performer}
-                  percent_complete}}
             {if_else
                {gamemode get is_drum_trainer}
                {ui goto_screen meta_loading_trainer_quit}
                {ui goto_screen meta_loading_quit_early_screen}})
          (exit_restart
-            {$this on_restart})})}
+            {$this on_restart})})
+   (JOYPAD_CONNECT_MSG
+      {if
+         {&&
+            {! $connected}
+            {==
+               $player_num
+               [player_number]}
+            {!
+               [leaving_pause]}}
+         {$this hide}})}
+{new
+   BandScreen
+   restart_loading_screen
+   (panels meta_loading)
+   (restart_song
+      {synth stop_all_sfx}
+      {gamemode on_pause_restart})
+   (TRANSITION_COMPLETE_MSG
+      {script_task
+         kTaskUISeconds
+         (delay 2)
+         (script
+            {$this restart_song})})}
 {new
    BandScreen
    pause_screen
    (panels pause_bg_panel pause_panel)
    (focus pause_panel)
    (helpbar
-      {if_else
-         {pause_panel get end_demo}
-         ((confirm helpbar_select))
-         ((cancel pause_hb_returntogame)
-            (confirm helpbar_select))})}
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}
 #define CONFIRM_QUIT_HANDLERS
 ((panels pause_bg_panel pause_panel dialog_panel)
    (focus dialog_panel)
    (helpbar
-      ((confirm helpbar_confirm)))
-   (is_good_restart
-      {&&
-         {==
-            {pause_panel get exit_destination}
-            exit_restart}
-         {!
-            {'||'
-               {band_ui has_event}
-               {<
-                  {session num_players}
-                  {gamemode get min_players}}}}
-         {==
-            {session state}
-            kNetInGame}})
-   (is_not_restart
-      {!
-         {==
-            {pause_panel get exit_destination}
-            exit_restart}}))
+      ((confirm helpbar_select))))
 #define QUIT_DIALOG_SET_UP_BUTTONS
 ((set_up_buttons
       {if
@@ -818,7 +810,7 @@
             {gamemode get min_players}}
          {{dialog_panel find no.btn}
             set_state
-            kComponentDisabled}
+            kDisabled}
          {dialog_panel
             set_focus
             {dialog_panel find yes.btn}}}))
@@ -826,165 +818,345 @@
    BandScreen
    confirm_quit_screen
    CONFIRM_QUIT_HANDLERS
+   (is_finished FALSE)
    (enter
+      {set
+         [is_finished]
+         FALSE}
       {dialog_panel
          set_yesno
          {localize
             {cond
-               ({gamemode get ranked}
-                  confirm_forfeit)
-               ({&&
-                     {!=
-                        {pause_panel get exit_destination}
-                        exit_restart}
-                     {tour band}
-                     {==
-                        {{tour band}
-                           event_type}
-                        kTourEventChallenge}
-                     {!
-                        {{tour event}
-                           is_battle}}}
+               ({gamemode is_tour_challenge}
                   confirm_quit_tour_challenge)
                (TRUE confirm_quit)}}
          no.btn}
       {$this set_up_buttons}
-      {session
-         add_sink
-         $this
-         (remote_player_left)})
+      {session add_sink $this remote_player_left_msg})
    (exit
-      {session remove_sink $this remote_player_left})
+      {session remove_sink $this remote_player_left_msg})
    (REMOTE_PLAYER_LEFT_MSG
       {$this set_up_buttons})
    QUIT_DIALOG_SET_UP_BUTTONS
-   (handle_select_msg
-      ($component)
-      {switch
-         $component
-         (yes.btn
-            {pause_panel on_quit})
-         (no.btn
-            {ui goto_screen pause_screen})})
    (SELECT_MSG
       {if
-         {'||'
-            {== $component no.btn}
-            {$this is_not_restart}}
-         {$this handle_select_msg $component}})
-   (SELECT_DONE_MSG
+         {==
+            $player_num
+            {pause_panel get player_number}}
+         {set
+            [is_finished]
+            TRUE}
+         {switch
+            $component
+            (yes.btn
+               {if
+                  {exists crowd_audio}
+                  {crowd_audio turn_off}}
+               {if
+                  {&&
+                     {gamemode is_tour_challenge}
+                     {profile_mgr get_autosave_enabled}}
+                  {profile_mgr set_dirty TRUE}
+                  {meta_loading_pause_new_song_screen set autosave TRUE}}
+               {pause_panel on_quit})
+            (no.btn
+               {ui goto_screen pause_screen})}})
+   (JOYPAD_CONNECT_MSG
       {if
          {&&
-            {== $component yes.btn}
-            {$this is_good_restart}}
-         {$this handle_select_msg $component}})}
-#define TOUR_WORLD_CONFIRM_DIALOG
+            {!
+               [is_finished]}
+            {==
+               $player_num
+               {pause_panel get player_number}}}
+         {pause_panel set cancel_pause TRUE}
+         {ui goto_screen pause_screen}})
+   (BUTTON_DOWN_MSG
+      {if_else
+         {==
+            $player_num
+            {pause_panel get player_number}}
+         {do
+            {set
+               [is_finished]
+               TRUE}
+            kDataUnhandled}
+         TRUE})
+   (BUTTON_UP_MSG
+      {if_else
+         {==
+            $player_num
+            {pause_panel get player_number}}
+         {do
+            {set
+               [is_finished]
+               FALSE}
+            kDataUnhandled}
+         TRUE})}
+#define TOUR_BAND_CONFIRM_DIALOG
 ({dialog_panel
       set_yesno
-      
-         {localize confirm_quit}
+      {if_else
+         {{tour performer}
+            fans_lost_on_fail}
+         {sprintf
+            {localize tour_band_lose_fans_warning}
+            {localize_separated_int
+               {{tour performer}
+                  fans_lost_on_fail}}}
+         {localize_token confirm_quit}}
       no.btn})
 {new
    BandScreen
-   tour_world_quit_screen
+   tour_band_quit_screen
    CONFIRM_QUIT_HANDLERS
    (enter
-      TOUR_WORLD_CONFIRM_DIALOG
+      TOUR_BAND_CONFIRM_DIALOG
       {dialog_panel
          set_title
-         {localize tour_abandon_gig}}
+         {localize_token tour_abandon_gig}}
       {$this set_up_buttons}
-      {session
-         add_sink
-         $this
-         (remote_player_left)})
+      {session add_sink $this remote_player_left_msg})
    (exit
-      {session remove_sink $this remote_player_left})
+      {session remove_sink $this remote_player_left_msg})
    (REMOTE_PLAYER_LEFT_MSG
       {$this set_up_buttons})
    QUIT_DIALOG_SET_UP_BUTTONS
-   (handle_select_msg
-      ($component)
-      {switch
-         $component
-         (yes.btn
-            
-            {pause_panel on_quit})
-         (no.btn
-            {ui goto_screen pause_screen})})
    (SELECT_MSG
       {if
-         {'||'
-            {== $component no.btn}
-            {$this is_not_restart}}
-         {$this handle_select_msg $component}})
-   (SELECT_DONE_MSG
-      {if
-         {&&
-            {== $component yes.btn}
-            {$this is_good_restart}}
-         {$this handle_select_msg $component}})}
+         {==
+            $player_num
+            {pause_panel get player_number}}
+         {switch
+            $component
+            (yes.btn
+               {{tour performer}
+                  lose_song}
+               {pause_panel on_quit})
+            (no.btn
+               {ui goto_screen pause_screen})}})}
 {new
    BandScreen
-   tour_world_restart_screen
+   tour_band_restart_screen
+   (panels pause_panel dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (enter
+      TOUR_BAND_CONFIRM_DIALOG
+      {dialog_panel
+         set_title
+         {localize_token tour_restart_song}}
+      {$this set_up_buttons}
+      {session add_sink $this remote_player_left_msg})
+   (exit
+      {session remove_sink $this remote_player_left_msg})
+   (REMOTE_PLAYER_LEFT_MSG
+      {$this set_up_buttons})
+   QUIT_DIALOG_SET_UP_BUTTONS
+   (SELECT_MSG
+      {if
+         {==
+            $player_num
+            {pause_panel get player_number}}
+         {switch
+            $component
+            (yes.btn
+               {{tour performer}
+                  lose_song}
+               {pause_panel on_restart})
+            (no.btn
+               {ui goto_screen pause_screen})}})}
+{new
+   BandScreen
+   solo_tour_restart_screen
    (panels pause_bg_panel pause_panel dialog_panel)
    (focus dialog_panel)
    (helpbar
       ((confirm helpbar_select)))
    (enter
-      TOUR_WORLD_CONFIRM_DIALOG
       {dialog_panel
-         set_title
-         {localize tour_restart_song}}
+         set_yesno
+         {localize confirm_quit}
+         no.btn}
       {$this set_up_buttons}
-      {session
-         add_sink
-         $this
-         (remote_player_left)})
+      {session add_sink $this remote_player_left_msg})
    (exit
-      {session remove_sink $this remote_player_left})
+      {session remove_sink $this remote_player_left_msg})
    (REMOTE_PLAYER_LEFT_MSG
       {$this set_up_buttons})
    QUIT_DIALOG_SET_UP_BUTTONS
    (SELECT_MSG
+      {if
+         {==
+            $player_num
+            {pause_panel get player_number}}
+         {switch
+            $component
+            (yes.btn
+               {pause_panel on_restart})
+            (no.btn
+               {ui goto_screen pause_screen})}})}
+{new
+   UIPanel
+   pause_controller_background_panel
+   (file pause_discon_background_og.milo)}
+{new
+   UIPanel
+   pause_controller_panel
+   #ifdef HX_XBOX
+   (file pause_controller.milo)
+   #else
+   (file pause_discon_og.milo)
+   #endif
+   PAUSE_SCREEN_HANDLERS
+   (focus pause_quit.btn)
+   (enter
+      {platform_mgr set_notify_ui_location kOSNotifyBottomCenter}
+      {$this pause_if_local}
+      {do
+         {$this update_labels}
+         {$this
+            disable
+            {$this find pause_resume.btn}}}
+      {stagekit_pause TRUE})
+   (exit
+      {platform_mgr set_notify_ui_location kOSNotifyTopRight}
+      {band_ui_sink set_net_sync TRUE}
+      {stagekit_pause FALSE}
+      #ifdef HX_WII
+      {beatmatch wait_for_alt_disc_read}
+      #endif)
+   QUIT_DIALOG_SET_UP_BUTTONS
+   (BUTTON_DOWN_MSG
+      {do
+         {if
+            {&&
+               {!
+                  {game missing_controllers}}
+               {== $button kPad_Start}}
+            {$this resume}}
+         kDataUnhandled})
+   (SELECT_MSG
       {switch
          $component
-         (yes.btn
-            {pause_panel on_restart})
-         (no.btn
-            {ui goto_screen pause_screen})})}
+         (pause_resume.btn
+            {if
+               {game is_player_participating $player_num}
+               {$this resume}})
+         (pause_quit.btn
+            {if_else
+               {gamemode get is_practice}
+               {$this on_quit}
+               {ui goto_screen confirm_quit_controllers_screen}})})
+   (JOYPAD_CONNECT_MSG
+      {$this on_joypad_change})
+   (on_joypad_change
+      {if_else
+         {game missing_controllers}
+         {do
+            {$this update_labels}
+            {$this
+               disable
+               {$this find pause_resume.btn}}}
+         {do
+            {$this
+               set_focus
+               {$this find pause_resume.btn}}}})
+   #ifdef HX_WII
+   (poll
+      {if
+         {!
+            {game missing_controllers}}
+         {$this
+            enable
+            {$this find pause_resume.btn}}})
+   #endif
+   (update_labels
+      {do
+         ($missing_controllers
+            {game missing_controllers})
+         ($who
+            "")
+         ($i 0)
+         ($total 0)
+         ($vocals FALSE)
+         {foreach
+            $j
+            (1 2 4 8 16 32 64 128)
+            {if
+               {& $j $missing_controllers}
+               {set
+                  $who
+                  {if_else
+                     {==
+                        ""
+                        $who}
+                     {set
+                        $who
+                        {{game get_player_config $i}
+                           get
+                           player_name}}
+                     {sprintf
+                        {localize controller_who}
+                        $who
+                        {{game get_player_config $i}
+                           get
+                           player_name}}}}
+               {if
+                  {==
+                     {{game get_player_config $i}
+                        get_controller_type}
+                     kControllerVocals}
+                  {set $vocals TRUE}}
+               {'++' $total}}
+            {'++' $i}}
+         {if
+            {== $total 1}
+            {set
+               $who
+               {sprintf
+                  {localize controller_possessive}
+                  $who}}}
+         {{$this find pause_controller_title.lbl}
+            set
+            text_token
+            no_controller}
+         #ifdef HX_WII
+         {{$this find pause_controller_msg.lbl}
+            set_localized
+            {if_else
+               $vocals
+               {localize controller_loss_vocals_msg}
+               {sprintf
+                  {localize controller_loss_msg}
+                  $who}}}
+         #else
+         {{$this find pause_controller_msg.lbl}
+            set_localized
+            {sprintf
+               {localize controller_loss_msg}
+               $who}}
+         #endif})
+   (on_quit
+      {ui goto_screen meta_loading_quit_early_screen})}
 {new
    BandScreen
    pause_controller_screen
-   PAUSE_SCREEN_HANDLERS
-   (enter
-      {platform_mgr set_notify_ui_location kOSNotifyBottomCenter}
-      {if
-         {session is_local}
-         {game set_paused TRUE}}
-      {if
-         {tour band}
-         {{tour band}
-            fail_iron_bladder}}
-      {stagekit_pause TRUE})
+   (panels pause_controller_background_panel pause_controller_panel)
+   (focus pause_controller_panel)
    (helpbar
-      ((confirm helpbar_confirm)))
-   (exit
-      {platform_mgr set_notify_ui_location kOSNotifyTopRight}
-      {stagekit_pause FALSE})
-   (on_controllers_ok
-      {$this reset_controllers}
-      {$this resume})
-   (reset_controllers
-      {game
-         foreach_local_player
-         $p
-         {$p reset_controller FALSE}}
-      {tutorials_drums_main_panel reset_controller})}
+      ((confirm helpbar_continue)))
+   (enter)
+   (exit)}
 {new
    UIPanel
    pause_mics_panel
+   #ifdef HX_XBOX
    (file pause_mics.milo)
+   #else
+   (file pause_discon_og.milo)
+   #endif
    (resync_on_exit TRUE)
    PAUSE_SCREEN_HANDLERS
    (enter
@@ -992,182 +1164,183 @@
          [resync_on_exit]
          TRUE}
       {$this pause_if_local}
-      {if
-         {tour band}
-         {{tour band}
-            fail_iron_bladder}}
-      {foreach_int
-         $i
-         0
-         4
-         {set
-            $pcfg
-            {game get_player_config $i}}
-         {set
-            $group
-            {sprintf
-               "mics_player_%02d.grp"
-               $i}}
-         {set
-            $label
-            {sprintf
-               "mics_player_name%02d.lbl"
-               $i}}
-         {set
-            $manim
-            {sprintf
-               "talk%02d.mnm"
-               $i}}
-         {set
-            $panim
-            {sprintf
-               "mics_player_%02d_connected.grp"
-               $i}}
-         {if_else
-            {&&
-               {$pcfg is_local_player}
-               {$pcfg is_participating}
-               {!
-                  {$pcfg get autoplay}}}
-            {do
-               {$label
-                  set_localized
-                  {{$pcfg player}
-                     player_name}}
-               {$this enable $label}
-               {$group set_showing TRUE}
-               {$manim set_frame 1}
-               {$panim set_frame 0}}
-            {do
-               {$this disable $label}
-               {$group set_showing FALSE}}}}
+      {$this
+         set_focus
+         {$this find pause_quit.btn}}
+      {{$this find pause_controller_title.lbl}
+         set
+         text_token
+         mics_changed_test}
+      {{$this find pause_controller_msg.lbl}
+         set
+         text_token
+         mics_changed_desc}
       {$this check_mics}
-      {stagekit_pause TRUE}
-      {$this update_anims})
+      {stagekit_pause TRUE})
    (TRANSITION_COMPLETE_MSG
+      {session add_sink $this end_game_msg}
       {if
-         {!
-            {session is_local}}
-         {session
-            add_sink
-            $this
-            (game_ended)}
-         {if
-            {!=
-               {session state}
-               kNetInGame}
-            {ui pop_screen}}})
-   (GAME_ENDED_MSG
+         {!=
+            {session state}
+            kNetInGame}
+         {ui pop_screen}}
+      {$this check_mics})
+   (END_GAME_MSG
       {ui pop_screen})
    (exit
-      {session remove_sink $this game_ended}
+      {session remove_sink $this end_game_msg}
       {synth reset_mics_changed}
-      {stagekit_pause FALSE})
+      {if
+         [resync_on_exit]
+         {band_ui_sink set_net_sync TRUE}}
+      {stagekit_pause FALSE}
+      #ifdef HX_WII
+      {beatmatch wait_for_alt_disc_read}
+      #endif)
+   (allow_player
+      ($player_num)
+      {game is_player_participating $player_num})
+   (JOYPAD_CONNECT_MSG)
    (check_mics
-      {if_else
-         {are_all_mics_connected}
-         {do
-            {$this
-               enable
-               {$this find pause_resume.btn}}
+      {do
+         ($enable_resume TRUE)
+         ($who
+            "")
+         {game
+            foreach_local_player
+            $p
+            {do
+               ($player_num
+                  {$p player_num})
+               {if
+                  {&&
+                     {!= $player_num -1}
+                     {game is_player_participating $player_num}
+                     {==
+                        {{gamecfg get_player_config $player_num}
+                           get_track_sym}
+                        vocals}}
+                  {do
+                     ($mic_num
+                        {joypad_get_players_padnum $player_num})
+                     {if
+                        {&&
+                           {!= $mic_num -1}
+                           {!
+                              {synth is_mic_connected $mic_num}}}
+                        {set $enable_resume FALSE}}}}}}
+         #ifdef HX_WII
+         {if_else
+            {!
+               {platform_mgr guide_showing}}
+            {do
+               {$this
+                  disable
+                  {$this find pause_resume.btn}}
+               {$this
+                  disable
+                  {$this find pause_quit.btn}}}
             {$this
                set_focus
-               {$this find pause_resume.btn}}}
-         {do
-            {$this
-               disable
-               {$this find pause_resume.btn}}
-            {$this
-               set_focus
-               {$this find pause_quit.btn}}}})
+               {$this find pause_quit.btn}}}
+         #else
+         {$this
+            disable
+            {$this find pause_resume.btn}}
+         {$this
+            disable
+            {$this find pause_quit.btn}}
+         #endif
+         {if_else
+            $enable_resume
+            {do
+               {$this
+                  enable
+                  {$this find pause_resume.btn}}
+               #ifdef HX_WII
+               {if
+                  {!
+                     {platform_mgr guide_showing}}
+                  {$this
+                     disable
+                     {$this find pause_quit.btn}}
+                  {$this
+                     set_focus
+                     {$this find pause_resume.btn}}}
+               #else
+               {$this
+                  disable
+                  {$this find pause_quit.btn}}
+               {$this
+                  set_focus
+                  {$this find pause_resume.btn}}
+               #endif}
+            {do
+               {$this
+                  disable
+                  {$this find pause_resume.btn}}
+               #ifdef HX_WII
+               {if
+                  {!
+                     {platform_mgr guide_showing}}
+                  {$this
+                     set_focus
+                     {$this find pause_quit.btn}}}
+               #else
+               {$this
+                  set_focus
+                  {$this find pause_quit.btn}}
+               #endif}}
+         {$this
+            enable
+            {$this find pause_quit.btn}}})
    (microphones_changed
       ($vocalists_mic_changed)
       {$this check_mics})
-   (is_player_connected
-      ($player_num)
-      {do
-         ($connected TRUE)
-         {set
-            $pcfg
-            {game get_player_config $i}}
-         {if
-            {&&
-               {$pcfg is_local_player}
-               {game is_player_participating $i}
-               {==
-                  {$pcfg get_track_sym}
-                  vocals}}
-            {do
-               ($mic_num
-                  {joypad_get_players_padnum $i})
-               {if
-                  {&&
-                     {!= $mic_num -1}
-                     {!
-                        {synth is_mic_connected $mic_num}}}
-                  {set $connected FALSE}}}}
-         $connected})
+   #ifdef HX_XBOX
    (poll
-      {$this update_anims})
-   (update_anims
       {foreach_int
          $i
          0
          4
-         {if_else
-            {$this is_player_connected $1}
-            {do
-               {{sprintf
-                     "talk%02d.mnm"
-                     $i}
-                  set_frame
-                  #ifdef HX_XBOX
-                  {synth mic_user_percent_talking $i}
-                  #else
-                  {if_else
-                     {synth is_mic_user_talking $i}
-                     1
-                     0}
-                  #endif}
-               {{sprintf
-                     "mics_player_%02d_connected.grp"
-                     $i}
-                  set_frame
-                  0}}
-            {do
-               {{sprintf
-                     "talk%02d.mnm"
-                     $i}
-                  set_frame
-                  0}
-               {{sprintf
-                     "mics_player_%02d_connected.grp"
-                     $i}
-                  set_frame
+         {if
+            {game is_player_participating $i}
+            {{sprintf
+                  "talk%02d.mnm"
+                  $i}
+               set_frame
+               {if_else
+                  {synth is_mic_user_talking $i}
+                  1
                   0}}}})
+   #endif
    (SELECT_MSG
-      {switch
-         $component
-         (pause_resume.btn
-            {$this resume})
-         (pause_quit.btn
-            {set
-               [resync_on_exit]
-               FALSE}
-            {ui goto_screen confirm_quit_mics_screen})})
+      {if
+         {game is_player_participating $player_num}
+         {switch
+            $component
+            (pause_resume.btn
+               {$this resume})
+            (pause_quit.btn
+               {set
+                  [resync_on_exit]
+                  FALSE}
+               {ui goto_screen confirm_quit_mics_screen})
+            kDataUnhandled}})
    (on_quit
       {ui goto_screen meta_loading_quit_early_screen})}
 {new
    BandScreen
    pause_mics_screen
-   (panels pause_bg_panel pause_mics_panel)
+   (panels pause_controller_background_panel pause_mics_panel)
    (focus pause_mics_panel)
    (helpbar
-      ((confirm helpbar_select)))}
+      ((confirm helpbar_select)))
+   (enter)}
 {new
    BandScreen
    confirm_quit_mics_screen
-   (panels pause_bg_panel pause_mics_panel dialog_panel)
+   (panels pause_controller_background_panel pause_mics_panel dialog_panel)
    (focus dialog_panel)
    (enter
       {dialog_panel
@@ -1175,12 +1348,9 @@
          {localize confirm_quit}
          no.btn}
       {$this set_up_buttons}
-      {session
-         add_sink
-         $this
-         (remote_player_left)})
+      {session add_sink $this remote_player_left_msg})
    (exit
-      {session remove_sink $this remote_player_left})
+      {session remove_sink $this remote_player_left_msg})
    (microphones_changed
       ($vocalists_mic_changed)
       {pause_mics_panel microphones_changed $vocalists_mic_changed})
@@ -1194,3 +1364,31 @@
             {pause_mics_panel on_quit})
          (no.btn
             {ui goto_screen pause_mics_screen})})}
+{new
+   BandScreen
+   confirm_quit_controllers_screen
+   (panels pause_controller_background_panel pause_controller_panel dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (enter
+      {dialog_panel
+         set_yesno
+         {localize confirm_quit}
+         no.btn}
+      {$this set_up_buttons}
+      {session add_sink $this remote_player_left_msg})
+   (exit
+      {session remove_sink $this remote_player_left_msg})
+   (REMOTE_PLAYER_LEFT_MSG
+      {$this set_up_buttons})
+   QUIT_DIALOG_SET_UP_BUTTONS
+   (SELECT_MSG
+      {switch
+         $component
+         (yes.btn
+            {pause_controller_panel on_quit})
+         (no.btn
+            {ui goto_screen pause_controller_screen})})
+   (JOYPAD_CONNECT_MSG
+      {pause_controller_panel on_joypad_change})}

@@ -1,78 +1,45 @@
 (default_hometown boston)
+#ifdef HX_XBOX
 (default_money 100)
-(char_names ../ui/eng/locale_charnames.dta)
-(band_names ../ui/eng/locale_bandnames.dta)
-(default_difficulty kDifficultyExpert)
-(max_money 999999999)
-(rating_history_size 10)
-(default_money_per_star
-	($song_band_rank)
-	{do
-		($tier {song_mgr
-				rank_tier
-				$song_band_rank
-				band})
-		{switch
-			$tier
-			(0 7)
-			(1 10)
-			(2 15)
-			(3 20)
-			(4 30)
-			(5 40)
-			(6 60)
-			0}})
-(max_stars_per_song 5)
-(track_icons
-	((bass "B")
-		(guitar "G")
-		(drum "D")
-		(vocals "V"))
-	((bass "b")
-		(guitar "g")
-		(drum "d")
-		(vocals "v"))
-	((bass "A")
-		(guitar "U")
-		(drum "R")
-		(vocals "O"))
-	((bass "a")
-		(guitar "u")
-		(drum "r")
-		(vocals "o")))
-(botb_loading_screen "loading/ls_botb.milo")
-(world 
-#include tour_world.dta
-)
+#endif
+#define ONEOFF_HINT
+((advance
+      {{tour performer}
+         add_seen_hint
+         {{tour hint}
+            get_type}}))
+(band
+   #include tour_band.dta)
+(solo
+   #include tour_solo.dta)
 (challenge
-	(auto_min_songs 3)
-	(hints
-		(welcome (screen tour_challenge_welcome_screen))
-		(new_tier
-			(screen tour_challenge_new_tier_screen)
-			(one_off TRUE))
-		(impossible
-			(screen tour_challenge_impossible_screen)
-			(one_off TRUE)))
-	(achievements
-		(ach_challenge_novice
-			(kDifficultyMedium 25)
-			(kDifficultyHard 10)
-			(kDifficultyExpert 5))
-		(ach_challenge_master
-			(kDifficultyHard 25)
-			(kDifficultyExpert 10))
-		(ach_challenge_savant (kDifficultyExpert 25)))
-	(challenges 
-#include tour_challenge.dta
-))
-
+   (auto_min_songs 3)
+   (hints
+      (welcome
+         (screen tour_challenge_welcome_screen))
+      (new_tier
+         (screen tour_challenge_new_tier_screen)
+         (one_off TRUE))
+      (impossible
+         (screen tour_challenge_impossible_screen)
+         (one_off TRUE)))
+   (achievements
+      (ach_challenge_novice
+         (kDifficultyMedium 25)
+         (kDifficultyHard 10)
+         (kDifficultyExpert 5))
+      (ach_challenge_master
+         (kDifficultyHard 25)
+         (kDifficultyExpert 10))
+      (ach_challenge_savant
+         (kDifficultyExpert 25)))
+   (challenges
+      #include tour_challenge.dta))
+$ans
+=
+0
 #ifndef _SHIP
 (test_event
-	(songs
-		(random)
-		(random)
-		(random))
-	(money_per_star 100))
-
-#endif 
+   (songs random random random)
+   (reward_per_star 100))
+#endif

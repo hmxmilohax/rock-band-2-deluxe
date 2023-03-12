@@ -1,0 +1,536 @@
+#define TUTORIAL_GUITAR_ANIM_PAUSE
+(0.4)
+#define TUTORIAL_GUITAR_WRAPUP_PAUSE1
+(0.5)
+#define TUTORIAL_GUITAR_WRAPUP_PAUSE2
+(1.5)
+#define TUTORIAL_GUITAR_WRAPUP_PAUSE3
+(4.0)
+#define TUTORIAL_GUITAR_BASICS_KNOW_PAUSE1
+(5.0)
+#define TUTORIAL_GUITAR_BASICS_KNOW_PAUSE2
+(3.0)
+#define TUTORIAL_GUITAR_BASICS_KNOW_PAUSE3
+(7.0)
+#define TUTORIAL_GUITAR_BASICS_KNOW_PAUSE4
+(3.0)
+#define TUTORIAL_GUITAR_BASICS_FRETS_PAUSE1
+(0.4)
+#define TUTORIAL_GUITAR_BASICS_FRETS_PAUSE2
+(2.0)
+#define TUTORIAL_GUITAR_BASICS_FRETS_TIMEOUT
+(60)
+#define TUTORIAL_GUITAR_BASICS_NOTES_PAUSE1
+(2.0)
+#define TUTORIAL_GUITAR_BASICS_WRAPUP_PAUSE1
+(TUTORIAL_GUITAR_WRAPUP_PAUSE1)
+#define TUTORIAL_GUITAR_BASICS_WRAPUP_PAUSE2
+(TUTORIAL_GUITAR_WRAPUP_PAUSE2)
+#define TUTORIAL_GUITAR_BASICS_WRAPUP_PAUSE3
+(TUTORIAL_GUITAR_WRAPUP_PAUSE3)
+#define TUTORIAL_GUITAR_BASICS_INTERFACE_PAUSE1
+(4.0)
+#define TUTORIAL_GUITAR_BASICS_INTERFACE_PAUSE2
+(4.0)
+#define TUTORIAL_GUITAR_BASICS_INTERFACE_PAUSE3
+(4.0)
+#define TUTORIAL_GUITAR_BASICS_INTERFACE_PAUSE4
+(1.5)
+#define TUTORIAL_GUITAR_BASICS_INTERFACE_PAUSE5
+(4.0)
+#define TUTORIAL_GUITAR_BASICS_INTERFACE_PAUSE6
+(3.0)
+#define TUTORIAL_GUITAR_ADVANCED_WRAPUP_PAUSE1
+(TUTORIAL_GUITAR_WRAPUP_PAUSE1)
+#define TUTORIAL_GUITAR_ADVANCED_WRAPUP_PAUSE2
+(TUTORIAL_GUITAR_WRAPUP_PAUSE2)
+#define TUTORIAL_GUITAR_ADVANCED_WRAPUP_PAUSE3
+(TUTORIAL_GUITAR_WRAPUP_PAUSE3)
+#define TUTORIAL_GUITAR_MEDIUM_SOLO_PAUSE1
+(6.0)
+#define TUTORIAL_GUITAR_MEDIUM_SOLO_PAUSE2
+(4.0)
+#define TUTORIAL_GUITAR_MEDIUM_WRAPUP_PAUSE1
+(TUTORIAL_GUITAR_WRAPUP_PAUSE1)
+#define TUTORIAL_GUITAR_MEDIUM_WRAPUP_PAUSE2
+(TUTORIAL_GUITAR_WRAPUP_PAUSE2)
+#define TUTORIAL_GUITAR_MEDIUM_WRAPUP_PAUSE3
+(TUTORIAL_GUITAR_WRAPUP_PAUSE3)
+#define TUTORIAL_GUITAR_ZOOM
+(0.8)
+#define HIDE_SCORE_METER_ARROW
+({score_meter_arrow.mesh set_showing FALSE})
+#define HIDE_CROWD_METER_ARROW
+({crowd_meter_arrow.mesh set_showing FALSE})
+#define HIDE_SOLO_ARROW
+({solo_arrow.mesh set_showing FALSE})
+#define HIDE_NOWBAR_ARROW
+({nowbar_arrow.mesh set_showing FALSE})
+#define HIDE_GREEN_TWO_ARROW
+({green_two_arrow.mesh set_showing FALSE})
+#define HIDE_RED_TWO_ARROW
+({red_two_arrow.mesh set_showing FALSE})
+#define HIDE_RED_HALF_ARROW
+({red_half_arrow.mesh set_showing FALSE})
+#define HIDE_YELLOW_HALF_ARROW
+({yellow_half_arrow.mesh set_showing FALSE})
+#define HIDE_GREEN_BRE_ARROW
+({green_bre_arrow.mesh set_showing FALSE})
+#define HIDE_WHAMMY_ARROW
+({whammy_arrow.mesh set_showing FALSE})
+#define HIDE_ENERGY_METER_ARROW
+({energy_meter_arrow.mesh set_showing FALSE})
+#define HIDE_LONG_NOTE_ARROW
+({long_note_arrow.mesh set_showing FALSE})
+#define HIDE_GUITAR_HAND_ARROW
+({guitar_hand_arrow.mesh set_showing FALSE})
+#define SHOW_SCORE_METER_ARROW
+({score_meter_arrow.mesh set_showing TRUE})
+#define SHOW_CROWD_METER_ARROW
+({crowd_meter_arrow.mesh set_showing TRUE})
+#define SHOW_SOLO_ARROW
+({solo_arrow.mesh set_showing TRUE})
+#define SHOW_NOWBAR_ARROW
+({nowbar_arrow.mesh set_showing TRUE})
+#define SHOW_GREEN_TWO_ARROW
+({green_two_arrow.mesh set_showing TRUE})
+#define SHOW_RED_TWO_ARROW
+({red_two_arrow.mesh set_showing TRUE})
+#define SHOW_RED_HALF_ARROW
+({red_half_arrow.mesh set_showing TRUE})
+#define SHOW_YELLOW_HALF_ARROW
+({yellow_half_arrow.mesh set_showing TRUE})
+#define SHOW_GREEN_BRE_ARROW
+({green_bre_arrow.mesh set_showing TRUE})
+#define SHOW_WHAMMY_ARROW
+({whammy_arrow.mesh set_showing TRUE})
+#define SHOW_ENERGY_METER_ARROW
+({energy_meter_arrow.mesh set_showing TRUE})
+#define SHOW_LONG_NOTE_ARROW
+({long_note_arrow.mesh set_showing TRUE})
+#define SHOW_GUITAR_HAND_ARROW
+({guitar_hand_arrow.mesh set_showing TRUE})
+#define HIDE_ALL_GUITAR_ARROWS
+(HIDE_SCORE_METER_ARROW HIDE_CROWD_METER_ARROW HIDE_SOLO_ARROW HIDE_NOWBAR_ARROW HIDE_GREEN_TWO_ARROW HIDE_RED_TWO_ARROW HIDE_RED_HALF_ARROW HIDE_YELLOW_HALF_ARROW HIDE_GREEN_BRE_ARROW HIDE_WHAMMY_ARROW HIDE_ENERGY_METER_ARROW HIDE_LONG_NOTE_ARROW HIDE_GUITAR_HAND_ARROW)
+#define GUITAR_ANIM_PAUSE
+({$task sleep TUTORIAL_GUITAR_ANIM_PAUSE})
+#define GUITAR_STRUM_MIDDLE
+({strum.mnm set_frame 1})
+#define GUITAR_STRUM_DOWN
+({strum.mnm set_frame 2})
+#define GUITAR_STRUM_UP
+({strum.mnm set_frame 4})
+#define GUITAR_WHAMMY_NEUTRAL
+({strum.mnm set_frame 5})
+#define GUITAR_WHAMMY_ADJUST1
+({strum.mnm set_frame 6})
+#define GUITAR_WHAMMY_ADJUST2
+({strum.mnm set_frame 7})
+#define GUITAR_WHAMMY_ADJUST3
+({strum.mnm set_frame 8})
+#define GUITAR_WHAMMY_ADJUST4
+({strum.mnm set_frame 9})
+#define GUITAR_WHAMMY_PUSH1
+({strum.mnm set_frame 10})
+#define GUITAR_WHAMMY_PUSH2
+({strum.mnm set_frame 11})
+#define GUITAR_WHAMMY_PUSH3
+({strum.mnm set_frame 12})
+#define GUITAR_WHAMMY_PUSH4
+({strum.mnm set_frame 13})
+#define GUITAR_FRET_NEUTRAL
+({neck.mnm set_frame 1})
+#define GUITAR_FRET_GREEN
+({neck.mnm set_frame 2})
+#define GUITAR_FRET_RED
+({neck.mnm set_frame 3})
+#define GUITAR_FRET_YELLOW
+({neck.mnm set_frame 4})
+#define GUITAR_FRET_BLUE
+({neck.mnm set_frame 5})
+#define GUITAR_FRET_HIGH_NEUTRAL
+({neck.mnm set_frame 6})
+#define GUITAR_FRET_HIGH_RED
+({neck.mnm set_frame 7})
+#define GUITAR_FRET_HIGH_YELLOW
+({neck.mnm set_frame 8})
+#define GUITAR_FRET_HIGH_BLUE
+({neck.mnm set_frame 9})
+#define GUITAR_FRET_HIGH_ORANGE
+({neck.mnm set_frame 10})
+#define GUITAR_FRET_GREEN_RED
+({neck.mnm set_frame 12})
+#define GUITAR_FRET_GREEN_RED_YELLOW
+({neck.mnm set_frame 13})
+#define GUITAR_HOPO_SOUND_GREEN
+({s20601 play})
+#define GUITAR_HOPO_SOUND_RED
+({s20602 play})
+#define GUITAR_HOPO_SOUND_YELLOW
+({s20603 play})
+#define GUITAR_HOPO_SOUND_BLUE
+({s20604 play})
+#define GUITAR_HOPO_SOUND_ORANGE
+({S20605 play})
+#define GUITAR_ANIM_WHAMMY_ADJUSTING
+(GUITAR_ANIM_PAUSE GUITAR_WHAMMY_NEUTRAL GUITAR_ANIM_PAUSE GUITAR_WHAMMY_ADJUST1 GUITAR_ANIM_PAUSE GUITAR_WHAMMY_ADJUST2 GUITAR_ANIM_PAUSE GUITAR_WHAMMY_ADJUST3 GUITAR_ANIM_PAUSE GUITAR_WHAMMY_ADJUST4 GUITAR_ANIM_PAUSE GUITAR_WHAMMY_ADJUST3 GUITAR_ANIM_PAUSE GUITAR_WHAMMY_ADJUST2 GUITAR_ANIM_PAUSE GUITAR_WHAMMY_ADJUST1 GUITAR_ANIM_PAUSE GUITAR_WHAMMY_NEUTRAL)
+#define GUITAR_ANIM_WHAMMY_PUSHING
+(GUITAR_ANIM_PAUSE GUITAR_WHAMMY_NEUTRAL GUITAR_ANIM_PAUSE GUITAR_WHAMMY_PUSH1 GUITAR_ANIM_PAUSE GUITAR_WHAMMY_PUSH2 GUITAR_ANIM_PAUSE GUITAR_WHAMMY_PUSH3 GUITAR_ANIM_PAUSE GUITAR_WHAMMY_PUSH2 GUITAR_ANIM_PAUSE GUITAR_WHAMMY_PUSH3 GUITAR_ANIM_PAUSE GUITAR_WHAMMY_PUSH2 GUITAR_ANIM_PAUSE GUITAR_WHAMMY_PUSH3 GUITAR_ANIM_PAUSE GUITAR_WHAMMY_PUSH4 GUITAR_ANIM_PAUSE GUITAR_WHAMMY_PUSH3 GUITAR_ANIM_PAUSE GUITAR_WHAMMY_PUSH2 GUITAR_ANIM_PAUSE GUITAR_WHAMMY_PUSH1 GUITAR_ANIM_PAUSE GUITAR_WHAMMY_NEUTRAL)
+#define GUITAR_ANIM_FRETTING
+(GUITAR_ANIM_PAUSE GUITAR_FRET_GREEN GUITAR_ANIM_PAUSE GUITAR_FRET_RED GUITAR_ANIM_PAUSE GUITAR_FRET_YELLOW GUITAR_ANIM_PAUSE GUITAR_FRET_BLUE GUITAR_ANIM_PAUSE GUITAR_FRET_YELLOW GUITAR_ANIM_PAUSE GUITAR_FRET_RED GUITAR_ANIM_PAUSE GUITAR_FRET_GREEN GUITAR_ANIM_PAUSE GUITAR_FRET_RED GUITAR_ANIM_PAUSE GUITAR_FRET_YELLOW GUITAR_ANIM_PAUSE GUITAR_FRET_BLUE GUITAR_ANIM_PAUSE GUITAR_FRET_YELLOW GUITAR_ANIM_PAUSE GUITAR_FRET_RED GUITAR_ANIM_PAUSE GUITAR_FRET_GREEN GUITAR_ANIM_PAUSE GUITAR_FRET_RED GUITAR_ANIM_PAUSE GUITAR_FRET_YELLOW GUITAR_ANIM_PAUSE GUITAR_FRET_BLUE GUITAR_ANIM_PAUSE GUITAR_FRET_YELLOW GUITAR_ANIM_PAUSE GUITAR_FRET_RED GUITAR_ANIM_PAUSE GUITAR_FRET_GREEN GUITAR_ANIM_PAUSE GUITAR_FRET_NEUTRAL)
+#define GUITAR_ANIM_STRUMMING
+(GUITAR_ANIM_PAUSE GUITAR_STRUM_DOWN GUITAR_ANIM_PAUSE GUITAR_STRUM_MIDDLE GUITAR_ANIM_PAUSE GUITAR_STRUM_UP GUITAR_ANIM_PAUSE GUITAR_STRUM_MIDDLE GUITAR_ANIM_PAUSE GUITAR_STRUM_DOWN GUITAR_ANIM_PAUSE GUITAR_STRUM_UP GUITAR_ANIM_PAUSE GUITAR_STRUM_MIDDLE GUITAR_ANIM_PAUSE GUITAR_STRUM_DOWN GUITAR_ANIM_PAUSE GUITAR_STRUM_MIDDLE)
+#define GUITAR_ANIM_TUNING
+(GUITAR_FRET_GREEN GUITAR_ANIM_PAUSE GUITAR_STRUM_DOWN GUITAR_ANIM_PAUSE GUITAR_STRUM_MIDDLE GUITAR_ANIM_PAUSE GUITAR_STRUM_UP GUITAR_ANIM_PAUSE GUITAR_STRUM_MIDDLE GUITAR_ANIM_PAUSE GUITAR_STRUM_DOWN GUITAR_ANIM_PAUSE GUITAR_STRUM_MIDDLE GUITAR_FRET_RED GUITAR_ANIM_PAUSE GUITAR_STRUM_DOWN GUITAR_ANIM_PAUSE GUITAR_STRUM_MIDDLE GUITAR_ANIM_PAUSE GUITAR_STRUM_UP GUITAR_ANIM_PAUSE GUITAR_STRUM_MIDDLE GUITAR_ANIM_PAUSE GUITAR_STRUM_DOWN GUITAR_ANIM_PAUSE GUITAR_STRUM_MIDDLE GUITAR_FRET_YELLOW GUITAR_ANIM_PAUSE GUITAR_STRUM_DOWN GUITAR_ANIM_PAUSE GUITAR_STRUM_MIDDLE GUITAR_ANIM_PAUSE GUITAR_STRUM_UP GUITAR_ANIM_PAUSE GUITAR_STRUM_MIDDLE GUITAR_ANIM_PAUSE GUITAR_STRUM_DOWN GUITAR_ANIM_PAUSE GUITAR_STRUM_MIDDLE GUITAR_FRET_NEUTRAL)
+#define UNHIDE_CHECKMARKS
+({check_green.mesh set_showing FALSE}
+   {check_red.mesh set_showing FALSE}
+   {check_yellow.mesh set_showing FALSE}
+   {check_blue.mesh set_showing FALSE}
+   {check_orange.mesh set_showing FALSE}
+   {tv_guitar_tune_checks.grp set_showing TRUE})
+#define HIDE_CHECKMARKS
+({tv_guitar_tune_checks.grp set_showing FALSE})
+#define DELETE_GUITAR_TUTORIAL_CALLBACKS
+({if
+      {exists tutorial_guitar_basics_bre_callback}
+      {delete tutorial_guitar_basics_bre_callback}}
+   {if
+      {exists tutorial_guitar_basics_chords_callback}
+      {delete tutorial_guitar_basics_chords_callback}}
+   {if
+      {exists tutorial_guitar_basics_diff_notes_callback}
+      {delete tutorial_guitar_basics_diff_notes_callback}}
+   {if
+      {exists tutorial_guitar_basics_frets_callback}
+      {delete tutorial_guitar_basics_frets_callback}}
+   {if
+      {exists tutorial_guitar_basics_held_notes_callback}
+      {delete tutorial_guitar_basics_held_notes_callback}}
+   {if
+      {exists tutorial_guitar_basics_notes_callback}
+      {delete tutorial_guitar_basics_notes_callback}}
+   {if
+      {exists tutorial_guitar_medium_combos_callback}
+      {delete tutorial_guitar_medium_combos_callback}}
+   {if
+      {exists tutorial_guitar_medium_consecutive_callback}
+      {delete tutorial_guitar_medium_consecutive_callback}}
+   {if
+      {exists tutorial_guitar_medium_solo_callback}
+      {delete tutorial_guitar_medium_solo_callback}}
+   {if
+      {exists tutorial_guitar_medium_wail_callback}
+      {delete tutorial_guitar_medium_wail_callback}}
+   {if
+      {exists tutorial_guitar_medium_whammy_callback}
+      {delete tutorial_guitar_medium_whammy_callback}}
+   {if
+      {exists tutorial_guitar_advanced_strings_callback}
+      {delete tutorial_guitar_advanced_strings_callback}}
+   {if
+      {exists tutorial_guitar_advanced_fingering_callback}
+      {delete tutorial_guitar_advanced_fingering_callback}}
+   {if
+      {exists tutorial_guitar_advanced_hopos_callback}
+      {delete tutorial_guitar_advanced_hopos_callback}}
+   {if
+      {exists tutorial_guitar_advanced_hopos_practice_callback}
+      {delete tutorial_guitar_advanced_hopos_practice_callback}}
+   {if
+      {exists tutorial_guitar_advanced_mixed_callback}
+      {delete tutorial_guitar_advanced_mixed_callback}})
+#define STOP_GUITAR_SFX
+({synth stop s10101}
+   {synth stop s10102}
+   {synth stop s10103}
+   {synth stop s10104}
+   {synth stop s10105}
+   {synth stop s10106}
+   {synth stop s10107}
+   {synth stop s10108}
+   {synth stop s10109}
+   {synth stop s10110}
+   {synth stop s10111}
+   {synth stop s10112}
+   {synth stop s10113}
+   {synth stop s10114}
+   {synth stop s10115}
+   {synth stop s20601}
+   {synth stop s20602}
+   {synth stop s20603}
+   {synth stop s20604}
+   {synth stop s20605}
+   {synth stop s19901}
+   {synth stop s19902}
+   {synth stop tuningcomplete.cue}
+   {synth stop music_intro.cue}
+   {synth stop music_outro.cue})
+#define QUIT_GUITAR_TRAINING_MODES
+({if
+      {{gamemode get main_panel}
+         is_tuning}
+      {{gamemode get main_panel}
+         end_tuning_mode}}
+   {if
+      {{gamemode get main_panel}
+         is_hopo_training}
+      {{gamemode get main_panel}
+         end_hopo_train}})
+#define SHOW_WHOLE_GUITAR
+({wholeguitar.mesh set_showing TRUE})
+#define HIDE_WHOLE_GUITAR
+({wholeguitar.mesh set_showing FALSE})
+#define SHOW_DETAILED_GUITAR
+({neck.mnm set_frame 1}
+   {strum.mnm set_frame 1}
+   {neck_zoom.tnm set_frame 0}
+   {strum_zoom.tnm set_frame 0}
+   {neck.mesh set_showing TRUE}
+   {strum.mesh set_showing TRUE})
+#define HIDE_DETAILED_GUITAR
+({neck.mesh set_showing FALSE}
+   {strum.mesh set_showing FALSE}
+   {neck.mnm set_frame 0}
+   {strum.mnm set_frame 0})
+#define ZOOM_DETAILED_GUITAR
+({neck_zoom.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period TUTORIAL_GUITAR_ZOOM)
+      (range 0 120)}
+   {strum_zoom.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period TUTORIAL_GUITAR_ZOOM)
+      (range 0 120)}
+   {$task sleep TUTORIAL_GUITAR_ZOOM})
+#define SHOW_TUNE_GUITAR
+({tune.mesh set_showing TRUE}
+   {tune.tnm
+      animate
+      (units kTaskTutorialSeconds)
+      (period TUTORIAL_GUITAR_ZOOM)
+      (range 0 40)}
+   {$task sleep TUTORIAL_GUITAR_ZOOM})
+#define HIDE_TUNE_GUITAR
+({tune_green.mesh set_showing FALSE}
+   {tune_red.mesh set_showing FALSE}
+   {tune_yellow.mesh set_showing FALSE}
+   {tune_blue.mesh set_showing FALSE}
+   {tune_orange.mesh set_showing FALSE}
+   {tune.mesh set_showing FALSE}
+   {tune.tnm set_frame 0})
+#define INIT_GUITAR_TUTORIAL
+({tutorials_state_panel init_state})
+#define SETUP_GUITAR_TUTORIAL
+(RESET_TUTORIAL_GAMEMODE
+   GUITAR_TV_RESET
+   STOP_BRE_AUTOPLAYER
+   STOP_GUITAR_SFX
+   HIDE_ALL_UI
+   HIDE_SCORE
+   HIDE_ALL_GUITAR_ARROWS
+   AUTOPLAY_OFF
+   QUIT_GUITAR_TRAINING_MODES
+   DELETE_GUITAR_TUTORIAL_CALLBACKS
+   DISABLE_TRACK_POPUP_HELP
+   ENABLE_SYNC_PAUSE
+   UNFREEZE_SCORE_TEXT
+   {beatmatch set_time_paused TRUE}
+   HIDE_CHECKMARKS
+   HIDE_DETAILED_GUITAR
+   HIDE_WHOLE_GUITAR
+   HIDE_TUNE_GUITAR
+   HIDE_TRACK_PANEL
+   {{beatmatch active_player 0}
+      set_whammystarpowerenabled
+      TRUE}
+   {{beatmatch active_player 0}
+      set_mercuryswitchenabled
+      TRUE}
+   ENABLE_PHRASE_BONUS
+   {tv_overlay.trg trigger}
+   {tutorial_bg_highlight.trg trigger}
+   RESET_TUT_INFO
+   FORCE_TUTORIAL_PANEL_ZOOM_OUT
+   {tutorials_state_panel on_guide_change})
+#define TUTORIALS_GUITAR_BRE_END_BEAT
+(61.0)
+#define TUTORIALS_GUITAR_BRE_TOO_SLOW
+(1.0)
+#define TUTORIALS_GUITAR_NUM_NAMES
+(40)
+#define CORNER_WIDTH
+(16)
+#define PIECE_WIDTH
+(16)
+#define FILLER_WIDTH
+(16)
+#define HEIGHT_SHIFT
+(25)
+#define SONG_DELAY_SEC
+(3.2)
+{new
+   GuitarTutorialPanel
+   tutorials_guitar_main_panel
+   TUTORIALS_MAIN_PANEL_FILE
+   TUTORIALS_MAIN_PANEL_REDIRECTED_FUNCTIONS
+   TUTORIALS_MAIN_PANEL_GENERAL_FUNCTIONS
+   (num_tutorial_names TUTORIALS_GUITAR_NUM_NAMES)
+   (beat_callback
+      ($beat $beat_count))
+   (tutorial_states
+      (invalid_state loading_screen back_to_main_menu back_to_lesson_menu basics_intro basics_know basics_frets basics_notes basics_diff_notes basics_held_notes basics_chords basics_interface basics_bre basics_wrapup medium_intro medium_consecutive medium_combos medium_whammy medium_wail medium_solo medium_wrapup advanced_intro advanced_fingering advanced_strings advanced_hopos advanced_hopos_practice advanced_mixed advanced_wrapup))
+   (tutorial_states_ambient
+      (FALSE FALSE FALSE FALSE FALSE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE FALSE TRUE TRUE TRUE TRUE TRUE TRUE FALSE TRUE TRUE TRUE TRUE TRUE TRUE))
+   (tutorial_states_can_inc
+      (FALSE FALSE FALSE FALSE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE FALSE TRUE TRUE TRUE TRUE TRUE TRUE FALSE TRUE TRUE TRUE TRUE TRUE TRUE FALSE))
+   (tutorial_states_can_dec
+      (FALSE FALSE FALSE FALSE FALSE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE FALSE TRUE TRUE TRUE TRUE TRUE TRUE FALSE TRUE TRUE TRUE TRUE TRUE TRUE))
+   (tutorial_lessons
+      ((Lesson1.btn basics_intro guitar_basics_notes_muted check01.mesh)
+         (Lesson2.btn medium_intro guitar_medium_consecutive_muted check02.mesh)
+         (Lesson3.btn advanced_intro guitar_advanced_fingering_muted check03.mesh)))
+   (enter
+      TUTORIALS_MAIN_PANEL_ENTER
+      INIT_GUITAR_TUTORIAL
+      {gamecfg auto_assign_missing_slots})
+   (exit TUTORIALS_MAIN_PANEL_EXIT)
+   (pause)
+   (unpause)
+   (set_local_state
+      ($state)
+      {switch
+         $state
+         (basics_intro
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include guitar/basics/intro.dta)})
+         (basics_know
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include guitar/basics/know.dta)})
+         (basics_frets
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include guitar/basics/frets.dta)})
+         (basics_notes
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include guitar/basics/notes.dta)})
+         (basics_diff_notes
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include guitar/basics/diff_notes.dta)})
+         (basics_held_notes
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include guitar/basics/held_notes.dta)})
+         (basics_chords
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include guitar/basics/chords.dta)})
+         (basics_interface
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include guitar/basics/interface.dta)})
+         (basics_bre
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include guitar/basics/bre.dta)})
+         (basics_wrapup
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include guitar/basics/wrapup.dta)})
+         (medium_intro
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include guitar/medium/intro.dta)})
+         (medium_consecutive
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include guitar/medium/consecutive.dta)})
+         (medium_combos
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include guitar/medium/combos.dta)})
+         (medium_whammy
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include guitar/medium/whammy.dta)})
+         (medium_wail
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include guitar/medium/wail.dta)})
+         (medium_solo
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include guitar/medium/solo.dta)})
+         (medium_wrapup
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include guitar/medium/wrapup.dta)})
+         (advanced_intro
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include guitar/advanced/intro.dta)})
+         (advanced_fingering
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include guitar/advanced/fingering.dta)})
+         (advanced_strings
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include guitar/advanced/strings.dta)})
+         (advanced_hopos
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include guitar/advanced/hopos.dta)})
+         (advanced_hopos_practice
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include guitar/advanced/hopos_practice.dta)})
+         (advanced_mixed
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include guitar/advanced/mixed.dta)})
+         (advanced_wrapup
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include guitar/advanced/wrapup.dta)})
+         {notify
+            "missing state handler, switching to next state"}
+         {tutorials_state_panel switch_to_next_state}})}
+{new
+   BandScreen
+   tutorials_guitar_main_screen
+   (panels TUTORIALS_PRELOAD_PANELS tutorials_background_panel game tutorials_state_panel tutorials_tv_screen_panel coop_track_panel tutorials_tv_overlay_panel tutorials_guitar_main_panel)
+   (focus tutorials_guitar_main_panel)
+   TUTORIALS_MAIN_SCREEN_GENERAL_PROPERTIES
+   (enter TUTORIALS_MAIN_SCREEN_ENTER)
+   (BUTTON_DOWN_MSG TUTORIALS_MAIN_SCREEN_HANDLERS_BUTTON_DOWN_MSG)}

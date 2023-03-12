@@ -1,0 +1,254 @@
+(items
+   (tour_vehicle_van
+      (icon
+         "V"))
+   (tour_vehicle_bus
+      (icon
+         "B"))
+   (tour_staff1
+      (icon
+         "G"))
+   (tour_vehicle_jet
+      (icon
+         "J"))
+   (tour_staff2
+      (icon
+         "P"))
+   (tour_staff3
+      (icon
+         "P"))
+   (tour_staff_worldblock
+      (icon
+         "G"))
+   (tour_halloffame_complete
+      (icon
+         "H"))
+   (tour_bwt_complete
+      (icon
+         "X")))
+(win_item tour_halloffame_complete)
+(hardcore_item tour_bwt_complete)
+(names ../ui/eng/locale_charnames.dta)
+(default_difficulty kDifficultyMedium)
+(num_initial_songs 5)
+(easy_town_count 4)
+(total_town_count 4)
+(num_initial_unlock_songs 1)
+(max_song
+   (kDifficultyEasy 20)
+   (kDifficultyMedium 20)
+   (kDifficultyHard 20)
+   (kDifficultyExpert 20))
+(unlocks_per_stars
+   (1 1)
+   (2 1)
+   (3 1)
+   (4 1)
+   (5 1))
+(track_icons
+   ((bass
+         "B")
+      (guitar
+         "G")
+      (drum
+         "D")
+      (vocals
+         "V"))
+   ((bass
+         "b")
+      (guitar
+         "g")
+      (drum
+         "d")
+      (vocals
+         "v"))
+   ((bass
+         "A")
+      (guitar
+         "U")
+      (drum
+         "R")
+      (vocals
+         "O"))
+   ((bass
+         "a")
+      (guitar
+         "u")
+      (drum
+         "r")
+      (vocals
+         "o")))
+(hints
+   (welcome
+      (screen tour_world_welcome_screen))
+   (first_event
+      (one_off TRUE)
+      (screen tour_world_firstgig_screen))
+   (new_venue
+      (one_off TRUE)
+      (screen tour_world_firstvenue_screen))
+   (new_item)
+   (item_available
+      (one_off TRUE)
+      (screen tour_world_item_available_screen))
+   (first_manager
+      (one_off TRUE)
+      (screen tour_world_firstmanager_screen))
+   (first_fans_lost
+      (one_off TRUE)
+      (screen tour_world_fanslost_screen))
+   (first_buzz_cap
+      (one_off TRUE)
+      (screen tour_world_buzzcap_screen))
+   (first_buzz_maxcap
+      (one_off TRUE)
+      (screen tour_world_buzzmaxcap_screen))
+   (lose_staff
+      (screen tour_world_lose_staff_screen))
+   (new_staff
+      (screen tour_world_new_staff_screen)))
+(towns
+   (tier1_1
+      (small_club
+         (song1
+            (display_song TRUE)
+            (reward_per_star 10)
+            (songs 1))
+         (song2
+            (display_song TRUE)
+            (reward_per_star 10)
+            (songs 2)
+            (instrument
+               (guitar kelly01_paint)
+               (drum some_pattern)
+               (vocals some_mic)))
+         (song3
+            (display_song TRUE)
+            (reward_per_star 10)
+            (songs 3))
+         (song4
+            (display_song TRUE)
+            (reward_per_star 10)
+            (songs 4))
+         (song5
+            (display_song TRUE)
+            (reward_per_star 10)
+            (songs 5))))
+   (tier1_2
+      (small_club
+         (song6
+            (display_song TRUE)
+            (reward_per_star 10)
+            (songs 6))
+         (song7
+            (display_song TRUE)
+            (reward_per_star 10)
+            (songs 7))
+         (song8
+            (display_song TRUE)
+            (reward_per_star 10)
+            (songs 8))
+         (song9
+            (display_song TRUE)
+            (reward_per_star 10)
+            (songs 9))
+         (song10
+            (display_song TRUE)
+            (reward_per_star 10)
+            (songs 10))))
+   (tier1_3
+      (big_club
+         (song11
+            (display_song TRUE)
+            (reward_per_star 10)
+            (songs 11))
+         (song12
+            (display_song TRUE)
+            (reward_per_star 10)
+            (songs 12))
+         (song13
+            (display_song TRUE)
+            (reward_per_star 10)
+            (songs 13))
+         (song14
+            (display_song TRUE)
+            (reward_per_star 10)
+            (songs 14))
+         (song15
+            (display_song TRUE)
+            (reward_per_star 10)
+            (songs 15))))
+   (tier2_1
+      (big_club
+         (song16
+            (display_song TRUE)
+            (reward_per_star 10)
+            (songs 16))
+         (song17
+            (display_song TRUE)
+            (reward_per_star 10)
+            (songs 17))
+         (song18
+            (display_song TRUE)
+            (reward_per_star 10)
+            (songs 18))
+         (song19
+            (display_song TRUE)
+            (reward_per_star 10)
+            (songs 19))
+         (song20
+            (display_song TRUE)
+            (reward_per_star 10)
+            (songs 20)))))
+(buzz
+   (venue_diff
+      (small_club 5 5 6 7)
+      (big_club 7 7 8 9)
+      (theater 8 8 9 10)
+      (arena 8 9 10 11)
+      (video 0 0 0 0))
+   (stars 2 6)
+   (win_modifiers
+      (stars
+         ($num_stars)
+         {switch
+            $num_stars
+            (6 1.2)
+            (5 1.1)
+            (3 0.8)
+            (2 0.7)
+            1})
+      (event_replayed 0.7)
+      (staff
+         ($staff $stars)
+         {$staff buzz_modifier $stars}))
+   (lose_modifiers
+      (small_club 0.3)
+      (big_club 0.3)
+      (theater 0.3)
+      (arena 0.3))
+   (caps
+      (kDifficultyEasy
+         (cap 350)
+         (trickle 5))
+      (kDifficultyMedium
+         (cap 550)
+         (trickle 6))
+      (kDifficultyHard
+         (cap 1001)
+         (trickle 7))
+      (kDifficultyExpert
+         (cap 40000)))
+   (fans
+      (15 210)
+      (30 900)
+      (45 1600)
+      (60 3200)
+      (75 6400)
+      (90 12800)
+      (125 15010)
+      (250 100000)
+      (500 500000)
+      (1000 1000000)
+      (40000 999999999))
+   (buzz_achievement 1000))

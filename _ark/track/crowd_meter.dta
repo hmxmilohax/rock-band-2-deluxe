@@ -1,0 +1,298 @@
+#define MAXED_THRESHOLD
+(0.98)
+(RndDir
+   (types
+      (crowd_meter_icon
+         (editor
+            (reset
+               script
+               (script
+                  {$this reset}))
+            (arrow_hide
+               script
+               (script
+                  {$this arrow_hide}))
+            (arrow_show
+               script
+               (script
+                  {$this arrow_show}))
+            (deploy
+               script
+               (script
+                  {$this deploy}))
+            (stop_deploy
+               script
+               (script
+                  {$this stop_deploy}))
+            (glow
+               script
+               (script
+                  {$this set_glowing 1}))
+            (glow_stop
+               script
+               (script
+                  {$this set_glowing 0}))
+            (state_normal
+               script
+               (script
+                  {$this set_state normal}))
+            (state_warning
+               script
+               (script
+                  {$this set_state warning}))
+            (state_failed
+               script
+               (script
+                  {$this set_state failed})))
+         (reset
+            {reset.trig trigger})
+         (arrow_hide
+            {arrow_hide.trig trigger})
+         (arrow_show
+            {arrow_show.trig trigger})
+         (deploy
+            {deploy.trig trigger})
+         (stop_deploy
+            {stop_deploy.trig trigger})
+         (set_state
+            ($state)
+            {switch
+               $state
+               (failed
+                  {state_failed.trig trigger})
+               (warning
+                  {state_failing.trig trigger})
+               (normal
+                  {state_normal.trig trigger})})
+         (set_glowing
+            ($in_val)
+            {if_else
+               $in_val
+               {glow.trig trigger}
+               {glow_stop.trig trigger}})
+         (set_icon
+            ($icon)
+            {icon.lbl set_localized $icon}))))
+(BandCrowdMeterDir
+   (init
+      {$this set_type crowd_meter})
+   (types
+      (crowd_meter
+         (editor
+            (value
+               float
+               (range 0 1)
+               (post_sync
+                  {$this
+                     set_crowd
+                     [value]})
+               (help
+                  "Band health. Animates crowd_meter.grp"))
+            (guitar
+               float
+               (range -1 1)
+               (post_sync
+                  {$this
+                     set_val
+                     guitar
+                     [guitar]})
+               (help
+                  "Guitar health. Animates guitar.tnm"))
+            (drum
+               float
+               (range -1 1)
+               (post_sync
+                  {$this
+                     set_val
+                     drum
+                     [drum]})
+               (help
+                  "Drummer health. Animates drum.tnm"))
+            (bass
+               float
+               (range -1 1)
+               (post_sync
+                  {$this
+                     set_val
+                     bass
+                     [bass]})
+               (help
+                  "Bass health. Animates bass.tnm"))
+            (vocals
+               float
+               (range -1 1)
+               (post_sync
+                  {$this
+                     set_val
+                     vocals
+                     [vocals]})
+               (help
+                  "Vocal health. Animates vocals.tnm"))
+            (reset
+               script
+               (script
+                  {$this reset}))
+            (level_colors
+               (array color))
+            (maxed
+               bool
+               (post_sync
+                  {$this
+                     set_maxed
+                     [maxed]})
+               (help
+                  "Turned on when in the 'meter maxed' state. Animates maxed.tnm")))
+         (value 0)
+         (lose_level 0)
+         (guitar 0)
+         (drum 0)
+         (bass 0)
+         (vocals 0)
+         (maxed FALSE)
+         (level_colors
+            (0 0 0 0 0))
+         (deployed 0)
+         (disabled_list
+            ())
+         (reset
+            {$this reset_crowd_meter}
+            {$this set_crowd 0.5}
+            {guitar.grp set_frame 0.5}
+            {drum.grp set_frame 0.5}
+            {bass.grp set_frame 0.5}
+            {vocals.grp set_frame 0.5}
+            {set
+               [deployed]
+               0}
+            {band_energy_stop.trig trigger}
+            {resize
+               [disabled_list]
+               0}
+            {disabled_stop.trig trigger}
+            {$this set_maxed FALSE})
+         (send_icon
+            ($instrument $icon)
+            {{object $instrument}
+               set_icon
+               $icon})
+         (set_crowd
+            ($in_val)
+            {if_else
+               {>
+                  $in_val
+                  {crowd_meter.mnm frame}}
+               {crowd_meter.mnm set_frame $in_val}
+               {if
+                  {< $in_val 0.9}
+                  {crowd_meter.mnm set_frame $in_val}}}
+            {$this update_excitement})
+         (update_excitement
+            {do
+               ($excitement 2)
+               {if
+                  {exists game}
+                  {set
+                     $excitement
+                     {game get excitement}}}
+               {if
+                  {< $excitement 0}
+                  {set $excitement 0}}
+               {if
+                  {> $excitement 4}
+                  {set $excitement 4}}
+               {if
+                  {&&
+                     [maxed]
+                     {!= $excitement kExcitementPeak}}
+                  {$this set_maxed FALSE}}
+               {if
+                  {&&
+                     {!
+                        [maxed]}
+                     {== $excitement kExcitementPeak}}
+                  {$this set_maxed TRUE}}
+               {crowd_meter.mat
+                  set
+                  color
+                  {elem
+                     [level_colors]
+                     $excitement}}})
+         (set_player_icon_state
+            ($instrument $state)
+            {{object $instrument}
+               set_state
+               $state})
+         (set_maxed
+            ($in_val)
+            {set
+               [maxed]
+               $in_val}
+            {if
+               {&&
+                  {exists audio}
+                  {gamemode get crowd_reacts}}
+               {audio
+                  set_crowd_fader
+                  {if_else
+                     [maxed]
+                     0
+                     kDbSilence}}})
+         (deploy
+            ($in_name)
+            {'++'
+               [deployed]}
+            {if
+               {==
+                  1
+                  [deployed]}
+               {band_energy_deploy.trig trigger}}
+            {{object $in_name}
+               deploy})
+         (stop_deploy
+            ($in_name)
+            {--
+               [deployed]}
+            {if
+               {==
+                  0
+                  [deployed]}
+               {band_energy_stop.trig trigger}}
+            {{object $in_name}
+               stop_deploy})
+         (enable_player
+            ($inst)
+            {if
+               {find_elem
+                  [disabled_list]
+                  $inst}
+               {remove_elem
+                  [disabled_list]
+                  $inst}
+               {if
+                  {==
+                     {size
+                        [disabled_list]}
+                     0}
+                  {disabled_stop.trig trigger}
+                  {$this update_excitement}}})
+         (disable_player
+            ($inst)
+            {if
+               {!
+                  {find_elem
+                     [disabled_list]
+                     $inst}}
+               {insert_elem
+                  [disabled_list]
+                  0
+                  $inst}
+               {if
+                  {==
+                     {size
+                        [disabled_list]}
+                     1}
+                  {disabled_start.trig trigger}}})
+         (show_peak_arrow
+            {show_peak_arrow.trig trigger})
+         (hide_peak_arrow
+            {hide_peak_arrow.trig trigger}))))

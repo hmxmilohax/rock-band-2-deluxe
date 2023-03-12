@@ -1,0 +1,674 @@
+(PanelDir
+   (types
+      (hth_track_paneldir
+         (editor
+            (reset
+               script
+               (script
+                  {$this configure_tracks}
+                  {$this reset}))
+            (track_0
+               int
+               (list
+                  ("kTrackLocal"
+                     "kTrackNet"))
+               (post_sync
+                  {$this configure_tracks}))
+            (track_1
+               int
+               (list
+                  ("kTrackLocal"
+                     "kTrackNet"))
+               (post_sync
+                  {$this configure_tracks}))
+            (test_score
+               int
+               (post_sync
+                  {$this
+                     set_score_diff
+                     [test_score]}))
+            (game_mode
+               symbol
+               (list
+                  (tug_of_war score_duel))
+               (post_sync
+                  {$this configure_tracks}))
+            (instrument
+               symbol
+               (list
+                  (bass drum guitar vocals))
+               (post_sync
+                  {$this reset}))
+            (configuration
+               object
+               (list
+                  {$this configuration_list})
+               (post_sync
+                  {$this
+                     set_configuration
+                     [configuration]}))
+            (configurable_objects
+               (array
+                  object
+                  (class Trans))
+               (help
+                  "Objects which can change transform or showing per configuration."))
+            (vocal_game
+               bool
+               (post_sync
+                  {$this configure_tracks}
+                  {$this play_intro})
+               (read_only TRUE))
+            (view_time_easy float)
+            (view_time_expert float)
+            (net_track_alpha
+               float
+               (post_sync
+                  {$this configure_tracks})))
+         (track_0 kTrackLocal)
+         (track_1 kTrackLocal)
+         (test_score 0)
+         (multiplier 1)
+         (game_mode tug_of_war)
+         (instrument
+            "drum")
+         (vocal_game FALSE)
+         (configuration
+            "")
+         (configurable_objects
+            ())
+         (first_solo_player 0)
+         (first_solo_result '')
+         (first_solo_points 0)
+         (gem_tracks
+            ())
+         (view_time_easy 2.4)
+         (view_time_expert 1.5)
+         (net_track_alpha 0.3)
+         (next_surface
+            ($val)
+            {do
+               ($configuration_list
+                  {$this configuration_list})
+               ($size
+                  {size $configuration_list})
+               ($index 0)
+               {foreach_int
+                  $i
+                  0
+                  $size
+                  {if
+                     {==
+                        {elem $configuration_list $i}
+                        [configuration]}
+                     {set
+                        $index
+                        {mod
+                           {'+'
+                              $size
+                              {'+' $i $val}}
+                           $size}}}}
+               {$this
+                  set_configuration
+                  {elem $configuration_list $index}}}
+            {cheat_display
+               show
+               {[configuration]
+                  name}})
+         (reset_players)
+         (configure_tracks
+            {resize
+               [gem_tracks]
+               0}
+            {if
+               {!
+                  [vocal_game]}
+               {track_0 set gem_track_index 0}
+               {track_0 set num_tracks 2}
+               {track_1 set gem_track_index 1}
+               {track_1 set num_tracks 2}
+               {push_back
+                  [gem_tracks]
+                  {object track_0}}
+               {push_back
+                  [gem_tracks]
+                  {object track_1}}
+               {track_0
+                  set
+                  star_power_meter
+                  {object star_power_01}}
+               {track_1
+                  set
+                  star_power_meter
+                  {object star_power_02}}
+               {track_0
+                  set
+                  streak_meter
+                  {object streak_meter_01}}
+               {track_1
+                  set
+                  streak_meter
+                  {object streak_meter_02}}
+               {track_0
+                  set
+                  popup_object
+                  {object popup_help_01}}
+               {track_1
+                  set
+                  popup_object
+                  {object popup_help_02}}
+               {track_0
+                  set
+                  player_feedback
+                  {object player_feedback_01}}
+               {track_1
+                  set
+                  player_feedback
+                  {object player_feedback_02}}
+               {track_0
+                  set
+                  effect_selector
+                  {$this find guitar_fx_0}}
+               {track_1
+                  set
+                  effect_selector
+                  {$this find guitar_fx_1}}
+               {$this
+                  set_player_local
+                  {object track_0}}
+               {$this
+                  set_player_local
+                  {object track_1}}
+               #ifndef HX_XBOX
+               #endif}
+            {if
+               [vocal_game]
+               {track_0
+                  set
+                  vocalist_volume
+                  {$this find volume_0}}
+               {track_1
+                  set
+                  vocalist_volume
+                  {$this find volume_1}}
+               {track_0 set side top}
+               {track_1 set side bottom}
+               {track_0 update_configuration}
+               {track_1 update_configuration}}
+            {if
+               {exists gamemode}
+               {if_else
+                  {gamemode get separate_parts}
+                  {set
+                     [game_mode]
+                     tug_of_war}
+                  {set
+                     [game_mode]
+                     score_duel}}}
+            {switch
+               [game_mode]
+               (tug_of_war
+                  {switch
+                     {rnd aspect}
+                     (kRegularAspect
+                        {$this set_configuration tug_of_war})
+                     (kWidescreenAspect
+                        {$this set_configuration tug_of_war_wide})})
+               (score_duel
+                  {switch
+                     {rnd aspect}
+                     (kRegularAspect
+                        {$this set_configuration score_duel})
+                     (kWidescreenAspect
+                        {$this set_configuration score_duel_wide})})}
+            {set $track_LOD 0}
+            {if
+               {!
+                  [vocal_game]}
+               {$this apply_track_speed}}
+            {if
+               {exists mtv_overlay}
+               {do
+                  ($anim
+                     {mtv_overlay find MTV_overlay.tnm})
+                  ($frame)
+                  {if_else
+                     [vocal_game]
+                     {set $frame 5}
+                     {switch
+                        {rnd aspect}
+                        (kRegularAspect
+                           {set $frame 7})
+                        (kWidescreenAspect
+                           {set $frame 6})}}
+                  {$anim set_frame $frame}}}
+            {do
+               ($player_feedback)
+               {set
+                  $player_feedback
+                  {track_0 get player_feedback}}
+               {if
+                  {!=
+                     $player_feedback
+                     ""}
+                  {{$player_feedback find score.grp}
+                     set_showing
+                     {==
+                        [game_mode]
+                        score_duel}}}
+               {set
+                  $player_feedback
+                  {track_1 get player_feedback}}
+               {if
+                  {!=
+                     $player_feedback
+                     ""}
+                  {{$player_feedback find score.grp}
+                     set_showing
+                     {==
+                        [game_mode]
+                        score_duel}}}})
+         (get_vocal_display_mode
+            ($track)
+            {if_else
+               {==
+                  {$track get parent}
+                  ""}
+               kVocalStyleScrolling
+               {{$track get parent}
+                  display_mode}})
+         (configuration_list
+            {do
+               ($array
+                  {array 0})
+               {$this
+                  iterate
+                  (Object track_configuration)
+                  $obj
+                  {push_back $array $obj name}}
+               $array})
+         (set_configuration
+            ($in_obj)
+            {set
+               [configuration]
+               $in_obj}
+            {[configuration]
+               apply})
+         (enter
+            {if
+               $edit_mode
+               {$this configure_tracks}
+               {$this reset}})
+         (reset
+            {reset_all.trig trigger}
+            {track_0 reset}
+            {track_1 reset}
+            {$this set_score_diff 0}
+            {head2head_meter reset}
+            {ending_bonus_p01 reset}
+            {ending_bonus_p02 reset}
+            {if
+               {exists beatmatch}
+               {head2head_meter
+                  set
+                  max_diff
+                  {beatmatch max_delta_points}}
+               {head2head_meter
+                  set
+                  tie_window
+                  {beatmatch get_tie_window}}}
+            {if
+               {!
+                  [vocal_game]}
+               {$this apply_track_speed}}
+            {if
+               $edit_mode
+               {$this play_intro}}
+            {set
+               [first_solo_player]
+               0}
+            {if
+               {exists game}
+               {$this
+                  setup_h2h_icons
+                  {object track_0}
+                  {object icon_01}}
+               {$this
+                  setup_h2h_icons
+                  {object track_1}
+                  {object icon_02}}})
+         (setup_h2h_icons
+            ($track $icon)
+            {if_else
+               {!=
+                  $track
+                  ""}
+               {do
+                  {$icon
+                     set_icon
+                     {get_player_icon
+                        {$track get player}}}
+                  {$icon arrow_hide}
+                  {$icon stop_deploy}
+                  {player_name_01.lbl
+                     set
+                     text_token
+                     {get_player_name
+                        {{object track_0}
+                           get
+                           player}}}
+                  {player_name_02.lbl
+                     set
+                     text_token
+                     {get_player_name
+                        {{object track_1}
+                           get
+                           player}}}}
+               G})
+         (apply_track_speed
+            {do
+               ($average_difficulty 0)
+               {if
+                  {exists game}
+                  {set
+                     $average_difficulty
+                     {'+'
+                        {{track_0 get player}
+                           difficulty}
+                        {{track_1 get player}
+                           difficulty}}}
+                  {/= $average_difficulty 2}}
+               {/= $average_difficulty kDifficultyExpert}
+               {do
+                  ($view_time
+                     {'+'
+                        [view_time_easy]
+                        {'*'
+                           $average_difficulty
+                           {-
+                              [view_time_expert]
+                              [view_time_easy]}}})
+                  {set $breakneck_time $view_time}
+                  {if
+                     {! $edit_mode}
+                     {if_else
+                        {profile_mgr get_doublespeed_mode}
+                        {do
+                           {if_else
+                              {&&
+                                 {!
+                                    {gamemode get is_drum_trainer}}
+                                 {!
+                                    {gamemode get is_tutorial}}}
+                              {do
+                                 {/= $breakneck_time 1.5}
+                                 {track_0
+                                    set
+                                    y_per_second
+                                    {/
+                                       {track_0 get top_y}
+                                       $breakneck_time}}
+                                 {track_1
+                                    set
+                                    y_per_second
+                                    {/
+                                       {track_1 get top_y}
+                                       $breakneck_time}}
+                                 {set $breakneck_time $view_time}}
+                              {do
+                                 {track_0
+                                    set
+                                    y_per_second
+                                    {/
+                                       {track_0 get top_y}
+                                       $view_time}}
+                                 {track_1
+                                    set
+                                    y_per_second
+                                    {/
+                                       {track_1 get top_y}
+                                       $view_time}}}}}
+                        {do
+                           {track_0
+                              set
+                              y_per_second
+                              {/
+                                 {track_0 get top_y}
+                                 $view_time}}
+                           {track_1
+                              set
+                              y_per_second
+                              {/
+                                 {track_1 get top_y}
+                                 $view_time}}}}}}})
+         (play_intro
+            {script_task
+               kTaskBeats
+               (delay 1.0e-3)
+               (script
+                  {intro.trig trigger})})
+         (set_crowd_rating
+            ($val))
+         (set_accumulative_rate
+            ($val))
+         (set_multiplier
+            ($val))
+         (set_aspect_ratio
+            ($val))
+         (set_showing
+            ($visible)
+            {draw.grp set_showing $visible})
+         (showing
+            {draw.grp showing})
+         (toggle_surface
+            {do
+               ($surface)
+               {set
+                  $surface
+                  {track_0
+                     find
+                     {track_0 get surface_mesh}}}
+               {$surface
+                  set_showing
+                  {!
+                     {$surface showing}}}
+               {set
+                  $surface
+                  {track_1
+                     find
+                     {track_1 get surface_mesh}}}
+               {$surface
+                  set_showing
+                  {!
+                     {$surface showing}}}})
+         (toggle_nowbar
+            {do
+               ($activator)
+               {set
+                  $activator
+                  {track_0 find activator.grp}}
+               {$activator
+                  set_showing
+                  {!
+                     {$activator showing}}}
+               {set
+                  $activator
+                  {track_1 find activator.grp}}
+               {$activator
+                  set_showing
+                  {!
+                     {$activator showing}}}})
+         (toggle_track_fade
+            {foreach
+               $obj
+               [gem_tracks]
+               {$obj toggle_track_fade}})
+         (is_instrument_local
+            ($track)
+            {do
+               ($local TRUE)
+               {if_else
+                  {exists game}
+                  {set
+                     $local
+                     {!
+                        {{$track get player}
+                           is_net}}}
+                  {do
+                     {if
+                        {==
+                           {$this
+                              get
+                              {symbol
+                                 {$track name}}}
+                           kTrackNet}
+                        {set $local FALSE}}}}
+               $local})
+         (coda
+            {enter_coda.trig trigger})
+         (coda_end
+            {ending_bonus_p01 coda_end}
+            {ending_bonus_p02 coda_end})
+         (set_coda_score
+            ($in_val)
+            1)
+         (hth_coda_success
+            ($player)
+            {if
+               {==
+                  {track0 player}
+                  $player}
+               {bre_success_p01.trig trigger}}
+            {if
+               {==
+                  {track1 player}
+                  $player}
+               {bre_success_p02.trig trigger}})
+         (ending_bonus
+            ($player)
+            {sprintf
+               "ending_bonus_p0%d"
+               {if_else
+                  {==
+                     {track0 player}
+                     $player}
+                  1
+                  2}})
+         (solo_end
+            ($player $points $result)
+            {if_else
+               [first_solo_player]
+               {do
+                  {[first_solo_player]
+                     solo_end
+                     [first_solo_points]
+                     [first_solo_result]}
+                  {$player solo_end $points $result}
+                  {set
+                     [first_solo_player]
+                     0}}
+               {do
+                  {set
+                     [first_solo_player]
+                     $player}
+                  {set
+                     [first_solo_result]
+                     $result}
+                  {set
+                     [first_solo_points]
+                     $points}}})
+         (game_over
+            {game_over.trig trigger}
+            {do
+               ($obj)
+               {set
+                  $obj
+                  {track_0 get popup_object}}
+               {if
+                  {!=
+                     $obj
+                     ""}
+                  {$obj reset}}
+               {set
+                  $obj
+                  {track_1 get popup_object}}
+               {if
+                  {!=
+                     $obj
+                     ""}
+                  {$obj reset}}
+               {set
+                  $obj
+                  {track_0 get player_intro}}
+               {if
+                  {!=
+                     $obj
+                     ""}
+                  {$obj reset}}
+               {set
+                  $obj
+                  {track_1 get player_intro}}
+               {if
+                  {!=
+                     $obj
+                     ""}
+                  {$obj reset}}})
+         (set_score_diff
+            ($val)
+            {do
+               ($last_winner
+                  {head2head_meter get winner})
+               ($cur_winner)
+               {head2head_meter set_score_diff $val}
+               {set
+                  $cur_winner
+                  {head2head_meter get winner}}
+               {if
+                  {!= $cur_winner $last_winner}
+                  {if
+                     {exists glower}
+                     {delete glower}}
+                  {script_task
+                     kTaskSeconds
+                     (delay 0.1)
+                     (name glower)
+                     (script
+                        {switch
+                           $cur_winner
+                           (-1
+                              {icon_01 set_glowing TRUE}
+                              {icon_02 set_glowing FALSE})
+                           (0
+                              {icon_01 set_glowing FALSE}
+                              {icon_02 set_glowing FALSE})
+                           (1
+                              {icon_01 set_glowing FALSE}
+                              {icon_02 set_glowing TRUE})})}}})
+         (set_player_local
+            ($obj)
+            {if
+               {!
+                  [vocal_game]}
+               {do
+                  ($player_feedback
+                     {$obj get player_feedback})
+                  {if_else
+                     {$this is_instrument_local $obj}
+                     {do
+                        {{$obj find track.env}
+                           set
+                           fade_max
+                           1}
+                        {{$player_feedback find environ.env}
+                           set
+                           fade_max
+                           1}}
+                     {do
+                        {{$obj find track.env}
+                           set
+                           fade_max
+                           [net_track_alpha]}
+                        {{$player_feedback find environ.env}
+                           set
+                           fade_max
+                           0.4}}}}}))))

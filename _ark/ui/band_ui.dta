@@ -28,6 +28,7 @@
                   (kAbandoned
                      {band_ui get last_disband_error})
                   (kQuickplayMMNoLeader error_no_leader)})
+            #ifndef HX_OG
             {if
                {&&
                   {== $error_reason kLoneHeadToHead}
@@ -44,6 +45,7 @@
                {if
                   {gamemode get ranked}
                   {set $disband_error error_lone_h2h_win}}}
+            #endif
             {$this
                set_ok
                {localize $disband_error}}
@@ -160,8 +162,7 @@
                   $reason
                   (kLocalUserSignedOut error_local_user_signed_out)
                   (kBandOwnerSignedOut error_band_owner_signed_out)
-                  (kProfileOwnerSignedOut error_profile_owner_signed_out)
-                  (kCreatorsClubProfileSignedOut error_club_member_signed_out)}}}
+                  (kProfileOwnerSignedOut error_profile_owner_signed_out)}}}
          {net_sync disable_and_goto meta_loading_signout_screen})
       (SELECT_DONE_MSG
          {band_ui dismiss_event}))
@@ -211,17 +212,27 @@
          ($player_name $port $controller_sym)
          {$this
             set_custom
+            #ifndef HX_WII
             {if_else
                {== $controller_sym none}
                {sprintf
                   {localize error_pad_lost_none}
-                  $player_name
-                  {'+' $port 1}}
+                  $player_name}
                {sprintf
                   {localize error_pad_lost}
                   $player_name
-                  {localize $controller_sym}
-                  {'+' $port 1}}}
+                  {localize $controller_sym}}}
+            #else
+            {if_else
+               {== $controller_sym none}
+               {sprintf
+                  {localize error_pad_lost_none_wii}
+                  $player_name}
+               {sprintf
+                  {localize error_pad_lost_wii}
+                  $player_name
+                  {localize $controller_sym}}}
+            #endif
             {localize continue}
             {localize error_return_to_main}
             opt1.btn})
@@ -238,6 +249,60 @@
          {unless
             {input_mgr check_controllers}
             {band_ui dismiss_event}}))
+   #ifdef HX_OG
+   (mic_lost
+      COMMON_ERROR_HANDLERS
+      (allow_override TRUE)
+      (init
+         {$this
+            set_custom
+            {localize mics_changed_desc}
+            {localize continue}
+            {localize error_return_to_main}
+            opt1.btn})
+      (SELECT_MSG
+         {switch
+            $component
+            (opt2.btn
+               {net_sync disable_and_goto meta_loading_quit_early_screen})})
+      (SELECT_DONE_MSG
+         {band_ui dismiss_event}
+         {if
+            {== $component opt1.btn}
+            {do
+               ($enable_resume TRUE)
+               {game
+                  foreach_local_player
+                  $p
+                  {do
+                     ($player_num
+                        {$p player_num})
+                     {if
+                        {&&
+                           {!= $player_num -1}
+                           {game is_player_participating $player_num}
+                           {==
+                              {{gamecfg get_player_config $player_num}
+                                 get_track_sym}
+                              vocals}}
+                        {do
+                           ($mic_num
+                              {joypad_get_players_padnum $player_num})
+                           {if
+                              {&&
+                                 {!= $mic_num -1}
+                                 {!
+                                    {synth is_mic_connected $mic_num}}}
+                              {set $enable_resume FALSE}}}}}}
+               {if_else
+                  $enable_resume
+                  {do
+                     {synth reset_mics_changed}
+                     {handle
+                        (ui on_mics_ok)}}
+                  {handle
+                     (ui on_mics_fail)}}}}))
+   #endif
    (saveload_pad_lost
       COMMON_ERROR_HANDLERS
       (allow_override TRUE)
@@ -245,17 +310,27 @@
          ($player_name $port $controller_sym)
          {$this
             set_custom
+            #ifndef HX_WII
             {if_else
                {== $controller_sym none}
                {sprintf
                   {localize error_saveload_pad_lost_none}
-                  $player_name
-                  {'+' $port 1}}
+                  $player_name}
                {sprintf
                   {localize error_saveload_pad_lost}
                   $player_name
-                  {localize $controller_sym}
-                  {'+' $port 1}}}
+                  {localize $controller_sym}}}
+            #else
+            {if_else
+               {== $controller_sym none}
+               {sprintf
+                  {localize error_saveload_pad_lost_none_wii}
+                  $player_name}
+               {sprintf
+                  {localize error_saveload_pad_lost_wii}
+                  $player_name
+                  {localize $controller_sym}}}
+            #endif
             {localize continue}
             {localize mc_button_disable_autosave}
             opt1.btn})
@@ -274,17 +349,27 @@
          ($player_name $port $controller_sym)
          {$this
             set_custom
+            #ifndef HX_WII
             {if_else
                {== $controller_sym none}
                {sprintf
                   {localize error_matchmaking_pad_lost_none}
-                  $player_name
-                  {'+' $port 1}}
+                  $player_name}
                {sprintf
                   {localize error_matchmaking_pad_lost}
                   $player_name
-                  {localize $controller_sym}
-                  {'+' $port 1}}}
+                  {localize $controller_sym}}}
+            #else
+            {if_else
+               {== $controller_sym none}
+               {sprintf
+                  {localize error_matchmaking_pad_lost_none_wii}
+                  $player_name}
+               {sprintf
+                  {localize error_matchmaking_pad_lost_wii}
+                  $player_name
+                  {localize $controller_sym}}}
+            #endif
             {localize continue}
             {localize error_abandon_session}
             opt1.btn})
@@ -330,14 +415,5 @@
                   (kStoreErrorStoreServer store_error_store_server)
                   (kStoreErrorSignedOut store_error_signed_out)}}}
          {net_sync disable_and_goto meta_loading_uisink_default_screen})
-      (SELECT_MSG
-         {band_ui dismiss_event}))
-   (store_leaf_load_failed
-      COMMON_ERROR_HANDLERS
-      (allow_override TRUE)
-      (init
-         {$this
-            set_ok
-            {localize ugc_store_content_updated}})
-      (SELECT_MSG
+      (SELECT_DONE_MSG
          {band_ui dismiss_event})))

@@ -1,0 +1,565 @@
+#define kMetaSaveUnloaded
+(0)
+#define kMetaSaveLoaded
+(1)
+#define kMetaSaveError
+(2)
+#define kMetaSaveDelete
+(3)
+#define kMetaSaveUnchanged
+(-1)
+#define kAutoSave
+(1)
+#define kAutoLoad
+(2)
+#define kManualSave
+(3)
+#define kManualLoad
+(4)
+#define kMetaNextTypePushPop
+(0)
+#define kMetaNextTypePushPopGoto
+(1)
+#define kMetaNextTypeGotoPop
+(2)
+#define kMetaNextTypeGotoGoto
+(3)
+#define kMetaNextTypeGotoPopGoto
+(4)
+{func
+   autoload
+   #ifdef HX_EE
+   {ps2_autoload_start kMetaNextTypePushPop ''}
+   #endif
+   #ifdef HX_WII
+   {wii_autoload_start kMetaNextTypePushPop ''}
+   #endif
+   #ifndef HX_XBOX
+   #else
+   {autoload_look_for_new_signin TRUE}
+   #endif}
+#ifdef HX_EE
+{new
+   BandScreen
+   auto_load_intro_screen
+   (panels meta fx)
+   (enter
+      {autoload_intro})}
+{func
+   autoload_intro
+   {memcardmgr select_device 0 TRUE ''}
+   {memcardmgr get_info 0}
+   {ps2_autoload_start kMetaNextTypeGotoPopGoto $first_screen}}
+#endif
+#ifdef HX_WII
+{new
+   BandScreen
+   auto_load_intro_screen
+   (panels)
+   (enter
+      {autoload_intro})}
+{func
+   autoload_intro
+   {memcardmgr select_device 0 TRUE ''}
+   {memcardmgr get_info 0}
+   {wii_autoload_start kMetaNextTypeGotoPopGoto $first_screen}}
+#endif
+{func
+   autoload_deferred_save
+   {profile_mgr purge_old_data}
+   #ifdef HX_PS3
+   {ps3_autoload_start}
+   #endif
+   #ifdef HX_EE
+   {ps2_autoload_start kMetaNextTypePushPop ''}
+   #endif
+   #ifdef HX_WII
+   {wii_autoload_start kMetaNextTypePushPop ''}
+   #endif
+   #ifdef HX_XBOX
+   {autoload_look_for_new_signin FALSE}
+   #endif
+   #ifdef HX_PC
+   {autoload_look_for_new_signin FALSE}
+   #endif}
+{func
+   autosave
+   #ifdef HX_PS3
+   {ps3_autosave_start kMetaNextTypePushPop ''}
+   #endif
+   #ifdef HX_XBOX
+   {xbox_autosave_start kMetaNextTypePushPop ''}
+   #endif
+   #ifdef HX_PC
+   {xbox_autosave_start kMetaNextTypePushPop ''}
+   #endif
+   #ifdef HX_EE
+   {ps2_autosave_start kMetaNextTypePushPop ''}
+   #endif
+   #ifdef HX_WII
+   {wii_autosave_start kMetaNextTypePushPop ''}
+   #endif}
+{func
+   autosave_push_goto
+   ($next_screen)
+   #ifdef HX_PS3
+   {ps3_autosave_start kMetaNextTypePushPopGoto $next_screen}
+   #endif
+   #ifdef HX_XBOX
+   {xbox_autosave_start kMetaNextTypePushPopGoto $next_screen}
+   #endif
+   #ifdef HX_EE
+   {ps2_autosave_start kMetaNextTypePushPopGoto $next_screen}
+   #endif
+   #ifdef HX_WII
+   {wii_autosave_start kMetaNextTypePushPopGoto $next_screen}
+   #endif
+   #ifdef HX_PC
+   {xbox_autosave_start kMetaNextTypePushPopGoto $next_screen}
+   #endif}
+{func
+   autosave_goto_pop
+   #ifdef HX_PS3
+   {ps3_autosave_start kMetaNextTypeGotoPop ''}
+   #endif
+   #ifdef HX_PC
+   {xbox_autosave_start kMetaNextTypeGotoPop ''}
+   #endif
+   #ifdef HX_XBOX
+   {xbox_autosave_start kMetaNextTypeGotoPop ''}
+   #endif
+   #ifdef HX_EE
+   {ps2_autosave_start kMetaNextTypeGotoPop ''}
+   #endif
+   #ifdef HX_WII
+   {wii_autosave_start kMetaNextTypeGotoPop ''}
+   #endif}
+{func
+   autosave_goto_goto
+   ($next_screen)
+   #ifdef HX_PS3
+   {ps3_autosave_start kMetaNextTypeGotoGoto $next_screen}
+   #endif
+   #ifdef HX_PC
+   {xbox_autosave_start kMetaNextTypeGotoGoto $next_screen}
+   #endif
+   #ifdef HX_XBOX
+   {xbox_autosave_start kMetaNextTypeGotoGoto $next_screen}
+   #endif
+   #ifdef HX_EE
+   {ps2_autosave_start kMetaNextTypeGotoGoto $next_screen}
+   #endif
+   #ifdef HX_WII
+   {wii_autosave_start kMetaNextTypeGotoGoto $next_screen}
+   #endif}
+{func
+   autosave_goto_pop_goto
+   ($next_screen)
+   #ifdef HX_PS3
+   {ps3_autosave_start kMetaNextTypeGotoPopGoto $next_screen}
+   #endif
+   #ifdef HX_PC
+   {xbox_autosave_start kMetaNextTypeGotoPopGoto $next_screen}
+   #endif
+   #ifdef HX_XBOX
+   {xbox_autosave_start kMetaNextTypeGotoPopGoto $next_screen}
+   #endif
+   #ifdef HX_EE
+   {ps2_autosave_start kMetaNextTypeGotoPopGoto $next_screen}
+   #endif
+   #ifdef HX_WII
+   {wii_autosave_start kMetaNextTypeGotoPopGoto $next_screen}
+   #endif}
+{func
+   manual_save
+   ($player_num)
+   #ifdef HX_PS3
+   #else
+   {manual_save_start $player_num}
+   #endif}
+{func
+   manual_load
+   ($player_num)
+   #ifdef HX_PS3
+   #else
+   {manual_load_start $player_num}
+   #endif}
+{new
+   UIPanel
+   saveload_dialog_panel
+   #ifndef HX_EE
+   #ifndef HX_WII
+   (file
+      "saveload_dialog_3btn.milo")
+   (player_num $saveload_player_num)
+   #else
+   (file
+      "saveload_dialog_3btn_og.milo")
+   #endif
+   #else
+   (file
+      "saveload_dialog_3btn_og.milo")
+   #endif
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {band_ui_sink set block_mode kBlockSaveLoad})
+   (exit
+      {band_ui_sink set block_mode kBlockNone})
+   (set_button_text
+      ($button $text)
+      {$button set_showing TRUE}
+      {$this enable $button}
+      {$button set text_token $text})
+   (set_label_string
+      ($button $text)
+      {$button set_showing TRUE}
+      {$this enable $button}
+      {$button set_localized $text})
+   (set_button_focus
+      ($button)
+      {$this enable $button}
+      {$this set_focus $button})
+   (hide_button
+      ($button)
+      {$this disable $button}
+      {$button set_showing FALSE})
+   (disable_button
+      ($button)
+      {$this disable $button})
+   (set_message
+      ($token)
+      {msg.lbl set text_token $token})
+   (set_message_localized
+      ($msg)
+      {msg.lbl set_localized $msg})
+   (set_title
+      ($title)
+      {username.lbl set text_token $title})
+   (set_username_from_player_num
+      ($player_num)
+      {username.lbl
+         set_localized
+         {platform_mgr
+            get_saving_name
+            {joypad_get_players_padnum $player_num}}})
+   (setup_2btn
+      ($msg_token $opt1_token $opt2_token $default_option)
+      {switch
+         $default_option
+         ((opt1 opt2 none)
+            0)
+         {fail
+            "Expected opt1/opt2/none, got: "
+            $default_option}}
+      {$this setup_3btn $msg_token $opt1_token $opt2_token '' $default_option})
+   (setup_2btn_localized
+      ($msg $opt1_token $opt2_token $default_option)
+      {$this setup_2btn '' $opt1_token $opt2_token $default_option}
+      {$this set_message_localized $msg})
+   (setup_3btn
+      ($msg_token $opt1_token $opt2_token $opt3_token $default_option)
+      {$this set_message $msg_token}
+      {do
+         ($b1 option1.btn)
+         ($b2 option2.btn)
+         ($b3 option3.btn)
+         {$this disable option1.btn}
+         {$this disable option2.btn}
+         {$this disable option3.btn}
+         {if_else
+            {!= $opt1_token ''}
+            {$this set_button_text $b1 $opt1_token}
+            {$this hide_button $b1}}
+         {if_else
+            {!= $opt2_token ''}
+            {$this set_button_text $b2 $opt2_token}
+            {$this hide_button $b2}}
+         {if_else
+            {!= $opt3_token ''}
+            {$this set_button_text $b3 $opt3_token}
+            {$this hide_button $b3}}
+         {switch
+            $default_option
+            (opt1
+               {$this set_button_focus $b1})
+            (opt2
+               {$this set_button_focus $b2})
+            (opt3
+               {$this set_button_focus $b3})
+            (none 0)
+            {fail
+               "Expected opt1/opt2/opt3/none, got: "
+               $default_option}}})
+   (setup_3btn_localized
+      ($msg $opt1_token $opt2_token $opt3_token $default_option)
+      {$this setup_3btn '' $opt1_token $opt2_token $opt3_token $default_option}
+      {$this set_message_localized $msg})
+   (setup_msg
+      ($msg)
+      {$this setup_3btn $msg '' '' '' none})
+   (setup_msg_localized
+      ($msg)
+      {$this setup_3btn_localized $msg '' '' '' none})
+   (setup_continue
+      ($msg)
+      {$this setup_3btn $msg mc_button_continue '' '' opt1})
+   (setup_continue_localized
+      ($msg)
+      {$this setup_3btn_localized $msg mc_button_continue '' '' opt1})}
+#define SAVELOAD_DIALOG_BASE
+(#ifndef HX_EE
+   #ifndef HX_WII
+   (player_num
+      {saveload_dialog_panel get player_num})
+   #endif
+   #endif
+   (focus saveload_dialog_panel)
+   (setup_username
+      #ifndef HX_EE
+      #ifndef HX_WII
+      (player_num
+         {saveload_dialog_panel get player_num})
+      #else
+      {saveload_dialog_panel set_title mc_title_checking}
+      #endif
+      #else
+      {saveload_dialog_panel set_title mc_title_checking}
+      #endif)
+   (clear_all
+      {saveload_dialog_panel setup_2btn '' '' '' opt2})
+   (setup_2btn
+      ($a $b $c $d)
+      {$this setup_username}
+      {saveload_dialog_panel setup_2btn $a $b $c $d})
+   (setup_2btn_localized
+      ($a $b $c $d)
+      {$this setup_username}
+      {saveload_dialog_panel setup_2btn_localized $a $b $c $d})
+   (setup_3btn
+      ($a $b $c $d $e)
+      {$this setup_username}
+      {saveload_dialog_panel setup_3btn $a $b $c $d $e})
+   (setup_3btn_localized
+      ($a $b $c $d $e)
+      {$this setup_username}
+      {saveload_dialog_panel setup_3btn_localized $a $b $c $d $e})
+   (setup_msg
+      ($a)
+      {$this setup_username}
+      {saveload_dialog_panel setup_msg $a})
+   (setup_continue
+      ($a)
+      {$this setup_username}
+      {saveload_dialog_panel setup_continue $a}))
+#define SAVELOAD_DIALOG_SCREEN
+(SAVELOAD_DIALOG_BASE
+   (panels saveload_dialog_panel)
+   (helpbar
+      ((min_height 0))))
+#define SAVELOAD_DIALOG_SCREEN_HELP
+(SAVELOAD_DIALOG_BASE
+   (panels saveload_dialog_panel)
+   (helpbar
+      ((min_height 0))))
+{new
+   BandScreen
+   uploader_screen
+   SAVELOAD_DIALOG_SCREEN
+   (profile_num -1)
+   (enter
+      {$this setup_msg upload_uploading}
+      {$this process_next})
+   (process_next
+      {'++'
+         [profile_num]}
+      {if_else
+         {<
+            [profile_num]
+            {profile_mgr get_profile_count}}
+         {entity_uploader
+            update_from_profile
+            {profile_mgr
+               get_profile_from_pad
+               [profile_num]}
+            $this}
+         {$this perform_exit}})
+   (perform_exit
+      {set
+         [profile_num]
+         -1}
+      {script_task
+         kTaskUISeconds
+         (delay 0.5)
+         (script
+            {if
+               {!=
+                  {ui current_screen}
+                  uploader_screen}
+               {fail
+                  "manual_load_screen expects to be current screen, but it's not.\n"}}
+            {on_upload_done})})
+   (ROCK_CENTRAL_OP_COMPLETE_MSG
+      {if_else
+         {&&
+            {== $arg1 RB_RETCODE_SUCCESS}
+            {>
+               {size $arg2}
+               0}}
+         {do
+            {uploader_error_next_screen set errors $arg2}
+            {if_else
+               {==
+                  {size $arg2}
+                  1}
+               {if_else
+                  {==
+                     {elem
+                        {elem $arg2 0}
+                        0}
+                     RB_RETCODE_SERVER_DOWN}
+                  {$this process_next}
+                  {do
+                     {uploader_error_next_screen set error_num 0}
+                     {ui goto_screen uploader_error_next_screen}}}
+               {ui goto_screen uploader_error_start_screen}}}
+         {$this process_next}})}
+{new
+   BandScreen
+   uploader_error_start_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {do
+         ($error_count
+            {size
+               {uploader_error_next_screen get errors}})
+         {$this
+            setup_2btn_localized
+            {if_else
+               {== $error_count 1}
+               {localize upload_error_start_single}
+               {sprintf
+                  {localize upload_error_start_fmt}
+                  $error_count}}
+            upload_button_view_first
+            upload_button_return
+            opt1}})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {uploader_error_next_screen set error_num 0}
+            {ui goto_screen uploader_error_next_screen})
+         (option2.btn
+            {ui goto_screen uploader_screen})})}
+{new
+   BandScreen
+   uploader_error_next_screen
+   SAVELOAD_DIALOG_SCREEN
+   (error_num 0)
+   (errors
+      ())
+   (enter
+      {$this update})
+   (update
+      {do
+         ($current_error
+            {elem
+               [errors]
+               [error_num]})
+         ($current_error_msg_token
+            {switch
+               {elem $current_error 0}
+               (RB_RETCODE_SERVER_DOWN upload_error_server_down)
+               (RB_RETCODE_BAND_NAME_PROFANE upload_error_band_name_profane)
+               (RB_RETCODE_BAND_MOTTO_PROFANE upload_error_band_motto_profane)
+               (RB_RETCODE_CHAR_NAME_PROFANE upload_error_char_name_profane)
+               (RB_RETCODE_BAND_NAME_DUP upload_error_band_name_dup)
+               (RB_RETCODE_BAND_NAME_IP upload_error_band_name_ip)
+               (RB_RETCODE_BAND_MOTTO_IP upload_error_band_motto_ip)
+               (RB_RETCODE_CHAR_NAME_IP upload_error_char_name_ip)
+               (RB_RETCODE_CHAR_MOTTO_PROFANE upload_error_char_motto_profane)
+               (RB_RETCODE_CHAR_MOTTO_IP upload_error_char_motto_ip)
+               {fail
+                  "Unknown RB_RETCODE error: "
+                  {elem $current_error 0}
+                  "\n"}})
+         {if_else
+            {==
+               {size
+                  [errors]}
+               1}
+            {$this
+               setup_3btn_localized
+               {if_else
+                  {== $current_error_msg_token upload_error_server_down}
+                  {localize $current_error_msg_token}
+                  {sprintf
+                     {localize $current_error_msg_token}
+                     {elem $current_error 1}}}
+               ''
+               ''
+               upload_button_return
+               opt3}
+            {do
+               {$this
+                  setup_3btn_localized
+                  {sprintf
+                     {localize upload_error_next_fmt}
+                     {'+'
+                        [error_num]
+                        1}
+                     {size
+                        [errors]}
+                     {if_else
+                        {== $current_error_msg_token upload_error_server_down}
+                        {localize $current_error_msg_token}
+                        {sprintf
+                           {localize $current_error_msg_token}
+                           {elem $current_error 1}}}}
+                  upload_button_view_prev
+                  upload_button_view_next
+                  upload_button_return
+                  opt1}
+               {if
+                  {==
+                     [error_num]
+                     0}
+                  {saveload_dialog_panel disable_button option1.btn}}
+               {if
+                  {==
+                     [error_num]
+                     {-
+                        {size
+                           [errors]}
+                        1}}
+                  {saveload_dialog_panel disable_button option2.btn}
+                  {saveload_dialog_panel set_button_focus option3.btn}}}}})
+   (SELECT_MSG
+      {switch
+         $component
+         (option1.btn
+            {--
+               [error_num]}
+            {$this update})
+         (option2.btn
+            {'++'
+               [error_num]}
+            {$this update})
+         (option3.btn
+            {ui goto_screen uploader_screen})})}
+#ifdef HX_PS3
+#include saveload_ps3.dta
+#endif
+#ifdef HX_PC
+#include saveload_xbox.dta
+#endif
+#ifdef HX_XBOX
+#include saveload_xbox.dta
+#endif
+#ifdef HX_EE
+#include saveload_ps2.dta
+#endif
+#ifdef HX_WII
+#include saveload_wii.dta
+#endif

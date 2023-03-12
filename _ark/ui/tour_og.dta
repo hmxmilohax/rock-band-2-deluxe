@@ -1,0 +1,908 @@
+#ifndef HX_XBOX
+{new
+   BandScreen
+   tour_movie_screen
+   (TRANSITION_COMPLETE_MSG
+      {ui
+         goto_screen
+         {gamemode get tour_event_screen}})}
+{new
+   UIPanel
+   transition_overlay_panel
+   (file
+      "world/transition_video.milo")}
+{new
+   UIPanel
+   tour_worldmap_lower3rd_panel
+   (file
+      "tour_worldmap_band_lower3rd_og.milo")}
+{new
+   UIPanel
+   transition_movie_panel
+   (file
+      "world/transition_video.milo")
+   (moviefinished FALSE)
+   (enter
+      {set $moviefinished FALSE}
+      {if_else
+         {!= $new_town ''}
+         {do
+            ($tp
+               {tour performer})
+            ($new_town
+               {$tp new_town})
+            {{meta meta_music}
+               stop}
+            {$tp add_seen_town $new_town}
+            {switch
+               $new_town
+               (boston
+                  {video_file.mov
+                     set
+                     movie_file
+                     {sprintf
+                        "videos/placeholder_movie_act1"}})
+               (newyork
+                  {video_file.mov
+                     set
+                     movie_file
+                     {sprintf
+                        "videos/cube"}})
+               (chicago
+                  {video_file.mov
+                     set
+                     movie_file
+                     {sprintf
+                        "videos/cube"}})
+               (losangeles
+                  {video_file.mov
+                     set
+                     movie_file
+                     {sprintf
+                        "videos/cube"}})
+               (seattle
+                  {video_file.mov
+                     set
+                     movie_file
+                     {sprintf
+                        "videos/cube"}})
+               (berlin
+                  {video_file.mov
+                     set
+                     movie_file
+                     {sprintf
+                        "videos/cube"}})
+               (london
+                  {video_file.mov
+                     set
+                     movie_file
+                     {sprintf
+                        "videos/cube"}})
+               (stockholm
+                  {video_file.mov
+                     set
+                     movie_file
+                     {sprintf
+                        "videos/cube"}})
+               (rome
+                  {video_file.mov
+                     set
+                     movie_file
+                     {sprintf
+                        "videos/cube"}})
+               {video_file.mov
+                  set
+                  movie_file
+                  {sprintf
+                     "videos/cube"}}}
+            {video_file.mov animate}
+            {film_grain.filt
+               animate
+               (loop 0 101)}}
+         {ui
+            goto_screen
+            {gamemode get tour_event_screen}}})
+   (poll
+      {if
+         {&&
+            {! $moviefinished}
+            {video_file.mov is_movie_done}}
+         {do
+            {set $moviefinished TRUE}
+            {ui
+               goto_screen
+               {gamemode get tour_event_screen}}}})
+   (exit
+      {{meta meta_music}
+         start})
+   (BUTTON_DOWN_MSG
+      {if
+         {&&
+            {'||'
+               {== $button kPad_Start}
+               {== $button kPad_X}}
+            {! $moviefinished}}
+         {video_file.mov set_movie_done 1}
+         {set $moviefinished TRUE}
+         {ui
+            goto_screen
+            {gamemode get tour_event_screen}}})}
+{new
+   BandScreen
+   transition_movie_screen
+   (panels meta transition_movie_panel)
+   (focus transition_movie_panel)
+   (helpbar
+      ((confirm helpbar_select)))}
+{new
+   UIPanel
+   transition_movie1_panel
+   (file
+      "world/transition_video.milo")
+   (moviefinished FALSE)
+   (enter
+      {set $moviefinished FALSE}
+      {{meta meta_music}
+         stop}
+      {video_file.mov
+         set
+         movie_file
+         {sprintf
+            "videos/cube"}}
+      {video_file.mov animate}
+      {film_grain.filt
+         animate
+         (loop 0 101)})
+   (exit
+      {{meta meta_music}
+         start})
+   (poll
+      {if
+         {&&
+            {! $moviefinished}
+            {video_file.mov is_movie_done}}
+         {do
+            {set $moviefinished TRUE}
+            {ui
+               goto_screen
+               {gamemode get tour_event_screen}}}})
+   (BUTTON_DOWN_MSG
+      {if
+         {&&
+            {'||'
+               {== $button kPad_Start}
+               {== $button kPad_X}}
+            {! $moviefinished}}
+         {video_file.mov set_movie_done 1}
+         {set $moviefinished TRUE}
+         {ui
+            goto_screen
+            {gamemode get tour_event_screen}}})}
+{new
+   BandScreen
+   transition_movie1_screen
+   (panels meta transition_movie1_panel)
+   (focus transition_movie1_panel)}
+#endif
+{new
+   WorldMapPanel
+   tour_world_bg_panel
+   (file world/tour_worldmap.milo)
+   (load
+      {set
+         [lastitemtown]
+         ""})
+   (enter
+      {set
+         [zoomed]
+         FALSE}
+      {set
+         [town]
+         {{tour performer}
+            town}}
+      {set
+         [venue]
+         {{tour performer}
+            venue}}
+      {meta music_stop}
+      {synth play bwt_spaceamb.cue}
+      {set
+         [playing_town_loop]
+         FALSE}
+      {$this refresh}
+      #ifdef HX_PS3
+      {rnd set_sync 2}
+      #endif)
+   (exit
+      {synth stop bwt_spaceamb.cue}
+      {synth stop bwt_cityamb.cue}
+      #ifdef HX_PS3
+      {rnd set_sync 1}
+      #endif)
+   (play_town_loop
+      ($play)
+      {if_else
+         $play
+         {unless
+            [playing_town_loop]
+            {synth play bwt_cityamb.cue}}
+         {synth stop bwt_cityamb.cue}}
+      {set
+         [playing_town_loop]
+         $play})
+   (update
+      {$this
+         sync
+         [town]
+         [venue]
+         [zoomed]})
+   (zoom_in
+      {set
+         [zoomed]
+         TRUE}
+      {$this update})
+   (zoom_out
+      {set
+         [zoomed]
+         FALSE}
+      {set
+         [venue]
+         ''}
+      {$this update})
+   (refresh
+      {do
+         ($nexttown
+            {{tour performer}
+               next_item_town})
+         {if
+            {!=
+               $nexttown
+               [lastitemtown]}
+            {if
+               {!=
+                  [lastitemtown]
+                  ""}
+               {do
+                  ($trigger
+                     {sprintf
+                        "%s_exit.trig"
+                        [lastitemtown]})
+                  {$trigger trigger}}}
+            {if
+               $nexttown
+               {do
+                  ($trigger
+                     {sprintf
+                        "%s_enter.trig"
+                        $nexttown})
+                  {$trigger trigger}
+                  {set
+                     [lastitemtown]
+                     $nexttown}}}}})
+   (zoom_in_impl
+      {zoom.grp
+         animate
+         (dest
+            {zoom.grp end_frame})})
+   (zoom_out_impl
+      {zoom.grp
+         animate
+         (dest 0)})}
+{func
+   log_tour
+   ($system $data)}
+#define TOUR_EVENT_PANEL_HANDLERS
+((confirm_event
+      {log_tour
+         "EVENT "
+         {{tour event}
+            event_token}}
+      {{tour performer}
+         set_random_songs}
+      {{tour performer}
+         populate_songs
+         {tour event}}
+      {game
+         set_venue
+         {tour venue_variant}})
+   (is_updown
+      ($button)
+      {'||'
+         {== $button kPad_DDown}
+         {== $button kPad_DUp}
+         {== $button kPad_Circle}
+         {== $button kPad_Square}})
+   (is_updownpad
+      ($button)
+      {'||'
+         {== $button kPad_DDown}
+         {== $button kPad_DUp}})
+   (update_selection
+      {do
+         {set
+            $provider
+            {tour solo_event_provider}}
+         {set
+            $pos
+            {{tour_world_event_render find event.lst}
+               selected_pos}}
+         {set
+            $town
+            {$provider town $pos}}
+         {set
+            $venue
+            {$provider venue $pos}}
+         {{tour performer}
+            set_town
+            $town}
+         {{tour performer}
+            set_venue
+            $venue}}
+      {{tour performer}
+         set_event
+         {{tour_world_event_render find event.lst}
+            selected_sym}
+         {game get leader_num}}
+      {{tour_world_event_render find venue_name.lbl}
+         set
+         text_token
+         {tour venue_token}}
+      {{tour_world_event_render find venue_desc.lbl}
+         set
+         text_token
+         {tour venue_desc_token}}
+      #ifdef HX_EE
+      {meta music_stop_stream}
+      #else
+      {song_preview ''}
+      #endif)
+   (set_eventlist_position
+      {do
+         ($event_list
+            {tour_world_event_render find event.lst})
+         {$this update_selection}
+         {$event_list set_selected 0}
+         {foreach_int
+            $i
+            0
+            {$event_list num_total}
+            {if_else
+               {>
+                  {{tour performer}
+                     fame
+                     {tour event}}
+                  0}
+               {$event_list
+                  set_selected
+                  {'+'
+                     {$event_list selected_pos}
+                     1}}
+               {do
+                  {set
+                     $i
+                     {-
+                        {$event_list num_total}
+                        1}}}}
+            {do
+               {set
+                  $provider
+                  {tour solo_event_provider}}
+               {set
+                  $pos
+                  {$event_list selected_pos}}
+               {set
+                  $town
+                  {$provider town $pos}}
+               {set
+                  $venue
+                  {$provider venue $pos}}
+               {{tour performer}
+                  set_town
+                  $town}
+               {{tour performer}
+                  set_venue
+                  $venue}}
+            {{tour performer}
+               set_event
+               {$event_list selected_sym}
+               {game get leader_num}}}
+         {if
+            {tour event}
+            {do
+               {$event_list
+                  set_selected
+                  {{tour event}
+                     get
+                     event_name}}}}
+         {$this update_selection}})
+   (last_preview_play 0.0)
+   (preview_playing FALSE)
+   (BUTTON_UP_MSG
+      {if
+         {&&
+            {$this is_updown $button}
+            {==
+               {gamecfg get_controller_type_from_controller $player_num}
+               kControllerDrum}
+            {gamecfg is_player_participating $player_num}}
+         {set
+            [last_preview_play]
+            {taskmgr ui_seconds}}
+         {set
+            [preview_playing]
+            FALSE}}
+      {if
+         {&&
+            {$this is_updownpad $button}
+            {!=
+               {gamecfg get_controller_type_from_controller $player_num}
+               kControllerDrum}
+            {gamecfg is_player_participating $player_num}}
+         {set
+            [last_preview_play]
+            {taskmgr ui_seconds}}
+         {set
+            [preview_playing]
+            FALSE}}
+      kDataUnhandled)
+   (play_preview
+      #ifdef HX_EE
+      {meta music_stop_stream}
+      #else
+      {song_preview ''}
+      #endif
+      {do
+         ($song_to_set
+            {{tour performer}
+               next_song})
+         {if
+            {&&
+               {ui current_screen}
+               {!=
+                  {ui current_screen}
+                  tier_unlock_screen}
+               {!=
+                  {ui current_screen}
+                  sponsor_unlock_screen}
+               {==
+                  {{tour performer}
+                     num_songs}
+                  1}
+               {!=
+                  $song_to_set
+                  ""}
+               {!=
+                  $song_to_set
+                  "any"}
+               {!=
+                  $song_to_set
+                  "random"}}
+            #ifdef HX_EE
+            {song_mgr set_song_preview_clip $song_to_set}
+            {meta music_start_stream}
+            #else
+            {song_preview $song_to_set}
+            #endif}})
+   (exiting_play_preview
+      #ifdef HX_EE
+      {meta music_stop_stream}
+      #else
+      {song_preview ''}
+      #endif
+      {do
+         ($song_to_set
+            {{tour performer}
+               next_song})
+         {if
+            {!=
+               $song_to_set
+               ""}
+            #ifdef HX_EE
+            {song_mgr set_song_preview_clip $song_to_set}
+            {meta music_start_stream}
+            #else
+            {song_preview $song_to_set}
+            #endif}})
+   (poll
+      {do
+         ($last_play_delta
+            {-
+               {taskmgr ui_seconds}
+               [last_preview_play]})
+         {if
+            {&&
+               {> $last_play_delta 0.25}
+               {!
+                  [preview_playing]}
+               {!
+                  {ui in_transition}}}
+            {do
+               {$this play_preview}
+               {set
+                  [preview_playing]
+                  TRUE}}}})
+   (exit
+      #ifdef HX_EE
+      {meta music_stop_stream}
+      #else
+      {song_preview ''}
+      #endif
+      {set
+         [last_preview_play]
+         0.0}
+      {set
+         [preview_playing]
+         FALSE}
+      #ifdef HX_WII
+      {disc_error_check FALSE}
+      #endif)
+   (BUTTON_DOWN_MSG
+      {cond
+         ({== $button kPad_Tri}
+            {script_task
+               kTaskSeconds
+               (delay
+                  {'+'
+                     {{meta meta_music}
+                        fade_time}
+                     0.1})
+               (script
+                  {meta music_start})})
+         ({== $button kPad_X}
+            {synth play shell_crowd.cue})
+         ({== $button kPad_R1}
+            {synth play button_select}
+            {ui goto_screen tour_band_details_screen})}
+      kDataUnhandled))
+#ifndef HX_XBOX
+{new
+   BandCreatePanel
+   tour_band_create_panel
+   (file
+      "tour/tour_name_band.milo")
+   (reset_focus TRUE)
+   (new_name
+      "")
+   {band_naming_panel set random_names TRUE}
+   (name_label
+      {tour_name_band_render find name.lbl})
+   (enter
+      {$this
+         set_focus
+         {tour_name_band_render find name.btn}}
+      {$this
+         set
+         new_name
+         ""}
+      {band_naming_panel set random_names TRUE}
+      {$this update_band})
+   (refresh
+      {$this update_band})
+   (update_band
+      {if_else
+         {==
+            [new_name]
+            ""}
+         {[name_label]
+            set
+            text_token
+            shell_enter_name}
+         {[name_label]
+            set_localized
+            [new_name]}})
+   (SELECT_MSG
+      {switch
+         $component
+         (name.btn
+            {ui push_screen band_naming_screen})
+         (accept.btn
+            {cond
+               ({==
+                     {{tour performer}
+                        get_char_name}
+                     ""}
+                  {ui push_screen name_error_screen})
+               ({!
+                     {profile_mgr
+                        is_char_name_unique
+                        {gamecfg get leader_num}
+                        {{tour performer}
+                           get_char_name}}}
+                  {ui push_screen tour_band_create_name_not_unique_screen})
+               (TRUE
+                  {charcreator_panel add_char_to_profile}
+                  {{tour performer}
+                     finalize}
+                  {if_else
+                     {gamemode get is_tour}
+                     {{tour performer}
+                        set_event_type
+                        kTourEventWorld}
+                     {{tour performer}
+                        set_event_type
+                        kTourEventChallenge}}
+                  {profile_mgr set_dirty TRUE}
+                  {autosave_push_goto
+                     {gamemode get post_band_create_screen}})})
+         (cancel.btn
+            {ui
+               goto_screen
+               {gamemode get matchmaking_screen}})})}
+{new
+   BandCreatePanel
+   band_naming_panel
+   (file
+      "naming_dialog.milo")
+   (focus name.lbl)
+   (name_label name.lbl)
+   (name_active TRUE)
+   (back_button_exits TRUE)
+   NAMING_PANEL_HANDLERS
+   (enter
+      {set
+         [for_band]
+         TRUE}
+      {$this init_name})
+   (accept_name
+      {{tour performer}
+         set_char_name
+         {$this get_name}}
+      {$this stop_naming}
+      {tour_band_create_panel
+         set
+         new_name
+         {$this get_name}}
+      {tour_band_create_panel update_band}
+      {$this set random_names FALSE}
+      {ui pop_screen}
+      {if
+         {!
+            {{tour_matchmaking_lower3rd_panel find dragon_skin02.mnm}
+               is_animating}}
+         {{tour_matchmaking_lower3rd_panel find lower_3rd.trg}
+            trigger}})
+   (cancel_name
+      {ui pop_screen}
+      {if
+         {!
+            {{tour_matchmaking_lower3rd_panel find dragon_skin02.mnm}
+               is_animating}}
+         {{tour_matchmaking_lower3rd_panel find lower_3rd.trg}
+            trigger}})
+   (on_exit)}
+{new
+   BandScreen
+   band_naming_screen
+   (panels band_naming_panel)
+   (focus band_naming_panel)
+   (reenable_netsync TRUE)}
+{new
+   BandScreen
+   tour_band_create_name_not_unique_screen
+   (panels dialog_panel)
+   (helpbar
+      ((confirm helpbar_continue)))
+   (focus dialog_panel)
+   LIMIT_TO_LEADER_SESSION
+   (enter
+      {dialog_panel
+         set_ok
+         {localize_token tour_band_name_not_unique}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   tour_credits_goto_hxmovie_screen
+   (TRANSITION_COMPLETE_MSG
+      {ui goto_screen tour_credits_hxmovie_screen})}
+{new
+   UIPanel
+   tour_credits_hxmovie_panel
+   (file
+      "world/intro_video.milo")
+   (moviefinished FALSE)
+   (helpbar
+      ((min_height 0)))
+   (elapsedtime 0.0)
+   (allowinput FALSE)
+   (button_press_queued FALSE)
+   (enter
+      {set
+         [elapsedtime]
+         {taskmgr ui_seconds}}
+      {set
+         [button_press_queued]
+         FALSE}
+      #ifdef HX_EE
+      {16x9.mesh set_showing FALSE}
+      {4x3.mesh set_showing FALSE}
+      {16x9zoom.mesh set_showing FALSE}
+      {4x3std.mesh set_showing TRUE}
+      {intro_video.mov
+         set
+         movie_file
+         {sprintf
+            "videos/rb_endcredits.pss"}}
+      {intro_video.mov animate}
+      {set $moviefinished FALSE}
+      #endif
+      #ifdef HX_WII
+      {16x9.mesh set_showing FALSE}
+      {4x3.mesh set_showing FALSE}
+      {16x9zoom.mesh set_showing FALSE}
+      {4x3std.mesh set_showing TRUE}
+      {intro_video.mov
+         set
+         movie_file
+         {sprintf
+            "videos/hmx_endcredits.bik"}}
+      {intro_video.mov animate}
+      {set $moviefinished FALSE}
+      {disc_error_set_stop_movie TRUE}
+      #endif)
+   (poll
+      {do
+         ($last_play_delta
+            {-
+               {taskmgr ui_seconds}
+               [elapsedtime]})
+         {if
+            {!
+               [allowinput]}
+            {if
+               {> $last_play_delta 3}
+               {set
+                  [allowinput]
+                  TRUE}}}
+         {if
+            {'||'
+               {&&
+                  {! $moviefinished}
+                  {intro_video.mov is_movie_done}}
+               {&&
+                  [button_press_queued]
+                  [allowinput]}}
+            {do
+               {set $moviefinished TRUE}
+               {ui goto_screen tour_credits_goto_pimovie_screen}}}})
+   (BUTTON_DOWN_MSG
+      {if_else
+         [allowinput]
+         {if
+            {&&
+               {'||'
+                  {== $button kPad_Start}
+                  {== $button kPad_X}}
+               {! $moviefinished}}
+            {do
+               {set $moviefinished TRUE}
+               {intro_video.mov set_movie_done 1}
+               #ifdef HX_WII
+               {intro_video.mov set_movie_paused TRUE}
+               #endif
+               {ui goto_screen tour_credits_goto_pimovie_screen}}}
+         {if
+            {&&
+               {'||'
+                  {== $button kPad_Start}
+                  {== $button kPad_X}}
+               {! $moviefinished}}
+            {set
+               [button_press_queued]
+               TRUE}}})
+   #ifdef HX_WII
+   (exit
+      {disc_error_set_stop_movie FALSE})
+   #endif}
+{new
+   BandScreen
+   tour_credits_hxmovie_screen
+   (panels tour_credits_hxmovie_panel)
+   (focus tour_credits_hxmovie_panel)
+   (helpbar
+      ((min_height 0)))}
+{new
+   BandScreen
+   tour_credits_goto_pimovie_screen
+   (TRANSITION_COMPLETE_MSG
+      {ui goto_screen tour_credits_pimovie_screen})}
+{new
+   UIPanel
+   tour_credits_pimovie_panel
+   (file
+      "world/intro_video.milo")
+   (moviefinished FALSE)
+   (enter
+      {16x9.mesh set_showing FALSE}
+      {4x3.mesh set_showing FALSE}
+      {16x9zoom.mesh set_showing FALSE}
+      {4x3std.mesh set_showing TRUE}
+      #ifdef HX_EE
+      {intro_video.mov
+         set
+         movie_file
+         "videos/pi_endcredits"}
+      #else
+      {intro_video.mov
+         set
+         movie_file
+         "videos/pi_endcredits.bik"}
+      #endif
+      {intro_video.mov animate}
+      {set $moviefinished FALSE}
+      #ifdef HX_WII
+      {disc_error_set_stop_movie TRUE}
+      #endif)
+   (poll
+      {if
+         {&&
+            {! $moviefinished}
+            {intro_video.mov is_movie_done}}
+         {do
+            {set $moviefinished TRUE}
+            {ui goto_screen tour_credits_text_screen}}})
+   (BUTTON_DOWN_MSG
+      {if
+         {&&
+            {'||'
+               {== $button kPad_Start}
+               {== $button kPad_X}}
+            {! $moviefinished}}
+         {do
+            {intro_video.mov set_movie_done 1}
+            {set $moviefinished TRUE}
+            #ifdef HX_WII
+            {intro_video.mov set_movie_paused TRUE}
+            #endif
+            {ui goto_screen tour_credits_text_screen}}})
+   #ifdef HX_WII
+   (exit
+      {disc_error_set_stop_movie FALSE}
+      {ui wait_for_disc_read})
+   #endif}
+{new
+   BandScreen
+   tour_credits_pimovie_screen
+   (panels tour_credits_pimovie_panel)
+   (focus tour_credits_pimovie_panel)
+   (helpbar
+      ((min_height 0)))}
+{new
+   CreditsPanel
+   tour_credits_text_panel
+   (file
+      "main/credits.milo")
+   (BUTTON_DOWN_MSG
+      {if
+         {== $button kPad_Tri}
+         {ui
+            goto_screen
+            {gamemode get continue_screen}}})
+   (poll
+      {if
+         {!
+            {credits.lst is_scrolling}}
+         {if
+            {!
+               {ui in_transition}}
+            {handle
+               (ui credits_done)}}})}
+{new
+   BandScreen
+   tour_credits_text_screen
+   (panels tour_credits_text_panel)
+   (helpbar
+      ((min_height 0)))
+   (scroll_sfx FALSE)
+   (focus tour_credits_text_panel)
+   (enter
+      {helpbar set_limit_to_player_num -1}
+      {helpbar
+         set_config
+         ((cancel helpbar_back))})
+   (exit)
+   (credits_done
+      {ui
+         goto_screen
+         {gamemode get continue_screen}})}
+#endif

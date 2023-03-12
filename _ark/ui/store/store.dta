@@ -5,7 +5,11 @@
       "store.milo")
    (saved_offer_sym '')
    (load
+      #ifndef NOWIINETWORKING
+      #ifndef HX_EE
       {content_loading_panel allowed_to_show TRUE}
+      #endif
+      #endif
       {content_mgr start_refresh}
       {store_browser_panel reset}
       {set
@@ -14,7 +18,11 @@
    (is_loaded
       {content_mgr refresh_done})
    (finish_load
+      #ifndef NOWIINETWORKING
+      #ifndef HX_EE
       {content_loading_panel allowed_to_show FALSE}
+      #endif
+      #endif
       {background.tnm set_frame 0}
       {wait.grp set_showing FALSE})
    (enter
@@ -131,11 +139,7 @@
    BandScreen
    store_unloaded_screen
    STORE_UNLOADED_HANDLERS
-   (next_screen
-      {if_else
-         {main_panel get show_rbn_store}
-         main_store_screen
-         main_screen})}
+   (next_screen main_screen)}
 {new
    BandScreen
    store_unloaded_matchmaking_screen
@@ -960,9 +964,7 @@
    (cur_offer
       {if_else
          [sub_offer]
-         {store_panel
-            find_offer
-            [sub_offer]}
+         [sub_offer]
          {store_panel
             find_offer
             {store_panel get saved_offer_sym}}})
@@ -1032,7 +1034,7 @@
       ($sub_offer)
       {set
          [sub_offer]
-         {$sub_offer short_name}}
+         $sub_offer}
       {ui goto_screen store_info_screen TRUE})
    (enum_finished
       {if
@@ -1040,33 +1042,11 @@
          {do
             ($offer
                {$this cur_offer})
-            ($type
-               {$offer offer_type})
-            ($provider
-               {store_panel get info_provider})
             {$this refresh_buttons FALSE}
             {cost.lbl
                set_showing
                {!
-                  {$this is_purchased $offer}}}
-            #ifdef HX_PS3
-            {if
-               {!= $type song}
-               {do
-                  ($song_provider
-                     {store_panel get info_song_provider})
-                  {$song_provider set_offer $offer}
-                  {song.lst set_provider $song_provider}}
-               {song.lst auto_scroll}}
-            {$provider
-               set_back_offer
-               {if_else
-                  [sub_offer]
-                  {store_panel
-                     find_offer
-                     {store_panel get saved_offer_sym}}
-                  ''}}
-            #endif}})
+                  {$this is_purchased $offer}}}}})
    (is_purchased
       ($offer)
       {{store_panel get offer_provider}
@@ -1100,7 +1080,6 @@
    store_download_again_screen
    (panels dialog_panel)
    (focus dialog_panel)
-   (scroll_sfx FALSE)
    (enter
       {dialog_panel
          set_ok

@@ -1,0 +1,23 @@
+{new
+   Object
+   tutorials_event_handlers
+   (sync_with_tutorial
+      {tutorials_state_panel sync_with_tutorial})
+   (sync_with_tutorial_nopause
+      {tutorials_state_panel sync_with_tutorial_nopause})
+   (enable_sync_with_tutorial
+      {tutorials_state_panel enable_sync_with_tutorial})
+   (beat
+      {if
+         {tutorials_state_panel beat_callback_is_enabled}
+         {do
+            ($beat
+               {taskmgr beat})
+            {tutorials_state_panel
+               beat_callback
+               $beat
+               {'+'
+                  {mod $beat 4}
+                  1}}}})
+   (UI_CHANGED_MSG
+      {tutorials_state_panel on_guide_change})}

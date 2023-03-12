@@ -1,0 +1,39 @@
+{new
+   UIPanel
+   tutorials_content_loading_panel
+   (load
+      {content_mgr start_refresh})
+   (is_loaded
+      {content_mgr refresh_done})}
+{new
+   BandScreen
+   tutorials_loading_screen
+   (panels tutorials_content_loading_panel loading_tip_panel)
+   (allow_back FALSE)
+   (animate_transition FALSE)
+   (helpbar
+      ((min_height 0)))
+   (TRANSITION_COMPLETE_MSG
+      {band_ui_sink hide_error_dialog}
+      {ui reset_screen tutorials_postloading_screen})}
+{new
+   BandScreen
+   tutorials_postloading_screen
+   (panels loading_tip_panel)
+   (allow_back FALSE)
+   (animate_transition FALSE)
+   (helpbar
+      ((min_height 0)))
+   (TRANSITION_COMPLETE_MSG
+      {meta_performer
+         set_song
+         {tutorials_state_panel get tutorials_song}}
+      {{game get_participant_config 0}
+         set_difficulty
+         {gamemode get start_difficulty}}
+      {{game get_participant_config 0}
+         set_track_type
+         {gamemode get start_tracktype}}
+      {ui
+         goto_screen
+         {gamemode get main_screen}})}

@@ -1,0 +1,223 @@
+#ifndef _SHIP
+{new
+   BandScreen
+   loading_multi_screen
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {ui goto_screen loading_multi_content_screen})}
+{new
+   UIPanel
+   loading_multi_content_panel
+   (is_loaded
+      {content_mgr refresh_done})}
+{new
+   BandScreen
+   loading_multi_content_screen
+   (panels loading_multi_content_panel)
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {tour create_test_event}
+      {meta_performer
+         set_song
+         {{tour performer}
+            next_song}}
+      {ui goto_screen loading_screen})}
+#endif
+{new
+   UIPanel
+   wait_on_content_mgr_panel
+   (load
+      {content_mgr start_refresh})
+   (is_loaded
+      {content_mgr refresh_done})}
+{new
+   BandScreen
+   loading_screen
+   (panels wait_on_content_mgr_panel)
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {band_ui_sink set block_mode kBlockLoadingGame}
+      {band_ui_sink set_net_sync FALSE}
+      {ui goto_screen real_loading_screen})}
+{new
+   BandScreen
+   real_loading_screen
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {song_provider set_setlist_mode 0}
+      {band_ui_sink hide_error_dialog}
+      {seed_random_context
+         {gamecfg get net_random_seed}}
+      {do
+         ($next_screen
+            {cond
+               ($force_loading_tip loading_tip_screen)
+               ({&&
+                     $force_loading_image
+                     {'||'
+                        {gamemode is_tour}
+                        {gamemode is_tour_challenge}}}
+                  loading_image_screen)
+               ({&&
+                     {gamemode get show_loading_images}
+                     {==
+                        {mod
+                           {gamecfg get net_random_seed}
+                           2}
+                        0}
+                     {'||'
+                        {gamemode is_tour}
+                        {gamemode is_tour_challenge}}}
+                  loading_image_screen)
+               loading_tip_screen})
+         {ui goto_screen $next_screen}})}
+{new
+   UIPanel
+   loading_tip_panel
+   (file loading_og.milo)
+   #ifndef _SHIP
+   (is_loaded
+      {content_mgr refresh_done})
+   #endif
+   (enter
+      {helpbar min_height 0}
+      {tip.lbl set_showing TRUE}
+      {tip.lbl
+         set_localized
+         {localize
+            {if_else
+               $force_loading_tip
+               $force_loading_tip
+               {random_context
+                  {elem
+                     {find $syscfg tips}
+                     1}}}}}
+      {load_icon_guitar set_showing FALSE}
+      {load_icon_bass set_showing FALSE}
+      {load_icon_drum set_showing FALSE}
+      {load_icon_vox set_showing FALSE}
+      {game
+         foreach_player_config
+         $pcfg
+         {do
+            ($track
+               {if_else
+                  {$pcfg is_participating}
+                  {$pcfg get_track_sym}
+                  none})
+            {cond
+               ({== $track guitar}
+                  {load_icon_guitar set_showing TRUE})
+               ({== $track bass}
+                  {load_icon_bass set_showing TRUE})
+               ({== $track drum}
+                  {load_icon_drum set_showing TRUE})
+               ({== $track vocals}
+                  {load_icon_vox set_showing TRUE})
+               (TRUE
+                  {notify
+                     "Unknown track type: '"
+                     $track
+                     "' for player #"
+                     $i
+                     "!\n"})}}})}
+{new
+   BandScreen
+   loading_tip_screen
+   (panels loading_tip_panel)
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {synth stop_all_sfx})
+   (TRANSITION_COMPLETE_MSG
+      {game load_all_chars TRUE}
+      {ui
+         goto_screen
+         {gamemode get game_screen}}
+      {band_ui_sink set_net_sync TRUE}
+      {band_ui_sink set block_mode kBlockNone})}
+{new
+   UIPanel
+   loading_image_panel
+   (file loading_og.milo)
+   (enter
+      {tip.lbl set_showing FALSE}
+      {load_icon_guitar set_showing FALSE}
+      {load_icon_bass set_showing FALSE}
+      {load_icon_drum set_showing FALSE}
+      {load_icon_vox set_showing FALSE}
+      {game
+         foreach_player_config
+         $pcfg
+         {do
+            ($track
+               {if_else
+                  {$pcfg is_participating}
+                  {$pcfg get_track_sym}
+                  none})
+            {cond
+               ({== $track guitar}
+                  {load_icon_guitar set_showing TRUE})
+               ({== $track bass}
+                  {load_icon_bass set_showing TRUE})
+               ({== $track drum}
+                  {load_icon_drum set_showing TRUE})
+               ({== $track vocals}
+                  {load_icon_vox set_showing TRUE})
+               (TRUE
+                  {notify
+                     "Unknown track type: '"
+                     $track
+                     "' for player #"
+                     $i
+                     "!\n"})}}}
+      {set
+         $picture
+         {random_int 1 3}}
+      {set
+         $characters
+         {song_mgr
+            get_characters
+            {meta_performer song}}}
+      {if_else
+         {&&
+            {==
+               $characters
+               "alt_2"}
+            {== $picture 2}}
+         {if_else
+            {{profile_mgr
+                  get_mapped_profile_from_player
+                  {gamecfg get leader_num}}
+               is_hot_topic_unlocked}
+            {background.tex
+               set_bitmap
+               "ui/loading/images/alt_2_hot_topic_keep.bmp"}
+            {background.tex
+               set_bitmap
+               "ui/loading/images/alt_2_01_keep.bmp"}}
+         {background.tex
+            set_bitmap
+            {sprintf
+               "ui/loading/images/%s_0%i_keep.bmp"
+               $characters
+               $picture}}})}
+{new
+   BandScreen
+   loading_image_screen
+   (panels loading_image_panel)
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {synth stop_all_sfx})
+   (TRANSITION_COMPLETE_MSG
+      {game load_all_chars TRUE}
+      {ui
+         goto_screen
+         {gamemode get game_screen}}
+      {band_ui_sink set_net_sync TRUE}
+      {band_ui_sink set block_mode kBlockNone})}

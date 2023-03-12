@@ -1,0 +1,8 @@
+#include macros.dta
+(objects
+   #include objects.dta)
+(system)
+(ui
+   (color_presets
+      #include ../ui/color_presets.dta))
+#merge ../../../system/run/config/rndexp.dta

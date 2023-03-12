@@ -1,0 +1,299 @@
+#undef GUITAR_ZOOM_SECS
+#define GUITAR_ZOOM_SECS
+(0.5)
+#define STRING_RUNS_TO_HIT
+(3)
+#define GEMS_PER_STRING_RUN
+(5)
+SETUP_GUITAR_TUTORIAL
+GUITAR_TV_WHITE
+START_BG_MUSIC
+{setup_lesson_banner tutorial_guitar_advanced_strings_part}
+{meta_performer set_song guitar_advanced_strings}
+LOAD_NEW_GUITAR_SONG_NO_FADE
+HIDE_TRACK_PLAYER_UI
+UNPAUSE_TRACK
+SYNC_PAUSE
+SHOW_DETAILED_GUITAR
+{play_vo tute_guitar3_trillintro}
+WAIT_FOR_VO
+SHORT_VO_GAP
+{play_vo tute_guitar3_trill1}
+WAIT_FOR_VO
+LONG_VO_GAP
+GUITAR_FRET_GREEN
+GUITAR_ANIM_PAUSE
+GUITAR_STRUM_DOWN
+GUITAR_ANIM_PAUSE
+GUITAR_STRUM_MIDDLE
+LONG_VO_GAP
+{play_vo tute_guitar3_trill2}
+WAIT_FOR_VO
+LONG_VO_GAP
+GUITAR_FRET_GREEN_RED
+GUITAR_ANIM_PAUSE
+GUITAR_STRUM_DOWN
+GUITAR_ANIM_PAUSE
+GUITAR_STRUM_MIDDLE
+GUITAR_ANIM_PAUSE
+GUITAR_FRET_GREEN
+GUITAR_ANIM_PAUSE
+GUITAR_STRUM_DOWN
+GUITAR_ANIM_PAUSE
+GUITAR_STRUM_MIDDLE
+LONG_VO_GAP
+{play_vo tute_guitar3_trill3}
+WAIT_FOR_VO
+SHOW_GUITAR_HAND_ARROW
+GUITAR_FRET_NEUTRAL
+LONG_VO_GAP
+AUTOPLAY_ON
+UNPAUSE_TRACK
+SYNC_NOPAUSE
+GUITAR_FRET_GREEN
+SYNC_NOPAUSE
+GUITAR_STRUM_DOWN
+SYNC_NOPAUSE
+GUITAR_FRET_RED
+SYNC_NOPAUSE
+GUITAR_STRUM_UP
+SYNC_NOPAUSE
+GUITAR_FRET_GREEN
+SYNC_NOPAUSE
+GUITAR_STRUM_DOWN
+SYNC_NOPAUSE
+GUITAR_FRET_RED
+SYNC_NOPAUSE
+GUITAR_STRUM_UP
+SYNC_NOPAUSE
+GUITAR_FRET_GREEN
+SYNC_NOPAUSE
+GUITAR_STRUM_DOWN
+SYNC_NOPAUSE
+GUITAR_FRET_RED
+SYNC_NOPAUSE
+GUITAR_STRUM_UP
+SYNC_NOPAUSE
+GUITAR_FRET_GREEN
+SYNC_NOPAUSE
+GUITAR_STRUM_DOWN
+SYNC_NOPAUSE
+GUITAR_FRET_RED
+SYNC_NOPAUSE
+GUITAR_STRUM_UP
+SYNC_NOPAUSE
+GUITAR_FRET_GREEN
+SYNC_NOPAUSE
+GUITAR_STRUM_DOWN
+SYNC_NOPAUSE
+GUITAR_FRET_RED
+SYNC_NOPAUSE
+GUITAR_STRUM_UP
+SYNC_NOPAUSE
+GUITAR_FRET_GREEN
+SYNC_NOPAUSE
+GUITAR_STRUM_DOWN
+SYNC_NOPAUSE
+GUITAR_FRET_NEUTRAL
+GUITAR_STRUM_MIDDLE
+SYNC_PAUSE
+HIDE_GUITAR_HAND_ARROW
+{play_vo tute_guitar3_trill4}
+WAIT_FOR_VO
+SHOW_GUITAR_HAND_ARROW
+LONG_VO_GAP
+UNPAUSE_TRACK
+SYNC_NOPAUSE
+GUITAR_FRET_GREEN
+SYNC_NOPAUSE
+GUITAR_STRUM_DOWN
+SYNC_NOPAUSE
+GUITAR_FRET_GREEN_RED
+SYNC_NOPAUSE
+GUITAR_STRUM_UP
+SYNC_NOPAUSE
+GUITAR_FRET_GREEN
+SYNC_NOPAUSE
+GUITAR_STRUM_DOWN
+SYNC_NOPAUSE
+GUITAR_FRET_GREEN_RED
+SYNC_NOPAUSE
+GUITAR_STRUM_UP
+SYNC_NOPAUSE
+GUITAR_FRET_GREEN
+SYNC_NOPAUSE
+GUITAR_STRUM_DOWN
+SYNC_NOPAUSE
+GUITAR_FRET_GREEN_RED
+SYNC_NOPAUSE
+GUITAR_STRUM_UP
+SYNC_NOPAUSE
+GUITAR_FRET_GREEN
+SYNC_NOPAUSE
+GUITAR_STRUM_DOWN
+SYNC_NOPAUSE
+GUITAR_FRET_GREEN_RED
+SYNC_NOPAUSE
+GUITAR_STRUM_UP
+SYNC_NOPAUSE
+GUITAR_FRET_GREEN
+SYNC_NOPAUSE
+GUITAR_STRUM_DOWN
+SYNC_NOPAUSE
+GUITAR_FRET_GREEN_RED
+SYNC_NOPAUSE
+GUITAR_STRUM_UP
+SYNC_NOPAUSE
+GUITAR_FRET_GREEN
+SYNC_NOPAUSE
+GUITAR_STRUM_DOWN
+SYNC_NOPAUSE
+GUITAR_FRET_NEUTRAL
+GUITAR_STRUM_MIDDLE
+SYNC_PAUSE
+HIDE_GUITAR_HAND_ARROW
+AUTOPLAY_OFF
+{new
+   Object
+   tutorial_guitar_advanced_strings_callback
+   (hit
+      {set
+         [num_gems_hit]
+         {'+'
+            [num_gems_hit]
+            1}}
+      {if
+         {>=
+            [num_gems_hit]
+            GEMS_PER_STRING_RUN}
+         {do
+            {set
+               [num_runs_hit]
+               {'+'
+                  [num_runs_hit]
+                  1}}
+            {update_task_score
+               {localize tutorial_guitar_advanced_strings_score}
+               [num_runs_hit]
+               STRING_RUNS_TO_HIT}
+            ANIMATE_SCORE}}
+      {$this update_num_gems})
+   (fret_up
+      ($slot)
+      {if
+         {&&
+            {== $slot 0}
+            {>
+               [num_gems_hit]
+               0}}
+         {do
+            {set
+               [num_gems_hit]
+               0}
+            {if_else
+               {!
+                  [feedback_played]}
+               {do
+                  {set
+                     [feedback_played]
+                     TRUE}
+                  {play_vo tute_guitar3_trillhinthold}}
+               {set
+                  [feedback_played]
+                  FALSE}}}})
+   (miss
+      {set
+         [num_gems_hit]
+         0})
+   (pass
+      {$this miss}
+      {$this update_num_gems})
+   (update_num_gems
+      {set
+         [num_gems]
+         {'+'
+            [num_gems]
+            1}}
+      {if
+         {>=
+            [num_gems]
+            GEMS_PER_STRING_RUN}
+         {do
+            {set
+               [num_gems]
+               0}
+            {set
+               [num_gems_hit]
+               0}}})
+   (passed
+      {>=
+         [num_runs_hit]
+         STRING_RUNS_TO_HIT})
+   (failed
+      {!
+         {$this passed}})
+   (lesson_running
+      {&&
+         {<
+            [num_runs_hit]
+            STRING_RUNS_TO_HIT}
+         {<
+            {{beatmatch active_player 0}
+               percent_complete}
+            END_OF_SONG_PERCENT}})
+   (num_runs_hit 0)
+   (num_gems_hit 0)
+   (num_gems 0)
+   (feedback_played FALSE)}
+{play_vo tute_guitar3_trilltask}
+STOP_BG_MUSIC
+HIDE_DETAILED_GUITAR
+GUITAR_TV_OFF
+WAIT_FOR_VO
+LONG_VO_GAP
+{set_info_text
+   {localize tutorial_guitar_advanced_strings_task}}
+{show_info_text TRUE}
+{{beatmatch active_player 0}
+   add_sink
+   tutorial_guitar_advanced_strings_callback}
+{update_task_score
+   {localize tutorial_guitar_advanced_strings_score}
+   0
+   STRING_RUNS_TO_HIT}
+SHOW_SCORE
+FADE_SONG_IN
+UNPAUSE_TRACK
+{$task
+   wait
+   {tutorial_guitar_advanced_strings_callback lesson_running}}
+FREEZE_SCORE_TEXT
+{if
+   {!
+      {tutorial_guitar_advanced_strings_callback failed}}
+   {$task sleep 1}}
+TRACK_OUT
+PAUSE_TRACK
+WAIT_FOR_VO
+{if_else
+   {tutorial_guitar_advanced_strings_callback failed}
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_advanced_strings_failed}}
+      {play_vo tute_guitar3_trillfail}}
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_advanced_strings_done}}
+      {play_vo tute_guitar3_trillwin}}}
+{show_info_text FALSE}
+{show_part_text FALSE}
+{show_banner_text TRUE}
+HIDE_SCORE
+START_BG_MUSIC
+GUITAR_TV_WHITE
+WAIT_FOR_VO
+SHORT_VO_GAP
+{do_fail_menu
+   {tutorial_guitar_advanced_strings_callback failed}}
+RETURN_FROM_FAIL_MENU
+{tutorials_state_panel switch_to_next_state}

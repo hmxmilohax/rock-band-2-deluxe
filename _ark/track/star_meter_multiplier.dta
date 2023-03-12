@@ -1,0 +1,29 @@
+(RndDir
+   (types
+      (star_meter_multiplier
+         (editor
+            (test_multiplier
+               int
+               (post_sync
+                  {$this
+                     set_multiplier
+                     [test_multiplier]})))
+         (test_multiplier 0)
+         (last_multiplier 0)
+         (reset
+            {set
+               [last_multiplier]
+               0})
+         (set_multiplier
+            ($val)
+            {if
+               {!=
+                  [last_multiplier]
+                  $val}
+               {multiplier.txt
+                  set_text
+                  {sprint $val}}
+               {new_multiplier.trig trigger}
+               {set
+                  [last_multiplier]
+                  $val}}))))

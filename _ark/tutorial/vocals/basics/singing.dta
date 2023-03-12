@@ -1,0 +1,123 @@
+#define TUTORIAL_VOCALS_SINGING_SCORE_MAX
+(3600)
+SETUP_VOCALS_TUTORIAL
+VOCALS_TV_WHITE
+START_BG_MUSIC
+{setup_lesson_banner tutorial_vocals_basics_singing_part}
+{widescreen.tnm
+   set_frame
+   {if_else
+      {==
+         {rnd aspect}
+         kWidescreenAspect}
+      1.0
+      0.0}}
+{play_vo tute_vocals1_micpic}
+SHOW_MIC_PIC
+WAIT_FOR_VO
+SHORT_VO_GAP
+{play_vo tute_vocals1_distance}
+WAIT_FOR_VO
+HIDE_MIC_PIC
+SHORT_VO_GAP
+{meta_performer set_song vocals_basics_singing_demo}
+LOAD_NEW_VOCALS_SONG_NO_FADE
+HIDE_VOCALS_PLAYER_UI
+FORCE_ARROW_OFF
+UNPAUSE_TRACK
+SYNC_PAUSE
+{play_vo tute_vocals1_time}
+SHOW_NOWBAR_ARROW
+WAIT_FOR_VO
+HIDE_NOWBAR_ARROW
+{play_vo tute_vocals1_pitch1}
+SHOW_PITCH_ARROW_ARROW
+UNPAUSE_TRACK
+FORCE_ARROW_ON
+{$task sleep 1.0e-2}
+PAUSE_TRACK
+UNHIDE_PITCH_ARROW
+WAIT_FOR_VO
+FORCE_ARROW_OFF
+HIDE_PITCH_ARROW_ARROW
+{play_vo tute_vocals1_pitch2}
+SHOW_NOTE_ARROW
+WAIT_FOR_VO
+HIDE_NOTE_ARROW
+SHORT_VO_GAP
+{play_vo tute_vocals1_octave}
+WAIT_FOR_VO
+SHORT_VO_GAP
+FADE_SONG_IN_FAST
+UNPAUSE_TRACK
+SYNC_NOPAUSE
+{play_vo tute_vocals1_octaveslide}
+SYNC_NOPAUSE
+WAIT_FOR_VO
+VOCALS_OUT
+{new
+   Object
+   tutorial_vocals_basics_singing_callback
+   (phrase_end
+      {if
+         {>
+            {$this percent_hit}
+            [last_percent_hit]}
+         {set
+            [last_percent_hit]
+            {$this percent_hit}}})
+   (percent_hit
+      {'*'
+         100.0
+         {/
+            {{beatmatch active_player 0}
+               score}
+            TUTORIAL_VOCALS_SINGING_SCORE_MAX}})
+   (failed
+      {<=
+         {$this percent_hit}
+         25.0})
+   (last_percent_hit 0.0)}
+{play_vo tute_vocals1_pitchtry}
+STOP_BG_MUSIC
+VOCALS_TV_OFF
+WAIT_FOR_VO
+LONG_VO_GAP
+{set_info_text
+   {localize tutorial_vocals_basics_singing_task}}
+{show_info_text TRUE}
+{meta_performer set_song vocals_basics_singing}
+LOAD_NEW_VOCALS_SONG
+{{beatmatch active_player 0}
+   add_sink
+   tutorial_vocals_basics_singing_callback}
+UNPAUSE_TRACK
+SHORT_VO_GAP
+{band_0 set_crowd_meter_active FALSE}
+SYNC_NOPAUSE
+FREEZE_SCORE_TEXT
+VOCALS_OUT
+PAUSE_TRACK
+WAIT_FOR_VO
+{if_else
+   {tutorial_vocals_basics_singing_callback failed}
+   {do
+      {set_banner_text
+         {localize tutorial_vocals_basics_singing_failed}}
+      {play_vo tute_vocals1_pitchfail}}
+   {do
+      {set_banner_text
+         {localize tutorial_vocals_basics_singing_done}}
+      {play_vo tute_vocals1_pitchwin}}}
+{show_info_text FALSE}
+{show_part_text FALSE}
+{show_score_text FALSE}
+{show_banner_text TRUE}
+START_BG_MUSIC
+VOCALS_TV_WHITE
+WAIT_FOR_VO
+LONG_VO_GAP
+{do_fail_menu
+   {tutorial_vocals_basics_singing_callback failed}}
+RETURN_FROM_FAIL_MENU
+{tutorials_state_panel switch_to_next_state}

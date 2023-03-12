@@ -1,0 +1,206 @@
+(RndDir
+   (types
+      (ending_bonus
+         (editor
+            (start
+               script
+               (script
+                  {$this start})
+               (help
+                  "Start the ending bonus."))
+            (reset
+               script
+               (script
+                  {$this reset})
+               (help
+                  "Reset the ending bonus."))
+            (success
+               script
+               (script
+                  {$this success})
+               (help
+                  "Plays success.trig at the end of the bonus."))
+            (failure
+               script
+               (script
+                  {$this coda_end})
+               (help
+                  "Plays failure.trig at the end of the bonus."))
+            (score
+               int
+               (post_sync
+                  {$this
+                     set_score
+                     [score]})
+               (help
+                  "Ending bonus score."))
+            (unison_start
+               script
+               (script
+                  {$this unison_start}))
+            (unison_end
+               script
+               (script
+                  {$this unison_end}))
+            (unison_succeed
+               script
+               (script
+                  {$this unison_succeed})))
+         (score 0)
+         (awarding TRUE)
+         (start
+            {reset.trig trigger}
+            {set
+               [awarding]
+               FALSE}
+            {$this set_score 0}
+            {start.trig trigger}
+            {if_else
+               $edit_mode
+               {do
+                  {drum.lbl set_showing TRUE}
+                  {vocals.lbl set_showing TRUE}
+                  {guitar.lbl set_showing TRUE}
+                  {bass.lbl set_showing TRUE}}
+               {$this setup_ending}})
+         (reset
+            {reset.trig trigger})
+         (success
+            {set
+               [awarding]
+               TRUE}
+            {success.trig trigger})
+         (player_success
+            ($player)
+            {{sprintf
+                  "%s.anim"
+                  {$player instrument}}
+               animate})
+         (lose_bonus
+            ($blame))
+         (coda_end
+            {script_task
+               kTaskSeconds
+               (delay 2)
+               (script
+                  {if
+                     {!
+                        [awarding]}
+                     {failure.trig trigger}})})
+         (unison_start
+            {reset.trig trigger}
+            {unison_start.trig trigger}
+            {$this setup_unison})
+         (unison_end
+            {unison_end.trig trigger})
+         (unison_succeed
+            {unison_succeed.trig trigger})
+         (set_score
+            ($in_val)
+            {if
+               {!
+                  [awarding]}
+               {if
+                  {'||'
+                     $edit_mode
+                     {!=
+                        $in_val
+                        [score]}}
+                  {set
+                     [score]
+                     $in_val}
+                  {score.txt
+                     set_text
+                     {sprintf
+                        "%s"
+                        {fmt_score
+                           [score]}}}}})
+         (hide_icons
+            {guitar.lbl set_showing FALSE}
+            {bass.lbl set_showing FALSE}
+            {vocals.lbl set_showing FALSE}
+            {drum.lbl set_showing FALSE})
+         (setup_ending
+            {$this hide_icons}
+            {if
+               {&&
+                  {exists gamemode}
+                  {gamemode is_band_arrangement}}
+               {do
+                  ($bre_instrument_list
+                     {game get_instrument_track_order})
+                  ($vocalist_playing FALSE)
+                  {beatmatch
+                     foreach_active_player
+                     $player
+                     {if
+                        {==
+                           {$player instrument}
+                           vocals}
+                        {set $vocalist_playing TRUE}}}
+                  {if
+                     $vocalist_playing
+                     {switch
+                        {size $bre_instrument_list}
+                        (0
+                           {insert_elem $bre_instrument_list 0 vocals})
+                        (1
+                           {insert_elem $bre_instrument_list 1 vocals})
+                        (2
+                           {insert_elem $bre_instrument_list 1 vocals})
+                        (3
+                           {insert_elem $bre_instrument_list 2 vocals})}}
+                  {if_else
+                     {<=
+                        {size $bre_instrument_list}
+                        1}
+                     {$this hide_icons}
+                     {$this set_icon_order $bre_instrument_list}}}})
+         (setup_unison
+            {if
+               {! $edit_mode}
+               {$this hide_icons}
+               {do
+                  ($unison_instrument_list
+                     {game get_instrument_track_order})
+                  {beatmatch
+                     foreach_active_player
+                     $player
+                     {if
+                        {!=
+                           {$player enabled_state}
+                           kPlayerEnabled}
+                        {remove_elem
+                           $unison_instrument_list
+                           {$player instrument}}}}
+                  {$this set_icon_order $unison_instrument_list}}})
+         (set_icon_order
+            ($icon_order)
+            {$this hide_icons}
+            {do
+               ($icon)
+               ($icon_width 1.5)
+               {foreach_int
+                  $i
+                  0
+                  {size $icon_order}
+                  {set
+                     $icon
+                     {object
+                        {sprint
+                           {elem $icon_order $i}
+                           ".lbl"}}}
+                  {$icon set_showing TRUE}
+                  {$icon
+                     set_local_pos
+                     {-
+                        {'*' $i $icon_width}
+                        {/
+                           {'*'
+                              {-
+                                 {size $icon_order}
+                                 1}
+                              $icon_width}
+                           2}}
+                     0
+                     0}}}))))

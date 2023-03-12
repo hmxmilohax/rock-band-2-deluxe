@@ -79,273 +79,87 @@
          {mod
             {$my_player score}
             {size $available_awards}}}}}
-{func
-   send_player_stats
-   ($p)
-   {$p
-      send_remote_stats
-      {$p player_num}}}
-{new
-   BandScreen
-   endgame_waiting_screen
-   (panels)
-   (helpbar
-      ((min_height 0)))
-   (entered FALSE)
-   (enter
-      {set
-         [entered]
-         TRUE}
-      {beatmatch
-         foreach_active_player
-         $p
-         {if
-            {!
-               {$p is_net}}
-            {$p finalize_stats}
-            {send_player_stats $p}}})
-   (exit
-      {set
-         [entered]
-         FALSE})
-   (poll
-      {if
-         {is_leader_local}
-         {if
-            [entered]
-            {do
-               ($proceed TRUE)
-               {beatmatch
-                  foreach_active_player
-                  $p
-                  {if
-                     {!
-                        {$p stats_finalized}}
-                     {set $proceed FALSE}}}
-               {if
-                  {&&
-                     $proceed
-                     {!
-                        {ui in_transition}}}
-                  {beatmatch
-                     foreach_active_player
-                     $p
-                     {send_player_stats $p}}
-                  {ui goto_screen endgame_waiting_complete_screen}}}}})}
-{new
-   BandScreen
-   endgame_waiting_complete_screen
-   (helpbar
-      ((min_height 0)))
-   (enter
-      {tour
-         set
-         win_sequence
-         {meta_performer is_winning}}
-      {meta_performer
-         complete_song
-         {{beatmatch main_performer}
-            num_stars}
-         {{beatmatch main_performer}
-            score}
-         {{beatmatch main_performer}
-            accumulated_score}
-         {{{beatmatch main_performer}
-               band}
-            longest_streak}
-         {{beatmatch main_performer}
-            total_stars}}
-      {if
-         {meta_performer is_last_song}
-         {input_mgr set_limit kLimitSessionLeader}}
-      {if
-         {is_leader_local}
-         {ui goto_screen endgame_advance_screen}})}
-{new
-   BandScreen
-   endgame_advance_screen
-   (helpbar
-      ((min_height 0)))
-   (enter
-      {if
-         {is_leader_local}
-         {do
-            ($screen
-               {gamemode get endgame_screen})
-            {meta_performer
-               advance_song
-               {{beatmatch main_performer}
-                  num_stars}}
-            #ifndef _SHIP
-            {if
-               $cheat.win_event
-               {while
-                  {!
-                     {meta_performer is_last_song}}
-                  {meta_performer
-                     complete_song
-                     {{beatmatch main_performer}
-                        num_stars}
-                     {{beatmatch main_performer}
-                        score}
-                     {{beatmatch main_performer}
-                        accumulated_score}
-                     {{{beatmatch main_performer}
-                           band}
-                        longest_streak}
-                     {{beatmatch main_performer}
-                        total_stars}}
-                  {meta_performer
-                     advance_song
-                     {{beatmatch main_performer}
-                        num_stars}}}
-               {set $cheat.win_event FALSE}}
-            #endif
-            {ui goto_screen $screen}}})}
+#define SELECTED_AWARDS
+(())
 #define ENDGAME_PANEL_HANDLERS
-((submit_achievements
-      {game
-         foreach_local_user
-         $user
-         {if
-            {$user can_get_achievements}
-            {do
-               ($user_num
-                  {$user get_user_num})
-               ($player
-                  {$user player})
-               ($p_profile
-                  {profile_mgr get_save_data $user})
-               {if
-                  $p_profile
+(LIMIT_TO_SESSION
+   (BUTTON_DOWN_MSG
+      {switch
+         $button
+         (kPad_X
+            {synth play button_select}
+            {if_else
+               {tour performer}
+               {if_else
+                  {gamemode is_tour_challenge}
                   {if_else
-                     {gamemode is_h2h_arrangement}
-                     {if
-                        {==
-                           {game winning_player}
-                           $user_num}
-                        {achievements submit $user_num ach_skill_versus_victory}}
-                     {if
-                        {>=
-                           {{beatmatch main_performer}
-                              num_stars}
-                           6}
-                        {achievements submit $user_num ach_skill_gold_star}}}
-                  {if
-                     {==
-                        100
-                        {int
-                           {'*'
-                              100
-                              {$player notes_hit_fraction}}}}
-                     {if
-                        {==
-                           {$user get_difficulty}
-                           kDifficultyExpert}
-                        {switch
-                           {$user get_track_sym}
-                           (drum
-                              {achievements submit $user_num ach_skill_expert_drums})
-                           (bass
-                              {if
-                                 {&&
-                                    {$player strummed_up}
-                                    {!
-                                       {$player strummed_down}}}
-                                 {achievements submit $user_num ach_skill_expert_bass}})
-                           (guitar
-                              {achievements submit $user_num ach_skill_expert_guitar})
-                           (vocals
-                              {achievements submit $user_num ach_skill_expert_vocals})}}}
-                  {if
+                     {>
+                        {{tour performer}
+                           num_new_challenge_unlocks}
+                        0}
+                     {ui sync_screen tour_challenge_complete_screen 1}
+                     {do
+                        {{tour performer}
+                           complete_event}
+                        {ui sync_screen meta_loading_continue_screen 1}}}
+                  {ui sync_screen endgame_autosave_start_screen 1}}
+               {do
+                  {if_else
                      {&&
+                        {!
+                           {gamemode get is_hth_arrangement}}
+                        {modifier_mgr is_feature_enabled modifier_saving_feature}}
+                     {if_else
                         {==
-                           {$user get_track_sym}
-                           guitar}
-                        {==
-                           {$user get_difficulty}
-                           kDifficultyExpert}}
-                     {if
-                        {$player perfect_solo_with_solo_buttons}
-                        {achievements submit $user_num ach_skill_guitar_solo}}}
-                  {if
-                     {>=
-                        {{{$player band}
-                              main_performer}
-                           score}
-                        1000000}
-                     {achievements submit $user_num ach_skill_million_points}}
-                  {if
-                     {>=
-                        {$player saved_count}
-                        3}
-                     {achievements submit $user_num ach_skill_savior}}
-                  {if
-                     {==
-                        {$user get_track_sym}
-                        vocals}
-                     {if
-                        {>=
-                           {$player deploy_count}
-                           4}
-                        {achievements submit $user_num ach_skill_vocal_overdrive}}}
-                  {if
-                     {>=
-                        {{$player band}
-                           max_multiplier}
-                        8}
-                     {achievements submit $user_num ach_skill_8x_multiplier}}
-                  {if
-                     {&&
-                        {gamemode get allow_overdrive_achievement}
-                        {>=
-                           {{$player band}
-                              longest_multiplier_ms}
-                           90000}}
-                     {achievements submit $user_num ach_skill_long_overdrive}}
-                  {if
-                     {&&
-                        {gamemode is_h2h_arrangement}
-                        {gamemode get online_play_required}}
-                     {switch
-                        {beatmatch get_result_for_player $user_num}
-                        (kWon
-                           {process_comeback_achievement TRUE})
-                        (kLost
-                           {process_comeback_achievement FALSE})}}}}}})
-   #define SELECTED_AWARDS
-   (())
+                           {meta_performer num_songs}
+                           1}
+                        {do
+                           {set
+                              $pcfg
+                              {game
+                                 get_player_config
+                                 {game get leader_num}}}
+                           {if_else
+                              {==
+                                 {highscores
+                                    is_high_score
+                                    {meta_performer completed_song}
+                                    {$pcfg get_track_sym}
+                                    {{beatmatch main_performer}
+                                       score}}
+                                 0}
+                              {set $dest_screen complete_screen}
+                              {set $dest_screen highscores_screen}}}
+                        {do
+                           {if_else
+                              {meta_performer has_high_score}
+                              {set $dest_screen highscores_screen}
+                              {set $dest_screen complete_screen}}}}
+                     {set $dest_screen complete_screen}}
+                  {ui sync_screen $dest_screen 1}}})
+         kDataUnhandled})
    (set_results
-      {set $song_text1 {song_mgr song_name {meta_performer completed_song}}}
-      {if_else {!= $speedmod 1}
-         {set $song_text2 {sprint $song_text1 " (" {int {'+' 0.5 {'*' $speedmod 100}}} "%)"}}
-         {set $song_text2 $song_text1}}
-	  {heading.lbl set_localized $song_text2}
-      {if_else
-         {&&
-            {tour band}
-            {tour event}
-            {{tour event}
-               is_battle}}
-         {do
-            {score.lbl set_showing FALSE}
-            {stars.lbl set_showing FALSE}}
-         {if
-            {!
-               {gamemode is_h2h_arrangement}}
-            {score.lbl set_showing TRUE}
-            {stars.lbl set_showing TRUE}
-            {score.lbl
-               set_localized
-               {fmt_score
-                  {{beatmatch main_performer}
-                     score}}}
-            {stars.lbl
-               set_localized
-               {{beatmatch main_performer}
-                  star_rating}}}}
+      {heading.lbl
+         set_localized
+         {song_mgr
+            song_name
+            {meta_performer completed_song}}}
       {if
-         {gamemode is_h2h_arrangement}
+         {!
+            {gamemode is_hth_arrangement}}
+         {score.lbl set_showing TRUE}
+         {stars.lbl set_showing TRUE}
+         {score.lbl
+            set_localized
+            {fmt_score
+               {{beatmatch main_performer}
+                  score}}}
+         {stars.lbl
+            set_localized
+            {{beatmatch main_performer}
+               star_rating}}}
+      {if
+         {gamemode is_hth_arrangement}
          {rank0_text.lbl set_showing FALSE}
          {rank1_text.lbl set_showing FALSE}
          {rank0.lbl
@@ -356,9 +170,9 @@
             ""}
          {do
             ($slot0
-               {h2h_track_panel band_to_slot 0})
+               {hth_track_panel band_to_slot 0})
             ($slot1
-               {h2h_track_panel band_to_slot 1})
+               {hth_track_panel band_to_slot 1})
             ($lbl0
                {sprintf
                   "win%d.lbl"
@@ -402,14 +216,14 @@
                         ({<
                               $score_diff
                               {/ $max_delta_points 4}}
-                           h2h_narrow_win)
+                           hth_narrow_win)
                         ({<
                               $score_diff
                               {/ $max_delta_points 2}}
-                           h2h_win)
+                           hth_win)
                         ({< $score_diff $max_delta_points}
-                           h2h_big_win)
-                        (TRUE h2h_huge_win)}}}}
+                           hth_big_win)
+                        (TRUE hth_huge_win)}}}}
             {switch
                {beatmatch get_result TRUE}
                (kWonTie
@@ -456,7 +270,7 @@
                      {beatmatch is_active_player $player}}
                   {if_else
                      {'||'
-                        {gamemode is_h2h_arrangement}
+                        {gamemode is_hth_arrangement}
                         {gamemode is_solo}}
                      {$pxy set_showing FALSE}
                      {do
@@ -497,9 +311,9 @@
                      {if
                         {&&
                            {'||'
-                              {gamemode is_h2h_arrangement}
+                              {gamemode is_hth_arrangement}
                               {gamemode is_solo}}
-                           {gamemode is_h2h_arrangement}}
+                           {gamemode is_hth_arrangement}}
                         {{sprintf
                               "score%i.lbl"
                               $slot}
@@ -514,36 +328,30 @@
                         {$pxy exists noteshit.lbl}
                         {{$pxy find noteshit.lbl}
                            set_localized
-                           {if_else
-                              {modifier_mgr is_modifier_active mod_auto_play}
-                              "autoplay"
-                              {sprintf
-                                 {localize endgame_player_noteshit_fmt}
-                                 {int
-                                    {'*'
-                                       100
-                                       {{$pcfg player}
-                                          notes_hit_fraction}}}}}}}
+                           {sprintf
+                              {localize endgame_player_noteshit_fmt}
+                              {int
+                                 {'*'
+                                    100
+                                    {{$pcfg player}
+                                       notes_hit_fraction}}}}}}
                      {if
                         {$pxy exists streak.lbl}
                         {{$pxy find streak.lbl}
                            set_localized
-                           {cond
-                              ({modifier_mgr is_modifier_active mod_auto_play}
-                                 {localize endgame_player_audition_autoplayer})
-                              ({==
-                                    {{$pcfg player}
-                                       instrument}
-                                    vocals}
-                                 {sprintf
-                                    {localize endgame_phrase_streak}
-                                    {{$pcfg player}
-                                       longest_streak}})
-                              (TRUE
-                                 {sprintf
-                                    {localize endgame_note_streak}
-                                    {{$pcfg player}
-                                       longest_streak}})}}}
+                           {if_else
+                              {==
+                                 {{$pcfg player}
+                                    instrument}
+                                 vocals}
+                              {sprintf
+                                 {localize endgame_phrase_streak}
+                                 {{$pcfg player}
+                                    longest_streak}}
+                              {sprintf
+                                 {localize endgame_note_streak}
+                                 {{$pcfg player}
+                                    longest_streak}}}}}
                      {if
                         {$pxy exists difficulty.lbl}
                         {{$pxy find difficulty.lbl}
@@ -554,141 +362,119 @@
                         {$pxy exists award.lbl}
                         {if_else
                            {'||'
-                              {gamemode is_h2h_arrangement}
-                              {gamemode is_solo}
-                              {gamemode is_audition}}
-							  {{do
-                                 ($some_award {choose_award $player SELECTED_AWARDS})
-                                    {push_back SELECTED_AWARDS $some_award}
-                                    {$pcfg set previous_award $some_award}
-                                {{$pxy find award.lbl} set_localized {localize $some_award}}}
-							     {if_else {== {$some_award award_full_combo}}
-                                   {{$pxy find award.lbl} set_showing TRUE}
-                                   {{$pxy find award.lbl} set_showing FALSE}}}
-                               {do
-                                 ($some_award {choose_award $player SELECTED_AWARDS})
-                                    {push_back SELECTED_AWARDS $some_award}
-                                    {$pcfg set previous_award $some_award}
-                                {{$pxy find award.lbl} set_localized {localize $some_award}}
-                                {{$pxy find award.lbl} set_showing TRUE}}}}}}}}}))
+                              {gamemode is_hth_arrangement}
+                              {gamemode is_solo}}
+                           {{$pxy find award.lbl}
+                              set_showing
+                              FALSE}
+                           {do
+                              ($some_award
+                                 {choose_award $player SELECTED_AWARDS})
+                              {push_back SELECTED_AWARDS $some_award}
+                              {$pcfg set previous_award $some_award}
+                              {{$pxy find award.lbl}
+                                 set_localized
+                                 {localize $some_award}}
+                              {{$pxy find award.lbl}
+                                 set_showing
+                                 TRUE}}}}}}}}}))
+{new
+   BandScreen
+   endgame_waiting_complete_screen
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {beatmatch
+         foreach_active_player
+         $p
+         {$p finalize_stats}}
+      {tour
+         set
+         win_sequence
+         {meta_performer is_winning}}
+      {meta_performer
+         complete_song
+         {{beatmatch main_performer}
+            num_stars}
+         {{beatmatch main_performer}
+            score}
+         {{beatmatch main_performer}
+            accumulated_score}
+         {{{beatmatch main_performer}
+               band}
+            longest_streak}
+         {{beatmatch main_performer}
+            total_stars}}
+      {if
+         {meta_performer is_last_song}
+         {helpbar
+            set_limit_to_player_num
+            {game get leader_num}}}
+      {ui goto_screen endgame_advance_screen})}
+{new
+   BandScreen
+   endgame_advance_screen
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {do
+         ($screen
+            {gamemode get endgame_screen})
+         {meta_performer
+            advance_song
+            {{beatmatch main_performer}
+               num_stars}
+            {{beatmatch main_performer}
+               score}}
+         #ifndef _SHIP
+         {if
+            $cheat.win_event
+            {while
+               {!
+                  {meta_performer is_last_song}}
+               {meta_performer
+                  complete_song
+                  {{beatmatch main_performer}
+                     num_stars}
+                  {{beatmatch main_performer}
+                     score}
+                  {{beatmatch main_performer}
+                     accumulated_score}
+                  {{{beatmatch main_performer}
+                        band}
+                     longest_streak}
+                  {{beatmatch main_performer}
+                     total_stars}}
+               {meta_performer
+                  advance_song
+                  {{beatmatch main_performer}
+                     num_stars}
+                  {{beatmatch main_performer}
+                     score}}}
+            {set $cheat.win_event FALSE}}
+         #endif
+         {ui goto_screen $screen}})}
+{new
+   UIPanel
+   endgame_background_panel
+   (file
+      "endgame_background.milo")
+   (hide_overlay
+      {overlay_hide.trg trigger})
+   (show_overlay
+      {overlay_show.trg trigger})}
 #include complete.dta
 #define ENDGAME_SCREEN_HANDLERS
-(#ifdef HX_XBOX
-   (helpbar
+((helpbar
       {if_else
-         {'||'
-            {is_leader_local}
-            {gamemode get ranked}}
+         {tour performer}
          {if_else
             {&&
-               {gamemode get online_play_required}
-               {>
-                  {session num_players}
+               {gamemode is_tour_challenge}
+               {==
+                  {{tour performer}
+                     num_new_challenge_unlocks}
                   0}}
-            ((confirm
-                  {if_else
-                     {tour band}
-                     tour_hb_finishgig
-                     endgame_hb_finishsong})
-               (option endgame_hb_details))
-            ((confirm
-                  {if_else
-                     {tour band}
-                     tour_hb_finishgig
-                     endgame_hb_finishsong}))}
-         {if_else
-            {&&
-               {gamemode get online_play_required}
-               {>
-                  {session num_players}
-                  0}}
-            ((option endgame_hb_details))
-            ()}})
-   #else
-   (helpbar
-      {if_else
-         {'||'
-            {is_leader_local}
-            {gamemode get ranked}}
-         ((confirm
-               {if_else
-                  {tour band}
-                  tour_hb_finishgig
-                  endgame_hb_finishsong}))
-         ()})
-   #endif
-   (BUTTON_DOWN_MSG
-      {switch
-         $action
-         #ifdef HX_XBOX
-         (kAction_Option
-            {if
-               {!
-                  {gamemode get ranked}}
-               {net_sync disable}}
-            {if
-               {gamemode get online_play_required}
-               {ui
-                  goto_screen
-                  [more_details_screen]}})
-         #endif
-         (kAction_Confirm
-            {synth play button_select}
-            {if_else
-               {tour band}
-               {ui
-                  sync_screen
-                  {if_else
-                     {{tour event}
-                        is_battle}
-                     tour_botb_complete_screen
-                     {if_else
-                        {==
-                           {{tour band}
-                              event_type}
-                           kTourEventChallenge}
-                        tour_challenge_complete_screen
-                        tour_world_complete_screen}}
-                  1}
-               {if_else
-                  {gamemode get ranked}
-                  {ui goto_screen complete_ranked_screen}
-                  {ui
-                     sync_screen
-                     {if_else
-                        {gamemode get is_audition}
-                        audition_complete_screen
-                        complete_screen}
-                     1}}})
-         (kAction_Cancel
-            {if_else
-               {&&
-                  {!
-                     {is_leader_local}}
-                  {!
-                     {gamemode get ranked}}}
-               {band_ui trigger_event remote_exit}
-               kDataUnhandled})
-         kDataUnhandled})
-   (TRANSITION_COMPLETE_MSG
-      {unless
-         {is_leader_local}
-         #ifdef HX_XBOX
-         {helpbar option endgame_hb_details}
-         #endif
-         {if_else
-            {gamemode get ranked}
-            {helpbar confirm endgame_hb_finishsong}
-            {do
-               {helpbar cancel endgame_hb_leave_session}
-               {do
-                  ($leader_name
-                     {{session_mgr get_leader_user}
-                        get
-                        player_name})
-                  {helpbar
-                     waiting
-                     {symbol
-                        {sprintf
-                           {localize helpbar_waiting_for}
-                           $leader_name}}}}}}}))
+            ((confirm tour_hb_challenge_return))
+            ((confirm tour_hb_finishgig))}
+         ((confirm endgame_hb_finishsong))}))

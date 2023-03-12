@@ -1,0 +1,991 @@
+#define kSaveSignin
+(0)
+#define kSaveSet
+(1)
+#define kSaveDisable
+(2)
+#define kSaveDelete
+(3)
+#define kAutosaveTypePushPop
+(0)
+#define kAutosaveTypePushPopGoto
+(1)
+#define kAutosaveTypeGotoPop
+(2)
+#define kAutosaveTypeGotoGoto
+(3)
+#define kSaveFileSize
+(514)
+{func
+   manual_save_start
+   ($player_num)
+   {ps2_saveload_begin_async}
+   {set $save_load_mode kManualSave}
+   {set $saveload_player_num 0}
+   {set $saveload_goto_type kMetaNextTypePushPop}
+   {push_save_screen_no_overwrite}}
+{func
+   manual_load_start
+   ($player_num)
+   {ps2_saveload_begin_async}
+   {set $save_load_mode kManualLoad}
+   {set $saveload_player_num 0}
+   {set $saveload_goto_type kMetaNextTypePushPop}
+   {if_else
+      {profile_mgr has_unsaved_data $player_num}
+      {ui push_screen manual_load_confirm_screen}
+      {ui push_screen manual_load_screen}}}
+{func
+   ps2_autoload_start
+   ($goto_type $next_screen)
+   {if
+      {&&
+         {! $saveload_ui_is_up}
+         {! $autoload_complete}}
+      {set $save_load_mode kAutoLoad}
+      {set $saveload_goto_type $goto_type}
+      {set $saveload_goto_screen $next_screen}
+      {set $saveload_player_num 0}
+      {ps2_saveload_begin_async}
+      {set $autoload_complete TRUE}
+      {ui push_screen auto_load_screen}}}
+{func
+   ps2_autosave_start
+   ($goto_type $next_screen)
+   {if
+      {! $saveload_ui_is_up}
+      {set $save_load_mode kAutoSave}
+      {set $saveload_goto_screen $next_screen}
+      {set $saveload_goto_type $goto_type}
+      {if_else
+         {&&
+            {profile_mgr has_unsaved_data FALSE}
+            {profile_mgr get_should_autosave}}
+         {do
+            {ps2_saveload_begin_async}
+            {set $saveload_player_num 0}
+            {switch
+               $saveload_goto_type
+               ((kMetaNextTypeGotoPop kMetaNextTypeGotoGoto kMetaNextTypeGotoPopGoto)
+                  {goto_save_screen_with_overwrite})
+               {push_save_screen_with_overwrite}}}
+         {ps2_saveload_cleanup_and_shutdown}}}}
+{func
+   ps2_saveload_begin_async
+   {if
+      $saveload_ui_is_up
+      {fail
+         "ps2_saveload_begin called, but $saveload_ui_is_up is already true\n"}}
+   {set
+      $progressive_scan_previous_setting
+      {profile_mgr get_progressive_scan}}
+   {set $saveload_ui_is_up TRUE}}
+{func
+   on_saveload_done
+   ($state)
+   {memcardmgr saveload_profile_complete $saveload_player_num $state}
+   {ps2_saveload_cleanup_and_shutdown}}
+{func
+   ps2_saveload_cleanup_and_shutdown
+   {memcardmgr saveload_all_complete}
+   {if_else
+      {&&
+         {'||'
+            {== $save_load_mode kManualLoad}
+            {== $save_load_mode kAutoLoad}}
+         {profile_mgr get_progressive_scan}
+         {!=
+            {profile_mgr get_progressive_scan}
+            $progressive_scan_previous_setting}}
+      {ui goto_screen progressive_scan_warning_screen}
+      {goto_next_save_screen}}}
+{func
+   goto_next_save_screen
+   {if_else
+      $saveload_ui_is_up
+      {do
+         {switch
+            $saveload_goto_type
+            ((kMetaNextTypePushPopGoto kMetaNextTypeGotoPopGoto)
+               {ui pop_screen $saveload_goto_screen})
+            (kMetaNextTypeGotoGoto
+               {ui goto_screen $saveload_goto_screen})
+            {ui pop_screen}}
+         {set $saveload_ui_is_up FALSE}}
+      {do
+         {switch
+            $saveload_goto_type
+            ((kMetaNextTypePushPopGoto kMetaNextTypeGotoGoto)
+               {ui goto_screen $saveload_goto_screen})
+            (kMetaNextTypeGotoPopGoto
+               {ui pop_screen $saveload_goto_screen})
+            (kMetaNextTypeGotoPop
+               {ui pop_screen})}}}}
+{func
+   get_saveload_mode_screen
+   {do
+      ($next_saveload_mode_screen '')
+      {switch
+         $save_load_mode
+         ((kAutoSave kManualSave)
+            {set $next_saveload_mode_screen save_screen})
+         (kAutoLoad
+            {set $next_saveload_mode_screen auto_load_screen})
+         (kManualLoad
+            {set $next_saveload_mode_screen manual_load_screen})
+         {fail
+            {sprintf
+               "Invalid mode, $save_load_mode = %s"
+               $save_load_mode}}}
+      $next_saveload_mode_screen}}
+#define SAVE_HELPBAR
+((TRANSITION_COMPLETE_MSG
+      {helpbar
+         set_config
+         ((confirm helpbar_select))}))
+#define SAVE_HELPBAR_CONTINUE
+((TRANSITION_COMPLETE_MSG
+      {helpbar
+         set_config
+         ((confirm helpbar_continue))}))
+{new
+   BandScreen
+   progressive_scan_warning_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   SAVE_HELPBAR_CONTINUE
+   (enter
+      {dialog_panel
+         set_yesno
+         {localize_token mc_progressive_scan_warning}
+         no.btn})
+   (SELECT_MSG
+      {switch
+         $component
+         (yes.btn
+            {ui goto_screen progressive_scan_intro_continue_screen})
+         (no.btn
+            {profile_mgr set_progressive_scan FALSE}
+            {goto_next_save_screen})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   progressive_scan_intro_continue_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_continue)))
+   SAVE_HELPBAR_CONTINUE
+   (enter
+      {dialog_panel
+         set_ok
+         {localize_token progressive_scan_notice}}
+      {dialog_panel
+         set_title
+         {localize_token progressive_scan_notice_title}})
+   (SELECT_MSG
+      {ui goto_screen progressive_scan_intro_confirm_screen})}
+{new
+   BandScreen
+   progressive_scan_intro_confirm_screen
+   PROGRESSIVE_SCAN_CONFIRM_SCREEN
+   (progressive_scan_choice
+      {goto_next_save_screen})}
+{new
+   BandScreen
+   auto_load_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {$this
+         setup_msg_localized
+         {sprintf
+            {localize_token mc_auto_load_looking_ps2}
+            {memcardmgr get_memcard_slot_name}}}
+      {$this set_title mc_title_checking}
+      {memcardmgr select_device $saveload_player_num TRUE $this}
+      {memcardmgr load_game $saveload_player_num})
+   (MEMCARD_RESULT_MSG
+      {switch
+         $result
+         (kMCDifferentCard
+            {memcardmgr load_game $saveload_player_num})
+         (kMCCorrupt
+            {ui goto_screen auto_load_corrupt_screen})
+         ((kMCFileNotFound kMCNotFormatted)
+            {if_else
+               {modifiers_panel get disabling_modifier}
+               {ui goto_screen auto_load_missing_data_screen_modifier}
+               {ui goto_screen auto_save_missing_data_screen}})
+         (kMCNoCard
+            {if_else
+               {modifiers_panel get disabling_modifier}
+               {ui goto_screen auto_load_storage_missing_screen_modifier}
+               {ui goto_screen auto_load_storage_missing_screen}})
+         (kMCNoError
+            {$this setup_msg mc_auto_load_complete}
+            {$this set_title mc_title_loading}
+            {profile_mgr set_global_options_pad 0}
+            {script_task
+               kTaskUISeconds
+               (delay 0.5)
+               (script
+                  {on_saveload_done kMetaSaveLoaded})})
+         (kMCObsoleteVersion
+            {ui goto_screen auto_load_obsolete_version_screen})
+         (kMCNewerVersion
+            {ui goto_screen auto_load_newer_version_screen})
+         (kMCNotEnoughSpace
+            {ui goto_screen save_not_enough_space_screen})
+         {ui goto_screen load_failed_screen}})}
+{new
+   BandScreen
+   autosave_warning
+   SAVELOAD_DIALOG_SCREEN
+   (shown FALSE)}
+{new
+   BandScreen
+   autosave_disabled_by_cheat
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {$this setup_continue mc_save_disabled_by_cheat})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {on_saveload_done kMetaSaveError})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   manual_load_confirm_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   SAVE_HELPBAR
+   (enter
+      {$this
+         setup_2btn_localized
+         {sprintf
+            {localize_token mc_manual_load_confirm_unsaved_ps2}
+            {memcardmgr get_memcard_slot_name}}
+         mc_button_yes
+         mc_button_no
+         opt2}
+      {$this set_title mc_title_caution})
+   (exit)
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {ui goto_screen manual_load_screen})
+         (option2.btn
+            {on_saveload_done kMetaSaveUnchanged})
+         kDataUnhandled})}
+{new
+   BandScreen
+   manual_load_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {$this
+         setup_msg_localized
+         {sprintf
+            {localize_token mc_auto_load_looking_ps2}
+            {memcardmgr get_memcard_slot_name}}}
+      {$this set_title mc_title_checking}
+      {memcardmgr load_game $player_num})
+   (MEMCARD_RESULT_MSG
+      {switch
+         $result
+         (kMCNoCard
+            {ui goto_screen manual_load_no_card_screen})
+         ((kMCFileNotFound kMCNotEnoughSpace)
+            {ui goto_screen manual_load_no_file_screen})
+         (kMCCorrupt
+            {ui goto_screen manual_load_corrupt_screen})
+         (kMCDifferentCard
+            {memcardmgr load_game $player_num})
+         (kMCNotFormatted
+            {ui goto_screen manual_load_error_not_formatted_screen})
+         (kMCNoError
+            {$this setup_msg mc_manual_load_complete}
+            {$this set_title mc_title_loading}
+            {profile_mgr set_global_options_pad 0}
+            {script_task
+               kTaskUISeconds
+               (delay 0.5)
+               (script
+                  {on_saveload_done kMetaSaveLoaded})})
+         {ui goto_screen load_failed_screen}})}
+{new
+   BandScreen
+   manual_load_no_card_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   SAVE_HELPBAR_CONTINUE
+   (enter
+      {$this
+         setup_continue_localized
+         {sprintf
+            {localize_token mc_manual_load_no_card}
+            {memcardmgr get_memcard_slot_name}}}
+      {$this set_title mc_title_loading})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {on_saveload_done kMetaSaveUnchanged})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   manual_load_no_file_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   SAVE_HELPBAR_CONTINUE
+   (enter
+      {$this
+         setup_continue_localized
+         {sprintf
+            {localize_token mc_manual_load_no_file}
+            {memcardmgr get_memcard_slot_name}}}
+      {$this set_title mc_title_loading})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {on_saveload_done kMetaSaveUnchanged})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   manual_load_corrupt_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   SAVE_HELPBAR_CONTINUE
+   (enter
+      {$this
+         setup_continue_localized
+         {sprintf
+            {localize_token mc_manual_load_corrupt}
+            {memcardmgr get_memcard_slot_name}}}
+      {$this set_title mc_title_caution})
+   (SELECT_START_MSG
+      {on_saveload_done kMetaSaveUnchanged}
+      kDataUnhandled)}
+{new
+   BandScreen
+   auto_load_corrupt_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   SAVE_HELPBAR
+   (enter
+      {$this
+         setup_2btn_localized
+         {sprintf
+            {localize_token mc_auto_load_corrupt_ps2}
+            {memcardmgr get_memcard_slot_name}
+            kSaveFileSize}
+         mc_button_yes
+         mc_button_no
+         opt2}
+      {$this set_title mc_title_caution})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {goto_save_screen_with_overwrite})
+         (option2.btn
+            {ui goto_screen auto_load_autosave_caution})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   auto_load_obsolete_version_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   SAVE_HELPBAR
+   (enter
+      {$this setup_2btn mc_auto_load_obsolete_version mc_button_overwrite mc_button_continue_no_save opt1}
+      {$this set_title mc_title_caution})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {goto_save_screen_with_overwrite})
+         (option2.btn
+            {on_saveload_done kSaveDisable})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   manual_load_error_not_formatted_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   SAVE_HELPBAR
+   (enter
+      {$this
+         setup_continue_localized
+         {sprintf
+            {localize_token mc_manual_load_unformatted}
+            {memcardmgr get_memcard_slot_name}}}
+      {$this set_title mc_title_caution})
+   (SELECT_START_MSG
+      {on_saveload_done kMetaSaveUnchanged})}
+{new
+   BandScreen
+   error_not_formatted_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   SAVE_HELPBAR
+   (enter
+      {set $button_pressed FALSE}
+      {$this
+         setup_2btn_localized
+         {sprintf
+            {localize_token mc_load_unformatted}
+            {memcardmgr get_memcard_slot_name}}
+         mc_button_yes
+         mc_button_no
+         opt2}
+      {$this set_title mc_title_caution})
+   (SELECT_START_MSG
+      {if_else
+         {!= $button_pressed TRUE}
+         {switch
+            $component
+            (option1.btn
+               {set $button_pressed TRUE}
+               {ui goto_screen formatting_screen})
+            (option2.btn
+               {set $button_pressed TRUE}
+               {if_else
+                  {== $save_load_mode kManualLoad}
+                  {on_saveload_done kMetaSaveUnchanged}
+                  {ui goto_screen auto_load_autosave_caution}})
+            kDataUnhandled}
+         kDataUnhandled})}
+{new
+   BandScreen
+   auto_load_autosave_caution
+   SAVELOAD_DIALOG_SCREEN_HELP
+   SAVE_HELPBAR
+   (enter
+      {$this setup_2btn mc_save_autosave_caution mc_button_yes mc_button_no opt2}
+      {$this set_title mc_title_caution})
+   (exit)
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {profile_mgr set_autosave_enabled FALSE}
+            {on_saveload_done kMetaSaveError})
+         (option2.btn
+            {ui
+               goto_screen
+               {get_saveload_mode_screen}})})}
+{new
+   BandScreen
+   auto_save_different_card_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   SAVE_HELPBAR
+   (enter
+      {$this
+         setup_2btn_localized
+         {sprintf
+            {localize_token mc_save_different_card}
+            {memcardmgr get_memcard_slot_name}
+            {memcardmgr get_memcard_slot_name}}
+         mc_button_yes
+         mc_button_no
+         opt2}
+      {$this set_title mc_title_caution})
+   (exit)
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {goto_save_screen_no_overwrite})
+         (option2.btn
+            {ui goto_screen auto_load_autosave_caution})})}
+{new
+   BandScreen
+   formatting_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {$this
+         setup_msg_localized
+         {sprintf
+            {localize_token mc_load_formatting}
+            {memcardmgr get_memcard_slot_name}}}
+      {$this set_title mc_title_formatting}
+      {memcardmgr format $saveload_player_num})
+   (MEMCARD_RESULT_MSG
+      {switch
+         $result
+         (kMCAlreadyFormatted
+            {ui goto_screen format_already_formatted_screen})
+         (kMCDifferentCard
+            {ui goto_screen format_different_card_screen})
+         (kMCNoError
+            {switch
+               $save_load_mode
+               ((kManualSave kAutoSave kAutoLoad)
+                  {goto_save_screen_no_overwrite})
+               (kManualLoad
+                  {$this
+                     setup_msg_localized
+                     {localize_token mc_format_complete}}
+                  {script_task
+                     kTaskUISeconds
+                     (delay 1)
+                     (script
+                        {ui goto_screen manual_load_no_file_screen})})
+               {fail
+                  {sprintf
+                     "Invalid save load mode specified - %s"
+                     $save_load_mode}}})
+         (kMCNoCard
+            {ui goto_screen format_missing_card_screen})
+         {ui goto_screen format_generic_error_screen}})}
+{new
+   BandScreen
+   format_different_card_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   SAVE_HELPBAR_CONTINUE
+   (enter
+      {$this
+         setup_continue_localized
+         {sprintf
+            {localize_token mc_format_error_different_card}
+            {memcardmgr get_memcard_slot_name}}}
+      {$this set_title mc_title_caution})
+   (SELECT_START_MSG
+      {ui
+         goto_screen
+         {get_saveload_mode_screen}})}
+{new
+   BandScreen
+   format_already_formatted_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   SAVE_HELPBAR_CONTINUE
+   (enter
+      {$this
+         setup_continue_localized
+         {sprintf
+            {localize_token mc_format_error_already_formatted}
+            {memcardmgr get_memcard_slot_name}}}
+      {$this set_title mc_title_caution})
+   (SELECT_START_MSG
+      {ui
+         goto_screen
+         {get_saveload_mode_screen}})}
+{new
+   BandScreen
+   format_missing_card_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   SAVE_HELPBAR
+   (enter
+      {$this
+         setup_2btn_localized
+         {sprintf
+            {localize_token mc_format_error_missing_card}
+            {memcardmgr get_memcard_slot_name}}
+         mc_button_retry
+         mc_button_cancel
+         opt1}
+      {$this set_title mc_title_caution})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {ui goto_screen formatting_screen})
+         (option2.btn
+            {ui
+               goto_screen
+               {get_saveload_mode_screen}})})}
+{new
+   BandScreen
+   format_generic_error_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   SAVE_HELPBAR
+   (enter
+      {$this
+         setup_2btn_localized
+         {sprintf
+            {localize_token mc_format_error_unknown}
+            {memcardmgr get_memcard_slot_name}}
+         mc_button_retry
+         mc_button_cancel
+         opt1}
+      {$this set_title mc_title_caution})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {ui goto_screen auto_load_autosave_caution})
+         (option2.btn
+            {ui
+               goto_screen
+               {get_saveload_mode_screen}})})}
+{new
+   BandScreen
+   auto_load_newer_version_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   SAVE_HELPBAR
+   (enter
+      {$this setup_3btn mc_auto_load_newer_version mc_button_overwrite mc_button_continue_no_save '' opt2}
+      {$this set_title mc_title_caution})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {goto_save_screen_with_overwrite})
+         (option2.btn
+            {on_saveload_done kMetaSaveError})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   load_failed_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   SAVE_HELPBAR_CONTINUE
+   (enter
+      {$this setup_continue mc_load_failed}
+      {$this set_title mc_title_caution})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {on_saveload_done kMetaSaveError})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   save_screen
+   SAVELOAD_DIALOG_SCREEN
+   (overwrite 0)
+   (enter_time 0.0)
+   (save_time 0.0)
+   (done_saving FALSE)
+   (done_polling FALSE)
+   (long FALSE)
+   (enter
+      {set
+         [enter_time]
+         {taskmgr ui_seconds}}
+      {set
+         [save_time]
+         0.0}
+      {set
+         [done_saving]
+         FALSE}
+      {set
+         [done_polling]
+         FALSE}
+      {$this
+         setup_msg_localized
+         {sprintf
+            {localize_token mc_save_ps2}
+            {memcardmgr get_memcard_slot_name}}}
+      {$this set_title mc_title_saving}
+      {memcardmgr
+         save_game
+         $saveload_player_num
+         [overwrite]})
+   (exit)
+   (MEMCARD_RESULT_MSG
+      {switch
+         $result
+         (kMCDifferentCard
+            {set
+               [done_polling]
+               TRUE}
+            {ui goto_screen auto_save_different_card_screen})
+         (kMCNoError
+            {set
+               [done_saving]
+               TRUE}
+            {set
+               [save_time]
+               {taskmgr ui_seconds}}
+            {ui goto_screen save_complete_screen})
+         (kMCFileExists
+            {set
+               [done_polling]
+               TRUE}
+            {ui goto_screen save_confirm_overwrite_screen})
+         (kMCNotEnoughSpace
+            {set
+               [done_polling]
+               TRUE}
+            {ui goto_screen save_not_enough_space_screen})
+         (kMCNoCard
+            {set
+               [done_polling]
+               TRUE}
+            {ui goto_screen auto_save_storage_missing_screen})
+         (kMCNotFormatted
+            {ui goto_screen error_not_formatted_screen})
+         {set
+            [done_polling]
+            TRUE}
+         {ui goto_screen save_failed_screen}})}
+{new
+   BandScreen
+   save_complete_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {$this setup_msg mc_save_complete}
+      {$this set_title mc_title_saving})
+   (TRANSITION_COMPLETE_MSG
+      {script_task
+         kTaskUISeconds
+         (delay 0.5)
+         (script
+            {do
+               {on_saveload_done kMetaSaveLoaded}})})
+   (exit)}
+{new
+   BandScreen
+   auto_save_missing_data_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   SAVE_HELPBAR
+   (enter
+      {set $button_pressed FALSE}
+      {$this
+         setup_2btn_localized
+         {sprintf
+            {localize_token mc_save_missing_data_ps2}
+            {memcardmgr get_memcard_slot_name}
+            kSaveFileSize}
+         mc_button_yes
+         mc_button_no
+         opt1}
+      {$this set_title mc_title_saving})
+   (SELECT_START_MSG
+      {if_else
+         {== $button_pressed FALSE}
+         {switch
+            $component
+            (option1.btn
+               {if
+                  {modifiers_panel get disabling_modifier}
+                  {profile_mgr purge_old_data}
+                  {{profile_mgr
+                        get_save_data_from_player
+                        {gamecfg get leader_num}}
+                     set_has_cheated
+                     FALSE}}
+               {set $button_pressed TRUE}
+               {ui goto_screen save_screen})
+            (option2.btn
+               {set $button_pressed TRUE}
+               {ui goto_screen auto_load_autosave_caution})
+            kDataUnhandled}
+         kDataUnhandled})}
+{new
+   BandScreen
+   auto_save_storage_missing_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   SAVE_HELPBAR
+   (enter
+      {$this
+         setup_2btn_localized
+         {sprintf
+            {localize_token mc_save_missing_storage}
+            {memcardmgr get_memcard_slot_name}
+            kSaveFileSize}
+         mc_button_yes
+         mc_button_no
+         opt2}
+      {$this set_title mc_title_caution})
+   (JOYPAD_CONNECT_MSG)
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {profile_mgr set_autosave_enabled FALSE}
+            {on_saveload_done kMetaSaveError})
+         (option2.btn
+            {ui goto_screen save_screen})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   auto_load_storage_missing_screen_modifier
+   SAVELOAD_DIALOG_SCREEN_HELP
+   SAVE_HELPBAR
+   (enter
+      {$this
+         setup_2btn_localized
+         {sprintf
+            {localize_token mc_save_missing_storage_modifier}
+            {memcardmgr get_memcard_slot_name}}
+         mc_button_yes
+         mc_button_no
+         opt2}
+      {$this set_title mc_title_caution})
+   (JOYPAD_CONNECT_MSG)
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {profile_mgr purge_old_data}
+            {profile_mgr set_autosave_enabled FALSE}
+            {on_saveload_done kMetaSaveError})
+         (option2.btn
+            {do
+               ($modifier
+                  {{modifiers_panel find modifiers.lst}
+                     selected_sym})
+               {modifier_mgr activate_modifier $modifier}
+               {{modifiers_panel find modifiers.lst}
+                  set_dirty}
+               {set $saveload_ui_is_up FALSE}
+               {ui pop_screen}})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   auto_load_missing_data_screen_modifier
+   SAVELOAD_DIALOG_SCREEN_HELP
+   SAVE_HELPBAR
+   (enter
+      {$this
+         setup_2btn_localized
+         {sprintf
+            {localize_token mc_save_missing_data_modifier}
+            {memcardmgr get_memcard_slot_name}}
+         mc_button_yes
+         mc_button_no
+         opt2}
+      {$this set_title mc_title_caution})
+   (JOYPAD_CONNECT_MSG)
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {profile_mgr purge_old_data}
+            {profile_mgr set_autosave_enabled FALSE}
+            {on_saveload_done kMetaSaveError})
+         (option2.btn
+            {do
+               ($modifier
+                  {{modifiers_panel find modifiers.lst}
+                     selected_sym})
+               {modifier_mgr activate_modifier $modifier}
+               {{modifiers_panel find modifiers.lst}
+                  set_dirty}
+               {set $saveload_ui_is_up FALSE}
+               {ui pop_screen}})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   auto_load_storage_missing_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   SAVE_HELPBAR
+   (enter
+      {$this
+         setup_2btn_localized
+         {sprintf
+            {localize_token mc_save_missing_storage}
+            {memcardmgr get_memcard_slot_name}
+            kSaveFileSize}
+         mc_button_yes
+         mc_button_no
+         opt2}
+      {$this set_title mc_title_caution})
+   (JOYPAD_CONNECT_MSG)
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {profile_mgr set_autosave_enabled FALSE}
+            {on_saveload_done kMetaSaveError})
+         (option2.btn
+            {ui goto_screen auto_load_screen})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   save_confirm_overwrite_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   SAVE_HELPBAR
+   (enter
+      {$this setup_2btn mc_save_confirm_overwrite mc_button_yes mc_button_no opt2}
+      {$this set_title mc_title_caution})
+   (exit)
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {goto_save_screen_with_overwrite})
+         (option2.btn
+            {ui goto_screen auto_load_autosave_caution})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   save_not_enough_space_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   SAVE_HELPBAR
+   (enter
+      {$this
+         setup_2btn_localized
+         {switch
+            {system_language}
+            (deu
+               {sprintf
+                  {localize_token mc_save_not_enough_space_ps2}
+                  {memcardmgr get_memcard_slot_name}
+                  kSaveFileSize})
+            {sprintf
+               {localize_token mc_save_not_enough_space_ps2}
+               {memcardmgr get_memcard_slot_name}
+               {memcardmgr get_memcard_slot_name}
+               kSaveFileSize}}
+         mc_button_yes
+         mc_button_no
+         opt2}
+      {$this set_title mc_title_caution})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {ui goto_screen auto_load_autosave_caution})
+         (option2.btn
+            {ui
+               goto_screen
+               {get_saveload_mode_screen}})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   save_failed_screen
+   SAVELOAD_DIALOG_SCREEN_HELP
+   SAVE_HELPBAR
+   (enter
+      {$this
+         setup_3btn_localized
+         {sprintf
+            {localize_token mc_save_failed_ps2}
+            {memcardmgr get_memcard_slot_name}}
+         mc_button_yes
+         mc_button_no
+         ''
+         opt2}
+      {$this set_title mc_title_caution})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {profile_mgr set_autosave_enabled FALSE}
+            {on_saveload_done kMetaSaveError})
+         (option2.btn
+            {ui goto_screen save_screen})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   delete_saves_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {rnd set_app_draw FALSE}
+      {memcardmgr delete_saves $saveload_player_num})
+   (MEMCARD_RESULT_MSG
+      {rnd set_app_draw TRUE}
+      {ui goto_screen save_screen})}
+{func
+   goto_save_screen_no_overwrite
+   {save_screen set overwrite FALSE}
+   {ui goto_screen save_screen}}
+{func
+   goto_save_screen_with_overwrite
+   {save_screen set overwrite TRUE}
+   {ui goto_screen save_screen}}
+{func
+   push_save_screen_with_overwrite
+   {save_screen set overwrite TRUE}
+   {ui push_screen save_screen}}
+{func
+   push_save_screen_no_overwrite
+   {save_screen set overwrite FALSE}
+   {ui push_screen save_screen}}

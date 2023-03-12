@@ -1,0 +1,151 @@
+#define VOXSP_END_OF_SONG_PERCENT
+(78.0)
+#define VOXSP_END_OF_DEMO_PERCENT
+(61.0)
+SETUP_VOCALS_TUTORIAL
+VOCALS_TV_WHITE
+START_BG_MUSIC
+{setup_lesson_banner tutorial_vocals_basics_starpower_part}
+{play_vo tute_vocals1_energyintro}
+WAIT_FOR_VO
+SHORT_VO_GAP
+{meta_performer set_song vocals_basics_starpower}
+LOAD_NEW_VOCALS_SONG_NO_FADE
+UNHIDE_VOCALS_PLAYER_UI
+FORCE_ARROW_OFF
+UNPAUSE_TRACK
+SYNC_PAUSE
+ALMOST_READY_BAND_ENERGY
+{play_vo tute_vocals1_energymeter1}
+SHOW_STARPOWER_METER_ARROW
+WAIT_FOR_VO
+SHORT_VO_GAP
+{play_vo tute_vocals1_energymeter2}
+WAIT_FOR_VO
+SHORT_VO_GAP
+UNPAUSE_TRACK
+FADE_SONG_IN_FAST
+SYNC_PAUSE
+FORCE_ARROW_ON
+HIDE_PITCH_ARROW
+{play_vo tute_vocals1_energydeploy}
+HIDE_STARPOWER_METER_ARROW
+SHOW_DEPLOY_PHRASE_ARROW
+WAIT_FOR_VO
+HIDE_DEPLOY_PHRASE_ARROW
+SHORT_VO_GAP
+UNPAUSE_TRACK
+{$task sleep 2.2}
+VOCALS_OUT
+{meta_performer set_song vocals_basics_starpower}
+LOAD_NEW_VOCALS_SONG_NO_FADE
+UNHIDE_VOCALS_PLAYER_UI
+UNPAUSE_TRACK
+SYNC_PAUSE
+ALMOST_READY_BAND_ENERGY
+DISABLE_SYNC_PAUSE
+{new
+   Object
+   tutorial_vocals_basics_starpower_callback
+   (unison_hit
+      {set
+         [ready_to_deploy]
+         TRUE})
+   (deploy
+      {set
+         [deployed]
+         TRUE})
+   (end_reached
+      {<
+         {{beatmatch active_player 0}
+            percent_complete}
+         VOXSP_END_OF_SONG_PERCENT})
+   (demo_reached
+      {<
+         {{beatmatch active_player 0}
+            percent_complete}
+         VOXSP_END_OF_DEMO_PERCENT})
+   (lesson_running
+      {&&
+         {!
+            [deployed]}
+         {$this end_reached}})
+   (not_ready_to_deploy
+      {&&
+         {!
+            [ready_to_deploy]}
+         {$this demo_reached}})
+   (failed
+      {!
+         [deployed]})
+   (is_ready_to_deploy
+      {!
+         {!
+            [ready_to_deploy]}})
+   (ready_to_deploy FALSE)
+   (deployed FALSE)}
+{play_vo tute_vocals1_deploytry}
+STOP_BG_MUSIC
+VOCALS_TV_OFF_NO_HIDE
+WAIT_FOR_VO
+LONG_VO_GAP
+{set_info_text
+   {localize tutorial_vocals_basics_starpower_task}}
+{show_info_text TRUE}
+{{beatmatch active_player 0}
+   add_sink
+   tutorial_vocals_basics_starpower_callback}
+UNPAUSE_TRACK
+FADE_SONG_IN
+{$task
+   wait
+   {tutorial_vocals_basics_starpower_callback not_ready_to_deploy}}
+{if
+   {tutorial_vocals_basics_starpower_callback is_ready_to_deploy}
+   {play_vo tute_vocals1_deploy}}
+{$task
+   wait
+   {tutorial_vocals_basics_starpower_callback lesson_running}}
+{if
+   {!
+      {tutorial_vocals_basics_starpower_callback failed}}
+   {$task
+      wait_timeout
+      {tutorial_vocals_basics_starpower_callback end_reached}
+      TUTORIAL_VOCALS_BASICS_STARPOWER_PAUSE
+      $timeout}}
+FREEZE_SCORE_TEXT
+VOCALS_OUT
+{if
+   {!
+      {tutorial_vocals_basics_starpower_callback failed}}
+   {$task sleep 1}}
+PAUSE_TRACK
+WAIT_FOR_VO
+{if_else
+   {tutorial_vocals_basics_starpower_callback failed}
+   {do
+      {set_banner_text
+         {localize tutorial_vocals_basics_starpower_failed}}
+      {play_vo tute_vocals1_deployfail}}
+   {do
+      {set_banner_text
+         {localize tutorial_vocals_basics_starpower_done}}
+      {play_vo tute_vocals1_deploypass}}}
+{show_info_text FALSE}
+{show_part_text FALSE}
+{show_banner_text TRUE}
+START_BG_MUSIC
+VOCALS_TV_WHITE
+WAIT_FOR_VO
+SHORT_VO_GAP
+{do_fail_menu
+   {tutorial_vocals_basics_starpower_callback failed}}
+RETURN_FROM_FAIL_MENU_NOSKIP
+{play_vo tute_vocals1_stylesave}
+WAIT_FOR_VO
+SHORT_VO_GAP
+{play_vo tute_vocals1_bre}
+WAIT_FOR_VO
+LONG_VO_GAP
+{tutorials_state_panel switch_to_next_state}

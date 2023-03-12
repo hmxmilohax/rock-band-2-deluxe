@@ -1,0 +1,167 @@
+#define WHAMMY_ZOOM_SEC
+(0.5)
+#define END_OF_SONG_PERCENT_WHAMMY
+(50)
+SETUP_GUITAR_TUTORIAL
+GUITAR_TV_WHITE
+START_BG_MUSIC
+{GET_STAR_POWER_METER reset}
+{setup_lesson_banner tutorial_guitar_medium_whammy_part}
+{play_vo tute_guitar2_whammybar}
+SHOW_DETAILED_GUITAR
+SHOW_WHAMMY_ARROW
+WAIT_FOR_VO
+{play_vo tute_guitar2_whammysetup}
+{$task sleep 2}
+GUITAR_ANIM_WHAMMY_ADJUSTING
+WAIT_FOR_VO
+LONG_VO_GAP
+{play_vo tute_guitar2_whammyuse}
+{$task sleep 2}
+GUITAR_ANIM_WHAMMY_PUSHING
+WAIT_FOR_VO
+LONG_VO_GAP
+HIDE_DETAILED_GUITAR
+HIDE_WHAMMY_ARROW
+SHORT_VO_GAP
+{meta_performer set_song guitar_medium_whammy}
+LOAD_NEW_GUITAR_SONG_NO_FADE
+HIDE_TRACK_PLAYER_UI
+HIDE_SOLO_FEEDBACK
+SHOW_BAND_ENERGY
+DISABLE_PHRASE_BONUS
+UNPAUSE_TRACK
+SYNC_PAUSE
+{play_vo tute_guitar2_whammysustain}
+WAIT_FOR_VO
+LONG_VO_GAP
+{new
+   Object
+   tutorial_guitar_medium_whammy_callback
+   (whammy_start_callback
+      {set
+         [whammied]
+         TRUE})
+   (whammy_end_callback
+      {if
+         {!
+            [feedback_3_played]}
+         {play_vo tute_guitar2_whammyhint3}
+         {set
+            [feedback_3_played]
+            TRUE}})
+   (held_note_released_callback
+      ($fraction)
+      {cond
+         ({== $fraction 1}
+            {if
+               {&&
+                  {!
+                     [whammied]}
+                  {!
+                     [feedback_2_played]}}
+               {play_vo tute_guitar2_whammyhint2}
+               {set
+                  [feedback_2_played]
+                  TRUE}})
+         (TRUE
+            {if
+               {&&
+                  {!
+                     [star_power_full]}
+                  {!
+                     [feedback_1_played]}}
+               {play_vo tute_guitar2_whammyhint}
+               {set
+                  [feedback_1_played]
+                  TRUE}})}
+      {set
+         [whammied]
+         FALSE})
+   (hit
+      {set
+         [whammied]
+         FALSE})
+   (miss
+      {set
+         [whammied]
+         FALSE})
+   (pass
+      {set
+         [whammied]
+         FALSE})
+   (set_energy
+      ($in_energy)
+      {if
+         {>= $in_energy 0.5}
+         {set
+            [star_power_full]
+            TRUE}})
+   (lesson_running
+      {&&
+         {!
+            [star_power_full]}
+         {<
+            {{beatmatch active_player 0}
+               percent_complete}
+            END_OF_SONG_PERCENT_WHAMMY}})
+   (passed
+      [star_power_full])
+   (failed
+      {!
+         {$this passed}})
+   (whammied FALSE)
+   (feedback_1_played FALSE)
+   (feedback_2_played FALSE)
+   (feedback_3_played FALSE)
+   (star_power_full FALSE)}
+{play_vo tute_guitar2_whammytask}
+STOP_BG_MUSIC
+GUITAR_TV_OFF
+WAIT_FOR_VO
+LONG_VO_GAP
+{set_info_text
+   {localize tutorial_guitar_medium_whammy_task}}
+{show_info_text TRUE}
+{{beatmatch active_player 0}
+   set_mercuryswitchenabled
+   FALSE}
+{{beatmatch active_player 0}
+   add_sink
+   tutorial_guitar_medium_whammy_callback}
+FADE_SONG_IN
+UNPAUSE_TRACK
+{$task
+   wait
+   {tutorial_guitar_medium_whammy_callback lesson_running}}
+FREEZE_SCORE_TEXT
+{if
+   {!
+      {tutorial_guitar_medium_whammy_callback failed}}
+   {$task sleep 1}}
+HIDE_GEM_TAILS
+TRACK_OUT
+PAUSE_TRACK
+HIDE_TRACK_PLAYER_UI
+WAIT_FOR_VO
+{if_else
+   {tutorial_guitar_medium_whammy_callback failed}
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_medium_whammy_failed}}
+      {play_vo tute_guitar2_whammyfail}}
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_medium_whammy_done}}
+      {play_vo tute_guitar2_whammywin}}}
+{show_info_text FALSE}
+{show_part_text FALSE}
+{show_banner_text TRUE}
+START_BG_MUSIC
+GUITAR_TV_WHITE
+WAIT_FOR_VO
+SHORT_VO_GAP
+{do_fail_menu
+   {tutorial_guitar_medium_whammy_callback failed}}
+RETURN_FROM_FAIL_MENU
+{tutorials_state_panel switch_to_next_state}

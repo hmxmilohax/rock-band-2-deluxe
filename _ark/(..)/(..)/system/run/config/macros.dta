@@ -107,11 +107,8 @@
 (1)
 #define kHighlightNone
 (2)
-#define kHighlightWireframeWithNormals
-(3)
 #define HIGHLIGHT_ENUM
 (("kHighlightWireframe"
-      "kHighlightWireframeWithNormals"
       "kHighlightSphere"
       "kHighlightNone"))
 #define k30_fps
@@ -200,9 +197,9 @@
 (2)
 #define kPad_Xbox_RB
 (3)
-#define kPad_Xbox_Y
-(4)
 #define kPad_Xbox_B
+(4)
+#define kPad_Xbox_Y
 (5)
 #define kPad_Xbox_A
 (6)
@@ -212,30 +209,6 @@
 (9)
 #define kPad_Xbox_RS
 (10)
-#define kAction_None
-(0)
-#define kAction_Confirm
-(1)
-#define kAction_Cancel
-(2)
-#define kAction_Option
-(3)
-#define kAction_Start
-(4)
-#define kAction_ViewModify
-(5)
-#define kAction_Up
-(6)
-#define kAction_Right
-(7)
-#define kAction_Down
-(8)
-#define kAction_Left
-(9)
-#define kAction_PageUp
-(10)
-#define kAction_PageDown
-(11)
 #define kLeftAnalog
 (0)
 #define kRightAnalog
@@ -252,46 +225,20 @@
 (4)
 #define kJoypadXboxHxGuitar
 (5)
-#define kJoypadXboxHxGuitarRb2
-(6)
 #define kJoypadXboxRoGuitar
-(7)
+(6)
 #define kJoypadXboxDrums
-(8)
-#define kJoypadXboxDrumsRb2
-(9)
+(7)
 #define kJoypadXboxStageKit
-(10)
+(8)
 #define kJoypadPs3HxGuitar
-(11)
-#define kJoypadPs3HxGuitarRb2
-(12)
+(9)
 #define kJoypadPs3HxDrums
-(13)
+(10)
+#define kJoypadPs3HxGuitarRb2
+(11)
 #define kJoypadPs3HxDrumsRb2
-(14)
-#define kJoypadPs3RoGuitar
-(15)
-#define kJoypadPs3RoDrums
-(16)
-#define kJoypadPs3KonamiDrums
-(17)
-#define kJoypadXboxRoDrums
-(18)
-#define kJoypadWiiCore
-(19)
-#define kJoypadWiiFS
-(20)
-#define kJoypadWiiClassic
-(21)
-#define kJoypadWiiGamecube
-(22)
-#define kJoypadWiiGuitar
-(23)
-#define kJoypadWiiHxGuitar
-(24)
-#define kJoypadWiiHxDrums
-(25)
+(13)
 #define KB_ENTER
 (10)
 #define KB_BACKSPACE
@@ -436,6 +383,16 @@
 (12)
 #define kMCUnsupported
 (13)
+#define kMCAlreadyFormatted
+(14)
+#define kMCInsufficientInodes
+(15)
+#define kMCSystemCorrupt
+(16)
+#define kMCAccessError
+(17)
+#define kMCMaxedSysMem
+(18)
 #define kUserPrivilegeBlocked
 (0)
 #define kUserPrivilegeFriendsOnly
@@ -446,14 +403,6 @@
 (0)
 #define kOSNotifyBottomCenter
 (1)
-#define kNCSR_CacheFound
-(0)
-#define kNCSR_CacheNotFound
-(1)
-#define kNCSR_CacheChosen
-(2)
-#define kNCSR_CacheNotChosen
-(3)
 #define k1KHz
 (300000)
 #define k2KHz
@@ -484,6 +433,12 @@
 (8)
 #define kFXModePipe
 (9)
+#define kFXModeChorus
+(10)
+#define kFXModeWah
+(11)
+#define kFXModeFlanger
+(12)
 #define kFXCoreNone
 (-1)
 #define kFXCore0
@@ -541,6 +496,8 @@
 (32)
 #define kMutableAll
 (63)
+#define kUseMetaHeap
+(1024)
 #define kConstraintNone
 (0)
 #define kConstraintLocalRotate
@@ -643,6 +600,12 @@
 (3)
 #define kLightShadowRef
 (4)
+#define kShotNoBans
+(0)
+#define kShotNoPs3
+(1)
+#define kShotNoXbox
+(2)
 #define kBeamConic
 (0)
 #define kBeamRect
@@ -677,8 +640,6 @@
 (5)
 #define kBlendMultiply
 (6)
-#define kPreMultAlpha
-(7)
 #define BLEND_ENUM
 (("kBlendDest"
       "kBlendSrc"
@@ -686,8 +647,7 @@
       "kBlendSrcAlpha"
       "kBlendSrcAlphaAdd"
       "kBlendSubtract"
-      "kBlendMultiply"
-      "kPreMultAlpha"))
+      "kBlendMultiply"))
 #define kZModeDisable
 (0)
 #define kZModeNormal
@@ -746,21 +706,6 @@
       "kTexGenProjected"
       "kTexGenXfmOrigin"
       "kTexGenEnviron"))
-#define kNoLights
-(0)
-#define kDirLights
-(1)
-#define kTwoPointLights
-(2)
-#define kFourPointLights
-(3)
-#define kTriggerRandom
-(0)
-#define kTriggerSequence
-(1)
-#define TRIGGER_ORDER_ENUM
-(("kTriggerRandom"
-      "kTriggerSequence"))
 #define kRecordRegular
 (0)
 #define kRecordCreated
@@ -771,32 +716,51 @@
 (0)
 #define kNetReliable
 (1)
+#define kNetLocal
+(0)
+#define kNetHost
+(1)
+#define kNetJoin
+(2)
 #define kNetInLobby
 (0)
-#define kNetJoining
-(1)
 #define kNetLoading
-(2)
+(1)
 #define kNetInGame
+(2)
+#define kNetSuccess
+(0)
+#define kNetNotHosting
+(1)
+#define kNetBusy
+(2)
+#define kNetNoRoom
 (3)
-#define ADD_PLAYER_RESULT_MSG
-(add_player_result
-   ($success $old_id $new_id))
+#define kNetWrongMode
+(4)
+#define kNetNoJoiningAllowed
+(5)
+#define kNetPlayerAuthenticationFailed
+(6)
+#define JOIN_RESPONSE_MSG
+(join_response_msg
+   ($joined)
+   ($error))
 #define REMOTE_PLAYER_LEFT_MSG
-(remote_player_left
+(remote_player_left_msg
    ($player_num))
 #define REMOTE_PLAYER_CHANGED_MSG
-(remote_player_changed
+(remote_player_changed_msg
    ($player_num))
 #define NEW_REMOTE_PLAYER_MSG
-(new_remote_player
-   ($player_num))
-#define PROCESSED_JOIN_REQUEST_MSG
-(processed_join_request
-   ($accepted))
-#define GAME_ENDED_MSG
-(game_ended
-   ($result))
+(new_remote_player_msg
+   ($player_num $player_data))
+#define CHANGE_GAME_MSG
+(change_game_msg
+   ($game_data))
+#define END_GAME_MSG
+(end_game_msg
+   ($result $report))
 #define INVITE_ACCEPTED_MSG
 (invite_accepted
    ($padnum))
@@ -811,10 +775,10 @@
    ($signin_mask $signin_changed_mask))
 #define BUTTON_DOWN_MSG
 (button_down
-   ($player_num $player $raw_button $action $pad_num))
+   ($button $player_num))
 #define BUTTON_UP_MSG
 (button_up
-   ($player_num $player $raw_button $action $pad_num))
+   ($button $player_num))
 #define JOYPAD_CONNECT_MSG
 (joypad_connect
    ($player_num $connected))
@@ -826,10 +790,10 @@
    ($result))
 #define SELECT_MSG
 (component_select
-   ($component $player $player_num))
-#define SELECT_DONE_MSG
-(component_select_done
-   ($component $player $player_num))
+   ($component $player_num))
+#define SELECT_START_MSG
+(component_select_start
+   ($component $button $player_num))
 #define FOCUS_MSG
 (component_focus
    ($new_focus $old_focus $panel_dir))
@@ -847,10 +811,10 @@
    ($component $bad_char $end_of_field))
 #define SCROLL_SELECT_MSG
 (component_scroll_select
-   ($component $player $selected $player_num))
+   ($component $selected $player_num))
 #define SCROLL_MSG
 (component_scroll
-   ($component $player $player_num))
+   ($component $player_num))
 #define kComponentNormal
 (0)
 #define kComponentFocused
@@ -867,11 +831,11 @@
 (2)
 #define kFitEllipsis
 (3)
-#define kListAlways
+#define kArrowAlways
 (0)
-#define kListOnlyFocused
+#define kArrowOnlyFocused
 (1)
-#define kListNever
+#define kArrowNever
 (2)
 #define kExcitementBoot
 (0)
@@ -885,12 +849,6 @@
 (4)
 #define kNumExcitements
 (5)
-#define kNoFocus
-(0)
-#define kMaybeFocus
-(1)
-#define kAlwaysFocus
-(2)
 #define kPlayNow
 (1)
 #define kPlayNoBlend
@@ -946,7 +904,7 @@
       "kPlayBeatAlign4"
       "kPlayBeatAlign8"))
 #define kRotNone
-(6)
+(9)
 #define kRotFull
 (2)
 #define kRotX
@@ -967,9 +925,9 @@
 (1)
 #define kCollideInsideSphere
 (2)
-#define kCollideCigar
+#define kCollideCylinder
 (3)
-#define kCollideInsideCigar
+#define kCollideInsideCylinder
 (4)
 #define kFaceFxLipSyncRotX
 (0)
@@ -984,17 +942,17 @@
 #define kDbSilence
 (-96.0)
 #define STD_EXTS
-(.dtb .dtx .seq .mid .bin .acp .acs .acg .fac .pan)
+(.dtb .dtx .seq .mid .bin .acp .acs .acg .fac .voc .usr .vnn .xvocab)
 #define PS2_EXTS
-(.milo_ps2 .ipu .vgs .icn)
+(.milo_ps2 .ipu .vgs .icn .wav_ps2 .pss .ico .sys '_keep*.png_ps2' '_keep*.bmp_ps2' .pan)
 #define WII_EXTS
-(.milo_wii .wav_wii .mogg .tpl .dat .txt .csv .arc)
+(.milo_wii .wav_wii .mogg .tpl .dat .txt .csv .arc .pan .bmp_wii .png_wii)
 #define XBOX_EXTS
 (.milo_xbox '_keep*.png_xbox' '_keep*.bmp_xbox' .xbv .hxma .mogg xbox_shaders)
 #define PS3_EXTS
 (.milo_ps3 '_keep*.png_ps3' '_keep*.bmp_ps3' .xbv .vpo .fpo .mogg ps3_shaders icon0.png)
 #define STD_SKIP_DIRS
-(CVS iop test tools)
+(CVS iop test tools .svn text-base prop-base)
 #define SYSTEM_SUBDIRS
 ("../../system/run/char"
    "../../system/run/config"
@@ -1020,7 +978,7 @@
          $this
          {$this dir}}))
 #define LANGUAGES
-((eng))
+((eng ita fre deu esl gbr))
 #define kStageOff
 (0)
 #define kStageOn
@@ -1097,12 +1055,4 @@
 (8)
 #define kMPGem5
 (16)
-#define kSinkModeHandle
-(0)
-#define kSinkModeExport
-(1)
-#define kSinkModeType
-(2)
-#define kSinkModeExportType
-(3)
 #endif

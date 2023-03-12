@@ -1,0 +1,1857 @@
+(Character
+   (description
+      "Base class for Character objects. Contains Geometry,\n        Outfit Loaders, and LOD + Sphere concepts.")
+   (allowed_dirs Character)
+   (superclasses RndDir)
+   (types)
+   (editor
+      (lods
+         (array
+            (struct
+               (screen_size
+                  float
+                  (help
+                     "min screen size to use this lod, screen height fraction of unit sphere"))
+               (group
+                  object
+                  (class Group)
+                  (help
+                     "group to show")))
+            (alias
+               "lod")))
+      (shadow
+         object
+         (class Group)
+         (obj_flags allow_null)
+         (help
+            "Group containing shadow geometry"))
+      (self_shadow
+         bool
+         (help
+            "Whether this character should be self-shadowed."))
+      (sphere_base
+         object
+         (class Trans)
+         (obj_flags no_null)
+         (help
+            "Base for bounding sphere, such as bone_pelvis.mesh"))
+      (bounding
+         SPHERE
+         (help
+            "bounding sphere for the character, fixed"))
+      (calc_bounding_sphere
+         script
+         (script
+            {$this calc_bounding_sphere})
+         (help
+            "Calculates a new bounding sphere")
+         (refresh bounding))
+      (CharacterTesting
+         (struct
+            (driver
+               object
+               (class CharDriver)
+               (dir $this)
+               (refresh CharacterTesting)
+               (help
+                  "The driver to animate"))
+            (clip1
+               object
+               (class CharClip)
+               (dir_prop clips)
+               (refresh CharacterTesting)
+               (help
+                  "Clip to play"))
+            (clip2
+               object
+               (class CharClip)
+               (dir_prop clips)
+               (refresh CharacterTesting)
+               (help
+                  "Clip to transition to, if any"))
+            (clip2_realtime
+               bool
+               (help
+                  "Force clip2 to be played in real time"))
+            (bpm
+               int
+               (help
+                  "bpm to play clips at"))
+            (transition
+               int
+               (help
+                  "Which transition to use between clip1 and clip2"))
+            (cycle_transition
+               bool
+               (help
+                  "Cycle through all the transitions"))
+            (move_self
+               bool
+               (help
+                  "Move ourselves around when playing animations, if true, the anim bar won't work backwards")
+               (no_test))
+            (teleport_to
+               object
+               (class Waypoint)
+               (dir
+                  {$this dir})
+               (help
+                  "Teleport to this Waypoint"))
+            (walk_path
+               (array
+                  object
+                  (class Waypoint)
+                  (dir
+                     {$this dir}))
+               (help
+                  "Walk path"))
+            (walk
+               script
+               (script
+                  {$this test_walk})
+               (help
+                  "Walks the path"))
+            (dist_map
+               symbol
+               (list
+                  (none nodes raw))
+               (help
+                  "Displays the transition distance map between clip1 and clip2, raw means the raw graph, no nodes"))
+            (zero_travel
+               bool
+               (help
+                  "Character does not travel, constantly zeros out position and facing"))
+            (recenter
+               script
+               (script
+                  {$this recenter})
+               (help
+                  "Recenters character at his last set waypoint"))
+            (zero
+               script
+               (script
+                  {$this set_local_pos 0 0 0})
+               (help
+                  "Teleports character to the origin"))
+            (metronome
+               bool
+               (help
+                  "Click on every beat transition"))
+            (compress
+               script
+               (script
+                  {$this compress})
+               (help
+                  "compresses clip1"))
+            ('Outfit Cycling'
+               (indent
+                  (cycle_category
+                     symbol
+                     (list
+                        {do
+                           ($loader
+                              "")
+                           {$this
+                              iterate
+                              OutfitLoader
+                              $l
+                              {set $loader $l}}
+                           {if_else
+                              $loader
+                              {$loader list_categories}
+                              ("")}})
+                     (help
+                        "Which category to cycle through"))
+                  (cycle_wait
+                     float
+                     (help
+                        "Seconds to show each outfit item"))
+                  (start_cycle
+                     script
+                     (script
+                        {$this start_cycle FALSE})
+                     (help
+                        "start cycling from where it is"))
+                  (reset_cycle
+                     script
+                     (script
+                        {$this start_cycle TRUE})
+                     (help
+                        "start cycling, resets from start"))
+                  (stop_cycle
+                     script
+                     (script
+                        {$this stop_cycle})
+                     (help
+                        "stop cycling")))
+               (hide
+                  {do
+                     ($loader
+                        "")
+                     {$this
+                        iterate
+                        OutfitLoader
+                        $l
+                        {set $loader $l}}
+                     {! $loader}}))
+            (Tools
+               (indent
+                  (test_lod
+                     int
+                     (help
+                        "Lod to show if > -1"))
+                  (show_screen_size
+                     bool
+                     (help
+                        "graphically displays the screensize and lod next to the character"))
+                  ('add defaults'
+                     script
+                     (script
+                        {$this add_defaults}
+                        {milo update_objects})
+                     (help
+                        "Adds default objects like main drivers and twist servos"))
+                  (reload_clips
+                     script
+                     (script
+                        {$this reload_clips})
+                     (help
+                        "reloads selected driver clips"))
+                  (validate_stops
+                     script
+                     (script
+                        {validate_stops
+                           {{$this find main.drv}
+                              get
+                              clips_ptr}})
+                     (help
+                        "Validate all the stops"))
+                  (show_footsteps
+                     symbol
+                     (list
+                        (none from_start from_end))
+                     (help
+                        "Show footsteps for both clips, from_end aligns them from the end of the clip"))
+                  (show_footextents
+                     bool
+                     (help
+                        "Show foot extents on all waypoints")))))
+         (help
+            "Test Character by animating it"))))
+(CharGuitarString
+   (description
+      "moves a bone based on the position of the hand, nut, and bridge")
+   (allowed_dirs Character)
+   (superclasses CharPollable)
+   (ext string)
+   (types)
+   (editor
+      (nut
+         object
+         (class Trans)
+         (help
+            "nut object"))
+      (bridge
+         object
+         (class Trans)
+         (help
+            "bridge object"))
+      (bend
+         object
+         (class Trans)
+         (help
+            "object to move between nut and bridge"))
+      (target
+         object
+         (class Trans)
+         (help
+            "object to follow"))))
+(CharBlendBone
+   (description
+      "Sets a dest bone by a weighted average of a bunch of bones.\n        Ideally this would be created from within Max at Export time and\n        automatically exported, since changing the geometry will wreck this.")
+   (allowed_dirs Character)
+   (superclasses CharPollable)
+   (ext blendbone)
+   (editor
+      (dest
+         object
+         (class Trans)
+         (help
+            "The bone to set"))
+      (bones
+         (array
+            (struct
+               (bone
+                  object
+                  (class Trans)
+                  (help
+                     "Bone to blend from")
+                  (no_null))
+               (weight
+                  float
+                  (help
+                     "Weight to blend with")))))
+      (pos
+         bool
+         (help
+            "Blend position as well as orientation")))
+   (types))
+(CharBoneOffset
+   (description
+      "Offsets a dest bone.")
+   (allowed_dirs Character)
+   (superclasses CharPollable)
+   (ext offset)
+   (editor
+      (dest
+         object
+         (class Trans)
+         (help
+            "The bone to offset"))
+      (offset
+         VECTOR3
+         (help
+            "the offset")))
+   (types))
+(CharClip
+   (description
+      "A clip of animation that you can play. We expect subclasses\n        for stuff like compression.")
+   (allowed_dirs)
+   (editor
+      (start_frame
+         float
+         (help
+            "Start frame")
+         (read_only TRUE)
+         (refresh dirty))
+      (end_frame
+         float
+         (help
+            "End frame")
+         (read_only TRUE)
+         (refresh dirty))
+      (length
+         float
+         (help
+            "Length in frames")
+         (read_only TRUE))
+      (frames_per_sec
+         float
+         (help
+            "Frames per second")
+         (read_only TRUE)
+         (refresh dirty))
+      (samples_per_frame
+         float
+         (help
+            "Samples per frame")
+         (read_only TRUE))
+      (length_seconds
+         float
+         (help
+            "Length in seconds")
+         (read_only TRUE))
+      (blend_width
+         float
+         (help
+            "Blend-in time in beats")
+         (refresh dirty))
+      (flags
+         int
+         (help
+            "Search flags, app specific")
+         (refresh dirty))
+      (default_blend
+         int
+         (list PLAY_BLEND_FLAGS)
+         (help
+            "Blend mode, if any, to use by default for this clip"))
+      (default_loop
+         int
+         (list PLAY_LOOP_FLAGS)
+         (help
+            "Looping mode, if any, to use by default for this clip"))
+      (beat_align
+         int
+         (list PLAY_TIME_FLAGS)
+         (help
+            "Time units/alignment, if any, for this clip"))
+      (range
+         float
+         (help
+            "Range in frames to randomly offset by when playing"))
+      (relative
+         object
+         (class CharClip)
+         (help
+            "Make the clip all relative to this other clip's first frame"))
+      (bake_out_facing
+         bool
+         (help
+            "Allow the facing to be baked out"))
+      (size
+         int
+         (read_only TRUE)
+         (help
+            "Size of the clip in bytes"))
+      (events
+         (array
+            (struct
+               (frame
+                  float
+                  (help
+                     "Frame the event should trigger"))
+               (event
+                  symbol
+                  (help
+                     "The handler to call on the CharClip")
+                  (list
+                     {if_else
+                        {==
+                           {$this get_type}
+                           ''}
+                        ()
+                        [event_handlers]})))
+            (header
+               {sprint
+                  [events
+                     {elem $milo_prop_path 1}
+                     frame]
+                  ": "
+                  [events
+                     {elem $milo_prop_path 1}
+                     event]}))
+         (help
+            "Events that get triggered during play"))
+      (dirty
+         bool
+         (read_only TRUE)
+         (help
+            "Indicates transition graph needs updating")))
+   (views
+      (Stats
+         (blend_width
+            [blend_width])
+         (flags
+            [flags])
+         (default_blend
+            [default_blend])
+         (default_loop
+            [default_loop])
+         (length_seconds
+            [length_seconds])
+         (beat_align
+            [beat_align])
+         (range
+            [range])
+         (relative
+            [relative])
+         (size
+            [size]))
+      (Flags
+         (beat_align
+            [beat_align])
+         (LeftArm
+            {&
+               [flags]
+               kLeftArm}
+            bool)
+         (RightArm
+            {&
+               [flags]
+               kRightArm}
+            bool)
+         (LeftLeg
+            {&
+               [flags]
+               kLeftLeg}
+            bool)
+         (RightLeg
+            {&
+               [flags]
+               kRightLeg}
+            bool)
+         (AnimateEyes
+            {&
+               [flags]
+               kAnimateEyes}
+            bool)
+         (DisableLipSync
+            {&
+               [flags]
+               kDisableLipSync}
+            bool)
+         (Slow
+            {&
+               [flags]
+               kTempoSlow}
+            bool)
+         (Medium
+            {&
+               [flags]
+               kTempoMedium}
+            bool)
+         (Fast
+            {&
+               [flags]
+               kTempoFast}
+            bool)
+         (Rocker
+            {&
+               [flags]
+               kGenreRocker}
+            bool)
+         (Dramatic
+            {&
+               [flags]
+               kGenreDramatic}
+            bool)
+         (Banger
+            {&
+               [flags]
+               kGenreBanger}
+            bool)
+         (Spazz
+            {&
+               [flags]
+               kGenreSpazz}
+            bool)
+         (IdleRealtime
+            {&
+               [flags]
+               kPlayIdleRealtime}
+            bool)
+         (Idle
+            {&
+               [flags]
+               kPlayIdle}
+            bool)
+         (IdleIntense
+            {&
+               [flags]
+               kPlayIdleIntense}
+            bool)
+         (Mellow
+            {&
+               [flags]
+               kPlayMellow}
+            bool)
+         (Normal
+            {&
+               [flags]
+               kPlayNormal}
+            bool)
+         (Intense
+            {&
+               [flags]
+               kPlayIntense}
+            bool)
+         (Solo
+            {&
+               [flags]
+               kPlaySolo}
+            bool)
+         (DirectedCut
+            {&
+               [flags]
+               kPlayDirectedCut}
+            bool)
+         (Guitar
+            {&
+               [flags]
+               kValidGuitar}
+            bool)
+         (Bass
+            {&
+               [flags]
+               kValidBass}
+            bool)
+         (IgnoreAccent
+            {&
+               [flags]
+               kIgnoreAccent}
+            bool))
+      (Genre
+         (Rocker
+            {&
+               [flags]
+               kGenreRocker}
+            bool)
+         (Dramatic
+            {&
+               [flags]
+               kGenreDramatic}
+            bool)
+         (Banger
+            {&
+               [flags]
+               kGenreBanger}
+            bool)
+         (Spazz
+            {&
+               [flags]
+               kGenreSpazz}
+            bool))
+      (Tempo
+         (Slow
+            {&
+               [flags]
+               kTempoSlow}
+            bool)
+         (Medium
+            {&
+               [flags]
+               kTempoMedium}
+            bool)
+         (Fast
+            {&
+               [flags]
+               kTempoFast}
+            bool)))
+   (types)
+   (superclasses))
+(CharClipGroup
+   (description
+      "A related group of animations.  Gives you the lru one.  Usually no extension.")
+   (allowed_dirs CharClipSet)
+   (editor
+      (clips
+         (array
+            object
+            (class CharClip)
+            (obj_flags no_null)
+            (help
+               "LRU list of clips belonging to this group"))))
+   (types))
+#define CHARBONES_BONE
+((struct
+      (name
+         symbol
+         (help
+            "Bone to blend into")
+         (read_only TRUE))
+      (weight
+         float
+         (help
+            "Weight to blend with"))
+      (preview_val
+         string
+         (help
+            "Preview Value")
+         (read_only TRUE))))
+#define SAMPLESET
+((struct
+      (bones
+         (array CHARBONES_BONE)
+         (help
+            "Bones that are animated"))
+      (num_samples
+         int
+         (help
+            "how many keyframes")
+         (read_only TRUE))
+      (preview_sample
+         int
+         (help
+            "which sample to preview")
+         (refresh))
+      (frames
+         (array float)
+         (help
+            "which sample to play")
+         (read_only TRUE))))
+(CharClipSamples
+   (description
+      "This is the simple but inefficient format that just stores\n        samples and interpolates. Data is grouped by time, not channel, for\n        better storage, interpolation, etc.")
+   (allowed_dirs CharClipSet)
+   (superclasses CharClip)
+   (editor
+      (full SAMPLESET)
+      (one SAMPLESET))
+   (views
+      (Bones
+         (size
+            [size]
+            (read_only TRUE))
+         (full_samples
+            [full num_samples]
+            (read_only TRUE))
+         (full_num_bones
+            {$this
+               size
+               (full bones)}
+            (read_only TRUE))
+         (one_num_bones
+            {$this
+               size
+               (one bones)}
+            (read_only TRUE)))
+      (Notes
+         (Notes
+            {$this note})))
+   (types))
+(CharClipFilter
+   (description
+      "Callback object for CharClipSet, calls filter_clips on dir at load")
+   (allowed_dirs)
+   (ext ccf)
+   (types))
+(CharBone
+   (description
+      "A Character system bone, conveys degrees of freedom to animate")
+   (allowed_dirs CharClipSet)
+   (superclasses Trans)
+   (editor
+      (position
+         bool
+         (help
+            "animate position or not"))
+      (rotation
+         int
+         (list
+            ("kRotNone"
+               "kRotFull"
+               "kRotX"
+               "kRotY"
+               "kRotZ"))
+         (help
+            "what axis or axes to animate"))
+      (scale
+         bool
+         (help
+            "animate scale or not")))
+   (views
+      ('Degrees of Freedom'
+         (position
+            [position])
+         (rotation
+            [rotation])
+         (scale
+            [scale])))
+   (types))
+(CharBones
+   (description
+      "Holds state for a set of bones")
+   (editor
+      (bones
+         (array CHARBONES_BONE)
+         (help
+            "Bones that are animated")))
+   (types))
+(CharBonesAlloc
+   (description
+      "Holds state for a set of bones, and allocates own space")
+   (superclasses CharBones)
+   (types))
+(CharBonesBlender
+   (description
+      "Blends itself into another CharBones, clearing self each frame")
+   (superclasses CharPollable CharBonesAlloc)
+   (allowed_dirs Character)
+   (ext blender)
+   (editor
+      (dest
+         object
+         (class CharBones)
+         (help
+            "CharBones to blend into")))
+   (types))
+(CharBonesMeshes
+   (description
+      "Holds state for a set of bones, allocates own space, and sets meshes accordingly")
+   (superclasses CharBonesAlloc)
+   (editor
+      (meshes
+         (array
+            object
+            (class Trans))
+         (help
+            "Transes we will change")
+         (read_only TRUE)))
+   (types))
+(CharClipSet
+   (description
+      "A <a href='#CharClip'>CharClip</a> container.")
+   (allowed_dirs Character)
+   (superclasses ObjectDir)
+   (editor
+      (move_self
+         bool
+         (help
+            "Can I move myself around by animating or not"))
+      (bone_weights
+         bool
+         (help
+            "Do I have any clips with bone weights < 1")
+         (read_only TRUE))
+      (recenter
+         (struct
+            (targets
+               (array
+                  object
+                  (class CharBone)
+                  (obj_flags no_null))
+               (help
+                  "bones to recenter, ie, bone_pelvis"))
+            (average
+               (array
+                  object
+                  (class CharBone)
+                  (obj_flags no_null))
+               (help
+                  "bones to average to find the new center"))
+            (slide
+               bool
+               (help
+                  "Slide the character over the course of the clip")))
+         (help
+            "Recenter target bones on the character by averaging other bones"))
+      ('regenerate transitions'
+         script
+         (script
+            {$this regenerate_transitions TRUE})
+         (help
+            "Regenerates the clip to clip transition graph.  This may take several minutes."))
+      (merge_character
+         file
+         (help
+            "Merge in bones from a character")
+         (refresh recenter)
+         (post_sync
+            {milo update_objects}))
+      ('analyze DOF'
+         script
+         (help
+            "See if you can limit degrees of freedom of the CharBones")
+         (script
+            {$this analyze_dof}))
+      (recenter_all
+         script
+         (script
+            {$this recenter_all})
+         (help
+            "Recenters all the clips.  Only need to do it if you change the recenter settings")))
+   (types))
+(CharCollide
+   (description
+      "Feeds the bones when executed.")
+   (allowed_dirs Character)
+   (superclasses Trans)
+   (ext coll)
+   (editor
+      (type
+         int
+         (list
+            ("kCollidePlane"
+               "kCollideSphere"
+               "kCollideInsideSphere"
+               "kCollideCylinder"
+               "kCollideInsideCylinder"))
+         (help
+            "Type of collision"))
+      (radius
+         float
+         (help
+            "Radius of the source")))
+   (types))
+(CharMeshHide
+   (description
+      "Hides meshes based on flags in other CharMeshHide.")
+   (allowed_dirs Character)
+   (ext hide)
+   (types))
+(CharCuff
+   (description
+      "A cuff used to constrain colliding outfits against each other.\n      for example boots against pants.  The widest cuff wins")
+   (allowed_dirs Character)
+   (superclasses Trans)
+   (ext cuff)
+   (editor
+      (offset0
+         float
+         (help
+            "Inner offset, usually negative, the inside of the cuff"))
+      (radius0
+         float
+         (help
+            "Inner radius, usually the smallest, the inside of the cuff"))
+      (offset1
+         float
+         (help
+            "middle offset, usually zero, the center of the cuff"))
+      (radius1
+         float
+         (help
+            "middle radius for the center of the cuff, should be at the cuff line"))
+      (offset2
+         float
+         (help
+            "Outer offset, usually positive, the outside of the cuff"))
+      (radius2
+         float
+         (help
+            "Outer radius, usually the largest, the outside of the cuff"))
+      (outer_radius
+         float
+         (help
+            "Outside radius, should encompass the biggest thing on the outside, biggest one wins.  For incompressible things like big boots should be the biggest part.  For soft things like cloth should just be radius1"))
+      (open_end
+         bool
+         (help
+            "Is the inside open or closed, open is good for things like gauntlets"))
+      (bone
+         object
+         (class Trans)
+         (help
+            "The bone of interest, like bone_R-knee for boot and pant cuffs"))
+      (eccentricity
+         float
+         (range 0 1)
+         (help
+            "How much smaller to make the radius along Y, must be < 1"))
+      (category
+         symbol
+         (help
+            "The outfit category to cuff against, must be set to work")))
+   (types))
+(CharDriver
+   (description
+      "Class to Drive, Schedule and Blend CharClips.  Basically a stack, new ones are pushed onto the bottom, start playing at some point, and then pop off the ones above it once they are fully blended in.")
+   (allowed_dirs Character)
+   (superclasses CharWeightable CharPollable)
+   (ext drv)
+   (editor
+      (bones
+         object
+         (class CharBones)
+         (help
+            "The CharBones object to add or blend into."))
+      (clips
+         file
+         (help
+            "CharClipSet milo file to load up"))
+      (clips_ptr
+         object
+         (class CharClipSet)
+         (help
+            "pointer to CharClipSet object")
+         (no_test))
+      (realign
+         bool
+         (help
+            "Realigns the clips to always be aligned with the beat in the measure"))
+      (apply
+         int
+         (list
+            ("kApplyBlend"
+               "kApplyAdd"
+               "kApplyRotateTo"))
+         (help
+            "How to apply the driver to its bones"))
+      (beat_scale
+         float
+         (help
+            "Scale factor applied to incoming beat")
+         (no_test))
+      (test_clip
+         object
+         (class CharClip)
+         (dir
+            [clips_ptr])
+         (help
+            "Pick a clip to play")
+         (no_test))
+      (play_clip
+         script
+         (script
+            {if_else
+               {!=
+                  [test_clip]
+                  ''}
+               {do
+                  {if
+                     {&&
+                        {exists milo}
+                        {==
+                           {milo cur_anim}
+                           "Time (secs)"}}
+                     {do
+                        ($bps
+                           {[test_clip]
+                              get
+                              frames_per_sec})
+                        ($start
+                           {[test_clip]
+                              get
+                              start_frame})
+                        ($end
+                           {[test_clip]
+                              get
+                              end_frame})
+                        {milo
+                           set_bpm
+                           {int
+                              {'*' 60 $bps}}}
+                        {milo
+                           set_anim_frame
+                           {/ $start $bps}
+                           {/ $end $bps}
+                           {/ $start $bps}}}}
+                  {$this
+                     play
+                     [test_clip]
+                     {'|' kPlayGraphLoop kPlayLast}}}
+               {$this enter}})
+         (help
+            "Play the test_clip, or stop if set to none")))
+   (types))
+(CharDriverMidi
+   (description
+      "Uses an event list made from a parser to player animation on self.")
+   (allowed_dirs Character)
+   (superclasses CharDriver)
+   (ext dmidi)
+   (editor
+      (inactive_clip
+         object
+         (class CharClip)
+         (dir_prop clips_ptr)
+         (help
+            "Name of animation clip to use when not active, can be empty")))
+   (types))
+(CharEyes
+   (description
+      "Moves a bunch of lookats around")
+   (allowed_dirs Character)
+   (superclasses CharPollable CharWeightable)
+   (ext eyes)
+   (editor
+      (eyes
+         (array
+            (struct
+               (eye
+                  object
+                  (class CharLookAt)
+                  (help
+                     "Eye to retarget"))
+               (upper_lid
+                  object
+                  (class Trans)
+                  (help
+                     "corresponding upper lid bone, must rotate about Z"))
+               (lower_lid
+                  object
+                  (class Trans)
+                  (help
+                     "corresponding lower lid bone, must rotate about Z")))))
+      (interests
+         (array
+            (struct
+               (trans
+                  object
+                  (class Trans)
+                  (help
+                     "object to look at"))
+               (radius
+                  float
+                  (help
+                     "capture radius of that object"))))))
+   (types))
+(CharForeTwist
+   (description
+      "Does all interpolation for the forearm. Assumes: <ul>\n        <li>foretwist1 and forearm are under upperarm.</li>\n        <li>foretwist2 is under foretwist1 and that hand is under forearm.</li>\n        <li>on the left hand offset rotation is usually 90 on the left, and -90 on the right.</li>\n        </ul>\n        Feeds the bones when executed.")
+   (allowed_dirs Character)
+   (superclasses CharPollable)
+   (ext ftwist)
+   (editor
+      (hand
+         object
+         (class Trans)
+         (help
+            "The hand bone"))
+      (twist2
+         object
+         (class Trans)
+         (help
+            "The twist2 bone"))
+      (offset
+         float
+         (help
+            "Usually -90 for right hand, 90 for left hand"))
+      (length_scale
+         float
+         (help
+            "Non-zero to stretch twist2 bone if the hand stretches.  Gh2 was .5, RB is .38")))
+   (types))
+(CharHair
+   (description
+      "Hair physics, deals with strands of hair")
+   (allowed_dirs RndDir)
+   (superclasses CharPollable)
+   (ext hair)
+   (editor
+      (stiffness
+         float
+         (range 0 1)
+         (help
+            "stiffness of each strand"))
+      (torsion
+         float
+         (range 0 1)
+         (help
+            "rotational stiffness of each strand"))
+      (inertia
+         float
+         (range 0 1)
+         (help
+            "Inertia of the hair, zero means none"))
+      (gravity
+         float
+         (range 0 10)
+         (help
+            "Gravity of the hair, one is normal"))
+      (weight
+         float
+         (range 0 1)
+         (help
+            "Gravity of the hair, one is normal"))
+      (friction
+         float
+         (range 0 1)
+         (help
+            "Hair friction against each other"))
+      (min_slack
+         float
+         (help
+            "If using sides, determines how far in it could go"))
+      (max_slack
+         float
+         (help
+            "If using sides, determines how far out it could go"))
+      (strands
+         (array
+            (struct
+               (root
+                  object
+                  (class Trans)
+                  (help
+                     "The root Trans for the hair strand")
+                  (refresh strands))
+               (angle
+                  float
+                  (help
+                     "Angle in degrees of starting flip"))
+               (points
+                  (array
+                     (struct
+                        (bone
+                           object
+                           (class Trans)
+                           (read_only TRUE)
+                           (help
+                              "hair bone we set the transform of"))
+                        (length
+                           float
+                           (help
+                              "the length of this strand bone"))
+                        (radius
+                           float
+                           (help
+                              "collision radius"))
+                        (outer_radius
+                           float
+                           (help
+                              "if > radius, is the distance the hair bone should start aligning itself with the collision primitive, so that once touching it, it will be totally flattened against it."))
+                        (collides
+                           (array
+                              object
+                              (class CharCollide))
+                           (help
+                              "things to collide against"))
+                        (side_length
+                           float
+                           (help
+                              "if >= 0 the base length to the side modified by min_slack and max_slack")))
+                     (fixed_size TRUE)))
+               (show_spheres
+                  bool
+                  (help
+                     "show the points as spheres"))
+               (show_collide
+                  bool
+                  (help
+                     "show the collision shapes"))
+               (show_pose
+                  bool
+                  (help
+                     "Show the original pose when hilit, good for adjusting angle to match the pose")))))
+      (simulate
+         bool
+         (help
+            "Simulate physics or not")
+         (no_test))
+      (set_cloth
+         script
+         (script
+            {$this set_cloth TRUE})
+         (help
+            "Sets this as cloth, all sides true."))
+      (unset_cloth
+         script
+         (script
+            {$this set_cloth FALSE})
+         (help
+            "Sets this as cloth, all sides true."))
+      (hookup
+         script
+         (script
+            {$this hookup})
+         (help
+            "Re-hookup the hair to the collision volumes")))
+   (types))
+(CharIKFoot
+   (description
+      "Remedial foot skate ik, not yet ready for prime time.")
+   (allowed_dirs Character)
+   (superclasses)
+   (ext ikfoot)
+   (editor
+      (hand
+         object
+         (class Trans)
+         (help
+            "The ankle, must be child of knee"))
+      (toe
+         object
+         (class Trans)
+         (help
+            "The toe"))
+      (other
+         object
+         (class CharIKFoot)
+         (help
+            "the other foot ik")))
+   (types))
+(CharIKHand
+   (description
+      "Pins a hand bone to another RndTransformable, bending the elbow to make it reach.  Optionally aligns orientations and stretches")
+   (allowed_dirs Character)
+   (superclasses CharWeightable CharPollable)
+   (ext ikhand)
+   (editor
+      (hand
+         object
+         (class Trans)
+         (help
+            "The hand to be moved, must be child of elbow"))
+      (finger
+         object
+         (class Trans)
+         (help
+            "If non null, will be the thing that actually hits the target, the hand will be moved into such a location as to make it hit.  You probably always want to turn on orientation in this case, as otherwise, the hand will be in a somewhat random orientation, which will probably mean that the finger will miss the mark."))
+      (targets
+         (array
+            object
+            (class Trans))
+         (help
+            "Where to move the hand to"))
+      (orientation
+         bool
+         (help
+            "Orient the hand to the dest"))
+      (stretch
+         bool
+         (help
+            "Stretch the hand to the dest"))
+      (scalable
+         bool
+         (help
+            "Recalculate bone length every frame, needed for bones which scale"))
+      (move_elbow
+         bool
+         (help
+            "Moves the elbow and shoulder to position the hand, if false, just teleports the hand")))
+   (types))
+(CharIKMidi
+   (description
+      "Moves an RndTransformable (bone) to another RndTransformable (spot) over time, blending from where it was relative to the parent of the spot.")
+   (allowed_dirs Character)
+   (superclasses CharPollable)
+   (ext ikmidi)
+   (editor
+      (bone
+         object
+         (class Trans)
+         (help
+            "The bone to move"))
+      (cur_spot
+         object
+         (class Trans)
+         (help
+            "Spot to go to, zero indexed")
+         (no_test)))
+   (types))
+(CharIKRod
+   (description
+      "<p>Rigs a bone between two other bones and sets the\n        orientation from that.</p>\n        <p>When you set up all the bone pointers, the rig xfm will be\n        computed, an inverse from that to the dst bone will be computed,\n        and everything will come from that. So the dst bone will maintain\n        the exact same position in that pose. That makes it easy to author\n        the bones.</p>")
+   (allowed_dirs Character)
+   (superclasses CharPollable)
+   (ext ikrod)
+   (editor
+      (left_end
+         object
+         (class Trans)
+         (help
+            "Left end of the rod"))
+      (right_end
+         object
+         (class Trans)
+         (help
+            "Right end of the rod"))
+      (dest_pos
+         float
+         (help
+            "Fraction of the way dest is from left (0) to right(1)"))
+      (side_axis
+         object
+         (class Trans)
+         (help
+            "Take the z axis from this bone rather than from rod end delta"))
+      (vertical
+         bool
+         (help
+            "Force the dest to be vertically upright"))
+      (dest
+         object
+         (class Trans)
+         (help
+            "The bone to set")))
+   (types))
+(CharIKScale
+   (description
+      "Rescales a local position of a bone")
+   (allowed_dirs Character)
+   (superclasses CharWeightable CharPollable)
+   (ext ikscale)
+   (editor
+      (dest
+         object
+         (class Trans)
+         (help
+            "The bone to be scaled"))
+      (scale
+         float
+         (help
+            "Scale to apply"))
+      (capture_before
+         script
+         (script
+            {$this capture_before})
+         (refresh scale)
+         (help
+            "Call after posing normally, captures data with which to auto compute scale"))
+      (capture_after
+         script
+         (script
+            {$this capture_after})
+         (refrest scale)
+         (help
+            "Call after posing deformed, computes scale based on ratio of capture_before capture to now.")))
+   (types))
+(CharLookAt
+   (description
+      "Makes one thing look at another thing.")
+   (allowed_dirs Character)
+   (superclasses CharWeightable CharPollable)
+   (ext lookat)
+   (editor
+      (pivot
+         object
+         (class Trans)
+         (help
+            "The thing that pivots"))
+      (source
+         object
+         (class Trans)
+         (help
+            "If non null, the bone which has to be aligned, otherwise equal to the pivot"))
+      (dest
+         object
+         (class Trans)
+         (help
+            "The thing to look at"))
+      (half_time
+         float
+         (help
+            "Seconds of lag when moving the source"))
+      (min_yaw
+         float
+         (help
+            "Degrees of min allowable yaw, looking left")
+         (range -80 80))
+      (max_yaw
+         float
+         (help
+            "Degrees of max allowable yaw, looking right")
+         (range -80 80))
+      (min_pitch
+         float
+         (help
+            "Degrees of min allowable pitch, looking down")
+         (range -80 80))
+      (max_pitch
+         float
+         (help
+            "Degrees of max allowable pitch, looking up")
+         (range -80 80))
+      (min_weight_yaw
+         float
+         (help
+            "Degrees of yaw to start auto-weight"))
+      (max_weight_yaw
+         float
+         (help
+            "Degrees of yaw to stop auto-weight"))
+      (weight_yaw_speed
+         float
+         (help
+            "Max speed in weight/sec that the auto-weight can change"))
+      (allow_roll
+         bool
+         (help
+            "If true allows rolling, if false, keeps the local pivot z axis down to prevent rolling.  Eyeballs can't roll, for instance, but heads can."))
+      (show_range
+         bool
+         (help
+            "Graphically show the extreme ranges of motion")
+         (no_test)))
+   (types))
+(CharMirror
+   (description
+      "Duplicates or mirrors another character's motions, given\n        the matching bone servo.")
+   (allowed_dirs Character)
+   (superclasses CharWeightable CharPollable)
+   (ext mirr)
+   (editor
+      (servo
+         object
+         (class CharServoBone)
+         (help
+            "The servo to change"))
+      (mirror_servo
+         object
+         (class CharServoBone)
+         (help
+            "The servo we want to mirror")))
+   (types))
+(CharNeckTwist
+   (description
+      "Does all interpolation for the neck.")
+   (allowed_dirs Character)
+   (superclasses CharPollable)
+   (ext ntwist)
+   (editor
+      (head
+         object
+         (class Trans)
+         (help
+            "The head bone, must be descendent of neck"))
+      (twist
+         object
+         (class Trans)
+         (help
+            "The twist bone, neck must be parent of")))
+   (types))
+(CharPollable
+   (description
+      "Workhorse unit of the Character system, most Character things inherit from this.")
+   (allowed_dirs)
+   (superclasses Poll)
+   (types))
+(CharPollGroup
+   (description
+      "Group of Charpollable, polled in the order given, use when the automatic CharPollable sorting is not correct or sufficient.")
+   (allowed_dirs Character)
+   (superclasses CharPollable)
+   (editor
+      (polls
+         (array
+            object
+            (class CharPollable))
+         (help
+            "Ordered list of CharPollables, will be polled in this order.")))
+   (types))
+(CharPosConstraint
+   (description
+      "Forces the targets to be within a world space bounding box relative to source.")
+   (allowed_dirs Character)
+   (superclasses CharPollable)
+   (ext const)
+   (editor
+      (source
+         object
+         (class Trans)
+         (help
+            "Bone to be higher than"))
+      (targets
+         (array
+            object
+            (class Trans))
+         (help
+            "Bones to constrain"))
+      (box
+         BOX
+         (help
+            "Bounding box, make min > max to ignore that dimension")))
+   (types))
+(CharServoBone
+   (description
+      "Sets bone transforms and regulates Character center to a spot.")
+   (allowed_dirs Character)
+   (superclasses CharPollable CharBonesMeshes)
+   (ext servo)
+   (editor
+      (regulate
+         object
+         (class Waypoint)
+         (help
+            "Waypoint to regulate to")
+         (no_test))
+      (move_self
+         bool
+         (help
+            "Move ourselves around when playing animations")
+         (no_test)))
+   (types))
+(CharTransCopy
+   (description
+      "Copies local xfm from one bone to another at poll time")
+   (allowed_dirs RndDir)
+   (superclasses CharPollable)
+   (ext tcopy)
+   (editor
+      (src
+         object
+         (class Trans)
+         (help
+            "Object to copy the local xfm from"))
+      (dest
+         object
+         (class Trans)
+         (help
+            "Object to copy the local xfm to")))
+   (types))
+(CharUpperTwist
+   (description
+      "<p>Does all interpolation for the upperarm, assuming\n        upperArm, upperTwist1 and 2 are under clavicle. Rotation about x is\n        evenly distributed from clavicle->twist1->twist2->upperarm</p>\n        Feeds the bones when executed.")
+   (allowed_dirs Character)
+   (superclasses CharPollable)
+   (ext utwist)
+   (editor
+      (upper_arm
+         object
+         (class Trans)
+         (help
+            "The upper arm bone"))
+      (twist1
+         object
+         (class Trans)
+         (help
+            "The upper arm twist1 bone"))
+      (twist2
+         object
+         (class Trans)
+         (help
+            "The upper arm twist2 bone")))
+   (types))
+(CharWalk
+   (description
+      "Given a set of turns, walks, and stops, makes a character\n        walk along waypoints, finishing up with a certain facing. There\n        must be looping transitions for the walks, and transitions from\n        turns to walks. Transitions from walks to stops are not needed as\n        you may have to stop on a dime anyway. Instead the beat track is\n        used to align walks and stops, so both have to be beat aligned to\n        2 beats, and the right foot needs to fall on the even beats.")
+   (allowed_dirs Character)
+   (superclasses CharPollable)
+   (ext walk)
+   (editor)
+   (types))
+(CharWeightable
+   (description
+      "Base class for any object that can have weight set on it,\n        or have a Weightable parent from which it gets that state.")
+   (allowed_dirs)
+   (editor
+      (weight
+         float
+         (help
+            "Weight to blend in by"))
+      (weight_owner
+         object
+         (class CharWeightable)
+         (help
+            "object to get weight from")
+         (no_test)))
+   (types))
+(CharWeightSetter
+   (description
+      "Sets its own weight by pushing flags through a driver to\n        see what fraction of them it has.")
+   (allowed_dirs Character)
+   (superclasses CharWeightable CharPollable)
+   (ext weight)
+   (editor
+      (driver
+         object
+         (class CharDriver)
+         (help
+            "The Driver to monitor"))
+      (flags
+         int
+         (help
+            "Which clip flags to look for"))
+      (offset
+         float
+         (help
+            "Constant offset to apply to the weight."))
+      (scale
+         float
+         (help
+            "Constant scale to appyly the weight."))
+      (base_weight
+         float
+         (help
+            "The base weight that the real weight is derived from"))
+      (beats_per_weight
+         float
+         (help
+            "how many beats it should take to change the weight from 0 to 1")))
+   (types))
+(OutfitLoader
+   (description
+      "Loads new outfits into a character by merging, much like a milo file merge.")
+   (allowed_dirs Character)
+   (superclasses)
+   (ext outfit)
+   (editor
+      (directory
+         file
+         (dir TRUE)
+         (help
+            "Directory to look in."))
+      (categories
+         (array
+            (struct
+               (name
+                  symbol
+                  (read_only TRUE)
+                  (help
+                     "Name of the category"))
+               (selected_outfit
+                  symbol
+                  (refresh categories)
+                  (list
+                     {$this
+                        prop_handle
+                        (categories
+                           {elem $milo_prop_path 1}
+                           list_outfits)})
+                  (post_sync
+                     {milo update_objects})
+                  (help
+                     "Selected outfit"))
+               (shown_outfit
+                  symbol
+                  (read_only TRUE)
+                  (help
+                     "Shown outfit"))
+               (desired_outfit
+                  symbol
+                  (read_only TRUE)
+                  (help
+                     "Desired outfit"))
+               (path
+                  file
+                  (dir TRUE)
+                  (help
+                     "Path to override top level directory, if set.")
+                  (read_only TRUE)))
+            (header
+               [categories
+                  {elem $milo_prop_path 1}
+                  name]))
+         (fixed_size TRUE)
+         (help
+            "All the outfit categories"))
+      (reset
+         script
+         (script
+            {$this reset}
+            {$this start_load})
+         (help
+            "Resets state, needed if you change typedef"))
+      (start_load
+         script
+         (script
+            {$this start_load})
+         (help
+            "Load the current state"))
+      (disable_all
+         bool
+         (help
+            "Disables ALL outfitloaders, for debugging ONLY!")
+         (no_test))
+      (merge_back_obj
+         object
+         (class Object)
+         (help
+            "choose an object to merge back into its original milo file")
+         (no_test))
+      (merge_back
+         script
+         (script
+            {$this merge_back})
+         (help
+            "Merges merge_back_obj back into its original milo file, good for editing things like hair, and then merging back into its file")))
+   (types))
+(Waypoint
+   (description
+      "A waypoint for character movement. Characters walk to\n	these, start themselves out from these, etc.")
+   (allowed_dirs ObjectDir)
+   (superclasses Trans Draw)
+   (ext way)
+   (editor
+      (flags
+         int
+         (help
+            "Flags for this waypoint, should be a bitfield per app"))
+      (radius
+         float
+         (help
+            "Radius within we can stop from a walk, or be tethered to"))
+      (y_radius
+         float
+         (help
+            "If positive, makes this shape a box with radius the x axis X half width, and y_radius the Y axis half width"))
+      (ang_radius
+         float
+         (help
+            "Angular slop in degrees away from y axis"))
+      (connections
+         (array
+            object
+            (class Waypoint))
+         (help
+            "Waypoints we can walk to"))
+      (show_graph
+         bool
+         (help
+            "Display the waypoint graph connections")))
+   (types))
+(ClipCollide
+   (description
+      "Analyzes character clips in a venue")
+   (milo_no_save)
+   (allowed_dirs ObjectDir)
+   (superclasses)
+   (ext vv)
+   (editor
+      (character
+         object
+         (class Character)
+         (help
+            "Pointer to the character to move around")
+         (no_test))
+      (pick_character
+         string
+         (list
+            (""
+               ""))
+         (help
+            "Changes the character to one of the listed ones")
+         (no_test))
+      (waypoint
+         object
+         (class Waypoint)
+         (help
+            "Waypoint to stand at")
+         (no_test))
+      (position
+         symbol
+         (list
+            (front back left right))
+         (help
+            "Where in the waypoint to stand")
+         (no_test))
+      (clip
+         object
+         (class CharClip)
+         (dir_prop clips)
+         (list
+            {$this list_clips})
+         (help
+            "Clip to test")
+         (no_test))
+      (demonstrate
+         script
+         (help
+            "Run the animation")
+         (script
+            {$this demonstrate})
+         (no_test))
+      (collide
+         script
+         (help
+            "Run the collision")
+         (script
+            {$this clear_report}
+            {$this collide})
+         (refresh pick_report)
+         (no_test))
+      (test_chars
+         script
+         (help
+            "Test all the characters against all the waypoints in this venue")
+         (script
+            {$this clear_report}
+            {$this test_chars})
+         (refresh pick_report)
+         (no_test))
+      (test_waypoints
+         script
+         (help
+            "Test the current character against all the waypoints in the venue")
+         (script
+            {$this clear_report}
+            {$this test_waypoints})
+         (refresh pick_report)
+         (no_test))
+      (test_clips
+         script
+         (help
+            "Test all clips for the current character and waypoint")
+         (script
+            {$this clear_report}
+            {$this test_clips})
+         (refresh pick_report)
+         (no_test))
+      (pick_report
+         string
+         (list
+            {$this list_report})
+         (help
+            "Pick a report entry to look at")
+         (refresh waypoint position clip)
+         (no_test))
+      (world_lines
+         bool
+         (help
+            "show red world lines")
+         (no_test))
+      (move_camera
+         bool
+         (help
+            "move the camera when you pick a report")
+         (no_test))
+      (mode
+         symbol
+         (list
+            (''))
+         (help
+            "mode to run in")
+         (no_test)))
+   (types))

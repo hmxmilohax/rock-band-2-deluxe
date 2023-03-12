@@ -1,0 +1,160 @@
+#define FRAMERATE_PREFAB
+((attitude kGenreRocker)
+   (weight 0.5)
+   (height 0.5)
+   (skin_color_index 2)
+   (eye_color_index 0)
+   (eyebrow_color_index 0))
+#define FRAMERATE_GS_PREFAB
+((valid
+      {== $framerate_char kFramerateCharGS})
+   (gender male)
+   FRAMERATE_PREFAB)
+#define FRAMERATE_GS_OUTFIT
+((hair hanoi_resource)
+   (heads head_6)
+   (eyes none)
+   (lips none)
+   (facehair head_1_dwarvenbeard)
+   (glasses maleglasses_wayfarers)
+   (torso gothtrench_cotton)
+   (hands malegloves_materialgirl)
+   (legs summonerleggings_burlap)
+   (feet malespikydocs_solid)
+   (wrist malewrist_avrilsock)
+   (rings malerings_wings)
+   (earrings maleearrings_peacock))
+((instrument drum)
+   FRAMERATE_GS_PREFAB
+   (outfit
+      FRAMERATE_GS_OUTFIT
+      (drum diamondpearl)
+      (guitar none)
+      (bass none)
+      (mic none)))
+((instrument guitar)
+   FRAMERATE_GS_PREFAB
+   (outfit
+      FRAMERATE_GS_OUTFIT
+      (drum none)
+      (guitar nashdoubleneck_paint)
+      (bass g6073_triburst)
+      (mic none)))
+((instrument guitar)
+   FRAMERATE_GS_PREFAB
+   (outfit
+      FRAMERATE_GS_OUTFIT
+      (drum none)
+      (guitar nashdoubleneck_paint)
+      (bass g6073_triburst)
+      (mic none)))
+((instrument vocals)
+   FRAMERATE_GS_PREFAB
+   (outfit
+      FRAMERATE_GS_OUTFIT
+      (drum none)
+      (guitar none)
+      (bass none)
+      (mic mic1)))
+#define FRAMERATE_CPU_PREFAB
+((valid
+      {== $framerate_char kFramerateCharCPU})
+   (gender female)
+   FRAMERATE_PREFAB)
+#define FRAMERATE_CPU_OUTFIT
+((hair femalecophat_longhair)
+   (heads head_1)
+   (eyes none)
+   (lips none)
+   (facehair head_1_dwarvenbeard)
+   (glasses femaleglasses_cataracts)
+   (torso furtrimjacket_nylon)
+   (hands femalegloves_materialgirl)
+   (legs puffyskirt_barelegs)
+   (feet femalesportysneaks_pleather)
+   (wrist femalewrist_sweatbandcharmscombo)
+   (rings femalerings_coffin)
+   (earrings femaleearrings_spider))
+((instrument drum)
+   FRAMERATE_CPU_PREFAB
+   (outfit
+      FRAMERATE_CPU_OUTFIT
+      (drum diamondpearl)
+      (guitar none)
+      (bass none)
+      (mic none)))
+((instrument guitar)
+   FRAMERATE_CPU_PREFAB
+   (outfit
+      FRAMERATE_CPU_OUTFIT
+      (drum none)
+      (bass jazz02_woodmaple)
+      (guitar stratocaster05_sparkle)
+      (mic none)))
+((instrument guitar)
+   FRAMERATE_CPU_PREFAB
+   (outfit
+      FRAMERATE_CPU_OUTFIT
+      (drum none)
+      (bass jazz02_woodmaple)
+      (guitar stratocaster05_sparkle)
+      (mic none)))
+((instrument vocals)
+   FRAMERATE_CPU_PREFAB
+   (outfit
+      FRAMERATE_CPU_OUTFIT
+      (drum none)
+      (guitar none)
+      (bass none)
+      (mic mic1)))
+#define FRAMERATE_BUDGET_PREFAB
+((valid
+      {== $framerate_char kFramerateCharBudget})
+   (gender male)
+   FRAMERATE_PREFAB)
+#define FRAMERATE_BUDGET_OUTFIT
+((hair hair_long_tophat)
+   (heads head_6)
+   (eyes none)
+   (lips none)
+   (facehair head_1_dwarvenbeard)
+   (glasses maleglasses_aviators)
+   (torso scarfandnecklaces_leaves)
+   (hands malegloves_fingerlessdriving)
+   (legs croppedbuttflapstrapped_cotton)
+   (feet roadwarriorboots_leather)
+   (wrist malewrist_sweatbandstuddedcombo)
+   (rings malerings_bandaid)
+   (earrings maleearrings_key))
+((instrument drum)
+   FRAMERATE_BUDGET_PREFAB
+   (outfit
+      FRAMERATE_BUDGET_OUTFIT
+      (drum diamondpearl)
+      (guitar none)
+      (bass none)
+      (mic none)))
+((instrument guitar)
+   FRAMERATE_BUDGET_PREFAB
+   (outfit
+      FRAMERATE_BUDGET_OUTFIT
+      (drum none)
+      (guitar doublejet_sunburstblack)
+      (bass jazz02_sunburstpearl)
+      (mic none)))
+((instrument guitar)
+   FRAMERATE_BUDGET_PREFAB
+   (outfit
+      FRAMERATE_BUDGET_OUTFIT
+      (drum none)
+      (guitar doublejet_sunburstblack)
+      (bass jazz02_sunburstpearl)
+      (mic none)))
+((instrument vocals)
+   FRAMERATE_BUDGET_PREFAB
+   (outfit
+      FRAMERATE_BUDGET_OUTFIT
+      (drum none)
+      (guitar none)
+      (bass none)
+      (mic mic1)))

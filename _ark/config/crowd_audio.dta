@@ -1,0 +1,373 @@
+#define CROWD_AUDIO_HANDLERS
+((results_duck 9)
+   (results_fade_sec 10)
+   (transition_effects TRUE)
+   (intro_start
+      {if
+         {&&
+            {$this want_intro}
+            [transition_effects]}
+         {play_game_seq crowd_begin}}
+      {$this play_intro})
+   (intro_skip
+      {if
+         {&&
+            {$this want_intro}
+            [transition_effects]}
+         {play_game_seq crowd_begin}}
+      {$this play_intro})
+   (want_intro TRUE)
+   (want_outro_duck
+      {'||'
+         {!
+            {tour performer}}
+         {{tour performer}
+            last_song}})
+   (game_lost
+      {if
+         [transition_effects]
+         {play_game_seq crowd_lose}}
+      {$this on_lose})
+   (music_end
+      {unless
+         {$this done}
+         #ifdef HX_WII
+         {hmb_allow FALSE}
+         #endif
+         {do
+            ($cue win_5.cue)
+            {if
+               [transition_effects]
+               {if
+                  {gamemode is_band_arrangement}
+                  {do
+                     ($num_stars
+                        {{band_0 main_performer}
+                           num_stars})
+                     {switch
+                        $num_stars
+                        (5
+                           {set $cue win_5.cue})
+                        (4
+                           {set $cue win_4.cue})
+                        {set $cue win_4.cue}}}}
+               {play_game_seq $cue}}}
+         {$this on_win}})
+   (coda_success
+      {if
+         [transition_effects]
+         {synth stop bre_success.cue}
+         {play_game_seq bre_success.cue}})
+   (coda_blown
+      {if
+         [transition_effects]
+         {play_game_seq bre_fail.cue}})
+   (final_win
+      ($type)
+      #ifdef HX_XBOX
+      {do
+         ($strm
+            {switch
+               $type
+               (all
+                  "wingame_band")
+               (drum
+                  "wingame_drums")
+               (guitar
+                  "wingame_guitar")
+               "wingame_vocals"})
+         {$this play_stream 0 $strm}}
+      #endif))
+(CrowdAudio
+   (types
+      (blank
+         (disable TRUE)
+         CROWD_AUDIO_HANDLERS
+         (streams
+            (root world/small_club/streams)
+            (venue_bank world/small_club/small_club_bank.milo)
+            #ifdef HX_WII
+            (intro
+               -96.0
+               crowd_small_intro_loop
+               (pan 4))
+            (levels
+               (kExcitementBoot
+                  -96.0
+                  crowd_small_danger_loop
+                  (pan 4))
+               (kExcitementBad
+                  -96.0
+                  crowd_small_poor_loop
+                  (pan 4))
+               (kExcitementOkay
+                  -96.0
+                  crowd_small_norm_loop
+                  (pan 4))
+               (kExcitementGreat
+                  -96.0
+                  crowd_small_good_loop
+                  (pan 4))
+               (kExcitementPeak
+                  -96.0
+                  crowd_small_peak_loop
+                  (pan 4)))
+            #else
+            (intro
+               -96.0
+               crowd_small_intro
+               (pan 4))
+            (levels
+               (kExcitementBoot
+                  -96.0
+                  crowd_small_danger
+                  (pan 4))
+               (kExcitementBad
+                  -96.0
+                  crowd_small_poor
+                  (pan 4))
+               (kExcitementOkay
+                  -96.0
+                  crowd_small_norm
+                  (pan 4))
+               (kExcitementGreat
+                  -96.0
+                  crowd_small_good
+                  (pan 4))
+               (kExcitementPeak
+                  -96.0
+                  crowd_small_peak
+                  (pan 4)))
+            #endif))
+      (arena
+         CROWD_AUDIO_HANDLERS
+         (streams
+            (root world/arena/streams)
+            (venue_bank world/arena/arena_bank.milo)
+            #ifdef HX_WII
+            (intro
+               -6.5
+               crowd_arena_intro_loop
+               (pan 4))
+            (levels
+               (kExcitementBoot
+                  -7.5
+                  crowd_arena_danger_loop
+                  (pan 4))
+               (kExcitementBad
+                  -9.0
+                  crowd_arena_poor_loop
+                  (pan 4))
+               (kExcitementOkay
+                  -9.0
+                  crowd_arena_norm_loop
+                  (pan 4))
+               (kExcitementGreat
+                  -9.0
+                  crowd_arena_good_loop
+                  (pan 4))
+               (kExcitementPeak
+                  -8.0
+                  crowd_arena_peak_loop
+                  (pan 4)))
+            #else
+            (intro
+               -6.5
+               crowd_arena_intro
+               (pan 4))
+            (levels
+               (kExcitementBoot
+                  -7.5
+                  crowd_arena_danger
+                  (pan 4))
+               (kExcitementBad
+                  -9.0
+                  crowd_arena_poor
+                  (pan 4))
+               (kExcitementOkay
+                  -9.0
+                  crowd_arena_norm
+                  (pan 4))
+               (kExcitementGreat
+                  -9.0
+                  crowd_arena_good
+                  (pan 4))
+               (kExcitementPeak
+                  -8.0
+                  crowd_arena_peak
+                  (pan 4)))
+            #endif))
+      (small_club
+         CROWD_AUDIO_HANDLERS
+         (streams
+            (root world/small_club/streams)
+            (venue_bank world/small_club/small_club_bank.milo)
+            #ifdef HX_WII
+            (intro
+               -6.5
+               crowd_small_intro_loop
+               (pan 4))
+            (levels
+               (kExcitementBoot
+                  -6.0
+                  crowd_small_danger_loop
+                  (pan 4))
+               (kExcitementBad
+                  -8.0
+                  crowd_small_poor_loop
+                  (pan 4))
+               (kExcitementOkay
+                  -9.0
+                  crowd_small_norm_loop
+                  (pan 4))
+               (kExcitementGreat
+                  -8.5
+                  crowd_small_good_loop
+                  (pan 4))
+               (kExcitementPeak
+                  -8.0
+                  crowd_small_peak_loop
+                  (pan 4)))
+            #else
+            (intro
+               -6.5
+               crowd_small_intro
+               (pan 4))
+            (levels
+               (kExcitementBoot
+                  -6.0
+                  crowd_small_danger
+                  (pan 4))
+               (kExcitementBad
+                  -8.0
+                  crowd_small_poor
+                  (pan 4))
+               (kExcitementOkay
+                  -9.0
+                  crowd_small_norm
+                  (pan 4))
+               (kExcitementGreat
+                  -8.5
+                  crowd_small_good
+                  (pan 4))
+               (kExcitementPeak
+                  -8.0
+                  crowd_small_peak
+                  (pan 4)))
+            #endif))
+      (big_club
+         CROWD_AUDIO_HANDLERS
+         (streams
+            (root world/big_club/streams)
+            (venue_bank world/big_club/big_club_bank.milo)
+            #ifdef HX_WII
+            (intro
+               -8.0
+               crowd_big_intro_loop
+               (pan 4))
+            (levels
+               (kExcitementBoot
+                  -7.5
+                  crowd_big_danger_loop
+                  (pan 4))
+               (kExcitementBad
+                  -9.0
+                  crowd_big_poor_loop
+                  (pan 4))
+               (kExcitementOkay
+                  -9.0
+                  crowd_big_norm_loop
+                  (pan 4))
+               (kExcitementGreat
+                  -8.0
+                  crowd_big_good_loop
+                  (pan 4))
+               (kExcitementPeak
+                  -8.0
+                  crowd_big_peak_loop
+                  (pan 4)))
+            #else
+            (intro
+               -8.0
+               crowd_big_intro
+               (pan 4))
+            (levels
+               (kExcitementBoot
+                  -7.5
+                  crowd_big_danger
+                  (pan 4))
+               (kExcitementBad
+                  -9.0
+                  crowd_big_poor
+                  (pan 4))
+               (kExcitementOkay
+                  -9.0
+                  crowd_big_norm
+                  (pan 4))
+               (kExcitementGreat
+                  -8.0
+                  crowd_big_good
+                  (pan 4))
+               (kExcitementPeak
+                  -8.0
+                  crowd_big_peak
+                  (pan 4)))
+            #endif))
+      (theater
+         CROWD_AUDIO_HANDLERS
+         (streams
+            (root world/theater/streams)
+            (venue_bank world/theater/theater_bank.milo)
+            #ifdef HX_WII
+            (intro
+               -6.5
+               crowd_theater_intro_loop
+               (pan 4))
+            (levels
+               (kExcitementBoot
+                  -7.5
+                  crowd_theater_danger_loop
+                  (pan 4))
+               (kExcitementBad
+                  -9.0
+                  crowd_theater_poor_loop
+                  (pan 4))
+               (kExcitementOkay
+                  -9.0
+                  crowd_theater_norm_loop
+                  (pan 4))
+               (kExcitementGreat
+                  -8.0
+                  crowd_theater_good_loop
+                  (pan 4))
+               (kExcitementPeak
+                  -8.0
+                  crowd_theater_peak_loop
+                  (pan 4)))
+            #else
+            (intro
+               -6.5
+               crowd_theater_intro
+               (pan 4))
+            (levels
+               (kExcitementBoot
+                  -7.5
+                  crowd_theater_danger
+                  (pan 4))
+               (kExcitementBad
+                  -9.0
+                  crowd_theater_poor
+                  (pan 4))
+               (kExcitementOkay
+                  -9.0
+                  crowd_theater_norm
+                  (pan 4))
+               (kExcitementGreat
+                  -8.0
+                  crowd_theater_good
+                  (pan 4))
+               (kExcitementPeak
+                  -8.0
+                  crowd_theater_peak
+                  (pan 4)))
+            #endif))))

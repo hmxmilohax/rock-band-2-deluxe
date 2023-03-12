@@ -1,0 +1,109 @@
+{new
+   UIPanel
+   tutorials_lesson_menu_panel
+   (file
+      {gamemode get lesson_menu_assets})
+   (goto_lesson
+      ($num)
+      {tutorials_state_panel set_lesson $num}
+      {{game get_participant_config 0}
+         set_track_type
+         {gamemode get start_tracktype}}
+      {ui goto_screen tutorials_loading_screen})
+   (enter
+      {$this
+         set_focus
+         {elem
+            {tutorials_state_panel
+               get_lesson
+               {{gamemode get main_panel}
+                  get
+                  lesson_num}}
+            0}}
+      {foreach
+         $lesson
+         {tutorials_state_panel get_all_lessons}
+         {{elem $lesson 3}
+            set_showing
+            {{profile_mgr
+                  get_options_from_player
+                  {gamecfg get leader_num}}
+               is_lesson_complete
+               {elem $lesson 2}}}}
+      {$this set just_entered FALSE}
+      {if
+         {==
+            {ui previous_screen}
+            training_menu_screen}
+         {fx fade_in}})
+   (TRANSITION_COMPLETE_MSG
+      {if
+         {&&
+            {!
+               {ui in_transition}}
+            {==
+               {ui current_screen}
+               tutorials_lesson_menu_screen}}
+         {autosave}})
+   (exit
+      {$this set just_entered TRUE})
+   (FOCUS_MSG
+      {if
+         {!
+            [just_entered]}
+         {do
+            {set
+               [lesson_num_scroll]
+               0}
+            {foreach
+               $lesson
+               {tutorials_state_panel get_all_lessons}
+               {if_else
+                  {==
+                     {elem $lesson 0}
+                     $new_focus}
+                  {tutorials_state_panel
+                     remember_lesson
+                     [lesson_num_scroll]}
+                  {'++'
+                     [lesson_num_scroll]}}}}}
+      kDataUnhandled)
+   (SELECT_START_MSG
+      {{game get_participant_config 0}
+         set_ready
+         TRUE}
+      kDataUnhandled)
+   (SELECT_MSG
+      {set
+         [lesson_num]
+         0}
+      {foreach
+         $lesson
+         {tutorials_state_panel get_all_lessons}
+         {if_else
+            {==
+               {elem $lesson 0}
+               $component}
+            {$this
+               goto_lesson
+               [lesson_num]}
+            {'++'
+               [lesson_num]}}}
+      kDataUnhandled)
+   (allow_player
+      ($player_num)
+      {game is_player_participating $player_num})
+   (lesson_num 0)
+   (lesson_num_scroll 0)
+   (just_entered TRUE)}
+{new
+   BandScreen
+   tutorials_lesson_menu_screen
+   (panels meta menu_background_movie_panel tutorials_lesson_menu_panel fx)
+   (focus tutorials_lesson_menu_panel)
+   (back training_menu_screen)
+   (enter
+      {band_ui_sink set post_matchmaking TRUE})
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}

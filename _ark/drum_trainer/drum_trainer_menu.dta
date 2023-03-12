@@ -1,0 +1,123 @@
+{new
+   SessionPanel
+   drum_trainer_menu_panel
+   (file
+      "drum_trainer_menu.milo")
+   (focus beats.btn)
+   #ifdef HX_WII
+   (allow_home_menu TRUE)
+   #endif
+   (SELECT_MSG
+      {if_else
+         {player_on_instrument $player_num kControllerDrum}
+         {do
+            {switch
+               $component
+               (beats.btn
+                  {gamemode set_mode drum_trainer_beats $player_num})
+               (fills.btn
+                  {gamemode set_mode drum_trainer_fills $player_num})
+               (freestyle.btn
+                  {gamemode set_mode drum_trainer_freestyle $player_num})}
+            {set
+               [player_num]
+               $player_num}
+            {game set leader_num $player_num}
+            {band_ui_sink set post_matchmaking TRUE}
+            {session_mgr add_sink $this new_local_player}
+            {session_mgr
+               add_local_player
+               $player_num
+               {gamecfg get_controller_type_from_controller $player_num}}}
+         {ui push_screen drum_trainer_non_drum_warning_screen}})
+   (new_local_player
+      ($user)
+      {session_mgr remove_sink $this new_local_player}
+      {game
+         set_player_slot_num
+         [player_num]
+         0}
+      {gamecfg auto_assign_missing_slots}
+      {do
+         ($pcfg
+            {game
+               get_player_config
+               [player_num]})
+         {$pcfg
+            set_char
+            {available_prefab
+               [player_num]}}
+         {meta_performer
+            set_song
+            {gamemode get start_song}}
+         {game set_venue arena_01}
+         {do
+            ($player_config
+               {game
+                  get_player_config
+                  [player_num]})
+            {$player_config
+               set_difficulty
+               {gamemode get start_difficulty}}
+            {$player_config
+               set_track_type
+               {gamemode get start_tracktype}}
+            {$player_config set_ready TRUE}}
+         {{gamemode get game_panel}
+            set
+            player_num
+            [player_num]}}
+      {ui goto_screen drum_trainer_loading_screen})
+   (enter
+      {session clear}
+      {$this set_player_num -1}
+      {game set leader_num -1}
+      {band_ui_sink set post_matchmaking FALSE}
+      {if
+         {==
+            {ui previous_screen}
+            training_menu_screen}
+         {fx fade_in}}
+      {helpbar set_limit_to_player_num -1}
+      {helpbar set_limit_to_session FALSE})
+   (TRANSITION_COMPLETE_MSG
+      {if
+         {&&
+            {!
+               {ui in_transition}}
+            {==
+               {ui current_screen}
+               drum_trainer_menu_screen}}
+         {autosave}}
+      kDataUnhandled)}
+{new
+   BandScreen
+   drum_trainer_menu_screen
+   (panels meta menu_background_movie_panel options_background_panel drum_trainer_menu_panel fx)
+   (focus drum_trainer_menu_panel)
+   (back training_menu_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}
+{new
+   UIPanel
+   drum_trainer_content_loading_panel
+   (load
+      {content_mgr start_refresh}
+      #ifndef NOWIINETWORKING
+      #ifndef HX_EE
+      #endif
+      #endif)
+   #ifndef NOWIINETWORKING
+   #ifndef HX_EE
+   (finish_load)
+   #endif
+   #endif
+   (is_loaded
+      {content_mgr refresh_done})}
+{new
+   BandScreen
+   drum_trainer_loading_screen
+   (panels drum_trainer_content_loading_panel)
+   (enter
+      {ui goto_screen loading_screen})}

@@ -1,0 +1,803 @@
+{func
+   increment_to_5mult
+   ($value)
+   {'*'
+      {'+'
+         {floor
+            {/ $value 5.0}}
+         1}
+      5}}
+{func
+   decrement_to_5mult
+   ($value)
+   {'*'
+      {-
+         {ceil
+            {/ $value 5.0}}
+         1}
+      5}}
+#define LIMIT_TO_CALIB_PLAYER
+((allow_player
+      ($player_num)
+      {==
+         $player_num
+         {cal_background_panel get calib_player}}))
+{new
+   UIPanel
+   cal_background_panel
+   (file
+      "cal_background.milo")
+   (parent
+      {ui current_screen})
+   (calib_player -1)
+   (enter
+      {meta music_stop}
+      {platform_mgr disable_xmp}
+      {helpbar
+         set_limit_to_player_num
+         [calib_player]})
+   (exit
+      {meta music_start}
+      {platform_mgr enable_xmp}
+      #ifndef HX_TRACKPACK
+      {input_mgr set_user ''}
+      #endif)
+   LIMIT_TO_CALIB_PLAYER
+   (BUTTON_DOWN_MSG
+      {switch
+         $button
+         (kPad_X
+            {if
+               {&&
+                  {[parent]
+                     has
+                     (confirm_screen)}
+                  {!=
+                     ''
+                     {[parent]
+                        get
+                        (confirm_screen)}}}
+               {synth play button_select}
+               {ui
+                  goto_screen
+                  {[parent]
+                     get
+                     (confirm_screen)}}})
+         (kPad_R1
+            {if
+               {&&
+                  {[parent]
+                     has
+                     (option1_screen)}
+                  {!=
+                     ''
+                     {[parent]
+                        get
+                        (option1_screen)}}}
+               {synth play button_select}
+               {ui
+                  goto_screen
+                  {[parent]
+                     get
+                     (option1_screen)}}})
+         (kPad_Square
+            {if
+               {&&
+                  {[parent]
+                     has
+                     (option2_screen)}
+                  {!=
+                     ''
+                     {[parent]
+                        get
+                        (option2_screen)}}}
+               {ui
+                  goto_screen
+                  {[parent]
+                     get
+                     (option2_screen)}}})
+         kDataUnhandled})}
+#define CAL_BASIC_PANEL
+(LIMIT_TO_CALIB_PLAYER
+   (enter
+      {if
+         {==
+            {ui previous_screen}
+            options_screen}
+         {fx fade_in}}
+      {$this add_sink cal_background_panel}))
+#define CAL_AUTO_PANEL
+((state init)
+   (old_lag 0)
+   (confirmed FALSE)
+   LIMIT_TO_CALIB_PLAYER
+   (set_state
+      ($s)
+      {set
+         [state]
+         $s}
+      {if
+         {!=
+            [state]
+            calibrating}
+         {helpbar min_height 0}}
+      {print
+         "Setting State: "
+         $s
+         "\n"}
+      {switch
+         [state]
+         (init
+            {cal_audio_instructions.lbl set showing TRUE}
+            {cal_video_instructions.lbl set showing TRUE}
+            {cal_intructions.lbl set text_token lag_info_why}
+            {$this populate_setting_label}
+            {if_else
+               [is_video]
+               {helpbar
+                  set_config
+                  ((cancel helpbar_back)
+                     (confirm helpbar_select)
+                     (option cal_to_manual_video))}
+               {helpbar
+                  set_config
+                  ((cancel helpbar_back)
+                     (confirm helpbar_select)
+                     (option cal_to_manual_audio))}})
+         (calibrating
+            {meta music_stop}
+            {platform_mgr disable_xmp}
+            {cal_intructions.lbl set text_token lag_measuring}
+            {cal_settings.lbl
+               set_localized
+               ""}
+            {helpbar
+               set_config
+               ((cancel helpbar_back))})
+         (success
+            {cal_audio_instructions.lbl set showing FALSE}
+            {cal_video_instructions.lbl set showing FALSE}
+            {cal_intructions.lbl set text_token lag_success}
+            {$this populate_setting_label}
+            {helpbar
+               set_config
+               ((cancel helpbar_back)
+                  (confirm helpbar_select))})
+         (failure
+            {cal_failed_screen
+               set_return_screen
+               {ui current_screen}}
+            {cal_failed_screen set_failure_message lag_info_failure}
+            {if
+               [is_hardware]
+               {cal_failed_screen set_failure_message cal_audio_fail_calbert}
+               {if
+                  [is_video]
+                  {cal_failed_screen set_failure_message cal_video_fail_calbert}}}
+            {ui push_screen cal_failed_screen}
+            {$this populate_setting_label}
+            {helpbar
+               set_config
+               ((cancel helpbar_back)
+                  (confirm helpbar_select))})})
+   (populate_setting_label
+      {if_else
+         [is_video]
+         {do
+            {cal_settings.lbl
+               set_localized
+               {sprintf
+                  {localize lag_setting}
+                  {profile_mgr get_excess_video_lag}}}}
+         {do
+            {cal_settings.lbl
+               set_localized
+               {sprintf
+                  {localize lag_setting}
+                  {profile_mgr get_excess_audio_lag}}}}})
+   (enter
+      {$this init_panel})
+   (init_panel
+      {$this add_sink cal_background_panel}
+      {$this set_state init}
+      {set
+         [num_hits]
+         24}
+      {set
+         [max_slack]
+         75}
+      {set
+         [audio_vol_db]
+         0}
+      {set
+         [anim_cycle_frames]
+         50}
+      {set
+         [anim_num_cycles]
+         2}
+      {set
+         [anim_resting_frame]
+         0}
+      {set
+         [anim_half_off]
+         FALSE}
+      {set
+         [confirmed]
+         FALSE}
+      {if_else
+         [is_video]
+         {do
+            {set
+               [cycle_time_ms]
+               605}
+            {set
+               [old_lag]
+               {profile_mgr get_excess_video_lag}}
+            {set
+               [video_enable]
+               TRUE}
+            {set
+               [audio_enable]
+               FALSE}}
+         {do
+            {set
+               [cycle_time_ms]
+               601}
+            {set
+               [old_lag]
+               {profile_mgr get_excess_audio_lag}}
+            {set
+               [video_enable]
+               FALSE}
+            {set
+               [audio_enable]
+               TRUE}}}
+      {set
+         [hardware_mode]
+         FALSE}
+      {set
+         [num_hits]
+         32}
+      {set
+         [bottom_outliers]
+         8}
+      {set
+         [top_outliers]
+         4}
+      {if
+         [is_hardware]
+         {set
+            [num_hits]
+            24}
+         {set
+            [hardware_mode]
+            TRUE}
+         {set
+            [cycle_time_ms]
+            555}
+         {set
+            [bottom_outliers]
+            3}
+         {set
+            [top_outliers]
+            3}})
+   (TRANSITION_COMPLETE_MSG
+      {$this
+         set_player_num
+         {cal_background_panel get calib_player}}
+      {$this initialize_content})
+   (exit
+      {if
+         {!
+            [confirmed]}
+         {if_else
+            [is_video]
+            {do
+               {profile_mgr
+                  set_excess_video_lag
+                  [old_lag]}}
+            {do
+               {profile_mgr
+                  set_excess_audio_lag
+                  [old_lag]}}}})
+   (BUTTON_DOWN_MSG
+      {if_else
+         {!
+            [confirmed]}
+         {switch
+            $button
+            (kPad_X
+               {$this set_state calibrating}
+               {$this start_countdown $player_num})
+            kDataUnhandled}
+         {if_else
+            {&&
+               {== $button kPad_Tri}
+               {==
+                  [state]
+                  success}}
+            {do
+               {synth play button_back}
+               {if_else
+                  [is_video]
+                  {do
+                     {profile_mgr
+                        set_excess_video_lag
+                        [old_lag]}}
+                  {do
+                     {profile_mgr
+                        set_excess_audio_lag
+                        [old_lag]}}}
+               {$this init_panel}
+               {$this initialize_content}
+               0}
+            kDataUnhandled}})
+   (start_countdown
+      ($player_num)
+      {thread_task
+         kTaskUISeconds
+         (script
+            {set
+               [confirmed]
+               FALSE}
+            {cal_intructions.lbl set showing FALSE}
+            {$this start_test $player_num}
+            {$task
+               wait
+               {$this is_processing_input}}
+            {if_else
+               {$this get_test_quality}
+               {do
+                  {if_else
+                     [is_video]
+                     {do
+                        {profile_mgr
+                           set_excess_video_lag
+                           {$this get_test_result}}}
+                     {do
+                        {profile_mgr
+                           set_excess_audio_lag
+                           {$this get_test_result}}}}
+                  {$this set_state success}
+                  {set
+                     [confirmed]
+                     TRUE}}
+               {$this set_state failure}}
+            {cal_intructions.lbl set showing TRUE})}))
+{new
+   UIPanel
+   cal_welcome_panel
+   (file
+      "cal_welcome.milo")
+   CAL_BASIC_PANEL}
+{new
+   BandScreen
+   cal_welcome_screen
+   (panels meta cal_background_panel cal_welcome_panel fx)
+   (focus cal_welcome_panel)
+   (cancel_screen options_screen)
+   (confirm_screen cal_audio_screen)
+   (option1_screen cal_hw_audio_screen)
+   (back options_screen)
+   (force_autocal 0)
+   (helpbar
+      ((cancel helpbar_cancel)
+         (confirm helpbar_continue)))
+   (TRANSITION_COMPLETE_MSG
+      {if_else
+         {'||'
+            {== 1 $force_autocal}
+            {joypad_is_calbert_guitar
+               {cal_background_panel get calib_player}}}
+         {do
+            {helpbar
+               set_config
+               ((cancel helpbar_cancel)
+                  (confirm cal_to_auto_all)
+                  (option cal_to_manual_all))}
+            {set
+               [confirm_screen]
+               cal_hw_audio_screen}
+            {set
+               [option1_screen]
+               cal_audio_screen}}
+         {do
+            {helpbar
+               set_config
+               ((cancel helpbar_cancel)
+                  (confirm helpbar_continue))}
+            {set
+               [confirm_screen]
+               cal_audio_screen}
+            {set
+               [option1_screen]
+               ''}}})}
+{new
+   CalibrationPanel
+   cal_audio_panel
+   (file
+      "cal_auto.milo")
+   (is_video 0)
+   (is_hardware 0)
+   CAL_AUTO_PANEL}
+{new
+   BandScreen
+   cal_audio_screen
+   (panels meta cal_background_panel cal_audio_panel)
+   (focus cal_audio_panel)
+   (back cal_welcome_screen)
+   (confirm_screen cal_visuals_screen)
+   (option1_screen cal_manual_audio_screen)
+   (helpbar
+      ((cancel helpbar_cancel)
+         (confirm helpbar_continue)
+         (option cal_to_manual_audio)))}
+{new
+   CalibrationPanel
+   cal_visuals_panel
+   (file
+      "cal_auto.milo")
+   (is_video 1)
+   (is_hardware 0)
+   CAL_AUTO_PANEL}
+{new
+   BandScreen
+   cal_visuals_screen
+   (panels meta cal_background_panel cal_visuals_panel)
+   (focus cal_visuals_panel)
+   (back cal_audio_screen)
+   (confirm_screen cal_complete_screen)
+   (option1_screen cal_manual_video_screen)
+   (helpbar
+      ((cancel helpbar_cancel)
+         (confirm helpbar_continue)
+         (option cal_to_manual_video)))}
+{new
+   CalibrationPanel
+   cal_hw_audio_panel
+   (file
+      "cal_auto.milo")
+   (is_video 0)
+   (is_hardware 1)
+   CAL_AUTO_PANEL}
+{new
+   BandScreen
+   cal_hw_audio_screen
+   (panels meta cal_background_panel cal_hw_audio_panel)
+   (focus cal_hw_audio_panel)
+   (back cal_welcome_screen)
+   (confirm_screen cal_hw_visuals_screen)
+   (option1_screen cal_manual_hw_audio_screen)
+   (helpbar
+      ((cancel helpbar_cancel)
+         (confirm helpbar_continue)
+         (option cal_to_manual_audio)))}
+{new
+   CalibrationPanel
+   cal_hw_visuals_panel
+   (file
+      "cal_auto.milo")
+   (is_video 1)
+   (is_hardware 1)
+   CAL_AUTO_PANEL}
+{new
+   BandScreen
+   cal_hw_visuals_screen
+   (panels meta cal_background_panel cal_hw_visuals_panel)
+   (focus cal_hw_visuals_panel)
+   (back cal_hw_audio_screen)
+   (confirm_screen cal_complete_screen)
+   (option1_screen cal_manual_hw_video_screen)
+   (helpbar
+      ((cancel helpbar_cancel)
+         (confirm helpbar_continue)
+         (option cal_to_manual_video)))}
+#define CAL_MANUAL_PANEL_CONTENTS
+((file
+      "cal_manual.milo")
+   LIMIT_TO_CALIB_PLAYER
+   (enter
+      {$this add_sink cal_background_panel}
+      {if_else
+         [is_video]
+         {do
+            {audio_labels.grp set_showing FALSE}
+            {video_labels.grp set_showing TRUE}
+            {set
+               [get_method]
+               get_excess_video_lag}
+            {set
+               [set_method]
+               set_excess_video_lag}}
+         {do
+            {audio_labels.grp set_showing TRUE}
+            {video_labels.grp set_showing FALSE}
+            {set
+               [get_method]
+               get_excess_audio_lag}
+            {set
+               [set_method]
+               set_excess_audio_lag}}}
+      {set
+         [old_latency]
+         {profile_mgr
+            [get_method]}}
+      {$this
+         set_latency
+         {profile_mgr
+            [get_method]}}
+      {set
+         [parent]
+         {ui current_screen}}
+      {set
+         [confirmed]
+         TRUE})
+   (BUTTON_DOWN_MSG
+      {switch
+         $button
+         (kPad_Tri
+            {if
+               {[parent]
+                  has
+                  (cancel_screen)}
+               {ui
+                  goto_screen
+                  {[parent]
+                     get
+                     (cancel_screen)}}
+               {$this
+                  set_latency
+                  [old_latency]}})
+         (kPad_DRight
+            {$this
+               set_latency
+               {increment_to_5mult
+                  {profile_mgr
+                     [get_method]}}})
+         (kPad_DLeft
+            {$this
+               set_latency
+               {decrement_to_5mult
+                  {profile_mgr
+                     [get_method]}}})
+         (kPad_DDown
+            {$this
+               set_latency
+               {increment_to_5mult
+                  {profile_mgr
+                     [get_method]}}})
+         (kPad_DUp
+            {$this
+               set_latency
+               {decrement_to_5mult
+                  {profile_mgr
+                     [get_method]}}})
+         kDataUnhandled})
+   (set_latency
+      ($latency)
+      {if
+         {&&
+            {> $latency -301}
+            {< $latency 301}}
+         {profile_mgr
+            [set_method]
+            $latency}
+         {current_offset.lbl
+            set_localized
+            {sprintf
+               {localize cal_manual_offset}
+               {int $latency}}}
+         {synth play click}}))
+{new
+   UIPanel
+   cal_manual_video_panel
+   (is_video TRUE)
+   CAL_MANUAL_PANEL_CONTENTS}
+{new
+   BandScreen
+   cal_manual_hw_video_screen
+   (panels meta cal_background_panel cal_manual_video_panel)
+   (focus cal_manual_video_panel)
+   (cancel_screen cal_hw_visuals_screen)
+   (confirm_screen cal_complete_screen)
+   (helpbar
+      ((cancel helpbar_cancel)
+         (confirm helpbar_confirmsetting)))}
+{new
+   BandScreen
+   cal_manual_video_screen
+   (panels meta cal_background_panel cal_manual_video_panel)
+   (focus cal_manual_video_panel)
+   (back cal_visuals_screen)
+   (confirm_screen cal_complete_screen)
+   (cancel_screen cal_visuals_screen)
+   (helpbar
+      ((cancel helpbar_cancel)
+         (confirm helpbar_confirmsetting)))}
+{new
+   UIPanel
+   cal_manual_audio_panel
+   (is_video FALSE)
+   CAL_MANUAL_PANEL_CONTENTS}
+{new
+   BandScreen
+   cal_manual_audio_screen
+   (panels meta cal_background_panel cal_manual_audio_panel)
+   (focus cal_manual_audio_panel)
+   (back cal_audio_screen)
+   (confirm_screen cal_visuals_screen)
+   (cancel_screen cal_audio_screen)
+   (helpbar
+      ((cancel helpbar_cancel)
+         (confirm helpbar_confirmsetting)))}
+{new
+   BandScreen
+   cal_manual_hw_audio_screen
+   (panels meta cal_background_panel cal_manual_audio_panel)
+   (focus cal_manual_audio_panel)
+   (cancel_screen cal_hw_audio_screen)
+   (confirm_screen cal_hw_visuals_screen)
+   (helpbar
+      ((cancel helpbar_cancel)
+         (confirm helpbar_confirmsetting)))}
+{new
+   UIPanel
+   cal_complete_panel
+   (file
+      "cal_complete.milo")
+   (enter
+      {$this add_sink cal_background_panel}
+      {audiospeaker.mnm
+         animate
+         (loop 0 4)
+         (period 0.5)}
+      {audio_offset.lbl
+         set_localized
+         {sprintf
+            {localize cal_audio_offset}
+            {profile_mgr get_excess_audio_lag}}}
+      {strum.mnm
+         animate
+         (loop 0 4)
+         (period 0.5)}
+      {video_offset.lbl
+         set_localized
+         {sprintf
+            {localize cal_video_offset}
+            {profile_mgr get_excess_video_lag}}})}
+{new
+   BandScreen
+   cal_complete_screen
+   (panels meta cal_background_panel cal_complete_panel)
+   (focus cal_complete_panel)
+   (back cal_visuals_screen)
+   (confirm_screen options_screen)
+   (helpbar
+      ((cancel helpbar_cancel)
+         (confirm helpbar_continue)))}
+{new
+   UIPanel
+   cal_quick_panel
+   (file
+      "cal_quick.milo")
+   (focus audio_lag.sld)
+   (enter
+      {$this update_all_from_profile})
+   (exit)
+   (FOCUS_MSG
+      {switch
+         $new_focus
+         ((audio_lag video_lag)
+            {helpbar
+               set_config
+               ((cancel helpbar_back)
+                  (confirm helpbar_select))})})
+   (SCROLL_SELECT_MSG
+      {if_else
+         $selected
+         {helpbar
+            set_config
+            ((cancel helpbar_cancel)
+               (confirm helpbar_ok))}
+         {do
+            {helpbar
+               set_config
+               ((cancel helpbar_back)
+                  (confirm helpbar_select))}
+            {$this on_slider_change $component}}})
+   (SCROLL_MSG
+      {$this on_slider_change $component})
+   (on_slider_change
+      ($component)
+      {switch
+         $component
+         (audio_lag.sld
+            {profile_mgr
+               set_excess_audio_lag
+               {'*'
+                  5
+                  {$component current}}})
+         (video_lag.sld
+            {profile_mgr
+               set_excess_video_lag
+               {'*'
+                  5
+                  {$component current}}})})
+   (update_all_from_profile
+      {$this
+         iterate
+         UISlider
+         $s
+         {$s set_num_steps 15}
+         {$this update_from_profile $s}})
+   (update_from_profile
+      ($component)
+      {switch
+         $component
+         (audio_lag.sld
+            {$component
+               set_current
+               {int
+                  {clamp
+                     {'+'
+                        {/
+                           {profile_mgr get_excess_audio_lag}
+                           5.0}
+                        0.5}
+                     0
+                     14}}})
+         (video_lag.sld
+            {$component
+               set_current
+               {int
+                  {clamp
+                     {'+'
+                        {/
+                           {profile_mgr get_excess_video_lag}
+                           5.0}
+                        0.5}
+                     0
+                     14}}})})}
+{new
+   BandScreen
+   cal_quick_screen
+   (panels cal_quick_panel)
+   (focus cal_quick_panel)
+   (back pause_screen)
+   LIMIT_TO_CALIB_PLAYER
+   (helpbar
+      ((cancel helpbar_cancel)
+         (confirm helpbar_confirm)))}
+{new
+   BandScreen
+   cal_failed_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   LIMIT_TO_CALIB_PLAYER
+   (return_screen cal_audio_screen)
+   (failure_messsage lag_info_failure)
+   (set_return_screen
+      ($screen)
+      {set
+         [return_screen]
+         $screen})
+   (set_failure_message
+      ($message)
+      {set
+         [failure_message]
+         $message})
+   (enter
+      {dialog_panel
+         set_ok
+         {localize
+            [failure_message]}})
+   (SELECT_MSG
+      {helpbar
+         set_limit_to_player_num
+         {cal_background_panel get calib_player}}
+      {[return_screen]
+         set_state
+         init}
+      {ui
+         pop_screen
+         [return_screen]})}

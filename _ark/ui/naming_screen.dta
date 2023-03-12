@@ -1,0 +1,915 @@
+#define kCharNameLength
+(16)
+#define kQuoteLength
+(31)
+#define kBandNameLength
+(32)
+#define kFriendCodeLength
+(12)
+#define kRockCentralNameLength
+(10)
+#define NAMING_PANEL_HANDLERS
+((prohibit_chars
+      (" "))
+   (characters
+      (""))
+   (current_name
+      (""))
+   (current_char
+      "")
+   (current_pos 0)
+   (current_char_num 0)
+   (blink FALSE)
+   (blink_delay 0.2)
+   (kill FALSE)
+   (random_active FALSE)
+   (canceled_exit FALSE)
+   (just_continue FALSE)
+   (numbers_only FALSE)
+   (caps_on TRUE)
+   (for_friendcode FALSE)
+   (for_quote FALSE)
+   (for_band FALSE)
+   (for_rock_central FALSE)
+   (for_char FALSE)
+   (has_random_names FALSE)
+   (random_name_present FALSE)
+   (naming_length 15)
+   {set
+      $curname
+      ""}
+   (init_name
+      {set
+         [random_name_present]
+         FALSE}
+      {if_else
+         {==
+            [numbers_only]
+            FALSE}
+         {set
+            [characters]
+            ("A"
+               "B"
+               "C"
+               "D"
+               "E"
+               "F"
+               "G"
+               "H"
+               "I"
+               "J"
+               "K"
+               "L"
+               "M"
+               "N"
+               "O"
+               "P"
+               "Q"
+               "R"
+               "S"
+               "T"
+               "U"
+               "V"
+               "W"
+               "X"
+               "Y"
+               "Z"
+               "0"
+               "1"
+               "2"
+               "3"
+               "4"
+               "5"
+               "6"
+               "7"
+               "8"
+               "9"
+               " "
+               "!"
+               "?"
+               "."
+               "'")}
+         {set
+            [characters]
+            ("0"
+               "1"
+               "2"
+               "3"
+               "4"
+               "5"
+               "6"
+               "7"
+               "8"
+               "9")}}
+      {cond
+         ([for_friendcode]
+            {set
+               [naming_length]
+               kFriendCodeLength})
+         ([for_quote]
+            {set
+               [naming_length]
+               kQuoteLength})
+         ([for_band]
+            {set
+               [naming_length]
+               kBandNameLength})
+         ([for_rock_central]
+            {set
+               [naming_length]
+               kRockCentralNameLength})
+         ([for_char]
+            {set
+               [naming_length]
+               kCharNameLength})
+         (TRUE
+            {set
+               [naming_length]
+               kCharNameLength})}
+      {if_else
+         {'||'
+            {== $this highscores_qp_panel}
+            {== $this add_friend_panel}
+            {== $this add_nickname_panel}
+            {== $this char_renaming_panel}
+            {== $this option_chardata_rename_panel}
+            {== $this band_renaming_profile_panel}
+            {== $this set_username_panel}
+            {== $this set_quote_panel}
+            {&&
+               {$this get random_names}
+               {==
+                  {handle_ret
+                     ($this random_name)}
+                  kDataUnhandled}}}
+         {cond
+            ({== $this set_quote_panel}
+               {do
+                  {set
+                     $curname
+                     {tour_profile_panel get new_quote}}
+                  {if_else
+                     {!=
+                        $curname
+                        {localize band_profile_default_motto}}
+                     {$this edit_name}
+                     {$this clear_name}}})
+            ({== $this add_friend_panel}
+               {do
+                  {set
+                     $curname
+                     {add_friend_panel get new_code}}
+                  {if_else
+                     {==
+                        {add_friend_panel get bad_code}
+                        TRUE}
+                     {$this edit_name}
+                     {$this clear_name}}})
+            (TRUE
+               {$this clear_name})}
+         {if
+            {!
+               {$this get random_names}}
+            {do
+               {if
+                  {== $this char_naming_panel}
+                  {set
+                     $curname
+                     {charcreator_maker_panel get new_name}}}
+               {if
+                  {== $this band_naming_panel}
+                  {set
+                     $curname
+                     {tour_band_create_panel get new_name}}}
+               {$this edit_name}}}}
+      {if
+         {'||'
+            {== $this char_renaming_panel}
+            {== $this band_renaming_panel}
+            {== $this band_renaming_profile_panel}}
+         {do
+            {if
+               {== $this char_renaming_panel}
+               {set
+                  $curname
+                  {options_characterdata_panel get_charname}}}
+            {if
+               {== $this band_renaming_panel}
+               {set
+                  $curname
+                  {options_banddata_panel get_bandname}}}
+            {if
+               {== $this band_renaming_profile_panel}
+               {set
+                  $curname
+                  {tour_profile_panel get new_name}}}
+            {$this edit_name}}}
+      {script_task
+         kTaskUISeconds
+         (delay
+            [blink_delay])
+         (script
+            {$this blink_char})}
+      {$this reset_helpbar})
+   (edit_name
+      {set
+         [current_pos]
+         0}
+      {resize
+         [current_name]
+         0}
+      {push_back
+         [current_name]
+         ""}
+      {foreach_int
+         $i
+         0
+         {strlen $curname}
+         {push_back
+            [current_name]
+            {str_elem $curname $i}}
+         {set
+            [current_pos]
+            {'+' $i 1}}}
+      {set
+         [current_char_num]
+         0}
+      {set
+         [current_char]
+         {elem
+            [characters]
+            [current_char_num]}}
+      {set
+         [kill]
+         FALSE}
+      {set
+         [random_active]
+         FALSE}
+      {$this update_name})
+   (capslock
+      {if_else
+         {==
+            [caps_on]
+            TRUE}
+         {do
+            {set
+               [characters]
+               ("a"
+                  "b"
+                  "c"
+                  "d"
+                  "e"
+                  "f"
+                  "g"
+                  "h"
+                  "i"
+                  "j"
+                  "k"
+                  "l"
+                  "m"
+                  "n"
+                  "o"
+                  "p"
+                  "q"
+                  "r"
+                  "s"
+                  "t"
+                  "u"
+                  "v"
+                  "w"
+                  "x"
+                  "y"
+                  "z"
+                  "0"
+                  "1"
+                  "2"
+                  "3"
+                  "4"
+                  "5"
+                  "6"
+                  "7"
+                  "8"
+                  "9"
+                  " "
+                  "!"
+                  "?"
+                  "."
+                  "'")}
+            {set
+               [caps_on]
+               FALSE}}
+         {do
+            {set
+               [characters]
+               ("A"
+                  "B"
+                  "C"
+                  "D"
+                  "E"
+                  "F"
+                  "G"
+                  "H"
+                  "I"
+                  "J"
+                  "K"
+                  "L"
+                  "M"
+                  "N"
+                  "O"
+                  "P"
+                  "Q"
+                  "R"
+                  "S"
+                  "T"
+                  "U"
+                  "V"
+                  "W"
+                  "X"
+                  "Y"
+                  "Z"
+                  "0"
+                  "1"
+                  "2"
+                  "3"
+                  "4"
+                  "5"
+                  "6"
+                  "7"
+                  "8"
+                  "9"
+                  " "
+                  "!"
+                  "?"
+                  "."
+                  "'")}
+            {set
+               [caps_on]
+               TRUE}}})
+   (clear_name
+      {set
+         $curname
+         ""}
+      {resize
+         [current_name]
+         0}
+      {push_back
+         [current_name]
+         ""}
+      {set
+         [current_char_num]
+         0}
+      {set
+         [current_char]
+         {elem
+            [characters]
+            [current_char_num]}}
+      {set
+         [current_pos]
+         0}
+      {set
+         [kill]
+         FALSE}
+      {set
+         [random_active]
+         FALSE}
+      {$this update_name}
+      {set
+         [random_name_present]
+         FALSE})
+   (exit
+      {set
+         [just_continue]
+         FALSE}
+      {set
+         [kill]
+         TRUE}
+      {$this on_exit})
+   (update_band
+      {$this update_name})
+   (blink_char
+      {if
+         {!
+            [kill]}
+         {set
+            [blink]
+            {!
+               [blink]}}
+         {$this update_name}
+         {script_task
+            kTaskUISeconds
+            (delay
+               [blink_delay])
+            (script
+               {$this blink_char})}})
+   (TRANSITION_COMPLETE_MSG
+      {$this reset_helpbar})
+   (BUTTON_DOWN_MSG
+      {if_else
+         {&&
+            [name_active]
+            {!
+               [kill]}}
+         {do
+            {switch
+               $button
+               (kPad_DUp
+                  {if_else
+                     [random_active]
+                     {do
+                        {$this clear_name}
+                        {set
+                           [random_active]
+                           FALSE}
+                        {$this reset_helpbar}}
+                     {if
+                        {<
+                           [current_pos]
+                           [naming_length]}
+                        {$this decrement_char}}})
+               (kPad_DDown
+                  {if_else
+                     [random_active]
+                     {do
+                        {$this clear_name}
+                        {set
+                           [random_active]
+                           FALSE}
+                        {$this reset_helpbar}}
+                     {if
+                        {<
+                           [current_pos]
+                           [naming_length]}
+                        {$this increment_char}}})
+               (kPad_X
+                  {if
+                     {!
+                        [random_name_present]}
+                     {if_else
+                        [random_active]
+                        {do
+                           {$this clear_name}
+                           {set
+                              [random_active]
+                              FALSE}
+                           {$this reset_helpbar}}
+                        {if
+                           {<
+                              [current_pos]
+                              [naming_length]}
+                           {if
+                              {!
+                                 {&&
+                                    {==
+                                       [current_pos]
+                                       0}
+                                    {find_elem
+                                       [prohibit_chars]
+                                       [current_char]}}}
+                              {$this next_char}}}}})
+               (kPad_Tri
+                  {if_else
+                     [random_active]
+                     {do
+                        {$this clear_name}
+                        {set
+                           [random_active]
+                           FALSE}
+                        {$this reset_helpbar}}
+                     {$this prev_char}})
+               (kPad_Select
+                  {if
+                     {==
+                        [has_random_names]
+                        TRUE}
+                     {$this random_name}
+                     {$this reset_helpbar}})
+               (kPad_Start
+                  {if
+                     {!
+                        [kill]}
+                     {if_else
+                        {>
+                           {size
+                              [current_name]}
+                           1}
+                        {if_else
+                           {'||'
+                              {== $this band_renaming_panel}
+                              {== $this char_renaming_panel}
+                              {== $this band_naming_panel}
+                              {== $this char_naming_panel}
+                              {== $this band_renaming_profile_panel}}
+                           {$this check_for_unique_name}
+                           {do
+                              {if_else
+                                 [for_friendcode]
+                                 {if
+                                    {==
+                                       [current_pos]
+                                       [naming_length]}
+                                    {do
+                                       {set
+                                          [kill]
+                                          TRUE}
+                                       {$this accept_name}}}
+                                 {do
+                                    {set
+                                       [kill]
+                                       TRUE}
+                                    {$this accept_name}}}}}
+                        {do
+                           {switch
+                              $this
+                              (highscores_qp_panel)
+                              (char_naming_panel
+                                 {ui goto_screen charcreator_no_name_screen})
+                              (char_renaming_panel
+                                 {ui goto_screen charcreator_no_rename_screen})
+                              (band_renaming_panel
+                                 {ui goto_screen name_error_screen})
+                              (band_renaming_profile_panel
+                                 {ui goto_screen tour_band_rename_profile_error_screen})
+                              (add_friend_panel)
+                              (add_nickname_panel
+                                 {ui push_screen name_error_screen})
+                              (set_quote_panel
+                                 {do
+                                    {set
+                                       [kill]
+                                       TRUE}
+                                    {$this accept_name}})
+                              kDataUnhandled}}}})
+               kDataUnhandled}}
+         {if
+            {'||'
+               {== $button kPad_Start}
+               {== $button kPad_Tri}
+               {== $button kPad_X}}
+            {$this button_press}}})
+   (check_for_unique_name
+      {do
+         ($profile_num 0)
+         ($screen
+            "")
+         ($prevname
+            "")
+         ($same_name FALSE)
+         ($band_name_unique TRUE)
+         ($char_name_unique TRUE)
+         {if
+            {'||'
+               {== $this band_renaming_panel}
+               {== $this band_naming_panel}
+               {== $this band_renaming_profile_panel}}
+            {do
+               {if
+                  {== $this band_renaming_panel}
+                  {do
+                     {set
+                        $profile_num
+                        {input_mgr get_user}}
+                     {set $screen tour_band_rename_not_unique_screen}
+                     {set
+                        $prevname
+                        {options_banddata_panel get_bandname}}
+                     {if_else
+                        {==
+                           $prevname
+                           {$this get_name}}
+                        {set $same_name TRUE}
+                        {set
+                           $band_name_unique
+                           {profile_mgr
+                              is_band_name_unique
+                              $profile_num
+                              {$this get_name}}}}}}
+               {if
+                  {== $this band_naming_panel}
+                  {set $screen tour_band_create_name_not_unique_screen}}
+               {if
+                  {== $this band_renaming_profile_panel}
+                  {do
+                     {set $screen tour_band_rename_profile_not_unique_screen}
+                     {set
+                        $prevname
+                        {{tour_profile_panel get_band_data}
+                           band_name}}
+                     {if_else
+                        {==
+                           $prevname
+                           {$this get_name}}
+                        {set $same_name TRUE}
+                        {set
+                           $band_name_unique
+                           {{{tour_profile_panel get_band_data}
+                                 get_owner}
+                              is_band_name_unique
+                              {$this get_name}}}}}}
+               {if_else
+                  {&&
+                     {! $same_name}
+                     {! $band_name_unique}}
+                  {ui goto_screen $screen}
+                  {do
+                     {set
+                        [kill]
+                        TRUE}
+                     {$this accept_name}}}}}
+         {if
+            {'||'
+               {== $this char_renaming_panel}
+               {== $this char_naming_panel}}
+            {if_else
+               {== $this char_renaming_panel}
+               {do
+                  {set $screen charcreator_rename_not_unique_screen}
+                  {set
+                     $prevname
+                     {options_characterdata_panel get_charname}}
+                  {if_else
+                     {==
+                        $prevname
+                        {$this get_name}}
+                     {set $same_name TRUE}
+                     {set
+                        $char_name_unique
+                        {profile_mgr
+                           is_char_name_unique
+                           {input_mgr get_user}
+                           {$this get_name}}}}}
+               {set $screen charcreator_name_not_unique_screen}}
+            {if_else
+               {&&
+                  {! $same_name}
+                  {! $char_name_unique}}
+               {ui goto_screen $screen}
+               {do
+                  {set
+                     [kill]
+                     TRUE}
+                  {$this accept_name}}}}})
+   (update_name
+      {do
+         ($render_cursor
+            {<
+               [current_pos]
+               [naming_length]})
+         ($extra_char ' ')
+         {if
+            {&&
+               $render_cursor
+               [blink]}
+            {set
+               $extra_char
+               [current_char]}}
+         {[name_label]
+            set
+            text_token
+            {sprintf
+               "%s%s"
+               {$this get_name}
+               $extra_char}}})
+   (next_char
+      {if
+         {<
+            [current_pos]
+            [naming_length]}
+         {'++'
+            [current_pos]}
+         {push_back
+            [current_name]
+            [current_char]}
+         {$this reset_helpbar}}
+      {$this update_name})
+   (prev_char
+      {if_else
+         {==
+            [current_pos]
+            0}
+         {if
+            [back_button_exits]
+            {$this cancel_name}}
+         {do
+            {remove_elem
+               [current_name]
+               {elem
+                  [current_name]
+                  [current_pos]}}
+            {--
+               [current_pos]}
+            {$this update_name}
+            {$this reset_helpbar}}})
+   (reset_helpbar
+      {do
+         ($helpbar_config
+            {array 0})
+         {if_else
+            {>
+               [current_pos]
+               0}
+            {push_back
+               $helpbar_config
+               (cancel help_deleteletter)}
+            {if
+               {!= $this highscores_qp_panel}
+               {push_back
+                  $helpbar_config
+                  (cancel help_back)}}}
+         {if
+            {<
+               [current_pos]
+               [naming_length]}
+            {push_back
+               $helpbar_config
+               (confirm helpbar_select)}}
+         {if
+            [has_random_names]
+            {push_back
+               $helpbar_config
+               (view_modify wii_hb_randomname)}}
+         {if_else
+            {&&
+               {!
+                  [back_button_exits]}
+               {!= $this highscores_qp_panel}}
+            {push_back
+               $helpbar_config
+               (start helpbar_confirm)}
+            {if_else
+               [for_friendcode]
+               {if
+                  {==
+                     [current_pos]
+                     [naming_length]}
+                  {push_back
+                     $helpbar_config
+                     (start helpbar_confirm)}}
+               {if
+                  {>
+                     [current_pos]
+                     0}
+                  {push_back
+                     $helpbar_config
+                     (start helpbar_confirm)}}}}
+         {if
+            {== $this set_quote_panel}
+            {push_back
+               $helpbar_config
+               (start helpbar_confirm)}}
+         {if
+            {==
+               [just_continue]
+               TRUE}
+            {set
+               $helpbar_config
+               ('' helpbar_continue)}}
+         {helpbar set_config $helpbar_config}})
+   (increment_char
+      {set
+         [current_char_num]
+         {'+'
+            [current_char_num]
+            1}}
+      {if
+         {>=
+            [current_char_num]
+            {size
+               [characters]}}
+         {set
+            [current_char_num]
+            0}}
+      {set
+         [current_char]
+         {elem
+            [characters]
+            [current_char_num]}}
+      {$this update_name})
+   (decrement_char
+      {set
+         [current_char_num]
+         {-
+            [current_char_num]
+            1}}
+      {if
+         {<
+            [current_char_num]
+            0}
+         {set
+            [current_char_num]
+            {-
+               {size
+                  [characters]}
+               1}}}
+      {set
+         [current_char]
+         {elem
+            [characters]
+            [current_char_num]}}
+      {$this update_name})
+   (update_case
+      {set
+         [current_char_num]
+         {'+'
+            [current_char_num]
+            0}}
+      {if
+         {>=
+            [current_char_num]
+            {size
+               [characters]}}
+         {set
+            [current_char_num]
+            0}}
+      {set
+         [current_char]
+         {elem
+            [characters]
+            [current_char_num]}}
+      {$this update_name})
+   (get_name
+      {do
+         ($name
+            "")
+         {foreach
+            $char
+            [current_name]
+            {set
+               $name
+               {sprintf
+                  "%s%s"
+                  $name
+                  $char}}}
+         $name})
+   (stop_naming
+      {helpbar
+         set_config
+         ()}
+      {set
+         [kill]
+         TRUE}
+      {set
+         [blink]
+         FALSE}
+      {set
+         [current_char]
+         ""}
+      {$this update_name})
+   (random_name
+      {do
+         {set
+            [has_random_names]
+            TRUE}
+         {$this clear_name}
+         {set
+            $rname
+            ""}
+         {while
+            {'||'
+               {==
+                  $rname
+                  ""}
+               {>
+                  {strlen $rname}
+                  [naming_length]}}
+            {if_else
+               {== $this char_naming_panel}
+               {set
+                  $rname
+                  {charcreator_panel random_char_name}}
+               {set
+                  $rname
+                  {$this random_band_name}}}}
+         {foreach_int
+            $i
+            0
+            {strlen $rname}
+            {push_back
+               [current_name]
+               {str_elem $rname $i}}
+            {set
+               [current_pos]
+               {'+' $i 1}}}
+         {set
+            [random_active]
+            TRUE}
+         {set
+            [current_char]
+            "A"}
+         {set
+            [current_pos]
+            [naming_length]}
+         {$this update_name}
+         {set
+            [random_name_present]
+            TRUE}}))
+{new
+   BandScreen
+   name_error_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize shell_no_band_name_error}})
+   (SELECT_MSG
+      {ui pop_screen})}

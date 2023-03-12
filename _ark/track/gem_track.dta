@@ -1,0 +1,1032 @@
+#include track_handlers.dta
+(TrackDir
+   (types
+      (gem_track
+         (editor
+            (reset
+               script
+               (script
+                  {$this reset}))
+            (surface_mesh
+               symbol
+               (list
+                  {$this object_type_list Mesh}))
+            (surface_texture
+               symbol
+               (list
+                  {$this object_type_list Tex})
+               (post_sync
+                  {$this update_surface_texture}))
+            (fit_meshes
+               (array
+                  symbol
+                  (list
+                     {$this object_type_list Mesh}))
+               (help
+                  "Meshes which need to be fit to the cross section of the track surface."))
+            (deploy
+               script
+               (script
+                  {$this deploy}))
+            (stop_deploy
+               script
+               (script
+                  {$this stop_deploy}))
+            (mash
+               script
+               (script
+                  {$this mash 0}))
+            (spew_gems
+               script
+               (script
+                  {$this spew_gems}))
+            (clear_gems
+               script
+               (script
+                  {$this clear_gems}))
+            (effect_selector
+               object
+               (class RndDir))
+            (practice_reset
+               script
+               (script
+                  {$this practice_reset}))
+            COMMON_TRACK_EDITOR)
+         (surface_texture none proxy_save)
+         (surface_mesh flat.mesh)
+         (effect_selector
+            "")
+         (gem_track_index 0)
+         (num_tracks 1)
+         (multiplier 1)
+         (kick_pass_counter 0)
+         (fit_meshes
+            ())
+         (object_type_list
+            ($obj_type)
+            {do
+               ($array
+                  {array 0})
+               {push_back $array none}
+               {$this
+                  iterate
+                  $obj_type
+                  $obj
+                  {push_back
+                     $array
+                     {symbol
+                        {$obj name}}}}
+               {sort $array}
+               $array})
+         (set_pitch
+            ($pitch)
+            {do
+               ($x)
+               ($y)
+               ($z)
+               {rotater.grp get_local_rot $x $y $z}
+               {rotater.grp set_local_rot $pitch $y $z}})
+         (set_fade
+            ($start $length)
+            {track.env set fade_start $start}
+            {track.env
+               set
+               fade_end
+               {'+' $start $length}}
+            {{$this get cam}
+               set
+               far_plane
+               {'+'
+                  {'+' $start $length}
+                  20}})
+         (set_fov
+            ($in_val)
+            {{$this get cam}
+               set
+               y_fov
+               $in_val})
+         (set_cam_pos
+            ($x $y $z)
+            {{$this get cam}
+               set_local_pos
+               $x
+               $y
+               $z})
+         (set_screen_rect_x
+            ($in_val)
+            {game.cam
+               set
+               (screen_rect x)
+               {'*'
+                  $in_val
+                  {-
+                     [gem_track_index]
+                     {/
+                        {-
+                           [num_tracks]
+                           1}
+                        2}}}})
+         (set_track_offset
+            ($in_val)
+            {do
+               ($x)
+               ($y)
+               ($z)
+               {rotater.grp get_local_pos $x $y $z}
+               {rotater.grp
+                  set_local_pos
+                  {'*'
+                     {'*'
+                        $in_val
+                        {-
+                           [gem_track_index]
+                           {/
+                              {-
+                                 [num_tracks]
+                                 1}
+                              2}}}
+                     -1}
+                  $y
+                  $z}})
+         (set_side_angle
+            ($in_val)
+            {do
+               ($x)
+               ($y)
+               ($z)
+               {rotater.grp get_local_rot $x $y $z}
+               {rotater.grp
+                  set_local_rot
+                  $x
+                  $y
+                  {'*'
+                     $in_val
+                     {-
+                        [gem_track_index]
+                        {/
+                           {-
+                              [num_tracks]
+                              1}
+                           2}}}}})
+         (update_surface_texture
+            {if
+               {&&
+                  [surface_texture]
+                  {$this
+                     exists
+                     [surface_texture]}}
+               {surface.mat
+                  set
+                  diffuse_tex
+                  {$this
+                     find
+                     [surface_texture]}}})
+         (on_update_fx
+            ($ixEffect)
+            {if
+               {exists fx_hider}
+               {delete fx_hider}}
+            {if
+               [effect_selector]
+               {if
+                  {'||'
+                     {==
+                        [instrument]
+                        guitar}
+                     {==
+                        [instrument]
+                        bass}}
+                  {[effect_selector]
+                     set_showing
+                     TRUE}
+                  {foreach_int
+                     $i
+                     0
+                     5
+                     {{[effect_selector]
+                           find
+                           {sprintf
+                              "guitar_fx_%d.lbl"
+                              $i}}
+                        set_state
+                        kNormal}}
+                  {{[effect_selector]
+                        find
+                        {sprintf
+                           "guitar_fx_%d.lbl"
+                           $ixEffect}}
+                     set_state
+                     kFocused}
+                  {thread_task
+                     kTaskSeconds
+                     (delay 1)
+                     (name fx_hider)
+                     (script
+                        {[effect_selector]
+                           set_showing
+                           FALSE})}}})
+         (get_obj
+            ($obj_name)
+            {if_else
+               {$this exists $obj_name}
+               {$this find $obj_name}
+               0})
+         (play_intro
+            {if
+               {exists game}
+               {$this set_track_fade FALSE}}
+            {reset.trig trigger}
+            {if
+               {!=
+                  [player_intro]
+                  ""}
+               {if_else
+                  {'||'
+                     {&&
+                        [player]
+                        {[player]
+                           is_net}}
+                     [simulated_net]}
+                  {do
+                     {[player_intro]
+                        fade}
+                     {[player_intro]
+                        intro}}
+                  {do
+                     {[player_intro]
+                        intro}
+                     {script_task
+                        kTaskSeconds
+                        (delay 2)
+                        (script
+                           {[player_intro]
+                              hide})}}}}
+            {script_task
+               kTaskBeats
+               (delay
+                  {if_else
+                     {== $game.play_mode coop}
+                     {'+'
+                        {'*'
+                           0.6
+                           [gem_track_index]}
+                        1.0e-3}
+                     1.0e-3})
+               (script
+                  {do
+                     {intro.trig trigger}
+                     {if
+                        {exists game}
+                        {script_task
+                           kTaskSeconds
+                           (delay 0.35)
+                           (script
+                              {$this set_track_fade TRUE}
+                              {if
+                                 {&&
+                                    {!=
+                                       [player_feedback]
+                                       ""}
+                                    {exists game}}
+                                 {if_else
+                                    {!
+                                       {gamemode is_hth_arrangement}}
+                                    {[player_feedback]
+                                       set_trans_parent
+                                       aspect_ratio.grp}
+                                    {[player_feedback]
+                                       set_trans_parent
+                                       $this}}}
+                              {if
+                                 [player]
+                                 {[player]
+                                    set_enable_drum_solo
+                                    TRUE}})}}})})
+         (track_reset
+            {$this update_surface_texture}
+            {if
+               [parent]
+               {foreach_int
+                  $i
+                  0
+                  5
+                  {{[parent]
+                        get_smasher
+                        $i}
+                     reset}}}
+            {if
+               {==
+                  drum
+                  [instrument]}
+               {instrument_setup.anim set_frame 1}}
+            {if
+               {==
+                  bass
+                  [instrument]}
+               {instrument_setup.anim set_frame 0}}
+            {if
+               {==
+                  guitar
+                  [instrument]}
+               {instrument_setup.anim set_frame 2}}
+            {if
+               {&&
+                  {!=
+                     [player_feedback]
+                     ""}
+                  {!=
+                     [effect_selector]
+                     ""}}
+               {[effect_selector]
+                  set_trans_parent
+                  [player_feedback]}
+               {[effect_selector]
+                  set_showing
+                  FALSE}}
+            {if
+               {&&
+                  {!=
+                     [player_feedback]
+                     ""}
+                  {exists game}}
+               {if
+                  {&&
+                     {!
+                        {gamemode is_practice}}
+                     {!
+                        {gamemode is_tutorial}}}
+                  {if_else
+                     {!
+                        {gamemode is_hth_arrangement}}
+                     {[player_feedback]
+                        set_trans_parent
+                        $this}
+                     {[player_feedback]
+                        set_trans_parent
+                        score.grp}}}}
+            {if
+               {exists game}
+               {if
+                  {&&
+                     {!
+                        {gamemode is_practice}}
+                     {!
+                        {gamemode is_tutorial}}}
+                  {if
+                     [player]
+                     {[player]
+                        set_enable_drum_solo
+                        FALSE}}}}
+            {do
+               ($smasher_plate
+                  {if_else
+                     {==
+                        [instrument]
+                        drum}
+                     {object smasher_plate_drum}
+                     {object smasher_plate_guitar}})
+               {$smasher_plate reset}
+               {if_else
+                  {==
+                     [instrument]
+                     drum}
+                  {do
+                     {{{$smasher_plate find gem_smasher0}
+                           find
+                           kick_flash.anim}
+                        set_frame
+                        4}
+                     {{{$smasher_plate find gem_smasher0}
+                           find
+                           kick_smasher_base.tnm}
+                        set_frame
+                        7}
+                     {{{$smasher_plate find gem_smasher1}
+                           find
+                           smasher_react.tnm}
+                        set_frame
+                        20}
+                     {{{$smasher_plate find gem_smasher2}
+                           find
+                           smasher_react.tnm}
+                        set_frame
+                        20}
+                     {{{$smasher_plate find gem_smasher3}
+                           find
+                           smasher_react.tnm}
+                        set_frame
+                        20}
+                     {{{$smasher_plate find gem_smasher4}
+                           find
+                           smasher_react.tnm}
+                        set_frame
+                        20}}
+                  {do
+                     {{{$smasher_plate find gem_smasher0}
+                           find
+                           smasher_react.tnm}
+                        set_frame
+                        20}
+                     {{{$smasher_plate find gem_smasher1}
+                           find
+                           smasher_react.tnm}
+                        set_frame
+                        20}
+                     {{{$smasher_plate find gem_smasher2}
+                           find
+                           smasher_react.tnm}
+                        set_frame
+                        20}
+                     {{{$smasher_plate find gem_smasher3}
+                           find
+                           smasher_react.tnm}
+                        set_frame
+                        20}
+                     {{{$smasher_plate find gem_smasher4}
+                           find
+                           smasher_react.tnm}
+                        set_frame
+                        20}}}
+               {if
+                  {'||'
+                     {! $edit_mode}
+                     {$this is_proxy}}
+                  {smasher_fx.grp
+                     add_object
+                     {$smasher_plate find after_gems.grp}}
+                  {{$smasher_plate find after_hide.grp}
+                     set_showing
+                     FALSE}}}
+            {if
+               {$this is_proxy}
+               {do
+                  ($remove_group
+                     {if_else
+                        {==
+                           [instrument]
+                           drum}
+                        {object guitar_gems.grp}
+                        {object drum_gems.grp}})
+                  ($objects
+                     {$remove_group get_array objects})
+                  {foreach
+                     $elem
+                     $objects
+                     {if
+                        {==
+                           {$elem class_name}
+                           TrackWidget}
+                        {delete $elem}}}}}
+            {$this setup_widget_lod}
+            {$this enable_player}
+            {set
+               [kick_pass_counter]
+               0}
+            #ifdef HX_WII
+            {track01.lit set range 400.0}
+            {track01.lit set intensity 1.15}
+            {track_now_bar.lit set range 75.0}
+            {track_now_bar.lit set intensity 20.0}
+            #endif)
+         (practice_reset
+            {if
+               {&&
+                  [parent]
+                  {{[parent]
+                        panel}
+                     exists
+                     reset_all.trig}}
+               {{{[parent]
+                        panel}
+                     find
+                     ending_bonus.tnm}
+                  set_frame
+                  0}
+               {{{[parent]
+                        panel}
+                     find
+                     ending_bonus}
+                  reset}}
+            {$this reset}
+            {if
+               {exists game}
+               {$this
+                  set_track_fade
+                  [track_fading]}}
+            {if
+               {exists intro_anim.grp}
+               {intro_anim.grp
+                  animate
+                  (range
+                     {intro_anim.grp end_frame}
+                     {intro_anim.grp end_frame})}}
+            {if
+               {exists guitar_solo_mask.wid}
+               {guitar_solo_mask.wid clear}}
+            {do
+               ($mash_widget
+                  "")
+               {foreach_int
+                  $i
+                  0
+                  5
+                  {set
+                     $mash_widget
+                     {sprintf
+                        "drum_mash%i.wid"
+                        $i}}
+                  {if
+                     {exists $mash_widget}
+                     {{object $mash_widget}
+                        clear}}
+                  {set
+                     $mash_widget
+                     {sprintf
+                        "gem_mash%i.wid"
+                        $i}}
+                  {if
+                     {exists $mash_widget}
+                     {{object $mash_widget}
+                        clear}}}})
+         (practice_track_in
+            {intro.trig trigger})
+         (practice_track_out
+            {$this set_track_fade FALSE}
+            {retract.trig trigger})
+         (set_multiplier
+            ($val)
+            {set
+               [multiplier]
+               $val})
+         (hide_masks
+            {drum_fill.mesh set_showing FALSE}
+            {guitar_fill.mesh set_showing FALSE}
+            {guitar_solo_mask.mesh set_showing FALSE})
+         (gem_pass
+            ($gem_id $lanes)
+            {if
+               {&&
+                  {& $lanes 1}
+                  {==
+                     [instrument]
+                     drum}}
+               {'++'
+                  [kick_pass_counter]}
+               {if
+                  {>=
+                     [kick_pass_counter]
+                     8}
+                  {do
+                     ($next_kick_ms
+                        {[parent]
+                           next_kick_ms})
+                     {if_else
+                        {==
+                           [kick_pass_counter]
+                           8}
+                        {do
+                           {if_else
+                              {> $next_kick_ms 5000}
+                              {set
+                                 [kick_pass_counter]
+                                 7}
+                              {$this popup_help kick TRUE}}}
+                        {if
+                           {> $next_kick_ms 5000}
+                           {$this popup_help kick FALSE}
+                           {set
+                              [kick_pass_counter]
+                              7}}}}}})
+         (kick_hit
+            {kick_drummer.trig trigger})
+         (see_kick
+            {if
+               {!=
+                  [popup_object]
+                  ""}
+               {[popup_object]
+                  kick_note}})
+         (kick_swing
+            {$this popup_help kick FALSE}
+            {set
+               [kick_pass_counter]
+               0})
+         (spotlight_phrase_success
+            {spotlight_phrase_success.trig trigger}
+            {if
+               {!=
+                  [star_power_meter]
+                  ""}
+               {[star_power_meter]
+                  energy_added}})
+         (solo_note
+            ($in_slot)
+            {if
+               [parent]
+               {{[parent]
+                     get_smasher
+                     $in_slot}
+                  hit_fill}}
+            {solo_hit.trig trigger})
+         (mash
+            ($in_slot)
+            {if
+               {'||'
+                  {!=
+                     [instrument]
+                     drum}
+                  {!= $in_slot 0}}
+               {do
+                  ($anim)
+                  {if_else
+                     {==
+                        [instrument]
+                        drum}
+                     {do
+                        {if
+                           {&&
+                              {!=
+                                 [parent]
+                                 ""}
+                              {[parent]
+                                 lefty}}
+                           {set
+                              $in_slot
+                              {'+'
+                                 1
+                                 {- 4 $in_slot}}}}
+                        {set
+                           $anim
+                           {object
+                              {sprintf
+                                 "drum_mash%d.anim"
+                                 $in_slot}}}}
+                     {set
+                        $anim
+                        {object
+                           {sprintf
+                              "gem_mash%d.anim"
+                              $in_slot}}}}
+                  {$anim animate}}})
+         (fill_hit
+            ($num_notes)
+            {do
+               ($trig_name
+                  {sprint
+                     "fill_hit_"
+                     $num_notes
+                     ".trig"})
+               {if
+                  {exists $trig_name}
+                  {{object $trig_name}
+                     trigger}}})
+         (reset_drum_fill
+            {drum_fill_reset.trig trigger}
+            {do
+               ($time_til_next
+                  {-
+                     {taskmgr time_til_next 1 1.0e-3}
+                     0.2})
+               {if
+                  {exists drum_mash_2nd_pass_activate.anim}
+                  {if
+                     {< $time_til_next 0}
+                     {set
+                        $time_til_next
+                        {'+' $time_til_next 1}}}
+                  {script_task
+                     kTaskBeats
+                     (delay $time_til_next)
+                     (script
+                        {drum_mash_2nd_pass_activate.anim
+                           animate
+                           (loop 0 1)})}}})
+         (reset_coda
+            {fill_hit_3.trig trigger}
+            {drum_mash_hit_anim.grp
+               set_frame
+               {drum_mash_hit_anim.grp end_frame}}
+            {fill_colors.grp
+               set_frame
+               {fill_colors.grp end_frame}}
+            {drum_mash_2nd_pass_activate.anim set_frame 0}
+            {drum_mash_2nd_pass_activate.anim
+               animate
+               (range 0 0)})
+         (crash_fill
+            {do
+               ($smasher
+                  {[parent]
+                     get_smasher
+                     4})
+               {$smasher drum_fill_complete}})
+         (setup_widget_lod
+            {if
+               {'||'
+                  {! $edit_mode}
+                  {$this is_proxy}}
+               {do
+                  ($glow_visible
+                     {if_else
+                        {>= $track_LOD 1}
+                        FALSE
+                        TRUE})
+                  {$this set_widget_glow drum_blue.wid $glow_visible}
+                  {$this set_widget_glow drum_green.wid $glow_visible}
+                  {$this set_widget_glow drum_red.wid $glow_visible}
+                  {$this set_widget_glow drum_yellow.wid $glow_visible}
+                  {$this set_widget_glow drum_star.wid $glow_visible}
+                  {$this set_widget_glow gem_blue.wid $glow_visible}
+                  {$this set_widget_glow gem_blue_hopo.wid $glow_visible}
+                  {$this set_widget_glow gem_green.wid $glow_visible}
+                  {$this set_widget_glow gem_green_hopo.wid $glow_visible}
+                  {$this set_widget_glow gem_orange.wid $glow_visible}
+                  {$this set_widget_glow gem_orange_hopo.wid $glow_visible}
+                  {$this set_widget_glow gem_red.wid $glow_visible}
+                  {$this set_widget_glow gem_red_hopo.wid $glow_visible}
+                  {$this set_widget_glow gem_yellow.wid $glow_visible}
+                  {$this set_widget_glow gem_yellow_hopo.wid $glow_visible}
+                  {$this set_widget_glow star_gem.wid $glow_visible}
+                  {$this set_widget_glow star_hopo.wid $glow_visible}
+                  {if
+                     {== $glow_visible FALSE}
+                     {prism_mat.mat set diffuse_tex prism_gems_lod.tex}}}})
+         (set_widget_glow
+            ($obj_name $val)
+            {if
+               {exists $obj_name}
+               {do
+                  ($object
+                     {object $obj_name})
+                  {$object
+                     set
+                     max_meshes
+                     {if_else $val 2 1}}}})
+         (super_streak
+            ($val)
+            {if
+               {&&
+                  {==
+                     [instrument]
+                     bass}
+                  {!
+                     {gamemode get is_practice}}}
+               {if_else
+                  $val
+                  {do
+                     {BassSuperStreak_ON.trig trigger}
+                     {if
+                        {!=
+                           [player_feedback]
+                           ""}
+                        {[player_feedback]
+                           start_super_streak}}}
+                  {do
+                     {BassSuperStreak_OFF.trig trigger}
+                     {if
+                        {!=
+                           [player_feedback]
+                           ""}
+                        {[player_feedback]
+                           end_super_streak}}}}})
+         (deploy
+            {star_deploy.trig trigger}
+            {if
+               {&&
+                  [parent]
+                  {{[parent]
+                        panel}
+                     exists
+                     crowd_meter}}
+               {{{[parent]
+                        panel}
+                     find
+                     crowd_meter}
+                  deploy
+                  [instrument]}}
+            {if
+               {!=
+                  [streak_meter]
+                  ""}
+               {if
+                  [player]
+                  {[streak_meter]
+                     set_band_multiplier
+                     {{[player]
+                           band}
+                        multiplier}}}
+               {[streak_meter]
+                  star_deploy}}
+            {if
+               {&&
+                  {==
+                     [instrument]
+                     drum}
+                  {!=
+                     [parent]
+                     ""}}
+               {script_task
+                  kTaskSeconds
+                  (delay 0)
+                  (script
+                     {[parent]
+                        update_gems})}})
+         (stop_deploy
+            {star_stop_deploy.trig trigger}
+            {if
+               {&&
+                  [parent]
+                  {{[parent]
+                        panel}
+                     exists
+                     crowd_meter}}
+               {{{[parent]
+                        panel}
+                     find
+                     crowd_meter}
+                  stop_deploy
+                  [instrument]}}
+            {if
+               {!=
+                  [streak_meter]
+                  ""}
+               {if
+                  [player]
+                  {[streak_meter]
+                     set_band_multiplier
+                     {{[player]
+                           band}
+                        multiplier}}}
+               {[streak_meter]
+                  star_deploy_stop}})
+         (spew_gems
+            {if
+               {!
+                  {exists spew_gems_test}}
+               {$this toggle_running}
+               {thread_task
+                  kTaskBeats
+                  (name spew_gems_test)
+                  (script
+                     {set $lane 0}
+                     {switch
+                        $beat
+                        (0
+                           {$this
+                              add_test_widget
+                              "bar_measure.wid"
+                              2}
+                           {set $beat 1})
+                        (1
+                           {$this
+                              add_test_widget
+                              "bar_half_beat.wid"
+                              2}
+                           {set $beat 2})
+                        (2
+                           {$this
+                              add_test_widget
+                              "bar_beat.wid"
+                              2}
+                           {set $beat 3})
+                        (3
+                           {$this
+                              add_test_widget
+                              "bar_half_beat.wid"
+                              2}
+                           {set $beat 4})
+                        (4
+                           {$this
+                              add_test_widget
+                              "bar_beat.wid"
+                              2}
+                           {set $beat 5})
+                        (5
+                           {$this
+                              add_test_widget
+                              "bar_half_beat.wid"
+                              2}
+                           {set $beat 6})
+                        (6
+                           {$this
+                              add_test_widget
+                              "bar_beat.wid"
+                              2}
+                           {set $beat 7})
+                        (7
+                           {$this
+                              add_test_widget
+                              "bar_half_beat.wid"
+                              2}
+                           {set $beat 0})}
+                     {set
+                        $num_gems
+                        {random_int 3 4}}
+                     {if
+                        {== $num_gems 1}
+                        {set
+                           $hopo
+                           {random_int 0 2}}}
+                     {foreach_int
+                        $gem
+                        0
+                        $num_gems
+                        {set
+                           $lane
+                           {random_int 0 5}}
+                        {if_else
+                           {==
+                              [instrument]
+                              drum}
+                           {switch
+                              $lane
+                              (0
+                                 {$this
+                                    add_test_widget
+                                    "drum_red.wid"
+                                    $lane})
+                              (1
+                                 {$this
+                                    add_test_widget
+                                    "drum_yellow.wid"
+                                    $lane})
+                              (2
+                                 {$this
+                                    add_test_widget
+                                    "gem_kick.wid"
+                                    $lane})
+                              (3
+                                 {$this
+                                    add_test_widget
+                                    "drum_blue.wid"
+                                    $lane})
+                              (4
+                                 {$this
+                                    add_test_widget
+                                    "drum_green.wid"
+                                    $lane})}
+                           {switch
+                              $lane
+                              (0
+                                 {if_else
+                                    $hopo
+                                    {$this
+                                       add_test_widget
+                                       "gem_green_hopo.wid"
+                                       $lane}
+                                    {$this
+                                       add_test_widget
+                                       "gem_green.wid"
+                                       $lane}})
+                              (1
+                                 {if_else
+                                    $hopo
+                                    {$this
+                                       add_test_widget
+                                       "gem_red_hopo.wid"
+                                       $lane}
+                                    {$this
+                                       add_test_widget
+                                       "gem_red.wid"
+                                       $lane}})
+                              (2
+                                 {if_else
+                                    $hopo
+                                    {$this
+                                       add_test_widget
+                                       "gem_yellow_hopo.wid"
+                                       $lane}
+                                    {$this
+                                       add_test_widget
+                                       "gem_yellow.wid"
+                                       $lane}})
+                              (3
+                                 {if_else
+                                    $hopo
+                                    {$this
+                                       add_test_widget
+                                       "gem_blue_hopo.wid"
+                                       $lane}
+                                    {$this
+                                       add_test_widget
+                                       "gem_blue.wid"
+                                       $lane}})
+                              (4
+                                 {if_else
+                                    $hopo
+                                    {$this
+                                       add_test_widget
+                                       "gem_orange_hopo.wid"
+                                       $lane}
+                                    {$this
+                                       add_test_widget
+                                       "gem_orange.wid"
+                                       $lane}})}}}
+                     {$task sleep 1}
+                     {$task loop})}})
+         (clear_gems
+            {if
+               {exists spew_gems_test}
+               {delete spew_gems_test}
+               {$this toggle_running}})
+         COMMON_TRACK_HANDLERS)))

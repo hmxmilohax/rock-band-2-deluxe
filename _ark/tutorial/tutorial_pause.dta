@@ -1,0 +1,206 @@
+{new
+   UIPanel
+   tutorials_pause_panel
+   (file
+      "tutorial_pause_real.milo")
+   (enter
+      {$this set_focus tut_pause_resume.btn})
+   (enable_next_button
+      ($enable)
+      {if_else
+         $enable
+         {tut_pause_next.btn set_state kComponentNormal}
+         {tut_pause_next.btn set_state kComponentDisabled}})
+   (enable_prev_button
+      ($enable)
+      {if_else
+         $enable
+         {tut_pause_prev.btn set_state kComponentNormal}
+         {tut_pause_prev.btn set_state kComponentDisabled}})
+   (enable_restart_button
+      ($enable)
+      {if_else
+         $enable
+         {tut_pause_restart_lesson.btn set_state kComponentNormal}
+         {tut_pause_restart_lesson.btn set_state kComponentDisabled}})
+   (set_lesson_text
+      {tut_pause_next.btn
+         set_localized
+         {localize
+            {gamemode get next_lesson_text}}}
+      {tut_pause_prev.btn
+         set_localized
+         {localize
+            {gamemode get previous_lesson_text}}}
+      {tut_pause_restart_lesson.btn
+         set_localized
+         {localize
+            {gamemode get restart_lesson_text}}})}
+{new
+   BandScreen
+   tutorials_pause_screen
+   #ifdef HX_XBOX
+   (panels tutorials_pause_panel)
+   #else
+   (panels pause_bg_panel tutorials_pause_panel)
+   #endif
+   (helpbar
+      ((cancel tut_hb_returntolesson)
+         (confirm helpbar_select)))
+   (focus tutorials_pause_panel)
+   (allow_back FALSE)
+   (animate_transition FALSE)
+   (pre_enter
+      {set
+         [is_quitting]
+         FALSE}
+      {tutorials_state_panel pause})
+   (enter
+      {set
+         [is_quitting]
+         FALSE}
+      {set
+         [is_done]
+         FALSE}
+      {tutorials_pause_panel set_lesson_text}
+      {tutorials_pause_panel
+         enable_next_button
+         {tutorials_state_panel get can_inc_lesson}}
+      {tutorials_pause_panel
+         enable_prev_button
+         {tutorials_state_panel get can_dec_lesson}}
+      {tutorials_pause_panel
+         enable_restart_button
+         {tutorials_state_panel get can_restart_lesson}})
+   (exit
+      {if
+         {!
+            [is_quitting]}
+         {tutorials_state_panel unpause}})
+   (resume_tutorial
+      {ui pop_screen})
+   (restart_tutorial
+      {set
+         [is_quitting]
+         TRUE}
+      {tutorials_state_panel reset_tutorial}
+      {ui reset_screen tutorials_loading_screen})
+   (get_is_quitting
+      [is_quitting])
+   (set_is_quitting
+      ($quit)
+      {set
+         [is_quitting]
+         $quit})
+   (quit_tutorial
+      {set
+         [is_quitting]
+         TRUE}
+      {tutorials_state_panel reset_tutorial}
+      {gamemode set main_screen main_screen}
+      {ui
+         goto_screen
+         {gamemode get quit_screen}})
+   (restart_lesson
+      {tutorials_state_panel tutorial_inc 0}
+      {ui pop_screen})
+   (next_lesson
+      {tutorials_state_panel tutorial_inc 1}
+      {ui pop_screen})
+   (prev_lesson
+      {tutorials_state_panel tutorial_dec 1}
+      {ui pop_screen})
+   (SELECT_MSG
+      {if_else
+         {&&
+            {==
+               $player_num
+               {{gamemode get main_panel}
+                  get_tutorial_player}}
+            {!
+               [is_done]}}
+         {do
+            {set
+               [is_done]
+               TRUE}
+            {switch
+               $component
+               (tut_pause_resume.btn
+                  {script_task
+                     kTaskUISeconds
+                     (delay 0.8)
+                     (script
+                        {$this resume_tutorial})})
+               (tut_pause_restart.btn
+                  {script_task
+                     kTaskUISeconds
+                     (delay 0.8)
+                     (script
+                        {$this restart_tutorial})})
+               (tut_pause_quit.btn
+                  {script_task
+                     kTaskUISeconds
+                     (delay 0.8)
+                     (script
+                        {$this quit_tutorial})})
+               (tut_pause_restart_lesson.btn
+                  {script_task
+                     kTaskUISeconds
+                     (delay 0.8)
+                     (script
+                        {$this restart_lesson})})
+               (tut_pause_next.btn
+                  {script_task
+                     kTaskUISeconds
+                     (delay 0.8)
+                     (script
+                        {$this next_lesson})})
+               (tut_pause_prev.btn
+                  {script_task
+                     kTaskUISeconds
+                     (delay 0.8)
+                     (script
+                        {$this prev_lesson})})}
+            kDataUnhandled}
+         TRUE})
+   (BUTTON_DOWN_MSG
+      {if_else
+         {&&
+            {==
+               $player_num
+               {{gamemode get main_panel}
+                  get_tutorial_player}}
+            {!
+               [is_done]}}
+         {do
+            {if
+               {'||'
+                  {== $button kPad_Start}
+                  {== $button kPad_Tri}}
+               {$this resume_tutorial}}
+            kDataUnhandled}
+         TRUE})
+   (BUTTON_UP_MSG
+      {if_else
+         {&&
+            {==
+               $player_num
+               {{gamemode get main_panel}
+                  get_tutorial_player}}
+            {!
+               [is_done]}}
+         {do kDataUnhandled}
+         TRUE})
+   (JOYPAD_CONNECT_MSG
+      {if
+         {&&
+            {! $connected}
+            {==
+               $player_num
+               {{gamemode get main_panel}
+                  get_tutorial_player}}
+            {!
+               [is_quitting]}}
+         {$this resume_tutorial}})
+   (is_quitting FALSE)
+   (is_done FALSE)}

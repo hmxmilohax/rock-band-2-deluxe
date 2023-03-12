@@ -1,0 +1,10 @@
+#include macros.dta
+(spew
+   {spew Test console test/midi_test_out.txt}
+   {spew TestMuse console test/midi_test_out.txt}
+   {spew TestMidiReader console test/midi_test_out.txt}
+   {spew MidiReader console test/midi_test_out.txt}
+   {spew NoteMuse console test/midi_test_out.txt}
+   {spew MultiMuse console test/midi_test_out.txt}
+   {spew StdMidiMuse console test/midi_test_out.txt})
+#merge default.dta

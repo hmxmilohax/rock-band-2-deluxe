@@ -74,10 +74,7 @@
                {int
                   {/ $my_streak $notes_per_mulitplier}}}
             4}
-         {== $max $my_streak}
-         {>
-            {gamecfg get_num_participants}
-            1}}}
+         {== $max $my_streak}}}
    "award_professional_streaker")
 ({&&
       {==
@@ -99,11 +96,9 @@
          {$my_player notes_hit_fraction}
          1.0}}
    "award_serious_skills")
-({==
-     {/
-     {$my_player longest_streak}
-     {$my_player get_gem_count}}
-         1.0}
+({>=
+      {$my_player notes_hit_fraction}
+      1.0}
    "award_flawless")
 ({&&
       {==
@@ -193,8 +188,7 @@
 ({&&
       {==
          $track
-	        {||
-         "bass" "guitar" "drum"}}
+         "bass"}
       {>
          {/
             {$my_player longest_streak}

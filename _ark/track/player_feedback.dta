@@ -1,7 +1,5 @@
 #define RESULTS
 (failed_solo bad_solo okay_solo solid_solo great_solo awesome_solo perfect_solo vox_lousy vox_poor vox_ok vox_good vox_great)
-#define INSTRUMENT_NAMES
-(guitar bass drum vocals)
 (RndDir
    (types
       (player_feedback
@@ -60,12 +58,20 @@
                [in_solo]
                TRUE})
          (end_solo
-            {if
-               [in_solo]
-               {solo_end.trig trigger}
-               {set
+            {if_else
+               {gamemode is_practice}
+               {if
                   [in_solo]
-                  FALSE}})
+                  {solo_end_practice.trig trigger}
+                  {set
+                     [in_solo]
+                     FALSE}}
+               {if
+                  [in_solo]
+                  {solo_end.trig trigger}
+                  {set
+                     [in_solo]
+                     FALSE}}})
          (start_super_streak
             {reset.trig trigger}
             {super_streak_start.trig trigger}
@@ -90,11 +96,6 @@
                set_text
                {fmt_score
                   {int $in_val}}})
-         (solo_end
-            ($sym $in_val)
-            {$this set_result $sym}
-            {$this set_award $in_val}
-            {$this end_solo})
          (set_percent
             ($in_val)
             {do
@@ -102,7 +103,7 @@
                   {int $in_val})
                ($string
                   {sprintf
-                     "%d%%"
+                     {localize_token solo_percent_fmt}
                      $val})
                {solo_percent.txt set_text $string}
                {percent_growth.tnm
@@ -123,7 +124,7 @@
                   {icon.lbl set text_token G})
                (vocals
                   {icon.lbl set text_token V})}
-            {player_name.lbl set_localized $name}
+            {player_name.lbl set text_token $name}
             {do
                ($icon_width
                   {icon.lbl
@@ -147,38 +148,4 @@
                         $icon_width}
                      2}
                   $y
-                  $z}}))
-      (endgame_feedback
-         (editor
-            (end_game_start
-               script
-               (script
-                  {$this
-                     end_game_start_inst
-                     [test_instrument]}))
-            (end_game_end
-               script
-               (script
-                  {$this end_game_end}))
-            (test_instrument
-               symbol
-               (list
-                  (INSTRUMENT_NAMES))
-               no_test))
-         (test_instrument guitar)
-         (end_game_start_inst
-            ($instrument)
-            {switch
-               $instrument
-               (guitar
-                  {end_game_start_guitar.trig trigger})
-               (bass
-                  {end_game_start_guitar.trig trigger})
-               (drum
-                  {end_game_start_drum.trig trigger})
-               (vocals
-                  {end_game_start_vox.trig trigger})})
-         (end_game_start
-            {$this end_game_start_inst guitar})
-         (end_game_end
-            {end_game_end.trig trigger}))))
+                  $z}}))))

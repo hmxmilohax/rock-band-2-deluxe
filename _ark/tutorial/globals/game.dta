@@ -1,0 +1,87 @@
+#define KICK_SLOT
+(0)
+#define SNARE_SLOT
+(1)
+#define HIHAT_SLOT
+(2)
+#define RESET_CODA_POINTS
+({{beatmatch active_player 0}
+      reset_coda_points})
+#define PAUSE_TRACK
+({beatmatch set_time_paused TRUE}
+   {game set_paused TRUE}
+   {{gamemode get main_panel}
+      pause_ambient_loop
+      FALSE})
+#define UNPAUSE_TRACK
+({beatmatch set_time_paused FALSE}
+   {game set_paused FALSE}
+   {{beatmatch active_player 0}
+      set_crowd_rating_active
+      FALSE})
+#define UNPAUSE_TRACK_AND_RUN
+({beatmatch set_time_paused FALSE}
+   {game set_paused FALSE}
+   {{beatmatch active_player 0}
+      set_crowd_rating_active
+      TRUE})
+#define AUTOPLAY_ON
+({{beatmatch active_player 0}
+      set_auto_play
+      TRUE})
+#define AUTOPLAY_OFF
+({{beatmatch active_player 0}
+      set_auto_play
+      FALSE})
+#define FILL_BAND_ENERGY
+({{beatmatch active_player 0}
+      fill_band_energy})
+#define EMPTY_BAND_ENERGY
+({{beatmatch active_player 0}
+      empty_band_energy})
+#define ALMOST_READY_BAND_ENERGY
+({{beatmatch active_player 0}
+      set_band_energy
+      0.25})
+#define READY_BAND_ENERGY
+({{beatmatch active_player 0}
+      set_band_energy
+      0.5})
+#define ENABLE_PHRASE_BONUS
+({{beatmatch active_player 0}
+      enable_phrase_bonus})
+#define DISABLE_PHRASE_BONUS
+({{beatmatch active_player 0}
+      disable_phrase_bonus})
+{func
+   set_crowd_rating
+   ($rating)
+   {{beatmatch active_player 0}
+      set_crowd_rating
+      $rating}}
+#define HIDE_CROWD_METER
+({{{get_track_panel}
+         find
+         crowd_meter}
+      set_showing
+      FALSE}
+   {{{get_track_panel}
+         find
+         crowd_meter.tnm}
+      set_frame
+      0})
+#define SHOW_CROWD_METER
+({{{get_track_panel}
+         find
+         crowd_meter.tnm}
+      set_frame
+      0}
+   {{{get_track_panel}
+         find
+         crowd_meter.tnm}
+      animate}
+   {{{get_track_panel}
+         find
+         crowd_meter}
+      set_showing
+      TRUE})

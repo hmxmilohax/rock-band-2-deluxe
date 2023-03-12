@@ -1,0 +1,819 @@
+{new
+   UIPanel
+   leaderboards_panel
+   (file
+      "leaderboards.milo")
+   (focus leaderboard.lst)
+   LIMIT_TO_SESSION_IF_LEADER
+   (read_done TRUE)
+   (login_status kDesirable)
+   (enter
+      {leaderboards create}
+      {leaderboards
+         set_page_size
+         {leaderboard.lst num_display}}
+      {$this
+         update_warning
+         ""}
+      {leaderboards enumerate})
+   (update_leaderboard
+      {leaderboard.lst
+         set_provider
+         {leaderboards get_provider}}
+      {do
+         ($user_pos
+            {leaderboards get_user_pos})
+         {if
+            {> $user_pos 0}
+            {leaderboard.lst set_selected $user_pos}}})
+   (update_warning
+      ($msg)
+      {warning.lbl set_localized $msg})
+   (exit
+      {band_ui_sink hide_network_busy_icon}
+      {leaderboards cancel_enumerate}
+      {leaderboard.lst set_showing FALSE}
+      {leaderboard.lst set_provider leaderboard.lst}
+      {leaderboards destroy})
+   (BUTTON_DOWN_MSG
+      {cond
+         ({&&
+               {== $button kPad_R1}
+               {leaderboards enum_complete}}
+            {leaderboards rotate_filter}
+            {leaderboards enumerate})
+         ({&&
+               {== $button kPad_DDown}
+               {==
+                  {leaderboard.lst selected_pos}
+                  {-
+                     {leaderboard.lst num_display}
+                     1}}}
+            {leaderboards request_new_page TRUE})
+         ({&&
+               {== $button kPad_DUp}
+               {==
+                  {leaderboard.lst selected_pos}
+                  0}}
+            {leaderboards request_new_page FALSE})
+         (TRUE kDataUnhandled)})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (leaderboard.lst
+            {leaderboards
+               select_row
+               {leaderboard.lst selected_pos}
+               $player_num})})
+   (poll
+      {if
+         {&&
+            [read_done]
+            {!
+               {leaderboards enum_complete}}}
+         {$this show_async_read}}
+      {if
+         {&&
+            {!
+               [read_done]}
+            {leaderboards enum_complete}}
+         {$this hide_async_read}
+         {leaderboard.lst set_dirty}})
+   (show_async_read
+      {set
+         [read_done]
+         FALSE}
+      {band_ui_sink show_network_busy_icon})
+   (hide_async_read
+      {set
+         [read_done]
+         TRUE}
+      {band_ui_sink hide_network_busy_icon})}
+{new
+   UIPanel
+   leaderboards_lower3rd_panel
+   #ifdef HX_XBOX
+   (file
+      "leaderboards_lower3rd.milo")
+   #else
+   (file
+      "leaderboards_lower3rd_og.milo")
+   #endif
+   (enter
+      {$this update_titles}
+      {$this
+         update_filter
+         {leaderboards get_filter}})
+   (update_titles
+      {event.lbl
+         set_localized
+         ""}
+      {song.lbl
+         set_localized
+         ""}
+      {type.lbl
+         set_localized
+         ""}
+      {switch
+         {leaderboards get_type}
+         (kPlayerSong
+            {if_else
+               {==
+                  {leaderboards get_song_sym}
+                  career}
+               {song.lbl
+                  set_localized
+                  {localize career}}
+               {song.lbl
+                  set_localized
+                  {song_mgr
+                     song_name
+                     {leaderboards get_song_sym}}}}
+            {event.lbl
+               set_localized
+               {localize player_song}}
+            {type.lbl
+               set_localized
+               {leaderboards get_track_type_char}})
+         (kHTHProRanked
+            {event.lbl
+               set_localized
+               {localize hth_pro}}
+            {type.lbl
+               set_localized
+               {leaderboards get_track_type_char}})
+         (kHTHRanked
+            {event.lbl
+               set_localized
+               {localize hth_normal}}
+            {type.lbl
+               set_localized
+               {leaderboards get_track_type_char}})
+         (kBandSong
+            {if_else
+               {==
+                  {leaderboards get_song_sym}
+                  career}
+               {song.lbl
+                  set_localized
+                  {localize career}}
+               {song.lbl
+                  set_localized
+                  {song_mgr
+                     song_name
+                     {leaderboards get_song_sym}}}}
+            {event.lbl
+               set_localized
+               {localize band_song}})
+         (kBandFans
+            {event.lbl
+               set_localized
+               {localize band_fans}})})
+   (update_filter
+      ($type)
+      {switch
+         $type
+         (kByGamer
+            {filter_title.lbl
+               set_localized
+               {localize filter_gamer}})
+         (kByGamerRank
+            {filter_title.lbl
+               set_localized
+               {localize filter_gamer}})
+         (kByRank
+            {filter_title.lbl
+               set_localized
+               {localize filter_rank}})
+         (kByFriends
+            {filter_title.lbl
+               set_localized
+               {localize filter_friends}})})}
+{new
+   BandScreen
+   leaderboards_screen
+   (panels meta movie_panel leaderboards_panel leaderboards_lower3rd_panel)
+   (focus leaderboards_panel)
+   (helpbar
+      {switch
+         {leaderboards get_type}
+         (kPlayerSong
+            ((cancel helpbar_back)
+               (confirm helpbar_viewgamercard)
+               (option helpbar_changefilter)))
+         (kHTHProRanked
+            ((cancel helpbar_back)
+               (confirm helpbar_viewgamercard)
+               (option helpbar_changefilter)))
+         (kHTHRanked
+            ((cancel helpbar_back)
+               (confirm helpbar_viewgamercard)
+               (option helpbar_changefilter)))
+         (kBandSong
+            ((cancel helpbar_back)
+               (confirm helpbar_viewgamercard)
+               (option helpbar_changefilter)))
+         (kBandFans
+            ((cancel helpbar_back)
+               (confirm helpbar_viewgamercard)
+               (option helpbar_changefilter)))})
+   (back
+      {switch
+         {leaderboards get_type}
+         (kPlayerSong leaderboards_selsong_screen)
+         (kBandSong leaderboards_selsong_screen)
+         (kHTHProRanked leaderboards_seltrack_screen)
+         (kHTHRanked leaderboards_seltrack_screen)
+         {gamemode get community_screen}})
+   (update_filter
+      ($type)
+      {leaderboards_lower3rd_panel update_filter $type})
+   (BUTTON_DOWN_MSG
+      {do
+         ($list
+            {leaderboards_panel find leaderboard.lst})
+         {if_else
+            {&&
+               {$list is_scrolling}
+               {'||'
+                  {== $button kPad_DDown}
+                  {== $button kPad_DUp}}}
+            TRUE
+            kDataUnhandled}})}
+#ifdef HX_XBOX
+{new
+   UIPanel
+   leaderboards_seltrack_panel
+   (file
+      "leaderboards_seltrack.milo")
+   (focus guitar.btn)
+   (login_status kDesirable)
+   LIMIT_TO_SESSION_IF_LEADER
+   (SELECT_MSG
+      {leaderboards
+         set_track_type
+         {switch
+            $component
+            (guitar.btn kTrackGuitar)
+            (bass.btn kTrackBass)
+            (drums.btn kTrackDrum)
+            (vocals.btn kTrackVocals)}}
+      {if_else
+         {==
+            {leaderboards get_type}
+            kPlayerSong}
+         {do
+            {leaderboards set_song_sym ''}
+            {ui goto_screen leaderboards_selsong_screen}}
+         {ui goto_screen leaderboards_screen}})}
+{new
+   BandScreen
+   leaderboards_seltrack_screen
+   (panels meta movie_panel leaderboards_seltrack_panel)
+   (focus leaderboards_seltrack_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (back
+      {gamemode get community_screen})
+   LIMIT_TO_SESSION_IF_LEADER}
+#endif
+{new
+   SessionPanel
+   community_panel
+   MAIN_SUBSCREEN_PANEL_HANDLER
+   (motd_done FALSE)
+   (motd_message
+      "")
+   (webcode_done FALSE)
+   (webcode
+      "")
+   (banner_message
+      "")
+   (load
+      {main_panel set mode_focus community.btn})
+   (set_motd
+      ($message))
+   (display_motd)
+   (set_webcode
+      ($message)
+      #ifdef HX_PS3
+      {set
+         [webcode]
+         $message}
+      {set
+         [webcode_done]
+         TRUE}
+      {$this update_button_status}
+      #endif)
+   (enter
+      {set $autosaved FALSE}
+      {session clear}
+      {$this update_button_status}
+      #ifndef HX_PS3
+      #ifndef HX_WII
+      {main_panel update_button_status}
+      #endif
+      #endif)
+   #ifdef HX_XBOX
+   (exit
+      {platform_mgr remove_sink $this connection_status_changed}
+      {server remove_sink $this server_status_changed}
+      {set
+         [banner_message]
+         [motd_message]})
+   #endif
+   (connection_status_changed
+      ($connected)
+      {$this update_button_status})
+   (server_status_changed
+      ($connected)
+      {$this update_button_status})
+   (update_button_status
+      #ifdef HX_PS3
+      {if_else
+         {platform_mgr is_connected}
+         {$this enable managefriends.btn}
+         {$this disable managefriends.btn}}
+      {if_else
+         {server is_connected}
+         {do
+            {if_else
+               [webcode_done]
+               {$this enable getcode.btn}
+               {$this disable getcode.btn}}
+            {$this enable checkinvites.btn}}
+         {do
+            {$this disable getcode.btn}
+            {$this disable checkinvites.btn}}}
+      #endif
+      #ifdef HX_XBOX
+      {if_else
+         {server is_connected}
+         {$this enable leaderboards.btn}
+         {$this disable leaderboards.btn}}
+      #endif)
+   (login_status kDesirable)
+   (SELECT_START_MSG
+      {switch
+         $component
+         (jukebox.btn
+            {print
+               "JMA TODO:  Implement the (Extras) Jukebox!!!\n"})
+         (leaderboards.btn
+            #ifdef HX_XBOX
+            {gamemode set_mode community_leaderboards $player_num}
+            {$this wait_for_session_ready}
+            {session_mgr
+               add_local_player
+               $player_num
+               {gamecfg get_controller_type_from_controller $player_num}}
+            #else
+            {ui goto_screen highscore_seltrack_screen}
+            #endif)
+         (credits.btn
+            {ui goto_screen menu_to_credits_screen})
+         (modifygame.btn
+            {modifier_confirm_screen set has_entered FALSE}
+            {ui goto_screen modifiers_screen})})
+   (goto_leaderboards
+      ($player $player_num)
+      {gamemode set_mode community_leaderboards $player_num}
+      {gamemode set player_num $player_num}
+      {$this wait_for_session_ready}
+      {session_mgr add_local_user $player})
+   (session_ready
+      {gamecfg auto_assign_missing_slots}
+      {goto_after_network_connect main_leaderboard_screen FALSE})}
+{new
+   BandScreen
+   main_community_screen
+   (panels meta menu_background_movie_panel main_panel community_panel fx)
+   (focus community_panel)
+   (back main_screen)
+   MAIN_SCREEN_HANDLERS}
+#define COMMON_LEADERBOARD_PANEL
+((focus solo.btn)
+   LIMIT_TO_SESSION_IF_LEADER
+   (enter
+      {leaderboards clear_type})
+   (login_status kDesirable)
+   (SELECT_MSG
+      {leaderboards set_player_num $player_num}
+      {switch
+         $component
+         (solo.btn
+            {leaderboards set_type kPlayerSong}
+            {ui goto_screen leaderboards_seltrack_screen})
+         (hth_pro_ranked.btn
+            {leaderboards set_type kHTHProRanked}
+            {ui goto_screen leaderboards_seltrack_screen})
+         (hth_ranked.btn
+            {leaderboards set_type kHTHRanked}
+            {ui goto_screen leaderboards_seltrack_screen})
+         (band_song.btn
+            {leaderboards set_type kBandSong}
+            {leaderboards set_band_from_tour}
+            {ui goto_screen leaderboards_selsong_screen})
+         (band_fans.btn
+            {leaderboards set_type kBandFans}
+            {leaderboards set_band_from_tour}
+            {ui goto_screen leaderboards_screen})}))
+{new
+   UIPanel
+   community_leaderboard_panel
+   #ifdef HX_PS3
+   (file
+      "leaderboard_menu_ps3.milo")
+   #else
+   (file
+      "leaderboard_menu_og.milo")
+   #endif
+   COMMON_LEADERBOARD_PANEL}
+{new
+   BandScreen
+   community_leaderboard_screen
+   (panels meta movie_panel community_leaderboard_panel)
+   (focus community_leaderboard_panel)
+   (back main_community_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}
+{new
+   UIPanel
+   main_leaderboard_panel
+   #ifdef HX_PS3
+   (file
+      "main_leaderboard_ps3.milo")
+   #else
+   (file
+      "main_leaderboard_og.milo")
+   #endif
+   COMMON_LEADERBOARD_PANEL}
+{new
+   BandScreen
+   main_leaderboard_screen
+   (panels meta movie_panel main_panel main_leaderboard_panel)
+   (focus main_leaderboard_panel)
+   (back main_community_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}
+{new
+   BandScreen
+   featurette_goto_credits_screen
+   (panels meta_loading)
+   (TRANSITION_COMPLETE_MSG
+      {ui goto_screen pi_to_credits_screen})}
+{new
+   BandScreen
+   goto_credits_screen
+   (panels)
+   (TRANSITION_COMPLETE_MSG
+      {ui goto_screen credits_screen})}
+#ifdef HX_XBOX
+{new
+   MoviePanel
+   credits_movie_panel
+   (preload FALSE)
+   (audio TRUE)
+   (loop FALSE)
+   (update_presence TRUE)
+   (videos win_credits)
+   (helpbar
+      ((min_height 0)))
+   (movie_done
+      {ui goto_screen goto_credits_screen})
+   (BUTTON_DOWN_MSG
+      {if
+         {'||'
+            {== $button kPad_Start}
+            {== $button kPad_X}}
+         {ui goto_screen featurette_to_community_screen}})}
+#else
+{new
+   UIPanel
+   credits_movie_panel
+   (file
+      "world/intro_video.milo")
+   (moviefinished FALSE)
+   (helpbar
+      ((min_height 0)))
+   (elapsedtime 0.0)
+   (allowinput FALSE)
+   (button_press_queued FALSE)
+   (enter
+      {set
+         [elapsedtime]
+         {taskmgr ui_seconds}}
+      {set
+         [button_press_queued]
+         FALSE}
+      #ifdef HX_EE
+      {16x9.mesh set_showing FALSE}
+      {4x3.mesh set_showing FALSE}
+      {16x9zoom.mesh set_showing FALSE}
+      {4x3std.mesh set_showing TRUE}
+      {intro_video.mov
+         set
+         movie_file
+         {sprintf
+            "videos/rb_endcredits.pss"}}
+      {intro_video.mov animate}
+      {set $moviefinished FALSE}
+      #endif
+      #ifdef HX_WII
+      {16x9.mesh set_showing FALSE}
+      {4x3.mesh set_showing FALSE}
+      {16x9zoom.mesh set_showing FALSE}
+      {4x3std.mesh set_showing TRUE}
+      {intro_video.mov
+         set
+         movie_file
+         {sprintf
+            "videos/hmx_endcredits.bik"}}
+      {intro_video.mov animate}
+      {set $moviefinished FALSE}
+      {disc_error_set_stop_movie TRUE}
+      #endif)
+   (poll
+      {do
+         ($last_play_delta
+            {-
+               {taskmgr ui_seconds}
+               [elapsedtime]})
+         {if
+            {!
+               [allowinput]}
+            {if
+               {> $last_play_delta 3}
+               {set
+                  [allowinput]
+                  TRUE}}}
+         {if
+            {'||'
+               {&&
+                  {! $moviefinished}
+                  {intro_video.mov is_movie_done}}
+               {&&
+                  [button_press_queued]
+                  [allowinput]}}
+            {do
+               {set $moviefinished TRUE}
+               {ui goto_screen credits_to_pi_movie_screen}}}})
+   (BUTTON_DOWN_MSG
+      {if_else
+         [allowinput]
+         {if
+            {&&
+               {'||'
+                  {== $button kPad_Start}
+                  {== $button kPad_X}}
+               {! $moviefinished}}
+            {do
+               {set $moviefinished TRUE}
+               {intro_video.mov set_movie_done 1}
+               #ifdef HX_WII
+               {intro_video.mov set_movie_paused TRUE}
+               #endif
+               {ui goto_screen credits_to_pi_movie_screen}}}
+         {if
+            {&&
+               {'||'
+                  {== $button kPad_Start}
+                  {== $button kPad_X}}
+               {! $moviefinished}}
+            {set
+               [button_press_queued]
+               TRUE}}})
+   #ifdef HX_WII
+   (exit
+      {disc_error_set_stop_movie FALSE})
+   #endif}
+#endif
+{new
+   BandScreen
+   menu_to_credits_screen
+   (panels meta_loading meta fx)
+   (helpbar
+      ((min_height 0)))
+   (TRANSITION_COMPLETE_MSG
+      {if
+         {exists goto_credits}
+         {delete goto_credits}}
+      {script_task
+         kTaskSeconds
+         (delay 2)
+         (name goto_credits)
+         (script
+            {ui goto_screen credits_movie_screen})})}
+{new
+   BandScreen
+   credits_movie_screen
+   (panels meta credits_movie_panel)
+   (focus credits_movie_panel)
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {if
+         {exists goto_credits}
+         {delete goto_credits}}
+      {{meta meta_music}
+         stop}
+      {if
+         {menu_background_movie_panel is_loaded}
+         {menu_background_movie_panel unload}})
+   (exit)}
+{new
+   BandScreen
+   credits_to_community_specialfeatures_screen
+   (panels meta_loading)
+   (TRANSITION_COMPLETE_MSG
+      {ui goto_screen main_community_screen})}
+{new
+   CreditsPanel
+   credits_panel
+   (file
+      "main/credits.milo")
+   (BUTTON_DOWN_MSG
+      {if
+         {== $button kPad_Tri}
+         {ui goto_screen credits_to_community_specialfeatures_screen}
+         #ifdef HX_WII
+         {disc_error_set_stop_movie FALSE}
+         #endif})
+   (poll
+      {if
+         {!
+            {credits.lst is_scrolling}}
+         #ifdef HX_WII
+         {disc_error_set_stop_movie FALSE}
+         #endif
+         {if
+            {!
+               {ui in_transition}}
+            {handle
+               (ui credits_done)}}})}
+{new
+   BandScreen
+   credits_screen
+   (panels meta credits_panel)
+   (focus credits_panel)
+   (back main_community_screen)
+   (scroll_sfx FALSE)
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {helpbar
+         set_config
+         ((cancel helpbar_back))}
+      {{meta meta_music}
+         stop})
+   (credits_done
+      {ui goto_screen main_community_screen})
+   (BUTTON_DOWN_MSG
+      {if
+         {'||'
+            {== $button kPad_Start}
+            {== $button kPad_X}}
+         {$this credits_done}})
+   (exit
+      {{meta meta_music}
+         start})}
+{new
+   BandScreen
+   pi_to_credits_screen
+   (panels meta_loading)
+   (helpbar
+      ((min_height 0)))
+   (TRANSITION_COMPLETE_MSG
+      {ui goto_screen credits_screen})}
+{new
+   UIPanel
+   pi_credits_movie_panel
+   (file
+      "world/intro_video.milo")
+   (moviefinished FALSE)
+   (helpbar
+      ((min_height 0)))
+   (elapsedtime 0.0)
+   (allowinput FALSE)
+   (button_press_queued FALSE)
+   (enter
+      {set
+         [elapsedtime]
+         {taskmgr ui_seconds}}
+      {set
+         [button_press_queued]
+         FALSE}
+      #ifdef HX_EE
+      {16x9.mesh set_showing FALSE}
+      {4x3.mesh set_showing FALSE}
+      {16x9zoom.mesh set_showing FALSE}
+      {4x3std.mesh set_showing TRUE}
+      {intro_video.mov
+         set
+         movie_file
+         {sprintf
+            "videos/pi_endcredits.bik"}}
+      {intro_video.mov animate}
+      {set $moviefinished FALSE}
+      #endif
+      #ifdef HX_WII
+      {16x9.mesh set_showing FALSE}
+      {4x3.mesh set_showing FALSE}
+      {16x9zoom.mesh set_showing FALSE}
+      {4x3std.mesh set_showing TRUE}
+      {intro_video.mov
+         set
+         movie_file
+         {sprintf
+            "videos/pi_endcredits.bik"}}
+      {intro_video.mov animate}
+      {set $moviefinished FALSE}
+      {disc_error_set_stop_movie TRUE}
+      #endif
+      {{meta meta_music}
+         stop})
+   (poll
+      {do
+         ($last_play_delta
+            {-
+               {taskmgr ui_seconds}
+               [elapsedtime]})
+         {if
+            {!
+               [allowinput]}
+            {if
+               {> $last_play_delta 3}
+               {set
+                  [allowinput]
+                  TRUE}}}
+         {if
+            {'||'
+               {&&
+                  {! $moviefinished}
+                  {intro_video.mov is_movie_done}}
+               {&&
+                  [button_press_queued]
+                  [allowinput]}}
+            {do
+               {set $moviefinished TRUE}
+               #ifdef HX_WII
+               {intro_video.mov set_movie_paused TRUE}
+               #endif
+               {ui goto_screen pi_to_credits_screen}}}})
+   (BUTTON_DOWN_MSG
+      {if_else
+         [allowinput]
+         {if
+            {&&
+               {'||'
+                  {== $button kPad_Start}
+                  {== $button kPad_X}}
+               {! $moviefinished}}
+            {do
+               {intro_video.mov set_movie_done 1}
+               {set $moviefinished TRUE}
+               {ui goto_screen pi_to_credits_screen}}}
+         {if
+            {&&
+               {'||'
+                  {== $button kPad_Start}
+                  {== $button kPad_X}}
+               {! $moviefinished}}
+            {set
+               [button_press_queued]
+               TRUE}}})
+   #ifdef HX_WII
+   (exit
+      {disc_error_set_stop_movie FALSE})
+   #endif}
+{new
+   BandScreen
+   pi_credits_movie_screen
+   (panels meta pi_credits_movie_panel)
+   (focus pi_credits_movie_panel)
+   (helpbar
+      ((min_height 0)))}
+{new
+   BandScreen
+   credits_to_pi_movie_screen
+   (helpbar
+      ((min_height 0)))
+   (TRANSITION_COMPLETE_MSG
+      {ui goto_screen pi_credits_movie_screen})}
+{new
+   BandScreen
+   tour_hub_community_screen
+   (panels meta practice_couch_panel community_leaderboard_panel tour_matchmaking_lower3rd_panel)
+   (focus community_leaderboard_panel)
+   LIMIT_TO_SESSION_IF_LEADER
+   (back
+      {if_else
+         {gamemode is_solo}
+         tour_solo_hub_screen
+         tour_band_hub_screen})
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}

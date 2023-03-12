@@ -45,157 +45,9 @@
             lighting})))
 #define WORLD_ALL_PLAYERS
 ((player_bass0 player_bass1 player_drum0 player_drum1 player_guitar0 player_guitar1 player_vocals0 player_vocals1))
-#define WORLD_PLAYER_PREFABS
-((player_bass0
-      (male guitar0)
-      (female guitar1))
-   (player_bass1
-      (male guitar3)
-      (female guitar2))
-   (player_drum0
-      (male drum0)
-      (female drum6))
-   (player_drum1
-      (male drum1)
-      (female drum8))
-   (player_guitar0
-      (male guitar4)
-      (female guitar5))
-   (player_guitar1
-      (male guitar6)
-      (female guitar7))
-   (player_vocals0
-      (male vocals0)
-      (female vocals2))
-   (player_vocals1
-      (male vocals1)
-      (female vocals4)))
 #define WORLD_MODE_COMMON
-((first_shot_ok
-      {set
-         $shot_ok.bie
-         {&&
-            {exists beatmatch}
-            {game is_playing}
-            {! $edit_mode}
-            {! $cameras.validating}}}
-      {if
-         $shot_ok.bie
-         {set
-            $shot_ok.delta_30fps
-            {'*'
-               30
-               {-
-                  {beat_to_seconds $camera.next_cam_beat}
-                  {taskmgr seconds}}}}})
-   (clothe_character
-      ($dude)
-      {do
-         ($l)
-         ($arr 0)
-         ($name
-            {$dude name})
-         ($framerate_test FALSE)
-         {if
-            {exists game}
-            {set
-               $framerate_test
-               {gamemode get is_framerate_test}}}
-         {set
-            $prefab_name
-            {if_else
-               $framerate_test
-               {if_else
-                  $framerate_use_budget
-                  {symbol
-                     {sprint
-                        "budget_"
-                        $framerate_type
-                        "_"
-                        {$dude get gender}}}
-                  {symbol
-                     {sprint
-                        "expensive_"
-                        $framerate_type
-                        "_"
-                        {$dude get gender}}}}
-               {if_else
-                  $venue_test
-                  {symbol
-                     {sprint
-                        "budget_venuetest_"
-                        {$dude get gender}}}
-                  {elem
-                     {find
-                        (WORLD_PLAYER_PREFABS)
-                        {symbol $name}
-                        {$dude get gender}}
-                     1}}}}
-         {$dude
-            iterate
-            OutfitLoader
-            $loader
-            {set $l $loader}}
-         {do
-            ($attitude
-               {$dude get attitude})
-            {if_else
-               $venue_test
-               {do
-                  {set
-                     $arr
-                     {find
-                        (VENUETEST_PREFABS)
-                        {symbol $name}}}
-                  {set
-                     $arr
-                     {find
-                        $arr
-                        {symbol $prefab_name}}}
-                  {$dude load_prefab_array $arr}}
-               {do
-                  {$dude set prefab_name $prefab_name}
-                  {$dude load_prefab}}}
-            {$dude set attitude $attitude}
-            {$dude set height 0.5}
-            {$dude set weight 0.5}
-            {$l
-               select
-               bass
-               {if_else
-                  {has_substr $name bass}
-                  {$dude valid_instrument bass}
-                  none}}
-            {$l
-               select
-               drum
-               {if_else
-                  {has_substr $name drum}
-                  {$dude valid_instrument drum}
-                  none}}
-            {$l
-               select
-               guitar
-               {if_else
-                  {has_substr $name guitar}
-                  {$dude valid_instrument guitar}
-                  none}}
-            {$l
-               select
-               mic
-               {if_else
-                  {has_substr $name vocal}
-                  {$dude valid_instrument mic}
-                  none}}}
-         {$l start_load FALSE}
-         {$dude set clip_mode kClipModeWorld}
-         {if
-            {&&
-               $edit_mode
-               {! $cache_mode}}
-            {$dude set tempo kTempoMedium}}
-         {$dude load_clips FALSE}})
-   (sync_mode
+((sync_mode
+      {set $first_chars_file_sync TRUE}
       {foreach
          $char
          WORLD_ALL_PLAYERS
@@ -214,10 +66,7 @@
             (h2h_vocals BAND_H2H_VOCALS_CHARS)
             {notify
                "unknown game mode "
-               $game.play_mode
-               " MUST FIX!"}
-            {eval
-               ()}}
+               $game.play_mode}}
          {if
             {$this exists $char}
             {{$this find $char}
@@ -248,8 +97,26 @@
                         {set $l $loader}}
                      {$l select_all -1}
                      {$l start_load FALSE}
-                     {$dude set clip_mode kClipModeNone}
-                     {$dude load_clips FALSE}}}}}
+                     {do
+                        ($drv
+                           {$dude find main.drv})
+                        ($clips
+                           {$drv get_clips})
+                        {$drv enter}
+                        {$clips delete_loader}
+                        {$clips
+                           iterate
+                           CharClip
+                           $clip
+                           {unless
+                              {find_elem
+                                 ("still"
+                                    "stand_singer_pose"
+                                    "stand_guitar_pose"
+                                    "sit_drummer_pose")
+                                 {$clip name}}
+                              {delete $clip}}}}}}}}
+         {set $outfit_base 1}
          {foreach
             $char
             WORLD_ALL_PLAYERS
@@ -258,9 +125,105 @@
                {do
                   ($dude
                      {$this find $char})
+                  ($name
+                     {$dude name})
+                  ($l)
                   {if
-                     {$dude get showing}
-                     {$this clothe_character $dude}}}}}}
+                     {$dude showing}
+                     {$dude
+                        iterate
+                        OutfitLoader
+                        $loader
+                        {set $l $loader}}
+                     {if_else
+                        $venue_test
+                        {init_venue_outfits $l}
+                        {do
+                           {$l select_all $outfit_base}
+                           {'++' $outfit_base}
+                           {$l select heads head_1}
+                           {$l
+                              select
+                              bass
+                              {if_else
+                                 {has_substr $name bass}
+                                 {$dude valid_instrument bass}
+                                 none}}
+                           {$l
+                              select
+                              drum
+                              {if_else
+                                 {has_substr $name drum}
+                                 {$dude valid_instrument drum}
+                                 none}}
+                           {$l
+                              select
+                              guitar
+                              {if_else
+                                 {has_substr $name guitar}
+                                 {$dude valid_instrument guitar}
+                                 none}}
+                           {$l
+                              select
+                              mic
+                              {if_else
+                                 {has_substr $name vocal}
+                                 {$dude valid_instrument mic}
+                                 none}}}}
+                     {$l start_load FALSE}
+                     {do
+                        ($drv
+                           {$dude find main.drv})
+                        ($clips
+                           {$drv get_clips})
+                        ($count 0)
+                        {$drv enter}
+                        {$clips
+                           iterate_self
+                           CharClip
+                           $clip
+                           {'++' $count}}
+                        {if
+                           {< $count 20}
+                           {do
+                              ($gender
+                                 {if_else
+                                    {has_substr
+                                       {$dude get proxy_file}
+                                       female}
+                                    female
+                                    male})
+                              ($instrument
+                                 {$dude get_type})
+                              ($path
+                                 {sprint
+                                    "char/"
+                                    $gender
+                                    "/anim/"
+                                    $gender
+                                    "_"
+                                    $instrument
+                                    ".milo"})
+                              ($new_clips '')
+                              {with_file_path_root
+                                 "."
+                                 {set
+                                    $new_clips
+                                    {load_objects $path}}}
+                              {reserve_to_fit $new_clips $clips 0}
+                              {merge_dirs $new_clips $clips kMergeMerge}
+                              {delete $new_clips}
+                              {if
+                                 $venue_test
+                                 {$clips delete_variants}
+                                 {$dude load_win_finals}
+                                 {$clips delete_variants}}}}}}
+                  {if
+                     $venue_test
+                     {$dude
+                        set
+                        polling
+                        {$dude showing}}}}}}}
       {switch
          $game.play_mode
          (h2h_bass
@@ -393,18 +356,51 @@
                      ""}
                   {$task loop}})})))
 #include world_validate.dta
+#define WORLD_OBJECT_BASE_CHECK_FOCUS
+({if
+      {&&
+         $camera.focus_drums
+         {==
+            2
+            {'+' $camera.focus_bass $camera.focus_guitar $camera.focus_vocal}}}
+      {set
+         $notify_string
+         "bad focus combination (drums"}
+      {if
+         $camera.focus_bass
+         {set
+            $notify_string
+            {sprint
+               $notify_string
+               " bass"}}}
+      {if
+         $camera.focus_guitar
+         {set
+            $notify_string
+            {sprint
+               $notify_string
+               " guitar"}}}
+      {if
+         $camera.focus_vocal
+         {set
+            $notify_string
+            {sprint
+               $notify_string
+               " vocal"}}}
+      {set
+         $notify_string
+         {sprint
+            $notify_string
+            ") at MBT "
+            {taskmgr mbt}}}
+      {notify $notify_string}
+      {set $camera.focus_drums FALSE}})
 #define WORLD_MIDI_PARSERS
-(((world_drum_triggers kSinkModeExport)
-      (world_event_parser kSinkModeExport)
-      (world_crowd_parser kSinkModeExport)
-      (world_camera_parser kSinkModeType)
-      (world_focus_parser kSinkModeType)
-      (world_spotlight_focus kSinkModeExportType)
-      (world_lighting_parser kSinkModeHandle)
-      (world_lighting_one_bar_to kSinkModeHandle)))
+((world_drum_triggers world_lighting_parser world_lighting_one_bar_to world_camera_parser world_event_parser world_focus_parser world_spotlight_focus))
 #define WORLD_OBJECT_BASE
 ((excitement_level kExcitementOkay)
    (last_excitement_level -1)
+   (next_cam_beat -1)
    WORLD_MODE_COMMON
    (start kDataUnhandled)
    (coda_success
@@ -496,16 +492,6 @@
       {stagekit_reset}
       {if
          {exists game}
-         {$this
-            iterate_shot
-            $shot
-            {with
-               $shot
-               {mask_eq
-                  [flags]
-                  kBCSBOneTimePlayed}}}
-         {set_camera_solo_mode
-            {gamemode get is_solo}}
          {if
             {exists bandname.lbl3d}
             {bandname.lbl3d
@@ -540,13 +526,76 @@
                      {$tex
                         iterate_refs
                         $ref
-                        {$ref set diffuse_tex bandlogo_default.tex}}}}}}}
+                        {$ref set diffuse_tex bandlogo_default.tex}}}}}}
+         {$this
+            iterate
+            BandCamShot
+            $shot
+            {$shot set one_time_played FALSE}
+            {if
+               {&&
+                  {==
+                     {$shot get category}
+                     NORMAL}
+                  {!=
+                     {$shot get special}
+                     TRUE}}
+               {switch
+                  $game.play_mode
+                  (coop
+                     {$shot
+                        set
+                        category
+                        {sprint
+                           "NORMAL"
+                           {$shot get bass_focus}
+                           {$shot get drums_focus}
+                           {$shot get guitar_focus}
+                           {$shot get vocal_focus}}}
+                     {if
+                        {==
+                           {$shot get distance}
+                           far}
+                        {$shot
+                           set
+                           category
+                           "NORMAL1111"}})
+                  (h2h_drum
+                     {$shot
+                        set
+                        category
+                        {sprint
+                           "NORMAL"
+                           {$shot get drums2_focus}
+                           {$shot get drums_focus}
+                           {$shot get guitar_focus}
+                           {$shot get vocal_focus}}})
+                  (h2h_vocals
+                     {$shot
+                        set
+                        category
+                        {sprint
+                           "NORMAL"
+                           {$shot get vocal2_focus}
+                           {$shot get drums_focus}
+                           {$shot get guitar_focus}
+                           {$shot get vocal_focus}}})
+                  {$shot
+                     set
+                     category
+                     {sprint
+                        "NORMAL"
+                        {$shot get guitar2_focus}
+                        {$shot get drums_focus}
+                        {$shot get guitar_focus}
+                        {$shot get vocal_focus}}}}}}
+         {$this resync_categories}}
       {if
          {exists sponsorship.grp}
          {if_else
             {&&
                {exists tour}
-               {tour band}
+               {tour performer}
                {{tour event}
                   get
                   sellout}}
@@ -596,11 +645,7 @@
          $parser
          WORLD_MIDI_PARSERS
          {handle
-            ({elem $parser 0}
-               add_sink
-               $world
-               ()
-               {elem $parser 1})}}
+            ($parser add_sink $world)}}
       {set $camera.num_players_failed 0}
       {set $camera.next_cam_beat -10000000}
       {set $camera.directed_cut FALSE}
@@ -623,312 +668,110 @@
       {set $camera.h2h_p2_focus FALSE}
       {if
          {exists game}
-         {game
-            add_sink
-            $world
-            ()
-            kSinkModeExportType}
-         {if_else
-            {== $game.play_mode coop}
-            {beatmatch
-               foreach_active_player
-               $player
-               {do
-                  ($char
-                     {{$player config}
-                        get_char})
-                  ($charname
-                     {get_character_name $player})
-                  ($user_name
-                     {get_user_name_from_player $player})
+         {game add_sink $world}
+         {switch
+            $game.play_mode
+            (coop
+               {beatmatch
+                  foreach_active_player
+                  $player
                   {switch
                      {$player instrument}
                      (bass
                         {if
                            {exists name_bass.lbl}
-                           {name_bass.lbl set_localized $charname}}
-                        {if
-                           {exists name_bass_shadow.lbl}
-                           {name_bass_shadow.lbl set_localized $charname}}
-                        {if
-                           {exists on_bass.lbl}
-                           {on_bass.lbl
+                           {name_bass.lbl
                               set_localized
-                              {$char track_icon bass}}}
-                        {if
-                           {exists gamertag_bass.lbl}
-                           {gamertag_bass.lbl set_localized $user_name}}
-                        {if
-                           {exists gamertag_bass_shadow.lbl}
-                           {gamertag_bass_shadow.lbl set_localized $user_name}})
+                              {get_player_name $player}}})
                      (drum
                         {if
                            {exists name_drums.lbl}
-                           {name_drums.lbl set_localized $charname}}
-                        {if
-                           {exists name_drums_shadow.lbl}
-                           {name_drums_shadow.lbl set_localized $charname}}
-                        {if
-                           {exists on_drums.lbl}
-                           {on_drums.lbl
+                           {name_drums.lbl
                               set_localized
-                              {$char track_icon drum}}}
-                        {if
-                           {exists gamertag_drums.lbl}
-                           {gamertag_drums.lbl set_localized $user_name}}
-                        {if
-                           {exists gamertag_drums_shadow.lbl}
-                           {gamertag_drums_shadow.lbl set_localized $user_name}})
+                              {get_player_name $player}}})
                      (guitar
                         {if
                            {exists name_guitar.lbl}
-                           {name_guitar.lbl set_localized $charname}}
-                        {if
-                           {exists name_guitar_shadow.lbl}
-                           {name_guitar_shadow.lbl set_localized $charname}}
-                        {if
-                           {exists on_guitar.lbl}
-                           {on_guitar.lbl
+                           {name_guitar.lbl
                               set_localized
-                              {$char track_icon guitar}}}
-                        {if
-                           {exists gamertag_guitar.lbl}
-                           {gamertag_guitar.lbl set_localized $user_name}}
-                        {if
-                           {exists gamertag_guitar_shadow.lbl}
-                           {gamertag_guitar_shadow.lbl set_localized $user_name}})
+                              {get_player_name $player}}})
                      (vocals
                         {if
                            {exists name_vocals.lbl}
-                           {name_vocals.lbl set_localized $charname}}
-                        {if
-                           {exists name_vocals_shadow.lbl}
-                           {name_vocals_shadow.lbl set_localized $charname}}
-                        {if
-                           {exists on_vocals.lbl}
-                           {on_vocals.lbl
+                           {name_vocals.lbl
                               set_localized
-                              {$char track_icon vocals}}}
-                        {if
-                           {exists gamertag_vocals.lbl}
-                           {gamertag_vocals.lbl set_localized $user_name}}
-                        {if
-                           {exists gamertag_vocals_shadow.lbl}
-                           {gamertag_vocals_shadow.lbl set_localized $user_name}})}}}
-            {do
-               {set
-                  $charname0
-                  {get_char_name_from_slot 0}}
-               {set
-                  $charname1
-                  {get_char_name_from_slot 1}}
-               {set
-                  $gamertag0
-                  {get_player_name_from_slot 0}}
-               {set
-                  $gamertag1
-                  {get_player_name_from_slot 1}}
-               {switch
-                  $game.play_mode
-                  (h2h_bass
-                     {if
-                        {exists name_guitar.lbl}
-                        {name_guitar.lbl set_localized $charname0}}
-                     {if
-                        {exists name_guitar_shadow.lbl}
-                        {name_guitar_shadow.lbl set_localized $charname0}}
-                     {if
-                        {exists on_guitar.lbl}
-                        {on_guitar.lbl
-                           set_localized
-                           {get_track_icon_from_slot 0 bass}}}
-                     {if
-                        {exists name_guitar2.lbl}
-                        {name_guitar2.lbl set_localized $charname1}}
-                     {if
-                        {exists name_guitar2_shadow.lbl}
-                        {name_guitar2_shadow.lbl set_localized $charname1}}
-                     {if
-                        {exists on_guitar2.lbl}
-                        {on_guitar2.lbl
-                           set_localized
-                           {get_track_icon_from_slot 1 bass}}}
-                     {if
-                        {exists gamertag_guitar.lbl}
-                        {gamertag_guitar.lbl set_localized $gamertag0}}
-                     {if
-                        {exists gamertag_guitar_shadow.lbl}
-                        {gamertag_guitar_shadow.lbl set_localized $gamertag0}}
-                     {if
-                        {exists gamertag_guitar2.lbl}
-                        {gamertag_guitar2.lbl set_localized $gamertag1}}
-                     {if
-                        {exists gamertag_guitar2_shadow.lbl}
-                        {gamertag_guitar2_shadow.lbl set_localized $gamertag1}})
-                  (h2h_drum
-                     {if
-                        {exists name_drums.lbl}
-                        {name_drums.lbl
-                           set_localized
-                           {get_char_name_from_slot 0}}}
-                     {if
-                        {exists name_drums_shadow.lbl}
-                        {name_drums_shadow.lbl
-                           set_localized
-                           {get_char_name_from_slot 0}}}
-                     {if
-                        {exists on_drums.lbl}
-                        {on_drums.lbl
-                           set_localized
-                           {get_track_icon_from_slot 0 drum}}}
-                     {if
-                        {exists name_drums2.lbl}
-                        {name_drums2.lbl
-                           set_localized
-                           {get_char_name_from_slot 1}}}
-                     {if
-                        {exists name_drums2_shadow.lbl}
-                        {name_drums2_shadow.lbl
-                           set_localized
-                           {get_char_name_from_slot 1}}}
-                     {if
-                        {exists on_drums2.lbl}
-                        {on_drums2.lbl
-                           set_localized
-                           {get_track_icon_from_slot 1 drum}}}
-                     {if
-                        {exists gamertag_drums.lbl}
-                        {gamertag_drums.lbl set_localized $gamertag0}}
-                     {if
-                        {exists gamertag_drums_shadow.lbl}
-                        {gamertag_drums_shadow.lbl set_localized $gamertag0}}
-                     {if
-                        {exists gamertag_drums2.lbl}
-                        {gamertag_drums2.lbl set_localized $gamertag1}}
-                     {if
-                        {exists gamertag_drums2_shadow.lbl}
-                        {gamertag_drums2_shadow.lbl set_localized $gamertag1}})
-                  (h2h_guitar
-                     {if
-                        {exists name_guitar.lbl}
-                        {name_guitar.lbl
-                           set_localized
-                           {get_char_name_from_slot 0}}}
-                     {if
-                        {exists name_guitar_shadow.lbl}
-                        {name_guitar_shadow.lbl
-                           set_localized
-                           {get_char_name_from_slot 0}}}
-                     {if
-                        {exists on_guitar.lbl}
-                        {on_guitar.lbl
-                           set_localized
-                           {get_track_icon_from_slot 0 guitar}}}
-                     {if
-                        {exists name_guitar2.lbl}
-                        {name_guitar2.lbl
-                           set_localized
-                           {get_char_name_from_slot 1}}}
-                     {if
-                        {exists name_guitar2_shadow.lbl}
-                        {name_guitar2_shadow.lbl
-                           set_localized
-                           {get_char_name_from_slot 1}}}
-                     {if
-                        {exists on_guitar2.lbl}
-                        {on_guitar2.lbl
-                           set_localized
-                           {get_track_icon_from_slot 1 guitar}}}
-                     {if
-                        {exists gamertag_guitar.lbl}
-                        {gamertag_guitar.lbl set_localized $gamertag0}}
-                     {if
-                        {exists gamertag_guitar_shadow.lbl}
-                        {gamertag_guitar_shadow.lbl set_localized $gamertag0}}
-                     {if
-                        {exists gamertag_guitar2.lbl}
-                        {gamertag_guitar2.lbl set_localized $gamertag1}}
-                     {if
-                        {exists gamertag_guitar2_shadow.lbl}
-                        {gamertag_guitar2_shadow.lbl set_localized $gamertag1}})
-                  (h2h_vocals
-                     {if
-                        {exists name_vocals.lbl}
-                        {name_vocals.lbl
-                           set_localized
-                           {get_char_name_from_slot 0}}}
-                     {if
-                        {exists name_vocals_shadow.lbl}
-                        {name_vocals_shadow.lbl
-                           set_localized
-                           {get_char_name_from_slot 0}}}
-                     {if
-                        {exists on_vocals.lbl}
-                        {on_vocals.lbl
-                           set_localized
-                           {get_track_icon_from_slot 0 vocals}}}
-                     {if
-                        {exists name_vocals2.lbl}
-                        {name_vocals2.lbl
-                           set_localized
-                           {get_char_name_from_slot 1}}}
-                     {if
-                        {exists name_vocals2_shadow.lbl}
-                        {name_vocals2_shadow.lbl
-                           set_localized
-                           {get_char_name_from_slot 1}}}
-                     {if
-                        {exists on_vocals2.lbl}
-                        {on_vocals2.lbl
-                           set_localized
-                           {get_track_icon_from_slot 1 vocals}}}
-                     {if
-                        {exists gamertag_vocals.lbl}
-                        {gamertag_vocals.lbl set_localized $gamertag0}}
-                     {if
-                        {exists gamertag_vocals_shadow.lbl}
-                        {gamertag_vocals_shadow.lbl set_localized $gamertag0}}
-                     {if
-                        {exists gamertag_vocals2.lbl}
-                        {gamertag_vocals2.lbl set_localized $gamertag1}}
-                     {if
-                        {exists gamertag_vocals2_shadow.lbl}
-                        {gamertag_vocals2_shadow.lbl set_localized $gamertag1}})}}}
-         {if
-            {'||'
-               {!
-                  {gamemode get is_practice}}
-               {!
-                  {gamemode get is_audition}}}
-            {do
-               ($intro_category
-                  {$this get_intro_category})
+                              {get_player_name $player}}})}})
+            (h2h_bass
                {if
-                  {!= $intro_category INTRO}
-                  {set
-                     $camera.intro_shot
-                     {$this find_shot $intro_category}}}}}
-         {gamecfg set coop_intro_category INTRO_VENUE}
-         {set $camera.directed_cut TRUE}
-         {$this force_shot $camera.intro_shot}
-         {game set intro_shot $camera.intro_shot}
-         {set $camera.intro_shot ''}})
-   (get_intro_category
-      {cond
-         ($force_intros INTRO)
-         ($force_venue_intros INTRO_VENUE)
-         ({in_video_venue}
-            INTRO_VENUE)
-         ({'||'
-               $force_quick_intros
-               {game get replay}}
-            INTRO_QUICK)
-         {gamemode intro_category}})
+                  {exists name_guitar.lbl}
+                  {name_guitar.lbl
+                     set_localized
+                     {get_player_name_from_slot 0}}}
+               {if
+                  {exists name_guitar2.lbl}
+                  {name_guitar2.lbl
+                     set_localized
+                     {get_player_name_from_slot 1}}})
+            (h2h_drum
+               {if
+                  {exists name_drums.lbl}
+                  {name_drums.lbl
+                     set_localized
+                     {get_player_name_from_slot 0}}}
+               {if
+                  {exists name_drums2.lbl}
+                  {name_drums2.lbl
+                     set_localized
+                     {get_player_name_from_slot 1}}})
+            (h2h_guitar
+               {if
+                  {exists name_guitar.lbl}
+                  {name_guitar.lbl
+                     set_localized
+                     {get_player_name_from_slot 0}}}
+               {if
+                  {exists name_guitar2.lbl}
+                  {name_guitar2.lbl
+                     set_localized
+                     {get_player_name_from_slot 1}}})
+            (h2h_vocals
+               {if
+                  {exists name_vocals.lbl}
+                  {name_vocals.lbl
+                     set_localized
+                     {get_player_name_from_slot 0}}}
+               {if
+                  {exists name_vocals2.lbl}
+                  {name_vocals2.lbl
+                     set_localized
+                     {get_player_name_from_slot 1}}})}
+         {do
+            ($intro_category
+               {if_else
+                  {game get replay}
+                  INTRO_QUICK
+                  {gamemode intro_category}})
+            ($intro_shot kDataUnhandled)
+            {$this
+               camera_random_seed
+               {gamecfg get net_random_seed}}
+            {gamecfg set coop_intro_category INTRO_VENUE}
+            {if_else
+               {== $intro_category INTRO}
+               {set
+                  $intro_shot
+                  {$this construct_active_shot INTRO 0 0}}
+               {set
+                  $intro_shot
+                  {$this find_shot $intro_category}}}
+            {set $camera.directed_cut TRUE}
+            {$this force_shot $intro_shot}
+            {game set intro_shot $intro_shot}}})
    (find_shot_segment
       ($filter $shots $cat)
       {do
          ($shot
-            {$this find_shot $cat $filter})
+            {$this pick_shot $cat $filter})
          {if_else
             $shot
             {do
@@ -1046,26 +889,15 @@
             $s
             $shots
             {'++' $idx}
-            {with
-               $s
-               {set
-                  [next_shot]
-                  {if_else
-                     {<
-                        $idx
-                        {size $shots}}
-                     {do
-                        ($next
-                           {elem $shots $idx})
-                        {if
-                           {!=
-                              [next_shot]
-                              $next}
-                           {'|='
-                              [flags]
-                              kBCSBBreakNextShot}}
-                        $next}
-                     ''}}}}
+            {$s
+               set
+               next_shot
+               {if_else
+                  {<
+                     $idx
+                     {size $shots}}
+                  {elem $shots $idx}
+                  ''}}}
          {if
             {size $shots}
             {set
@@ -1074,9 +906,8 @@
          $shot})
    (exit
       {stagekit_reset}
-      {if
-         {exists game}
-         {game remove_sink $this}})
+      {handle
+         (game remove_sink $this)})
    (change_proxies
       {if
          {exists game}
@@ -1138,8 +969,13 @@
       {unless
          $edit_mode
          {do
-            ($shot
-               {$this pick_shot LOSE})
+            ($shot '')
+            {$this
+               camera_random_seed
+               {gamecfg get net_random_seed}}
+            {set
+               $shot
+               {$this pick_shot LOSE}}
             #ifdef SHOW_CAMCUT_INFO
             {notify
                "CAMERA CHANGE: "
@@ -1167,21 +1003,28 @@
    (game_win_camera
       ($category)
       {do
-         ($shot
-            {if_else
-               {== $game.play_mode coop}
+         ($shot '')
+         {$this
+            camera_random_seed
+            {gamecfg get net_random_seed}}
+         {if_else
+            {== $game.play_mode coop}
+            {set
+               $shot
                {$this
                   construct_active_shot
                   WIN
                   {$this
                      find_shot
-                     WIN_PRE
+                     (WIN_PRE)
                      ()}
                   {$this
                      find_shot
-                     WIN_POST
-                     ()}}
-               {$this find_shot $category}})
+                     (WIN_POST)
+                     ()}}}
+            {set
+               $shot
+               {$this find_shot $category}}}
          #ifdef SHOW_CAMCUT_INFO
          {notify
             "CAMERA CHANGE: "
@@ -1198,14 +1041,33 @@
                   (delay
                      {$shot duration_seconds})
                   (script
-                     {handle
-                        (game game_outro)})}}
+                     {if_else
+                        {&&
+                           {tour performer}
+                           {{tour performer}
+                              last_song}
+                           {{tour performer}
+                              is_winning}
+                           {'||'
+                              {!
+                                 {gamemode is_solo}}
+                              {!=
+                                 {{tour performer}
+                                    solo_difficulty}
+                                 kDifficultyEasy}}}
+                        {if_else
+                           {exists coop_loading_cam.shot}
+                           {$world force_shot coop_loading_cam.shot}
+                           {notify
+                              "cannot find coop_loading_cam.shot!"}}
+                        {handle
+                           (game game_outro)}})}}
             {do
                {notify
                   "Could not find win shot!"}
                {handle
                   (game game_outro)}}}})
-   (launch_finale_task
+   (launch_win_final_task
       {script_task
          kTaskSeconds
          (delay 1)
@@ -1215,30 +1077,75 @@
                {char_cache
                   iterate
                   $char
-                  {if
-                     {$char clips_loading}
+                  {unless
+                     {$char win_final_check_load}
                      {set $done FALSE}}}
                {if_else
                   $done
-                  {$this finale_sequence}
-                  {$this launch_finale_task}}})
+                  {$this win_sequence}
+                  {$this launch_win_final_task}}})
          (once TRUE)})
-   (finale_sequence
-      {do
-         ($shot
-            {$this
-               find_shot
-               WIN_FINALE
-               ()})
-         {script_task
-            kTaskSeconds
-            (delay
-               {$shot duration_seconds})
-            (script
-               {handle
-                  (game game_outro)})}
-         {$this force_shot $shot}
-         {crowd_audio finale all}})
+   (win_final_start_load
+      {if
+         {exists char_cache}
+         {char_cache
+            iterate
+            $char
+            {$char win_final_start_load}}
+         {$this launch_win_final_task}})
+   (win_sequence
+      {if_else
+         {gamemode is_solo}
+         {if_else
+            {!=
+               {{tour performer}
+                  solo_difficulty}
+               kDifficultyEasy}
+            {do
+               ($type
+                  {switch
+                     {{beatmatch active_player 0}
+                        instrument}
+                     (drum
+                        {{$this find player_drum0}
+                           prep_win_sequence}
+                        drum)
+                     (guitar guitar)
+                     vocal})
+               ($camera
+                  {sprint
+                     "coop_fw_"
+                     $type
+                     ".shot"})
+               ($shot
+                  {$this find $camera})
+               {script_task
+                  kTaskSeconds
+                  (delay
+                     {$shot duration_seconds})
+                  (script
+                     {handle
+                        (game game_outro)})}
+               {set $camera.directed_cut TRUE}
+               {$this force_shot $shot}
+               {crowd_audio final_win $type}}
+            {handle
+               (game game_outro)}}
+         {do
+            ($shot
+               {$this
+                  find
+                  "coop_fw_all.shot"})
+            {script_task
+               kTaskSeconds
+               (delay
+                  {$shot duration_seconds})
+               (script
+                  {handle
+                     (game game_outro)})}
+            {set $camera.directed_cut TRUE}
+            {$this force_shot $shot}
+            {crowd_audio final_win all}}})
    (game_won
       {unless
          $edit_mode
@@ -1279,19 +1186,6 @@
          $edit_mode
          {$this game_win_camera WIN_TIE}}
       kDataUnhandled)
-   (game_won_finale
-      {unless
-         $edit_mode
-         {do
-            ($shot
-               {$this
-                  find_shot
-                  WIN_PRE_FINALE
-                  ()})
-            {$this force_shot $shot}
-            {set $camera.directed_cut TRUE}
-            {$this launch_finale_task}}}
-      kDataUnhandled)
    ':'
    The
    game
@@ -1304,9 +1198,7 @@
          $parser
          WORLD_MIDI_PARSERS
          {handle
-            ({elem $parser 0}
-               remove_sink
-               $world)}}
+            ($parser remove_sink $world)}}
       {$this clear_lighting}
       kDataUnhandled)
    (one_bar_to
@@ -1359,14 +1251,24 @@
          {&&
             {! $camera.disable_picking}
             {== $camera.num_players_failed 0}}
+         {set $camera.directed_cut TRUE}
          {$this force_shot $shot}
-         {$this play_directed_cut $shot}})
-   (start_optional_directed_cut
-      ($shot)
-      {switch
-         [excitement_level]
-         ((kExcitementPeak kExcitementGreat)
-            {$this start_directed_cut $shot})})
+         {do
+            ($mt
+               {/
+                  {'+'
+                     {$shot get min_time}
+                     {$shot get zero_time}}
+                  30})
+            {unless
+               $edit_mode
+               {set
+                  $camera.next_cam_beat
+                  {beatmatch
+                     sec_to_beat
+                     {'+'
+                        {taskmgr seconds}
+                        $mt}}}}}})
    (player_failed
       ($inst)
       {'++' $camera.num_players_failed}
@@ -1388,7 +1290,21 @@
                ''})
          {if_else
             $shot
-            {$this play_directed_cut $shot}
+            {do
+               ($mt
+                  {/
+                     {'+'
+                        {$shot get min_time}
+                        {$shot get zero_time}}
+                     30})
+               {set $camera.directed_cut TRUE}
+               {set
+                  $camera.next_cam_beat
+                  {beatmatch
+                     sec_to_beat
+                     {'+'
+                        {taskmgr seconds}
+                        $mt}}}}
             {notify
                "could not find BFTB_FAIL animation"}}})
    (player_saved
@@ -1419,24 +1335,36 @@
                ''})
          {if
             $shot
-            {$this play_directed_cut $shot}}})
-   (play_directed_cut
-      ($shot)
-      {set $camera.directed_cut TRUE}
-      {unless
-         $edit_mode
-         {set
-            $camera.next_cam_beat
-            {seconds_to_beat
+            {set $camera.directed_cut TRUE}
+            {set
+               $mt
                {'+'
-                  {taskmgr seconds}
-                  {/
+                  {$shot get min_time}
+                  {$shot get zero_time}}}
+            {if
+               $mt
+               {set
+                  $mt
+                  {/ $mt 30}}}
+            {unless
+               $edit_mode
+               {set
+                  $camera.next_cam_beat
+                  {beatmatch
+                     sec_to_beat
                      {'+'
-                        {$shot get min_time}
-                        {$shot get zero_time}}
-                     30}}}}})
+                        {taskmgr seconds}
+                        $mt}}}}}})
+   (start_optional_directed_cut
+      ($shot)
+      {switch
+         [excitement_level]
+         ((kExcitementPeak)
+            {$this start_directed_cut $shot})
+         ((kExcitementGreat)
+            {$this start_directed_cut $shot})})
    (camshot_end
-      {set $camera.next_cam_beat -10000}
+      {set $camera.next_cam_beat 0}
       {if
          $camera.directed_cut
          {$this pick_new_shot}
@@ -1445,6 +1373,53 @@
             {'+'
                {taskmgr beat}
                2}}})
+   (filter_shot
+      {if_else
+         $current_shot
+         {do
+            {set
+               $prev_distance
+               {$current_shot get distance}}
+            {set
+               $prev_facing
+               {$current_shot get facing}}}
+         {do
+            {set $prev_distance near}
+            {set $prev_facing right}}}
+      {if_else
+         {== $prev_distance behind}
+         {push_back
+            $filter
+            (facing
+               (left right null))}
+         {switch
+            $prev_facing
+            (left
+               {push_back
+                  $filter
+                  (facing
+                     (right null))})
+            (right
+               {push_back
+                  $filter
+                  (facing
+                     (left null))})
+            (null
+               {push_back
+                  $filter
+                  (facing
+                     (left right))})}}
+      {if
+         {== $prev_distance far}
+         {set $far FALSE}}
+      {if
+         $camera.no_closeup
+         {set $closeup FALSE}}
+      {if
+         {'||'
+            {== $prev_distance behind}
+            $camera.no_behind}
+         {set $behind FALSE}})
    (pick_new_shot
       {if
          {&&
@@ -1452,21 +1427,297 @@
                {taskmgr beat}
                $camera.next_cam_beat}
             {! $camera.disable_picking}}
-         {do
-            ($category '')
-            ($dist_flags 0)
-            ($facing_flags
+         {if_else
+            {!= $game.play_mode coop}
+            {do
+               ($filter
+                  {array 0})
+               ($far TRUE)
+               ($behind TRUE)
+               ($closeup TRUE)
+               ($current_shot
+                  {$this current_shot})
+               ($category NORMAL)
+               {$this filter_shot}
+               {switch
+                  $game.play_mode
+                  (h2h_drum
+                     {set
+                        $category
+                        {if_else
+                           {'||' $camera.h2h_focus_override_guitar $camera.h2h_focus_override_vocals}
+                           {sprint
+                              "NORMAL"
+                              "00"
+                              $camera.h2h_focus_override_guitar
+                              $camera.h2h_focus_override_vocal}
+                           {sprint
+                              "NORMAL"
+                              $camera.h2h_p2_focus
+                              $camera.h2h_p1_focus
+                              "00"}}})
+                  (h2h_vocals
+                     {set
+                        $category
+                        {if_else
+                           {'||' $camera.h2h_focus_override_drums $camera.h2h_focus_override_guitar}
+                           {sprint
+                              "NORMAL"
+                              "0"
+                              $camera.h2h_focus_override_drum
+                              $camera.h2h_focus_override_guitar
+                              "0"}
+                           {sprint
+                              "NORMAL"
+                              $camera.h2h_p2_focus
+                              "00"
+                              $camera.h2h_p1_focus}}})
+                  {set
+                     $category
+                     {if_else
+                        {'||' $camera.h2h_focus_override_drums $camera.h2h_focus_override_vocals}
+                        {sprint
+                           "NORMAL"
+                           "0"
+                           $camera.h2h_focus_override_drum
+                           "0"
+                           $camera.h2h_focus_override_vocals}
+                        {sprint
+                           "NORMAL"
+                           $camera.h2h_p2_focus
+                           "0"
+                           $camera.h2h_p1_focus
+                           "0"}}}}
                {if_else
-                  {== $game.play_mode coop}
-                  {get_coop_camera_flags $camera.focus_bass $camera.focus_drums $camera.focus_guitar $camera.focus_vocal $camera.no_closeup $camera.no_behind $camera.force_closeup $camera.force_far $category $dist_flags}
-                  {get_h2h_camera_flags $camera.h2h_focus_override_drums $camera.h2h_focus_override_guitar $camera.h2h_focus_override_vocal $camera.h2h_p1_focus $camera.h2h_p2_focus $camera.no_closeup $camera.no_behind $game.play_mode $category $dist_flags}})
-            {set $camera.directed_cut FALSE}
-            {$this
-               pick_shot
-               $category
-               ((flags_any $dist_flags)
-                  (flags_any $facing_flags)
-                  (flags_exact kBCSBOneTimePlayed 0))}}})
+                  $far
+                  {if_else
+                     $behind
+                     {if_else
+                        $closeup
+                        {push_back
+                           $filter
+                           (distance
+                              (null near far closeup behind))}
+                        {push_back
+                           $filter
+                           (distance
+                              (null near far behind))}}
+                     {if_else
+                        $closeup
+                        {push_back
+                           $filter
+                           (distance
+                              (null near far closeup))}
+                        {push_back
+                           $filter
+                           (distance
+                              (null near far))}}}
+                  {if_else
+                     $behind
+                     {if_else
+                        $closeup
+                        {push_back
+                           $filter
+                           (distance
+                              (null near closeup behind))}
+                        {push_back
+                           $filter
+                           (distance
+                              (null near behind))}}
+                     {if_else
+                        $closeup
+                        {push_back
+                           $filter
+                           (distance
+                              (null near closeup))}
+                        {push_back
+                           $filter
+                           (distance
+                              (null near))}}}}
+               {push_back
+                  $filter
+                  (one_time_played FALSE)}
+               {set $camera.directed_cut FALSE}
+               {if
+                  {has_substr
+                     $category
+                     "NORMAL0000"}
+                  {switch
+                     $game.play_mode
+                     (h2h_drum
+                        {set
+                           $category
+                           "NORMAL1100"})
+                     (h2h_vocals
+                        {set
+                           $category
+                           "NORMAL1001"})
+                     {set
+                        $category
+                        "NORMAL1010"}}}
+               {$this
+                  pick_shot
+                  ({symbol $category})
+                  $filter}}
+            {do
+               WORLD_OBJECT_BASE_CHECK_FOCUS
+               {do
+                  ($filter
+                     {array 0})
+                  ($far TRUE)
+                  ($behind TRUE)
+                  ($closeup TRUE)
+                  ($num_focus
+                     {'+' $camera.focus_bass $camera.focus_drums $camera.focus_guitar $camera.focus_vocal})
+                  ($current_shot
+                     {$this current_shot})
+                  ($category NORMAL)
+                  {$this filter_shot}
+                  {if
+                     {&&
+                        $camera.force_closeup
+                        {> $num_focus 1}}
+                     {set $closeup FALSE}}
+                  {if_else
+                     $camera.force_far
+                     {do
+                        {push_back
+                           $filter
+                           (distance
+                              (far))}
+                        {set
+                           $category
+                           "NORMAL1111"}}
+                     {do
+                        {if_else
+                           {== $num_focus 0}
+                           {do
+                              {set
+                                 $category
+                                 {random_elem
+                                    (NORMAL0001 NORMAL0010 NORMAL0100 NORMAL1000 NORMAL1111 NORMAL1100 NORMAL0110 NORMAL0011)}}}
+                           {do
+                              {set $camera.fb $camera.focus_bass}
+                              {set $camera.fd $camera.focus_drums}
+                              {set $camera.fg $camera.focus_guitar}
+                              {set $camera.fv $camera.focus_vocal}
+                              {if
+                                 {&&
+                                    {! $edit_mode}
+                                    {gamemode is_solo}
+                                    {== $num_focus 2}}
+                                 {switch
+                                    {{beatmatch active_player 0}
+                                       instrument}
+                                    (bass
+                                       {unless
+                                          $camera.fb
+                                          {set $camera.fb TRUE}
+                                          {if_else
+                                             $camera.fg
+                                             {set $camera.fg FALSE}
+                                             {random
+                                                {set $camera.fv FALSE}
+                                                {set $camera.fd FALSE}}}})
+                                    (drum
+                                       {unless
+                                          $camera.fd
+                                          {set $camera.fd TRUE}
+                                          {if_else
+                                             $camera.fb
+                                             {set $camera.fb FALSE}
+                                             {random
+                                                {set $camera.fv FALSE}
+                                                {set $camera.fg FALSE}}}})
+                                    (guitar
+                                       {unless
+                                          $camera.fg
+                                          {set $camera.fg TRUE}
+                                          {if_else
+                                             $camera.fb
+                                             {set $camera.fb FALSE}
+                                             {random
+                                                {set $camera.fv FALSE}
+                                                {set $camera.fd FALSE}}}})
+                                    (vocal
+                                       {unless
+                                          $camera.fv
+                                          {set $camera.fv TRUE}
+                                          {if_else
+                                             $camera.fb
+                                             {set $camera.fb FALSE}
+                                             {random
+                                                {set $camera.fg FALSE}
+                                                {set $camera.fd FALSE}}}})}}
+                              {set $far FALSE}
+                              {set
+                                 $category
+                                 {sprint
+                                    "NORMAL"
+                                    $camera.fb
+                                    $camera.fd
+                                    $camera.fg
+                                    $camera.fv}}}}
+                        {if_else
+                           {&& $camera.force_closeup $closeup}
+                           {push_back
+                              $filter
+                              (distance
+                                 (closeup))}
+                           {if_else
+                              $far
+                              {if_else
+                                 $behind
+                                 {if_else
+                                    $closeup
+                                    {push_back
+                                       $filter
+                                       (distance
+                                          (null near closeup far behind))}
+                                    {push_back
+                                       $filter
+                                       (distance
+                                          (null near far behind))}}
+                                 {if_else
+                                    $closeup
+                                    {push_back
+                                       $filter
+                                       (distance
+                                          (null near closeup far))}
+                                    {push_back
+                                       $filter
+                                       (distance
+                                          (null near far))}}}
+                              {if_else
+                                 $behind
+                                 {if_else
+                                    $closeup
+                                    {push_back
+                                       $filter
+                                       (distance
+                                          (null near closeup behind))}
+                                    {push_back
+                                       $filter
+                                       (distance
+                                          (null near behind))}}
+                                 {if_else
+                                    $closeup
+                                    {push_back
+                                       $filter
+                                       (distance
+                                          (null near closeup))}
+                                    {push_back
+                                       $filter
+                                       (distance
+                                          (null near))}}}}}}}
+                  {push_back
+                     $filter
+                     (one_time_played FALSE)}
+                  {set $camera.directed_cut FALSE}
+                  {$this
+                     pick_shot
+                     ({symbol $category})
+                     $filter}}}}})
    (play_seq
       ($seq)
       {$seq play})
@@ -1474,9 +1725,39 @@
       ($seq)
       {$seq stop})
    (halfbeat
-      {stagekit_left_right kStageSweepLeft_medium kStageSweepRight_medium})
+      {foreach_int
+         $i
+         0
+         3
+         {switch
+            {stagekit_get_bank_mode $i}
+            (kStageSweepLeft_medium
+               {stagekit_led_shift $i -1})
+            (kStageSweepRight_medium
+               {stagekit_led_shift $i 1})}}
+      kDataUnhandled)
    (quarterbeat
-      {stagekit_left_right kStageSweepLeft_fast kStageSweepRight_fast})
+      {foreach_int
+         $i
+         0
+         3
+         {switch
+            {stagekit_get_bank_mode $i}
+            (kStageSweepLeft_fast
+               {stagekit_led_shift $i -1})
+            (kStageSweepRight_fast
+               {stagekit_led_shift $i 1})}}
+      kDataUnhandled)
    (beat
-      {stagekit_left_right kStageSweepLeft_slow kStageSweepRight_slow})
+      {foreach_int
+         $i
+         0
+         3
+         {switch
+            {stagekit_get_bank_mode $i}
+            (kStageSweepLeft_slow
+               {stagekit_led_shift $i -1})
+            (kStageSweepRight_slow
+               {stagekit_led_shift $i 1})}}
+      kDataUnhandled)
    WORLD_OBJECT_VALIDATE)

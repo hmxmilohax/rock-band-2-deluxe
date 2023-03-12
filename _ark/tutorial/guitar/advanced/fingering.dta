@@ -1,0 +1,197 @@
+#define FINGERING_RUNS_TO_HIT
+(3)
+#define GEMS_PER_RUN
+(8)
+SETUP_GUITAR_TUTORIAL
+START_BG_MUSIC
+GUITAR_TV_WHITE
+{setup_lesson_banner tutorial_guitar_advanced_fingering_part}
+{meta_performer set_song guitar_advanced_fingering}
+LOAD_NEW_GUITAR_SONG_NO_FADE
+HIDE_TRACK_PLAYER_UI
+AUTOPLAY_ON
+UNPAUSE_TRACK
+SYNC_PAUSE
+SHOW_DETAILED_GUITAR
+{play_vo tute_guitar3_handintro}
+WAIT_FOR_VO
+SHORT_VO_GAP
+UNPAUSE_TRACK
+SYNC_PAUSE
+{play_vo tute_guitar3_hand1}
+{$task sleep 3.5}
+GUITAR_FRET_HIGH_NEUTRAL
+WAIT_FOR_VO
+SHORT_VO_GAP
+UNPAUSE_TRACK
+SYNC_NOPAUSE
+GUITAR_FRET_HIGH_RED
+GUITAR_STRUM_DOWN
+SYNC_NOPAUSE
+GUITAR_STRUM_MIDDLE
+SYNC_NOPAUSE
+GUITAR_FRET_HIGH_YELLOW
+GUITAR_STRUM_DOWN
+SYNC_NOPAUSE
+GUITAR_STRUM_MIDDLE
+SYNC_NOPAUSE
+GUITAR_FRET_HIGH_BLUE
+GUITAR_STRUM_DOWN
+SYNC_NOPAUSE
+GUITAR_STRUM_MIDDLE
+SYNC_NOPAUSE
+GUITAR_FRET_HIGH_ORANGE
+GUITAR_STRUM_DOWN
+GUITAR_ANIM_PAUSE
+GUITAR_FRET_HIGH_NEUTRAL
+GUITAR_STRUM_MIDDLE
+SYNC_PAUSE
+{play_vo tute_guitar3_hand3}
+{$task sleep 3}
+GUITAR_FRET_NEUTRAL
+WAIT_FOR_VO
+SHORT_VO_GAP
+UNPAUSE_TRACK
+SYNC_NOPAUSE
+GUITAR_FRET_GREEN
+GUITAR_STRUM_DOWN
+SYNC_NOPAUSE
+GUITAR_STRUM_MIDDLE
+SYNC_NOPAUSE
+GUITAR_FRET_RED
+GUITAR_STRUM_DOWN
+SYNC_NOPAUSE
+GUITAR_STRUM_MIDDLE
+SYNC_NOPAUSE
+GUITAR_FRET_YELLOW
+GUITAR_STRUM_DOWN
+SYNC_NOPAUSE
+GUITAR_STRUM_MIDDLE
+SYNC_NOPAUSE
+GUITAR_FRET_BLUE
+GUITAR_STRUM_DOWN
+GUITAR_ANIM_PAUSE
+GUITAR_FRET_NEUTRAL
+GUITAR_STRUM_MIDDLE
+SYNC_PAUSE
+{new
+   Object
+   tutorial_guitar_advanced_fingering_callback
+   (hit
+      {set
+         [num_gems_hit]
+         {'+'
+            [num_gems_hit]
+            1}}
+      {if
+         {>=
+            [num_gems_hit]
+            GEMS_PER_RUN}
+         {do
+            {set
+               [num_runs_hit]
+               {'+'
+                  [num_runs_hit]
+                  1}}
+            {update_task_score
+               {localize tutorial_guitar_advanced_fingering_score}
+               [num_runs_hit]
+               FINGERING_RUNS_TO_HIT}
+            ANIMATE_SCORE}}
+      {$this update_num_gems})
+   (miss
+      {set
+         [num_gems_hit]
+         0})
+   (pass
+      {$this miss}
+      {$this update_num_gems})
+   (update_num_gems
+      {set
+         [num_gems]
+         {'+'
+            [num_gems]
+            1}}
+      {if
+         {>=
+            [num_gems]
+            GEMS_PER_RUN}
+         {do
+            {set
+               [num_gems]
+               0}
+            {set
+               [num_gems_hit]
+               0}}})
+   (passed
+      {>=
+         [num_runs_hit]
+         FINGERING_RUNS_TO_HIT})
+   (failed
+      {!
+         {$this passed}})
+   (lesson_running
+      {&&
+         {<
+            [num_runs_hit]
+            FINGERING_RUNS_TO_HIT}
+         {<
+            {{beatmatch active_player 0}
+               percent_complete}
+            END_OF_SONG_PERCENT}})
+   (num_runs_hit 0)
+   (num_gems_hit 0)
+   (num_gems 0)}
+{play_vo tute_guitar3_handtask}
+HIDE_DETAILED_GUITAR
+STOP_BG_MUSIC
+WAIT_FOR_VO
+GUITAR_TV_OFF
+LONG_VO_GAP
+{set_info_text
+   {localize tutorial_guitar_advanced_fingering_task}}
+{show_info_text TRUE}
+{{beatmatch active_player 0}
+   add_sink
+   tutorial_guitar_advanced_fingering_callback}
+{update_task_score
+   {localize tutorial_guitar_advanced_fingering_score}
+   0
+   FINGERING_RUNS_TO_HIT}
+SHOW_SCORE
+AUTOPLAY_OFF
+FADE_SONG_IN
+UNPAUSE_TRACK
+{$task
+   wait
+   {tutorial_guitar_advanced_fingering_callback lesson_running}}
+FREEZE_SCORE_TEXT
+{if
+   {!
+      {tutorial_guitar_advanced_fingering_callback failed}}
+   {$task sleep 3.5}}
+TRACK_OUT
+PAUSE_TRACK
+WAIT_FOR_VO
+{if_else
+   {tutorial_guitar_advanced_fingering_callback failed}
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_advanced_fingering_failed}}
+      {play_vo tute_guitar3_handfail}}
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_advanced_fingering_done}}
+      {play_vo tute_guitar3_handwin}}}
+{show_info_text FALSE}
+{show_part_text FALSE}
+{show_banner_text TRUE}
+HIDE_SCORE
+START_BG_MUSIC
+GUITAR_TV_WHITE
+WAIT_FOR_VO
+SHORT_VO_GAP
+{do_fail_menu
+   {tutorial_guitar_advanced_fingering_callback failed}}
+RETURN_FROM_FAIL_MENU
+{tutorials_state_panel switch_to_next_state}

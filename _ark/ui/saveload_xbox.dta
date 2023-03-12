@@ -1,0 +1,947 @@
+{func
+   autoload_look_for_new_signin
+   ($save_if_missing)
+   {if
+      {! $saveload_ui_is_up}
+      {autoload_screen set save_if_missing $save_if_missing}
+      {set $save_load_mode kAutoLoad}
+      {set $saveload_goto_type kMetaNextTypePushPop}
+      {do
+         ($player_num
+            {memcardmgr get_new_signin_player_num})
+         {if_else
+            {== $player_num -1}
+            {xbox_saveload_cleanup_and_shutdown}
+            {do
+               {xbox_saveload_begin_async}
+               {set $saveload_player_num $player_num}
+               {ui push_screen autoload_start_screen}}}}}}
+{func
+   xbox_autosave_start
+   ($goto_type $next_screen)
+   {if
+      {! $saveload_ui_is_up}
+      {set $save_load_mode kAutoSave}
+      {set $saveload_goto_screen $next_screen}
+      {set $saveload_goto_type $goto_type}
+      {do
+         ($player_num
+            {memcardmgr get_autosavable_player_num})
+         {if_else
+            {!= $player_num -1}
+            {do
+               {xbox_saveload_begin_async}
+               {set $saveload_player_num $player_num}
+               {if_else
+                  {memcardmgr is_device_valid $player_num}
+                  {switch
+                     $saveload_goto_type
+                     ((kMetaNextTypeGotoPop kMetaNextTypeGotoGoto kMetaNextTypeGotoPopGoto)
+                        {goto_save_screen_with_overwrite})
+                     ((kMetaNextTypePushPop kMetaNextTypePushPopGoto)
+                        {push_save_screen_with_overwrite})
+                     {fail
+                        "Unknown $saveload_goto_type: "
+                        $saveload_goto_type
+                        "\n"}}
+                  {switch
+                     $saveload_goto_type
+                     ((kMetaNextTypeGotoPop kMetaNextTypeGotoGoto kMetaNextTypeGotoPopGoto)
+                        {ui goto_screen save_device_invalid})
+                     ((kMetaNextTypePushPop kMetaNextTypePushPopGoto)
+                        {ui push_screen save_device_invalid})
+                     {fail
+                        "Unknown $saveload_goto_type: "
+                        $saveload_goto_type
+                        "\n"}}}}
+            {do
+               {switch
+                  $saveload_goto_type
+                  ((kMetaNextTypeGotoPop kMetaNextTypeGotoGoto kMetaNextTypeGotoPopGoto)
+                     {xbox_saveload_begin_async})}
+               {xbox_saveload_upload_start}}}}}}
+{func
+   manual_save_start
+   ($player_num)
+   {if_else
+      {&&
+         {gamecfg is_player_local $player_num}
+         {platform_mgr is_player_signed_in $player_num}
+         {!
+            {platform_mgr is_player_a_guest $player_num}}}
+      {do
+         {xbox_saveload_begin_async}
+         {set $save_load_mode kManualSave}
+         {set $saveload_player_num $player_num}
+         {ui push_screen manual_save_start_screen}}
+      {ui push_screen manual_saveload_not_signed_in_screen}}}
+{func
+   manual_load_start
+   ($player_num)
+   {if_else
+      {&&
+         {gamecfg is_player_local $player_num}
+         {platform_mgr is_player_signed_in $player_num}
+         {!
+            {platform_mgr is_player_a_guest $player_num}}}
+      {do
+         {xbox_saveload_begin_async}
+         {set $save_load_mode kManualLoad}
+         {set $saveload_player_num $player_num}
+         {if_else
+            {profile_mgr has_unsaved_data $player_num}
+            {ui push_screen manual_load_confirm_unsaved_screen}
+            {ui push_screen manual_load_confirm_screen}}}
+      {ui push_screen manual_saveload_not_signed_in_screen}}}
+{new
+   BandScreen
+   manual_saveload_not_signed_in_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {session add_sink $this signin_changed}
+      {$this setup_continue mc_manual_load_not_signed_in})
+   (exit
+      {session remove_sink $this signin_changed})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {ui pop_screen})}
+      kDataUnhandled)
+   (signin_changed
+      {ui pop_screen})}
+{func
+   xbox_saveload_begin_async
+   {if
+      $saveload_ui_is_up
+      {fail
+         "xbox_saveload_begin_async called, but $saveload_ui_is_up is set\n"}}
+   {set $saveload_ui_is_up TRUE}
+   {set
+      $saveload_sync_state
+      {band_ui_sink net_sync}}
+   {band_ui_sink set_net_sync FALSE}}
+{func
+   xbox_saveload_upload_start
+   {if_else
+      $saveload_skip_upload
+      {xbox_saveload_cleanup_and_shutdown}
+      {if_else
+         {profile_mgr needs_upload}
+         {if_else
+            $saveload_ui_is_up
+            {ui goto_screen uploader_screen}
+            {do
+               {xbox_saveload_begin_async}
+               {ui push_screen uploader_screen}}}
+         {xbox_saveload_cleanup_and_shutdown}}}}
+{func
+   xbox_saveload_cleanup_and_shutdown
+   {if_else
+      $saveload_ui_is_up
+      {do
+         {band_ui_sink set_net_sync $saveload_sync_state}
+         {switch
+            $saveload_goto_type
+            ((kMetaNextTypePushPopGoto kMetaNextTypeGotoPopGoto)
+               {ui pop_screen $saveload_goto_screen})
+            (kMetaNextTypeGotoGoto
+               {ui goto_screen $saveload_goto_screen})
+            ((kMetaNextTypePushPop kMetaNextTypeGotoPop)
+               {ui pop_screen})
+            {fail
+               "Unknown $saveload_goto_type: "
+               $saveload_goto_type
+               "\n"}}
+         {set $saveload_ui_is_up FALSE}}
+      {switch
+         $saveload_goto_type
+         ((kMetaNextTypePushPopGoto kMetaNextTypeGotoGoto kMetaNextTypeGotoPopGoto)
+            {ui goto_screen $saveload_goto_screen})
+         ((kMetaNextTypePushPop kMetaNextTypeGotoPop))
+         {fail
+            "Unknown $saveload_goto_type: "
+            $saveload_goto_type
+            "\n"}}}
+   {memcardmgr saveload_all_complete}}
+{func
+   on_saveload_done
+   ($state)
+   {if_else
+      {== $state kMetaSaveError}
+      {ui goto_screen saveload_autosave_disabled_screen}
+      {on_saveload_really_done $state}}}
+{func
+   on_saveload_really_done
+   ($state)
+   {memcardmgr saveload_profile_complete $saveload_player_num $state}
+   {do
+      ($player_num -1)
+      {switch
+         $save_load_mode
+         (kAutoSave
+            {set
+               $player_num
+               {memcardmgr get_autosavable_player_num}}
+            {if_else
+               {== $player_num -1}
+               {xbox_saveload_upload_start}
+               {do
+                  {set $saveload_player_num $player_num}
+                  {if_else
+                     {memcardmgr is_device_valid $player_num}
+                     {ui goto_screen auto_save_start}
+                     {ui goto_screen save_device_invalid}}}})
+         (kAutoLoad
+            {set
+               $player_num
+               {memcardmgr get_new_signin_player_num}}
+            {if_else
+               {== $player_num -1}
+               {xbox_saveload_cleanup_and_shutdown}
+               {do
+                  {set $saveload_player_num $player_num}
+                  {ui goto_screen autoload_start_screen}}})
+         {xbox_saveload_cleanup_and_shutdown}}}}
+{new
+   BandScreen
+   saveload_autosave_disabled_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {session add_sink $this signin_changed}
+      {$this setup_continue mc_autosave_disabled})
+   (exit
+      {session remove_sink $this signin_changed})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {on_saveload_really_done kMetaSaveError})}
+      kDataUnhandled)
+   (signin_changed
+      {if
+         {platform_mgr has_player_signin_changed $saveload_player_num}
+         {on_saveload_really_done kMetaSaveUnchanged}})}
+{func
+   on_upload_done
+   {xbox_saveload_cleanup_and_shutdown}}
+#define kSaveloadTypeAutoLoad
+(0)
+#define kSaveloadTypeSaveGoto
+(1)
+#define kSaveloadTypeSavePush
+(2)
+#define kSaveloadTypeLoad
+(3)
+{func
+   xbox_autoload_handle_errors_and_goto
+   ($next_screen)
+   {xbox_saveload_handle_errors_and_goto $next_screen kSaveloadTypeAutoLoad}}
+{func
+   xbox_save_handle_errors_and_goto
+   ($next_screen)
+   {xbox_saveload_handle_errors_and_goto $next_screen kSaveloadTypeSaveGoto}}
+{func
+   xbox_save_handle_errors_and_push
+   ($next_screen)
+   {xbox_saveload_handle_errors_and_goto $next_screen kSaveloadTypeSavePush}}
+{func
+   xbox_manual_save_handle_errors_and_goto
+   ($next_screen)
+   {xbox_saveload_handle_errors_and_goto $next_screen kSaveloadTypeSaveGoto}}
+{func
+   xbox_manual_load_handle_errors_and_goto
+   ($next_screen)
+   {xbox_saveload_handle_errors_and_goto $next_screen kSaveloadTypeLoad}}
+{func
+   xbox_saveload_handle_errors_and_goto
+   ($next_screen $saveload_type)
+   #ifndef _SHIP
+   {if
+      {! $saveload_ui_is_up}
+      {fail
+         "xbox_saveload_has_handled_errors called, but $saveload_ui_is_up is FALSE\n"}}
+   #endif
+   {cond
+      ({!
+            {platform_mgr is_player_signed_in $saveload_player_num}}
+         {on_saveload_done kMetaSaveUnchanged})
+      ({!
+            {memcardmgr is_device_valid $saveload_player_num}}
+         {switch
+            $saveload_type
+            (kSaveloadTypeAutoLoad
+               {ui goto_screen autoload_device_missing})
+            (kSaveloadTypeSaveGoto
+               {ui goto_screen save_device_invalid})
+            (kSaveloadTypeSavePush
+               {ui push_screen save_device_invalid})
+            (kSaveloadTypeLoad
+               {ui goto_screen manual_load_device_missing})
+            {fail
+               "unknown saveload_type\n"}})
+      (TRUE
+         {switch
+            $saveload_type
+            ((kSaveloadTypeAutoLoad kSaveloadTypeLoad kSaveloadTypeSaveGoto)
+               {ui goto_screen $next_screen})
+            (kSaveloadTypeSavePush
+               {ui push_screen $next_screen})
+            {fail
+               "unknown saveload_type\n"}})}}
+#define COMMON_CHOOSE_DEVICE_HANDLERS
+((SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {if_else
+               {platform_mgr
+                  is_player_signed_in
+                  [player_num]}
+               {memcardmgr
+                  select_device
+                  [player_num]
+                  TRUE
+                  $this}
+               {on_saveload_done kMetaSaveUnchanged}})
+         (option2.btn
+            {on_saveload_done kMetaSaveError})}
+      kDataUnhandled)
+   (signin_changed
+      {if
+         {platform_mgr has_player_signin_changed $saveload_player_num}
+         {on_saveload_done kMetaSaveUnchanged}})
+   (no_device_chosen))
+#define COMMON_AUTOLOAD_CHOOSE_DEVICE_HANDLERS
+(COMMON_CHOOSE_DEVICE_HANDLERS
+   (device_chosen
+      ($device)
+      {xbox_autoload_handle_errors_and_goto autoload_screen}))
+{new
+   BandScreen
+   autoload_device_missing
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {session add_sink $this signin_changed}
+      {$this setup_2btn mc_load_device_missing mc_button_choose_device mc_button_cancel opt1})
+   (exit
+      {session remove_sink $this signin_changed})
+   COMMON_AUTOLOAD_CHOOSE_DEVICE_HANDLERS}
+#define COMMON_SAVE_CHOOSE_DEVICE_HANDLERS
+(COMMON_CHOOSE_DEVICE_HANDLERS
+   (device_chosen
+      ($device)
+      {goto_save_screen_no_overwrite}))
+{new
+   BandScreen
+   save_device_invalid
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {session add_sink $this signin_changed}
+      {$this setup_2btn mc_save_device_missing mc_button_choose_device mc_button_disable_autosave opt1})
+   (exit
+      {session remove_sink $this signin_changed})
+   COMMON_SAVE_CHOOSE_DEVICE_HANDLERS}
+{new
+   BandScreen
+   autoload_start_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {$this setup_msg mc_auto_load_start}
+      {if_else
+         {platform_mgr
+            is_player_signed_in
+            [player_num]}
+         {memcardmgr
+            select_device
+            [player_num]
+            FALSE
+            $this}
+         {on_saveload_done kMetaSaveUnchanged}})
+   (device_chosen
+      ($device)
+      {xbox_autoload_handle_errors_and_goto autoload_screen})
+   (no_device_chosen
+      {xbox_autoload_handle_errors_and_goto autoload_no_selection_screen})}
+{new
+   BandScreen
+   autoload_no_selection_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {session add_sink $this signin_changed}
+      {$this setup_2btn mc_auto_load_no_selection mc_button_choose_device mc_button_cancel opt1})
+   (exit
+      {session remove_sink $this signin_changed})
+   COMMON_AUTOLOAD_CHOOSE_DEVICE_HANDLERS}
+{new
+   BandScreen
+   autoload_screen
+   (save_if_missing TRUE)
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {$this setup_msg mc_auto_load_looking}
+      {memcardmgr
+         load_game
+         [player_num]})
+   (MEMCARD_RESULT_MSG
+      {switch
+         $result
+         (kMCNoCard
+            {ui goto_screen autoload_device_missing})
+         (kMCCorrupt
+            {xbox_autoload_handle_errors_and_goto autoload_corrupt_screen})
+         ((kMCFileNotFound kMCNotEnoughSpace)
+            {if_else
+               [save_if_missing]
+               {goto_save_screen_no_overwrite}
+               {on_saveload_done kMetaSaveLoaded}})
+         (kMCNoError
+            {if
+               {!
+                  {profile_mgr global_options_pad_set}}
+               {do
+                  ($profile
+                     {profile_mgr get_mapped_profile_from_player $saveload_player_num})
+                  {if
+                     {$profile get_played_before}
+                     {profile_mgr
+                        set_global_options_pad
+                        {joypad_get_players_padnum $saveload_player_num}}}}}
+            {$this setup_msg mc_auto_load_complete}
+            {script_task
+               kTaskUISeconds
+               (delay 0.5)
+               (script
+                  {if
+                     {!=
+                        {ui current_screen}
+                        autoload_screen}
+                     {fail
+                        "autoload_screen expects to be current screen, but it's not.\n"}}
+                  {on_saveload_done kMetaSaveLoaded})})
+         (kMCObsoleteVersion
+            {xbox_autoload_handle_errors_and_goto autoload_obsolete_version_screen})
+         (kMCNewerVersion
+            {xbox_autoload_handle_errors_and_goto autoload_newer_version_screen})
+         {xbox_autoload_handle_errors_and_goto load_failed_screen}})}
+{new
+   BandScreen
+   autoload_corrupt_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {session add_sink $this signin_changed}
+      {$this setup_2btn mc_auto_load_corrupt mc_button_overwrite mc_button_continue_no_save opt1})
+   (exit
+      {session remove_sink $this signin_changed})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {goto_save_screen_with_overwrite})
+         (option2.btn
+            {on_saveload_done kMetaSaveError})}
+      kDataUnhandled)
+   (signin_changed
+      {if
+         {platform_mgr has_player_signin_changed $saveload_player_num}
+         {on_saveload_done kMetaSaveUnchanged}})}
+{new
+   BandScreen
+   autoload_obsolete_version_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {session add_sink $this signin_changed}
+      {$this setup_2btn mc_auto_load_obsolete_version mc_button_overwrite mc_button_continue_no_save opt1})
+   (exit
+      {session remove_sink $this signin_changed})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {goto_save_screen_with_overwrite})
+         (option2.btn
+            {on_saveload_done kMetaSaveError})}
+      kDataUnhandled)
+   (signin_changed
+      {if
+         {platform_mgr has_player_signin_changed $saveload_player_num}
+         {on_saveload_done kMetaSaveUnchanged}})}
+{new
+   BandScreen
+   autoload_newer_version_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {session add_sink $this signin_changed}
+      {$this setup_2btn mc_auto_load_newer_version mc_button_overwrite mc_button_continue_no_save opt2})
+   (exit
+      {session remove_sink $this signin_changed})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {goto_save_screen_with_overwrite})
+         (option2.btn
+            {on_saveload_done kMetaSaveError})}
+      kDataUnhandled)
+   (signin_changed
+      {if
+         {platform_mgr has_player_signin_changed $saveload_player_num}
+         {on_saveload_done kMetaSaveUnchanged}})}
+{new
+   BandScreen
+   auto_save_start
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {$this setup_msg mc_save}
+      {goto_save_screen_with_overwrite})}
+{func
+   goto_save_screen_no_overwrite
+   {xbox_save_handle_errors_and_goto save_look_for_file_screen}}
+{func
+   goto_save_screen_with_overwrite
+   {xbox_save_handle_errors_and_goto save_screen}}
+{func
+   push_save_screen_with_overwrite
+   {xbox_save_handle_errors_and_push save_screen}}
+{new
+   BandScreen
+   save_look_for_file_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {$this setup_msg mc_save_preparing}
+      {memcardmgr
+         check_for_save_container
+         [player_num]})
+   (MEMCARD_RESULT_MSG
+      {switch
+         $result
+         (kMCNoCard
+            {ui goto_screen save_device_invalid})
+         ((kMCNoError kMCFileExists)
+            {ui goto_screen save_confirm_overwrite_screen})
+         ((kMCFileNotFound kMCNotEnoughSpace)
+            {goto_save_screen_with_overwrite})
+         {xbox_save_handle_errors_and_goto save_failed_screen}})}
+{new
+   BandScreen
+   save_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter_time 0.0)
+   (save_time 0.0)
+   (done_saving FALSE)
+   (done_polling FALSE)
+   (long FALSE)
+   (enter
+      {set
+         [enter_time]
+         {taskmgr ui_seconds}}
+      {set
+         [save_time]
+         0.0}
+      {set
+         [done_saving]
+         FALSE}
+      {set
+         [done_polling]
+         FALSE}
+      {$this setup_msg mc_save}
+      {memcardmgr
+         save_game
+         [player_num]
+         TRUE})
+   (poll
+      {if
+         {!
+            [done_polling]}
+         {do
+            ($enter_dt
+               {-
+                  {taskmgr ui_seconds}
+                  [enter_time]})
+            ($save_dt
+               {-
+                  [save_time]
+                  [enter_time]})
+            {if_else
+               [done_saving]
+               {if
+                  {'||'
+                     {&&
+                        {< $save_dt 1.0}
+                        {>= $enter_dt 1.0}}
+                     {&&
+                        {>= $save_dt 1.0}
+                        {>= $enter_dt 4.0}}}
+                  {set
+                     [done_polling]
+                     TRUE}
+                  {on_saveload_done kMetaSaveLoaded}}
+               {if
+                  {&&
+                     {>= $enter_dt 1.0}
+                     {!
+                        [long]}}
+                  {$this set long TRUE}
+                  {$this setup_msg mc_save_long}}}}})
+   (MEMCARD_RESULT_MSG
+      {switch
+         $result
+         (kMCNoCard
+            {set
+               [done_polling]
+               TRUE}
+            {ui goto_screen save_device_invalid})
+         (kMCFileExists
+            {set
+               [done_polling]
+               TRUE}
+            {ui goto_screen save_confirm_overwrite_screen})
+         (kMCNotEnoughSpace
+            {set
+               [done_polling]
+               TRUE}
+            {ui goto_screen save_not_enough_space_screen})
+         (kMCNoError
+            {set
+               [done_saving]
+               TRUE}
+            {set
+               [save_time]
+               {taskmgr ui_seconds}})
+         {set
+            [done_polling]
+            TRUE}
+         {xbox_save_handle_errors_and_goto save_failed_screen}})}
+{new
+   BandScreen
+   save_confirm_overwrite_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {session add_sink $this signin_changed}
+      {$this setup_2btn mc_save_confirm_overwrite mc_button_overwrite mc_button_cancel opt1})
+   (exit
+      {session remove_sink $this signin_changed})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {goto_save_screen_with_overwrite})
+         (option2.btn
+            {on_saveload_done kMetaSaveError})}
+      kDataUnhandled)
+   (signin_changed
+      {if
+         {platform_mgr has_player_signin_changed $saveload_player_num}
+         {on_saveload_done kMetaSaveUnchanged}})}
+{new
+   BandScreen
+   save_not_enough_space_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {session add_sink $this signin_changed}
+      {$this setup_continue mc_save_not_enough_space})
+   (exit
+      {session remove_sink $this signin_changed})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {on_saveload_done kMetaSaveError})}
+      kDataUnhandled)
+   (signin_changed
+      {if
+         {platform_mgr has_player_signin_changed $saveload_player_num}
+         {on_saveload_done kMetaSaveUnchanged}})}
+{new
+   BandScreen
+   save_failed_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {session add_sink $this signin_changed}
+      {$this setup_continue mc_save_failed})
+   (exit
+      {session remove_sink $this signin_changed})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {on_saveload_done kMetaSaveError})}
+      kDataUnhandled)
+   (signin_changed
+      {if
+         {platform_mgr has_player_signin_changed $saveload_player_num}
+         {on_saveload_done kMetaSaveUnchanged}})}
+{new
+   BandScreen
+   load_failed_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {session add_sink $this signin_changed}
+      {$this setup_continue mc_load_failed})
+   (exit
+      {session remove_sink $this signin_changed})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {on_saveload_done kMetaSaveError})}
+      kDataUnhandled)
+   (signin_changed
+      {if
+         {platform_mgr has_player_signin_changed $saveload_player_num}
+         {on_saveload_done kMetaSaveUnchanged}})}
+{new
+   BandScreen
+   manual_save_start_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {session add_sink $this signin_changed}
+      {$this setup_msg mc_manual_save_start}
+      {if_else
+         {platform_mgr
+            is_player_signed_in
+            [player_num]}
+         {memcardmgr
+            select_device
+            [player_num]
+            TRUE
+            $this}
+         {on_saveload_done kMetaSaveError}})
+   (exit
+      {session remove_sink $this signin_changed})
+   (device_chosen
+      ($device)
+      {goto_save_screen_no_overwrite})
+   (no_device_chosen
+      {xbox_manual_save_handle_errors_and_goto manual_save_no_device_screen})
+   (signin_changed
+      {if
+         {platform_mgr has_player_signin_changed $saveload_player_num}
+         {on_saveload_done kMetaSaveUnchanged}})}
+{new
+   BandScreen
+   manual_save_no_device_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {session add_sink $this signin_changed}
+      {$this setup_2btn mc_manual_save_no_selection mc_button_choose_device mc_button_cancel opt1})
+   (exit
+      {session remove_sink $this signin_changed})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {xbox_manual_save_handle_errors_and_goto manual_save_start_screen})
+         (option2.btn
+            {on_saveload_done kMetaSaveError})}
+      kDataUnhandled)
+   (signin_changed
+      {if
+         {platform_mgr has_player_signin_changed $saveload_player_num}
+         {on_saveload_done kMetaSaveUnchanged}})}
+{new
+   BandScreen
+   manual_load_device_missing
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {session add_sink $this signin_changed}
+      {$this setup_2btn mc_manual_load_storage_missing mc_button_choose_device mc_button_disable_autosave opt1})
+   (exit
+      {session remove_sink $this signin_changed})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {if_else
+               {platform_mgr
+                  is_player_signed_in
+                  [player_num]}
+               {memcardmgr
+                  select_device
+                  [player_num]
+                  TRUE
+                  $this}
+               {on_saveload_done kMetaSaveUnchanged}})
+         (option2.btn
+            {on_saveload_done kMetaSaveError})}
+      kDataUnhandled)
+   (device_chosen
+      ($device)
+      {xbox_manual_load_handle_errors_and_goto manual_load_start_screen})
+   (no_device_chosen)
+   (signin_changed
+      {if
+         {platform_mgr has_player_signin_changed $saveload_player_num}
+         {on_saveload_done kMetaSaveUnchanged}})}
+{new
+   BandScreen
+   manual_load_confirm_unsaved_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {session add_sink $this signin_changed}
+      {$this setup_2btn mc_manual_load_confirm_unsaved mc_button_continue mc_button_cancel opt1})
+   (exit
+      {session remove_sink $this signin_changed})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {xbox_manual_load_handle_errors_and_goto manual_load_start_screen})
+         (option2.btn
+            {on_saveload_done kMetaSaveUnchanged})}
+      kDataUnhandled)
+   (signin_changed
+      {if
+         {platform_mgr has_player_signin_changed $saveload_player_num}
+         {on_saveload_done kMetaSaveUnchanged}})}
+{new
+   BandScreen
+   manual_load_confirm_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {session add_sink $this signin_changed}
+      {$this setup_2btn mc_manual_load_confirm mc_button_yes mc_button_no opt1})
+   (exit
+      {session remove_sink $this signin_changed})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {xbox_manual_load_handle_errors_and_goto manual_load_start_screen})
+         (option2.btn
+            {on_saveload_done kMetaSaveUnchanged})}
+      kDataUnhandled)
+   (signin_changed
+      {if
+         {platform_mgr has_player_signin_changed $saveload_player_num}
+         {on_saveload_done kMetaSaveUnchanged}})}
+{new
+   BandScreen
+   manual_load_start_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {session add_sink $this signin_changed}
+      {$this setup_msg mc_manual_load_start}
+      {if_else
+         {platform_mgr
+            is_player_signed_in
+            [player_num]}
+         {memcardmgr
+            select_device
+            [player_num]
+            TRUE
+            $this}
+         {on_saveload_done kMetaSaveUnchanged}})
+   (exit
+      {session remove_sink $this signin_changed})
+   (device_chosen
+      ($device)
+      {xbox_manual_load_handle_errors_and_goto manual_load_screen})
+   (no_device_chosen
+      {xbox_manual_load_handle_errors_and_goto manual_load_no_device_screen})
+   (signin_changed
+      {if
+         {platform_mgr has_player_signin_changed $saveload_player_num}
+         {on_saveload_done kMetaSaveUnchanged}})}
+{new
+   BandScreen
+   manual_load_no_device_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {session add_sink $this signin_changed}
+      {$this setup_2btn mc_manual_load_no_selection mc_button_choose_device mc_button_cancel opt1})
+   (exit
+      {session remove_sink $this signin_changed})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {xbox_manual_load_handle_errors_and_goto manual_load_start_screen})
+         (option2.btn
+            {on_saveload_done kMetaSaveError})}
+      kDataUnhandled)
+   (signin_changed
+      {if
+         {platform_mgr has_player_signin_changed $saveload_player_num}
+         {on_saveload_done kMetaSaveUnchanged}})}
+{new
+   BandScreen
+   manual_load_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {$this setup_msg mc_manual_load}
+      {memcardmgr
+         load_game
+         [player_num]})
+   (MEMCARD_RESULT_MSG
+      {switch
+         $result
+         (kMCNoCard
+            {xbox_manual_load_handle_errors_and_goto manual_load_storage_missing_screen})
+         (kMCFileNotFound
+            {xbox_manual_load_handle_errors_and_goto manual_load_no_file_screen})
+         (kMCCorrupt
+            {xbox_manual_load_handle_errors_and_goto manual_load_corrupt_screen})
+         (kMCNoError
+            {if
+               {!
+                  {profile_mgr global_options_pad_set}}
+               {do
+                  ($profile
+                     {profile_mgr get_mapped_profile_from_player $saveload_player_num})
+                  {if
+                     {$profile get_played_before}
+                     {profile_mgr
+                        set_global_options_pad
+                        {joypad_get_players_padnum $saveload_player_num}}}}}
+            {$this setup_msg mc_manual_load_complete}
+            {script_task
+               kTaskUISeconds
+               (delay 0.5)
+               (script
+                  {if
+                     {!=
+                        {ui current_screen}
+                        manual_load_screen}
+                     {fail
+                        "manual_load_screen expects to be current screen, but it's not.\n"}}
+                  {on_saveload_done kMetaSaveLoaded})})
+         {xbox_manual_load_handle_errors_and_goto load_failed_screen}})}
+{new
+   BandScreen
+   manual_load_no_file_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {session add_sink $this signin_changed}
+      {$this setup_continue mc_manual_load_no_file})
+   (exit
+      {session remove_sink $this signin_changed})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {on_saveload_done kMetaSaveError})}
+      kDataUnhandled)
+   (signin_changed
+      {if
+         {platform_mgr has_player_signin_changed $saveload_player_num}
+         {on_saveload_done kMetaSaveUnchanged}})}
+{new
+   BandScreen
+   manual_load_corrupt_screen
+   SAVELOAD_DIALOG_SCREEN
+   (enter
+      {session add_sink $this signin_changed}
+      {$this setup_continue mc_manual_load_corrupt})
+   (exit
+      {session remove_sink $this signin_changed})
+   (SELECT_START_MSG
+      {switch
+         $component
+         (option1.btn
+            {on_saveload_done kMetaSaveError})}
+      kDataUnhandled)
+   (signin_changed
+      {if
+         {platform_mgr has_player_signin_changed $saveload_player_num}
+         {on_saveload_done kMetaSaveUnchanged}})}

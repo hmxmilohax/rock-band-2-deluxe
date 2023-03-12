@@ -1,0 +1,46 @@
+{new
+   UIPanel
+   invite_friends_panel
+   (file player_names_dialog.milo)
+   (focus players.lst)
+   (player_num
+      {gamecfg get leader_num})
+   (selected_friend FALSE)
+   (BUTTON_DOWN_MSG
+      {if_else
+         {== $button kPad_Tri}
+         {ui pop_screen}
+         kDataUnhandled})
+   (SELECT_MSG
+      {friends_provider
+         invite_friend
+         {players.lst selected_pos}}
+      {players.lst set_showing FALSE}
+      {set
+         [selected_friend]
+         TRUE})
+   (enter
+      {title.lbl set text_token invite_friend}
+      {platform_mgr add_sink $this}
+      {friends_provider enumerate_friends}
+      {players.lst set_provider friends_provider}
+      {set
+         [selected_friend]
+         FALSE})
+   (exit
+      {platform_mgr remove_sink $this}
+      {friends_provider cleanup}
+      {band_ui_sink set_net_sync TRUE})
+   (UI_CHANGED_MSG
+      {if
+         {&&
+            {== $showing FALSE}
+            {==
+               [selected_friend]
+               TRUE}}
+         {ui pop_screen}})}
+{new
+   BandScreen
+   invite_friends_screen
+   (panels invite_friends_panel)
+   (focus invite_friends_panel)}

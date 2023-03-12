@@ -1,34 +1,27 @@
-(features modifier_saving_feature modifier_achievements_feature modifier_online_feature)
+(features modifier_saving_feature)
 (modifiers
-   (mod_nofail unlocked)
-   (mod_doublespeed (activate {modifier_mgr deactivate_modifier mod_halfspeed}) unlocked)
-   (mod_choose_venue (disables (modifier_online_feature)) (activate {modifier_mgr deactivate_modifier mod_blackvenue}) unlocked)
-   (mod_nohud (activate {modifier_mgr deactivate_modifier mod_blackvenue}) (deactivate {modifier_mgr deactivate_modifier mod_fakejuke}) unlocked)
-   (mod_unlockall (disables (modifier_saving_feature modifier_achievements_feature)) (activate {profile_mgr unlock_all_songs}) (deactivate {profile_mgr relock_songs}) unlocked)
-   (mod_newvenuesonly unlocked)
-   (mod_demomode (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature)) unlocked)
-   (mod_awesome unlocked)
-   (mod_blackvenue (activate {set $blackvenue TRUE} {modifier_mgr deactivate_modifier mod_nohud} {modifier_mgr deactivate_modifier mod_choose_venue} {modifier_mgr activate_modifier mod_nocrowd}) (deactivate {set $blackvenue FALSE} {modifier_mgr deactivate_modifier mod_nocrowd}) unlocked)
-   (mod_songtitle unlocked)
-   (mod_songtitlestats unlocked)
-   (mod_staticfills (activate {modifier_mgr deactivate_modifier mod_freestyledrums}) unlocked)
-   (mod_freestyledrums (activate {modifier_mgr deactivate_modifier mod_staticfills}) (disables (modifier_achievements_feature modifier_online_feature)) unlocked)
-   (mod_mididrum unlocked)
-   (mod_padguitar (activate {modifier_mgr deactivate_modifier mod_paddrum}) unlocked) ;updated padguitar to disable paddrum
-   (mod_paddrum (activate {modifier_mgr deactivate_modifier mod_padguitar}) unlocked) ;paddrum disables padguitar
-   (mod_selectdeploy unlocked) ;select button to activate OD for drums and vox
-   (mod_noquickrestart unlocked)
-   ;(mod_forceguitar unlocked) ;commented out for 1.04, will probably explore further later
-   (mod_vocalgender unlocked)
-   (mod_legacybass unlocked)
-   (mod_nosustain unlocked)
-   (mod_rb3sustain unlocked)
-   (mod_nowhammyfx unlocked)
-   (mod_nocrowd unlocked)
-   (mod_nomuting unlocked)
-   (mod_noflames (activate {modifier_mgr deactivate_modifier mod_flashbang}) unlocked)
-   (mod_flashbang (activate {modifier_mgr deactivate_modifier mod_noflames}) unlocked)
-   (mod_amp16 unlocked)
-   (mod_auto_play (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature)) (deactivate {modifier_mgr deactivate_modifier mod_fakejuke}) (activate {modifier_mgr deactivate_modifier mod_staticfills}) unlocked)
-   (mod_fakejuke (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature)) (activate {modifier_mgr activate_modifier mod_auto_play} {modifier_mgr activate_modifier mod_nohud} {modifier_mgr activate_modifier mod_choose_venue} {modifier_mgr activate_modifier mod_vocalgender}) (deactivate {modifier_mgr deactivate_modifier mod_auto_play} {modifier_mgr deactivate_modifier mod_choose_venue} {modifier_mgr deactivate_modifier mod_vocalgender} {modifier_mgr deactivate_modifier mod_nohud}) unlocked)
-   )
+   (mod_nofail
+      (disables
+         (modifier_saving_feature))
+      hidden
+      unlocked)
+   (mod_doublespeed
+      (activate
+         {profile_mgr set_doublespeed_mode TRUE})
+      (deactivate
+         {profile_mgr set_doublespeed_mode FALSE})
+      unlocked)
+   (mod_nohud
+      (activate
+         {profile_mgr set_performance_mode TRUE})
+      (deactivate
+         {profile_mgr set_performance_mode FALSE})
+      unlocked)
+   (mod_unlockall
+      (disables
+         (modifier_saving_feature))
+      (activate
+         {profile_mgr unlock_all_songs})
+      (deactivate
+         {profile_mgr relock_songs}))
+   (mod_awesome))

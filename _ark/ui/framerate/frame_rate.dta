@@ -1,0 +1,44 @@
+#define FRAME_RATE_SONG
+(marchofthepigs)
+{new
+   BandScreen
+   frame_rate_screen
+   (panels)
+   (enter
+      {gamemode set_mode frame_rate}
+      {setup_game
+         FRAME_RATE_SONG
+         arena_01
+         ((vocals 3)
+            (drum 3)
+            (bass 3)
+            (guitar 3))}
+      {{game get_player_config 0}
+         set
+         autoplay
+         TRUE}
+      {{game get_player_config 1}
+         set
+         autoplay
+         TRUE}
+      {{game get_player_config 2}
+         set
+         autoplay
+         TRUE}
+      {{game get_player_config 3}
+         set
+         autoplay
+         TRUE}
+      {set $fake_controllers TRUE}
+      {ui goto_screen loading_screen})}
+{new
+   BandScreen
+   frame_rate_game_screen
+   (panels game world_panel coop_track_panel mtv_overlay)
+   GAME_SCREEN_HANDLERS
+   (my_enter
+      {beatmatch
+         foreach_active_player
+         $p
+         {handle
+            ($p set_auto_play_error 34)}})}
