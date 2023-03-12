@@ -909,6 +909,10 @@
 (rb1_bass "RB1 Bass")
 (rb1_drums "RB1 Drums")
 (rb1_guitar "RB1 Guitar")
+(rb3_guitar "RB3 Guitar")
+(rb3_bass "RB3 Bass")
+(rb3_drums "RB3 Drums")
+(rb3_keys "RB3 Keys")
 (lrb_bass "LRB Bass")
 (lrb_drums "LRB Drums")
 (lrb_guitar "LRB Guitar")
@@ -989,6 +993,10 @@
    "Ooooooooooooh. Ahhhhhhhhhhhh.")
 (mod_flashbang_obtain 
    "(bug, should be available by default)")
+(mod_amp16
+   "30FPS Mode")
+(mod_amp16_desc
+   "Does exactly what you think it does. Proceed with caution")
 (mod_auto_play 
    "Autoplay")
 (mod_auto_play_desc 

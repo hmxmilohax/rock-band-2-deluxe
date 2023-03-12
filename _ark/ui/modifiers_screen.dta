@@ -18,6 +18,10 @@
             $this
             (save_load_all_complete_msg)})
     (exit
+	    {if_else
+            {modifier_mgr is_modifier_active mod_amp16}
+	            {rnd set_sync 2}
+				{rnd set_sync 1}}
         {profile_mgr remove_sink $this profile_changed_msg}
         {memcardmgr remove_sink $this save_load_all_complete_msg})
     (SELECT_MSG
