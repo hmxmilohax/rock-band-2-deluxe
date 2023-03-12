@@ -138,7 +138,12 @@
             {motd.lbl set text_token motd_overshell_tip}
             {motd.lbl set_showing TRUE})})
    (load
-      {content_mgr start_refresh})
+      {content_mgr start_refresh}
+      {content_loading_panel allowed_to_show TRUE})
+   (finish_load
+      {content_loading_panel allowed_to_show FALSE})
+   (is_loaded
+      {content_mgr refresh_done})
    (enter
       {set $leaderspeed $speedmod}
       {$this update_motd}
