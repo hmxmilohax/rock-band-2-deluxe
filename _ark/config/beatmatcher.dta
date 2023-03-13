@@ -22,7 +22,7 @@
    (cheat_error 0)
    (autoplay_accuracy
       (100 100 100 100 100 100 100 100))
-   (pitch_bend_range 1)
+   (pitch_bend_range {if_else {modifier_mgr is_modifier_active mod_nowhammyfx} 0 1})
    (ms_to_full_pitch_bend 1000))
 (parser
    (drum_style_instruments
@@ -34,7 +34,7 @@
    (player_slot 9))
 (audio
    (default_style unmute)
-   (mute_volume -96.0)
+   (mute_volume {if_else {modifier_mgr is_modifier_active mod_nomuting} -0.001 -96.0}) ;-96.0 for normal muting, -0.001 for "no" muting
    (multiplayer_scale 0.33)
    (multiplayer_attenuation 3.0)
    (multiplayer_common_attenuation 1.5)

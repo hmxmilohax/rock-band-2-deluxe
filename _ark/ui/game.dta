@@ -51,8 +51,11 @@
          (script
             {handle
                ($this intro_end)})}
+         {if {modifier_mgr is_modifier_active mod_blackvenue}
+         {world_panel set_showing FALSE}}
       {$this start_game}
       kDataUnhandled)
+   (on_extend {if {modifier_mgr is_modifier_active mod_blackvenue} {world_panel set_showing FALSE}} kDataUnhandled)
    (intro_skip
       {$this start_game}
       kDataUnhandled)

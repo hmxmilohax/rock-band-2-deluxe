@@ -1,10 +1,6 @@
 (features modifier_saving_feature)
 (modifiers
-   (mod_nofail
-      (disables
-         (modifier_saving_feature))
-      hidden
-      unlocked)
+   (mod_nofail unlocked)
    (mod_doublespeed
       (activate
          {profile_mgr set_doublespeed_mode TRUE})
@@ -13,7 +9,8 @@
       unlocked)
    (mod_nohud
       (activate
-         {profile_mgr set_performance_mode TRUE})
+         {profile_mgr set_performance_mode TRUE}
+         {modifier_mgr deactivate_modifier mod_blackvenue})
       (deactivate
          {profile_mgr set_performance_mode FALSE})
       unlocked)
@@ -25,4 +22,11 @@
       (deactivate
          {profile_mgr relock_songs})
       unlocked)
-   (mod_awesome unlocked))
+   (mod_awesome unlocked)
+   (mod_blackvenue (activate {set $blackvenue TRUE} {modifier_mgr deactivate_modifier mod_nohud} {modifier_mgr activate_modifier mod_nocrowd}) (deactivate {set $blackvenue FALSE} {modifier_mgr deactivate_modifier mod_nocrowd}) unlocked)
+   (mod_nosustain unlocked)
+   (mod_rb3sustain unlocked)
+   (mod_nowhammyfx unlocked)
+   (mod_nocrowd unlocked)
+   (mod_nomuting unlocked)
+   )
