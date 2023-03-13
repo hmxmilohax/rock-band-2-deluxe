@@ -118,6 +118,14 @@
                   {do
                      {synth play button_error}
                      0}}}}
+               {if_else $mod_os_entered
+                {if_else {== $button kPad_Tri}
+                    {do
+                    {ui goto_screen overshell_main_screen}
+                    {ui pop_screen}
+                    {set $mod_os_entered FALSE}}
+                kDataUnhandled}
+            kDataUnhandled}
          kDataUnhandled})
    (save_load_all_complete_msg
       {$this set is_autoloading FALSE}
@@ -134,8 +142,26 @@
       {$this update_helpbar})}
 {new
    BandScreen
-   modifiers_screen
+   modifiers_screen_with_bg
    (panels meta menu_background_movie_panel options_background_panel modifiers_panel fx)
+   (focus modifiers_panel)
+   (back main_community_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (TRANSITION_COMPLETE_MSG
+      {if
+         {&&
+            {==
+               {ui previous_screen}
+               main_community_screen}
+            {!
+               {modifier_confirm_screen get has_entered}}}
+         {fx fade_in}})}
+{new
+   BandScreen
+   modifiers_screen
+   (panels options_background_panel modifiers_panel fx)
    (focus modifiers_panel)
    (back main_community_screen)
    (helpbar

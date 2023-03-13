@@ -44,6 +44,7 @@
 #include leaderboards.dta
 #include modifiers_screen.dta
 #include tour_challenge/tour_challenge.dta
+#include overshell.dta
 #ifndef HX_XBOX
 #include highscore.dta
 #endif
@@ -53,3 +54,34 @@
 {mixer_panel load}
 {platform_mgr set_notify_ui_location kOSNotifyBottomCenter}
 {set $saveload_skip_upload FALSE}
+
+;sets default track speed. 1.15 is 115%, 1.30 is 130% and so on.
+{set $trackspeed 1.0}
+
+;sets default song speed 1.15 is 115%, 1.30 is 130% and so on.
+{set $speedmod 1.0}
+
+{set $slot1_color 0} ;0 = green, preset colors to GRYBO
+{set $slot2_color 1} ;1 = red
+{set $slot3_color 2} ;2 = yellow
+{set $slot4_color 3} ;3 = blue
+{set $slot5_color 4} ;4 = orange
+
+;custom track scaling/angles/rotation
+;highly experimental, don't edit unless you know what you're doing
+{set $trackangle FALSE}
+
+;track angle presets that closely match the source games
+;available options: "rb2", "rb3", "rb4", "rr" "none"
+{set $anglepreset "rb2"}
+;set to "none" if you want to manually edit the numbers below
+
+;the default angles set here is rb3's
+{set $track_pitch -41} ;camera pitch in degrees
+{set $track_fov 19} ;field of view of the track camera
+{set $track_y_pos -100} ;y position of the camera (+in/-out)
+{set $track_z_pos 22} ;z position of the camera (-up/+down)
+{set $track_fade_start 70} ;start point of the fadeout at the end of the track
+{set $track_fade_length 50} ;length of the fadeout at the end of the track
+
+#include init_dev.dta

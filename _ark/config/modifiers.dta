@@ -23,5 +23,6 @@
       (activate
          {profile_mgr unlock_all_songs})
       (deactivate
-         {profile_mgr relock_songs}))
-   (mod_awesome))
+         {profile_mgr relock_songs})
+      unlocked)
+   (mod_awesome unlocked))

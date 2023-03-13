@@ -375,7 +375,7 @@
             {ui goto_screen menu_to_credits_screen})
          (modifygame.btn
             {modifier_confirm_screen set has_entered FALSE}
-            {ui goto_screen modifiers_screen})})
+            {ui goto_screen modifiers_screen_with_bg})})
    (goto_leaderboards
       ($player $player_num)
       {gamemode set_mode community_leaderboards $player_num}

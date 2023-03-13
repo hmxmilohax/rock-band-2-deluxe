@@ -1,8 +1,151 @@
 #define TRACK_END_FRAME
 (1920)
+
+(new Object fc_bass_callback ;remove FC groove on bass miss/pass
+   (hit
+      {if {! $bass_firstnote} {set $bass_firstnote TRUE}}
+     {if {! $bass_milosong} {set $bass_milosong TRUE} {set [num_gems_hit] 0} {set [num_gems_miss] 0} {set [num_gems_pass] 0} {set [num_gems_combo] 0}}
+      {$this check_fc}
+      {set [num_gems_hit] {'+' [num_gems_hit] 1}}
+      {set [num_gems_combo] {'+' [num_gems_combo] 1}}
+      {unless {modifier_mgr is_modifier_active mod_legacybass} {if {&& {> [num_gems_combo] 39} {! $bass_groove_active}} {set $bass_groove_active TRUE} {{{{get_track_panel} find bass} find BassSuperStreak_ON.trig} trigger}}}
+     )
+   (miss
+      {unless {! $bass_firstnote}
+     {set [num_gems_miss] {'+' [num_gems_miss] 1}}
+     {set [num_gems_combo] 0}
+      {$this check_missed}
+     {{{{get_track_panel} find bass} find streak_meter} star_deploy_stop}
+      {bass stop_deploy}}
+     )
+   (pass
+      {if {! $bass_firstnote} {set $bass_firstnote TRUE}}
+     {if {! $bass_milosong} {set $bass_milosong TRUE} {set [num_gems_hit] 1} {set [num_gems_miss] 1} {set [num_gems_pass] 1} {set [num_gems_combo] 1}}
+     {set [num_gems_pass] {'+' [num_gems_pass] 1}}
+     {set [num_gems_combo] 0}
+      {$this check_missed}
+     {{{{get_track_panel} find bass} find streak_meter} star_deploy_stop}
+      {bass stop_deploy}
+     )
+   (check_fc
+      {$this check_missed}
+      {if {== {'+' [num_gems_pass] [num_gems_miss]} 0}
+        {{{{get_track_panel} find bass} find streak_meter} star_deploy}
+        {bass deploy}}
+     )
+   (check_missed
+     {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
+      {{{{get_track_panel} find bass} find streak_meter} star_deploy_stop}
+      {bass stop_deploy}}
+      {unless {modifier_mgr is_modifier_active mod_legacybass} {if {< [num_gems_combo] 39} {set $bass_groove_active FALSE} {{{{get_track_panel} find bass} find BassSuperStreak_OFF.trig} trigger}}}
+     )
+   (num_gems_hit 0)
+   (num_gems_combo 0)
+   (num_gems_miss 0)
+   (num_gems_pass 0)
+)
+
+(new Object fc_guitar_callback ;remove FC groove on guitar miss/pass
+   (hit
+      {if {! $guitar_firstnote} {set $guitar_firstnote TRUE}}
+     {if {! $guitar_milosong} {set $guitar_milosong TRUE} {set [num_gems_hit] 0} {set [num_gems_miss] 0} {set [num_gems_pass] 0} {set [num_gems_combo] 0}}
+      {$this check_fc}
+      {set [num_gems_hit] {'+' [num_gems_hit] 1}}
+      {set [num_gems_combo] {'+' [num_gems_combo] 1}}
+      {unless {modifier_mgr is_modifier_active mod_legacybass} {if {&& {> [num_gems_combo] 29} {! $guitar_groove_active}} {set $guitar_groove_active TRUE} {{{{get_track_panel} find guitar} find BassSuperStreak_ON.trig} trigger}}}
+     )
+   (miss
+      {unless {! $guitar_firstnote}
+     {set [num_gems_miss] {'+' [num_gems_miss] 1}}
+     {set [num_gems_combo] 0}
+      {$this check_missed}
+     {{{{get_track_panel} find guitar} find streak_meter} star_deploy_stop}
+      {guitar stop_deploy}}
+     )
+   (pass
+      {if {! $guitar_firstnote} {set $guitar_firstnote TRUE}}
+     {if {! $guitar_milosong} {set $guitar_milosong TRUE} {set [num_gems_hit] 1} {set [num_gems_miss] 1} {set [num_gems_pass] 1} {set [num_gems_combo] 1}}
+     {set [num_gems_pass] {'+' [num_gems_pass] 1}}
+     {set [num_gems_combo] 0}
+      {$this check_missed}
+     {{{{get_track_panel} find guitar} find streak_meter} star_deploy_stop}
+      {guitar stop_deploy}
+     )
+   (check_fc
+      {$this check_missed}
+      {if {== {'+' [num_gems_pass] [num_gems_miss]} 0}
+        {{{{get_track_panel} find guitar} find streak_meter} star_deploy}
+        {guitar deploy}}
+     )
+   (check_missed
+     {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
+      {{{{get_track_panel} find guitar} find streak_meter} star_deploy_stop}
+      {guitar stop_deploy}}
+      {unless {modifier_mgr is_modifier_active mod_legacybass} {if {< [num_gems_combo] 29} {set $guitar_groove_active FALSE} {{{{get_track_panel} find guitar} find BassSuperStreak_OFF.trig} trigger}}}
+     )
+   (num_gems_hit 0)
+   (num_gems_combo 0)
+   (num_gems_miss 0)
+   (num_gems_pass 0)
+)
+
+(new Object fc_drum_callback ;remove FC groove on drum miss/pass
+   (hit
+      {if {! $drum_firstnote} {set $drum_firstnote TRUE}}
+     {if {! $drum_milosong} {set $drum_milosong TRUE} {set [num_gems_hit] 0} {set [num_gems_miss] 0} {set [num_gems_pass] 0} {set [num_gems_combo] 0}}
+      {$this check_fc}
+      {set [num_gems_hit] {'+' [num_gems_hit] 1}}
+      {set [num_gems_combo] {'+' [num_gems_combo] 1}}
+      {unless {modifier_mgr is_modifier_active mod_legacybass}  {if {&& {> [num_gems_combo] 29} {! $drum_groove_active}} {set $drum_groove_active TRUE} {{{{get_track_panel} find drum} find BassSuperStreak_ON.trig} trigger}}}
+     )
+   (miss
+      {unless {! $drum_firstnote}
+     {set [num_gems_miss] {'+' [num_gems_miss] 1}}
+     {set [num_gems_combo] 0}
+      {$this check_missed}
+     {{{{get_track_panel} find drum} find streak_meter} star_deploy_stop}
+      {drum stop_deploy}}
+     )
+   (pass
+      {if {! $drum_firstnote} {set $drum_firstnote TRUE}}
+     {if {! $drum_milosong} {set $drum_milosong TRUE} {set [num_gems_hit] 1} {set [num_gems_miss] 1} {set [num_gems_pass] 1} {set [num_gems_combo] 1}}
+     {set [num_gems_pass] {'+' [num_gems_pass] 1}}
+     {set [num_gems_combo] 0}
+      {$this check_missed}
+     {{{{get_track_panel} find drum} find streak_meter} star_deploy_stop}
+      {drum stop_deploy}
+     )
+   (check_fc
+      {$this check_missed}
+      {if {== {'+' [num_gems_pass] [num_gems_miss]} 0}
+        {{{{get_track_panel} find drum} find streak_meter} star_deploy}
+        {drum deploy}}
+     )
+   (check_missed
+     {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
+      {{{{get_track_panel} find drum} find streak_meter} star_deploy_stop}
+      {drum stop_deploy}}
+      {unless {modifier_mgr is_modifier_active mod_legacybass} {if {< [num_gems_combo] 29} {set $drum_groove_active FALSE} {{{{get_track_panel} find drum} find BassSuperStreak_OFF.trig} trigger}}}
+     )
+   (num_gems_hit 0)
+   (num_gems_combo 0)
+   (num_gems_miss 0)
+   (num_gems_pass 0)
+)
+
 #define TRACK_PANEL_HANDLERS
 ((enter
       {game add_sink $this}
+      {unless {gamemode get is_h2h_arrangement}
+         {beatmatch foreach_active_player $player ;handle adding the appropriate callbacks to each player
+             {switch {$player instrument}
+                (bass {$player add_sink fc_bass_callback (hit miss pass check_fc check_missed num_gems_hit num_gems_combo num_gems_miss num_gems_pass)})
+                (guitar {$player add_sink fc_guitar_callback (hit miss pass check_fc check_missed num_gems_hit num_gems_combo num_gems_miss num_gems_pass)})
+                (drum {$player add_sink fc_drum_callback (hit miss pass check_fc check_missed num_gems_hit num_gems_combo num_gems_miss num_gems_pass)})}}}
+
+      {{{gamemode get track_panel} loaded_dir} set view_time_easy {* {/ 2.4 $trackspeed} $speedmod}} ;implement track speed modifier
+      {{{gamemode get track_panel} loaded_dir} set view_time_expert {* {/ 1.2 $trackspeed} $speedmod}}
+      
       {$this
          set_showing
          {gamemode get show_track}})

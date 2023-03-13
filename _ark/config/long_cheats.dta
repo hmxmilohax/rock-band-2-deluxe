@@ -1,11 +1,14 @@
-#define CHEATS_ALLOWED
-({&&
-      {exists ui}
-      {!
-         {ui in_transition}}
-      {==
-         {ui current_screen}
-         modifier_enter_screen}})
+#define OVERSHELL_DISALLOWED_SCREENS
+({'||' 
+   {== {ui current_screen} game_screen}
+   {== {ui current_screen} hth_game_screen}
+   {== {ui current_screen} practice_game_screen}
+   {== {ui current_screen} overshell_main_screen}
+   {== {ui current_screen} modifiers_screen}
+   {== {ui current_screen} options_milo_screen} 
+   {== {ui current_screen} song_select_screen} 
+   {== {ui current_screen} endgame_screen} 
+   {== {ui current_screen} options_color_screen}})
 #define G_RED
 (kPad_Tri)
 #define G_YELLOW
@@ -14,13 +17,8 @@
 (kPad_Square)
 #define G_ORANGE
 (kPad_L1)
-((G_RED G_YELLOW G_BLUE G_RED G_RED G_BLUE G_BLUE G_RED G_YELLOW G_BLUE)
-   {if
-      CHEATS_ALLOWED
-      {handle
-         (ui modifier_unlocked mod_unlockall)}})
-((G_YELLOW G_BLUE G_ORANGE G_YELLOW G_BLUE G_ORANGE G_YELLOW G_BLUE G_ORANGE)
-   {if
-      CHEATS_ALLOWED
-      {handle
-         (ui modifier_unlocked mod_awesome)}})
+((kPad_Select kPad_Select)
+   {unless OVERSHELL_DISALLOWED_SCREENS
+      {do
+         {set $modifier_exit {ui current_screen}}
+         {ui push_screen overshell_main_screen}}})

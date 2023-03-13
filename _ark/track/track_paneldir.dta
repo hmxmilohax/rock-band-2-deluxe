@@ -130,73 +130,164 @@
          (update
             {if
                {$this is_active}
-               {foreach
-                  $obj
-                  {{$this dir}
-                     get
-                     gem_tracks}
-                  {$obj
-                     set_pitch
-                     [pitch]}
-                  {$obj
-                     set_fov
-                     [fov]}
-                  {$obj
-                     set_cam_pos
-                     0
-                     [y_pos]
-                     [z_pos]}
-                  {do
-                     ($fade_start
-                        {dist
-                           0
-                           [y_pos]
-                           [z_pos]
-                           0
-                           [fade_start]
-                           0})
-                     ($fade_end
-                        {dist
-                           0
-                           [y_pos]
-                           [z_pos]
-                           0
+               {if_else $trackangle
+                  {foreach
+                     $obj
+                     {{$this dir}
+                        get
+                        gem_tracks}
+                     {$obj
+                        set_pitch
+                        $track_pitch}
+                     {$obj
+                        set_fov
+                        $track_fov}
+                     {$obj
+                        set_cam_pos
+                        0
+                        $track_y_pos
+                        $track_z_pos}
+                     {do
+                        ($fade_start
+                           {dist
+                              0
+                              $track_y_pos
+                              $track_z_pos
+                              0
+                              $track_fade_start
+                              0})
+                        ($fade_end
+                           {dist
+                              0
+                              $track_y_pos
+                              $track_z_pos
+                              0
+                              {'+'
+                                 $track_fade_start
+                                 $track_fade_length}
+                              0})
+                        {$obj
+                           set_fade
+                           $fade_start
+                           {- $fade_end $fade_start}}}
+                     {if_else
+                        [own_perspective]
+                        {do
+                           {$obj set_track_offset 0}
+                           {$obj set_side_angle 0}
+                           #ifdef HX_PS3
+                           {$obj
+                              set_screen_rect_x
+                              [cam_offset_ps3]}
+                           #else
+                           {$obj
+                              set_screen_rect_x
+                              [cam_offset]}
+                           #endif}
+                        {do
+                           {$obj
+                              set_track_offset
+                              [x_offset]}
+                           {$obj
+                              set_side_angle
+                              [side_angle]}
+                           {$obj set_screen_rect_x 0}}}
+                     {$obj
+                        set
+                        top_y
+                        {'+'
+                           {'+'
+                              $track_fade_start
+                              $track_fade_length}
+                           5}}
+                     {if
+                        {&&
+                           {exists gamemode}
+                           {!
+                              {gamemode in_mode drum_trainer}}}
+                        {$obj
+                           set
+                           y_per_second
+                           [track_speed]}}}
+                  {foreach
+                     $obj
+                     {{$this dir}
+                        get
+                        gem_tracks}
+                     {$obj
+                        set_pitch
+                        [pitch]}
+                     {$obj
+                        set_fov
+                        [fov]}
+                     {$obj
+                        set_cam_pos
+                        0
+                        [y_pos]
+                        [z_pos]}
+                     {do
+                        ($fade_start
+                           {dist
+                              0
+                              [y_pos]
+                              [z_pos]
+                              0
+                              [fade_start]
+                              0})
+                        ($fade_end
+                           {dist
+                              0
+                              [y_pos]
+                              [z_pos]
+                              0
+                              {'+'
+                                 [fade_start]
+                                 [fade_length]}
+                              0})
+                        {$obj
+                           set_fade
+                           $fade_start
+                           {- $fade_end $fade_start}}}
+                     {if_else
+                        [own_perspective]
+                        {do
+                           {$obj set_track_offset 0}
+                           {$obj set_side_angle 0}
+                           #ifdef HX_PS3
+                           {$obj
+                              set_screen_rect_x
+                              [cam_offset_ps3]}
+                           #else
+                           {$obj
+                              set_screen_rect_x
+                              [cam_offset]}
+                           #endif}
+                        {do
+                           {$obj
+                              set_track_offset
+                              [x_offset]}
+                           {$obj
+                              set_side_angle
+                              [side_angle]}
+                           {$obj set_screen_rect_x 0}}}
+                     {$obj
+                        set
+                        top_y
+                        {'+'
                            {'+'
                               [fade_start]
                               [fade_length]}
-                           0})
-                     {$obj
-                        set_fade
-                        $fade_start
-                        {- $fade_end $fade_start}}}
-                  {if_else
-                     [own_perspective]
-                     {do
-                        {$obj set_track_offset 0}
-                        {$obj set_side_angle 0}
+                           5}}
+                     {if
+                        {&&
+                           {exists gamemode}
+                           {!
+                              {gamemode in_mode drum_trainer}}}
                         {$obj
-                           set_screen_rect_x
-                           [cam_offset]}}
-                     {do
-                        {$obj
-                           set_track_offset
-                           [x_offset]}
-                        {$obj
-                           set_side_angle
-                           [side_angle]}
-                        {$obj set_screen_rect_x 0}}}
-                  {$obj
-                     set
-                     top_y
-                     {'+'
-                        {'+'
-                           [fade_start]
-                           [fade_length]}
-                        5}}
-                  {$obj
-                     set
-                     y_per_second
-                     [track_speed]}}
+                           set
+                           y_per_second
+                           [track_speed]}}}
+               }
                {do
                   ($index 0)
                   {foreach
