@@ -15,6 +15,7 @@
          FALSE}
       {$this set is_autoloading FALSE}
       {modifiers.lst set_provider modifier_mgr}
+      {modifiers.lst set circular 1}
       {memcardmgr add_sink $this save_load_all_complete_msg})
    (exit
       {profile_mgr update_has_cheated}
