@@ -36,14 +36,18 @@
                   "mtv_master_line")
                {mtv_cover_song_id.view set_showing FALSE}
                {mtv_master_song_id.view set_showing TRUE}
-               {$this set_line $prefix 1 $song_text}
+               {if_else {!= $speedmod 1}
+               {$this set_line $prefix 1 {sprint $song_text " (" {int {'+' 0.5 {'*' $speedmod 100}}} "%)"}}
+               {$this set_line $prefix 1 $song_text}}
                {$this set_line $prefix 3 $artist_text}}
             {do
                ($prefix
                   "mtv_cover_line")
                {mtv_cover_song_id.view set_showing TRUE}
                {mtv_master_song_id.view set_showing FALSE}
-               {$this set_line $prefix 1 $song_text}
+               {if_else {!= $speedmod 1}
+               {$this set_line $prefix 1 {sprint $song_text " (" {int {'+' 0.5 {'*' $speedmod 100}}} "%)"}}
+               {$this set_line $prefix 1 $song_text}}
                {$this set_line $prefix 3 $artist_text}}}})
    (set_line
       ($prefix $i $text)

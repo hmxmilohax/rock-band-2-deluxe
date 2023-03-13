@@ -8,9 +8,11 @@
          (game quarterbeat)})
    (eighth_note)
    (beat
+      {unless {> {gamecfg get practice_speed} 0} {beatmatch set_music_speed $speedmod}}
       {handle
          (game beat)})
    (downbeat
+      {unless {> {gamecfg get practice_speed} 0} {beatmatch set_music_speed $speedmod}}
       {handle
          (game downbeat)})
    (reset))

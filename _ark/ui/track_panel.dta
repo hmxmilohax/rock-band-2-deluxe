@@ -145,7 +145,7 @@
 
       {{{gamemode get track_panel} loaded_dir} set view_time_easy {* {/ 2.4 $trackspeed} $speedmod}} ;implement track speed modifier
       {{{gamemode get track_panel} loaded_dir} set view_time_expert {* {/ 1.2 $trackspeed} $speedmod}}
-      
+
       {$this
          set_showing
          {gamemode get show_track}})
@@ -202,7 +202,8 @@
          {&&
             {exists gamemode}
             {gamemode get play_track_intro_sfx}}
-         {synth play track_beg.cue}}))
+         {synth play track_beg.cue}}
+         {unless {> {gamecfg get practice_speed} 0} {beatmatch set_music_speed $speedmod}}))
 {new
    TrackPanel
    coop_track_panel
