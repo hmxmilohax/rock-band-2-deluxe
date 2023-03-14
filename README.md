@@ -106,7 +106,7 @@ This guide contains full instructions on how to install Rock Band 2 Deluxe for P
 * **Install your North American copy of Rock Band 2** through the emulator. The [**official RPCS3 site covers this nicely**](https://rpcs3.net/quickstart).
   * Remember, **you need to be running** ***BLUS30147***. RPCS3 will tell you this in the game selection GUI under the `Serial` column.
 
-* You will need the [**latest update for Rock Band 2**](http://b0.ww.np.dl.playstation.net/tppkg/np/BLUS30147/BLUS30147_T1/c8b8d16f692b3672/UP0006-BLUS30147_00-ROCKBAND2PATCH02-A0102-V0100-PE.pkg) installed on RPCS3.
+* **If this is your first time installing**, you will need the [**latest update for Rock Band 2**](http://b0.ww.np.dl.playstation.net/tppkg/np/BLUS30147/BLUS30147_T1/c8b8d16f692b3672/UP0006-BLUS30147_00-ROCKBAND2PATCH02-A0102-V0100-PE.pkg) installed on RPCS3.
   * *Right-click and select `Save link as...` to start the download*, then **drag and drop it on top of the main RPCS3 window** to install it.
 
 * Download [**Rock Band 2 Deluxe for PS3**](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-PS3.zip). 
@@ -116,7 +116,7 @@ This guide contains full instructions on how to install Rock Band 2 Deluxe for P
 
 **To update Rock Band 2 Deluxe**, [**re-download it**](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-PS3.zip) and repeat the above steps. You can click the `Watch` button (All Activity) to be notified about any updates that occur.
 
-*Sidenote: we recommend* ***enabling `Write Color Buffers`*** *for Rock Band 2 to prevent any character model issues.*
+***Sidenote:*** *we recommend* ***enabling `Write Color Buffers`*** *for Rock Band 2 to prevent any character model issues.*
 
 ![Custom Configuration](dependencies/images/customconfig.png)
 ![GPU Tab](dependencies/images/gputab.png)
@@ -128,7 +128,7 @@ This guide contains full instructions on how to install Rock Band 2 Deluxe for P
 
 **NOTE: Rock Band 2 Deluxe only works with** ***North American (`BLUS30147`)*** **copies of the game on PS3.**
 
-* You will need the **latest update for Rock Band 2** installed on your system.
+* **If this is your first time installing**, you will need the **latest update for Rock Band 2** installed on your system.
   * Insert our mount your disc, press `Triangle` on it, and select `Check for Update`. Update to version `1.02` if it asks you.
 
 * Download [**Rock Band 2 Deluxe for PS3**](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-PS3.zip). 
@@ -172,7 +172,7 @@ This guide contains full instructions on how to install Rock Band 2 Deluxe for P
 
 ***Rock Band 2 Deluxe is now installed!*** We highly recommend you check out [**Optional Upgrades**](#optional-upgrades) for songs and other cool stuff you can add to your game.
 
-*Sidenote: if you're experiencing issues regarding character models, navigate to `_xenia`, open `xenia-canary.config.toml` in your text editor of choice, and change `gpu` from `vulkan` to `d3d12` and `d3d12_readback_resolve` from `false` to `true` (you may need to press `CTRL + F` to find these). This will fix all texture issues but will drastically affect the framerate, you also may experience BSODs. If you don't want to deal with any of this, we recommend using* [***RPCS3***](#installing-on-rpcs3-recommended-for-pc) *instead.*
+***Sidenote:*** *if you're experiencing issues regarding character models, navigate to `_xenia`, open `xenia-canary.config.toml` in your text editor of choice, and change `gpu` from `vulkan` to `d3d12` and `d3d12_readback_resolve` from `false` to `true` (you may need to press `CTRL + F` to find these). This will fix all texture issues but will drastically affect the framerate, you also may experience BSODs. If you don't want to deal with any of this, we recommend using* [***RPCS3***](#installing-on-rpcs3-recommended-for-pc) *instead.*
 
 ![D3D12](dependencies/images/d3d12.png)
 ![Readback Resolve](dependencies/images/readbackresolve.png)
@@ -246,9 +246,7 @@ Rock Band 2 Deluxe has a variety of custom textures, found in the `Deluxe Settin
 
 ![Repo Folder](dependencies/images/repofolder.png)
 
-***The Rock Band 2 Deluxe repo is now set up!*** You are ready to **build your own installation** of the mod.
-
-To build Rock Band 2 Deluxe yourself, navigate to `windows_bats` if you're on Windows or `user_scripts` if you're on Linux and run `build_***`.
+***The Rock Band 2 Deluxe repo is now set up!***
 
 # Dependencies
 
