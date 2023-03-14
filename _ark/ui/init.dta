@@ -67,6 +67,12 @@
 {set $slot4_color 3} ;3 = blue
 {set $slot5_color 4} ;4 = orange
 
+;do gem custom textures
+{set $gemcustomtexture FALSE}
+
+;gem texture
+{set $gem "rb4"}
+
 ;custom track scaling/angles/rotation
 ;highly experimental, don't edit unless you know what you're doing
 {set $trackangle FALSE}

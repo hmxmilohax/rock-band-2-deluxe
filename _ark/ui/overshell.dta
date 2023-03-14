@@ -52,7 +52,7 @@
         "practice/practice_sel_section_og.milo")
     (focus sel_section.lst)
     (enter
-        {sel_section.lst set_data (os_angle)}
+        {sel_section.lst set_data (os_tex os_angle)}
         {title.lbl set_localized {localize os_trkset}})
     (exit)
     (SELECT_MSG
@@ -95,7 +95,7 @@
         "practice/practice_sel_section_og.milo")
     (focus sel_section.lst)
     (enter
-        {sel_section.lst set_data (os_gems os_smashers os_score os_odbar os_multi_ring os_strk os_spotlight os_voxtrk)}
+        {sel_section.lst set_data (os_gems)}
         {title.lbl set_localized {localize os_tex}})
     (exit)
     (SELECT_MSG

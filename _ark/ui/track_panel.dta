@@ -197,6 +197,11 @@
       {{$this loaded_dir}
          reset})
    (on_extend
+   {if $gemcustomtexture
+      {{$this find prism_gems.tex} set_bitmap {sprint "track/gems/prism_gems_" $gem ".png"}}
+      {{$this find prism_gems_lod.tex} set_bitmap {sprint "track/gems/prism_gems_lod_" $gem ".png"}}
+   }
+      {{$this find smasher_color_ps2.tex} set_bitmap "track/custom_track_textures/smasher_color_ps2.png"}
       {$this play_intro}
       {if
          {&&
