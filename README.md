@@ -194,10 +194,7 @@ Next, you will need the **latest update for Rock Band 2** installed on RPCS3. [G
 
 *If it doesn't download, right-click it and select `Save link as...` If your browser says it "can't be downloaded safely", ignore it and select `Keep`.*
 
-Then, if you set up the repo on Windows, navigate to `windows_bats` and **run `build_ps3.bat`**.
-Then, if you set up the repo on Linux/Mac, navigate to `user_scripts` and **run `build_ps3.py`**.
-
-After that, **copy the contents** of `\_build\ps3\` to `\dev_hdd0\game\BLUS30147\` in your RPCS3 directory. Click `Yes` to overwrite the files.
+Now, download [**Rock Band 2 Deluxe for PS3**](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-PS3.zip) and extract it. Copy the contents of the folder to `\dev_hdd0\game\BLUS30147\` in your RPCS3 directory. Click `Yes` to overwrite the files.
 
 ***Rock Band 2 Deluxe should now be installed!*** We highly recommend you check out [Optional Upgrades](#optional-upgrades) for songs and other cool stuff you can add to your game.
 
