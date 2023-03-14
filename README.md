@@ -101,75 +101,36 @@ This repo contains everything you need to build Rock Band 2 Deluxe for PlayStati
 * No sustain tails modifier
 * Rock Band 3 Sustain look modifier
 
-# Prerequisites
+# What You'll Need
 
-### You will need...
+### Playing Rock Band 2 Deluxe requires these things:
 
 - **A vanilla copy of Rock Band 2** for PS3 or Xbox 360 that you can extract onto your PC. The **USA** version is required for PS3 (`BLUS30147`)
 - For Console: A **modded/hacked PS3 or Xbox 360** and a way to transfer files to it, we recommend using FTP
 - For Emulator: A **mid-to-high-end PC** capable of running RPCS3 or Xenia
 
-# Setup
+# Downloads
 
-*There are a couple different ways you can set up Rock Band 2 Deluxe, you can download a [Pre-Built Version](#pre-built-versions) or [set up the Repo](#repo-setup).*
+### [Rock Band 2 Deluxe for PS3](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-PS3.zip)
+### [Rock Band 2 Deluxe for Xbox 360](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-Xbox.zip)
+### [Rock Band 2 Deluxe CE for PS2](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/ps2/RB2DXCE-PS2.zip)
 
-***Pick which one is best for you.***
+# How to Install
 
-## Pre-Built Versions
+## Installing on Emulator (RPCS3)
 
-There are **pre-compiled versions of Rock Band 2 Deluxe** in the [Actions](https://github.com/hmxmilohax/rock-band-2-deluxe/actions) tab of this repo and in the [Nightly link](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main). These are **ready-to-install** files for Rock Band 2 Deluxe for both platforms.
+* Install your North American copy of Rock Band 2 through the emulator. The [official RPCS3 site covers this nicely](https://rpcs3.net/quickstart).
+  * Remember, you need to be running BLUS30147. RPCS3 will tell you this in the game selection GUI under the Serial column.
 
-These are **recommended if you have no way of setting up the repo** (unsupported platform, no administrator privileges, etc) or if you **get stuck at any point in [Repo Setup](#repo-setup)**.
+Next, you will need the **latest update for Rock Band 2** installed on RPCS3. [Get it Here](http://b0.ww.np.dl.playstation.net/tppkg/np/BLUS30147/BLUS30147_T1/c8b8d16f692b3672/UP0006-BLUS30147_00-ROCKBAND2PATCH02-A0102-V0100-PE.pkg) and drag and drop it on top of the main RPCS3 window to install it (right-click and select "save as" to start the download).
 
-These are **not recommended for Xenia** as the repo is structured for you to easily build and run it.
+Now, download [**Rock Band 2 Deluxe for PS3**](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-PS3.zip). Copy the contents of the it to `\dev_hdd0\game\BLUS30147\` in your RPCS3 directory. Click `Yes` to overwrite the files.
 
-**If you're going to be installing a pre-built version**, skip down to the [Installing](#installing) section. *Mentions of the repo and `build_x.py` can be disregarded, and mentions of `_build` are referring to the contents of the `.zip` file you downloaded from the [Actions](https://github.com/hmxmilohax/rock-band-2-deluxe/actions) tab or [Nightly link](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main).*
+***Rock Band 2 Deluxe is now installed!*** We highly recommend you check out [Optional Upgrades](#optional-upgrades) for songs and other cool stuff you can add to your game.
 
-  - [Xenia Emulator](#xenia-emulator)
-  - [RPCS3 Emulator](#rpcs3-emulator)
-  - [PS3 Hardware](#ps3-hardware)
-  - [Xbox 360 Hardware](#xbox-360-hardware)
+**If you're having issues**, refer to the [Troubleshooting](#rpcs3-troubleshooting) section and find your issue.
 
-## Repo Setup
-Setting up the Rock Band 2 Deluxe repo for the first time is meant to be as easy as possible.
-As well, it is designed to allow you to automatically receive updates as the repo is updated.
-
-*If you get stuck here at any point, try using the [Pre-Built Versions](#pre-built-versions) instead.*
-
-### Installing Required Dependencies
-
-***Before you do anything***, you'll need to install a few things before you can properly set up and build Rock Band 2 Deluxe.
-
-[Git for Windows](https://gitforwindows.org/), [Dot Net 6.0 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/6.0/runtime), and [Python](https://www.python.org/downloads/) (version 3.9 or later).
-
-Install **Git** and **Dot Net 6.0 Runtime** with their default options, and ***select "Add python.exe to PATH"*** on the **Python** installer.
-
-![Python PATH](dependencies/images/pythonpath.png)
-
-Then, open a **new command prompt** (press `Win+R`, type `cmd` and press Enter), type in `pip install gitpython`, and press enter. Close the command prompt when it's done installing.
-
-### Initializing the Repo
-
-Now, **go to the [Releases](https://github.com/hmxmilohax/rock-band-2-deluxe/releases)** of this repo and **download `_init_repo.bat`** if you're on Windows or **`_init_repo.sh`** if you're on Linux.
-
-Then, make a new **empty** folder, **put `_init_repo` in the folder, and run it**. This will pull the repo down for you and make sure you're completely up to date. **This will take some time.**
-
-### ***The folder should look like this once it's done:***
-
-![Repo Folder](dependencies/images/repofolder.png)
-
-***The Rock Band 2 Deluxe repo is now set up!*** You are ready to **build and install install** it for your platform of choice:
-
-  - [Xenia Emulator](#xenia-emulator)
-  - [RPCS3 Emulator](#rpcs3-emulator)
-  - [PS3 Hardware](#ps3-hardware)
-  - [Xbox 360 Hardware](#xbox-360-hardware)
-
-**If you were not able to set up the repo properly**, refer to the [Troubleshooting](#repo-troubleshooting) section or use a [Pre-Built Version](#pre-built-versions) instead.
-
-# Installing
-
-*Make sure you follow [Setup](#setup) first!*
+**To update Rock Band 2 Deluxe**, repeat [the above steps](#rpcs3-emulator) (minus installing the vanilla game and the latest update). You can click the `Watch` button (All Activity) to be notified about any updates that occur.
 
 ## Xenia Emulator
 
@@ -183,24 +144,6 @@ If you are on Windows you'll want to go into `windows_bats` instead and **run an
 ***Rock Band 2 Deluxe should now be installed!*** We highly recommend you check out [Optional Upgrades](#optional-upgrades) for songs and other cool stuff you can add to your game.
 
 **If you're having issues**, refer to the [Troubleshooting](#xenia-troubleshooting) section and find your issue.
-
-## RPCS3 Emulator
-
-**NOTE: Rock Band 2 Deluxe only works with USA (`BLUS30147`) copies of the game on PS3.**
-
-First, **extract your vanilla USA (`BLUS30147`) Rock Band 2 game disc** and place it in the `games` folder in your RPCS3 directory. ***Do NOT touch this folder once it's in `games`, Rock Band 2 Deluxe installs as a PS3 game update and installs in its own separate folder, shown below.***
-
-Next, you will need the **latest update for Rock Band 2** installed on RPCS3. [Get it Here](http://b0.ww.np.dl.playstation.net/tppkg/np/BLUS30147/BLUS30147_T1/c8b8d16f692b3672/UP0006-BLUS30147_00-ROCKBAND2PATCH02-A0102-V0100-PE.pkg) and drag and drop it on top of the main RPCS3 window to install it. ***This is not the Deluxe download***, *but it is required to ensure you install everything to its proper place.*
-
-*If it doesn't download, right-click it and select `Save link as...` If your browser says it "can't be downloaded safely", ignore it and select `Keep`.*
-
-Now, download [**Rock Band 2 Deluxe for PS3**](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-PS3.zip) and extract it. Copy the contents of the folder to `\dev_hdd0\game\BLUS30147\` in your RPCS3 directory. Click `Yes` to overwrite the files.
-
-***Rock Band 2 Deluxe should now be installed!*** We highly recommend you check out [Optional Upgrades](#optional-upgrades) for songs and other cool stuff you can add to your game.
-
-**If you're having issues**, refer to the [Troubleshooting](#rpcs3-troubleshooting) section and find your issue.
-
-**To update Rock Band 2 Deluxe**, repeat [the above steps](#rpcs3-emulator) (minus installing the vanilla game and the latest update). You can click the `Watch` button (All Activity) to be notified about any updates that occur.
 
 ## PS3 Hardware
 
@@ -389,6 +332,43 @@ These will resize your images accordingly, including those with arbitrary resolu
 
 ### ***The game doesn't get past the splash screens!***
 * Make sure you copy the **ENTIRE** contents of `\_build\xbox\` to where your vanilla copy of Rock Band 2 lives.
+
+## Repo Setup (Advanced)
+Setting up the Rock Band 2 Deluxe repo for the first time is meant to be as easy as possible.
+As well, it is designed to allow you to automatically receive updates as the repo is updated.
+
+*If you get stuck here at any point, try using the [Pre-Built Versions](#pre-built-versions) instead.*
+
+### Installing Required Dependencies
+
+***Before you do anything***, you'll need to install a few things before you can properly set up and build Rock Band 2 Deluxe.
+
+[Git for Windows](https://gitforwindows.org/), [Dot Net 6.0 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/6.0/runtime), and [Python](https://www.python.org/downloads/) (version 3.9 or later).
+
+Install **Git** and **Dot Net 6.0 Runtime** with their default options, and ***select "Add python.exe to PATH"*** on the **Python** installer.
+
+![Python PATH](dependencies/images/pythonpath.png)
+
+Then, open a **new command prompt** (press `Win+R`, type `cmd` and press Enter), type in `pip install gitpython`, and press enter. Close the command prompt when it's done installing.
+
+### Initializing the Repo
+
+Now, **go to the [Releases](https://github.com/hmxmilohax/rock-band-2-deluxe/releases)** of this repo and **download `_init_repo.bat`** if you're on Windows or **`_init_repo.sh`** if you're on Linux.
+
+Then, make a new **empty** folder, **put `_init_repo` in the folder, and run it**. This will pull the repo down for you and make sure you're completely up to date. **This will take some time.**
+
+### ***The folder should look like this once it's done:***
+
+![Repo Folder](dependencies/images/repofolder.png)
+
+***The Rock Band 2 Deluxe repo is now set up!*** You are ready to **build and install install** it for your platform of choice:
+
+  - [Xenia Emulator](#xenia-emulator)
+  - [RPCS3 Emulator](#rpcs3-emulator)
+  - [PS3 Hardware](#ps3-hardware)
+  - [Xbox 360 Hardware](#xbox-360-hardware)
+
+**If you were not able to set up the repo properly**, refer to the [Troubleshooting](#repo-troubleshooting) section.
 
 # Dependencies
 
