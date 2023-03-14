@@ -223,7 +223,7 @@ Rock Band 2 Deluxe has a variety of custom textures, found in the `Deluxe Settin
 *Follow [**Repo Setup (Advanced)**](#repo-setup-advanced) first in order to properly follow this guide.*
 
 * Copy any `.jpg`, `.png`, or `.bmp` file into `\custom_textures\***\`, then navigate back to `windows_bats` and run `process_textures_***.bat`.
-  * These will make them show up in game, resize your images accordingly, including those with arbitrary resolutions, and convert them to the proper format for Rock Band 2 Deluxe to read.
+  * These will make them show up in game, resize your images accordingly (including those with arbitrary resolutions), and convert them to the proper format for Rock Band 2 Deluxe to read.
 
 ***You will need to rebuild Rock Band 2 Deluxe in order for these to take effect.***
 
@@ -247,7 +247,7 @@ Rock Band 2 Deluxe has a variety of custom textures, found in the `Deluxe Settin
 
 ![Repo Folder](dependencies/images/repofolder.png)
 
-***The Rock Band 2 Deluxe repo is now set up!***
+***The Rock Band 2 Deluxe repo is now set up!*** You can now return to [**Installing on Xenia (Advanced)**](#installing-on-xenia-advanced) or [**Custom Textures**](#custom-textures).
 
 # Dependencies
 
