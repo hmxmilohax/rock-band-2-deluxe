@@ -25,6 +25,7 @@ This guide contains full instructions on how to install Rock Band 2 Deluxe for P
 - [Optional Upgrades](#optional-upgrades)
   - [Songs](#songs)
   - [Custom Textures](#custom-textures)
+- [Repo Setup (Advanced)](#repo-setup-advanced)
 - [Dependencies](#dependencies)
 
 # Features
