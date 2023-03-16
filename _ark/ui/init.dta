@@ -44,7 +44,6 @@
 #include leaderboards.dta
 #include modifiers_screen.dta
 #include tour_challenge/tour_challenge.dta
-;#include overshell.dta
 #ifndef HX_XBOX
 #include highscore.dta
 #endif
@@ -91,3 +90,4 @@
 {set $track_fade_length 50} ;length of the fadeout at the end of the track
 
 #include init_dev.dta
+#include overshell.dta
