@@ -22,9 +22,7 @@ def make_executable_binaries():
 
 # darwin: mac
 
-# if xbox is true, build the Xbox ARK
-# else, build the PS3 ARK
-def build_patch_ark(xbox: bool):
+def build_patch_ark():
     # directories used in this script
     print("Building Rock Band 2 Deluxe patch arks...")
     cwd = Path().absolute() # current working directory (dev_scripts)
@@ -32,13 +30,13 @@ def build_patch_ark(xbox: bool):
     ark_dir = root_dir.joinpath("_ark")
 
     if platform == "win32":
-        build_location = "_build\\xbox\gen" if xbox else "_build\ps2\\gen"
+        build_location = "_build\ps2\\gen"
     else:
-        build_location = "_build/xbox/gen" if xbox else "_build/ps2/gen"
+        build_location = "_build/ps2/gen"
         # build the binaries if on linux/other OS
         if platform != "darwin":
             make_executable_binaries()
-    patch_hdr_version = "patch_xbox" if xbox else "MAIN"
+    patch_hdr_version = "MAIN"
 
     # pull the latest changes from the Rock Band 2 Deluxe repo if necessary
     if not check_git_updated(repo_url="https://github.com/hmxmilohax/rock-band-2-deluxe", repo_root_path=root_dir):

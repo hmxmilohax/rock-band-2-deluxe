@@ -11,20 +11,17 @@ def check_git_updated(repo_url: str, repo_root_path: Path) -> bool:
     print(f"Checking for new updates from repo {repo_name}...")
 
     # retrieve current commit and compare against latest
-    if repo_root_path.joinpath(".git/refs/heads/main").is_file():
-        with open(repo_root_path.joinpath(".git/refs/heads/main"),"r") as g:
-            local_commit = g.read()
-    elif repo_root_path.joinpath(".git/refs/heads/master").is_file():
-        with open(repo_root_path.joinpath(".git/refs/heads/master"),"r") as g:
+    if repo_root_path.joinpath(".git/refs/heads/ps2").is_file():
+        with open(repo_root_path.joinpath(".git/refs/heads/ps2"),"r") as g:
             local_commit = g.read()
     else:
         return False
     local_commit = local_commit.strip()
 
-    cmd_get_latest_commit = f"git ls-remote {repo_url} HEAD".split()
+    cmd_get_latest_commit = f"git ls-remote {repo_url} ps2".split()
     latest_commit =  subprocess.check_output(cmd_get_latest_commit, shell=(platform == "win32"), cwd="..")
     latest_commit = latest_commit.decode()
-    latest_commit = latest_commit.replace("HEAD","").strip()
+    latest_commit = latest_commit.replace("refs/heads/ps2","").strip()
 
     print(f"Local commit: {local_commit}")
     print(f"Latest commit: {latest_commit}")
