@@ -197,14 +197,29 @@
       {{$this loaded_dir}
          reset})
    (on_extend
+      
    {if $gemcustomtexture
       {{$this find prism_gems.tex} set_bitmap {sprint "track/gems/prism_gems_" $gem ".png"}}
       {{$this find prism_gems_lod.tex} set_bitmap {sprint "track/gems/prism_gems_lod_" $gem ".png"}}
    }
+
    {if $smashercustomtexture
       {{$this find smasher_color_ps2.tex} set_bitmap {sprint "track/smashers/smasher_color_" $smasher ".png"}}
       {{$this find smasher_ps2.tex} set_bitmap {sprint "track/smashers/smasher_" $smasher ".png"}}
       {{$this find square_smasher_bright.tex} set_bitmap {sprint "track/smashers/square_smasher_bright_" $smasher ".png"}}
+   }
+
+   {if $odbarcustomtexture
+      {{$this find rb2_player_meter_background.tex} set_bitmap {sprint "track/overdrive_bar/player_meter_background_" $odbar ".png"}}
+      {{$this find player_meter_long.tex} set_bitmap {sprint "track/overdrive_bar/player_meter_long_" $odbar ".png"}}
+     {{$this find rising_sun_fx_small.tex} set_bitmap {sprint "track/overdrive_bar/rising_sun_fx_small_" $odbar ".png"}}
+   }
+
+   {if $multiringcustomtexture
+      {{$this find multiplier_cap_glass_vox.tex} set_bitmap {sprint "track/multiplier_ring/multiplier_cap_glass_vox_" $multiring ".png"}}
+      {{$this find multiplier_meter_glow.tex} set_bitmap {sprint "track/multiplier_ring/multiplier_meter_glow_" $multiring ".png"}}
+      {{$this find multiplier_meter.tex} set_bitmap {sprint "track/multiplier_ring/multiplier_meter_" $multiring ".png"}}
+      {{$this find multiplier_meter_solid..tex} set_bitmap {sprint "track/multiplier_ring/multiplier_meter_solid_" $multiring ".png"}}
    }
       {$this play_intro}
       {if
