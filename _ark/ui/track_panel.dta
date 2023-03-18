@@ -197,7 +197,16 @@
       {{$this loaded_dir}
          reset})
    (on_extend
-      
+
+   {if $voxodcustomtexture
+     {{$this find sunburst.tex} set_bitmap {sprint "track/voxod/sunburst_" $voxod ".png"}}
+     {{$this find freestyle_nowbar_FX.tex} set_bitmap {sprint "track/voxod/vox_now_bar_effect_" $voxod ".png"}}
+   }
+
+   {if $voxarrowcustomtexture
+      {{$this find pitch_arrow_split.tex} set_bitmap {sprint "track/voxarrow/pitch_arrow_split_" $voxarrow ".png"}}
+   }
+
    {if $gemcustomtexture
       {{$this find prism_gems.tex} set_bitmap {sprint "track/gems/prism_gems_" $gem ".png"}}
       {{$this find prism_gems_lod.tex} set_bitmap {sprint "track/gems/prism_gems_lod_" $gem ".png"}}
@@ -221,6 +230,17 @@
       {{$this find multiplier_meter.tex} set_bitmap {sprint "track/multiplier_ring/multiplier_meter_" $multiring ".png"}}
       {{$this find multiplier_meter_solid..tex} set_bitmap {sprint "track/multiplier_ring/multiplier_meter_solid_" $multiring ".png"}}
    }
+
+   {if $streakcustomtexture
+      {{$this find bass_superstreak_pattern.tex} set_bitmap {sprint "track/streak/" $streak ".png"}}
+   }
+
+   {if $spotlightcustomtexture
+      {{$this find spotlight_bass_track.tex} set_bitmap {sprint "track/spotlight/" $spotlight ".png"}}
+      {{$this find spotlight_guitar_track.tex} set_bitmap {sprint "track/spotlight/" $spotlight ".png"}}
+      {{$this find spotlight_drums_track.tex} set_bitmap {sprint "track/spotlight/" $spotlight ".png"}}
+   }
+
       {$this play_intro}
       {if
          {&&
