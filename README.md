@@ -102,7 +102,7 @@ This guide contains full instructions on how to install Rock Band 2 Deluxe for P
 
 # How to Install
 
-## Installing on RPCS3 (Recommended for PC)
+## Installing on [RPCS3](https://rpcs3.net/) (Recommended for PC)
 
 * **Install your North American copy of Rock Band 2** through the emulator. The [**official RPCS3 site covers this nicely**](https://rpcs3.net/quickstart).
   * Remember, **you need to be running** ***BLUS30147***. RPCS3 will tell you this in the game selection GUI under the `Serial` column.
@@ -190,19 +190,22 @@ You can also use [**Onyx Music Game Toolkit**](https://github.com/mtolly/onyxite
 
 ### Installing Songs on RPCS3
 
-Download a PS3 song pack of your choice and open RPCS3. Drag and drop the song pack you want to install on top of the main RPCS3 window and select `Yes` to install it.
+* Download a PS3 song pack of your choice and open RPCS3.
+* Drag and drop the song pack you want to install on top of the main RPCS3 window and select `Yes` to install it.
 
 ![RPCS3 PKG](dependencies/images/rpcs3_pkg.png)
 
 ### Installing Songs on PS3
 
-Download a PS3 song pack of your choice and put it on the root of a USB drive. Then, open `Package Manager` and select the song pack you want to install.
+* Download a PS3 song pack of your choice and put it on the root of a USB drive.
+* Open `Package Manager` and select the song pack you want to install.
 
 ![PS3 PKG](dependencies/images/ps3_pkg.png)
 
 ### Installing Songs on Xbox 360
 
-Download an Xbox 360 song pack of your choice, then copy it to its respective folder.
+* Download an Xbox 360 song pack of your choice.
+* Copy it to its respective folder.
 
 ***For RB2 LIVE files, install them to:***
 
@@ -210,7 +213,9 @@ Download an Xbox 360 song pack of your choice, then copy it to its respective fo
 
 ### Installing Songs on Xenia
 
-Download an Xbox 360 song pack of your choice and open Xenia. Navigate to `File > Install Content`, and select your song pack(s) of choice. You can select more than one at a time. Xenia supports both CON and LIVE files.
+* Download an Xbox 360 song pack of your choice.
+* Open Xenia, navigate to `File > Install Content`, and select your song pack(s) of choice. You can select more than one at a time.
+  * Xenia supports both CON and LIVE files.
 
 ![Xenia Songs](dependencies/images/xenia_installcontent.png)
 
