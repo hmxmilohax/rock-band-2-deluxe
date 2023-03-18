@@ -203,7 +203,8 @@
       {{$this loaded_dir}
          reset})
    (on_extend
-   {if $voxhw
+   
+   {if $voxhwcustomtexture 
       {{$this find vocal_bg.tex} set_bitmap {sprint "track/voxhw/vocal_bg_" $voxhw ".png"}}
    }
    {if $gemcustomtexture
