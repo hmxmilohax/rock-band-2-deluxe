@@ -201,7 +201,11 @@
       {{$this find prism_gems.tex} set_bitmap {sprint "track/gems/prism_gems_" $gem ".png"}}
       {{$this find prism_gems_lod.tex} set_bitmap {sprint "track/gems/prism_gems_lod_" $gem ".png"}}
    }
-      {{$this find smasher_color_ps2.tex} set_bitmap "track/custom_track_textures/smasher_color_ps2.png"}
+   {if $smashercustomtexture
+      {{$this find smasher_color_ps2.tex} set_bitmap {sprint "track/smashers/smasher_color_" $smasher ".png"}}
+      {{$this find smasher_ps2.tex} set_bitmap {sprint "track/smashers/smasher_" $smasher ".png"}}
+      {{$this find square_smasher_bright.tex} set_bitmap {sprint "track/smashers/square_smasher_bright_" $smasher ".png"}}
+   }
       {$this play_intro}
       {if
          {&&
