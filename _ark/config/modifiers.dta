@@ -24,9 +24,13 @@
       unlocked)
    (mod_awesome unlocked)
    (mod_blackvenue (activate {set $blackvenue TRUE} {modifier_mgr deactivate_modifier mod_nohud} {modifier_mgr activate_modifier mod_nocrowd}) (deactivate {set $blackvenue FALSE} {modifier_mgr deactivate_modifier mod_nocrowd}) unlocked)
+   (mod_songtitle unlocked)
+   (mod_padguitar (activate {modifier_mgr deactivate_modifier mod_paddrum}) unlocked) ;updated padguitar to disable paddrum
+   (mod_paddrum (activate {modifier_mgr deactivate_modifier mod_padguitar}) unlocked) ;paddrum disables padguitar
    (mod_nosustain unlocked)
    (mod_rb3sustain unlocked)
    (mod_nowhammyfx unlocked)
    (mod_nocrowd unlocked)
    (mod_nomuting unlocked)
+   ;(mod_auto_play (disables (modifier_saving_feature)) unlocked)
    )

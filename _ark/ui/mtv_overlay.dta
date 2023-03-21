@@ -16,7 +16,9 @@
          {$this show_overlay TRUE}
          {if
             {exists fade.anim}
-            {fade.anim animate}}})
+            {if_else {modifier_mgr is_modifier_active mod_songtitle}
+              {fade.anim set_frame 50}
+                  {fade.anim animate}}}})
    (exit
       {if
          {exists game}

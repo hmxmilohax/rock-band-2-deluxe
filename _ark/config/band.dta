@@ -92,15 +92,78 @@
       (hx_drums_xbox kControllerDrum)
       (hx_drums_ps3 kControllerDrum)
       (hx_drums_rb2_ps3 kControllerDrum)
-      (hx_xbox kControllerVocals)
-      (digital kControllerVocals)
-      (analog kControllerVocals)
-      (dualshock kControllerVocals)
-      (stagekit_xbox kControllerVocals)
-      (gamecube kControllerVocals)
-      (wii_core kControllerVocals)
-      (wii_freestyle kControllerVocals)
-      (wii_classic kControllerVocals)
+      (hx_xbox 
+         {if_else
+            {modifier_mgr is_modifier_active mod_padguitar}
+            kControllerGuitar
+            {if_else
+               {modifier_mgr is_modifier_active mod_paddrum}
+                  kControllerDrum
+                  kControllerVocals}})
+      (digital 
+         {if_else
+            {modifier_mgr is_modifier_active mod_padguitar}
+            kControllerGuitar
+            {if_else
+               {modifier_mgr is_modifier_active mod_paddrum}
+                  kControllerDrum
+                  kControllerVocals}})
+      (analog 
+         {if_else
+            {modifier_mgr is_modifier_active mod_padguitar}
+            kControllerGuitar
+            {if_else
+               {modifier_mgr is_modifier_active mod_paddrum}
+                  kControllerDrum
+                  kControllerVocals}})
+      (dualshock 
+         {if_else
+            {modifier_mgr is_modifier_active mod_padguitar}
+            kControllerGuitar
+            {if_else
+               {modifier_mgr is_modifier_active mod_paddrum}
+                  kControllerDrum
+                  kControllerVocals}})
+      (stagekit_xbox 
+         {if_else
+            {modifier_mgr is_modifier_active mod_padguitar}
+            kControllerGuitar
+            {if_else
+               {modifier_mgr is_modifier_active mod_paddrum}
+                  kControllerDrum
+                  kControllerVocals}})
+      (gamecube 
+         {if_else
+            {modifier_mgr is_modifier_active mod_padguitar}
+            kControllerGuitar
+            {if_else
+               {modifier_mgr is_modifier_active mod_paddrum}
+                  kControllerDrum
+                  kControllerVocals}})
+      (wii_core 
+         {if_else
+            {modifier_mgr is_modifier_active mod_padguitar}
+            kControllerGuitar
+            {if_else
+               {modifier_mgr is_modifier_active mod_paddrum}
+                  kControllerDrum
+                  kControllerVocals}})
+      (wii_freestyle 
+         {if_else
+            {modifier_mgr is_modifier_active mod_padguitar}
+            kControllerGuitar
+            {if_else
+               {modifier_mgr is_modifier_active mod_paddrum}
+                  kControllerDrum
+                  kControllerVocals}})
+      (wii_classic 
+         {if_else
+            {modifier_mgr is_modifier_active mod_padguitar}
+            kControllerGuitar
+            {if_else
+               {modifier_mgr is_modifier_active mod_paddrum}
+                  kControllerDrum
+                  kControllerVocals}})
       (none kControllerNone)))
 (spew
    #include spew.dta)
