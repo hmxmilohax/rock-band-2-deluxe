@@ -106,6 +106,7 @@ This guide contains full instructions on how to install Rock Band 2 Deluxe for P
 
 * **Install your North American copy of Rock Band 2** through the emulator. The [**official RPCS3 site covers this nicely**](https://rpcs3.net/quickstart).
   * Remember, **you need to be running** ***BLUS30147***. RPCS3 will tell you this in the game selection GUI under the `Serial` column.
+  * Once your vanilla copy is installed, **do NOT touch it**. Deluxe installs to a separate folder.
 
 * **If this is your first time installing**, you will need the [**latest update for Rock Band 2**](http://b0.ww.np.dl.playstation.net/tppkg/np/BLUS30147/BLUS30147_T1/c8b8d16f692b3672/UP0006-BLUS30147_00-ROCKBAND2PATCH02-A0102-V0100-PE.pkg) installed on RPCS3.
   * *Right-click and select `Save link as...` to start the download*, then **drag and drop it on top of the main RPCS3 window** to install it.
