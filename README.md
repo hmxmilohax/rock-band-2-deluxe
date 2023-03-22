@@ -15,7 +15,7 @@ This guide contains full instructions on how to install Rock Band 2 Deluxe for P
   - [Quality of Life](#quality-of-life)
   - [Additional Modifications](#additional-modifications)
 - [What You'll Need](#what-youll-need)
-- [Download](#download)
+- [Downloads](#downloads)
   - [Installing Songs](#installing-songs)
   - [Building an ISO](#building-an-iso)
 - [Custom Textures](#custom-textures)
@@ -44,10 +44,12 @@ This guide contains full instructions on how to install Rock Band 2 Deluxe for P
 - For Console: A **modded/hacked PS2**
 - For Emulator: A **PC** capable of running PCSX2
 
-# Download
+# Downloads
 
 ### [Rock Band 2 Deluxe for PS2](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/ps2/RB2DX-PS2.zip)
 ### [Rock Band 2 Deluxe: Custom Edition](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/ps2/RB2DXCE-PS2.zip)
+
+*Have a modded PS3/Xbox 360? Check out the [main version](https://github.com/hmxmilohax/rock-band-2-deluxe#what-youll-need)!*
 
 ## Installing Songs
 
