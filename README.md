@@ -100,6 +100,8 @@ This guide contains full instructions on how to install Rock Band 2 Deluxe for P
 ### [Rock Band 2 Deluxe for PS3](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-PS3.zip)
 ### [Rock Band 2 Deluxe for Xbox 360](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-Xbox.zip)
 
+*Have a modded PS2 or can't run RPCS3? Check out the [PS2 Version](https://github.com/hmxmilohax/rock-band-2-deluxe/tree/ps2#what-youll-need)!*
+
 # How to Install
 
 ## Installing on [RPCS3](https://rpcs3.net/) (Recommended for PC)
