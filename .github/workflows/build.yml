@@ -12,7 +12,7 @@ jobs:
       - name: download/copy rb2 songs
         run: |
           chmod +x dependencies/linux/gdrive
-          dependencies/linux/gdrive account import dependencies/linux/gdrive/gdrive_key.tar
+          dependencies/linux/gdrive account import dependencies/linux/gdrive_key.tar
           dependencies/linux/gdrive files download 1gTMkLScBkENtSk2EHDweMmlfMi9XMUGK --recursive --destination ./
           mv ./rb2dxsongs ./_build/ps2
 
@@ -21,7 +21,7 @@ jobs:
           chmod +x dependencies/linux/arkhelper
           chmod +x dependencies/linux/dtab
           chmod +x dependencies/linux/superfreq
-          dependencies/linux/arkhelper dir2ark ./_ark ./_build/ps2/gen -n "MAIN" -e -v 4
+          dependencies/linux/arkhelper dir2ark ./_ark ./_build/ps2/gen -n "MAIN" -e -v 4 -s 4000000000
       
       - name: Upload result
         uses: actions/upload-artifact@v2
@@ -39,7 +39,7 @@ jobs:
           chmod +x dependencies/linux/arkhelper
           chmod +x dependencies/linux/dtab
           chmod +x dependencies/linux/superfreq
-          dependencies/linux/arkhelper dir2ark ./_ark ./_build/ps2/gen -n "MAIN" -e -v 4
+          dependencies/linux/arkhelper dir2ark ./_ark ./_build/ps2/gen -n "MAIN" -e -v 4 -s 4000000000
       
       - name: Upload result
         uses: actions/upload-artifact@v2
