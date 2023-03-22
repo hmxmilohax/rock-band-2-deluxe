@@ -14,7 +14,7 @@ jobs:
           chmod +x dependencies/linux/gdrive
           dependencies/linux/gdrive account import dependencies/linux/gdrive_key.tar
           dependencies/linux/gdrive files download 1gTMkLScBkENtSk2EHDweMmlfMi9XMUGK --recursive --destination ./
-          mv ./rb2dxsongs/ ./_build/ps2
+          mv ./rb2dxsongs/. ./_build/ps2
 
       - name: Build ARK
         run: |
