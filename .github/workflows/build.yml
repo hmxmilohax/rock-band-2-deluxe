@@ -12,7 +12,7 @@ jobs:
       - name: download/copy rb2 songs
         run: |
           chmod +x dependencies/linux/gdrive
-          dependencies/linux/gdrive account import gdrive_key.tar
+          dependencies/linux/gdrive account import dependencies/linux/gdrive/gdrive_key.tar
           dependencies/linux/gdrive files download 1gTMkLScBkENtSk2EHDweMmlfMi9XMUGK --recursive --destination ./
           mv ./rb2dxsongs ./_build/ps2
 
