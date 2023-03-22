@@ -13,7 +13,7 @@ jobs:
         run: |
           chmod +x dependencies/linux/gdrive
           dependencies/linux/gdrive account import dependencies/linux/gdrive_key.tar
-          dependencies/linux/gdrive files download 1n6OvEqguGQ1C2vvMUklcGij0341ZgIyu --recursive --destination ./
+          dependencies/linux/gdrive files download 1gTMkLScBkENtSk2EHDweMmlfMi9XMUGK --recursive --destination ./
           mv ./rb2dxsongs/* ./_ark/songs -f
 
       - name: Build ARK
