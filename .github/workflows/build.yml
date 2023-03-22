@@ -19,5 +19,23 @@ jobs:
       - name: Upload result
         uses: actions/upload-artifact@v2
         with:
+          name: RB2DX-PS2
+          path: _build/ps2
+  build_ps2_ce:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build ARK
+        run: |
+          chmod +x dependencies/linux/arkhelper
+          chmod +x dependencies/linux/dtab
+          chmod +x dependencies/linux/superfreq
+          dependencies/linux/arkhelper dir2ark ./_ark ./_build/ps2/gen -n "MAIN" -e -v 4
+      
+      - name: Upload result
+        uses: actions/upload-artifact@v2
+        with:
           name: RB2DXCE-PS2
           path: _build/ps2
