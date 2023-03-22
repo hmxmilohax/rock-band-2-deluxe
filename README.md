@@ -1,12 +1,12 @@
-# Rock Band 2 Deluxe: Custom Edition [PS2]
+# Rock Band 2 Deluxe [PS2]
 
 ![Header Image](dependencies/header.png)
 
 # Introduction
 
-### Rock Band 2 Deluxe CE is a Massive Quality-of-Life Improvement Mod by [MiloHax](https://github.com/hmxmilohax)
+### Rock Band 2 Deluxe [PS2] is a Massive Quality-of-Life Improvement Mod by [MiloHax](https://github.com/hmxmilohax)
 
-This guide contains full instructions on how to install Rock Band 2 Deluxe CE for PlayStation 2.
+This guide contains full instructions on how to install Rock Band 2 Deluxe for PlayStation 2.
 
 *There are also (better and more supported) PS3 and Xbox 360 versions available in the* ***[main branch](https://github.com/hmxmilohax/rock-band-2-deluxe).***
 
@@ -39,14 +39,15 @@ This guide contains full instructions on how to install Rock Band 2 Deluxe CE fo
 
 # What You'll Need
 
-### Playing Rock Band 2 Deluxe CE [PS2] requires these things:
+### Playing Rock Band 2 Deluxe [PS2] requires these things:
 
 - For Console: A **modded/hacked PS2**
 - For Emulator: A **PC** capable of running PCSX2
 
 # Download
 
-### [Rock Band 2 Deluxe CE for PS2](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/ps2/RB2DXCE-PS2.zip)
+### [Rock Band 2 Deluxe for PS2](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/ps2/RB2DX-PS2.zip)
+### [Rock Band 2 Deluxe: Custom Edition](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/ps2/RB2DXCE-PS2.zip)
 
 ## Installing Songs
 
@@ -58,7 +59,7 @@ This guide contains full instructions on how to install Rock Band 2 Deluxe CE fo
 
 # Custom Textures
 
-Rock Band 2 Deluxe CE has a variety of custom textures, found in the `Deluxe Settings` menu in-game, as well as a way to import your own with relative ease.
+Rock Band 2 Deluxe has a variety of custom textures, found in the `Deluxe Settings` menu in-game, as well as a way to import your own with relative ease.
 
 ### Importing Your Own Textures
 
@@ -89,7 +90,7 @@ Rock Band 2 Deluxe CE has a variety of custom textures, found in the `Deluxe Set
 
 ![Repo Folder](dependencies/images/repofolder.png)
 
-***The Rock Band 2 Deluxe CE repo is now set up!*** You can now return to [**Custom Textures**](#custom-textures).
+***The Rock Band 2 Deluxe repo is now set up!*** You can now return to [**Custom Textures**](#custom-textures).
 
 # Dependencies
 
