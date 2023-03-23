@@ -30,7 +30,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Build ARK
-        run: 
+        run: |
         del /s *.milo_xbox
         del /s *.png_xbox
         del /s *.bmp_xbox
