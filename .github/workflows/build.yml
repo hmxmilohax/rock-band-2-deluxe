@@ -31,7 +31,7 @@ jobs:
 
       - name: Remove Xbox files
         run: 
-          remove-item _ark/* -include *.milo_xbox,*.png_xbox,*.bmp_xbox
+          Get-ChildItem _ark/ -recurse -include *.*_xbox | remove-item
 
       - name: Build ARK
         run: 
