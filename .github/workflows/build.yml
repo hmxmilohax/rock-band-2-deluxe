@@ -29,9 +29,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Remove Xbox files
+        run: 
+          Get-ChildItem _ark/ -recurse -include *.*_xbox | remove-item
+
       - name: Build ARK
         run: 
-          dependencies/windows/arkhelper dir2ark ./_ark ./_build/ps3/USRDIR/gen -n "patch_ps3" -e -v 5
+          dependencies/windows/arkhelper.exe dir2ark _ark _build/ps3/USRDIR/gen -n "patch_ps3" -e -v 5
 
       - name: Build PKG
         run: |
