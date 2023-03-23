@@ -31,10 +31,10 @@ jobs:
 
       - name: Build ARK
         run: |
-          del /S *_xbox
+          del *_xbox
           dependencies/windows/arkhelper dir2ark ./_ark ./_build/ps3/USRDIR/gen -n "patch_ps3" -e -v 5
 
-      - name: Build pkg
+      - name: Build PKG
         run: dependencies/ta_pkg_repacker_tools/make_package_npdrm_retail.exe dependencies/ta_pkg_repacker_tools/package.conf _build/ps3
       
       - name: Upload result
