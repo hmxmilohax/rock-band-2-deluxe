@@ -29,9 +29,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Remove Xbox files
+        run: 
+          remove-item _ark/* -include *.milo_xbox,*.png_xbox,*.bmp_xbox
+
       - name: Build ARK
-        run: |
-          dir '_ark\*.*_xbox' | foreach {del $_}
+        run: 
           dependencies/windows/arkhelper dir2ark ./_ark ./_build/ps3/USRDIR/gen -n "patch_ps3" -e -v 5
 
       - name: Build PKG
