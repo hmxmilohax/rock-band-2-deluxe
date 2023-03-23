@@ -30,7 +30,11 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Build ARK
-        run: dependencies/windows/arkhelper dir2ark ./_ark ./_build/ps3/USRDIR/gen -n "patch_ps3" -e -v 5
+        run: 
+        del /s *.milo_xbox
+        del /s *.png_xbox
+        del /s *.bmp_xbox
+        dependencies/windows/arkhelper dir2ark ./_ark ./_build/ps3/USRDIR/gen -n "patch_ps3" -e -v 5
 
       - name: Build pkg
         run: dependencies/ta_pkg_repacker_tools/make_package_npdrm_retail.exe dependencies/ta_pkg_repacker_tools/package.conf _build/ps3
