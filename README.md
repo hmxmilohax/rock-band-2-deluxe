@@ -108,13 +108,9 @@ This guide contains full instructions on how to install Rock Band 2 Deluxe for P
 
 * **Install your North American copy of Rock Band 2** through the emulator. The [**official RPCS3 site covers this nicely**](https://rpcs3.net/quickstart).
   * Remember, **you need to be running** ***BLUS30147***. RPCS3 will tell you this in the game selection GUI under the `Serial` column.
-  * Once your vanilla copy is installed, **do NOT touch it**. Deluxe installs to a separate folder.
-
-* **If this is your first time installing**, you will need the [**latest update for Rock Band 2**](http://b0.ww.np.dl.playstation.net/tppkg/np/BLUS30147/BLUS30147_T1/c8b8d16f692b3672/UP0006-BLUS30147_00-ROCKBAND2PATCH02-A0102-V0100-PE.pkg) installed on RPCS3.
-  * *Right-click and select `Save link as...` to start the download*, then **drag and drop it on top of the main RPCS3 window** to install it.
 
 * Download [**Rock Band 2 Deluxe for PS3**](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-PS3.zip). 
-  * **Copy the contents of it to `\dev_hdd0\game\BLUS30147\`** in your RPCS3 directory. Click `Yes` to overwrite the files.
+  * Extract the zip and **drag and drop the `.pkg` file on top of the main RPCS3 window** to install it. Select `Yes` to confirm.
 
 ***Rock Band 2 Deluxe is now installed!*** We highly recommend you check out [**Optional Upgrades**](#optional-upgrades) for songs and other cool stuff you can add to your game.
 
@@ -132,11 +128,9 @@ This guide contains full instructions on how to install Rock Band 2 Deluxe for P
 
 **NOTE: Rock Band 2 Deluxe only works with** ***North American (`BLUS30147`)*** **copies of the game on PS3.**
 
-* **If this is your first time installing**, you will need the **latest update for Rock Band 2** installed on your system.
-  * Insert our mount your disc, press `Triangle` on it, and select `Check for Update`. Update to version `1.02` if it asks you.
-
 * Download [**Rock Band 2 Deluxe for PS3**](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-PS3.zip). 
-  * **Copy the contents of it to `\dev_hdd0\game\BLUS30147\`** on your PS3's hard drive (we recommend using FTP to do so). Click `Yes` to overwrite the files.
+  * Extract the zip and copy the `.pkg` file to the root of a FAT32 formatted USB drive.
+  * Navigate to `Package Manager` and install it like any other package.
 
 ***Rock Band 2 Deluxe is now installed!*** We highly recommend you check out [**Optional Upgrades**](#optional-upgrades) for songs and other cool stuff you can add to your game.
 
