@@ -31,9 +31,7 @@ jobs:
 
       - name: Build ARK
         run: |
-          del /S *.milo_xbox
-          del /S *.png_xbox
-          del /S *.bmp_xbox
+          del /S *_xbox
           dependencies/windows/arkhelper dir2ark ./_ark ./_build/ps3/USRDIR/gen -n "patch_ps3" -e -v 5
 
       - name: Build pkg
