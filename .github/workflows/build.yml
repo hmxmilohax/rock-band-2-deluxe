@@ -31,9 +31,7 @@ jobs:
 
       - name: Build ARK
         run: |
-          %SystemRoot%\System32\robocopy.exe "._ark" "._temp\_ark" *.milo_xbox /S /MOVE /XD "._temp\_ark" /NDL /NFL /NJH /NJS /R:0 >nul
-          %SystemRoot%\System32\robocopy.exe "._ark" "._temp\_ark" *.png_xbox /S /MOVE /XD "._temp\_ark" /NDL /NFL /NJH /NJS /R:0 >nul
-          %SystemRoot%\System32\robocopy.exe "._ark" "._temp\_ark" *.bmp_xbox /S /MOVE /XD "._temp\_ark" /NDL /NFL /NJH /NJS /R:0 >nul
+          del *.*_xbox /s
           dependencies/windows/arkhelper dir2ark ./_ark ./_build/ps3/USRDIR/gen -n "patch_ps3" -e -v 5
 
       - name: Build PKG
