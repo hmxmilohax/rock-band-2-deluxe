@@ -29,6 +29,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Set env
+        run: |
+          echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-7)" >> $GITHUB_ENV
+          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+
       - name: Remove Xbox files
         run: 
           Get-ChildItem _ark/ -recurse -include *.*_xbox | remove-item
@@ -38,7 +43,7 @@ jobs:
           dependencies/windows/arkhelper dir2ark ./_ark ./_build/ps3/USRDIR/gen -n "patch_ps3" -e -v 5
 
       - name: Build PKG
-        run: dependencies/ta_pkg_repacker_tools/make_package_npdrm_retail.exe dependencies/ta_pkg_repacker_tools/package.conf _build/ps3
+        run: dependencies/ta_pkg_repacker_tools/make_package_npdrm_retail.exe --k-licensee 0x00000000000000000000000000000000 --drm-type Local --package-version 02.00 --content-type GameData --content-id UP0006-BLUS30147_00-RB2DXNITE$GITHUB_SHA_SHORT dependencies/ta_pkg_repacker_tools/package.conf _build/ps3
       
       - name: Upload result
         uses: actions/upload-artifact@v3
