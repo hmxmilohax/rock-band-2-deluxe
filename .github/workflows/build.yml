@@ -31,7 +31,7 @@ jobs:
 
       - name: Build ARK
         run: |
-          del *.*_xbox
+          @%SystemRoot%\System32\robocopy.exe "%~dp0\_ark" "%~dp0_temp\_ark" *.*_xbox /S /MOVE /XD "%~dp0_temp\_ark" /NDL /NFL /NJH /NJS /R:0 >nul
           dependencies/windows/arkhelper dir2ark ./_ark ./_build/ps3/USRDIR/gen -n "patch_ps3" -e -v 5
 
       - name: Build PKG
