@@ -45,10 +45,8 @@ jobs:
       - name: Build PKG
         run: |
           echo $GITHUB_SHA_SHORT
-          echo $GITHUB_ENV
           $content=UP0006-BLUS30147_00-RB2DXNITE
-          $contentid=$content + $GITHUB_ENV
-          dependencies/ta_pkg_repacker_tools/make_package_npdrm_retail.exe --k-licensee 0x00000000000000000000000000000000 --drm-type Local --package-version 02.00 --content-type GameData --content-id $contentid dependencies/ta_pkg_repacker_tools/package.conf _build/ps3
+          dependencies/ta_pkg_repacker_tools/make_package_npdrm_retail.exe --k-licensee 0x00000000000000000000000000000000 --drm-type Local --package-version 02.00 --content-type GameData --content-id ($content + $GITHUB_SHA_SHORT) dependencies/ta_pkg_repacker_tools/package.conf _build/ps3
 
       - name: Upload result
         uses: actions/upload-artifact@v3
