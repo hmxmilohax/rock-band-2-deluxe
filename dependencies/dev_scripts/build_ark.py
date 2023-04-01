@@ -47,11 +47,11 @@ def build_patch_ark():
     failed = False
     try:
         if platform == "win32":
-            cmd_build = f"dependencies\windows\\arkhelper.exe dir2ark _ark {build_location} -n {patch_hdr_version} -e -v 4 -s 4000000000".split()
+            cmd_build = f"dependencies\windows\\arkhelper.exe dir2ark _ark {build_location} -n {patch_hdr_version} -e -v 4 -s 4073741823".split()
         elif platform == "darwin":
-            cmd_build = f"dependencies/macos/arkhelper dir2ark _ark {build_location} -n {patch_hdr_version} -e -v 4 -s 4000000000".split()
+            cmd_build = f"dependencies/macos/arkhelper dir2ark _ark {build_location} -n {patch_hdr_version} -e -v 4 -s 4073741823".split()
         else:
-            cmd_build = f"dependencies/linux/arkhelper dir2ark _ark {build_location} -n {patch_hdr_version} -e -v 4 -s 4000000000".split()
+            cmd_build = f"dependencies/linux/arkhelper dir2ark _ark {build_location} -n {patch_hdr_version} -e -v 4 -s 4073741823".split()
         subprocess.check_output(cmd_build, shell=(platform == "win32"), cwd="..")
     except CalledProcessError as e:
         print(e.output)
