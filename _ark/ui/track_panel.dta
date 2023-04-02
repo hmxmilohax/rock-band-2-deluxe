@@ -219,6 +219,16 @@
       {{$this find vocal_bg.tex} set_bitmap {sprint "track/voxhw/vocal_bg_" $voxhw ".png"}}
    }
 
+   {if $scorecustomtexture
+      {{$this find indv_player_meter_circle.tex} set_bitmap {sprint "track/score/indv_player_meter_circle_" $scoretex ".png"}}
+      {{$this find indv_player_meter_glass.tex} set_bitmap {sprint "track/score/indv_player_meter_glass_" $scoretex ".png"}}
+     {{$this find indv_player_meter_glow.tex} set_bitmap {sprint "track/score/indv_player_meter_glow_" $scoretex ".png"}}
+     {{$this find indv_player_meter.png} set_bitmap {sprint "track/score/indv_player_meter_" $scoretex ".png"}}
+     {{$this find star_sheet.tex} set_bitmap {sprint "track/score/star_power_" $scoretex ".png"}}
+     {{$this find score_meter_wipe.tex} set_bitmap {sprint "track/score/score_meter_wipe_" $scoretex ".png"}}
+     {{$this find score_meter_wipe.tex} iterate_refs $ref {$ref set color {pack_color 1.0 1.0 1.0}}}
+   }
+
    {if $gemcustomtexture
       {{$this find prism_gems.tex} set_bitmap {sprint "track/gems/prism_gems_" $gem ".png"}}
       {{$this find prism_gems_lod.tex} set_bitmap {sprint "track/gems/prism_gems_lod_" $gem ".png"}}
