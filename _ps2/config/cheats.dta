@@ -1,0 +1,434 @@
+#ifdef HX_WII
+(left
+   (kPad_Tri
+      "Cycle instrument faking for Player 1"
+      {cycle_instrument_override 0})
+   (kPad_Start
+      "Cycle instrument faking for Player 2"
+      {cycle_instrument_override 1})
+   (kPad_X
+      "Cycle instrument faking for Player 3"
+      {cycle_instrument_override 2})
+   (kPad_Square
+      "Cycle instrument faking for Player 4"
+      {cycle_instrument_override 3})
+   (kPad_Circle
+      "Toggle auto play"
+      {do
+         {toggle_auto_play}
+         {stop_logging}}))
+#else
+(left
+   (kPad_Tri
+      "Screen cheat"
+      {switch
+         {ui current_screen}
+         (splash_screen
+            {ui goto_screen frame_rate_screen})
+         (practice_sel_section_screen
+            {practice_sel_section_panel output_offsets})}))
+#endif
+(right
+   (kPad_Select
+      "Fake Win with 3 stars"
+      {fake_win 3})
+   (kPad_Circle
+      "Print Current Screen"
+      {handle
+         ({ui current_screen}
+            print)})
+   (kPad_DUp
+      "Cycle instrument faking for Player 1"
+      {cycle_instrument_override 0})
+   (kPad_DRight
+      "Cycle instrument faking for Player 2"
+      {cycle_instrument_override 1})
+   (kPad_DDown
+      "Cycle instrument faking for Player 3"
+      {cycle_instrument_override 2})
+   (kPad_DLeft
+      "Cycle instrument faking for Player 4"
+      {cycle_instrument_override 3})
+   (kPad_Start
+      "Toggle auto play"
+      {do
+         {toggle_auto_play}
+         {stop_logging}}))
+(keyboard
+   #ifndef _SHIP
+   ('`'
+      "Toggle fake file errors"
+      {toggle_fake_file_errors})
+   #endif
+   (KB_F3
+      "Shows XBox Mktplace DLC gui"
+      {if_else
+         {download_store find_offers}
+         {download_store start_store_ui}
+         {cheat_display
+            show
+            {sprint
+               "No DLC available"}}})
+   (KB_F4
+      "Toggles light state overlay"
+      {toggle_lights_debug})
+   (KB_F5
+      "Empties all band energy"
+      {do
+         {cheat_empty_band_energy}
+         {stop_logging}})
+   (KB_F7
+      "Toggle track surfaces"
+      {if
+         {game is_up}
+         {{get_track_panel}
+            toggle_surface}})
+   (KB_F8
+      "Toggle now bar"
+      {if
+         {game is_up}
+         {{get_track_panel}
+            toggle_nowbar}})
+   (0
+      "Toggle Game Paused"
+      {toggle_time_paused})
+   (1
+      "Fake Player 1 using Joypad 1"
+      {fake_player1_cheat 0})
+   (2
+      "Fake Player 2 using Joypad 1"
+      {fake_player1_cheat 1})
+   (3
+      "Fake Player 3 using Joypad 1"
+      {fake_player1_cheat 2})
+   (4
+      "Fake Player 4 using Joypad 1"
+      {fake_player1_cheat 3})
+   (5
+      "Cycle through graphical character debugging in game"
+      {next_character_driver})
+   (6
+      "Cycle instrument faking for Player 1"
+      {cycle_instrument_override 0})
+   (7
+      "Cycle instrument faking for Player 2"
+      {cycle_instrument_override 1})
+   (8
+      "Cycle instrument faking for Player 3"
+      {cycle_instrument_override 2})
+   (9
+      "Cycle instrument faking for Player 4"
+      {cycle_instrument_override 3})
+   ('('
+      "Tour: decrease vehicle level"
+      {cheat_adjust_vehicle -1})
+   (')'
+      "Tour: increase vehicle level"
+      {cheat_adjust_vehicle 1})
+   (!
+      "Game: Win w/ 3 stars, Meta: Win Event w/ 1 Star Avg"
+      {fake_win 1})
+   ('@'
+      "Game: Win w/ 3 stars, Meta: Win Event w/ 2 Star Avg"
+      {fake_win 2})
+   (#
+      "Game: Win w/ 3 stars, Meta: Win Event w/ 3 Star Avg"
+      {fake_win 3})
+   ('$'
+      "Game: Win w/ 4 stars, Meta: Win Event w/ 4 Star Avg"
+      {fake_win 4})
+   ('%'
+      "Game: Win w/ 5 stars, Meta: Win Event w/ 5 Star Avg"
+      {fake_win 5})
+   ('^'
+      "Game: Win w/ 6 stars, Meta: Win Event w/ 6 Star Avg"
+      {fake_win 6})
+   (&
+      "Game: Win w/ 7 stars, Meta: Win Event w/ 7 Star Avg"
+      {fake_win 7})
+   ('*'
+      "Game: Win a Multisong Event w/ 5 star avg"
+      {fake_win_multi 5})
+   #ifdef HX_XBOX
+   ('+'
+      "Tour: Give $100 "
+      {cheat_add_money 100})
+   (=
+      "Tour: Give $50000"
+      {cheat_add_money 50000})
+   #endif
+   ('['
+      "Meta: Subtract 1 buzz, Game: Toggle Skip Intro"
+      {if_else
+         {game is_up}
+         {toggle_skip_intro}
+         {cheat_adjust_buzz -1}})
+   (']'
+      "Meta: Add 1 buzz"
+      {cheat_adjust_buzz 1})
+   ('{'
+      "Meta: Subtract 100 buzz"
+      {cheat_adjust_buzz -100})
+   ('}'
+      "Meta: Add 100 buzz"
+      {cheat_adjust_buzz 100})
+   (A
+      "Meta: unlock all; Game: toggle crowd audio"
+      {A_cheat})
+   (b
+      "Meta: show current buzz, Game: toggles click track"
+      {do
+         {b_cheat}
+         {stop_logging}})
+   #ifdef HX_XBOX
+   (B
+      "Fire off bonus fx.  Woo!"
+      {handle
+         ($world bonusfx)})
+   (c
+      "Game: Cycle CamShots / Shop: Dump character data"
+      {if_else
+         {game is_up}
+         {handle
+            ($world cycle_shot)}
+         {if
+            {shop_char_panel is_up}
+            {{shop_char_panel get tour_char}
+               write_config}}}
+      7)
+   (C
+      "Toggle Current CamShot Info"
+      {rnd toggle_overlay camera})
+   (d
+      "Game: Toggle Cam Shot Picking, Meta: Toggle Difficulty"
+      {if_else
+         {game is_up}
+         {handle
+            ($world toggle_pick_shot)}
+         {cheat_toggle_difficulty}})
+   #endif
+   (D
+      "Everyone Deploy Band Energy"
+      {do
+         {everyone_deploy}
+         {stop_logging}})
+   (e
+      "Adjust crowd excitement down"
+      {do
+         {adjust_crowd_rating -0.1}
+         {stop_logging}})
+   (E
+      "Adjust crowd excitement up"
+      {do
+         {adjust_crowd_rating 0.1}
+         {stop_logging}})
+   (f
+      "Toggle drum freestyle"
+      {do
+         {toggle_drum_freestyle}
+         {stop_logging}})
+   (F
+      "Cycle Free Camera"
+      {cycle_free_camera})
+   (g
+      "Toggle auto-alternate frets in guitar solos"
+      {toggle_auto_alternate_buttons})
+   (G
+      "Print faders"
+      {audio print_faders})
+   (h
+      "Toggle HUD"
+      {handle
+         ({get_track_panel}
+            set_showing
+            {!
+               {{get_track_panel}
+                  showing}})})
+   (H
+      "Always Host when using Find More Players"
+      {toggle_always_host})
+   (I
+      "Toggle Light Preset overlay"
+      {rnd toggle_overlay light_preset})
+   #ifdef HX_XBOX
+   (i
+      "Toggle lighting events"
+      {handle
+         ($world toggle_lighting_events)})
+   #endif
+   (j
+      "Toggle character overlay"
+      {rnd toggle_overlay char_status TRUE})
+   (J
+      "toggle message tracker"
+      {if_else
+         {message_timer_on}
+         {do
+            {message_timer_stop}
+            {message_timer_dump}
+            {cheat_display
+               show
+               {sprint
+                  "message tracker off"}}}
+         {message_timer_start}})
+   (k
+      "Toggle latency overlay"
+      {if
+         {exists crowd_audio}
+         {crowd_audio set_enabled FALSE}
+         {set
+            $latency_test
+            {mod
+               {'+' $latency_test 1}
+               6}}})
+   (K
+      "Show currently loaded/loading characters"
+      {char_cache print_requested})
+   (l
+      "Game: Lose"
+      {do
+         {if
+            {exists beatmatch}
+            {{beatmatch active_player 0}
+               lose}}
+         {stop_logging}})
+   (L
+      "Toggle audio levels"
+      {synth toggle_hud})
+   (m
+      "Toggle crowd meter activation"
+      {do
+         {toggle_crowd_meter}
+         {stop_logging}})
+   (M
+      "Toggle mutes all"
+      {toggle_mute_global})
+   (n
+      "Toggle killing notifies"
+      {set
+         $kill_notifies
+         {! $kill_notifies}}
+      {cheat_display
+         show
+         {sprint
+            "Kill notifies "
+            $kill_notifies}})
+   (N
+      "Toggle time display"
+      {rnd toggle_overlay time})
+   #ifdef HX_XBOX
+   (o
+      "Push Network Channel selection screen"
+      {unless
+         {session get_public}
+         {ui push_screen selchannel_screen}})
+   #endif
+   (O
+      "Print the symbol table"
+      {print_symbol_table syms})
+   (p
+      "Toggle auto play"
+      {do
+         {toggle_auto_play}
+         {stop_logging}})
+   (P
+      "Cycle through song speeds"
+      {do
+         {cycle_music_speed}
+         {stop_logging}})
+   (q
+      "Print Current Screen"
+      {handle
+         ({ui current_screen}
+            print)})
+   (Q
+      "toggle phoneme feedback"
+      {{get_track_panel}
+         toggle_phoneme_feedback})
+   (r
+      "Reload song"
+      {reload_song})
+   (R
+      "Reload hud"
+      {reload_track_hud})
+   (s
+      "Toggle scoring info"
+      {if
+         {game is_up}
+         {rnd toggle_overlay score}})
+   (S
+      "Fill up the band energy"
+      {do
+         {fill_band_energy}
+         {stop_logging}})
+   (t
+      "Toggle time overlay"
+      {rnd toggle_overlay time})
+   (T
+      "Toggle profiling timers"
+      {rnd toggle_timers}
+      {rnd toggle_overlay rate})
+   (u
+      "Toggle chord hopos"
+      {set
+         $chord_hopos
+         {! $chord_hopos}})
+   (v
+      "dump textures"
+      {rnd dump_textures})
+   (V
+      "toggle vocal score info"
+      {{get_track_panel}
+         toggle_score_debug})
+   (w
+      "Meta: Play BWT with 1 player - Game: Force a win"
+      {if_else
+         {exists beatmatch}
+         {do
+            {{beatmatch active_player 0}
+               win
+               3}
+            {stop_logging}}
+         {toggle_bwt_no_min_participants}})
+   (W
+      "Toggle track fade"
+      {{get_track_panel}
+         toggle_track_fade})
+   (x
+      "Cycle Guitar FX"
+      {cycle_guitar_fx})
+   (X
+      "Toggle shuttle"
+      {toggle_shuttle})
+   (y
+      "Toggle lyric display mode"
+      {{get_track_panel}
+         toggle_lyric_mode})
+   (z
+      "Toggle showing world"
+      {world_panel
+         set_showing
+         {!
+            {world_panel showing}}})
+   (Z
+      "Hi-reZ screen shot"
+      {rnd hi_res_screen 3})
+   (>
+      "Skip current tutorial VO"
+      {tutorials_state_panel reset_vo})
+   (<
+      "Jump backward a bit in time"
+      {beatmatch
+         jump
+         {-
+            {beatmatch get_song_ms}
+            1000.0}})
+   (KB_UP
+      "Double song speed"
+      {change_speed 2.0})
+   (KB_DOWN
+      "Halve song speed"
+      {change_speed 0.5})
+   (KB_TAB
+      "Cycle Film Grain A/B/None"
+      {world_panel cycle_film_grain}))

@@ -1,0 +1,83 @@
+{new
+   UIPanel
+   tutorials_fail_panel
+   (file
+      "tutorial_fail_real.milo")
+   (enter
+      {$this set_focus tut_fail_retry.btn}
+      {set
+         [is_done]
+         FALSE})
+   (SELECT_MSG
+      {if_else
+         {&&
+            {==
+               $player_num
+               {{gamemode get main_panel}
+                  get_tutorial_player}}
+            {!
+               [is_done]}}
+         {do
+            {set
+               [is_done]
+               TRUE}
+            {switch
+               $component
+               (tut_fail_retry.btn
+                  {tutorials_state_panel
+                     set
+                     fail_menu_response
+                     "retry"}
+                  HIDE_UI_ELEMENTS)
+               (tut_fail_skip.btn
+                  {tutorials_state_panel
+                     set
+                     fail_menu_response
+                     "skip"})}
+            {script_task
+               kTaskUISeconds
+               (delay 0.8)
+               (script
+                  {ui pop_screen})}
+            kDataUnhandled}
+         TRUE})
+   (JOYPAD_CONNECT_MSG
+      {if
+         {game missing_controllers}
+         {ui goto_screen tutorials_pause_controller_screen}})
+   (BUTTON_DOWN_MSG
+      {if_else
+         {&&
+            {==
+               $player_num
+               {{gamemode get main_panel}
+                  get_tutorial_player}}
+            {!
+               [is_done]}}
+         {do kDataUnhandled}
+         TRUE})
+   (BUTTON_UP_MSG
+      {if_else
+         {&&
+            {==
+               $player_num
+               {{gamemode get main_panel}
+                  get_tutorial_player}}
+            {!
+               [is_done]}}
+         {do kDataUnhandled}
+         TRUE})
+   (is_done FALSE)}
+{new
+   BandScreen
+   tutorials_fail_screen
+   (panels tutorials_fail_panel)
+   (focus tutorials_fail_panel)
+   (enter)
+   (exit
+      {{gamemode get main_screen}
+         set
+         unpause_on_transition
+         TRUE})
+   (helpbar
+      ((confirm helpbar_select)))}

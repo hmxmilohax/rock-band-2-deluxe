@@ -1,0 +1,468 @@
+(PanelDir
+   (description
+      "Top-level UI Object,\n    contains UI components and an optional camera")
+   (superclasses RndDir)
+   (allowed_dirs)
+   (editor
+      (cam
+         object
+         (class Cam)
+         (help
+            "Camera to use in game, else standard UI cam")
+         (post_sync
+            {milo update_camera_buttons}))
+      (can_end_world
+         bool
+         (help
+            "Whether or not this panel triggers a WorldEnd"))
+      (clear_z_after_drawing
+         bool
+         (help
+            "Clears Z Buffer, ensuring this layers under rest of draw order")))
+   (types))
+(UIComponent
+   (description
+      "Base class of all UI components, \n   defines navigation and component state")
+   (superclasses Draw Trans Poll)
+   (allowed_dirs)
+   (editor
+      (nav_right
+         object
+         (class UIComponent))
+      (nav_down
+         object
+         (class UIComponent))
+      (set_focus
+         script
+         (script
+            {{$this dir}
+               set_focus
+               $this}))
+      (enable
+         script
+         (script
+            {{$this dir}
+               enable
+               $this}))
+      (disable
+         script
+         (script
+            {{$this dir}
+               disable
+               $this})))
+   (types)
+   (select_frames 30))
+(UIButton
+   (description
+      "Simple button, basically just a \n   label that can be selected")
+   (superclasses UILabel)
+   (allowed_dirs PanelDir)
+   (ext but)
+   (resource_file
+      "button.milo")
+   (init
+      {$this set_type default})
+   (types
+      (default
+         (texts
+            (text
+               "button.txt"
+               (normal
+                  "normal.font")
+               (disabled
+                  "disabled.font")
+               (focused
+                  "focused.font")
+               (selecting
+                  "selecting.font"))))))
+#define TEXT_ALIGNMENTS
+("kTopLeft"
+   "kTopCenter"
+   "kTopRight"
+   "kMiddleLeft"
+   "kMiddleCenter"
+   "kMiddleRight"
+   "kBottomLeft"
+   "kBottomCenter"
+   "kBottomRight")
+#define TEXT_CAPS_MODES
+("kCapsModeNone"
+   "kForceLower"
+   "kForceUpper")
+#define LABEL_FIT_TYPES
+("kFitWrap"
+   "kFitStretched"
+   "kFitJust"
+   "kFitEllipsis")
+(UILabel
+   (description
+      "Simple label, provides localization of tokens and can\n    have different fonts for each state")
+   (superclasses UIComponent)
+   (allowed_dirs PanelDir)
+   (ext lbl)
+   (editor
+      (text_token
+         symbol
+         (help
+            "Localization token if localize is true")
+         (no_test))
+      (localize
+         bool
+         (help
+            "Try to localize text_token")
+         (refresh text_token))
+      (text_size
+         float
+         (range 1 1000)
+         (help
+            "Text size of text object"))
+      (alignment
+         int
+         (list
+            (TEXT_ALIGNMENTS))
+         (help
+            "Text alignment"))
+      (caps_mode
+         int
+         (list
+            (TEXT_CAPS_MODES))
+         (help
+            "Text case setting"))
+      (markup
+         bool
+         (help
+            "Support markup?"))
+      (leading
+         float
+         (help
+            "Space between lines"))
+      (kerning
+         float
+         (help
+            "Additional kerning applied to text object"))
+      (italics
+         float
+         (range 0 100)
+         (help
+            "Italics for text object"))
+      (fit_type
+         int
+         (list
+            (LABEL_FIT_TYPES))
+         (help
+            "How to fit text in the width/height specified"))
+      (width
+         float
+         (range 0 1000)
+         (help
+            "Width of label"))
+      (height
+         float
+         (range 0 1000)
+         (help
+            "Height of label"))
+      (fixed_length
+         int
+         (range 0 1000)
+         (help
+            "Preallocated size of internal text object"))
+      (reserve_lines
+         int
+         (range 0 100)
+         (help
+            "Preallocated number of lines in internal text object"))
+      (alpha
+         float
+         (range 0 1))
+      (use_meta_heap bool))
+   (resource_file
+      "label.milo")
+   (init
+      {$this set_type default})
+   (types
+      (default
+         (texts
+            (text
+               "label.txt"
+               (normal
+                  "normal.font")
+               (focused
+                  "normal.font")
+               (disabled
+                  "disabled.font"))))
+      (cheat
+         (resource_file
+            "label.milo")
+         (texts
+            (text
+               "label.txt"
+               (normal
+                  "normal.font")
+               (focused
+                  "normal.font")
+               (disabled
+                  "disabled.font"))))))
+#define LIST_ARROW_SHOWING
+("kArrowAlways"
+   "kArrowOnlyFocused"
+   "kArrowNever")
+(UIList
+   (description
+      "Component for displaying 1- or 2-dimensional lists of data.\n	Can be oriented horizontally or vertically, can scroll normally or\n	circularly, and can have any number of visible elements (even just\n	one, a.k.a. a spin button).")
+   (superclasses UIComponent)
+   (allowed_dirs PanelDir)
+   (ext lst)
+   (editor
+      (spacing
+         float
+         (range 1 500)
+         (help
+            "Space between each row/column"))
+      (arrow_offset
+         float
+         (range 0 500)
+         (help
+            "Space between arrows and elements"))
+      (arrow_showing
+         int
+         (list
+            (LIST_ARROW_SHOWING))
+         (help
+            "When to display arrows, based on component state"))
+      (arrow_only_scroll
+         bool
+         (help
+            "Only show arrows when there is scrolling to be done?"))
+      (arrows_on_highlight
+         bool
+         (help
+            "Position arrows relative to highlight, or at start/end of list?"))
+      (highlight_showing
+         int
+         (list
+            (LIST_ARROW_SHOWING))
+         (help
+            "When to display highlight, based on component state"))
+      (display_num
+         int
+         (range 1 50)
+         (help
+            "Number of rows/columns"))
+      (circular
+         bool
+         (help
+            "Does the list scrolling wrap?"))
+      (fade_offset
+         int
+         (range 0 10)
+         (help
+            "Number of elements to fade from beginning/end of list"))
+      (scroll_time
+         float
+         (range 0 5)
+         (help
+            "Time (seconds) to scroll one step - 0 for instant scrolling"))
+      (paginate
+         bool
+         (help
+            "Allow scrolling by pages?"))
+      (select_to_scroll
+         bool
+         (help
+            "Does list need to be selected before user can scroll?"))
+      (min_display
+         int
+         (range 0 50)
+         (help
+            "How far from top of list to start scrolling"))
+      (scroll_past_min_display bool)
+      (max_display
+         int
+         (range -1 50)
+         (help
+            "How far down can the highlight travel before scoll? Use -1 for no limit"))
+      (scroll_past_max_display
+         bool
+         (help
+            "Allow selected data to move beyond max highlight?")))
+   (init
+      {$this set_type default})
+   (types
+      (default
+         (resource_file
+            "list.milo")
+         (vertical TRUE)
+         (element
+            ((text
+                  "list.lbl")))
+         (back_arrow
+            "back.mesh")
+         (next_arrow
+            "next.mesh")
+         (highlight
+            "highlight.mesh")
+         (colors
+            (((normal
+                     (normal 0.5 0.5 0.5)
+                     (focused 1 1 1)
+                     (disabled 0.3 0.3 0.3)
+                     (selecting 1 1 1))
+                  (highlight
+                     (normal 0.5 0.5 0)
+                     (focused 1 1 0)
+                     (disabled 0.5 0.5 0)
+                     (selecting 1 0 0)))))
+         (provider
+            ("text")))
+      (spin
+         (resource_file
+            "list_spin.milo")
+         (vertical FALSE)
+         (element
+            ((text
+                  "spin.lbl")))
+         (back_arrow
+            "back.mesh")
+         (next_arrow
+            "next.mesh")
+         (highlight
+            "highlight.mesh")
+         (colors
+            (((normal
+                     (normal 0.5 0.5 0.5)
+                     (focused 1 1 1)
+                     (disabled 0.3 0.3 0.3)
+                     (selecting 1 1 1))
+                  (highlight
+                     (normal 0.5 0.5 0)
+                     (focused 1 1 0)
+                     (disabled 0.5 0.5 0)
+                     (selecting 1 1 0)))))
+         (provider
+            ("option")))
+      (cheat
+         (resource_file
+            "list_cheat.milo")
+         (vertical TRUE)
+         (element
+            ((text
+                  "key.lbl")
+               (text
+                  "desc.lbl")))
+         (back_arrow
+            "back.mesh")
+         (next_arrow
+            "next.mesh")
+         (highlight
+            "highlight.mesh")
+         (colors
+            (((normal
+                     (normal 1 0 0)
+                     (focused 1 0 0)
+                     (disabled 1 0 0)
+                     (selecting 1 0 0))
+                  (highlight
+                     (normal 1 0 0)
+                     (focused 1 0 0)
+                     (disabled 1 0 0)
+                     (selecting 1 0 0)))
+               ((normal
+                     (normal 1 1 1)
+                     (focused 1 1 1)
+                     (disabled 1 1 1)
+                     (selecting 1 1 1))
+                  (highlight
+                     (normal 1 1 1)
+                     (focused 1 1 1)
+                     (disabled 1 1 1)
+                     (selecting 1 1 0)))))
+         (provider
+            ("key"
+               "cheat description")))))
+(UIPicture
+   (description
+      "A picture object with asynchronously loading texture")
+   (superclasses UIComponent)
+   (allowed_dirs PanelDir)
+   (ext pic)
+   (init
+      {$this set_type default})
+   (types
+      (default
+         (resource_file
+            "picture.milo")
+         (mesh
+            "picture.mesh")
+         (tex_file
+            "image/picture_keep.png"))))
+(UIProxy
+   (description
+      "A UIProxy object allows artists to position dynamically\n	loaded resources (e.g. a character) in Milo. The app will then load\n	the appropriate resources into it.")
+   (superclasses UIComponent)
+   (allowed_dirs PanelDir)
+   (init
+      {$this set_type default})
+   (types
+      (default
+         (file
+            "proxy.milo"))))
+(UISlider
+   (description
+      "A component with animatable whose frames correspond to a\n	range of values. The resources don't have to look like a slider;\n	they could easily be a knob, dial, etc.")
+   (superclasses UIComponent)
+   (ext sld)
+   (init
+      {$this set_type default})
+   (types
+      (default
+         (resource_file
+            "slider.milo")
+         (vertical FALSE)
+         (meshes
+            ("slider.mesh"
+               (normal
+                  "normal.mat")
+               (focused
+                  "focused.mat")
+               (disabled
+                  "disabled.mat")
+               (selected
+                  "selected.mat")))))
+   (editor
+      (select_to_scroll
+         bool
+         (help
+            "Does slider need to be selected before user can scroll?"))))
+(UITrigger
+   (description
+      "Triggers anims based on UI events (enter, exit, etc.)")
+   (superclasses EventTrigger)
+   (allowed_dirs PanelDir)
+   (ext trg)
+   (types)
+   (editor
+      (block_transition
+         bool
+         (help
+            "Block enter/exit transition during animation?"))
+      (test_trigger
+         script
+         (script
+            {$this trigger})
+         (label
+            "trigger")
+         (help
+            "Trigger the anim")))
+   (supported_events
+      (ui_enter ui_enter_forward ui_enter_back ui_exit ui_exit_forward ui_exit_back transition_complete)))
+(Screenshot
+   (description
+      "Object to draw a screensot in Milo, to help with positioning.\n      The screenshot will not be drawn or even loaded in-game.")
+   (superclasses Draw)
+   (ext ss)
+   (types)
+   (editor
+      (tex_path
+         file
+         (help
+            "File containing the screenshot to display.  This file will only be loaded in Milo, not in game."))))

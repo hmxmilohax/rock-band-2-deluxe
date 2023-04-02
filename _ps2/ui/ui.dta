@@ -1,0 +1,298 @@
+(init
+   #include init.dta
+   {meta_loading load TRUE}
+   {pause_panel load TRUE}
+   {tutorials_pause_panel load TRUE}
+   {pause_controller_background_panel load TRUE}
+   {pause_controller_panel load TRUE}
+   {pause_mics_panel load TRUE}
+   {pause_bg_panel load TRUE}
+   {pause_vocal_options_panel load TRUE}
+   {helpbar load TRUE}
+   {dialog_panel load TRUE}
+   {lose_background load TRUE}
+   {lose load TRUE}
+   {tour_solo_lose_panel load TRUE}
+   {endgame_background_panel load TRUE}
+   {coop_endgame_panel load TRUE}
+   {tour_band_endgame_panel load TRUE}
+   {error_dialog_panel load TRUE}
+   {nextsong_panel load TRUE}
+   #ifdef HX_PC
+   {set $first_screen splash_screen}
+   #else
+   {set $first_screen first_time_autoload_screen}
+   #endif
+   {ui my_init}
+   {ui goto_screen pi_splash_screen})
+(band_ui
+   #include band_ui.dta)
+(band_ui_sink
+   #include band_ui_sink.dta)
+(max_push_depth 2)
+(min_splash_time 5)
+#ifdef HX_WII
+(min_splash_time_wii 23)
+(min_splash_time_no_input_wii 2.5)
+#endif
+(my_init)
+(music_start)
+(color_presets
+   #include ../ui/color_presets.dta)
+(patch
+   (sets
+      (general 10)
+      (chest 5)
+      (arm 5))
+   (stickers
+      (patch_sailor
+         ../patchcreator/stickers_sailor_jerry.milo
+         preview_sailor_jerry.tex
+         (sets chest arm))
+      (patch_newyork
+         ../patchcreator/tattoos_york_adorned.milo
+         preview_york_adorned.tex
+         (sets chest arm))
+      (patch_corbins
+         ../patchcreator/tattoos_temple_tattoo.milo
+         preview_temple_tattoo.tex
+         (sets chest arm))
+      (patch_slifers
+         ../patchcreator/tattoos_paul_slifer.milo
+         preview_paul_slifer.tex
+         (sets chest arm))
+      (patch_suerte
+         ../patchcreator/stickers_adam_suerte.milo
+         preview_adam_suerte.tex
+         (sets chest arm))
+      (patch_anchor
+         ../patchcreator/tattoos_anchor_steam_tattoo_gallery.milo
+         preview_Anchor_Steam_Tattoo_Gallery.tex
+         (sets chest arm))
+      (patch_flyrite
+         ../patchcreator/tattoos_flyrite_studios.milo
+         preview_flyrite_studios.tex
+         (sets chest arm))
+      (patch_matheson
+         ../patchcreator/stickers_dare_matheson.milo
+         preview_dare_matheson.tex
+         (sets general chest arm))
+      (patch_battilana
+         ../patchcreator/stickers_david_battilana.milo
+         preview_david_battilana.tex
+         (sets general chest arm))
+      (patch_min
+         ../patchcreator/stickers_eliot_min.milo
+         preview_eliot_min.tex
+         (sets general chest arm))
+      (patch_clapp
+         ../patchcreator/stickers_elliot_clapp.milo
+         preview_elliot_clapp.tex
+         (sets general chest arm))
+      (patch_talbot
+         ../patchcreator/stickers_eric_talbot.milo
+         preview_eric_talbot.tex
+         (sets general chest arm))
+      (patch_dee
+         ../patchcreator/stickers_john_dee.milo
+         preview_john_dee.tex
+         (sets general chest arm))
+      (patch_roan
+         ../patchcreator/stickers_kerry_roan.milo
+         preview_kerry_roan.tex
+         (sets general chest arm))
+      (patch_sundaramurthy
+         ../patchcreator/stickers_mallika_sundaramurthy.milo
+         preview_mallika_sundaramurthy.tex
+         (sets general chest arm))
+      (patch_gilpin
+         ../patchcreator/stickers_matt_gilpin.milo
+         preview_matt_gilpin.tex
+         (sets general chest arm))
+      (patch_perlot
+         ../patchcreator/stickers_matt_perlot.milo
+         preview_matt_perlot.tex
+         (sets general chest arm))
+      (patch_reusch
+         ../patchcreator/stickers_mister_reusch.milo
+         preview_Mister_Reusch.tex
+         (sets general chest arm))
+      (patch_berkley
+         ../patchcreator/stickers_noah_berkley.milo
+         preview_noah_berkley.tex
+         (sets general chest arm))
+      (patch_lyons
+         ../patchcreator/stickers_paul_lyons.milo
+         preview_paul_lyons.tex
+         (sets general chest arm))
+      (patch_murakami
+         ../patchcreator/stickers_reiko_murakami.milo
+         preview_reiko_murakami.tex
+         (sets general chest arm))
+      (patch_lesser
+         ../patchcreator/stickers_ryan_lesser.milo
+         preview_ryan_lesser.tex
+         (sets general chest arm))
+      (patch_witt
+         ../patchcreator/stickers_shawn_witt.milo
+         preview_shawn_witt.tex
+         (sets general chest arm))
+      (patch_painterly
+         ../patchcreator/stickers_generic_shapes_painterly.milo
+         preview_stickers_generic_shapes_painterly.tex
+         (sets general chest arm))
+      (patch_thinlines
+         ../patchcreator/stickers_generic_shapes_thin_line.milo
+         preview_stickers_generic_shapes_thin_line.tex
+         (sets general chest arm))
+      (patch_thicklines
+         ../patchcreator/stickers_generic_shapes_thick_line.milo
+         preview_stickers_generic_shapes_thick_line.tex
+         (sets general chest arm))
+      (patch_sketchy
+         ../patchcreator/stickers_generic_shapes_sketchy.milo
+         preview_stickers_generic_shapes_sketchy.tex
+         (sets general chest arm))
+      (patch_solids
+         ../patchcreator/stickers_generic_shapes_solid.milo
+         preview_stickers_generic_shapes_solid.tex
+         (sets general chest arm))
+      (patch_avant
+         ../patchcreator/stickers_letters_avant_garde.milo
+         preview_letters_avant_garde.tex
+         (sets general chest arm))
+      (patch_bodoni
+         ../patchcreator/stickers_letters_bodoni.milo
+         preview_letters_bodoni.tex
+         (sets general chest arm))
+      (patch_chalet
+         ../patchcreator/stickers_letters_chalet.milo
+         preview_letters_chalet.tex
+         (sets general chest arm))
+      (patch_fakir
+         ../patchcreator/stickers_letters_fakir_01.milo
+         preview_letters_fakir.tex
+         (sets general chest arm)))
+   (patch_layer ../patchcreator/patch_warpmesh.milo)
+   (tattoos
+      (patch_chest chest torso_skin_proxy)
+      (patch_left_arm arm torso_skin_proxy)
+      (patch_right_arm arm torso_skin_proxy)
+      (patch_facepaint general head_skin_proxy)))
+(overload_horizontal_nav TRUE)
+#include cam.dta
+(SELECT_START_MSG
+   {synth play button_select}
+   kDataUnhandled)
+(SCROLL_MSG
+   {do
+      ($play
+         {handle_ret
+            ({ui current_screen}
+               scroll_sfx)})
+      {if
+         {'||'
+            {== $play kDataUnhandled}
+            $play}
+         {synth play button_toggle}}}
+   kDataUnhandled)
+(SCROLL_SELECT_MSG
+   {synth
+      play
+      {if_else $selected button_select button_back}}
+   kDataUnhandled)
+(FOCUS_MSG
+   {unless
+      {ui in_transition}
+      {synth play button_toggle}}
+   kDataUnhandled)
+(BAD_SELECT_MSG
+   {synth play button_error}
+   kDataUnhandled)
+(SCREEN_CHANGE_MSG
+   {if
+      {&&
+         $back
+         {meta is_up}}
+      {synth play button_back}}
+   #ifdef HX_XBOX
+   {if
+      {fx is_up}
+      {fx choose_movie}}
+   #endif
+   kDataUnhandled)
+(TRANSITION_COMPLETE_MSG
+   #ifdef HX_XBOX
+   {if
+      {fx is_up}
+      {fx choose_movie}}
+   #endif
+   kDataUnhandled)
+(update_band
+   {update_tour_display}
+   kDataUnhandled)
+(JOYPAD_CONNECT_MSG kDataUnhandled)
+(latin_to_ascii
+   (192 65)
+   (193 65)
+   (194 65)
+   (195 65)
+   (196 65)
+   (197 65)
+   (198 65)
+   (199 67)
+   (200 69)
+   (201 69)
+   (202 69)
+   (203 69)
+   (204 73)
+   (205 73)
+   (206 73)
+   (207 73)
+   (208 68)
+   (209 78)
+   (210 79)
+   (211 79)
+   (212 79)
+   (213 79)
+   (214 79)
+   (215 120)
+   (216 79)
+   (217 85)
+   (218 85)
+   (219 85)
+   (220 85)
+   (221 89)
+   (222 80)
+   (223 66)
+   (224 97)
+   (225 97)
+   (226 97)
+   (227 97)
+   (228 97)
+   (229 97)
+   (230 97)
+   (231 99)
+   (232 101)
+   (233 101)
+   (234 101)
+   (235 101)
+   (236 105)
+   (237 105)
+   (238 105)
+   (239 105)
+   (240 111)
+   (241 110)
+   (242 111)
+   (243 111)
+   (244 111)
+   (245 111)
+   (246 111)
+   (248 111)
+   (249 117)
+   (250 117)
+   (251 117)
+   (252 117)
+   (253 121)
+   (254 112)
+   (255 121))

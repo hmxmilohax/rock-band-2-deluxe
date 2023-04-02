@@ -1,0 +1,260 @@
+#include endgame_helpers.dta
+#define ENDGAME_PANEL_COMMON_ENTER
+({helpbar set_limit_to_session TRUE})
+#define ENDGAME_PANEL_COMMON_EXIT
+()
+{new
+   UIPanel
+   coop_endgame_panel
+   (file
+      "coop_endgame.milo")
+   ENDGAME_PANEL_HANDLERS
+   (enter
+      {platform_mgr set_notify_ui_location kOSNotifyBottomCenter}
+      {$this set_results}
+      {if
+         {gamemode is_tour_challenge}
+         {do
+            {if
+               {highscores
+                  is_high_score
+                  {meta_performer completed_song}
+                  band
+                  {{beatmatch main_performer}
+                     score}}
+               {highscores
+                  save_high_score
+                  {meta_performer completed_song}
+                  band
+                  {{beatmatch main_performer}
+                     score}
+                  {{tour performer}
+                     get_char_name}}}}}
+      ENDGAME_PANEL_COMMON_ENTER
+      {do
+         ($frame
+            {if_else
+               {gamemode get is_solo}
+               1
+               0})
+         {player0.tnm set_frame $frame}
+         {player01.tnm set_frame $frame}
+         {player02.tnm set_frame $frame}
+         {player03.tnm set_frame $frame}})
+   (exit
+      ENDGAME_PANEL_COMMON_EXIT
+      {platform_mgr set_notify_ui_location kOSNotifyTopRight})}
+{new
+   BandScreen
+   coop_details_endgame_screen
+   (panels endgame_background_panel coop_endgame_panel more_details_panel)
+   (focus more_details_panel)
+   (leave
+      {ui goto_screen coop_endgame_screen})
+   (enter
+      {endgame_background_panel show_overlay})
+   (helpbar
+      ((cancel helpbar_cancel)
+         (confirm helpbar_confirm)))}
+{new
+   BandScreen
+   coop_endgame_screen
+   (panels endgame_background_panel coop_endgame_panel)
+   (focus coop_endgame_panel)
+   ENDGAME_SCREEN_HANDLERS
+   (more_details_screen coop_details_endgame_screen)
+   (enter
+      {endgame_background_panel show_overlay})}
+#define NEXTSONG_SCREEN_HANDLERS
+((helpbar
+      ((min_height 0)))
+   (show_event FALSE))
+{new
+   BandScreen
+   nextsong_screen
+   NEXTSONG_SCREEN_HANDLERS
+   (enter
+      {ui
+         pop_screen
+         {gamemode get nextstats_screen}})}
+{new
+   NextSongPanel
+   nextsong_panel
+   ENDGAME_PANEL_HANDLERS
+   (file
+      "nextsong.milo")
+   (min_time 5.0)
+   (enter
+      {$this set_results}
+      {if
+         {'||'
+            {gamemode is_tour}
+            {gamemode is_tour_challenge}}
+         {do
+            {if
+               {highscores
+                  is_high_score
+                  {meta_performer completed_song}
+                  band
+                  {{beatmatch main_performer}
+                     score}}
+               {highscores
+                  save_high_score
+                  {meta_performer completed_song}
+                  band
+                  {{beatmatch main_performer}
+                     score}
+                  {{tour performer}
+                     get_char_name}}}}}
+      {songs.lbl
+         set_localized
+         {sprintf
+            {localize tour_event_songs}
+            {meta_performer num_completed}
+            {meta_performer num_songs}}}
+      {ui
+         goto_screen
+         {gamemode get load_nextsong_screen}})}
+{new
+   BandScreen
+   nextstats_screen
+   (panels game coop_track_panel nextsong_panel)
+   NEXTSONG_SCREEN_HANDLERS}
+{new
+   BandScreen
+   jukebox_nextstats_screen
+   (panels game world_panel nextsong_panel)
+   NEXTSONG_SCREEN_HANDLERS
+   (enter
+      {{nextsong_panel find jukebox_hide.trig}
+         trigger})}
+{new
+   PreloadPanel
+   preload_nextsong_panel
+   (content_name
+      "")
+   (corrupt FALSE)
+   (enter
+      {if_else
+         [preload_ok]
+         {ui
+            goto_screen
+            {gamemode get load_nextsong_screen}}
+         {band_ui
+            content_file_read_failed
+            [content_name]
+            [corrupt]}})}
+{new
+   UIPanel
+   game_time_panel
+   (load
+      {game set multi_event TRUE})}
+{new
+   BandScreen
+   preload_nextsong_screen
+   (panels game game_time_panel world_panel coop_track_panel nextsong_panel preload_nextsong_panel)
+   (focus preload_nextsong_panel)
+   NEXTSONG_SCREEN_HANDLERS}
+{new
+   BandScreen
+   jukebox_preload_nextsong_screen
+   (panels game game_time_panel world_panel nextsong_panel preload_nextsong_panel)
+   (focus preload_nextsong_panel)
+   NEXTSONG_SCREEN_HANDLERS}
+{new
+   BandScreen
+   load_nextsong_screen
+   (panels game_time_panel world_panel coop_track_panel nextsong_panel)
+   NEXTSONG_SCREEN_HANDLERS
+   (TRANSITION_COMPLETE_MSG
+      {set $multi_event TRUE}
+      {coop_track_panel set_paused TRUE}
+      {ui
+         goto_screen
+         {gamemode get game_screen}})}
+{new
+   BandScreen
+   jukebox_load_nextsong_screen
+   (panels game_time_panel world_panel nextsong_panel)
+   NEXTSONG_SCREEN_HANDLERS
+   (TRANSITION_COMPLETE_MSG
+      {ui
+         goto_screen
+         {gamemode get game_screen}})}
+#define H2H_END_GAME_PANEL_HANDLERS
+((focus continue.btn)
+   ENDGAME_PANEL_HANDLERS
+   (block_event
+      ($event)
+      {== $event disband})
+   (enter
+      {platform_mgr set_notify_ui_location kOSNotifyBottomCenter}
+      {$this set_results}
+      ENDGAME_PANEL_COMMON_ENTER
+      {if
+         {gamemode get ranked}
+         {net_sync set_ui_state kNetUI_MetaLoading}
+         {band_ui set handle_remote_player_left FALSE}})
+   (update_true_skill
+      ($skill0 $skill1)
+      {rank0.lbl set_localized $skill0}
+      {rank1.lbl set_localized $skill1}
+      {rank0_text.lbl set_showing TRUE}
+      {rank1_text.lbl set_showing TRUE})
+   (exit
+      ENDGAME_PANEL_COMMON_EXIT
+      {platform_mgr set_notify_ui_location kOSNotifyTopRight}))
+{new
+   UIPanel
+   score_duel_endgame_panel
+   (file
+      "score_duel_endgame.milo")
+   H2H_END_GAME_PANEL_HANDLERS}
+{new
+   BandScreen
+   score_duel_details_endgame_screen
+   (panels endgame_background_panel score_duel_endgame_panel more_details_panel)
+   (focus more_details_panel)
+   (leave
+      {ui goto_screen score_duel_endgame_screen})
+   (enter
+      {endgame_background_panel show_overlay})
+   (helpbar
+      ((cancel helpbar_cancel)
+         (confirm helpbar_confirm)))}
+{new
+   BandScreen
+   score_duel_endgame_screen
+   (panels endgame_background_panel score_duel_endgame_panel)
+   (focus score_duel_endgame_panel)
+   ENDGAME_SCREEN_HANDLERS
+   (more_details_screen score_duel_details_endgame_screen)
+   (enter
+      {endgame_background_panel show_overlay})}
+{new
+   UIPanel
+   tow_endgame_panel
+   (file
+      "tow_endgame.milo")
+   H2H_END_GAME_PANEL_HANDLERS}
+{new
+   BandScreen
+   tow_details_endgame_screen
+   (panels endgame_background_panel tow_endgame_panel more_details_panel)
+   (focus more_details_panel)
+   (leave
+      {ui goto_screen tow_endgame_screen})
+   (enter
+      {endgame_background_panel show_overlay})
+   (helpbar
+      ((cancel helpbar_cancel)
+         (confirm helpbar_confirm)))}
+{new
+   BandScreen
+   tow_endgame_screen
+   (panels endgame_background_panel tow_endgame_panel)
+   (focus tow_endgame_panel)
+   ENDGAME_SCREEN_HANDLERS
+   (more_details_screen tow_details_endgame_screen)
+   (enter
+      {endgame_background_panel show_overlay})}

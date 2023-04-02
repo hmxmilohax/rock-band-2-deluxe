@@ -1,0 +1,106 @@
+#include macros.dta
+(songs
+   #include ../songs/songs_debug.dta)
+(tests
+   ("16th note runs"
+      (song runs_16s)
+      (players drum bass guitar vocals)
+      (start 7680)
+      (end 11520)
+      (worst TRUE))
+   ("16th note runs with STYLE"
+      (song runs_16s)
+      (players drum bass guitar vocals)
+      (start 7680)
+      (end 11520)
+      (worst TRUE)
+      (init
+         {script_task
+            kTaskBeats
+            (delay 3)
+            (script
+               {beatmatch
+                  foreach_active_player
+                  $p
+                  {$p fill_band_energy}})}
+         {script_task
+            kTaskBeats
+            (delay 12)
+            (script
+               {beatmatch
+                  foreach_active_player
+                  $p
+                  {$p force_deploy}})}))
+   ("Sustains"
+      (song sustains)
+      (players drum bass guitar vocals)
+      (start 7680)
+      (end 11520)
+      (worst TRUE)))
+(log_file
+   {sprint
+      "../track_budget_log.txt"})
+(beatmatcher
+   (callbacks
+      (downbeat
+         {handle
+            (track_budget downbeat)})))
+(ui
+   (init
+      #include ../ui/init.dta
+      {new
+         BudgetScreen
+         track_budget
+         (panels game coop_track_panel)
+         (test_panel coop_track_panel)
+         (frame_inc 1.6e-2)
+         (enter
+            {game add_sink $this downbeat})
+         (exit
+            {game remove_sink $this})
+         (downbeat
+            {beatmatch
+               foreach_active_player
+               $player
+               {unless
+                  {mod $measure 8}
+                  {$player force_deploy}}
+               {$player
+                  set_auto_play
+                  {!= $measure 20}}})}
+      {new
+         UIScreen
+         stop_budget
+         (panels game)
+         (memory FALSE)
+         (enter
+            {set
+               [memory]
+               FALSE})
+         (TRANSITION_COMPLETE_MSG
+            {set
+               [memory]
+               TRUE})
+         (poll
+            {if
+               [memory]
+               {set
+                  [memory]
+                  FALSE}
+               {track_budget end_test}
+               {ui goto_screen start_budget}})}
+      {new
+         UIScreen
+         start_budget
+         (panels)
+         (TRANSITION_COMPLETE_MSG
+            {track_budget next_test}
+            {ui goto_screen track_budget})}
+      {set $fake_controllers TRUE}
+      {set $skip_intro TRUE}
+      {ui goto_screen start_budget}))
+(synth
+   (mute TRUE))
+(rnd
+   (force_hd TRUE))
+#merge band.dta

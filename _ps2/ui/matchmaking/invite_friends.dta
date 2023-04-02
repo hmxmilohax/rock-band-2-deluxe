@@ -1,0 +1,104 @@
+{new
+   UIPanel
+   invite_friends_panel
+   (file
+      "player_names_dialog.milo")
+   (focus players.lst)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (selected_friend FALSE)
+   (BUTTON_DOWN_MSG
+      {if_else
+         {== $action kAction_Cancel}
+         {ui goto_screen mm_net_options_screen}
+         kDataUnhandled})
+   (SELECT_MSG
+      {if
+         {>
+            {friends_provider get_friends_count}
+            0}
+         {friends_provider
+            invite_friend
+            {players.lst selected_pos}}
+         {players.lst set_showing FALSE}
+         #ifdef HX_WII
+         {invite_sent_screen
+            set
+            friend_name
+            {friends_provider
+               get_friend_nickname
+               {players.lst selected_pos}}}
+         {ui goto_screen invite_sent_screen}
+         #endif
+         {set
+            [selected_friend]
+            TRUE}})
+   (enter
+      #ifdef HX_XBOX
+      {input_mgr
+         set_user
+         {session_mgr get_leader_user}}
+      #endif
+      #ifdef HX_WII
+      {title.lbl set text_token invite_friend_wii}
+      #else
+      {title.lbl set text_token invite_friend}
+      #endif
+      {platform_mgr add_sink $this}
+      #ifdef HX_WII
+      {platform_mgr allow_add_friend FALSE}
+      {friends_provider enumerate_online}
+      {players.lst
+         set_showing
+         {!=
+            {friends_provider get_friends_count}
+            0}}
+      #else
+      {friends_provider enumerate_friends}
+      #endif
+      {players.lst set_provider friends_provider}
+      {set
+         [selected_friend]
+         FALSE})
+   (exit
+      #ifdef HX_XBOX
+      {input_mgr set_user ''}
+      #endif
+      {platform_mgr remove_sink $this}
+      {friends_provider cleanup})
+   (UI_CHANGED_MSG
+      {if
+         {&&
+            {== $showing FALSE}
+            {==
+               [selected_friend]
+               TRUE}}
+         {ui pop_screen}})}
+{new
+   BandScreen
+   invite_friends_screen
+   (panels invite_friends_panel)
+   (focus invite_friends_panel)
+   (helpbar
+      ((cancel helpbar_cancel)
+         (confirm helpbar_confirm)))
+   MATCHMAKING_SCREEN_ERROR_HANDLERS}
+{new
+   BandScreen
+   invite_sent_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (friend_name
+      "")
+   (enter
+      {dialog_panel
+         set_ok
+         {sprintf
+            {localize invite_friend_dialog_local}
+            [friend_name]}})
+   (SELECT_MSG
+      {switch
+         $component
+         (ok.btn
+            {ui goto_screen mm_net_options_screen})})}

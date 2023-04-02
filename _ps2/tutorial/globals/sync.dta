@@ -1,0 +1,25 @@
+#define DISABLE_SYNC_PAUSE
+({tutorials_state_panel set can_sync_with_tutorial FALSE})
+#define ENABLE_SYNC_PAUSE
+({tutorials_state_panel set can_sync_with_tutorial TRUE})
+#define RESET_SYNC_PAUSE
+({tutorials_state_panel set waiting_on_tutorial TRUE}
+   {tutorials_state_panel set waiting_on_beatmatch TRUE}
+   {tutorials_state_panel set waiting_on_tutorial_nopause TRUE}
+   {tutorials_state_panel set waiting_on_beatmatch_nopause TRUE})
+#define SYNC_PAUSE
+({tutorials_state_panel set waiting_on_tutorial FALSE}
+   {$task
+      wait
+      {!
+         {tutorials_state_panel is_synced}}}
+   {tutorials_state_panel set waiting_on_beatmatch TRUE}
+   {tutorials_state_panel set waiting_on_tutorial TRUE})
+#define SYNC_NOPAUSE
+({tutorials_state_panel set waiting_on_tutorial_nopause FALSE}
+   {$task
+      wait
+      {!
+         {tutorials_state_panel is_synced_nopause}}}
+   {tutorials_state_panel set waiting_on_beatmatch_nopause TRUE}
+   {tutorials_state_panel set waiting_on_tutorial_nopause TRUE})

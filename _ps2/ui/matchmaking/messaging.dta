@@ -1,0 +1,132 @@
+{new
+   UIPanel
+   mailbox_panel
+   (file
+      "mailbox_wii.milo")
+   (focus messagelist.lst)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (selected_message FALSE)
+   (BUTTON_DOWN_MSG
+      {if_else
+         {== $action kAction_Cancel}
+         {ui goto_screen main_community_screen}
+         kDataUnhandled})
+   (SELECT_MSG
+      {if
+         {>
+            {messaging_provider get_messages_count}
+            0}
+         {messagelist.lst set_showing FALSE}
+         {set
+            [selected_message]
+            TRUE}
+         {message_panel
+            set
+            messagelist_pos
+            {messagelist.lst selected_pos}}
+         {message_panel
+            set
+            subject_lbl
+            {messaging_provider
+               get_subject
+               {messagelist.lst selected_pos}}}
+         {message_panel
+            set
+            message_lbl
+            {messaging_provider
+               get_textbody
+               {messagelist.lst selected_pos}}}
+         {message_panel
+            set
+            gid_lbl
+            {messaging_provider
+               get_gid
+               {messagelist.lst selected_pos}}}
+         {messaging_provider
+            delete_message
+            {messagelist.lst selected_pos}}
+         {ui goto_screen message_screen}})
+   (enter
+      {title.lbl set text_token mailbox_title_local}
+      {empty.lbl set text_token empty_label_local}
+      {platform_mgr add_sink $this}
+      {messaging_provider enumerate_messages}
+      {messagelist.lst set_provider messaging_provider}
+      {if_else
+         {>
+            {messaging_provider get_messages_count}
+            0}
+         {do
+            {messagelist.lst set_showing TRUE}
+            {empty.lbl set_showing FALSE}}
+         {do
+            {messagelist.lst set_showing FALSE}
+            {empty.lbl set_showing TRUE}}}
+      {set
+         [selected_message]
+         FALSE})
+   (exit
+      {platform_mgr remove_sink $this}
+      {messaging_provider cleanup})
+   (UI_CHANGED_MSG
+      {if
+         {&&
+            {== $showing FALSE}
+            {==
+               [selected_message]
+               TRUE}}
+         {ui pop_screen}})}
+{new
+   BandScreen
+   mailbox_screen
+   (panels meta options_background_panel mailbox_panel)
+   (focus mailbox_panel)
+   (helpbar
+      ((cancel helpbar_cancel)
+         (confirm helpbar_confirm)))
+   (back main_community_screen)}
+{new
+   UIPanel
+   message_panel
+   (file
+      "message_wii.milo")
+   (focus Message.lbl)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (messagelist_pos 0)
+   (subject_lbl
+      "")
+   (message_lbl
+      "")
+   (gid_lbl
+      "")
+   (BUTTON_DOWN_MSG
+      {if
+         {== $action kAction_Confirm}
+         {platform_mgr
+            accept_invite
+            [gid_lbl]}}
+      {if_else
+         {== $action kAction_Cancel}
+         {ui goto_screen mailbox_screen}
+         kDataUnhandled})
+   (SELECT_MSG)
+   (enter
+      {Subject.lbl
+         set_localized
+         [subject_lbl]}
+      {Message.lbl
+         set_localized
+         [message_lbl]})}
+{new
+   BandScreen
+   message_screen
+   (panels meta options_background_panel message_panel)
+   (focus message_panel)
+   (helpbar
+      ((cancel helpbar_cancel)
+         (confirm helpbar_confirm)))
+   (back mailbox_screen)}

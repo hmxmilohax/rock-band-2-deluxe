@@ -1,0 +1,79 @@
+{new
+   UIPanel
+   complete_panel
+   (file complete.milo)
+   LIMIT_TO_SESSION
+   (enter
+      {platform_mgr set_notify_ui_location kOSNotifyBottomCenter}
+      {$this set_focus 0.btn}
+      {$this set_up_buttons})
+   (exit
+      {platform_mgr set_notify_ui_location kOSNotifyTopRight})
+   (set_up_buttons
+      {0.btn set text_token comp_selsong}
+      {if_else
+         {>
+            {meta_performer num_songs}
+            1}
+         {do
+            {1.btn set text_token comp_quit}
+            {$this disable 2.btn}
+            {2.btn set text_token ''}
+            {2.btn set_showing FALSE}}
+         {do
+            {1.btn set text_token comp_restart}
+            {2.btn set text_token comp_quit}}}
+      {if
+         {<
+            {session num_players}
+            {gamemode get min_players}}
+         {$this disable_by_token comp_restart}
+         {$this disable_by_token comp_selsong}
+         {$this set_focus_by_token comp_quit}})
+   (disable_by_token
+      ($token)
+      {$this
+         iterate
+         BandButton
+         $b
+         {if
+            {==
+               {$b get text_token}
+               $token}
+            {$this disable $b}}})
+   (set_focus_by_token
+      ($token)
+      {$this
+         iterate
+         BandButton
+         $b
+         {if
+            {==
+               {$b get text_token}
+               $token}
+            {$this set_focus $b}}})
+   (SELECT_MSG
+      {switch
+         {$component get text_token}
+         (comp_restart
+            {meta_performer restart}
+            #ifndef HX_EE
+            {game send_restart_game_net_msg}
+            #endif
+            {game_restart})
+         (comp_selsong
+            {ui goto_screen meta_loading_continue_screen})
+         (comp_quit
+            {ui goto_screen meta_loading_main_screen})})}
+{new
+   BandScreen
+   complete_screen
+   (panels endgame_background_panel complete_panel)
+   (focus complete_panel)
+   (helpbar
+      {if_else
+         {is_leader_local}
+         ((confirm helpbar_select))
+         ()})
+   (enter
+      {endgame_background_panel hide_overlay})}

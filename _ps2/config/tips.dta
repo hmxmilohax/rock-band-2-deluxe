@@ -1,0 +1,2868 @@
+#define TRIVIA_WEIGHT
+((weight 100))
+#define HELP_EASY_WEIGHT
+((weight 100))
+#define HELP_WEIGHT
+((weight 40))
+(loading_help22
+   HELP_EASY_WEIGHT
+   (instrument drum)
+   (diff easy medium)
+   (mode_property is_coop FALSE))
+(loading_help23
+   HELP_EASY_WEIGHT
+   (instrument drum)
+   (diff easy medium)
+   (mode_property is_coop FALSE))
+(loading_help35
+   HELP_EASY_WEIGHT
+   (instrument vocals)
+   (diff easy medium)
+   (mode_property is_coop FALSE))
+(loading_help36
+   HELP_EASY_WEIGHT
+   (instrument vocals)
+   (diff easy medium)
+   (mode_property is_coop FALSE))
+(loading_help37
+   HELP_EASY_WEIGHT
+   (instrument vocals)
+   (diff easy medium)
+   (mode_property is_coop FALSE))
+(loading_help41
+   HELP_EASY_WEIGHT
+   (instrument guitar)
+   (diff easy medium)
+   (mode_property is_coop FALSE))
+(loading_help42
+   HELP_EASY_WEIGHT
+   (instrument guitar)
+   (diff easy medium)
+   (mode_property is_coop FALSE))
+(loading_help43
+   HELP_EASY_WEIGHT
+   (instrument guitar)
+   (diff easy medium)
+   (mode_property is_coop FALSE))
+(loading_help44
+   HELP_EASY_WEIGHT
+   (instrument guitar)
+   (diff easy medium)
+   (mode_property is_coop FALSE))
+(loading_help1 HELP_WEIGHT)
+(loading_help2
+   HELP_WEIGHT
+   (instrument guitar drum bass))
+(loading_help3
+   HELP_WEIGHT
+   (mode_property is_coop FALSE))
+(loading_help4
+   HELP_WEIGHT
+   (mode_property is_coop TRUE)
+   (mode_property is_online FALSE)
+   (not
+      (mode_property is_tour TRUE)))
+(loading_help5
+   HELP_WEIGHT
+   (diff hard expert)
+   (mode_property is_coop FALSE))
+(loading_help6
+   HELP_WEIGHT
+   (instrument bass)
+   (mode_property is_coop FALSE))
+(loading_help7
+   HELP_WEIGHT
+   (instrument guitar bass)
+   (diff expert)
+   (mode_property is_coop FALSE))
+(loading_help8
+   HELP_WEIGHT
+   (instrument drum)
+   (mode_property is_coop FALSE))
+(loading_help9 HELP_WEIGHT)
+(loading_help10
+   (weight 0))
+(loading_help11 HELP_WEIGHT)
+(loading_help12 HELP_WEIGHT)
+(loading_help13
+   HELP_WEIGHT
+   (instrument guitar drum bass))
+(loading_help14
+   HELP_WEIGHT
+   (instrument drum)
+   (mode_property is_coop FALSE))
+(loading_help15
+   HELP_WEIGHT
+   (instrument drum)
+   (mode_property is_coop FALSE))
+(loading_help16
+   HELP_WEIGHT
+   (instrument drum)
+   (mode_property is_coop FALSE))
+(loading_help17
+   HELP_WEIGHT
+   (instrument drum)
+   (mode_property is_coop FALSE))
+(loading_help18
+   HELP_WEIGHT
+   (instrument drum)
+   (mode_property is_coop FALSE))
+(loading_help19
+   HELP_WEIGHT
+   (instrument drum)
+   (mode_property is_coop FALSE))
+(loading_help20
+   HELP_WEIGHT
+   (instrument drum)
+   (mode_property is_coop FALSE))
+(loading_help21
+   HELP_WEIGHT
+   (instrument drum)
+   (mode_property is_coop FALSE))
+(loading_help24
+   HELP_WEIGHT
+   (instrument vocals)
+   (mode_property is_coop FALSE))
+(loading_help25
+   HELP_WEIGHT
+   (instrument vocals)
+   (mode_property is_coop FALSE))
+(loading_help26
+   HELP_WEIGHT
+   (instrument vocals)
+   (mode_property is_coop FALSE))
+(loading_help27
+   HELP_WEIGHT
+   (instrument vocals)
+   (mode_property is_coop FALSE))
+(loading_help28
+   HELP_WEIGHT
+   (instrument vocals)
+   (mode_property is_coop FALSE))
+(loading_help29
+   HELP_WEIGHT
+   (instrument vocals)
+   (mode_property is_coop FALSE))
+(loading_help30
+   HELP_WEIGHT
+   (instrument vocals)
+   (mode_property is_coop FALSE))
+(loading_help31
+   (weight 0))
+(loading_help32
+   HELP_WEIGHT
+   (instrument vocals)
+   (mode_property is_coop FALSE))
+(loading_help33
+   HELP_WEIGHT
+   (instrument vocals)
+   (mode_property is_coop FALSE))
+(loading_help34
+   HELP_WEIGHT
+   (instrument vocals)
+   (mode_property is_xbox TRUE))
+(loading_help38
+   HELP_WEIGHT
+   (instrument vocals)
+   (mode_property is_online TRUE)
+   (mode_property is_xbox TRUE))
+(loading_help39
+   HELP_WEIGHT
+   (mode_property is_coop TRUE))
+(loading_help40
+   HELP_WEIGHT
+   (instrument guitar)
+   (mode_property is_coop FALSE))
+(loading_help45
+   HELP_WEIGHT
+   (instrument guitar)
+   (diff hard expert)
+   (mode_property is_coop FALSE))
+(loading_help46
+   HELP_WEIGHT
+   (instrument guitar)
+   (diff hard expert)
+   (mode_property is_coop FALSE))
+(loading_help47
+   HELP_WEIGHT
+   (mode_property is_coop TRUE))
+(loading_help48
+   HELP_WEIGHT
+   (instrument vocals)
+   (mode_property is_ps3 TRUE)
+   (mode_property is_coop FALSE))
+(loading_help49
+   HELP_WEIGHT
+   (instrument drum)
+   (mode_property is_coop FALSE))
+(loading_help50 HELP_WEIGHT)
+(loading_help51
+   (weight 0))
+(loading_help52
+   HELP_WEIGHT
+   (instrument guitar bass))
+(loading_help53
+   HELP_WEIGHT
+   (instrument guitar bass))
+(loading_help54
+   HELP_WEIGHT
+   (instrument guitar bass))
+(loading_help55
+   HELP_WEIGHT
+   (instrument guitar bass))
+(loading_help56 HELP_WEIGHT)
+(loading_help57 HELP_WEIGHT)
+(loading_help58
+   (weight 0))
+(loading_help59 HELP_WEIGHT)
+(loading_help60
+   (weight 0))
+(loading_help61 HELP_WEIGHT)
+(loading_help62
+   (weight 0))
+(loading_help63 HELP_WEIGHT)
+(loading_help64 HELP_WEIGHT)
+(loading_help65
+   HELP_WEIGHT
+   (instrument drum))
+(loading_help66
+   HELP_WEIGHT
+   (instrument drum))
+(loading_help67
+   (weight 0))
+(loading_help68 HELP_WEIGHT)
+(loading_help69 HELP_WEIGHT)
+(loading_help70 HELP_WEIGHT)
+(loading_trivia1
+   TRIVIA_WEIGHT
+   (artist
+      "The Who"))
+(loading_trivia2
+   TRIVIA_WEIGHT
+   (artist
+      "The Rolling Stones"))
+(loading_trivia3
+   TRIVIA_WEIGHT
+   (artist
+      "Black Sabbath"))
+(loading_trivia4
+   TRIVIA_WEIGHT
+   (artist
+      "Ramones"))
+(loading_trivia5
+   TRIVIA_WEIGHT
+   (artist
+      "The Who"))
+(loading_trivia6
+   TRIVIA_WEIGHT
+   (artist
+      "KISS"))
+(loading_trivia7
+   TRIVIA_WEIGHT
+   (artist
+      "The Who"))
+(loading_trivia8
+   TRIVIA_WEIGHT
+   (song paranoid))
+(loading_trivia9
+   TRIVIA_WEIGHT
+   (artist
+      "The Who"))
+(loading_trivia10
+   TRIVIA_WEIGHT
+   (song creep))
+(loading_trivia11
+   TRIVIA_WEIGHT
+   (artist
+      "The Rolling Stones"))
+(loading_trivia12
+   TRIVIA_WEIGHT
+   (artist
+      "The Who"))
+(loading_trivia13
+   TRIVIA_WEIGHT
+   (artist
+      "The Rolling Stones"))
+(loading_trivia14
+   TRIVIA_WEIGHT
+   (artist
+      "Deep Purple"))
+(loading_trivia15
+   TRIVIA_WEIGHT
+   (artist
+      "The Rolling Stones"))
+(loading_trivia16
+   TRIVIA_WEIGHT
+   (artist
+      "Nirvana"))
+(loading_trivia17
+   TRIVIA_WEIGHT
+   (artist
+      "Jet"))
+(loading_trivia18
+   TRIVIA_WEIGHT
+   (artist
+      "Metallica"))
+(loading_trivia19
+   TRIVIA_WEIGHT
+   (artist
+      "Black Sabbath"))
+(loading_trivia20
+   TRIVIA_WEIGHT
+   (artist
+      "David Bowie"))
+(loading_trivia21
+   TRIVIA_WEIGHT
+   (artist
+      "KISS"))
+(loading_trivia22
+   TRIVIA_WEIGHT
+   (artist
+      "Ramones"))
+(loading_trivia23
+   TRIVIA_WEIGHT
+   (artist
+      "Red Hot Chili Peppers"))
+(loading_trivia24
+   TRIVIA_WEIGHT
+   (artist
+      "KISS"))
+(loading_trivia25
+   TRIVIA_WEIGHT
+   (artist
+      "Black Sabbath"))
+(loading_trivia26
+   TRIVIA_WEIGHT
+   (artist
+      "The Rolling Stones"))
+(loading_trivia27
+   TRIVIA_WEIGHT
+   (song dontfearthereaper))
+(loading_trivia28
+   TRIVIA_WEIGHT
+   (song tomsawyer))
+(loading_trivia29
+   TRIVIA_WEIGHT
+   (artist
+      "David Bowie"))
+(loading_trivia30
+   TRIVIA_WEIGHT
+   (artist
+      "Coheed and Cambria"))
+(loading_trivia31
+   TRIVIA_WEIGHT
+   (artist
+      "Soundgarden"))
+(loading_trivia32
+   TRIVIA_WEIGHT
+   (song dontfearthereaper))
+(loading_trivia33
+   TRIVIA_WEIGHT
+   (artist
+      "Black Sabbath"))
+(loading_trivia34
+   TRIVIA_WEIGHT
+   (artist
+      "Bon Jovi"))
+(loading_trivia35
+   TRIVIA_WEIGHT
+   (artist
+      "R.E.M."))
+(loading_trivia36
+   TRIVIA_WEIGHT
+   (song dontfearthereaper))
+(loading_trivia38
+   TRIVIA_WEIGHT
+   (song suffragettecity))
+(loading_trivia39
+   TRIVIA_WEIGHT
+   (artist
+      "Smashing Pumpkins"))
+(loading_trivia40
+   TRIVIA_WEIGHT
+   (artist
+      "The Clash"))
+(loading_trivia41
+   TRIVIA_WEIGHT
+   (artist
+      "Weezer"))
+(loading_trivia42
+   TRIVIA_WEIGHT
+   (artist
+      "The Who"))
+(loading_trivia43
+   TRIVIA_WEIGHT
+   (artist
+      "Beastie Boys"))
+(loading_trivia44
+   TRIVIA_WEIGHT
+   (artist
+      "Bon Jovi"))
+(loading_trivia45
+   TRIVIA_WEIGHT
+   (artist
+      "Bon Jovi"))
+(loading_trivia46
+   TRIVIA_WEIGHT
+   (artist
+      "Boston"))
+(loading_trivia47
+   TRIVIA_WEIGHT
+   (artist
+      "The Clash"))
+(loading_trivia48
+   TRIVIA_WEIGHT
+   (artist
+      "The Clash"))
+(loading_trivia49
+   TRIVIA_WEIGHT
+   (artist
+      "Coheed and Cambria"))
+(loading_trivia50
+   TRIVIA_WEIGHT
+   (artist
+      "Coheed and Cambria"))
+(loading_trivia51
+   TRIVIA_WEIGHT
+   (artist
+      "David Bowie"))
+(loading_trivia52
+   TRIVIA_WEIGHT
+   (artist
+      "David Bowie"))
+(loading_trivia53
+   TRIVIA_WEIGHT
+   (artist
+      "David Bowie"))
+(loading_trivia54
+   TRIVIA_WEIGHT
+   (song highwaystar))
+(loading_trivia55
+   TRIVIA_WEIGHT
+   (artist
+      "Faith No More"))
+(loading_trivia56
+   TRIVIA_WEIGHT
+   (artist
+      "Foo Fighters"))
+(loading_trivia57
+   TRIVIA_WEIGHT
+   (artist
+      "Garbage"))
+(loading_trivia58
+   TRIVIA_WEIGHT
+   (song dontfearthereaper))
+(loading_trivia59
+   TRIVIA_WEIGHT
+   (artist
+      "The Hives"))
+(loading_trivia60
+   TRIVIA_WEIGHT
+   (artist
+      "The Hives"))
+(loading_trivia61
+   TRIVIA_WEIGHT
+   (artist
+      "Hole"))
+(loading_trivia62
+   TRIVIA_WEIGHT
+   (artist
+      "Iron Maiden"))
+(loading_trivia63
+   TRIVIA_WEIGHT
+   (artist
+      "Jet"))
+(loading_trivia64
+   TRIVIA_WEIGHT
+   (artist
+      "KISS"))
+(loading_trivia65
+   TRIVIA_WEIGHT
+   (artist
+      "KISS"))
+(loading_trivia66
+   TRIVIA_WEIGHT
+   (artist
+      "Molly Hatchet"))
+(loading_trivia67
+   TRIVIA_WEIGHT
+   (artist
+      "Molly Hatchet"))
+(loading_trivia68
+   TRIVIA_WEIGHT
+   (artist
+      "Black Sabbath"))
+(loading_trivia69
+   TRIVIA_WEIGHT
+   (artist
+      "Bon Jovi"))
+(loading_trivia70
+   TRIVIA_WEIGHT
+   (artist
+      "Metallica"))
+(loading_trivia71
+   TRIVIA_WEIGHT
+   (artist
+      "Beastie Boys"))
+(loading_trivia72
+   TRIVIA_WEIGHT
+   (artist
+      "Beastie Boys"))
+(loading_trivia73
+   TRIVIA_WEIGHT
+   (song foreplaylongtime))
+(loading_trivia74
+   TRIVIA_WEIGHT
+   (artist
+      "Bon Jovi"))
+(loading_trivia75
+   TRIVIA_WEIGHT
+   (artist
+      "Deep Purple"))
+(loading_trivia76
+   TRIVIA_WEIGHT
+   (artist
+      "Deep Purple"))
+(loading_trivia77
+   TRIVIA_WEIGHT
+   (artist
+      "Foo Fighters"))
+(loading_trivia78
+   TRIVIA_WEIGHT
+   (artist
+      "Metallica"))
+(loading_trivia79
+   TRIVIA_WEIGHT
+   (artist
+      "Foo Fighters"))
+(loading_trivia80
+   TRIVIA_WEIGHT
+   (song celebrityskin))
+(loading_trivia81
+   TRIVIA_WEIGHT
+   (artist
+      "Hole"))
+(loading_trivia82
+   TRIVIA_WEIGHT
+   (artist
+      "Faith No More"))
+(loading_trivia83
+   TRIVIA_WEIGHT
+   (artist
+      "R.E.M."))
+(loading_trivia84
+   TRIVIA_WEIGHT
+   (artist
+      "Jet"))
+(loading_trivia85
+   TRIVIA_WEIGHT
+   (artist
+      "Jet"))
+(loading_trivia86
+   TRIVIA_WEIGHT
+   (artist
+      "Metallica"))
+(loading_trivia87
+   TRIVIA_WEIGHT
+   (song mississippiqueen))
+(loading_trivia88
+   TRIVIA_WEIGHT
+   (artist
+      "Mountain"))
+(loading_trivia89
+   TRIVIA_WEIGHT
+   (artist
+      "Mountain"))
+(loading_trivia90
+   TRIVIA_WEIGHT
+   (artist
+      "Nine Inch Nails"))
+(loading_trivia91
+   TRIVIA_WEIGHT
+   (artist
+      "Nine Inch Nails"))
+(loading_trivia92
+   TRIVIA_WEIGHT
+   (artist
+      "Nine Inch Nails"))
+(loading_trivia93
+   TRIVIA_WEIGHT
+   (artist
+      "Rush"))
+(loading_trivia94
+   TRIVIA_WEIGHT
+   (artist
+      "Nirvana"))
+(loading_trivia95
+   TRIVIA_WEIGHT
+   (artist
+      "Nirvana"))
+(loading_trivia96
+   TRIVIA_WEIGHT
+   (artist
+      "Faith No More"))
+(loading_trivia97
+   TRIVIA_WEIGHT
+   (artist
+      "Aerosmith"))
+(loading_trivia98
+   TRIVIA_WEIGHT
+   (artist
+      "Queens of the Stone Age"))
+(loading_trivia99
+   TRIVIA_WEIGHT
+   (artist
+      "R.E.M."))
+(loading_trivia100
+   TRIVIA_WEIGHT
+   (artist
+      "The Rolling Stones"))
+(loading_trivia101
+   TRIVIA_WEIGHT
+   (artist
+      "Rush"))
+(loading_trivia102
+   TRIVIA_WEIGHT
+   (artist
+      "Soundgarden"))
+(loading_trivia103
+   TRIVIA_WEIGHT
+   (artist
+      "Soundgarden"))
+(loading_trivia104
+   TRIVIA_WEIGHT
+   (artist
+      "Stone Temple Pilots"))
+(loading_trivia105
+   TRIVIA_WEIGHT
+   (artist
+      "The Who"))
+(loading_trivia106
+   TRIVIA_WEIGHT
+   (artist
+      "Beastie Boys"))
+(loading_trivia107
+   TRIVIA_WEIGHT
+   (artist
+      "Iron Maiden"))
+(loading_trivia108
+   TRIVIA_WEIGHT
+   (artist
+      "The Clash"))
+(loading_trivia109
+   TRIVIA_WEIGHT
+   (song shouldistay))
+(loading_trivia110
+   TRIVIA_WEIGHT
+   (artist
+      "The Clash"))
+(loading_trivia111
+   TRIVIA_WEIGHT
+   (artist
+      "The Clash"))
+(loading_trivia112
+   TRIVIA_WEIGHT
+   (artist
+      "The Outlaws"))
+(loading_trivia113
+   TRIVIA_WEIGHT
+   (artist
+      "The New Pornographers"))
+(loading_trivia114
+   TRIVIA_WEIGHT
+   (artist
+      "The New Pornographers"))
+(loading_trivia115
+   TRIVIA_WEIGHT
+   (artist
+      "Pixies"))
+(loading_trivia116
+   TRIVIA_WEIGHT
+   (artist
+      "The Police"))
+(loading_trivia117
+   TRIVIA_WEIGHT
+   (artist
+      "The Police"))
+(loading_trivia118
+   TRIVIA_WEIGHT
+   (artist
+      "The Strokes"))
+(loading_trivia119
+   TRIVIA_WEIGHT
+   (artist
+      "Bon Jovi"))
+(loading_trivia120
+   TRIVIA_WEIGHT
+   (artist
+      "Mountain"))
+(loading_trivia121
+   TRIVIA_WEIGHT
+   (song wontgetfooled)
+   (mode_property is_coop TRUE))
+(loading_trivia122
+   TRIVIA_WEIGHT
+   (artist
+      "Rush"))
+(loading_trivia123
+   TRIVIA_WEIGHT
+   (artist
+      "Weezer"))
+(loading_trivia124
+   TRIVIA_WEIGHT
+   (artist
+      "Yeah Yeah Yeahs"))
+(loading_trivia125
+   TRIVIA_WEIGHT
+   (artist
+      "Yeah Yeah Yeahs"))
+(loading_trivia126
+   TRIVIA_WEIGHT
+   (artist
+      "Rush"))
+(loading_trivia127
+   TRIVIA_WEIGHT
+   (artist
+      "Bon Jovi"))
+(loading_trivia128
+   TRIVIA_WEIGHT
+   (artist
+      "Foo Fighters"))
+(loading_trivia129
+   TRIVIA_WEIGHT
+   (artist
+      "Queens of the Stone Age"))
+(loading_trivia130
+   TRIVIA_WEIGHT
+   (artist
+      "Blue Öyster Cult"))
+(loading_trivia131
+   TRIVIA_WEIGHT
+   (artist
+      "Faith No More"))
+(loading_trivia132
+   TRIVIA_WEIGHT
+   (artist
+      "Iron Maiden"))
+(loading_trivia133
+   TRIVIA_WEIGHT
+   (artist
+      "OK Go"))
+(loading_trivia134
+   TRIVIA_WEIGHT
+   (artist
+      "R.E.M."))
+(loading_trivia135
+   TRIVIA_WEIGHT
+   (artist
+      "The Clash"))
+(loading_trivia136
+   TRIVIA_WEIGHT
+   (artist
+      "The New Pornographers"))
+(loading_trivia137
+   TRIVIA_WEIGHT
+   (artist
+      "Mountain"))
+(loading_trivia138
+   TRIVIA_WEIGHT
+   (artist
+      "Queens of the Stone Age"))
+(loading_trivia139
+   TRIVIA_WEIGHT
+   (artist
+      "Boston"))
+(loading_trivia140
+   TRIVIA_WEIGHT
+   (artist
+      "Pixies"))
+(loading_trivia141
+   TRIVIA_WEIGHT
+   (artist
+      "OK Go"))
+(loading_trivia142
+   TRIVIA_WEIGHT
+   (artist
+      "Queens of the Stone Age"))
+(loading_trivia143
+   TRIVIA_WEIGHT
+   (artist
+      "Radiohead"))
+(loading_trivia144
+   TRIVIA_WEIGHT
+   (artist
+      "Radiohead"))
+(loading_trivia145
+   TRIVIA_WEIGHT
+   (artist
+      "R.E.M."))
+(loading_trivia146
+   TRIVIA_WEIGHT
+   (artist
+      "KISS"))
+(loading_trivia147
+   TRIVIA_WEIGHT
+   (artist
+      "Smashing Pumpkins"))
+(loading_trivia148
+   TRIVIA_WEIGHT
+   (artist
+      "Crooked X"))
+(loading_trivia149
+   TRIVIA_WEIGHT
+   (artist
+      "Metallica"))
+(loading_trivia150
+   TRIVIA_WEIGHT
+   (artist
+      "Flyleaf"))
+(loading_trivia151
+   TRIVIA_WEIGHT
+   (song mississippiqueen))
+(loading_trivia152
+   TRIVIA_WEIGHT
+   (artist
+      "Hole"))
+(loading_trivia153
+   TRIVIA_WEIGHT
+   (artist
+      "The Police"))
+(loading_trivia154
+   TRIVIA_WEIGHT
+   (artist
+      "The Who"))
+(loading_trivia155
+   TRIVIA_WEIGHT
+   (artist
+      "Molly Hatchet"))
+(loading_trivia156
+   TRIVIA_WEIGHT
+   (artist
+      "Yeah Yeah Yeahs"))
+(loading_trivia157
+   TRIVIA_WEIGHT
+   (artist
+      "Deep Purple"))
+(loading_trivia158
+   TRIVIA_WEIGHT
+   (artist
+      "Garbage"))
+(loading_trivia159
+   TRIVIA_WEIGHT
+   (artist
+      "Faith No More"))
+(loading_trivia160
+   TRIVIA_WEIGHT
+   (artist
+      "Ramones"))
+(loading_trivia161
+   TRIVIA_WEIGHT
+   (artist
+      "Red Hot Chili Peppers"))
+(loading_trivia162
+   TRIVIA_WEIGHT
+   (artist
+      "Red Hot Chili Peppers"))
+(loading_trivia163
+   TRIVIA_WEIGHT
+   (song greengrass)
+   (diff expert)
+   (instrument guitar))
+(loading_trivia164
+   TRIVIA_WEIGHT
+   (song wontgetfooled)
+   (diff expert)
+   (instrument drum))
+(loading_trivia165
+   TRIVIA_WEIGHT
+   (song dontfeartehreaper))
+(loading_trivia166
+   TRIVIA_WEIGHT
+   (artist
+      "Aerosmith"))
+(loading_trivia167
+   TRIVIA_WEIGHT
+   (artist
+      "Aerosmith"))
+(loading_trivia168
+   TRIVIA_WEIGHT
+   (song trainkeptarollin))
+(loading_trivia169
+   TRIVIA_WEIGHT
+   (artist
+      "Aerosmith"))
+(loading_trivia170
+   TRIVIA_WEIGHT
+   (artist
+      "Sweet"))
+(loading_trivia171
+   TRIVIA_WEIGHT
+   (song ballroomblitz))
+(loading_trivia172
+   TRIVIA_WEIGHT
+   (artist
+      "Ramones"))
+(loading_trivia173
+   TRIVIA_WEIGHT
+   (artist
+      "The Rolling Stones"))
+(loading_trivia174
+   TRIVIA_WEIGHT
+   (artist
+      "Fall Out Boy"))
+(loading_trivia175
+   TRIVIA_WEIGHT
+   (artist
+      "Fall Out Boy"))
+(loading_trivia176
+   TRIVIA_WEIGHT
+   (artist
+      "Fall Out Boy"))
+(loading_trivia177
+   TRIVIA_WEIGHT
+   (artist
+      "The Killers"))
+(loading_trivia178
+   TRIVIA_WEIGHT
+   (artist
+      "The Killers"))
+(loading_trivia179
+   TRIVIA_WEIGHT
+   (artist
+      "The Killers"))
+(loading_trivia180
+   TRIVIA_WEIGHT
+   (artist
+      "Sweet"))
+(loading_trivia181
+   TRIVIA_WEIGHT
+   (artist
+      "The Konks"))
+(loading_trivia182
+   TRIVIA_WEIGHT
+   (artist
+      "The Konks"))
+(loading_trivia183
+   TRIVIA_WEIGHT
+   (artist
+      "The Konks"))
+(loading_trivia184
+   TRIVIA_WEIGHT
+   (artist
+      "Metallica"))
+(loading_trivia185
+   TRIVIA_WEIGHT
+   (artist
+      "VAGIANT"))
+(loading_trivia186
+   TRIVIA_WEIGHT
+   (artist
+      "VAGIANT"))
+(loading_trivia187
+   TRIVIA_WEIGHT
+   (artist
+      "VAGIANT"))
+(loading_trivia188
+   TRIVIA_WEIGHT
+   (artist
+      "VAGIANT"))
+(loading_trivia189
+   TRIVIA_WEIGHT
+   (artist
+      "VAGIANT"))
+(loading_trivia190
+   TRIVIA_WEIGHT
+   (song seven))
+(loading_trivia191
+   TRIVIA_WEIGHT
+   (artist
+      "VAGIANT"))
+(loading_trivia192
+   TRIVIA_WEIGHT
+   (artist
+      "VAGIANT"))
+(loading_trivia193
+   TRIVIA_WEIGHT
+   (artist
+      "VAGIANT"))
+(loading_trivia194
+   TRIVIA_WEIGHT
+   (song cantletgo))
+(loading_trivia195
+   TRIVIA_WEIGHT
+   (song cantletgo))
+(loading_trivia196
+   TRIVIA_WEIGHT
+   (artist
+      "Death of the Cool"))
+(loading_trivia197
+   TRIVIA_WEIGHT
+   (artist
+      "Death of the Cool"))
+(loading_trivia198
+   TRIVIA_WEIGHT
+   (artist
+      "Death of the Cool"))
+(loading_trivia199
+   TRIVIA_WEIGHT
+   (artist
+      "Death of the Cool"))
+(loading_trivia201
+   TRIVIA_WEIGHT
+   (artist
+      "Death of the Cool"))
+(loading_trivia202
+   TRIVIA_WEIGHT
+   (artist
+      "Death of the Cool"))
+(loading_trivia203
+   TRIVIA_WEIGHT
+   (artist
+      "Death of the Cool"))
+(loading_trivia204
+   TRIVIA_WEIGHT
+   (artist
+      "Freezepop"))
+(loading_trivia205
+   TRIVIA_WEIGHT
+   (artist
+      "Freezepop"))
+(loading_trivia206
+   TRIVIA_WEIGHT
+   (artist
+      "Freezepop"))
+(loading_trivia207
+   TRIVIA_WEIGHT
+   (artist
+      "Freezepop"))
+(loading_trivia208
+   TRIVIA_WEIGHT
+   (artist
+      "Anarchy Club"))
+(loading_trivia209
+   TRIVIA_WEIGHT
+   (artist
+      "Anarchy Club"))
+(loading_trivia210
+   TRIVIA_WEIGHT
+   (artist
+      "Anarchy Club"))
+(loading_trivia211
+   TRIVIA_WEIGHT
+   (artist
+      "Anarchy Club"))
+(loading_trivia212
+   TRIVIA_WEIGHT
+   (artist
+      "Anarchy Club"))
+(loading_trivia213
+   TRIVIA_WEIGHT
+   (artist
+      "Bang Camaro"))
+(loading_trivia214
+   TRIVIA_WEIGHT
+   (artist
+      "Bang Camaro"))
+(loading_trivia215
+   TRIVIA_WEIGHT
+   (artist
+      "Bang Camaro"))
+(loading_trivia216
+   TRIVIA_WEIGHT
+   (artist
+      "Bang Camaro"))
+(loading_trivia217
+   TRIVIA_WEIGHT
+   (artist
+      "Bang Camaro"))
+(loading_trivia218
+   TRIVIA_WEIGHT
+   (artist
+      "Bang Camaro"))
+(loading_trivia219
+   TRIVIA_WEIGHT
+   (artist
+      "Bang Camaro"))
+(loading_trivia220
+   TRIVIA_WEIGHT
+   (artist
+      "Aerosmith"))
+(loading_trivia221
+   TRIVIA_WEIGHT
+   (artist
+      "The Mother Hips"))
+(loading_trivia222
+   TRIVIA_WEIGHT
+   (artist
+      "The Mother Hips"))
+(loading_trivia223
+   TRIVIA_WEIGHT
+   (artist
+      "The Acro-brats"))
+(loading_trivia224
+   TRIVIA_WEIGHT
+   (artist
+      "The Acro-brats"))
+(loading_trivia225
+   TRIVIA_WEIGHT
+   (artist
+      "The Acro-brats"))
+(loading_trivia226
+   TRIVIA_WEIGHT
+   (artist
+      "The Acro-brats"))
+(loading_trivia227
+   TRIVIA_WEIGHT
+   (artist
+      "The Acro-brats"))
+(loading_trivia228
+   TRIVIA_WEIGHT
+   (artist
+      "Honest Bob and the Factory-to-Dealer Incentives"))
+(loading_trivia229
+   TRIVIA_WEIGHT
+   (artist
+      "Honest Bob and the Factory-to-Dealer Incentives"))
+(loading_trivia230
+   TRIVIA_WEIGHT
+   (artist
+      "Honest Bob and the Factory-to-Dealer Incentives"))
+(loading_trivia231
+   TRIVIA_WEIGHT
+   (artist
+      "Tribe"))
+(loading_trivia232
+   TRIVIA_WEIGHT
+   (artist
+      "Tribe"))
+(loading_trivia233
+   TRIVIA_WEIGHT
+   (song greengrass))
+(loading_trivia234
+   TRIVIA_WEIGHT
+   (artist
+      "VAGIANT"))
+(loading_trivia235
+   TRIVIA_WEIGHT
+   (artist
+      "The Acro-brats"))
+(loading_trivia236
+   TRIVIA_WEIGHT
+   (artist
+      "The Acro-brats"))
+(loading_trivia237
+   TRIVIA_WEIGHT
+   (artist
+      "VAGIANT"))
+(loading_trivia238
+   TRIVIA_WEIGHT
+   (song foreplaylongtime)
+   (mode_property is_coop TRUE))
+(loading_trivia239
+   TRIVIA_WEIGHT
+   (artist
+      "The Hives"))
+(loading_trivia240
+   TRIVIA_WEIGHT
+   (artist
+      "The B-52's"))
+(loading_trivia241
+   TRIVIA_WEIGHT
+   (artist
+      "The B-52's"))
+(loading_trivia242
+   TRIVIA_WEIGHT
+   (artist
+      "The Black Crowes"))
+(loading_trivia243
+   TRIVIA_WEIGHT
+   (song wecarealot))
+(loading_trivia244
+   TRIVIA_WEIGHT
+   (artist
+      "Foreigner"))
+(loading_trivia245
+   TRIVIA_WEIGHT
+   (artist
+      "Foreigner"))
+(loading_trivia246
+   TRIVIA_WEIGHT
+   (song smellsliketeen))
+(loading_trivia247
+   TRIVIA_WEIGHT
+   (artist
+      "The Runaways"))
+(loading_trivia248
+   TRIVIA_WEIGHT
+   (artist
+      "The Pretenders"))
+(loading_trivia249
+   TRIVIA_WEIGHT
+   (song brassinpocket))
+(loading_trivia250
+   TRIVIA_WEIGHT
+   (artist
+      "Radiohead"))
+(loading_trivia251
+   TRIVIA_WEIGHT
+   (artist
+      "Wolfmother"))
+(loading_trivia252
+   TRIVIA_WEIGHT
+   (song bangagong))
+(loading_trivia253
+   TRIVIA_WEIGHT
+   (song cherrybomb))
+(loading_trivia254
+   TRIVIA_WEIGHT
+   (song ifoughtthelaw))
+(loading_trivia255
+   TRIVIA_WEIGHT
+   (song mysharona))
+(loading_trivia256
+   TRIVIA_WEIGHT
+   (artist
+      "The Knack"))
+(loading_trivia257
+   TRIVIA_WEIGHT
+   (song mysharona))
+(loading_trivia258
+   TRIVIA_WEIGHT
+   (song lasttraintoclarksville))
+(loading_trivia259
+   TRIVIA_WEIGHT
+   (artist
+      "The Monkees"))
+(loading_trivia260
+   TRIVIA_WEIGHT
+   (song synchronicity2))
+(loading_trivia261
+   TRIVIA_WEIGHT
+   (artist
+      "Lynyrd Skynyrd"))
+(loading_trivia262
+   TRIVIA_WEIGHT
+   (artist
+      "Beastie Boys"))
+(loading_trivia263
+   TRIVIA_WEIGHT
+   (artist
+      "Beastie Boys"))
+(loading_trivia264
+   TRIVIA_WEIGHT
+   (artist
+      "Black Sabbath"))
+(loading_trivia265
+   TRIVIA_WEIGHT
+   (artist
+      "Deep Purple"))
+(loading_trivia266
+   TRIVIA_WEIGHT
+   (artist
+      "KISS"))
+(loading_trivia267
+   TRIVIA_WEIGHT
+   (artist
+      "Foo Fighters"))
+(loading_trivia268
+   TRIVIA_WEIGHT
+   (artist
+      "Ramones"))
+(loading_trivia270
+   TRIVIA_WEIGHT
+   (artist
+      "The Clash"))
+(loading_trivia271
+   TRIVIA_WEIGHT
+   (artist
+      "The Police"))
+(loading_trivia272
+   TRIVIA_WEIGHT
+   (artist
+      "Weezer"))
+(loading_trivia273
+   TRIVIA_WEIGHT
+   (artist
+      "David Bowie"))
+(loading_trivia274
+   TRIVIA_WEIGHT
+   (artist
+      "Aerosmith"))
+(loading_trivia275
+   TRIVIA_WEIGHT
+   (artist
+      "The Rolling Stones"))
+(loading_trivia276
+   TRIVIA_WEIGHT
+   (song fortunateson))
+(loading_trivia277
+   TRIVIA_WEIGHT
+   (song sugarmagnolia))
+(loading_trivia278
+   TRIVIA_WEIGHT
+   (artist
+      "The Grateful Dead"))
+(loading_trivia279
+   TRIVIA_WEIGHT
+   (artist
+      "Oasis"))
+(loading_trivia280
+   TRIVIA_WEIGHT
+   (artist
+      "All-American Rejects"))
+(loading_trivia281
+   TRIVIA_WEIGHT
+   (artist
+      "Boston"))
+(loading_trivia282
+   TRIVIA_WEIGHT
+   (artist
+      "OK Go"))
+(loading_trivia283
+   TRIVIA_WEIGHT
+   (artist
+      "The Hives"))
+(loading_trivia284
+   TRIVIA_WEIGHT
+   (artist
+      "Nine Inch Nails"))
+(loading_trivia285
+   TRIVIA_WEIGHT
+   (artist
+      "Blondie"))
+(loading_trivia286
+   TRIVIA_WEIGHT
+   (artist
+      "Blondie"))
+(loading_trivia287
+   TRIVIA_WEIGHT
+   (artist
+      "Blondie"))
+(loading_trivia288
+   TRIVIA_WEIGHT
+   (artist
+      "Blondie"))
+(loading_trivia289
+   TRIVIA_WEIGHT
+   (artist
+      "Blondie"))
+(loading_trivia290
+   TRIVIA_WEIGHT
+   (song onewayoranother))
+(loading_trivia291
+   TRIVIA_WEIGHT
+   (artist
+      "Blondie"))
+(loading_trivia292
+   TRIVIA_WEIGHT
+   (artist
+      "Blondie"))
+(loading_trivia293
+   TRIVIA_WEIGHT
+   (artist
+      "Blondie"))
+(loading_trivia294
+   TRIVIA_WEIGHT
+   (song comeoutandplay))
+(loading_trivia295
+   TRIVIA_WEIGHT
+   (artist
+      "The Offspring"))
+(loading_trivia296
+   TRIVIA_WEIGHT
+   (artist
+      "The Offspring"))
+(loading_trivia297
+   TRIVIA_WEIGHT
+   (artist
+      "The Offspring"))
+(loading_trivia298
+   TRIVIA_WEIGHT
+   (artist
+      "The Offspring"))
+(loading_trivia299
+   TRIVIA_WEIGHT
+   (artist
+      "The Offspring"))
+(loading_trivia300
+   TRIVIA_WEIGHT
+   (artist
+      "Go-Go's"))
+(loading_trivia301
+   TRIVIA_WEIGHT
+   (song wegotthebeat))
+(loading_trivia303
+   TRIVIA_WEIGHT
+   (artist
+      "Go-Go's"))
+(loading_trivia305
+   TRIVIA_WEIGHT
+   (artist
+      "Go-Go's"))
+(loading_trivia306
+   TRIVIA_WEIGHT
+   (artist
+      "Go-Go's"))
+(loading_trivia307
+   TRIVIA_WEIGHT
+   (song battery))
+(loading_trivia308
+   TRIVIA_WEIGHT
+   (song battery))
+(loading_trivia309
+   TRIVIA_WEIGHT
+   (song alabamagetaway))
+(loading_trivia310
+   TRIVIA_WEIGHT
+   (artist
+      "The Grateful Dead"))
+(loading_trivia311
+   TRIVIA_WEIGHT
+   (song alabamagetaway))
+(loading_trivia312
+   TRIVIA_WEIGHT
+   (artist
+      "The Grateful Dead"))
+(loading_trivia313
+   TRIVIA_WEIGHT
+   (artist
+      "The Grateful Dead"))
+(loading_trivia314
+   TRIVIA_WEIGHT
+   (artist
+      "The Grateful Dead"))
+(loading_trivia315
+   TRIVIA_WEIGHT
+   (artist
+      "The Grateful Dead"))
+(loading_trivia316
+   TRIVIA_WEIGHT
+   (artist
+      "Ramones"))
+(loading_trivia317
+   TRIVIA_WEIGHT
+   (song rockawaybeach))
+(loading_trivia318
+   TRIVIA_WEIGHT
+   (song rockawaybeach))
+(loading_trivia319
+   TRIVIA_WEIGHT
+   (artist
+      "Ramones"))
+(loading_trivia320
+   TRIVIA_WEIGHT
+   (song roam))
+(loading_trivia321
+   TRIVIA_WEIGHT
+   (artist
+      "The B-52's"))
+(loading_trivia322
+   TRIVIA_WEIGHT
+   (artist
+      "The B-52's"))
+(loading_trivia323
+   TRIVIA_WEIGHT
+   (artist
+      "The B-52's"))
+(loading_trivia324
+   TRIVIA_WEIGHT
+   (artist
+      "The B-52's"))
+(loading_trivia325
+   TRIVIA_WEIGHT
+   (song roxanne))
+(loading_trivia326
+   TRIVIA_WEIGHT
+   (artist
+      "The Police"))
+(loading_trivia327
+   TRIVIA_WEIGHT
+   (artist
+      "The Police"))
+(loading_trivia328
+   TRIVIA_WEIGHT
+   (artist
+      "The Police"))
+(loading_trivia329
+   TRIVIA_WEIGHT
+   (artist
+      "The Police"))
+(loading_trivia330
+   TRIVIA_WEIGHT
+   (artist
+      "The Police"))
+(loading_trivia331
+   TRIVIA_WEIGHT
+   (artist
+      "Oasis"))
+(loading_trivia332
+   TRIVIA_WEIGHT
+   (artist
+      "Oasis"))
+(loading_trivia333
+   TRIVIA_WEIGHT
+   (song dontlookbackinanger))
+(loading_trivia334
+   TRIVIA_WEIGHT
+   (artist
+      "All-American Rejects"))
+(loading_trivia335
+   TRIVIA_WEIGHT
+   (artist
+      "All-American Rejects"))
+(loading_trivia336
+   TRIVIA_WEIGHT
+   (song movealong))
+(loading_trivia337
+   TRIVIA_WEIGHT
+   (song movealong))
+(loading_trivia338
+   TRIVIA_WEIGHT
+   (song movealong))
+(loading_trivia339
+   TRIVIA_WEIGHT
+   (artist
+      "30 Seconds to Mars"))
+(loading_trivia340
+   TRIVIA_WEIGHT
+   (artist
+      "30 Seconds to Mars"))
+(loading_trivia341
+   TRIVIA_WEIGHT
+   (artist
+      "30 Seconds to Mars"))
+(loading_trivia342
+   TRIVIA_WEIGHT
+   (song allthesmallthings))
+(loading_trivia345
+   TRIVIA_WEIGHT
+   (song ifoughtthelaw))
+(loading_trivia346
+   TRIVIA_WEIGHT
+   (song ifoughtthelaw))
+(loading_trivia347
+   TRIVIA_WEIGHT
+   (artist
+      "David Bowie"))
+(loading_trivia348
+   TRIVIA_WEIGHT
+   (artist
+      "David Bowie"))
+(loading_trivia349
+   TRIVIA_WEIGHT
+   (artist
+      "David Bowie"))
+(loading_trivia350
+   TRIVIA_WEIGHT
+   (song moonagedaydream))
+(loading_trivia351
+   TRIVIA_WEIGHT
+   (artist
+      "The Hives"))
+(loading_trivia352
+   TRIVIA_WEIGHT
+   (artist
+      "The Hives"))
+(loading_trivia353
+   TRIVIA_WEIGHT
+   (artist
+      "The Hives"))
+(loading_trivia354
+   TRIVIA_WEIGHT
+   (artist
+      "KISS"))
+(loading_trivia355
+   TRIVIA_WEIGHT
+   (artist
+      "KISS"))
+(loading_trivia356
+   TRIVIA_WEIGHT
+   (artist
+      "Metallica"))
+(loading_trivia357
+   TRIVIA_WEIGHT
+   (artist
+      "Metallica"))
+(loading_trivia358
+   TRIVIA_WEIGHT
+   (artist
+      "Metallica"))
+(loading_trivia359
+   TRIVIA_WEIGHT
+   (artist
+      "Metallica"))
+(loading_trivia360
+   TRIVIA_WEIGHT
+   (song marchofthepigs))
+(loading_trivia361
+   TRIVIA_WEIGHT
+   (artist
+      "Nine Inch Nails"))
+(loading_trivia362
+   TRIVIA_WEIGHT
+   (song wonderwall))
+(loading_trivia363
+   TRIVIA_WEIGHT
+   (song wonderwall))
+(loading_trivia364
+   TRIVIA_WEIGHT
+   (artist
+      "Oasis"))
+(loading_trivia365
+   TRIVIA_WEIGHT
+   (artist
+      "The Police"))
+(loading_trivia366
+   TRIVIA_WEIGHT
+   (artist
+      "The Police"))
+(loading_trivia367
+   TRIVIA_WEIGHT
+   (song synchronicity2))
+(loading_trivia368
+   TRIVIA_WEIGHT
+   (song littlesister))
+(loading_trivia369
+   TRIVIA_WEIGHT
+   (artist
+      "Queens of the Stone Age"))
+(loading_trivia370
+   TRIVIA_WEIGHT
+   (artist
+      "Radiohead"))
+(loading_trivia371
+   TRIVIA_WEIGHT
+   (artist
+      "Radiohead"))
+(loading_trivia372
+   TRIVIA_WEIGHT
+   (artist
+      "Radiohead"))
+(loading_trivia373
+   TRIVIA_WEIGHT
+   (song teenagelobotomy))
+(loading_trivia374
+   TRIVIA_WEIGHT
+   (artist
+      "Ramones"))
+(loading_trivia375
+   TRIVIA_WEIGHT
+   (song teenagelobotomy))
+(loading_trivia376
+   TRIVIA_WEIGHT
+   (artist
+      "Smashing Pumpkins"))
+(loading_trivia377
+   TRIVIA_WEIGHT
+   (artist
+      "Smashing Pumpkins"))
+(loading_trivia378
+   TRIVIA_WEIGHT
+   (artist
+      "Smashing Pumpkins"))
+(loading_trivia379
+   TRIVIA_WEIGHT
+   (song buddyholly))
+(loading_trivia380
+   TRIVIA_WEIGHT
+   (song buddyholly))
+(loading_trivia381
+   TRIVIA_WEIGHT
+   (song jokerandthe))
+(loading_trivia382
+   TRIVIA_WEIGHT
+   (song gimmethreesteps))
+(loading_trivia383
+   TRIVIA_WEIGHT
+   (artist
+      "Lynyrd Skynyrd"))
+(loading_trivia384
+   TRIVIA_WEIGHT
+   (artist
+      "Alice in Chains"))
+(loading_trivia385
+   TRIVIA_WEIGHT
+   (song noexcuses))
+(loading_trivia386
+   TRIVIA_WEIGHT
+   (artist
+      "Alice in Chains"))
+(loading_trivia387
+   TRIVIA_WEIGHT
+   (artist
+      "Alice in Chains"))
+(loading_trivia388
+   TRIVIA_WEIGHT
+   (song ramblinman))
+(loading_trivia389
+   TRIVIA_WEIGHT
+   (song ramblinman))
+(loading_trivia390
+   TRIVIA_WEIGHT
+   (song ramblinman))
+(loading_trivia391
+   TRIVIA_WEIGHT
+   (artist
+      "Allman Brothers"))
+(loading_trivia392
+   TRIVIA_WEIGHT
+   (artist
+      "Bon Jovi"))
+(loading_trivia393
+   TRIVIA_WEIGHT
+   (song livingonaprayer))
+(loading_trivia394
+   TRIVIA_WEIGHT
+   (artist
+      "Bon Jovi"))
+(loading_trivia395
+   TRIVIA_WEIGHT
+   (song hellothere))
+(loading_trivia396
+   TRIVIA_WEIGHT
+   (artist
+      "Cheap Trick"))
+(loading_trivia397
+   TRIVIA_WEIGHT
+   (artist
+      "Cheap Trick"))
+(loading_trivia406
+   TRIVIA_WEIGHT
+   (song girlsonfilm))
+(loading_trivia407
+   TRIVIA_WEIGHT
+   (artist
+      "Duran Duran"))
+(loading_trivia408
+   TRIVIA_WEIGHT
+   (artist
+      "Duran Duran"))
+(loading_trivia409
+   TRIVIA_WEIGHT
+   (song goyourownway))
+(loading_trivia410
+   TRIVIA_WEIGHT
+   (song goyourownway))
+(loading_trivia411
+   TRIVIA_WEIGHT
+   (artist
+      "Fleetwood Mac"))
+(loading_trivia412
+   TRIVIA_WEIGHT
+   (artist
+      "Fleetwood Mac"))
+(loading_trivia413
+   TRIVIA_WEIGHT
+   (artist
+      "Foreigner"))
+(loading_trivia414
+   TRIVIA_WEIGHT
+   (artist
+      "Foreigner"))
+(loading_trivia415
+   TRIVIA_WEIGHT
+   (artist
+      "Foreigner"))
+(loading_trivia416
+   TRIVIA_WEIGHT
+   (artist
+      "Foreigner"))
+(loading_trivia421
+   TRIVIA_WEIGHT
+   (artist
+      "Go-Go's"))
+(loading_trivia422
+   TRIVIA_WEIGHT
+   (song wegotthebeat))
+(loading_trivia423
+   TRIVIA_WEIGHT
+   (artist
+      "Go-Go's"))
+(loading_trivia424
+   TRIVIA_WEIGHT
+   (song alabamagetaway))
+(loading_trivia425
+   TRIVIA_WEIGHT
+   (artist
+      "Journey"))
+(loading_trivia426
+   TRIVIA_WEIGHT
+   (artist
+      "Journey"))
+(loading_trivia427
+   TRIVIA_WEIGHT
+   (artist
+      "Journey"))
+(loading_trivia428
+   TRIVIA_WEIGHT
+   (song anywayyouwantit))
+(loading_trivia429
+   TRIVIA_WEIGHT
+   (artist
+      "Lush"))
+(loading_trivia430
+   TRIVIA_WEIGHT
+   (artist
+      "Lush"))
+(loading_trivia431
+   TRIVIA_WEIGHT
+   (artist
+      "Lush"))
+(loading_trivia432
+   TRIVIA_WEIGHT
+   (artist
+      "Lush"))
+(loading_trivia433
+   TRIVIA_WEIGHT
+   (song battery))
+(loading_trivia438
+   TRIVIA_WEIGHT
+   (artist
+      "The New Pornographers"))
+(loading_trivia439
+   TRIVIA_WEIGHT
+   (artist
+      "The New Pornographers"))
+(loading_trivia440
+   TRIVIA_WEIGHT
+   (song spiritinthesky))
+(loading_trivia441
+   TRIVIA_WEIGHT
+   (song spiritinthesky))
+(loading_trivia442
+   TRIVIA_WEIGHT
+   (song spiritinthesky))
+(loading_trivia443
+   TRIVIA_WEIGHT
+   (song spiritinthesky))
+(loading_trivia444
+   TRIVIA_WEIGHT
+   (song thetrees))
+(loading_trivia445
+   TRIVIA_WEIGHT
+   (song thetrees))
+(loading_trivia454
+   TRIVIA_WEIGHT
+   (song pinballwizard))
+(loading_trivia455
+   TRIVIA_WEIGHT
+   (song pinballwizard))
+(loading_trivia456
+   TRIVIA_WEIGHT
+   (song pinballwizard))
+(loading_trivia457
+   TRIVIA_WEIGHT
+   (song pinballwizard))
+(loading_trivia466
+   TRIVIA_WEIGHT
+   (song today))
+(loading_trivia467
+   TRIVIA_WEIGHT
+   (song today))
+(loading_trivia468
+   TRIVIA_WEIGHT
+   (song today))
+(loading_trivia469
+   TRIVIA_WEIGHT
+   (artist
+      "Smashing Pumpkins"))
+(loading_trivia470
+   TRIVIA_WEIGHT
+   (song teenageriot))
+(loading_trivia471
+   TRIVIA_WEIGHT
+   (song teenageriot))
+(loading_trivia472
+   TRIVIA_WEIGHT
+   (song teenageriot))
+(loading_trivia473
+   TRIVIA_WEIGHT
+   (artist
+      "Sonic Youth"))
+(loading_trivia476
+   TRIVIA_WEIGHT
+   (artist
+      "Steve Miller Band"))
+(loading_trivia477
+   TRIVIA_WEIGHT
+   (artist
+      "Steve Miller Band"))
+(loading_trivia478
+   TRIVIA_WEIGHT
+   (artist
+      "Steve Miller Band"))
+(loading_trivia479
+   TRIVIA_WEIGHT
+   (song psychokiller))
+(loading_trivia480
+   TRIVIA_WEIGHT
+   (artist
+      "Talking Heads"))
+(loading_trivia481
+   TRIVIA_WEIGHT
+   (song psychokiller))
+(loading_trivia484
+   TRIVIA_WEIGHT
+   (song americanwoman))
+(loading_trivia485
+   TRIVIA_WEIGHT
+   (song americanwoman))
+(loading_trivia486
+   TRIVIA_WEIGHT
+   (song americanwoman))
+(loading_trivia487
+   TRIVIA_WEIGHT
+   (song americanwoman))
+(loading_trivia488
+   TRIVIA_WEIGHT
+   (song aqualung))
+(loading_trivia489
+   TRIVIA_WEIGHT
+   (song aqualung))
+(loading_trivia490
+   TRIVIA_WEIGHT
+   (song aqualung))
+(loading_trivia491
+   TRIVIA_WEIGHT
+   (artist
+      "Jethro Tull"))
+(loading_trivia492
+   TRIVIA_WEIGHT
+   (song roundandround))
+(loading_trivia493
+   TRIVIA_WEIGHT
+   (song roundandround))
+(loading_trivia494
+   TRIVIA_WEIGHT
+   (artist
+      "Ratt"))
+(loading_trivia495
+   TRIVIA_WEIGHT
+   (artist
+      "Ratt"))
+(loading_trivia496
+   TRIVIA_WEIGHT
+   (song panicattack))
+(loading_trivia497
+   TRIVIA_WEIGHT
+   (song panicattack))
+(loading_trivia498
+   TRIVIA_WEIGHT
+   (song panicattack))
+(loading_trivia499
+   TRIVIA_WEIGHT
+   (song chopsuey))
+(loading_trivia500
+   TRIVIA_WEIGHT
+   (song chopsuey))
+(loading_trivia501
+   TRIVIA_WEIGHT
+   (artist
+      "System of a Down"))
+(loading_trivia502
+   TRIVIA_WEIGHT
+   (artist
+      "Avenged Sevenfold"))
+(loading_trivia503
+   TRIVIA_WEIGHT
+   (song almosteasy))
+(loading_trivia507
+   TRIVIA_WEIGHT
+   (song downwiththesickness))
+(loading_trivia508
+   TRIVIA_WEIGHT
+   (artist
+      "Disturbed"))
+(loading_trivia509
+   TRIVIA_WEIGHT
+   (song downwiththesickness))
+(loading_trivia510
+   TRIVIA_WEIGHT
+   (artist
+      "Disturbed"))
+(loading_trivia511
+   TRIVIA_WEIGHT
+   (artist
+      "The Donnas"))
+(loading_trivia512
+   TRIVIA_WEIGHT
+   (artist
+      "The Donnas"))
+(loading_trivia513
+   TRIVIA_WEIGHT
+   (artist
+      "The Donnas"))
+(loading_trivia514
+   TRIVIA_WEIGHT
+   (artist
+      "The Donnas"))
+(loading_trivia518
+   TRIVIA_WEIGHT
+   (artist
+      "Interpol"))
+(loading_trivia519
+   TRIVIA_WEIGHT
+   (artist
+      "Interpol"))
+(loading_trivia520
+   TRIVIA_WEIGHT
+   (artist
+      "Interpol"))
+(loading_trivia521
+   TRIVIA_WEIGHT
+   (artist
+      "Interpol"))
+(loading_trivia522
+   TRIVIA_WEIGHT
+   (artist
+      "Jimmy Eat World"))
+(loading_trivia523
+   TRIVIA_WEIGHT
+   (artist
+      "Jimmy Eat World"))
+(loading_trivia524
+   TRIVIA_WEIGHT
+   (song themiddle))
+(loading_trivia525
+   TRIVIA_WEIGHT
+   (artist
+      "Jimmy Eat World"))
+(loading_trivia528
+   TRIVIA_WEIGHT
+   (song colonyofbirchmen))
+(loading_trivia529
+   TRIVIA_WEIGHT
+   (song colonyofbirchmen))
+(loading_trivia530
+   TRIVIA_WEIGHT
+   (artist
+      "Mastodon"))
+(loading_trivia531
+   TRIVIA_WEIGHT
+   (artist
+      "Mastodon"))
+(loading_trivia540
+   TRIVIA_WEIGHT
+   (song lazyeye))
+(loading_trivia541
+   TRIVIA_WEIGHT
+   (artist
+      "Silversun Pickups"))
+(loading_trivia542
+   TRIVIA_WEIGHT
+   (artist
+      "Silversun Pickups"))
+(loading_trivia543
+   TRIVIA_WEIGHT
+   (artist
+      "Silversun Pickups"))
+(loading_trivia547
+   TRIVIA_WEIGHT
+   (song masterexploder))
+(loading_trivia548
+   TRIVIA_WEIGHT
+   (song masterexploder))
+(loading_trivia549
+   TRIVIA_WEIGHT
+   (song masterexploder))
+(loading_trivia550
+   TRIVIA_WEIGHT
+   (artist
+      "Tenacious D"))
+(loading_trivia551
+   TRIVIA_WEIGHT
+   (song alexchilton))
+(loading_trivia552
+   TRIVIA_WEIGHT
+   (artist
+      "The Replacements"))
+(loading_trivia553
+   TRIVIA_WEIGHT
+   (artist
+      "The Replacements"))
+(loading_trivia554
+   TRIVIA_WEIGHT
+   (song alexchilton))
+(loading_trivia559
+   TRIVIA_WEIGHT
+   (artist
+      "Squeeze"))
+(loading_trivia560
+   TRIVIA_WEIGHT
+   (song coolforcats))
+(loading_trivia561
+   TRIVIA_WEIGHT
+   (song coolforcats))
+(loading_trivia562
+   TRIVIA_WEIGHT
+   (song coolforcats))
+(loading_trivia563
+   TRIVIA_WEIGHT
+   (artist
+      "Motörhead"))
+(loading_trivia564
+   TRIVIA_WEIGHT
+   (song aceofspades))
+(loading_trivia565
+   TRIVIA_WEIGHT
+   (artist
+      "Motörhead"))
+(loading_trivia566
+   TRIVIA_WEIGHT
+   (artist
+      "Motörhead"))
+(loading_trivia567
+   TRIVIA_WEIGHT
+   (song bodhisattva))
+(loading_trivia568
+   TRIVIA_WEIGHT
+   (artist
+      "Steely Dan"))
+(loading_trivia569
+   TRIVIA_WEIGHT
+   (song bodhisattva))
+(loading_trivia570
+   TRIVIA_WEIGHT
+   (artist
+      "Steely Dan"))
+(loading_trivia571
+   TRIVIA_WEIGHT
+   (artist
+      "Billy Idol"))
+(loading_trivia572
+   TRIVIA_WEIGHT
+   (artist
+      "Billy Idol"))
+(loading_trivia573
+   TRIVIA_WEIGHT
+   (song whitewedding))
+(loading_trivia574
+   TRIVIA_WEIGHT
+   (artist
+      "Billy Idol"))
+(loading_trivia575
+   TRIVIA_WEIGHT
+   (song kidsinamerica))
+(loading_trivia576
+   TRIVIA_WEIGHT
+   (artist
+      "The Muffs"))
+(loading_trivia577
+   TRIVIA_WEIGHT
+   (artist
+      "The Muffs"))
+(loading_trivia578
+   TRIVIA_WEIGHT
+   (song kidsinamerica))
+(loading_trivia579
+   TRIVIA_WEIGHT
+   (artist
+      "Lacuna Coil"))
+(loading_trivia580
+   TRIVIA_WEIGHT
+   (artist
+      "Lacuna Coil"))
+(loading_trivia581
+   TRIVIA_WEIGHT
+   (song carryonwaywardson))
+(loading_trivia582
+   TRIVIA_WEIGHT
+   (song carryonwaywardson))
+(loading_trivia583
+   TRIVIA_WEIGHT
+   (artist
+      "Kansas"))
+(loading_trivia584
+   TRIVIA_WEIGHT
+   (song carryonwaywardson))
+(loading_trivia585
+   TRIVIA_WEIGHT
+   (artist
+      "Elvis Costello"))
+(loading_trivia586
+   TRIVIA_WEIGHT
+   (artist
+      "Elvis Costello"))
+(loading_trivia587
+   TRIVIA_WEIGHT
+   (artist
+      "Elvis Costello"))
+(loading_trivia588
+   TRIVIA_WEIGHT
+   (artist
+      "Elvis Costello"))
+(loading_trivia589
+   TRIVIA_WEIGHT
+   (artist
+      "Lit"))
+(loading_trivia590
+   TRIVIA_WEIGHT
+   (song myownworstenemy))
+(loading_trivia591
+   TRIVIA_WEIGHT
+   (song myownworstenemy))
+(loading_trivia592
+   TRIVIA_WEIGHT
+   (song myownworstenemy))
+(loading_trivia593
+   TRIVIA_WEIGHT
+   (artist
+      "Megadeth"))
+(loading_trivia594
+   TRIVIA_WEIGHT
+   (artist
+      "Megadeth"))
+(loading_trivia595
+   TRIVIA_WEIGHT
+   (artist
+      "Megadeth"))
+(loading_trivia596
+   TRIVIA_WEIGHT
+   (artist
+      "Megadeth"))
+(loading_trivia597
+   TRIVIA_WEIGHT
+   (song iwaswrong))
+(loading_trivia598
+   TRIVIA_WEIGHT
+   (artist
+      "Social Distortion"))
+(loading_trivia599
+   TRIVIA_WEIGHT
+   (artist
+      "Social Distortion"))
+(loading_trivia604
+   TRIVIA_WEIGHT
+   (song eyeofthetiger))
+(loading_trivia605
+   TRIVIA_WEIGHT
+   (song eyeofthetiger))
+(loading_trivia606
+   TRIVIA_WEIGHT
+   (artist
+      "Survivor"))
+(loading_trivia607
+   TRIVIA_WEIGHT
+   (artist
+      "Survivor"))
+(loading_trivia612
+   TRIVIA_WEIGHT
+   (song tangledupinblue))
+(loading_trivia613
+   TRIVIA_WEIGHT
+   (song tangledupinblue))
+(loading_trivia614
+   TRIVIA_WEIGHT
+   (song tangledupinblue))
+(loading_trivia615
+   TRIVIA_WEIGHT
+   (song tangledupinblue))
+(loading_trivia616
+   TRIVIA_WEIGHT
+   (artist
+      "Jane's Addiction"))
+(loading_trivia617
+   TRIVIA_WEIGHT
+   (artist
+      "Jane's Addiction"))
+(loading_trivia618
+   TRIVIA_WEIGHT
+   (artist
+      "Jane's Addiction"))
+(loading_trivia619
+   TRIVIA_WEIGHT
+   (artist
+      "Jane's Addiction"))
+(loading_trivia620
+   TRIVIA_WEIGHT
+   (artist
+      "Joan Jett"))
+(loading_trivia621
+   TRIVIA_WEIGHT
+   (artist
+      "Joan Jett"))
+(loading_trivia622
+   TRIVIA_WEIGHT
+   (artist
+      "Joan Jett"))
+(loading_trivia623
+   TRIVIA_WEIGHT
+   (artist
+      "Joan Jett"))
+(loading_trivia624
+   TRIVIA_WEIGHT
+   (song drainyou))
+(loading_trivia625
+   TRIVIA_WEIGHT
+   (song drainyou))
+(loading_trivia626
+   TRIVIA_WEIGHT
+   (song drainyou))
+(loading_trivia627
+   TRIVIA_WEIGHT
+   (song drainyou))
+(loading_trivia628
+   TRIVIA_WEIGHT
+   (artist
+      "L7"))
+(loading_trivia629
+   TRIVIA_WEIGHT
+   (song pretendweredead))
+(loading_trivia630
+   TRIVIA_WEIGHT
+   (artist
+      "L7"))
+(loading_trivia631
+   TRIVIA_WEIGHT
+   (artist
+      "L7"))
+(loading_trivia636
+   TRIVIA_WEIGHT
+   (artist
+      "Devo"))
+(loading_trivia637
+   TRIVIA_WEIGHT
+   (artist
+      "Devo"))
+(loading_trivia638
+   TRIVIA_WEIGHT
+   (artist
+      "Devo"))
+(loading_trivia639
+   TRIVIA_WEIGHT
+   (artist
+      "Devo"))
+(loading_trivia640
+   TRIVIA_WEIGHT
+   (artist
+      "Red Hot Chili Peppers"))
+(loading_trivia641
+   TRIVIA_WEIGHT
+   (artist
+      "Red Hot Chili Peppers"))
+(loading_trivia642
+   TRIVIA_WEIGHT
+   (artist
+      "Red Hot Chili Peppers"))
+(loading_trivia643
+   TRIVIA_WEIGHT
+   (artist
+      "Red Hot Chili Peppers"))
+(loading_trivia644
+   TRIVIA_WEIGHT
+   (song spoonman))
+(loading_trivia645
+   TRIVIA_WEIGHT
+   (song spoonman))
+(loading_trivia646
+   TRIVIA_WEIGHT
+   (artist
+      "Soundgarden"))
+(loading_trivia647
+   TRIVIA_WEIGHT
+   (artist
+      "Soundgarden"))
+(loading_trivia648
+   TRIVIA_WEIGHT
+   (artist
+      "Mighty Mighty Bosstones"))
+(loading_trivia649
+   TRIVIA_WEIGHT
+   (artist
+      "Mighty Mighty Bosstones"))
+(loading_trivia650
+   TRIVIA_WEIGHT
+   (artist
+      "Mighty Mighty Bosstones"))
+(loading_trivia651
+   TRIVIA_WEIGHT
+   (artist
+      "Mighty Mighty Bosstones"))
+(loading_trivia652
+   TRIVIA_WEIGHT
+   (artist
+      "Dinosaur Jr."))
+(loading_trivia653
+   TRIVIA_WEIGHT
+   (artist
+      "Dinosaur Jr."))
+(loading_trivia654
+   TRIVIA_WEIGHT
+   (artist
+      "Dinosaur Jr."))
+(loading_trivia655
+   TRIVIA_WEIGHT
+   (song feelthepain))
+(loading_trivia656
+   TRIVIA_WEIGHT
+   (artist
+      "Modest Mouse"))
+(loading_trivia657
+   TRIVIA_WEIGHT
+   (artist
+      "Modest Mouse"))
+(loading_trivia658
+   TRIVIA_WEIGHT
+   (song floaton))
+(loading_trivia659
+   TRIVIA_WEIGHT
+   (artist
+      "Modest Mouse"))
+(loading_trivia664
+   TRIVIA_WEIGHT
+   (song yououghtaknow))
+(loading_trivia665
+   TRIVIA_WEIGHT
+   (song yououghtaknow))
+(loading_trivia666
+   TRIVIA_WEIGHT
+   (song yououghtaknow))
+(loading_trivia667
+   TRIVIA_WEIGHT
+   (artist
+      "Alanis Morissette"))
+(loading_trivia672
+   TRIVIA_WEIGHT
+   (artist
+      "blink-182"))
+(loading_trivia675
+   TRIVIA_WEIGHT
+   (artist
+      "blink-182"))
+(loading_trivia676
+   TRIVIA_WEIGHT
+   (artist
+      "Testament"))
+(loading_trivia677
+   TRIVIA_WEIGHT
+   (artist
+      "Testament"))
+(loading_trivia678
+   TRIVIA_WEIGHT
+   (artist
+      "Testament"))
+(loading_trivia679
+   TRIVIA_WEIGHT
+   (artist
+      "AFI"))
+(loading_trivia680
+   TRIVIA_WEIGHT
+   (artist
+      "AFI"))
+(loading_trivia681
+   TRIVIA_WEIGHT
+   (artist
+      "AFI"))
+(loading_trivia682
+   TRIVIA_WEIGHT
+   (artist
+      "AFI"))
+(loading_trivia686
+   TRIVIA_WEIGHT
+   (artist
+      "Linkin Park"))
+(loading_trivia687
+   TRIVIA_WEIGHT
+   (artist
+      "Linkin Park"))
+(loading_trivia688
+   TRIVIA_WEIGHT
+   (artist
+      "Linkin Park"))
+(loading_trivia689
+   TRIVIA_WEIGHT
+   (artist
+      "Panic at the Disco"))
+(loading_trivia690
+   TRIVIA_WEIGHT
+   (artist
+      "Panic at the Disco"))
+(loading_trivia691
+   TRIVIA_WEIGHT
+   (artist
+      "The Presidents of the United States of America"))
+(loading_trivia692
+   TRIVIA_WEIGHT
+   (artist
+      "The Presidents of the United States of America"))
+(loading_trivia693
+   TRIVIA_WEIGHT
+   (artist
+      "Rise Against"))
+(loading_trivia694
+   TRIVIA_WEIGHT
+   (artist
+      "Rise Against"))
+(loading_trivia695
+   TRIVIA_WEIGHT
+   (artist
+      "AC/DC"))
+(loading_trivia696
+   TRIVIA_WEIGHT
+   (artist
+      "AC/DC"))
+(loading_trivia697
+   TRIVIA_WEIGHT
+   (artist
+      "AC/DC"))
+(loading_trivia698
+   TRIVIA_WEIGHT
+   (song letthereberock))
+(loading_trivia699
+   TRIVIA_WEIGHT
+   (artist
+      "Bad Company"))
+(loading_trivia700
+   TRIVIA_WEIGHT
+   (artist
+      "Bad Company"))
+(loading_trivia701
+   TRIVIA_WEIGHT
+   (song shootingstar))
+(loading_trivia702
+   TRIVIA_WEIGHT
+   (song shootingstar))
+(loading_trivia703
+   TRIVIA_WEIGHT
+   (artist
+      "Beck"))
+(loading_trivia706
+   TRIVIA_WEIGHT
+   (artist
+      "Beck"))
+(loading_trivia707
+   TRIVIA_WEIGHT
+   (song rebelgirl))
+(loading_trivia708
+   TRIVIA_WEIGHT
+   (artist
+      "Bikini Kill"))
+(loading_trivia709
+   TRIVIA_WEIGHT
+   (artist
+      "Bikini Kill"))
+(loading_trivia710
+   TRIVIA_WEIGHT
+   (artist
+      "Bikini Kill"))
+(loading_trivia711
+   TRIVIA_WEIGHT
+   (artist
+      "Guns N' Roses"))
+(loading_trivia712
+   TRIVIA_WEIGHT
+   (artist
+      "Guns N' Roses"))
+(loading_trivia713
+   TRIVIA_WEIGHT
+   (artist
+      "Guns N' Roses"))
+(loading_trivia714
+   TRIVIA_WEIGHT
+   (artist
+      "Guns N' Roses"))
+(loading_trivia715
+   TRIVIA_WEIGHT
+   (song painkiller))
+(loading_trivia716
+   TRIVIA_WEIGHT
+   (song painkiller))
+(loading_trivia717
+   TRIVIA_WEIGHT
+   (song painkiller))
+(loading_trivia726
+   TRIVIA_WEIGHT
+   (artist
+      "Paramore"))
+(loading_trivia727
+   TRIVIA_WEIGHT
+   (artist
+      "Paramore"))
+(loading_trivia728
+   TRIVIA_WEIGHT
+   (artist
+      "Paramore"))
+(loading_trivia737
+   TRIVIA_WEIGHT
+   (song testify))
+(loading_trivia738
+   TRIVIA_WEIGHT
+   (song testify))
+(loading_trivia739
+   TRIVIA_WEIGHT
+   (artist
+      "Rage Against the Machine"))
+(loading_trivia740
+   TRIVIA_WEIGHT
+   (artist
+      "Rage Against the Machine"))
+(loading_trivia742
+   TRIVIA_WEIGHT
+   (artist
+      "Papa Roach"))
+(loading_trivia743
+   TRIVIA_WEIGHT
+   (artist
+      "Papa Roach"))
+(loading_trivia744
+   TRIVIA_WEIGHT
+   (artist
+      "Papa Roach"))
+(loading_trivia745
+   TRIVIA_WEIGHT
+   (song hysteria))
+(loading_trivia746
+   TRIVIA_WEIGHT
+   (artist
+      "Muse"))
+(loading_trivia747
+   TRIVIA_WEIGHT
+   (artist
+      "Muse"))
+(loading_trivia748
+   TRIVIA_WEIGHT
+   (song ithurts))
+(loading_trivia749
+   TRIVIA_WEIGHT
+   (artist
+      "Angels & Airwaves"))
+(loading_trivia750
+   TRIVIA_WEIGHT
+   (artist
+      "Angels & Airwaves"))
+(loading_trivia751
+   TRIVIA_WEIGHT
+   (artist
+      "Angels & Airwaves"))
+(loading_trivia752
+   TRIVIA_WEIGHT
+   (song yougotanotherthingcoming))
+(loading_trivia753
+   TRIVIA_WEIGHT
+   (artist
+      "Judas Priest"))
+(loading_trivia754
+   TRIVIA_WEIGHT
+   (song yougotanotherthingcoming))
+(loading_trivia755
+   TRIVIA_WEIGHT
+   (song yougotanotherthingcoming))
+(loading_trivia756
+   TRIVIA_WEIGHT
+   (artist
+      "Maxïmo Park"))
+(loading_trivia757
+   TRIVIA_WEIGHT
+   (song girlswhoplayguitars))
+(loading_trivia758
+   TRIVIA_WEIGHT
+   (artist
+      "Maxïmo Park"))
+(loading_trivia759
+   TRIVIA_WEIGHT
+   (artist
+      "Maxïmo Park"))
+(loading_trivia760
+   TRIVIA_WEIGHT
+   (artist
+      "Mötley Crüe"))
+(loading_trivia761
+   TRIVIA_WEIGHT
+   (artist
+      "Mötley Crüe"))
+(loading_trivia762
+   TRIVIA_WEIGHT
+   (artist
+      "Mötley Crüe"))
+(loading_trivia763
+   TRIVIA_WEIGHT
+   (song saintsoflosangeles))
+(loading_trivia764
+   TRIVIA_WEIGHT
+   (artist
+      "Jimmy Buffett"))
+(loading_trivia765
+   TRIVIA_WEIGHT
+   (artist
+      "Jimmy Buffett"))
+(loading_trivia766
+   TRIVIA_WEIGHT
+   (artist
+      "Jimmy Buffett"))
+(loading_trivia767
+   TRIVIA_WEIGHT
+   (artist
+      "Jimmy Buffett"))
+(loading_trivia768
+   TRIVIA_WEIGHT
+   (artist
+      "The Cars"))
+(loading_trivia769
+   TRIVIA_WEIGHT
+   (artist
+      "The Cars"))
+(loading_trivia770
+   TRIVIA_WEIGHT
+   (artist
+      "The Cars"))
+(loading_trivia771
+   TRIVIA_WEIGHT
+   (artist
+      "The Cars"))
+(loading_trivia772
+   TRIVIA_WEIGHT
+   (song alive))
+(loading_trivia773
+   TRIVIA_WEIGHT
+   (song alive))
+(loading_trivia774
+   TRIVIA_WEIGHT
+   (song alive))
+(loading_trivia775
+   TRIVIA_WEIGHT
+   (song alive))
+(loading_trivia776
+   TRIVIA_WEIGHT
+   (artist
+      "Abnormality"))
+(loading_trivia777
+   TRIVIA_WEIGHT
+   (artist
+      "Abnormality"))
+(loading_trivia778
+   TRIVIA_WEIGHT
+   (artist
+      "Abnormality"))
+(loading_trivia779
+   TRIVIA_WEIGHT
+   (artist
+      "Abnormality"))
+(loading_trivia780
+   TRIVIA_WEIGHT
+   (artist
+      "Abnormality"))
+(loading_trivia781
+   TRIVIA_WEIGHT
+   (artist
+      "Anarchy Club"))
+(loading_trivia782
+   TRIVIA_WEIGHT
+   (artist
+      "Anarchy Club"))
+(loading_trivia783
+   TRIVIA_WEIGHT
+   (artist
+      "Bang Camaro"))
+(loading_trivia784
+   TRIVIA_WEIGHT
+   (artist
+      "Bang Camaro"))
+(loading_trivia785
+   TRIVIA_WEIGHT
+   (artist
+      "Bang Camaro"))
+(loading_trivia786
+   TRIVIA_WEIGHT
+   (artist
+      "Bang Camaro"))
+(loading_trivia787
+   TRIVIA_WEIGHT
+   (artist
+      "Breaking Wheel"))
+(loading_trivia788
+   TRIVIA_WEIGHT
+   (artist
+      "Breaking Wheel"))
+(loading_trivia789
+   TRIVIA_WEIGHT
+   (artist
+      "Breaking Wheel"))
+(loading_trivia790
+   TRIVIA_WEIGHT
+   (artist
+      "Breaking Wheel"))
+(loading_trivia791
+   TRIVIA_WEIGHT
+   (artist
+      "Libyans"))
+(loading_trivia792
+   TRIVIA_WEIGHT
+   (artist
+      "Libyans"))
+(loading_trivia793
+   TRIVIA_WEIGHT
+   (artist
+      "Libyans"))
+(loading_trivia795
+   TRIVIA_WEIGHT
+   (artist
+      "The Main Drag"))
+(loading_trivia796
+   TRIVIA_WEIGHT
+   (artist
+      "The Main Drag"))
+(loading_trivia797
+   TRIVIA_WEIGHT
+   (artist
+      "The Main Drag"))
+(loading_trivia799
+   TRIVIA_WEIGHT
+   (song ajaggedgorgeouswinter))
+(loading_trivia800
+   TRIVIA_WEIGHT
+   (artist
+      "Speck"))
+(loading_trivia801
+   TRIVIA_WEIGHT
+   (artist
+      "Speck"))
+(loading_trivia802
+   TRIVIA_WEIGHT
+   (artist
+      "Speck"))
+(loading_trivia803
+   TRIVIA_WEIGHT
+   (artist
+      "Speck"))
+(loading_trivia804
+   TRIVIA_WEIGHT
+   (artist
+      "Speck"))
+(loading_trivia805
+   TRIVIA_WEIGHT
+   (song conventionallover))
+(loading_trivia806
+   TRIVIA_WEIGHT
+   (artist
+      "That Handsome Devil"))
+(loading_trivia807
+   TRIVIA_WEIGHT
+   (artist
+      "That Handsome Devil"))
+(loading_trivia808
+   TRIVIA_WEIGHT
+   (artist
+      "That Handsome Devil"))
+(loading_trivia809
+   TRIVIA_WEIGHT
+   (artist
+      "That Handsome Devil"))
+(loading_trivia810
+   TRIVIA_WEIGHT
+   (artist
+      "That Handsome Devil"))
+(loading_trivia811
+   TRIVIA_WEIGHT
+   (artist
+      "That Handsome Devil"))
+(loading_trivia812
+   TRIVIA_WEIGHT
+   (artist
+      "That Handsome Devil"))
+(loading_trivia813
+   TRIVIA_WEIGHT
+   (song supremegirl))
+(loading_trivia814
+   TRIVIA_WEIGHT
+   (artist
+      "The Sterns"))

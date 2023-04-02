@@ -1,0 +1,36 @@
+#include macros.dta
+#define REQ_DIRS
+(SYSTEM_SUBDIRS
+   "mplay"
+   "videos")
+(sysutl
+   (precache
+      (shaders
+         (enabled FALSE))
+      (platforms ps2)
+      (dirs REQ_DIRS)
+      (exclude
+         "facefx"
+         "gen"
+         "test"
+         "band"
+         "char")
+      (exclude_rnd)))
+(ark_build
+   (main
+      (dirs REQ_DIRS)
+      (file_exts STD_EXTS PS2_EXTS)
+      (skip_files)
+      (skip_dirs
+         "."
+         ".."
+         CVS
+         iop
+         tools)))
+(arena)
+(ui
+   #include ../mplay/ui.dta)
+(rnd
+   (title
+      "Movie Player"))
+#merge default.dta

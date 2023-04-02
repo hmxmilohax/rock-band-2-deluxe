@@ -1,0 +1,1018 @@
+(names ../ui/eng/locale_bandnames.dta)
+(fame_difficulty_multiply FALSE)
+(keep_max_fame TRUE)
+(max_stars_per_song 5)
+(town_fame_ratings tour_localfame_min tour_localfame_harmless tour_localfame_mostlyharmless tour_localfame_upstarts tour_localfame_pubfavourites tour_localfame_supportact tour_localfame_headliner tour_localfame_stars tour_localfame_megastar tour_localfame_max)
+(world_fame_ratings tour_worldfame_min tour_worldfame_harmless tour_worldfame_mostlyharmless tour_worldfame_upstarts tour_worldfame_pubfavourites tour_worldfame_supportact tour_worldfame_headliner tour_worldfame_stars tour_worldfame_megastar tour_worldfame_max)
+(medal_strings
+   "E"
+   "M"
+   "H"
+   "X")
+(items
+   (tour_vehicle_van
+      (icon
+         "V"))
+   (tour_vehicle_bus
+      (icon
+         "B"))
+   (tour_staff1
+      (icon
+         "G"))
+   (tour_vehicle_jet
+      (icon
+         "J"))
+   (tour_staff2
+      (icon
+         "P"))
+   (tour_staff3
+      (icon
+         "P"))
+   (tour_staff_worldblock
+      (icon
+         "G"))
+   (tour_halloffame_complete
+      (icon
+         "H"))
+   (tour_bwt_complete
+      (icon
+         "X")))
+(buzz
+   (venue_diff
+      (small_club 5 5 6 7)
+      (big_club 7 7 8 9)
+      (theater 8 8 9 10)
+      (arena 8 9 10 11))
+   (stars 2 6)
+   (win_modifiers
+      (stars
+         ($num_stars)
+         {switch
+            $num_stars
+            (6 1.2)
+            (5 1.1)
+            (3 0.8)
+            (2 0.7)
+            1})
+      (event_replayed 0.7)
+      (staff
+         ($staff $stars)
+         {$staff buzz_modifier $stars}))
+   (lose_modifiers
+      (small_club 0.3)
+      (big_club 0.3)
+      (theater 0.3)
+      (arena 0.3))
+   (caps
+      (kDifficultyEasy
+         (cap 350)
+         (trickle 5))
+      (kDifficultyMedium
+         (cap 550)
+         (trickle 6))
+      (kDifficultyHard
+         (cap 1001)
+         (trickle 7))
+      (kDifficultyExpert
+         (cap 40000)))
+   (fans
+      (15 210)
+      (30 900)
+      (45 1600)
+      (60 3200)
+      (75 6400)
+      (90 12800)
+      (125 15010)
+      (250 100000)
+      (500 500000)
+      (1000 1000000)
+      (40000 999999999))
+   (buzz_achievement 1000))
+#define ACTIVE_MOMENT_DOUBLE_OR_NOTHING
+((tour_am_doubleornothingfourstar
+      (reward_per_star
+         ($stars $event_reward)
+         {if_else
+            {>= $stars 4}
+            {'*' $event_reward 2}
+            0})))
+#define ACTIVE_MOMENT_QUADRUPLE_OR_NOTHING
+((tour_am_quadrupleornothingfivestar
+      (reward_per_star
+         ($stars $event_reward)
+         {if_else
+            {>= $stars 5}
+            {'*' $event_reward 4}
+            0})))
+#define ACTIVE_MOMENT_CHARITY
+((tour_am_charity
+      (reward_per_star
+         ($stars $event_reward)
+         0)
+      (buzz_change
+         ($avg_stars $buzz_change)
+         {if_else
+            {> $buzz_change 0}
+            {'*' $buzz_change 2}
+            $buzz_change})))
+#define ACTIVE_MOMENT_SELLOUT
+((tour_am_sellout
+      (reward_per_star
+         ($stars $event_reward)
+         {'*' $event_reward 3})
+      (buzz_change
+         ($avg_stars $buzz_change)
+         {if_else
+            {> $buzz_change 0}
+            {'*' $buzz_change 0.3}
+            $buzz_change})))
+#define ACTIVE_MOMENT_DOUBLE_OR_NOTHING_FANS
+((tour_am_double_or_nothing_fans
+      (buzz_change
+         ($avg_stars $buzz_change)
+         {if_else
+            {>= $avg_stars 4}
+            {'*' $buzz_change 2}
+            {if_else
+               {> $buzz_change 0}
+               {'*' $buzz_change -2}
+               {'*' $buzz_change 2}}})))
+#define ACTIVE_MOMENT_TRIPLE_OR_NOTHING_FANS
+((tour_am_triple_or_nothing_fans
+      (buzz_change
+         ($avg_stars $buzz_change)
+         {if_else
+            {>= $avg_stars 5}
+            {'*' $buzz_change 3}
+            {if_else
+               {> $buzz_change 0}
+               {'*' $buzz_change -3}
+               {'*' $buzz_change 3}}})))
+(moments
+   (frequency 2 5)
+   (vehicles
+      (tour_vehicle_van ACTIVE_MOMENT_DOUBLE_OR_NOTHING ACTIVE_MOMENT_QUADRUPLE_OR_NOTHING ACTIVE_MOMENT_CHARITY)
+      (tour_vehicle_bus ACTIVE_MOMENT_DOUBLE_OR_NOTHING ACTIVE_MOMENT_QUADRUPLE_OR_NOTHING ACTIVE_MOMENT_CHARITY ACTIVE_MOMENT_SELLOUT ACTIVE_MOMENT_DOUBLE_OR_NOTHING_FANS)
+      (tour_vehicle_jet ACTIVE_MOMENT_DOUBLE_OR_NOTHING ACTIVE_MOMENT_QUADRUPLE_OR_NOTHING ACTIVE_MOMENT_CHARITY ACTIVE_MOMENT_SELLOUT ACTIVE_MOMENT_DOUBLE_OR_NOTHING_FANS ACTIVE_MOMENT_TRIPLE_OR_NOTHING_FANS)))
+(hints
+   (welcome
+      ONEOFF_HINT
+      (cond TRUE)
+      (screen tour_band_welcome_screen))
+   (firstgig
+      ONEOFF_HINT
+      (cond
+         {>
+            {{tour performer}
+               world_fame}
+            0})
+      (screen tour_band_firstgig_screen))
+   (firstgig_checkmarks
+      ONEOFF_HINT
+      (cond
+         {>
+            {{tour performer}
+               world_fame}
+            0})
+      (screen tour_band_firstgig_checkmarks_screen))
+   (first_venue
+      ONEOFF_HINT
+      (cond
+         {{tour performer}
+            can_leave_home_venue})
+      (screen tour_band_firstvenue_screen))
+   (new_van
+      (cond
+         {==
+            {{tour performer}
+               unlocked_item}
+            tour_vehicle_van})
+      (screen tour_band_newvan_screen)
+      (advance
+         {{tour performer}
+            clear_unlocked_item}))
+   (new_bus
+      (cond
+         {==
+            {{tour performer}
+               unlocked_item}
+            tour_vehicle_bus})
+      (screen tour_band_newbus_screen)
+      (advance
+         {{tour performer}
+            clear_unlocked_item}))
+   (new_jet
+      (cond
+         {==
+            {{tour performer}
+               unlocked_item}
+            tour_vehicle_jet})
+      (screen tour_band_newjet_screen)
+      (advance
+         {{tour performer}
+            clear_unlocked_item}))
+   (new_item
+      (cond
+         {!=
+            {{tour performer}
+               unlocked_item}
+            ''})
+      (screen tour_band_newitem_screen)
+      (advance
+         {{tour performer}
+            clear_unlocked_item}))
+   (van_available
+      ONEOFF_HINT
+      (cond
+         {{tour performer}
+            can_win_item
+            tour_vehicle_van})
+      (screen tour_band_canwinitem_screen))
+   (first_manager
+      ONEOFF_HINT
+      (cond
+         {{tour performer}
+            can_leave_hometown})
+      (screen tour_band_firstmanager_screen))
+   (bus_available
+      ONEOFF_HINT
+      (cond
+         {{tour performer}
+            can_win_item
+            tour_vehicle_bus})
+      (screen tour_band_canwinitem_screen))
+   (jet_available
+      ONEOFF_HINT
+      (cond
+         {{tour performer}
+            can_win_item
+            tour_vehicle_jet})
+      (screen tour_band_canwinitem_screen))
+   (roadies_available
+      ONEOFF_HINT
+      (cond
+         {{tour performer}
+            can_win_item
+            tour_staff_roadies})
+      (screen tour_band_canwinitem_screen))
+   (promoter_available
+      ONEOFF_HINT
+      (cond
+         {{tour performer}
+            can_win_item
+            tour_staff_promoter})
+      (screen tour_band_canwinitem_screen))
+   (security_available
+      ONEOFF_HINT
+      (cond
+         {{tour performer}
+            can_win_item
+            tour_staff_security})
+      (screen tour_band_canwinitem_screen))
+   (tourmanager_available
+      ONEOFF_HINT
+      (cond
+         {{tour performer}
+            can_win_item
+            tour_staff_tourmanager})
+      (screen tour_band_canwinitem_screen))
+   (hofcomplete_available
+      ONEOFF_HINT
+      (cond
+         {{tour performer}
+            can_win_item
+            tour_halloffame_complete})
+      (screen tour_band_canwinitem_screen))
+   (bwtcomplete_available
+      ONEOFF_HINT
+      (cond
+         {{tour performer}
+            can_win_item
+            tour_bwt_complete})
+      (screen tour_band_canwinitem_screen))
+   (first_fans_lost
+      ONEOFF_HINT
+      (cond
+         {{tour performer}
+            have_lost_fans})
+      (screen tour_band_fanslost_screen))
+   (first_buzz_cap
+      ONEOFF_HINT
+      (cond
+         {==
+            {{tour performer}
+               buzz_state}
+            kTourBuzzCap})
+      (screen tour_band_buzzcap_screen))
+   (fist_buzz_maxcap
+      ONEOFF_HINT
+      (cond
+         {==
+            {{tour performer}
+               buzz_state}
+            kTourBuzzMaxCap})
+      (screen tour_band_buzzmaxcap_screen)))
+#define BWT_BUZZ_EASYBLOCK
+((buzz 180)
+   (min_difficulty kDifficultyMedium))
+#define BWT_BUZZ_EASYBLOCKMINORPLUS
+((buzz 210)
+   (min_difficulty kDifficultyMedium))
+#define BWT_BUZZ_EASYBLOCKPLUS
+((buzz 250)
+   (min_difficulty kDifficultyMedium))
+#define BWT_BUZZ_EASYBLOCKMEGAPLUS
+((buzz 325)
+   (min_difficulty kDifficultyMedium))
+#define BWT_BUZZ_MEDIUMBLOCK
+((buzz 355)
+   (min_difficulty kDifficultyHard))
+#define BWT_BUZZ_MEDIUMBLOCKMINORPLUS
+((buzz 400)
+   (min_difficulty kDifficultyHard))
+#define BWT_BUZZ_MEDIUMBLOCKPLUS
+((buzz 480)
+   (min_difficulty kDifficultyHard))
+#define BWT_BUZZ_MEDIUMBLOCKMEGAPLUS
+((buzz 580)
+   (min_difficulty kDifficultyHard))
+(tiers
+   (tier1_1
+      (small_club
+         (song1
+            (songs
+               (band 1))
+            (display_song TRUE)
+            (reward_per_star 5))
+         (song2
+            (songs
+               (band 2))
+            (display_song TRUE)
+            (reward_per_star 5))
+         (song3
+            (songs
+               (band 3))
+            (display_song TRUE)
+            (reward_per_star 5)))
+      (big_club
+         (song4
+            (songs
+               (band 4))
+            (display_song TRUE)
+            (fame
+               (town 6))
+            (reward_per_star 25))
+         (unlock_van
+            (songs random creep)
+            (fame
+               (town 16))
+            (reward_per_star 25)
+            (award_item tour_vehicle_van)))
+      (last
+         (townall
+            (songs
+               (band 1)
+               (band 2)
+               (band 3)
+               (band 4)
+               (band 45))
+            BWT_BUZZ_EASYBLOCKMEGAPLUS
+            (fame
+               (town 30)
+               (world 160))
+            (item tour_staff_roadies)
+            (reward_per_star 80))
+         (song45
+            (songs
+               (band 45))
+            BWT_BUZZ_EASYBLOCKMEGAPLUS
+            (display_song TRUE)
+            (fame
+               (town 12)
+               (world 200))
+            (item tour_staff_tourmanager)
+            (reward_per_star 80))))
+   (tier1_2
+      (small_club
+         (song5
+            (songs
+               (band 5))
+            (display_song TRUE)
+            (reward_per_star 5))
+         (song6
+            (songs
+               (band 6))
+            (display_song TRUE)
+            (reward_per_star 5))
+         (song7
+            (songs
+               (band 7))
+            (display_song TRUE)
+            (reward_per_star 5)))
+      (big_club
+         (song17
+            (songs
+               (band 17))
+            (display_song TRUE)
+            (fame
+               (town 6))
+            (reward_per_star 25))
+         (unlock_bus
+            (songs random random wanteddeadoralive)
+            (reward_per_star 25)
+            (award_item tour_vehicle_bus)
+            (fame
+               (town 6)
+               (world 52))))
+      (last
+         (townall
+            (songs
+               (band 5)
+               (band 6)
+               (band 7)
+               (band 17))
+            BWT_BUZZ_EASYBLOCK
+            (fame
+               (town 20)
+               (world 100))
+            (item tour_staff_roadies)
+            (reward_per_star 80))))
+   (tier1_3
+      (small_club
+         (song8
+            (songs
+               (band 8))
+            (display_song TRUE)
+            (reward_per_star 5))
+         (song9
+            (songs
+               (band 9))
+            (display_song TRUE)
+            (reward_per_star 5))
+         (song10
+            (songs
+               (band 10))
+            (display_song TRUE)
+            (reward_per_star 5)))
+      (big_club
+         (song18
+            (songs
+               (band 18))
+            BWT_BUZZ_EASYBLOCK
+            (display_song TRUE)
+            (fame
+               (town 6))
+            (reward_per_star 25))
+         (tiermara
+            (songs
+               (band 1)
+               (band 2)
+               (band 3)
+               (band 4))
+            BWT_BUZZ_EASYBLOCKMINORPLUS
+            (reward_per_star 25)
+            (fame
+               (town 10)
+               (world 16))))
+      (last
+         (townall
+            (songs
+               (band 8)
+               (band 9)
+               (band 10)
+               (band 18))
+            BWT_BUZZ_EASYBLOCKPLUS
+            (fame
+               (town 20)
+               (world 100))
+            (item tour_staff_roadies)
+            (reward_per_star 80))))
+   (tier2_1
+      (small_club
+         (song11
+            (songs
+               (band 11))
+            (display_song TRUE)
+            (reward_per_star 5))
+         (song14
+            (songs
+               (band 14))
+            (display_song TRUE)
+            (reward_per_star 5)))
+      (big_club
+         (song25
+            (songs
+               (band 25))
+            (display_song TRUE)
+            (fame
+               (town 6))
+            (reward_per_star 25))
+         (tiermara
+            (songs
+               (band 5)
+               (band 6)
+               (band 7)
+               (band 8))
+            BWT_BUZZ_EASYBLOCKMINORPLUS
+            (reward_per_star 25)
+            (fame
+               (town 15)
+               (world 32))))
+      (arena
+         (unlock_jet
+            (songs random random trainkeptarollin)
+            BWT_BUZZ_EASYBLOCK
+            (fame
+               (town 12)
+               (world 126))
+            (reward_per_star 120)
+            (item tour_staff_roadies)
+            (award_item tour_vehicle_jet))
+         (townall
+            (songs
+               (band 11)
+               (band 14)
+               (band 25))
+            BWT_BUZZ_EASYBLOCK
+            (fame
+               (town 21)
+               (world 100))
+            (item tour_staff_roadies)
+            (reward_per_star 120))))
+   (tier2_2
+      (small_club
+         (song12
+            (songs
+               (band 12))
+            (display_song TRUE)
+            (reward_per_star 5))
+         (song15
+            (songs
+               (band 15))
+            (display_song TRUE)
+            (reward_per_star 5)))
+      (big_club
+         (song26
+            (songs
+               (band 26))
+            (display_song TRUE)
+            (fame
+               (town 6))
+            (reward_per_star 25))
+         (unlock_roadies
+            (songs random random random)
+            (fame
+               (town 12)
+               (world 80))
+            (award_item tour_staff_roadies)
+            (reward_per_star 25))
+         (tiermara
+            (songs
+               (band 9)
+               (band 10)
+               (band 11)
+               (band 12))
+            (reward_per_star 80)
+            (fame
+               (town 15)
+               (world 48))))
+      (theater
+         (townall
+            (songs
+               (band 12)
+               (band 15)
+               (band 26))
+            BWT_BUZZ_EASYBLOCKPLUS
+            (fame
+               (town 33)
+               (world 63))
+            (reward_per_star 80))))
+   (tier2_3
+      (small_club
+         (song13
+            (songs
+               (band 13))
+            BWT_BUZZ_EASYBLOCK
+            (display_song TRUE)
+            (reward_per_star 5))
+         (song16
+            (songs
+               (band 16))
+            BWT_BUZZ_EASYBLOCK
+            (display_song TRUE)
+            (reward_per_star 5)))
+      (big_club
+         (song27
+            (songs
+               (band 27))
+            BWT_BUZZ_EASYBLOCKPLUS
+            (display_song TRUE)
+            (fame
+               (town 6))
+            (reward_per_star 25))
+         (tiermara
+            (songs
+               (band 13)
+               (band 14)
+               (band 15)
+               (band 16))
+            BWT_BUZZ_EASYBLOCKMEGAPLUS
+            (reward_per_star 25)
+            (fame
+               (town 15)
+               (world 64))))
+      (theater
+         (townall
+            (songs
+               (band 13)
+               (band 16)
+               (band 27))
+            BWT_BUZZ_MEDIUMBLOCK
+            (fame
+               (town 33)
+               (world 63))
+            (reward_per_star 80))))
+   (tier3_1
+      (small_club
+         (song19
+            (songs
+               (band 19))
+            BWT_BUZZ_MEDIUMBLOCK
+            (display_song TRUE)
+            (reward_per_star 5))
+         (song28
+            (songs
+               (band 28))
+            BWT_BUZZ_MEDIUMBLOCK
+            (display_song TRUE)
+            (reward_per_star 5)))
+      (big_club
+         (song38
+            (songs
+               (band 38))
+            BWT_BUZZ_MEDIUMBLOCKMINORPLUS
+            (display_song TRUE)
+            (fame
+               (town 6))
+            (reward_per_star 25))
+         (rockaid
+            (songs any any any)
+            BWT_BUZZ_MEDIUMBLOCKMEGAPLUS
+            (reward_per_star 0)
+            (fame
+               (town 6)
+               (world 100))))
+      (arena
+         (townall
+            (songs
+               (band 19)
+               (band 28)
+               (band 38))
+            BWT_BUZZ_MEDIUMBLOCKPLUS
+            (fame
+               (town 33)
+               (world 103))
+            (reward_per_star 120))
+         (randomfivemara
+            (songs random random random random random)
+            BWT_BUZZ_MEDIUMBLOCKPLUS
+            (fame
+               (town 30)
+               (world 200))
+            (reward_per_star 120))))
+   (tier3_2
+      (small_club
+         (song20
+            (songs
+               (band 20))
+            (display_song TRUE)
+            (reward_per_star 5))
+         (song29
+            (songs
+               (band 29))
+            (display_song TRUE)
+            (reward_per_star 5)))
+      (big_club
+         (song34
+            (songs
+               (band 34))
+            BWT_BUZZ_EASYBLOCK
+            (display_song TRUE)
+            (fame
+               (town 6))
+            (reward_per_star 25))
+         (tiermara
+            (songs
+               (band 17)
+               (band 18)
+               (band 19)
+               (band 20))
+            BWT_BUZZ_EASYBLOCK
+            (reward_per_star 25)
+            (fame
+               (town 15)
+               (world 80)))
+         (unlock_promoter
+            (songs random random random highwaystar)
+            BWT_BUZZ_EASYBLOCKMINORPLUS
+            (fame
+               (town 15)
+               (world 160))
+            (award_item tour_staff_promoter)
+            (reward_per_star 25)))
+      (theater
+         (townall
+            (songs
+               (band 20)
+               (band 29)
+               (band 34))
+            BWT_BUZZ_MEDIUMBLOCK
+            (fame
+               (town 20)
+               (world 103))
+            (reward_per_star 80))))
+   (tier3_3
+      (small_club
+         (song21
+            (songs
+               (band 21))
+            (display_song TRUE)
+            (reward_per_star 5)
+            BWT_BUZZ_EASYBLOCK)
+         (song30
+            (songs
+               (band 30))
+            (display_song TRUE)
+            (reward_per_star 5)
+            BWT_BUZZ_EASYBLOCK))
+      (big_club
+         (song37
+            (songs
+               (band 37))
+            (display_song TRUE)
+            (fame
+               (town 6))
+            (reward_per_star 25)
+            BWT_BUZZ_MEDIUMBLOCK)
+         (tiermara
+            (songs
+               (band 21)
+               (band 22)
+               (band 23)
+               (band 24))
+            (reward_per_star 25)
+            (fame
+               (town 15)
+               (world 96))
+            BWT_BUZZ_MEDIUMBLOCK))
+      (theater
+         (townall
+            (songs
+               (band 21)
+               (band 30)
+               (band 37))
+            (fame
+               (town 20)
+               (world 103))
+            (reward_per_star 80)
+            BWT_BUZZ_MEDIUMBLOCKPLUS)))
+   (tier3_4
+      (small_club
+         (song22
+            (songs
+               (band 22))
+            (display_song TRUE)
+            (reward_per_star 5))
+         (song31
+            (songs
+               (band 31))
+            (display_song TRUE)
+            (reward_per_star 5)))
+      (big_club
+         (song39
+            (songs
+               (band 39))
+            (display_song TRUE)
+            (fame
+               (town 6))
+            (reward_per_star 25)
+            BWT_BUZZ_EASYBLOCKPLUS)
+         (anyfivemara
+            (songs any any any any any)
+            (fame
+               (town 30)
+               (world 200))
+            (reward_per_star 25)
+            BWT_BUZZ_EASYBLOCKPLUS)
+         (unlock_tourmanager
+            (songs random random random random wontgetfooled)
+            (fame
+               (town 15)
+               (world 240))
+            (award_item tour_staff_tourmanager)
+            (item tour_staff_security)
+            (reward_per_star 25)
+            BWT_BUZZ_EASYBLOCKMEGAPLUS))
+      (arena
+         (townall
+            (songs
+               (band 22)
+               (band 31)
+               (band 39))
+            (fame
+               (town 20)
+               (world 103))
+            (reward_per_star 120)
+            BWT_BUZZ_MEDIUMBLOCK)
+         (rockaid
+            (songs any any any any any)
+            (reward_per_star 0)
+            (fame
+               (world 150))
+            BWT_BUZZ_MEDIUMBLOCK)))
+   (tier3_5
+      (small_club
+         (song23
+            (songs
+               (band 23))
+            (display_song TRUE)
+            (reward_per_star 5)
+            BWT_BUZZ_MEDIUMBLOCKMINORPLUS)
+         (song32
+            (songs
+               (band 32))
+            (display_song TRUE)
+            (reward_per_star 5)
+            BWT_BUZZ_MEDIUMBLOCKMINORPLUS))
+      (big_club
+         (song36
+            (songs
+               (band 36))
+            (display_song TRUE)
+            (fame
+               (town 6))
+            (reward_per_star 25)
+            BWT_BUZZ_MEDIUMBLOCKMINORPLUS)
+         (tiermara
+            (songs
+               (band 25)
+               (band 26)
+               (band 27)
+               (band 28))
+            (reward_per_star 25)
+            (fame
+               (town 15)
+               (world 112))
+            BWT_BUZZ_MEDIUMBLOCKMINORPLUS))
+      (theater
+         (townall
+            (songs
+               (band 23)
+               (band 32)
+               (band 36))
+            (fame
+               (town 20)
+               (world 123))
+            (reward_per_star 80)
+            BWT_BUZZ_MEDIUMBLOCKPLUS)))
+   (tier3_6
+      (small_club
+         (song24
+            (songs
+               (band 24))
+            (display_song TRUE)
+            (reward_per_star 5))
+         (song33
+            (songs
+               (band 33))
+            (display_song TRUE)
+            (reward_per_star 5)))
+      (big_club
+         (song35
+            (songs
+               (band 35))
+            (display_song TRUE)
+            (fame
+               (town 6))
+            (reward_per_star 25)
+            BWT_BUZZ_EASYBLOCK)
+         (tiermara
+            (songs
+               (band 29)
+               (band 30)
+               (band 31)
+               (band 32)
+               (band 33))
+            (reward_per_star 25)
+            (fame
+               (town 15)
+               (world 128))
+            BWT_BUZZ_EASYBLOCK)
+         (unlock_security
+            (songs random random random entersandman)
+            (fame
+               (town 15)
+               (world 200))
+            (item tour_staff_promoter)
+            (award_item tour_staff_security)
+            (reward_per_star 25)
+            BWT_BUZZ_EASYBLOCKPLUS))
+      (theater
+         (townall
+            (songs
+               (band 24)
+               (band 33)
+               (band 35))
+            (fame
+               (town 20)
+               (world 103))
+            (reward_per_star 80)
+            BWT_BUZZ_MEDIUMBLOCK))))
+(world
+   (boston
+      (order 7)
+      (region us east))
+   (chicago
+      (order 5)
+      (region us east)
+      (required_item tour_vehicle_van))
+   (newyork
+      (order 6)
+      (region us east)
+      (required_item tour_vehicle_van))
+   (montreal
+      (order 8)
+      (region us east)
+      (required_item tour_vehicle_van))
+   (seattle
+      (order 0)
+      (region us west)
+      (required_item tour_vehicle_bus))
+   (sanfrancisco
+      (order 1)
+      (region us west)
+      (required_item tour_vehicle_bus))
+   (austin
+      (order 4)
+      (region us west)
+      (required_item tour_vehicle_bus))
+   (losangeles
+      (order 2)
+      (region us west)
+      (required_item tour_vehicle_bus))
+   (dublin
+      (order 11)
+      (region europe west)
+      (required_item tour_vehicle_jet))
+   (london
+      (order 12)
+      (region europe west)
+      (required_item tour_vehicle_jet))
+   (paris
+      (order 14)
+      (region europe west)
+      (required_item tour_staff2))
+   (madrid
+      (order 13)
+      (region europe west)
+      (required_item tour_staff2))
+   (rome
+      (order 15)
+      (region europe east)
+      (required_item tour_staff2))
+   (amsterdam
+      (order 16)
+      (region europe west)
+      (required_item tour_staff3))
+   (berlin
+      (order 18)
+      (region europe east)
+      (required_item tour_staff3))
+   (stockholm
+      (order 17)
+      (region europe east)
+      (required_item tour_staff3))
+   (tijuana
+      (order 3)
+      (required_item tour_staff_worldblock))
+   (rio
+      (order 9)
+      (required_item tour_staff_worldblock))
+   (reykjavik
+      (order 10)
+      (required_item tour_staff_worldblock))
+   (istanbul
+      (order 19)
+      (required_item tour_staff_worldblock))
+   (moscow
+      (order 20)
+      (required_item tour_staff_worldblock))
+   (tokyo
+      (order 22)
+      (required_item tour_staff_worldblock))
+   (sydney
+      (order 23)
+      (required_item tour_staff_worldblock))
+   (shanghai
+      (order 21)
+      (required_item tour_staff_worldblock)))

@@ -1,0 +1,107 @@
+#include macros.dta
+(mem
+   (heaps
+      #ifdef HX_EE
+      (main 22470000)
+      (rnd 4450000 TRUE)
+      #else
+      (main 27070000)
+      #endif))
+(namespaces
+   (char1 2000 30000))
+(spew)
+(rnd
+   (show_timers FALSE)
+   (overlays
+      (digimask
+         (lines 1)
+         (showing TRUE)))
+   (console_trycatch FALSE)
+   (title
+      "DigiMask Test"))
+(digimask_female
+   (align
+      ('FT  ' 8.94 7.6e-2 -0.17)
+      (CHPT -0.979 4.768 -0.17)
+      ('S9  ' 1.969 5.616 -0.17))
+   (neck_adj
+      (pos 1.774 1.2 0)
+      (rot 0 0 0)
+      (scale 0.7 0.7 0.7))
+   (eyewear
+      (add
+         (set_y
+            (average EYR4 EYL4)
+            'S8  ')
+         (vec -0.2 0.53 0)))
+   (head_scale
+      (add
+         (z_scale SP01 SP02 7.1)
+         (y_scale
+            (average 'RBC ' 'LBC ')
+            'S2  '
+            7.6)
+         (vec 1 0 0)))
+   (head_offset
+      (vec 0 -0.2 0)))
+(digimask_male
+   (align
+      ('FT  ' 9.34 3.2e-2 -0.201)
+      (CHPT -0.782 4.809 -0.201)
+      ('S9  ' 2.277 5.848 -0.201))
+   (neck_adj
+      (pos 1.574 1.2 0)
+      (rot 0 0 0)
+      (scale 0.85 0.85 0.85))
+   (eyewear
+      (add
+         (set_y
+            (average EYR4 EYL4)
+            'S8  ')
+         (vec -0.2 0.13 0)))
+   (head_scale
+      (add
+         (z_scale SP01 SP02 6.5)
+         (y_scale
+            (average 'RBC ' 'LBC ')
+            'S2  '
+            7.6)
+         (vec 1 0 0)))
+   (head_offset
+      (vec 0 -0.9 0)))
+(quick_cheats
+   (right)
+   (keyboard
+      (p
+         {pause})
+      (c
+         {cam_lock})
+      (s
+         {rnd save_objects digimask_copy.rnd char1})
+      (S
+         {digi save_head digimask.rnd})
+      (g
+         {digi toggle_gender})
+      (v
+         {digi next_viseme})
+      (b
+         {digi next_brow})
+      (l
+         {digi next_lid})
+      (i
+         {digi inv})
+      (0
+         {digi load 0})
+      (1
+         {digi load 1})
+      (2
+         {digi load 2})
+      (3
+         {digi load 3})
+      (4
+         {digi load 4})
+      (h
+         {digi
+            highlight
+            "skin_henw_%d.mesh"})))
+#merge default.dta

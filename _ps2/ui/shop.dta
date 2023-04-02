@@ -1,0 +1,1557 @@
+#ifdef HX_XBOX
+{new
+   UIPanel
+   shop_money_panel
+   (file
+      "shop_money.milo")
+   (refresh
+      {do
+         ($char
+            {{game
+                  get_player_config
+                  {shop_char_panel get char_player_num}}
+               get_char})
+         {if
+            {exists name.lbl}
+            {name.lbl
+               set_localized
+               {$char get_char_name}}
+            {part.lbl
+               set_localized
+               {$char instrument_icon}}
+            {money.lbl
+               set_localized
+               {fmt_money
+                  {$char money}}}}})
+   (enter
+      {$this refresh})}
+{new
+   CharPanel
+   shop_char_panel
+   (file
+      "stores/store.milo")
+   (first_enter TRUE)
+   (load
+      {set
+         [first_enter]
+         TRUE})
+   (unload
+      {set
+         [first_enter]
+         FALSE}
+      {helpbar set_limit_to_player_num -1}
+      {meta music_start}
+      {synth stop rockshop_amb.cue})
+   (enter
+      {$this set_ui_showing TRUE}
+      {helpbar
+         set_limit_to_player_num
+         [char_player_num]}
+      {synth play rockshop_amb.cue}
+      {meta music_stop})
+   (set_ui_showing
+      ($showing)
+      {foreach
+         $panel
+         (shop_tattoo_panel shop_clothing_genre_panel shop_ink_panel shop_instrument_panel charcloset_panel shop_closet_lower3rd_panel shop_clothing_lower3rd_panel shop_accessories_lower3rd_panel shop_ink_lower3rd_panel shop_hair_lower3rd_panel shop_tattoo_lower3rd_panel shop_makeup_lower3rd_panel shop_instrument_lower3rd_panel shop_money_panel)
+         {$panel set_showing $showing}})}
+#define PATCH_SELECT_PANEL_HANDLERS
+((player_num
+      {shop_char_panel get char_player_num})
+   (file
+      "patch_select.milo")
+   (focus patch.lst)
+   (stored_patch_idx -2)
+   (enter
+      {{shop_char_panel get char}
+         set_force_patch
+         TRUE}
+      {$this select_patch_cam}
+      {patch.lst store}
+      {shop_char_panel set_ui_showing FALSE}
+      {$this set_focus patch.lst}
+      {helpbar
+         set_config
+         ((cancel helpbar_cancel)
+            (confirm select))})
+   (go_back
+      {$this
+         set_patch_index
+         [stored_patch_idx]}
+      {handle
+         ($this back_to_shop)}
+      {{shop_char_panel get char}
+         set_force_patch
+         FALSE}
+      {shop_char_panel set_ui_showing TRUE}
+      {ui
+         pop_screen
+         [confirm_screen]})
+   (confirm
+      {$this store}
+      {shop_char_panel save}
+      {$this go_back})
+   (store
+      {set
+         [stored_patch_idx]
+         {$this patch_index}})
+   (BUTTON_DOWN_MSG
+      {do
+         ($pos
+            {patch.lst selected_pos})
+         {switch
+            $button
+            (kPad_Tri
+               {if_else
+                  {==
+                     {patch.lst get_state}
+                     kFocused}
+                  {do
+                     {patch.lst undo $player_num}
+                     {$this go_back}}
+                  {do
+                     {synth play button_back}
+                     {edit.grp set_showing FALSE}
+                     {patch.lst set_showing TRUE}
+                     {$this set_focus patch.lst}}})
+            kDataUnhandled}})
+   (is_patch
+      {patch.lst selected_pos})
+   (has_layers
+      {&&
+         {$this is_patch}
+         {{$this
+               patch_dir
+               {patch.lst selected_pos}}
+            has_layers}})
+   (selected_patch
+      {$this
+         patch_dir
+         {patch.lst selected_pos}})
+   (edit_patch
+      {patch_panel set patch_player_num $player_num}
+      {patch_panel
+         set
+         patch
+         {$this selected_patch}}
+      {patch_panel
+         set
+         set
+         [set]}
+      {patch_panel
+         set
+         exit_screen
+         {ui current_screen}}
+      {if_else
+         {patch_panel get help_shown}
+         {ui goto_screen shop_patch_screen}
+         {ui goto_screen shop_patch_help_screen}})
+   (SELECT_MSG
+      {if_else
+         {==
+            {patch.lst get_state}
+            kFocused}
+         {do
+            {if_else
+               {$this is_patch}
+               {do
+                  {if_else
+                     {$this has_layers}
+                     {do
+                        {edit.grp set_showing TRUE}
+                        {patch.lst set_showing FALSE}
+                        {$this set_focus apply.btn}}
+                     {$this edit_patch}}}
+               {$this confirm}}}
+         {switch
+            $component
+            (edit.btn
+               {$this edit_patch})
+            (apply.btn
+               {patch.lst confirm}
+               {$this confirm})
+            (delete.btn
+               {ui
+                  goto_screen
+                  [delete_screen]})}}))
+#define PATCH_DELETE_SCREEN_HANDLERS
+((focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (enter
+      {dialog_panel
+         set_yesno
+         {localize_token shell_delete_patch}
+         no.btn}
+      {dialog_panel
+         set_player_num
+         {shop_char_panel get char_player_num}})
+   (SELECT_MSG
+      {if
+         {== $component yes.btn}
+         {with
+            [panel]
+            {{$this selected_patch}
+               clear}
+            {$this set_focus patch.lst}
+            {edit.grp set_showing FALSE}
+            {patch.lst set_showing TRUE}
+            {patch.lst set_dirty}}
+         {shop_char_panel save}}
+      {ui
+         goto_screen
+         [screen]}))
+{new
+   PatchSelectPanel
+   patch_select_panel
+   PATCH_SELECT_PANEL_HANDLERS
+   (outfit_panel 0)
+   (confirm_screen 0)
+   (delete_screen patch_delete_screen)
+   (set general)
+   (finish_load
+      {patch.lst
+         set_selected
+         {'+'
+            1
+            {$this patch_index}}})
+   (select_patch_cam
+      {shop_char_panel
+         select_cam
+         {if_else
+            {==
+               {[outfit_panel]
+                  focus_category}
+               "mic"}
+            "mic"
+            {sprintf
+               "%s_%s"
+               {[outfit_panel]
+                  cam_base_name
+                  {[outfit_panel]
+                     focus_category}}
+               {{[outfit_panel]
+                     find_patch_renderer}
+                  get
+                  position}}}})
+   (back_to_shop
+      {shop_char_panel
+         select_cam
+         {[outfit_panel]
+            cam_base_name
+            {[outfit_panel]
+               focus_category}}})
+   (SCROLL_MSG
+      {$this
+         set_patch_index
+         {-
+            {$component selected_pos}
+            1}})
+   (patch_index
+      {do
+         ($tour_char
+            {[outfit_panel]
+               tour_char})
+         ($category
+            {[outfit_panel]
+               focus_category})
+         ($selected
+            {[outfit_panel]
+               focus_outfit})
+         {$tour_char patch $category $selected}})
+   (set_patch_index
+      ($idx)
+      {do
+         ($tour_char
+            {[outfit_panel]
+               tour_char})
+         ($char
+            {[outfit_panel]
+               char})
+         ($category
+            {[outfit_panel]
+               focus_category})
+         ($selected
+            {[outfit_panel]
+               focus_outfit})
+         {$tour_char set_patch $char $category $selected $idx}})}
+{new
+   BandScreen
+   patch_delete_screen
+   PATCH_DELETE_SCREEN_HANDLERS
+   (panels patch_select_panel dialog_panel)
+   (panel patch_select_panel)
+   (screen patch_select_screen)}
+{new
+   BandScreen
+   patch_select_screen
+   (panels patch_select_panel)
+   (focus patch_select_panel)}
+{new
+   OutfitGroupPanel
+   group_select_panel
+   (file
+      "group_select.milo")
+   (focus outfit.lst)
+   (player_num
+      {shop_char_panel get char_player_num})
+   (SELECT_MSG
+      {do
+         ($category
+            {[outfit_panel]
+               focus_category})
+         ($selected
+            {[outfit_panel]
+               focus_outfit})
+         ($tour_char
+            {[outfit_panel]
+               tour_char})
+         {cond
+            ({!=
+                  {[outfit_panel]
+                     find_outfit_config}
+                  ''}
+               {color_select_panel
+                  init
+                  [outfit_panel]}
+               {ui goto_screen color_select_screen})
+            ({&&
+                  {!
+                     {$tour_char has_outfit $category $selected}}
+                  $cost}
+               {color_select_panel
+                  init
+                  [outfit_panel]}
+               {ui goto_screen shop_confirm_screen})
+            (TRUE
+               {[outfit_panel]
+                  confirm_outfit}
+               {ui pop_screen})}})
+   (BUTTON_DOWN_MSG
+      {if
+         {== $button kPad_Tri}
+         {synth play button_back}
+         {ui pop_screen}}
+      kDataUnhandled)}
+{new
+   BandScreen
+   group_select_screen
+   (panels group_select_panel)
+   (focus group_select_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}
+{new
+   OutfitConfigPanel
+   color_select_panel
+   (file
+      "color_select.milo")
+   (focus color.lst)
+   (force_exit TRUE)
+   (on_pop
+      {synth play button_back})
+   (enter
+      {title.lbl
+         set
+         text_token
+         {if_else
+            [color_idx]
+            shell_secondary_color
+            shell_primary_color}})}
+{new
+   BandScreen
+   color_select_screen
+   (panels color_select_panel)
+   (focus color_select_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}
+#define SHOP_OUTFIT_HANDLERS
+((update
+      {do
+         ($category
+            {$this focus_category})
+         ($selected
+            {$this focus_outfit})
+         {$this
+            iterate
+            BandButton
+            $b
+            {$b
+               set_showing
+               {&&
+                  {!=
+                     {$b get_state}
+                     kDisabled}
+                  {== $selected ''}}}}
+         {outfit.grp
+            set_showing
+            {!= $selected ''}}
+         {if_else
+            {== $selected ''}
+            {helpbar
+               set_config
+               ((cancel helpbar_back)
+                  (confirm select_category))}
+            {do
+               ($tour_char
+                  {$this tour_char})
+               ($has_outfit
+                  {$tour_char has_outfit $category $selected})
+               ($cost
+                  {{$this focus_provider}
+                     cost
+                     $selected})
+               ($can_afford
+                  {<=
+                     $cost
+                     {$tour_char money}})
+               ($config
+                  {array 0})
+               {push_back
+                  $config
+                  (cancel helpbar_back)}
+               {if
+                  {'||' $has_outfit $can_afford}
+                  {if_else
+                     {$tour_char has_group_selection $category $selected}
+                     {push_back
+                        $config
+                        (confirm helpbar_choosegroup)}
+                     {if_else
+                        {$this find_outfit_config}
+                        {push_back
+                           $config
+                           (confirm helpbar_choosecolor)}
+                        {if_else
+                           $has_outfit
+                           {push_back $config select}
+                           {if
+                              $can_afford
+                              {push_back
+                                 $config
+                                 (confirm helpbar_purchase)}}}}}}
+               {if
+                  {&&
+                     $has_outfit
+                     {$this find_patch_renderer}}
+                  {push_back
+                     $config
+                     (option helpbar_patch)}}
+               {helpbar set_config $config}
+               {do
+                  ($token
+                     {{$this focus_provider}
+                        token
+                        $selected})
+                  {outfit.lbl set text_token $token}
+                  {outfit_desc.lbl
+                     set
+                     text_token
+                     {sprint
+                        $token
+                        "_desc"}}}
+               {outfit_bought.lbl
+                  set_showing
+                  {&&
+                     $has_outfit
+                     {!
+                        [closet]}}}
+               {outfit_cost.lbl
+                  set_showing
+                  {&&
+                     {! $has_outfit}
+                     $cost}}
+               {if
+                  {outfit_cost.lbl showing}
+                  {outfit_cost.lbl
+                     set_localized
+                     {fmt_money $cost}}
+                  {outfit_cost.lbl
+                     set
+                     color
+                     {if_else
+                        {>
+                           $cost
+                           {$tour_char money}}
+                        {pack_color 1 0 0}
+                        {pack_color 1 1 1}}}}}}})
+   (FOCUS_MSG
+      {$this update_lists $new_focus})
+   (TRANSITION_COMPLETE_MSG
+      {$this update}
+      {$this
+         update_lists
+         {$this focus_name}})
+   (update_lists
+      ($focus)
+      {$this
+         iterate
+         UIList
+         $l
+         {$l
+            set_showing
+            {== $focus $l}}})
+   (SELECT_MSG
+      {unless
+         {==
+            {$this focus_category}
+            ''}
+         {$this store_outfit}}
+      kDataUnhandled)
+   (SCROLL_MSG
+      {$this update}
+      {helpbar
+         set_config
+         (helpbar_back)})
+   (BUTTON_DOWN_MSG
+      {do
+         ($category
+            {$this focus_category})
+         ($selected
+            {$this focus_outfit})
+         ($tour_char
+            {$this tour_char})
+         {if_else
+            {!= $selected ''}
+            {switch
+               $button
+               (kPad_X
+                  {do
+                     ($has_outfit
+                        {$tour_char has_outfit $category $selected})
+                     ($cost
+                        {{$this focus_provider}
+                           cost
+                           $selected})
+                     {synth play button_select}
+                     {cond
+                        ({&&
+                              {! $has_outfit}
+                              {>
+                                 $cost
+                                 {$tour_char money}}}
+                           {ui push_screen shop_error_money_screen})
+                        ({$tour_char has_group_selection $category $selected}
+                           {group_select_panel init $this}
+                           {ui push_screen group_select_screen})
+                        ({!=
+                              {$this find_outfit_config}
+                              ''}
+                           {color_select_panel init $this}
+                           {ui push_screen color_select_screen})
+                        ({&&
+                              {! $has_outfit}
+                              {==
+                                 {$this selected_outfit}
+                                 $selected}}
+                           {ui push_screen shop_error_selected_screen})
+                        ({&&
+                              {! $has_outfit}
+                              $cost}
+                           {color_select_panel init $this}
+                           {ui push_screen shop_confirm_screen})
+                        (TRUE
+                           {$this confirm_outfit})}})
+               (kPad_R1
+                  {if
+                     {&&
+                        {!=
+                           {$this find_patch_renderer}
+                           ''}
+                        {$tour_char has_outfit $category $selected}}
+                     {synth play button_select}
+                     {patch_select_panel set outfit_panel $this}
+                     {patch_panel
+                        set
+                        bg_color
+                        {$this find_patch_color}}
+                     {patch_select_panel
+                        set
+                        confirm_screen
+                        {ui current_screen}}
+                     {patch_select_panel store}
+                     {ui push_screen patch_select_screen}})
+               (kPad_Tri
+                  {synth play button_back}
+                  {$this undo_outfit})
+               kDataUnhandled}
+            kDataUnhandled}})
+   (change_char_config
+      {$this update}))
+#define SHOP_CLOTHING_HANDLERS
+(SHOP_OUTFIT_HANDLERS
+   (file
+      {switch
+         [genre]
+         (shell_shop_punkstore
+            "shop_clothing_punk.milo")
+         (shell_shop_rockstore
+            "shop_clothing_rock.milo")
+         (shell_shop_gothstore
+            "shop_clothing_goth.milo")
+         (shell_shop_metalstore
+            "shop_clothing_metal.milo")
+         "shop_closet.milo"})
+   (focus torso.btn)
+   (reset FALSE)
+   (enter
+      {if
+         [reset]
+         {$this set_focus torso.btn}}
+      {set
+         [reset]
+         FALSE}
+      {title.lbl
+         set
+         text_token
+         [title]}
+      {$this update})
+   (undo_outfit
+      {shop_char_panel
+         select_cam
+         "closeup_idle"})
+   (confirm_outfit
+      {shop_char_panel
+         select_cam
+         "closeup_idle"}))
+#define SHOP_ACCESSORIES_HANDLERS
+(SHOP_OUTFIT_HANDLERS
+   (file
+      {if_else
+         [closet]
+         "shop_accessories_closet.milo"
+         "shop_accessories.milo"})
+   (focus glasses.btn)
+   (reset_focus TRUE)
+   (enter
+      {title.lbl
+         set
+         text_token
+         [title]}
+      {$this update})
+   (undo_outfit
+      {shop_char_panel
+         select_cam
+         "closeup_idle"})
+   (confirm_outfit
+      {shop_char_panel
+         select_cam
+         "closeup_idle"}))
+{new
+   OutfitPanel
+   charcloset_panel
+   SHOP_CLOTHING_HANDLERS
+   (player_num
+      {shop_char_panel get char_player_num})
+   (outfit_char shop_char_panel)
+   (genre '')
+   (closet TRUE)
+   (title shell_my_closet)}
+{new
+   UIPanel
+   shop_closet_lower3rd_panel
+   (file
+      "shop_closet_lower3rd.milo")}
+{new
+   BandScreen
+   charcloset_screen
+   (panels meta shop_char_panel charcloset_panel shop_closet_lower3rd_panel)
+   (focus charcloset_panel)
+   (back shop_clothing_screen)
+   (SELECT_START_MSG
+      {if
+         {== $component accessories.btn}
+         {ui goto_screen charcloset_accessories_screen}}
+      kDataUnhandled)}
+{new
+   OutfitPanel
+   charcloset_accessories_panel
+   SHOP_ACCESSORIES_HANDLERS
+   (player_num
+      {shop_char_panel get char_player_num})
+   (outfit_char shop_char_panel)
+   (closet TRUE)
+   (genre '')
+   (title shell_my_closet)}
+{new
+   BandScreen
+   charcloset_accessories_screen
+   (panels meta shop_char_panel charcloset_accessories_panel shop_closet_lower3rd_panel)
+   (focus charcloset_accessories_panel)
+   (back charcloset_screen)}
+{new
+   UIPanel
+   shop_lower3rd_panel
+   (file
+      "shop_lower3rd.milo")}
+{new
+   UIPanel
+   shop_panel
+   (file
+      "shop.milo")
+   (focus clothing.btn)
+   (player_num
+      {shop_char_panel get char_player_num})
+   (reset_on_enter TRUE)
+   (enter
+      {if
+         [reset_on_enter]
+         {$this set_focus clothing.btn}}
+      {set
+         [reset_on_enter]
+         FALSE}
+      {$this disable music.btn}
+      {if
+         {shop_char_panel get first_enter}
+         {shop_char_panel
+            select_cam
+            "enter"}}
+      {shop_char_panel set first_enter FALSE})
+   (SELECT_MSG
+      {switch
+         $component
+         (clothing.btn
+            {shop_clothing_panel set reset TRUE}
+            {ui goto_screen shop_clothing_screen}
+            {shop_char_panel
+               select_cam
+               "closeup_idle"})
+         (ink.btn
+            {shop_ink_panel set reset TRUE}
+            {ui goto_screen shop_ink_screen}
+            {shop_char_panel
+               select_cam
+               "tattoo_idle"})
+         (instruments.btn
+            {do
+               ($pcfg
+                  {game
+                     get_player_config
+                     {shop_char_panel get char_player_num}})
+               ($inst
+                  {{$pcfg get_char}
+                     get_instrument})
+               {if_else
+                  {== $inst guitar}
+                  {do
+                     {shop_guitarbass_panel set reset TRUE}
+                     {ui goto_screen shop_guitarbass_screen}}
+                  {do
+                     {shop_instrument_panel
+                        set
+                        instrument
+                        {if_else
+                           {== $inst vocals}
+                           mic
+                           $inst}}
+                     {shop_instrument_panel set genre ''}
+                     {ui goto_screen shop_instrument_screen}}}})})}
+{new
+   BandScreen
+   shop_screen
+   (panels meta shop_char_panel shop_panel shop_lower3rd_panel shop_money_panel)
+   (focus shop_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (back
+      {if_else
+         {gamemode is_solo}
+         tour_solo_hub_screen
+         tour_band_hub_screen})
+   (BUTTON_DOWN_MSG
+      {if
+         {&&
+            {== $button kPad_Tri}
+            {!
+               {gamemode is_solo}}}
+         {do
+            ($pcfg
+               {game
+                  get_player_config
+                  {shop_char_panel get char_player_num}})
+            {{$pcfg get_char}
+               update_appearance
+               {shop_char_panel get char_player_num}}}}
+      kDataUnhandled)
+   (enter
+      {presence_mgr set_customizing_rocker})}
+{new
+   UIPanel
+   shop_clothing_panel
+   (file
+      "shop_clothing.milo")
+   (reset TRUE)
+   (player_num
+      {shop_char_panel get char_player_num})
+   (enter
+      {if
+         [reset]
+         {$this set_focus punk.btn}}
+      {set
+         [reset]
+         FALSE})
+   (SELECT_MSG
+      {switch
+         $component
+         (closet.btn
+            {charcloset_panel set reset TRUE}
+            {ui goto_screen charcloset_screen})
+         (accessories.btn
+            {shop_accessories_panel set reset TRUE}
+            {ui goto_screen shop_accessories_screen})
+         {shop_clothing_genre_panel set reset TRUE}
+         {shop_clothing_genre_panel
+            set
+            genre
+            {$component get text_token}}
+         {ui goto_screen shop_clothing_genre_screen}})}
+{new
+   BandScreen
+   shop_clothing_screen
+   (panels meta shop_char_panel shop_clothing_panel shop_lower3rd_panel shop_money_panel)
+   (focus shop_clothing_panel)
+   (back shop_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (SCREEN_CHANGE_MSG
+      {if
+         {== $new_screen shop_screen}
+         {shop_char_panel
+            select_cam
+            "idle"}})}
+{new
+   OutfitPanel
+   shop_clothing_genre_panel
+   SHOP_CLOTHING_HANDLERS
+   (player_num
+      {shop_char_panel get char_player_num})
+   (genre shell_shop_punkstore)
+   (outfit_char shop_char_panel)
+   (closet FALSE)
+   (title
+      [genre])}
+{new
+   UIPanel
+   shop_clothing_lower3rd_panel
+   (file
+      {switch
+         {shop_clothing_genre_panel get genre}
+         (shell_shop_punkstore
+            "shop_clothing_punk_lower3rd.milo")
+         (shell_shop_rockstore
+            "shop_clothing_rock_lower3rd.milo")
+         (shell_shop_gothstore
+            "shop_clothing_goth_lower3rd.milo")
+         (shell_shop_metalstore
+            "shop_clothing_metal_lower3rd.milo")
+         ""})}
+{new
+   BandScreen
+   shop_clothing_genre_screen
+   (panels meta shop_char_panel shop_clothing_genre_panel shop_clothing_lower3rd_panel shop_money_panel)
+   (focus shop_clothing_genre_panel)
+   (back shop_clothing_screen)}
+{new
+   OutfitPanel
+   shop_accessories_panel
+   SHOP_ACCESSORIES_HANDLERS
+   (player_num
+      {shop_char_panel get char_player_num})
+   (closet FALSE)
+   (genre '')
+   (outfit_char shop_char_panel)
+   (title shop_accessories)}
+{new
+   UIPanel
+   shop_accessories_lower3rd_panel
+   (file
+      "shop_accessories_lower3rd.milo")}
+{new
+   BandScreen
+   shop_accessories_screen
+   (panels meta shop_char_panel shop_accessories_panel shop_accessories_lower3rd_panel shop_money_panel)
+   (focus shop_accessories_panel)
+   (back shop_clothing_screen)}
+{new
+   UIPanel
+   shop_ink_panel
+   (file
+      "shop_ink.milo")
+   (reset TRUE)
+   (player_num
+      {shop_char_panel get char_player_num})
+   (enter
+      {if
+         [reset]
+         {$this set_focus hair.btn}}
+      {set
+         [reset]
+         FALSE})
+   (SELECT_MSG
+      {switch
+         $component
+         (hair.btn
+            {ui goto_screen shop_hair_screen})
+         (tattoo.btn
+            {ui goto_screen shop_tattoo_screen})
+         (makeup.btn
+            {ui goto_screen shop_makeup_screen})
+         (facepaint.btn
+            {do
+               ($char
+                  {shop_char_panel get char})
+               {patch_panel
+                  set
+                  bg_color
+                  {{$char get skin_color_palette}
+                     get
+                     (colors
+                        {$char get skin_color_index})}}}
+            {facepaint_select_panel store}
+            {ui push_screen facepaint_select_screen})})}
+{new
+   UIPanel
+   shop_ink_lower3rd_panel
+   (file
+      "shop_ink_lower3rd.milo")}
+{new
+   BandScreen
+   shop_ink_screen
+   (panels meta shop_char_panel shop_ink_panel shop_ink_lower3rd_panel shop_money_panel)
+   (focus shop_ink_panel)
+   (back shop_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (SCREEN_CHANGE_MSG
+      {if
+         {== $new_screen shop_screen}
+         {shop_char_panel
+            select_cam
+            "idle"}})}
+{new
+   OutfitPanel
+   shop_hair_panel
+   (file
+      "shop_hair.milo")
+   (player_num
+      {shop_char_panel get char_player_num})
+   (genre '')
+   (closet FALSE)
+   (outfit_char shop_char_panel)
+   (select_cam FALSE)
+   SHOP_OUTFIT_HANDLERS
+   (enter
+      {$this set_focus hair.btn}
+      {if
+         {==
+            {$this gender}
+            female}
+         {$this disable facehair.btn}
+         {facehair.btn set_showing FALSE}}
+      {$this update}
+      {shop_char_panel
+         select_cam
+         "hair"})
+   (exit
+      {shop_char_panel
+         select_cam
+         "tattoo_idle"})
+   (undo_outfit TRUE)
+   (gender
+      {{shop_char_panel get tour_char}
+         get_gender})}
+{new
+   UIPanel
+   shop_hair_lower3rd_panel
+   (file
+      "shop_hair_lower3rd.milo")}
+{new
+   BandScreen
+   shop_hair_screen
+   (panels meta shop_char_panel shop_hair_panel shop_hair_lower3rd_panel shop_money_panel)
+   (focus shop_hair_panel)
+   (back shop_ink_screen)
+   (SELECT_MSG
+      {if
+         {== $component eyebrows.btn}
+         {ui push_screen eyebrow_color_screen}}
+      kDataUnhandled)}
+{new
+   UIPanel
+   eyebrow_color_panel
+   (file
+      "color_select.milo")
+   (focus color.lst)
+   (player_num
+      {shop_char_panel get char_player_num})
+   (enter
+      {title.lbl set text_token shell_eyebrow_color}
+      {do
+         ($char
+            {shop_char_panel get char})
+         {color.lst
+            set_colors
+            {$char find hair.pal}}
+         {color.lst
+            set_selected
+            {$char get eyebrow_color_index}}
+         {color.lst store}})
+   (SCROLL_MSG
+      {{shop_char_panel get tour_char}
+         set_eyebrow_color
+         {shop_char_panel get char}
+         {color.lst selected_pos}})
+   (SELECT_MSG
+      {shop_char_panel save}
+      {ui pop_screen})
+   (BUTTON_DOWN_MSG
+      {if
+         {== $button kPad_Tri}
+         {color.lst undo $player_num}
+         {ui pop_screen}}
+      kDataUnhandled)}
+{new
+   BandScreen
+   eyebrow_color_screen
+   (panels eyebrow_color_panel)
+   (focus eyebrow_color_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}
+{new
+   PatchSelectPanel
+   tattoo_select_panel
+   PATCH_SELECT_PANEL_HANDLERS
+   (location '')
+   (confirm_screen shop_tattoo_screen)
+   (delete_screen tattoo_delete_screen)
+   (set
+      {if_else
+         {==
+            {tattoo_select_panel get location}
+            patch_chest}
+         chest
+         arm})
+   (finish_load
+      {patch.lst
+         set_selected
+         {'+'
+            1
+            {$this patch_index}}})
+   (select_patch_cam
+      {shop_char_panel
+         select_cam
+         {switch
+            [location]
+            (patch_left_arm
+               "tattoo_left")
+            (patch_right_arm
+               "tattoo_right")
+            (patch_chest
+               "tattoo_front")}}
+      {switch
+         [location]
+         (patch_left_arm
+            {patch_panel set_size 1 4 10})
+         (patch_right_arm
+            {patch_panel set_size 1 4 10})
+         (patch_chest
+            {patch_panel set_size 1 1 0})})
+   (SCROLL_MSG
+      {$this
+         set_patch_index
+         {-
+            {$component selected_pos}
+            1}})
+   (patch_index
+      {do
+         ($tour_char
+            {shop_char_panel get tour_char})
+         {$tour_char
+            tattoo_patch
+            [location]}})
+   (set_patch_index
+      ($idx)
+      {do
+         ($tour_char
+            {shop_char_panel get tour_char})
+         ($char
+            {shop_char_panel get char})
+         {$tour_char
+            set_tattoo_patch
+            $char
+            [location]
+            $idx}})}
+{new
+   UIPanel
+   shop_tattoo_lower3rd_panel
+   (file
+      "shop_tattoo_lower3rd.milo")}
+{new
+   BandScreen
+   tattoo_delete_screen
+   PATCH_DELETE_SCREEN_HANDLERS
+   (panels tattoo_select_panel dialog_panel)
+   (panel tattoo_select_panel)
+   (screen tattoo_select_screen)}
+{new
+   BandScreen
+   tattoo_select_screen
+   (panels tattoo_select_panel)
+   (focus tattoo_select_panel)}
+{new
+   UIPanel
+   shop_tattoo_panel
+   (file
+      "shop_tattoo.milo")
+   (focus patch_chest.btn)
+   (reset_focus TRUE)
+   (player_num
+      {shop_char_panel get char_player_num})
+   (current_torso 0)
+   (current_wrist 0)
+   (enter
+      {set
+         [current_torso]
+         {{shop_char_panel get tour_char}
+            selected_outfit
+            torso}}
+      {set
+         [current_wrist]
+         {{shop_char_panel get tour_char}
+            selected_outfit
+            wrist}}
+      {{$this outfit_loader}
+         select
+         torso
+         naked}
+      {{$this outfit_loader}
+         select
+         wrist
+         none}
+      {{$this outfit_loader}
+         start_load}
+      {shop_char_panel
+         select_cam
+         "tattoo_idle"})
+   (TRANSITION_COMPLETE_MSG
+      {shop_char_panel
+         select_cam
+         "tattoo_idle"}
+      {patch_panel set_size 1 1 0})
+   (exit
+      {{$this outfit_loader}
+         select
+         torso
+         [current_torso]}
+      {{$this outfit_loader}
+         select
+         wrist
+         [current_wrist]}
+      {{$this outfit_loader}
+         start_load})
+   (outfit_loader
+      {{shop_char_panel get char}
+         find
+         OutfitLoader.outfit})
+   (SELECT_MSG
+      {tattoo_select_panel
+         set
+         location
+         {basename
+            {$component name}}}
+      {do
+         ($char
+            {shop_char_panel get char})
+         {patch_panel
+            set
+            bg_color
+            {{$char get skin_color_palette}
+               get
+               (colors
+                  {$char get skin_color_index})}}}
+      {tattoo_select_panel store}
+      {ui push_screen tattoo_select_screen})}
+{new
+   BandScreen
+   shop_tattoo_screen
+   (panels meta shop_char_panel shop_tattoo_panel shop_tattoo_lower3rd_panel shop_money_panel)
+   (focus shop_tattoo_panel)
+   (back shop_ink_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}
+{new
+   PatchSelectPanel
+   facepaint_select_panel
+   PATCH_SELECT_PANEL_HANDLERS
+   (location patch_facepaint)
+   (confirm_screen shop_ink_screen)
+   (delete_screen facepaint_delete_screen)
+   (set general)
+   (finish_load
+      {patch.lst
+         set_selected
+         {'+'
+            1
+            {$this patch_index}}})
+   (select_patch_cam
+      {shop_char_panel
+         select_cam
+         "makeup"})
+   (back_to_shop
+      {shop_char_panel
+         select_cam
+         "tattoo_idle"})
+   (SCROLL_MSG
+      {$this
+         set_patch_index
+         {-
+            {$component selected_pos}
+            1}})
+   (patch_index
+      {do
+         ($tour_char
+            {shop_char_panel get tour_char})
+         {$tour_char
+            tattoo_patch
+            [location]}})
+   (set_patch_index
+      ($idx)
+      {do
+         ($tour_char
+            {shop_char_panel get tour_char})
+         ($char
+            {shop_char_panel get char})
+         {$tour_char
+            set_tattoo_patch
+            $char
+            [location]
+            $idx}})}
+{new
+   BandScreen
+   facepaint_delete_screen
+   PATCH_DELETE_SCREEN_HANDLERS
+   (panels facepaint_select_panel dialog_panel)
+   (panel facepaint_select_panel)
+   (screen facepaint_select_screen)}
+{new
+   BandScreen
+   facepaint_select_screen
+   (panels facepaint_select_panel)
+   (focus facepaint_select_panel)}
+{new
+   OutfitPanel
+   shop_makeup_panel
+   (file
+      "shop_makeup.milo")
+   (focus eyes.btn)
+   (reset_focus TRUE)
+   (player_num
+      {shop_char_panel get char_player_num})
+   (genre '')
+   (select_cam FALSE)
+   (outfit_char shop_char_panel)
+   SHOP_OUTFIT_HANDLERS
+   (enter
+      {$this update}
+      {shop_char_panel
+         select_cam
+         "makeup"})
+   (exit
+      {shop_char_panel
+         select_cam
+         "tattoo_idle"})
+   (undo_outfit TRUE)}
+{new
+   UIPanel
+   shop_makeup_lower3rd_panel
+   (file
+      "shop_makeup_lower3rd.milo")}
+{new
+   BandScreen
+   shop_makeup_screen
+   (panels meta shop_char_panel shop_makeup_panel shop_makeup_lower3rd_panel shop_money_panel)
+   (focus shop_makeup_panel)
+   (back shop_ink_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}
+{new
+   UIPanel
+   shop_guitarbass_panel
+   (file
+      "shop_guitarbass.milo")
+   (player_num
+      {shop_char_panel get char_player_num})
+   (reset TRUE)
+   (enter
+      {if
+         [reset]
+         {$this set_focus guitar.btn}}
+      {set
+         [reset]
+         FALSE})
+   (SELECT_START_MSG
+      {shop_instrument_panel
+         set
+         instrument
+         {basename
+            {$component name}}}
+      {ui goto_screen shop_instrument_screen}
+      kDataUnhandled)}
+{new
+   UIPanel
+   shop_instrument_lower3rd_panel
+   (file
+      "shop_instrument_lower3rd.milo")}
+{new
+   BandScreen
+   shop_guitarbass_screen
+   (panels meta shop_char_panel shop_guitarbass_panel shop_instrument_lower3rd_panel shop_money_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (focus shop_guitarbass_panel)
+   (back shop_screen)}
+{new
+   OutfitPanel
+   shop_instrument_panel
+   (file
+      "shop_instrument.milo")
+   (outfit_char shop_char_panel)
+   (player_num
+      {shop_char_panel get char_player_num})
+   (genre '')
+   (instrument '')
+   (closet FALSE)
+   (skip_buttons TRUE)
+   SHOP_OUTFIT_HANDLERS
+   (enter
+      {$this
+         iterate
+         UIList
+         $l
+         {do
+            ($active
+               {==
+                  {basename
+                     {$l name}}
+                  [instrument]})
+            {$l set_showing $active}
+            {if
+               $active
+               {$this set_focus $l}}}}
+      {title.lbl
+         set
+         text_token
+         {sprint
+            "shell_"
+            [instrument]
+            "_shop"}}
+      {$this store_outfit}
+      {$this update}
+      {if
+         {==
+            [instrument]
+            drum}
+         {$this set_drum_showing TRUE}})
+   (load
+      {do
+         ($char
+            {shop_char_panel get char})
+         ($ol
+            {$char find OutfitLoader.outfit})
+         ($tour_char
+            {shop_char_panel get tour_char})
+         {switch
+            [instrument]
+            (guitar
+               {$ol select bass none})
+            (bass
+               {$ol select guitar none})}
+         {$tour_char
+            select_outfit
+            $char
+            [instrument]
+            {$tour_char
+               selected_outfit
+               [instrument]}}})
+   (unload
+      {do
+         ($ol
+            {{shop_char_panel get char}
+               find
+               OutfitLoader.outfit})
+         {$ol
+            select_instrument
+            {shop_char_panel get tour_char}}
+         {$ol start_load TRUE}}
+      {shop_char_panel
+         select_cam
+         "idle"}
+      {if
+         {==
+            [instrument]
+            drum}
+         {$this set_drum_showing FALSE}})
+   (set_drum_showing
+      ($showing)
+      {do
+         ($group
+            {{shop_char_panel get char}
+               find
+               drumset.grp})
+         {$group set_showing $showing}})
+   (confirm_outfit
+      {$this store_outfit})}
+{new
+   BandScreen
+   shop_instrument_screen
+   (panels meta shop_char_panel shop_instrument_panel shop_instrument_lower3rd_panel shop_money_panel)
+   (focus shop_instrument_panel)
+   (back
+      {if_else
+         {==
+            {{shop_char_panel get tour_char}
+               get_instrument}
+            guitar}
+         shop_guitarbass_screen
+         shop_screen})}
+{new
+   UIPanel
+   shop_confirm_panel
+   (file
+      "shop_confirm.milo")
+   (focus yes.btn)
+   (reset_focus TRUE)
+   (player_num
+      {shop_char_panel get char_player_num})
+   (enter
+      {do
+         ($op
+            {color_select_panel get outfit_panel})
+         ($selected
+            {$op focus_outfit})
+         {outfit.lbl
+            set
+            text_token
+            {if_else
+               {{$op tour_char}
+                  has_group_selection
+                  {$op focus_category}
+                  {$op focus_outfit}}
+               {$op focus_outfit}
+               {{$op focus_provider}
+                  token
+                  $selected}}}
+         {outfit_cost.lbl
+            set_localized
+            {fmt_money
+               {{$op focus_provider}
+                  cost
+                  $selected}}}})
+   (SELECT_MSG
+      {switch
+         $component
+         (yes.btn
+            {do
+               ($op
+                  {color_select_panel get outfit_panel})
+               ($selected
+                  {$op focus_outfit})
+               ($provider
+                  {$op focus_provider})
+               ($cost
+                  {$provider cost $selected})
+               ($char
+                  {$op tour_char})
+               {if_else
+                  {$provider is_closet_category}
+                  {$char
+                     buy_outfit
+                     {$op focus_category}
+                     $selected
+                     $cost}
+                  {$char
+                     set_money
+                     {-
+                        {$char money}
+                        $cost}}}
+               {shop_money_panel refresh}
+               {color_select_panel clear}
+               {$op confirm_outfit}}
+            {ui pop_screen})
+         (no.btn
+            {$this cancel})})
+   (cancel
+      {synth play button_back}
+      {do
+         ($outfit_panel
+            {color_select_panel get outfit_panel})
+         {cond
+            ({$outfit_panel find_outfit_config}
+               {ui goto_screen color_select_screen})
+            ({{$outfit_panel tour_char}
+                  has_group_selection
+                  {$outfit_panel focus_category}
+                  {$outfit_panel focus_outfit}}
+               {ui goto_screen group_select_screen})
+            (TRUE
+               {ui pop_screen})}})
+   (BUTTON_DOWN_MSG
+      {if_else
+         {== $button kPad_Tri}
+         {$this cancel}
+         kDataUnhandled})}
+{new
+   BandScreen
+   shop_confirm_screen
+   (panels shop_confirm_panel)
+   (focus shop_confirm_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}
+{new
+   BandScreen
+   shop_error_money_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize_token shop_not_enough_money}}
+      {dialog_panel
+         set_player_num
+         {shop_char_panel get char_player_num}})
+   (SELECT_MSG
+      {ui pop_screen})}
+#define SHOP_ERROR_SELECTED_HANDLERS
+((panels dialog_panel)
+   (focus dialog_panel)
+   (allow_player
+      ($player_num)
+      {==
+         $player_num
+         {shop_char_panel get char_player_num}})
+   (enter
+      {dialog_panel
+         set_ok
+         {localize_token shop_already_selected}}))
+{new
+   BandScreen
+   shop_error_selected_screen
+   SHOP_ERROR_SELECTED_HANDLERS
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   shop_error_selected_color_screen
+   SHOP_ERROR_SELECTED_HANDLERS
+   (SELECT_MSG
+      {ui goto_screen color_select_screen})}
+#endif

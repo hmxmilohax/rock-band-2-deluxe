@@ -1,0 +1,59 @@
+{func
+   show_info_text
+   ($val)
+   {info.lbl set_showing $val}
+   {tv_info.lbl set_showing $val}}
+{func
+   show_part_text
+   ($val)
+   {part.lbl set_showing $val}
+   {tv_part.lbl set_showing $val}}
+{func
+   show_banner_text
+   ($val)
+   {banner.lbl set_showing $val}
+   {tv_banner.lbl set_showing $val}}
+{func
+   show_score_text
+   ($val)
+   {score.lbl set_showing $val}
+   {tv_score.lbl set_showing $val}}
+{func
+   show_demo_text
+   ($val)
+   {tv_demo.lbl set_showing $val}}
+{func
+   set_info_text
+   ($text)
+   {info.lbl set_localized $text}
+   {tv_info.lbl set_localized $text}}
+{func
+   set_part_text
+   ($text)
+   {part.lbl set_localized $text}
+   {tv_part.lbl set_localized $text}}
+{func
+   set_banner_text
+   ($text)
+   {banner.lbl set_localized $text}
+   {tv_banner.lbl set_localized $text}}
+{func
+   set_score_text
+   ($text)
+   {if
+      {tutorials_state_panel can_update_score}
+      {do
+         {score.lbl set_localized $text}
+         {tv_score.lbl set_localized $text}}}}
+{func
+   setup_lesson_banner
+   ($text)
+   {set_part_text
+      {localize $text}}
+   {show_part_text TRUE}}
+{func
+   setup_big_banner
+   ($text)
+   {set_banner_text
+      {localize $text}}
+   {show_banner_text TRUE}}

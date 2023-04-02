@@ -1,0 +1,169 @@
+(songs
+   #include ../songs/songs.dta
+   #ifdef HX_XBOX
+   #include ../songs_download/songs.dta
+   #endif
+   (budget_test1
+      (name
+         "Budget 1 - Many Gems")
+      (artist
+         "")
+      (song
+         (name songs/behindblueeyes/behindblueeyes)
+         (tracks
+            ((drum
+                  (0 1 2 3))
+               (bass 4)
+               (guitar
+                  (5 6))
+               (vocals
+                  (7 8))))
+         (pans
+            (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 -1.0 1.0 0.0))
+         (vols
+            (0.0 0.0 -4.5 -4.5 -3.0 -4.5 -4.5 -1.5 -1.5 0.0))
+         (cores
+            (-1 -1 -1 -1 -1 1 -1 -1 -1 -1))
+         (drum_solo
+            (seqs
+               (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+         (midi_file test/budget_test1/budget_test1.mid))
+      (song_scroll_speed 3000)
+      (bank sfx/tambourine_bank.milo)
+      (anim_tempo kTempoMedium)
+      (preview 9845 44150)
+      (quickplay
+         (venue small_club_01))))
+(lyrics
+   (file
+      "track/track_shared.milo")
+   (font
+      "Chalet-NewYorkNineteenEighty.font"))
+(difficulties easy medium hard expert)
+(num_gem_slots 5)
+(max_gems_per_chord 3)
+#define MUSICIAN_COMMON_EVENTS
+(idle_realtime idle idle_intense play mellow intense)
+(tracks
+   (required 'PART DRUMS' 'PART BASS' 'PART GUITAR' EVENTS)
+   (allowed 'PART DRUMS' 'PART BASS' 'PART GUITAR' 'PART VOCALS' EVENTS VENUE BEAT))
+(events
+   (BEAT
+      (midi
+         (12 13)))
+   (EVENTS
+      (midi
+         (24 26))
+      (required music_start music_end end)
+      (allowed coda section crowd_realtime crowd_mellow crowd_normal crowd_intense)
+      (last end))
+   (VENUE
+      (midi
+         (24 26)
+         (37 40)
+         (48 50)
+         60
+         (61 64)
+         (70 73)
+         (85 87)
+         (96 110))
+      (allowed chorus verse lighting do_directed_cut do_optional_cut bonusfx bonusfx_optional FogOn FogOff StrobeOff Strobe6 Strobe8 Strobe10 Strobe12)
+      (required)
+      (check_init
+         {set $mv.chorus FALSE}
+         {set $mv.verse FALSE})
+      (check
+         {switch
+            $mv.val
+            (chorus
+               {set $mv.chorus TRUE})
+            (verse
+               {set $mv.verse TRUE})
+            (lighting
+               {unless
+                  {'||' $mv.chorus $mv.verse}
+                  {notify
+                     $mv.song
+                     " [lighting] needs verse or chorus first"}}
+               {do
+                  ($adjectives
+                     {elem $mv.data 1})
+                  {foreach
+                     $adj
+                     $adjectives
+                     {unless
+                        {find_elem LIGHTING_ADJECTIVES $adj}
+                        {notify
+                           $mv.song
+                           " [lighting] unknown adjective "
+                           $adj}}}})
+            (do_directed_cut
+               {do
+                  ($cat
+                     {elem $mv.data 1})
+                  {unless
+                     {find_elem CAMSHOT_CATEGORIES $cat}
+                     {notify
+                        $mv.song
+                        " do_directed_cut unknown category "
+                        $cat}}})}))
+   ('PART GUITAR'
+      (required)
+      (allowed MUSICIAN_COMMON_EVENTS play_solo map)
+      (midi
+         (12 15)
+         (40 59)
+         (60 62)
+         67
+         (72 75)
+         79
+         (84 88)
+         91
+         (96 100)
+         103
+         105
+         106
+         116
+         (120 124)))
+   ('PART BASS'
+      (required)
+      (allowed MUSICIAN_COMMON_EVENTS play_solo map)
+      (midi
+         (12 15)
+         (40 59)
+         (60 62)
+         (72 75)
+         (84 88)
+         (96 100)
+         105
+         106
+         116
+         (120 124)))
+   ('PART DRUMS'
+      (required)
+      (allowed mix ride_side_true ride_side_false MUSICIAN_COMMON_EVENTS)
+      (midi
+         (12 15)
+         (24 27)
+         (30 31)
+         (34 42)
+         (46 51)
+         (60 64)
+         (72 76)
+         (84 88)
+         (96 100)
+         105
+         106
+         (110 112)
+         116
+         (120 124)))
+   ('PART VOCALS'
+      (required)
+      (allowed tambourine_start tambourine_end cowbell_start cowbell_end clap_start clap_end MUSICIAN_COMMON_EVENTS)
+      (midi
+         (12 15)
+         (40 84)
+         (96 97)
+         103
+         (105 106)
+         116)))

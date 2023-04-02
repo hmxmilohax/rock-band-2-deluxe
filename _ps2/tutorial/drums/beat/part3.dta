@@ -1,0 +1,118 @@
+#define ROCKBEAT_PART3_NOTES_TO_HIT
+(12)
+SETUP_DRUM_TUTORIAL
+DRUM_TV_WHITE
+START_BG_MUSIC
+{setup_lesson_banner tutorial_drum_beat_part3_part}
+{meta_performer set_song drum_beat_rockbeat}
+LOAD_NEW_DRUMS_SONG_NO_FADE
+HIDE_TRACK_PLAYER_UI
+UNPAUSE_TRACK
+SYNC_PAUSE
+ENABLE_DRUM_TUTORIAL_METRONOME
+{new
+   Object
+   tutorial_drum_beat_part3_callback
+   (hit
+      {if
+         {<
+            [num_gems_hit]
+            ROCKBEAT_PART3_NOTES_TO_HIT}
+         {set
+            [num_gems_hit]
+            {'+'
+               [num_gems_hit]
+               1}}
+         {update_task_score
+            {localize tutorial_drum_beat_part3_score}
+            [num_gems_hit]
+            ROCKBEAT_PART3_NOTES_TO_HIT}
+         ANIMATE_SCORE})
+   (mistake
+      {if
+         {&&
+            {>
+               [num_gems_hit]
+               0}
+            {$this failed}}
+         {do
+            {set
+               [num_gems_hit]
+               0}
+            {update_task_score
+               {localize tutorial_drum_beat_part3_score}
+               [num_gems_hit]
+               ROCKBEAT_PART3_NOTES_TO_HIT}
+            ANIMATE_SCORE}})
+   (miss
+      {$this mistake})
+   (pass
+      {$this mistake})
+   (passed
+      {>=
+         [num_gems_hit]
+         ROCKBEAT_PART3_NOTES_TO_HIT})
+   (failed
+      {!
+         {$this passed}})
+   (lesson_running
+      {&&
+         {<
+            [num_gems_hit]
+            ROCKBEAT_PART3_NOTES_TO_HIT}
+         {<
+            {{beatmatch active_player 0}
+               percent_complete}
+            END_OF_SONG_PERCENT}})
+   (num_gems_hit 0)}
+STOP_BG_MUSIC
+DRUM_TV_OFF
+LONG_VO_GAP
+{set_info_text
+   {localize tutorial_drum_beat_part3_task}}
+{show_info_text TRUE}
+{{beatmatch active_player 0}
+   add_sink
+   tutorial_drum_beat_part3_callback}
+{update_task_score
+   {localize tutorial_drum_beat_part3_score}
+   0
+   ROCKBEAT_PART3_NOTES_TO_HIT}
+SHOW_SCORE
+FADE_SONG_IN
+UNPAUSE_TRACK
+{$task
+   wait
+   {tutorial_drum_beat_part3_callback lesson_running}}
+FREEZE_SCORE_TEXT
+{if
+   {!
+      {tutorial_drum_beat_part3_callback failed}}
+   {$task sleep 1}}
+DISABLE_DRUM_TUTORIAL_METRONOME
+TRACK_OUT
+PAUSE_TRACK
+WAIT_FOR_VO
+{if_else
+   {tutorial_drum_beat_part3_callback failed}
+   {do
+      {set_banner_text
+         {localize tutorial_drum_beat_part3_failed}}
+      {play_vo tute_drum2_kickfail}}
+   {do
+      {set_banner_text
+         {localize tutorial_drum_beat_part3_done}}
+      {play_vo tute_drum2_beatoutro}}}
+{show_info_text FALSE}
+{show_part_text FALSE}
+{show_banner_text TRUE}
+HIDE_SCORE
+START_BG_MUSIC
+DRUM_TV_WHITE
+{$task sleep 1.5}
+WAIT_FOR_VO
+SHORT_VO_GAP
+{do_fail_menu
+   {tutorial_drum_beat_part3_callback failed}}
+RETURN_FROM_FAIL_MENU
+{tutorials_state_panel switch_to_next_state}

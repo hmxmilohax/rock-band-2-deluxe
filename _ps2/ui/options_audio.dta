@@ -1,0 +1,246 @@
+{new
+   UIPanel
+   mixer_panel
+   (file
+      "mixer_parent.milo")}
+{new
+   UIPanel
+   options_audio_panel
+   (file
+      "options_audio_og.milo")
+   (focus vocal_options.btn)
+   (set_fg_instr
+      {song_preview_fg_instr guitar})
+   (load
+      {content_mgr start_refresh}
+      #ifndef NOWIINETWORKING
+      #ifndef HX_EE
+      {content_loading_panel allowed_to_show TRUE}
+      #endif
+      #endif)
+   #ifndef NOWIINETWORKING
+   #ifndef HX_EE
+   (finish_load
+      {content_loading_panel allowed_to_show FALSE})
+   #endif
+   #endif
+   (is_loaded
+      {content_mgr refresh_done})
+   (enter
+      {set_up_instrument_and_gamertag
+         {options_audio_screen get player_num}}
+      {meta music_stop}
+      {platform_mgr disable_xmp}
+      {song_preview audio_sliders}
+      {$this set_fg_instr}
+      {$this update_all_from_profile}
+      {song_preview_fg
+         {profile_mgr get_foreground_volume_db}}
+      {song_preview_bg
+         {profile_mgr get_background_volume_db}}
+      {song_preview_crowd
+         {profile_mgr get_crowd_volume_db}}
+      {memcardmgr add_sink $this save_load_all_complete_msg})
+   (exit
+      {song_preview ''}
+      {meta music_start}
+      {memcardmgr remove_sink $this save_load_all_complete_msg})
+   (save_load_all_complete_msg
+      {$this update_all_from_profile})
+   (TRANSITION_COMPLETE_MSG
+      {$this
+         update_helpbar
+         {$this focus_name}}
+      kDataUnhandled)
+   (FOCUS_MSG
+      {$this update_helpbar $new_focus})
+   (SCROLL_SELECT_MSG
+      {$this on_slider_change $component})
+   (SCROLL_MSG
+      {$this on_slider_change $component})
+   (SELECT_MSG
+      {switch
+         $component
+         (vocal_options.btn
+            {vocal_options_panel
+               set
+               player_num
+               {options_audio_screen get player_num}}
+            {ui goto_screen vocal_options_screen})
+         (video_options.btn
+            {goto_system_option_screen options_video_screen $player_num})
+         (vocal_track.btn
+            {vocal_track.sld store}
+            {$this set_focus vocal_track.sld})
+         (instruments.btn
+            {instruments.sld store}
+            {$this set_focus instruments.sld})
+         (background_music.btn
+            {background.sld store}
+            {$this set_focus background.sld})
+         (crowd.btn
+            {crowd.sld store}
+            {$this set_focus crowd.sld})
+         (sfx.btn
+            {sfx.sld store}
+            {$this set_focus sfx.sld})})
+   (BUTTON_DOWN_MSG
+      {switch
+         {$this focus_name}
+         (vocal_track.sld
+            {switch
+               $button
+               (kPad_X
+                  {vocal_track.sld confirm}
+                  {$this set_focus vocal_track.btn})
+               (kPad_Tri
+                  {vocal_track.sld undo $player_num}
+                  {$this set_focus vocal_track.btn})
+               kDataUnhandled})
+         (instruments.sld
+            {switch
+               $button
+               (kPad_X
+                  {instruments.sld confirm}
+                  {$this set_focus instruments.btn})
+               (kPad_Tri
+                  {instruments.sld undo $player_num}
+                  {$this set_focus instruments.btn})
+               kDataUnhandled})
+         (background.sld
+            {switch
+               $button
+               (kPad_X
+                  {background.sld confirm}
+                  {$this set_focus background_music.btn})
+               (kPad_Tri
+                  {background.sld undo $player_num}
+                  {$this set_focus background_music.btn})
+               kDataUnhandled})
+         (crowd.sld
+            {switch
+               $button
+               (kPad_X
+                  {crowd.sld confirm}
+                  {$this set_focus crowd.btn})
+               (kPad_Tri
+                  {crowd.sld undo $player_num}
+                  {$this set_focus crowd.btn})
+               kDataUnhandled})
+         (sfx.sld
+            {switch
+               $button
+               (kPad_X
+                  {sfx.sld confirm}
+                  {$this set_focus sfx.btn})
+               (kPad_Tri
+                  {sfx.sld undo $player_num}
+                  {$this set_focus sfx.btn})
+               kDataUnhandled})
+         kDataUnhandled})
+   (on_slider_change
+      ($component)
+      {switch
+         $component
+         (instruments.sld
+            {profile_mgr
+               set_foreground_volume
+               {$component current}}
+            {song_preview_fg
+               {profile_mgr get_foreground_volume_db}})
+         (background.sld
+            {profile_mgr
+               set_background_volume
+               {$component current}}
+            {song_preview_bg
+               {profile_mgr get_background_volume_db}})
+         (crowd.sld
+            {profile_mgr
+               set_crowd_volume
+               {$component current}}
+            {song_preview_crowd
+               {profile_mgr get_crowd_volume_db}})
+         (sfx.sld
+            {profile_mgr
+               set_fx_volume
+               {$component current}}
+            {play_game_seq slider_sfx.cue})
+         (vocal_track.sld
+            {profile_mgr
+               set_vocal_cue_volume
+               {$component current}})})
+   (update_all_from_profile
+      {$this
+         iterate
+         UISlider
+         $s
+         {$s set_num_steps 12}
+         {$this update_from_profile $s}})
+   (update_from_profile
+      ($component)
+      {switch
+         $component
+         (instruments.sld
+            {$component
+               set_current
+               {profile_mgr get_foreground_volume}})
+         (background.sld
+            {$component
+               set_current
+               {profile_mgr get_background_volume}})
+         (crowd.sld
+            {$component
+               set_current
+               {profile_mgr get_crowd_volume}})
+         (sfx.sld
+            {$component
+               set_current
+               {profile_mgr get_fx_volume}})
+         (vocal_track.sld
+            {$component
+               set_current
+               {profile_mgr get_vocal_cue_volume}})})
+   (update_helpbar
+      ($new_focus)
+      {switch
+         $new_focus
+         ((vocal_track.btn background_music.btn crowd.btn instruments.btn sfx.btn)
+            {helpbar
+               set_config
+               ((cancel helpbar_back)
+                  (confirm helpbar_changesetting))})
+         ((vocal_track.sld background.sld crowd.sld instruments.sld sfx.sld)
+            {helpbar
+               set_config
+               ((cancel helpbar_cancel)
+                  (confirm helpbar_confirmsetting))})})}
+{new
+   BandScreen
+   vocals_audio_screen
+   (panels meta options_background_panel options_audio_panel)
+   (focus options_audio_panel)
+   (back vocal_options_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (enter
+      {session add_sink $this signin_changed})
+   (exit
+      {session remove_sink $this signin_changed})
+   (SIGNIN_CHANGED_MSG
+      {vocal_options_panel set signin_change_waiting TRUE})}
+{new
+   BandScreen
+   options_audio_screen
+   (panels meta menu_background_movie_panel options_background_panel options_audio_panel fx)
+   (focus options_audio_panel)
+   (back options_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (TRANSITION_COMPLETE_MSG
+      {if
+         {==
+            {ui previous_screen}
+            options_screen}
+         {fx fade_in}})}

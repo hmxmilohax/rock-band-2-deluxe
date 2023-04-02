@@ -1,0 +1,102 @@
+#include macros.dta
+(system
+   (xbox_map_file
+      "%s/systest_%s.map"))
+(joypad
+   (deadzone 40))
+(mem
+   (heaps
+      #ifdef HX_EE
+      (main
+         (size 18000000))
+      (rnd
+         (size 8000000)
+         (handle TRUE))
+      #endif
+      #ifdef HX_PC
+      (main
+         (size 268435456))
+      #endif
+      #ifdef HX_XBOX
+      (main
+         (size 125000000))
+      #endif
+      #ifdef HX_PS3
+      (main
+         (size 185000000))
+      #endif)
+   (enable_tracking FALSE)
+   (track_stl FALSE)
+   #ifdef HX_PC
+   (disable_mgr TRUE)
+   #endif)
+(rnd
+   (overlays
+      (render_test
+         (lines 1)
+         (showing FALSE)
+         (color 0 0 0 0.6))
+      (instrument_test
+         (lines 24)
+         (showing FALSE)))
+   (title
+      "System Test"))
+(ui
+   (init
+      #include ../systest/systest.dta))
+(timer
+   (anim
+      (enable TRUE))
+   (draw
+      (enable TRUE))
+   (facefx
+      (enable TRUE)))
+(spew
+   {spew joypad 1})
+(synth
+   (use_null_synth FALSE))
+(systest
+   (arena
+      (memtrack
+         (rnd mFacePacket mEdgePacket)
+         (main '*Mesh' Vert RndBones TransListNode BSPNode Resource Bitmap_buf PsMat PsTex Particle ParticleSys '*Key' '*Rnd' '*Anim' View Cam Light Environ))
+      (duets FALSE))
+   (beatmatch
+      (audio
+         (multiplayer_scale 0.33)
+         (multiplayer_attenuation 1.5)
+         (multiplayer_common_attenuation 1.5))
+      (beatmatcher)
+      (controller
+         (joypad
+            (slots kPad_L2 0 kPad_L1 1 kPad_R1 2 kPad_R2 3)))
+      (graphics
+         (slot_width -7.0e-2)
+         (track_offset 0))
+      (song morethanafeeling)
+      (songs
+         (morethanafeeling
+            (name
+               "systest/audio/morethanafeeling")
+            (midi_file
+               "systest/audio/morethanafeeling.mid")
+            (tracks
+               ((guitar
+                     (2 3))))
+            (pans
+               (-1.0 1.0 -1.0 1.0))
+            (vols
+               (-1.0 -1.0 -1.0 -1.0))
+            (cores
+               (-1 -1 1 1))))
+      (triggers
+         (60 kick_drum 90)
+         (61 bass_hit 50)))
+   (char_test)
+   (midi_verify
+      (songs)
+      (difficulties easy medium hard expert)
+      (num_gem_slots 3)
+      (max_gems_per_chord 2)
+      (tracks)))
+#merge default.dta

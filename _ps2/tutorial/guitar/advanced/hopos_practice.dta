@@ -1,0 +1,157 @@
+#undef HOPOS_TO_HIT
+#define HOPOS_TO_HIT
+(8)
+SETUP_GUITAR_TUTORIAL
+GUITAR_TV_WHITE
+START_BG_MUSIC
+{setup_lesson_banner tutorial_guitar_advanced_hopos_practice_part}
+{meta_performer set_song guitar_advanced_hopos}
+LOAD_NEW_GUITAR_SONG_NO_FADE
+HIDE_TRACK_PLAYER_UI
+AUTOPLAY_ON
+UNPAUSE_TRACK
+SYNC_PAUSE
+SHOW_DETAILED_GUITAR
+{play_vo tute_guitar3_ho2}
+WAIT_FOR_VO
+LONG_VO_GAP
+UNPAUSE_TRACK
+SYNC_NOPAUSE
+GUITAR_FRET_GREEN
+SYNC_NOPAUSE
+GUITAR_STRUM_DOWN
+SYNC_PAUSE
+{play_vo tute_guitar3_ho3}
+SHOW_RED_HALF_ARROW
+WAIT_FOR_VO
+HIDE_RED_HALF_ARROW
+SHORT_VO_GAP
+UNPAUSE_TRACK
+SYNC_NOPAUSE
+GUITAR_STRUM_MIDDLE
+GUITAR_FRET_GREEN_RED
+SYNC_PAUSE
+SHOW_YELLOW_HALF_ARROW
+GUITAR_ANIM_PAUSE
+HIDE_YELLOW_HALF_ARROW
+SHORT_VO_GAP
+UNPAUSE_TRACK
+SYNC_NOPAUSE
+GUITAR_FRET_GREEN_RED_YELLOW
+SYNC_PAUSE
+AUTOPLAY_OFF
+LONG_VO_GAP
+GUITAR_FRET_NEUTRAL
+LONG_VO_GAP
+{new
+   Object
+   tutorial_guitar_advanced_hopos_practice_callback
+   (hit
+      {set
+         [notes_hit]
+         {'+'
+            [notes_hit]
+            1}}
+      {if
+         {&&
+            {!
+               [feedback_played]}
+            {&&
+               {<=
+                  [hopos_hit]
+                  {'*'
+                     2
+                     [notes_hit]}}
+               {<
+                  3
+                  [notes_hit]}}}
+         {set
+            [feedback_played]
+            TRUE}
+         {play_vo tute_guitar3_hohint}})
+   (hopo
+      {set
+         [hopos_hit]
+         {'+'
+            [hopos_hit]
+            1}}
+      {if
+         {<=
+            [hopos_hit]
+            HOPOS_TO_HIT}
+         {update_task_score
+            {localize tutorial_guitar_advanced_hopos_practice_score}
+            [hopos_hit]
+            HOPOS_TO_HIT}
+         ANIMATE_SCORE})
+   (lesson_running
+      {&&
+         {<
+            [hopos_hit]
+            HOPOS_TO_HIT}
+         {<
+            {{beatmatch active_player 0}
+               percent_complete}
+            END_OF_SONG_PERCENT}})
+   (failed
+      {<
+         [hopos_hit]
+         HOPOS_TO_HIT})
+   (notes_hit 0)
+   (hopos_hit 0)
+   (feedback_played FALSE)}
+{play_vo tute_guitar3_hotask2}
+HIDE_DETAILED_GUITAR
+STOP_BG_MUSIC
+WAIT_FOR_VO
+GUITAR_TV_OFF
+LONG_VO_GAP
+{set_info_text
+   {localize tutorial_guitar_advanced_hopos_practice_task}}
+{show_info_text TRUE}
+{{beatmatch active_player 0}
+   add_sink
+   tutorial_guitar_advanced_hopos_practice_callback}
+{update_task_score
+   {localize tutorial_guitar_advanced_hopos_practice_score}
+   0
+   HOPOS_TO_HIT}
+SHOW_SCORE
+FADE_SONG_IN
+UNPAUSE_TRACK
+{$task
+   wait
+   {tutorial_guitar_advanced_hopos_practice_callback lesson_running}}
+FREEZE_SCORE_TEXT
+{if
+   {!
+      {tutorial_guitar_advanced_hopos_practice_callback failed}}
+   {$task sleep 1}}
+TRACK_OUT
+PAUSE_TRACK
+WAIT_FOR_VO
+{if_else
+   {tutorial_guitar_advanced_hopos_practice_callback failed}
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_advanced_hopos_practice_failed}}
+      {play_vo tute_guitar3_hofail2}}
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_advanced_hopos_practice_done}}
+      {play_vo tute_guitar3_howin2}}}
+{show_info_text FALSE}
+{show_part_text FALSE}
+{show_banner_text TRUE}
+HIDE_SCORE
+START_BG_MUSIC
+GUITAR_TV_WHITE
+WAIT_FOR_VO
+SHORT_VO_GAP
+{do_fail_menu
+   {tutorial_guitar_advanced_hopos_practice_callback failed}}
+RETURN_FROM_FAIL_MENU_NOSKIP
+{play_vo tute_guitar3_hotip}
+WAIT_FOR_VO
+SHORT_VO_GAP
+{tutorials_state_panel switch_to_next_state}

@@ -1,0 +1,277 @@
+(mc_auto_load_complete
+   "Load Successful.")
+(mc_auto_load_corrupt
+   "Corrupt data detected on\nmemory card (8MB) (for PlayStation®2) in\nMEMORY CARD slot %s.\n%dKB of free space is required to\nsave game data. Replace the corrupt\nfile and create a new save file?")
+(mc_auto_load_corrupt_ps2
+   "Corrupt data detected on memory card (8MB) (for PlayStation®2)\n in MEMORY CARD slot %s.  %dKB of \nfree space is required to save game data. \nReplace the corrupt file and create a new save file?")
+(mc_auto_load_corrupt_wii
+   "The Rock Band 2 file cannot be used because the data is corrupted.")
+(mc_auto_load_looking
+   "Checking memory card (8MB) (for PlayStation®2) in MEMORY CARD slot %s. Do not remove memory card (8MB) (for PlayStation®2), controller, or reset/switch off the console.")
+(mc_auto_load_looking_ps2
+   "Checking memory card (8MB) (for PlayStation®2) in MEMORY CARD slot %s. Do not remove memory card (8MB) (for PlayStation®2), controller, or reset/switch off the console.")
+(mc_auto_load_looking_wii
+   "Checking Wii system memory for saved games.")
+(mc_auto_load_newer_version
+   "Loading saved game failed because the save file was created with a newer version of the game.  Would you like to destroy this file and replace it with a new, empty one?")
+(mc_auto_load_obsolete_version
+   "Loading saved game failed because the save file version is obsolete.  Would you like to destroy this file and replace it with a new, empty one?")
+(mc_auto_load_start
+   "Looking for storage device...")
+(mc_auto_warning
+   "This game saves data automatically at certain points. While the HDD access indicator is flashing, data is being saved. Do not switch off the power when the HDD access indicator is flashing.")
+(mc_autosave_disabled
+   "Autosave has been disabled.  In order to re-enable it, you need to save or load your game using the \qManage Data\q menu under the \qOptions\q menu.")
+(mc_button_cancel
+   "Cancel")
+(mc_button_choose_device
+   "Select a Device")
+(mc_button_continue
+   "Continue")
+(mc_button_continue_no_save
+   "Continue without saving")
+(mc_button_continue_no_load
+   "Continue without loading")
+(mc_button_wii_cont_no_save
+   "Continue without saving")
+(mc_button_delete_saves
+   "Delete Existing Data")
+(mc_button_no
+   "No")
+(mc_button_overwrite
+   "Overwrite With New File")
+(mc_button_retry
+   "Retry")
+(mc_button_save_continue
+   "Create New Save")
+(mc_button_wii_back_to_home
+   "Return to the Wii Menu")
+(mc_button_yes
+   "Yes")
+(mc_format_complete
+   "Format Successful.")
+(mc_format_error_already_formatted
+   "The memory card (8MB) (for PlayStation®2) in MEMORY CARD slot %s is already formatted.")
+(mc_format_error_different_card
+   "The memory card (8MB) (for PlayStation®2) in MEMORY CARD slot %s has changed. Formatting has been canceled.")
+(mc_format_error_missing_card
+   "There is no\nmemory card (8MB) (for PlayStation®2) detected in\nMEMORY CARD slot %s. Please\nreinsert the memory card (8MB) (for PlayStation®2)\nand select retry to continue\nformatting.")
+(mc_format_error_unknown
+   "Format failed. An error\noccurred while formatting\nmemory card (8MB) (for PlayStation®2) in\nMEMORY CARD slot %s. Do you\nwish to continue the game\nwithout saving?")
+(mc_load_failed
+   "Loading has failed for an unknown reason.")
+(mc_load_formatting
+   "Formatting memory card (8MB) (for PlayStation®2) in MEMORY CARD slot %s. Do not remove memory card (8MB) (for PlayStation®2), controller, or reset/switch off the console.")
+(mc_load_unformatted
+   "The memory card (8MB) (for PlayStation®2) in\nMEMORY CARD slot %s is unformatted. Format\nmemory card (8MB) (for PlayStation®2)?")
+(mc_manual_load
+   "Loading...")
+(mc_manual_load_complete
+   "Load Successful.")
+(mc_manual_load_confirm
+   "Loading data off of a storage device other than the one you last saved to may cause your current progress to be erased.  Are you sure you want to continue?")
+(mc_manual_load_confirm_unsaved
+   "If you load data from a\nmemory card (8MB) (for PlayStation®2) in\nMEMORY CARD slot %s, you\nwill lose your current game progress. Continue with load?")
+(mc_manual_load_confirm_unsaved_ps2
+   "If you load data from a\nmemory card (8MB) (for PlayStation®2) in\nMEMORY CARD slot %s, you\nwill lose your current game progress. Continue with load?")
+(mc_manual_load_confirm_unsaved_wii
+   "If you load data from Wii system memory you will lose your current game progress. Continue with load?")
+(mc_manual_load_corrupt
+   "Load failed. Save game data\non memory card (8MB) (for PlayStation®2) in MEMORY CARD slot %s appears to be corrupt.")
+(mc_manual_load_no_card
+   "No memory card (8MB) (for PlayStation®2) inserted in\nMEMORY CARD slot %s.")
+#ifndef HX_EE
+(mc_manual_load_no_file
+   "No Rock Band Track Pack Vol. 2 save data present on\nmemory card (8MB) (for PlayStation®2) in\nMEMORY CARD slot %s.")
+#else
+(mc_manual_load_no_file
+   "No Rock Band 2 save data present on memory card (8MB) (for PlayStation®2) in\nMEMORY CARD slot %s.")
+#endif
+(mc_manual_load_no_selection
+   "In order to load, you must select a storage device.")
+(mc_manual_load_not_signed_in
+   "Sorry, but in order to save or load, you must be signed into a non-Guest gamer profile.")
+(mc_manual_load_start
+   "Looking for storage device for loading...")
+(mc_manual_load_storage_missing
+   "Selected storage device cannot be found.  Loading failed.")
+(mc_manual_load_unformatted
+   "The memory card (8MB) (for PlayStation®2) in MEMORY CARD slot %s is unformatted.")
+(mc_manual_save_start
+   "Looking for storage device for saving...")
+(mc_progressive_scan_warning
+   "Progressive scan is currently enabled for this save game.  Would you like to use progressive scan?")
+(mc_save
+   "Saving data to memory card (8MB) (for PlayStation®2)\nin MEMORY CARD slot %s. Do\nnot remove memory card (8MB) (for PlayStation®2), controller, or reset/switch off the console.")
+(mc_save_ps2
+   "Saving data to memory card (8MB) (for PlayStation®2)\nin MEMORY CARD slot %s. Do\nnot remove memory card (8MB) (for PlayStation®2), controller, or reset/switch off the console.")
+(mc_save_wii
+   "Saving.  Do not turn off the power.")
+(mc_save_autoload_disable
+   "Do you want to disable the Autosave feature?")
+(mc_save_autoload_disable_wii
+   "The Autosave feature will be disabled and you will not be able to save any game progress.  Is this okay?")
+#ifndef HX_EE
+(mc_save_autosave_caution
+   "Rock Band Track Pack Vol. 2 uses an\nAutosave feature. Insertion of a\nmemory card (8MB) (for PlayStation®2) beyond\nthis point may cause data to be overwritten. Continue without saving?")
+#else
+(mc_save_autosave_caution
+   "Rock Band 2 uses an Autosave feature. \nInsertion of a memory card (8MB) (for PlayStation®2) beyond this point may \ncause data to be overwritten. Continue without saving?")
+#endif
+(mc_save_complete
+   "Save Successful.")
+(mc_save_confirm_overwrite
+   "Are you sure you want to overwrite save game data?")
+(mc_save_device_missing
+   "The storage device used for saving has been removed since the last save.  If you wish to save your progress, you will need to select another storage device.  If you cancel, you may play the game, but will be unable to save your progress.")
+(mc_save_different_card
+   "The memory card (8MB) (for PlayStation®2) in\nMEMORY CARD slot %s has been changed. Do you want to save game data to the memory card (8MB) (for PlayStation®2) in\nMEMORY CARD slot %s?")
+(mc_save_directory
+   "BASLUS-21800RB2")
+(mc_save_failed
+   "Save failed! An error occurred\nwhile saving game data to\nmemory card (8MB) (for PlayStation®2) in\nMEMORY CARD slot %s. Do you\nwish to continue the game\nwithout saving?")
+(mc_save_failed_ps2
+   "Save failed! An error occurred while saving \ngame data to memory card (8MB) (for PlayStation®2) in MEMORY CARD \nslot %s. Do you wish to continue the game without saving?")
+(mc_save_failed_wii
+   "Save failed! An error occurred while saving game data to Wii system memory.  Do you wish to continue the game without saving?")
+(mc_save_long
+   "Saving Rock Band 2 data. Do not remove memory card (8MB) (for PlayStation®2) in MEMORY CARD slot %s, reset, or switch off the console.")
+(mc_save_missing_data
+   "No Rock Band 2 save data present on the memory card (8MB) (for PlayStation®2) in\nMEMORY CARD slot %s. Rock Band 2 uses an Autosave feature. \n%dKB of free space is required to save game data. Do you want to create a new save file now?")
+(mc_save_missing_data_ps2
+   "No Rock Band 2 save data present on the memory\n card (PS2) in MEMORY CARD slot %s. This game uses an \nAutosave feature. %dKB of free space is required to \nsave game data. Do you want to create a new save file now?")
+(mc_save_missing_data_wii
+   "No Rock Band Track Pack Vol. 2 save data present in Wii system memory. \nRock Band Track Pack Vol. 2 uses an Autosave feature.  Five blocks of free space are required to save game data. Do you want to create a new save file now?")
+#ifndef HX_EE
+(mc_save_missing_storage
+   "No memory card (8MB) (for PlayStation®2) detected in MEMORY CARD slot %s. \nRock Band Track Pack Vol. 2 uses an Autosave feature, %dKB of space is required to save game data. Do you want to continue without saving?")
+#else
+(mc_save_missing_storage
+   "No memory card (8MB) (for PlayStation®2) detected in MEMORY CARD slot %s. \nRock Band 2 uses an Autosave feature, \n%dKB of space is required to save game data. \nDo you want to continue without Autosaving? \nYou can turn Autosave back on from the options menu in game.")
+(mc_save_missing_storage_modifier
+   "No memory card (8MB) (for PlayStation®2) detected in MEMORY CARD slot %s. \nAny unsaved progress made before enabling the modifier will be lost.\nDo you want to continue?")
+(mc_save_missing_data_modifier
+   "No Rock Band 2 save data present on the\n memory card (PS2) in MEMORY CARD slot %s. \nAny unsaved progress made before enabling the modifier will be lost.\nDo you want to continue?")
+#endif
+(mc_save_not_enough_space
+   "Insufficient space on the memory card (8MB) (for PlayStation®2) in\nMEMORY CARD slot %s. Insert a memory card (8MB) (for PlayStation®2) into\nMEMORY CARD slot %s with at least %dKB of free space. \nDo you want to continue without saving?")
+(mc_save_not_enough_space_ps2
+   "Insufficient space on the memory card (8MB) (for PlayStation®2) in\nMEMORY CARD slot %s. Insert a memory card (8MB) (for PlayStation®2) into\nMEMORY CARD slot %s with at least %dKB of free space. \nDo you want to continue without saving?")
+(mc_save_not_enough_space_wii
+   "There is not enough available space in Wii system memory. Create five blocks of free space either by moving data to an SD Card or deleting data in the Data Management screen.")
+(mc_save_not_enough_inodes_wii
+   "There is not enough available space in Wii system memory. Either move data to an SD Card or delete data on the Data Management screen.")
+(mc_sys_maxed_wii
+   "There is no more available space in Wii system memory. Refer to the Wii Operations Manual for details.")
+(mc_sys_corrupt_wii
+   "The Wii system memory has been damaged. Refer to the Wii Operations Manual for details.")
+(mc_access_err_wii
+   "Could not access Wii system memory. Refer to the Wii Operations Manual for details.")
+(mc_title_caution
+   "Caution!")
+(mc_title_checking
+   "Checking")
+(mc_title_formatting
+   "Formatting")
+(mc_title_loading
+   "Loading")
+(mc_title_saving
+   "Saving")
+(matchmaker_join_in_missing
+   "Connect Controller")
+(matchmaker_gamertag_none
+   "")
+(matchmaker_gamertag_none_pad_num
+   "")
+(wii_hb_randomname
+   "Randomize")
+(progressive_scan
+   "Progressive Scan")
+(progressive_scan_confirm
+   "Progressive Scan has been enabled. Do you want to keep this display setting? (After 15 seconds, the display will switch back to the original display mode if there is no response.)")
+(progressive_scan_notice
+   "Some TVs don't support Progressive Scan.  If you don't see a picture, wait 15 seconds and your display will be restored.")
+(progressive_scan_notice_title
+   "WARNING")
+(effect1
+   "Doubler")
+(effect2
+   "Slap Back")
+(effect3
+   "Echo")
+(effect4
+   "Chorus")
+(effect5
+   "None")
+(shell_char_rename_delete
+   "Rename or Delete this Band?")
+(create_band
+   "enter band name")
+(band_data_limit_exceeded
+   "You can only have 8 bands at a time. If you want to make a new one, you'll have to delete an old one first.")
+(loading_trivia269
+   "For a Halloween show in 1998, Smashing Pumpkins performed in costume as the Beatles.")
+(tour_status_carrot_hint
+   "Play for a %s in %s!")
+(tour_vehicle_van_short
+   "Van")
+(tour_vehicle_bus_short
+   "Tour Bus")
+(tour_staff1_short
+   "Merch Girl")
+(tour_vehicle_jet_short
+   "Jet")
+(tour_staff2_short
+   "Roadies")
+(tour_staff3_short
+   "Sound Guy")
+(tour_staff_worldblock_short
+   "World Tour Promoter")
+(tour_halloffame_complete_short
+   "XXX")
+(tour_bwt_complete_short
+   "XXX")
+(gigcomplete_noteshit_fmt
+   "%sNotes Hit: %%s%%%%")
+(statustour_vehicle_van_carrot_canwin
+   "You've been invited to play in the Battle of the Vans!")
+(statustour_vehicle_bus_carrot_canwin
+   "You can now play in the Bus or Bust! Competition in Chicago!")
+(statustour_staff1_carrot_canwin
+   "You've been invited to play the Merch Search Showcase in Austin!")
+(statustour_vehicle_jet_carrot_canwin
+   "You can now play the No Pain, No Plane Challenge in Los Angeles!")
+(statustour_staff2_carrot_canwin
+   "You've been invited to play the Roadie Rockathon in London!")
+(statustour_staff3_carrot_canwin
+   "You've been invited to play the NAAM Convention in Rome!")
+(statustour_staff_worldblock_carrot_canwin
+   "You can now play the Global Promotion Showcase in Stockholm!")
+(statustour_halloffame_complete_carrot_canwin
+   "You can now play the Rolling Stone Rock Immortals Challenge!")
+(statustour_bwt_complete_carrot_canwin
+   "You can now play The Endless Setlist 2. Best of luck with that.")
+(statustour_vehicle_van_carrot_needmore
+   "To become locally known in Boston you need  ")
+(statustour_vehicle_bus_carrot_needmore
+   "For labels to take interest in your band in Chicago you need  ")
+(statustour_staff1_carrot_needmore
+   "To justify hiring a Merch Girl in Austin you need  ")
+(statustour_vehicle_jet_carrot_needmore
+   "To play for a Plane in Los Angeles you need  ")
+(statustour_staff2_carrot_needmore
+   "Your band will be big enough for Roadies when you have  ")
+(statustour_staff3_carrot_needmore
+   "Your band can hire a Sound Guy when you have  ")
+(statustour_staff_worldblock_carrot_needmore
+   "To justify hiring a Worldwide Promoter you need  ")
+(statustour_halloffame_complete_carrot_needmore
+   "To play the Rolling Stone Rock Immortals Challenge you need  ")
+(statustour_bwt_complete_carrot_needmore
+   "To be worthy of The Endless Setlist 2 you need  ")
+(5star_carrot
+   "To 5-star your World Tour you need  ")
+(statustour_band_need_worldfame
+   "more.")
+(error_controller_swap
+   "Due to a change in the type of instrument being used, you will now be returned to the main menu.")

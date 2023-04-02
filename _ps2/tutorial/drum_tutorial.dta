@@ -1,0 +1,628 @@
+#define TUTORIAL_DRUM_WRAPUP_PAUSE1
+(0.5)
+#define TUTORIAL_DRUM_WRAPUP_PAUSE2
+(1.5)
+#define TUTORIAL_DRUM_WRAPUP_PAUSE3
+(4.0)
+#define TUTORIAL_DRUM_BASICS_THRASH_TIMEOUT
+(120.0)
+#define TUTORIAL_DRUM_BASICS_THRASH_PAUSE1
+(1.5)
+#define TUTORIAL_DRUM_BASICS_ONEHAND_PAUSE1
+(2.0)
+#define TUTORIAL_DRUM_BASICS_INTERFACE_PAUSE1
+(4.0)
+#define TUTORIAL_DRUM_BASICS_INTERFACE_PAUSE2
+(3.0)
+#define TUTORIAL_DRUM_BASICS_INTERFACE_PAUSE3
+(2.2)
+#define TUTORIAL_DRUM_BASICS_INTERFACE_PAUSE4
+(1.2)
+#define TUTORIAL_DRUM_BASICS_INTERFACE_PAUSE5
+(3.0)
+#define TUTORIAL_DRUM_BASICS_INTERFACE_PAUSE6
+(5.2)
+#define TUTORIAL_DRUM_BASICS_WRAPUP_PAUSE1
+(TUTORIAL_DRUM_WRAPUP_PAUSE1)
+#define TUTORIAL_DRUM_BASICS_WRAPUP_PAUSE2
+(TUTORIAL_DRUM_WRAPUP_PAUSE2)
+#define TUTORIAL_DRUM_BASICS_WRAPUP_PAUSE3
+(TUTORIAL_DRUM_WRAPUP_PAUSE3)
+#define TUTORIAL_DRUM_BEAT_WRAPUP_PAUSE1
+(TUTORIAL_DRUM_WRAPUP_PAUSE1)
+#define TUTORIAL_DRUM_BEAT_WRAPUP_PAUSE2
+(TUTORIAL_DRUM_WRAPUP_PAUSE2)
+#define TUTORIAL_DRUM_BEAT_WRAPUP_PAUSE3
+(TUTORIAL_DRUM_WRAPUP_PAUSE3)
+#define HIDE_DRUM_RED_ARROW
+({arrow_red.mesh set_showing FALSE})
+#define SHOW_DRUM_RED_ARROW
+({arrow_red.mesh set_showing TRUE})
+#define HIDE_DRUM_YELLOW_ARROW
+({arrow_yellow.mesh set_showing FALSE})
+#define SHOW_DRUM_YELLOW_ARROW
+({arrow_yellow.mesh set_showing TRUE})
+#define HIDE_DRUM_NOWBAR_ARROW
+({arrow_nowbar.mesh set_showing FALSE})
+#define SHOW_DRUM_NOWBAR_ARROW
+({arrow_nowbar.mesh set_showing TRUE})
+#define HIDE_DRUM_KICK_ARROW
+({arrow_kick.mesh set_showing FALSE})
+#define SHOW_DRUM_KICK_ARROW
+({arrow_kick.mesh set_showing TRUE})
+#define HIDE_DRUM_CROWD_METER_ARROW
+({arrow_crowd_meter.mesh set_showing FALSE})
+#define SHOW_DRUM_CROWD_METER_ARROW
+({arrow_crowd_meter.mesh set_showing TRUE})
+#define HIDE_DRUM_SCORE_METER_ARROW
+({arrow_score_meter.mesh set_showing FALSE})
+#define SHOW_DRUM_SCORE_METER_ARROW
+({arrow_score_meter.mesh set_showing TRUE})
+#define HIDE_DRUM_ENERGY_METER_ARROW
+({arrow_energy_meter.mesh set_showing FALSE})
+#define SHOW_DRUM_ENERGY_METER_ARROW
+({arrow_energy_meter.mesh set_showing TRUE})
+#define HIDE_DRUM_LONG_NOTE_ARROW
+({arrow_long_note.mesh set_showing FALSE})
+#define SHOW_DRUM_LONG_NOTE_ARROW
+({arrow_long_note.mesh set_showing TRUE})
+#define HIDE_DRUM_BRE_LANDING_ARROW
+({arrow_bre_landing.grp set_showing FALSE})
+#define SHOW_DRUM_BRE_LANDING_ARROW
+({arrow_bre_landing.grp set_showing TRUE})
+#define HIDE_ALL_DRUM_ARROWS
+(HIDE_DRUM_RED_ARROW HIDE_DRUM_YELLOW_ARROW HIDE_DRUM_NOWBAR_ARROW HIDE_DRUM_KICK_ARROW HIDE_DRUM_CROWD_METER_ARROW HIDE_DRUM_SCORE_METER_ARROW HIDE_DRUM_ENERGY_METER_ARROW HIDE_DRUM_LONG_NOTE_ARROW HIDE_DRUM_BRE_LANDING_ARROW)
+#define HIDE_DRUM_THRASH_ARROW0
+({64x64_arrow.mesh set_showing FALSE})
+#define HIDE_DRUM_THRASH_ARROW1
+({64x64_arrow1.mesh set_showing FALSE})
+#define HIDE_DRUM_THRASH_ARROW2
+({64x64_arrow2.mesh set_showing FALSE})
+#define HIDE_DRUM_THRASH_ARROW3
+({64x64_arrow3.mesh set_showing FALSE})
+#define HIDE_DRUM_THRASH_ARROW4
+({64x64_arrow4.mesh set_showing FALSE})
+#define SHOW_DRUM_THRASH_ARROW0
+({64x64_arrow.mesh set_showing TRUE})
+#define SHOW_DRUM_THRASH_ARROW1
+({64x64_arrow1.mesh set_showing TRUE})
+#define SHOW_DRUM_THRASH_ARROW2
+({64x64_arrow2.mesh set_showing TRUE})
+#define SHOW_DRUM_THRASH_ARROW3
+({64x64_arrow3.mesh set_showing TRUE})
+#define SHOW_DRUM_THRASH_ARROW4
+({64x64_arrow4.mesh set_showing TRUE})
+#define UNHIDE_INTRO_DRUMKIT
+({512x512_drum_kit_intro.mesh set_showing TRUE})
+#define HIDE_INTRO_DRUMKIT
+({512x512_drum_kit_intro.mesh set_showing FALSE})
+#define SHOW_INTRO_DRUMKIT_NEUTRAL
+({drum_kit_intro.mnm set_frame 0})
+#define SHOW_INTRO_DRUMKIT_PADS
+({drum_kit_intro.mnm set_frame 5})
+#define SHOW_INTRO_DRUMKIT_KICK
+({drum_kit_intro.mnm set_frame 10})
+#define SHOW_DRUM_GUY
+({512x512_drummer_hits.mesh set_showing TRUE})
+#define HIDE_DRUM_GUY
+({512x512_drummer_hits.mesh set_showing FALSE})
+#define UNHIDE_DRUM_THRASH_KIT
+({'512x512_task animation.mesh' set_showing TRUE})
+#define HIDE_DRUM_THRASH_KIT
+({'512x512_task animation.mesh' set_showing FALSE})
+#define SHOW_ALL_DRUM_THRASH_ARROWS
+(SHOW_DRUM_THRASH_ARROW0 SHOW_DRUM_THRASH_ARROW1 SHOW_DRUM_THRASH_ARROW2 SHOW_DRUM_THRASH_ARROW3 SHOW_DRUM_THRASH_ARROW4)
+#define HIDE_ALL_DRUM_THRASH_ARROWS
+(HIDE_DRUM_THRASH_ARROW0 HIDE_DRUM_THRASH_ARROW1 HIDE_DRUM_THRASH_ARROW2 HIDE_DRUM_THRASH_ARROW3 HIDE_DRUM_THRASH_ARROW4)
+#define HIDE_ALL_DRUM_THRASH_BURSTS
+({128x128_burst.mesh set_showing FALSE}
+   {128x128_burst1.mesh set_showing FALSE}
+   {128x128_burst2.mesh set_showing FALSE}
+   {128x128_burst3.mesh set_showing FALSE}
+   {128x128_burst4.mesh set_showing FALSE})
+#define HIDE_ALL_DRUM_THRASH_X
+({64x64_X.mesh set_showing FALSE}
+   {64x64_X1.mesh set_showing FALSE}
+   {64x64_X2.mesh set_showing FALSE}
+   {64x64_X3.mesh set_showing FALSE}
+   {64x64_X4.mesh set_showing FALSE})
+#define SHOW_DRUM_THRASH_TASK
+(UNHIDE_DRUM_THRASH_KIT SHOW_ALL_DRUM_THRASH_ARROWS HIDE_ALL_DRUM_THRASH_BURSTS HIDE_ALL_DRUM_THRASH_X)
+#define HIDE_DRUM_THRASH_TASK
+(HIDE_DRUM_THRASH_KIT HIDE_ALL_DRUM_THRASH_ARROWS HIDE_ALL_DRUM_THRASH_BURSTS HIDE_ALL_DRUM_THRASH_X)
+#define DRUM_THRASH_NUM_DRUM_PADS
+(5)
+#define DRUM_THRASH_HANDS_UP_DELAY
+(0.4)
+#define DRUM_THRASH_HIT_FRAME_DELAY
+(0.3)
+#define DRUM_THRASH_NUM_DRUM_HITS
+(4)
+#define DRUM_THRASH_FAST_FINISH
+(4.0)
+#define DRUM_THRASH_SLOW_FINISH
+(8.0)
+#define DRUM_THRASH_PAD_FLASH_FRAMES
+(10)
+#define DRUM_THRASH_SOUND_PAD0
+({ds1001_soft.cue play})
+#define DRUM_THRASH_SOUND_PAD1
+({ds1002_soft.cue play})
+#define DRUM_THRASH_SOUND_PAD2
+({ds1003_soft.cue play})
+#define DRUM_THRASH_SOUND_PAD3
+({ds1004_soft.cue play})
+#define DRUM_THRASH_ANIM_PAUSE
+({$task sleep DRUM_THRASH_HIT_FRAME_DELAY})
+#define DRUM_THRASH_HANDS_UP
+({512x512_drummer_hits.mnm set_frame 0})
+#define DRUM_THRASH_HANDS_PAD0
+({512x512_drummer_hits.mnm set_frame 4})
+#define DRUM_THRASH_HANDS_PAD1
+({512x512_drummer_hits.mnm set_frame 12})
+#define DRUM_THRASH_HANDS_PAD2
+({512x512_drummer_hits.mnm set_frame 20})
+#define DRUM_THRASH_HANDS_PAD3
+({512x512_drummer_hits.mnm set_frame 28})
+#define DRUM_THRASH_HANDS_HIT_ALL_DRUMS
+(DRUM_THRASH_HANDS_UP DRUM_THRASH_ANIM_PAUSE DRUM_THRASH_HANDS_PAD0 DRUM_THRASH_SOUND_PAD0 DRUM_THRASH_ANIM_PAUSE DRUM_THRASH_HANDS_UP DRUM_THRASH_ANIM_PAUSE DRUM_THRASH_HANDS_PAD1 DRUM_THRASH_SOUND_PAD1 DRUM_THRASH_ANIM_PAUSE DRUM_THRASH_HANDS_UP DRUM_THRASH_ANIM_PAUSE DRUM_THRASH_HANDS_PAD2 DRUM_THRASH_SOUND_PAD2 DRUM_THRASH_ANIM_PAUSE DRUM_THRASH_HANDS_UP DRUM_THRASH_ANIM_PAUSE DRUM_THRASH_HANDS_PAD3 DRUM_THRASH_SOUND_PAD3 DRUM_THRASH_ANIM_PAUSE)
+#define DRUM_PEDAL_UP_DELAY
+(0.4)
+#define DRUM_PEDAL_DOWN_DELAY
+(0.4)
+#define DRUM_PEDAL_START_DOWN_DELAY
+(1.1)
+#define DRUM_PEDAL_KICK_SOUND
+({ds1005_soft.cue play})
+#define DRUM_PEDAL_UP_PAUSE
+({$task sleep DRUM_PEDAL_UP_DELAY})
+#define DRUM_PEDAL_DOWN_PAUSE
+({$task sleep DRUM_PEDAL_DOWN_DELAY})
+#define DRUM_PEDAL_START_DOWN_PAUSE
+({$task sleep DRUM_PEDAL_START_DOWN_DELAY})
+#define DRUM_PEDAL_UP
+({"shoe and pedal.mnm"
+      set_frame
+      0.0})
+#define DRUM_PEDAL_DOWN
+({"shoe and pedal.mnm"
+      set_frame
+      9.0})
+#define DRUM_PEDAL_BAD
+({"shoe and pedal.mnm"
+      set_frame
+      21.0})
+#define DRUM_PEDAL_SHOW_KICK
+({256x256.mesh set_showing TRUE})
+#define DRUM_PEDAL_HIDE_KICK
+({256x256.mesh set_showing FALSE})
+#define DRUM_PEDAL_START_DOWN
+(DRUM_PEDAL_DOWN DRUM_PEDAL_START_DOWN_PAUSE)
+#define DRUM_PEDAL_KICK
+(DRUM_PEDAL_UP DRUM_PEDAL_UP_PAUSE DRUM_PEDAL_DOWN DRUM_PEDAL_KICK_SOUND DRUM_PEDAL_DOWN_PAUSE)
+#define DRUM_ROCKBEAT_STICK_OFF_DELAY
+(0.5)
+#define DRUM_ROCKBEAT_STICK_ON_DELAY
+(0.33)
+#define DRUM_ROCKBEAT_STICK_SNARE_SOUND
+({ds1001.cue play})
+#define DRUM_ROCKBEAT_STICK_OFF_PAUSE
+({$task sleep DRUM_ROCKBEAT_STICK_OFF_DELAY})
+#define DRUM_ROCKBEAT_STICK_ON_PAUSE
+({$task sleep DRUM_ROCKBEAT_STICK_ON_DELAY})
+#define DRUM_ROCKBEAT_STICK_PICKUP
+({StickAnim.mnm set_frame 0.0})
+#define DRUM_ROCKBEAT_STICK_HOLD
+({StickAnim.mnm set_frame 10.0})
+#define DRUM_ROCKBEAT_STICK_UP
+({StickAnim.mnm set_frame 20.0})
+#define DRUM_ROCKBEAT_STICK_DOWN
+({StickAnim.mnm set_frame 30.0})
+#define DRUM_ROCKBEAT_STICK_REBOUND
+({StickAnim.mnm set_frame 40.0})
+#define DRUM_ROCKBEAT_STICK_SHOW
+({StickAnim.mesh set_showing TRUE})
+#define DRUM_ROCKBEAT_STICK_HIDE
+({StickAnim.mesh set_showing FALSE})
+#define DRUM_ROCKBEAT_STICK_SNARE
+(DRUM_ROCKBEAT_STICK_UP DRUM_ROCKBEAT_STICK_OFF_PAUSE DRUM_ROCKBEAT_STICK_DOWN DRUM_ROCKBEAT_STICK_SNARE_SOUND DRUM_ROCKBEAT_STICK_ON_PAUSE DRUM_ROCKBEAT_STICK_REBOUND DRUM_ROCKBEAT_STICK_OFF_PAUSE)
+#define DRUM_ROCKBEAT_DRUMKIT_UP
+({512x512_drummer_hits.mnm set_frame 0})
+#define DRUM_ROCKBEAT_DRUMKIT_HIT1
+({512x512_drummer_hits.mnm set_frame 4})
+#define DRUM_ROCKBEAT_DRUMKIT_HIT2
+({512x512_drummer_hits.mnm set_frame 12})
+#define DRUM_ROCKBEAT_DRUMKIT_HIT3
+({512x512_drummer_hits.mnm set_frame 20})
+#define DRUM_ROCKBEAT_DRUMKIT_HIT4
+({512x512_drummer_hits.mnm set_frame 28})
+#define DRUM_ROCKBEAT_DRUMKIT_HITBOTH
+({512x512_drummer_hits.mnm set_frame 36})
+#define DRUM_ROCKBEAT_DRUMKIT_SHOW
+({512x512_drummer_hits.mesh set_showing TRUE})
+#define DRUM_ROCKBEAT_DRUMKIT_HIDE
+({512x512_drummer_hits.mesh set_showing FALSE})
+#define DRUM_ROCKBEAT_KICK_DOWN
+({stomp.mnm set_frame 9})
+#define DRUM_ROCKBEAT_KICK_UP
+({stomp.mnm set_frame 0})
+#define DRUM_ROCKBEAT_KICK_SHOW
+({stomp.mesh set_showing TRUE})
+#define DRUM_ROCKBEAT_KICK_HIDE
+({stomp.mesh set_showing FALSE})
+#define DRUM_TIMEOUT_SOUND
+({ds3001.cue play})
+#define ENABLE_DRUM_TUTORIAL_METRONOME
+(ENABLE_TUTORIAL_BEAT_CALLBACK)
+#define DISABLE_DRUM_TUTORIAL_METRONOME
+(DISABLE_TUTORIAL_BEAT_CALLBACK
+   {drum_metronome.lbl set_showing FALSE})
+#define DELETE_DRUM_TUTORIAL_CALLBACKS
+({if
+      {exists tutorial_drum_basics_thrash_callback}
+      {{gamemode get main_panel}
+         remove_drum_hit_callback
+         tutorial_drum_basics_thrash_callback}
+      {delete tutorial_drum_basics_thrash_callback}}
+   {if
+      {exists tutorial_drum_basics_onehand_callback}
+      {delete tutorial_drum_basics_onehand_callback}}
+   {if
+      {exists tutorial_drum_basics_twohands_callback}
+      {delete tutorial_drum_basics_twohands_callback}}
+   {if
+      {exists tutorial_drum_basics_kick_callback}
+      {delete tutorial_drum_basics_kick_callback}}
+   {if
+      {exists tutorial_drum_basics_bre_callback}
+      {delete tutorial_drum_basics_bre_callback}}
+   {if
+      {exists tutorial_drum_beat_rockbeat_callback}
+      {delete tutorial_drum_beat_rockbeat_callback}}
+   {if
+      {exists tutorial_drum_beat_part1_callback}
+      {delete tutorial_drum_beat_part1_callback}}
+   {if
+      {exists tutorial_drum_beat_part2_callback}
+      {delete tutorial_drum_beat_part2_callback}}
+   {if
+      {exists tutorial_drum_beat_part3_callback}
+      {delete tutorial_drum_beat_part3_callback}}
+   {if
+      {exists tutorial_drum_beat_combos_callback}
+      {delete tutorial_drum_beat_combos_callback}}
+   {if
+      {exists tutorial_drum_beat_deploy_callback}
+      {delete tutorial_drum_beat_deploy_callback}})
+#define STOP_DRUM_SFX
+({synth stop ds1001.cue}
+   {synth stop ds1002.cue}
+   {synth stop ds1003.cue}
+   {synth stop ds1004.cue}
+   {synth stop ds1005.cue}
+   {synth stop ds1001_soft.cue}
+   {synth stop ds1002_soft.cue}
+   {synth stop ds1003_soft.cue}
+   {synth stop ds1004_soft.cue}
+   {synth stop ds1005_soft.cue}
+   {synth stop ds3001.cue}
+   {synth stop music_intro.cue}
+   {synth stop music_outro.cue})
+#define SELECTED_TEXT_COLOR
+(1.0 1.0 1.0 1.0)
+#define UNSELECTED_TEXT_COLOR
+(0.5 0.5 0.5 1.0)
+{func
+   update_groove_percentage
+   ($groove_count $groove_total)
+   {Grooving.lbl set_showing TRUE}
+   {set
+      $percent
+      {'*'
+         100.0
+         {/ $groove_count $groove_total}}}
+   {if
+      {> $percent 100.0}
+      {set $percent 100.0}}
+   {Grooving.lbl
+      set_localized
+      {sprintf
+         {localize grooving_score}
+         $percent}}}
+#define NUM_DRUM_PADS
+(5)
+#define CREATE_GROOVE_CALLBACK
+({if
+      {exists groove_callback}
+      {delete groove_callback}}
+   {new
+      Object
+      groove_callback
+      (hit
+         {set
+            [groove_count]
+            {'+'
+               [groove_count]
+               1}}
+         {update_groove_percentage
+            [groove_count]
+            [groove_total]})
+      (miss
+         {set
+            [groove_count]
+            0}
+         {update_groove_percentage
+            [groove_count]
+            [groove_total]})
+      (pass
+         {set
+            [groove_count]
+            0}
+         {update_groove_percentage
+            [groove_count]
+            [groove_total]})
+      (lesson_running
+         {<
+            [groove_count]
+            [groove_total]})
+      (groove_count 0)
+      (groove_total 10)})
+#define RESET_BEAT
+({meta_performer set_song drum_lesson_301}
+   LOAD_NEW_DRUMS_SONG
+   {beatmatch set_time_paused TRUE}
+   {game set_paused TRUE}
+   {{beatmatch active_player 0}
+      set_crowd_rating_active
+      FALSE})
+#define START_METRONOME
+({if
+      {exists metronome_callback}
+      {delete metronome_callback}}
+   {new
+      Object
+      metronome_callback
+      (beat
+         {set
+            $beat
+            {taskmgr beat}}
+         {set
+            $count
+            {mod $beat 4}}
+         {'+=' $count 1.0}
+         {tutorials_drums_main_panel
+            set_metronome
+            {sprintf
+               "%1.0f"
+               $count}})}
+   {game add_sink metronome_callback})
+#define STOP_METRONOME
+({delete metronome_callback}
+   {drum_metronome.lbl set_showing FALSE})
+#define TIME_UNTIL_BEAT_COUNT
+({set
+      $current
+      {taskmgr beat}}
+   {while
+      {> $current 4}
+      {-= $current 4}}
+   {if
+      {> $current $beat}
+      {'+=' $beat 4.0}}
+   {set
+      $beats_left
+      {- $beat $current}}
+   {print
+      "beats_left = "
+      $beats_left
+      "\n"}
+   {set
+      $time_left
+      {'*'
+         $beats_left
+         {beatmatch ms_per_beat}}}
+   {/= $time_left 1000.0}
+   {$task sleep $time_left})
+#define TIME_UNTIL_BEAT
+({set
+      $current
+      {taskmgr beat}}
+   {set
+      $beats_left
+      {- $beat $current}}
+   {set
+      $time_left
+      {'*'
+         $beats_left
+         {beatmatch ms_per_beat}}}
+   {/= $time_left 1000.0}
+   {$task sleep $time_left})
+#define DRUM_TRACK_IN_TV
+({tutorials_drums_main_panel fade_top_in}
+   TRACK_TV_IN)
+#define DRUM_TRACK_OUT_TV
+({tutorials_drums_main_panel fade_top_out}
+   TRACK_TV_OUT)
+#define DRUM_TRACK_IN_TV_NOPAUSE
+({tutorials_drums_main_panel set_top_visible}
+   TRACK_TV_IN_NOPAUSE)
+#define DRUMTRACK_OUT_TV_NOPAUSE
+({tutorials_drums_main_panel set_top_invisible}
+   TRACK_TV_OUT_NOPAUSE)
+#define INIT_DRUM_TUTORIAL
+({tutorials_state_panel init_state})
+#define SETUP_DRUM_TUTORIAL
+(RESET_TUTORIAL_GAMEMODE
+   DRUM_TV_RESET
+   STOP_BRE_AUTOPLAYER
+   STOP_DRUM_SFX
+   HIDE_ALL_UI
+   HIDE_SCORE
+   HIDE_ALL_DRUM_ARROWS
+   HIDE_DRUM_THRASH_TASK
+   DRUM_ROCKBEAT_STICK_HIDE
+   DRUM_ROCKBEAT_DRUMKIT_HIDE
+   DRUM_ROCKBEAT_DRUMKIT_UP
+   DRUM_ROCKBEAT_KICK_HIDE
+   AUTOPLAY_OFF
+   DELETE_DRUM_TUTORIAL_CALLBACKS
+   DISABLE_TRACK_POPUP_HELP
+   DISABLE_DRUM_TUTORIAL_METRONOME
+   ENABLE_SYNC_PAUSE
+   UNFREEZE_SCORE_TEXT
+   {beatmatch set_time_paused TRUE}
+   HIDE_TRACK_PANEL
+   ENABLE_PHRASE_BONUS
+   {{gamemode get main_panel}
+      set_sfx_volume
+      0.0}
+   {tv_overlay.trg trigger}
+   {tutorial_bg_highlight.trg trigger}
+   RESET_TUT_INFO
+   FORCE_TUTORIAL_PANEL_ZOOM_OUT
+   {tutorials_state_panel on_guide_change})
+#define TUTORIALS_DRUM_BRE_END_BEAT
+(11.0)
+#define TUTORIALS_DRUM_BRE_TOO_SLOW
+(1.0)
+#define TUTORIALS_DRUM_NUM_NAMES
+(20)
+{new
+   DrumTutorialPanel
+   tutorials_drums_main_panel
+   TUTORIALS_MAIN_PANEL_FILE
+   TUTORIALS_MAIN_PANEL_REDIRECTED_FUNCTIONS
+   TUTORIALS_MAIN_PANEL_GENERAL_FUNCTIONS
+   (num_tutorial_names TUTORIALS_DRUM_NUM_NAMES)
+   (beat_callback
+      ($beat $beat_count)
+      {drum_metronome.lbl
+         set_localized
+         {sprintf
+            "%1.0f"
+            $beat_count}})
+   (tutorial_states
+      (invalid_state loading_screen back_to_main_menu back_to_lesson_menu basics_intro basics_thrash basics_onehand basics_twohands basics_kick basics_interface basics_bre basics_wrapup beat_intro beat_rockbeat beat_part1 beat_part2 beat_part3 beat_combos beat_deploy beat_wrapup))
+   (tutorial_states_ambient
+      (FALSE FALSE FALSE FALSE FALSE TRUE TRUE TRUE TRUE TRUE TRUE TRUE FALSE TRUE TRUE TRUE TRUE TRUE TRUE TRUE))
+   (tutorial_states_can_inc
+      (FALSE FALSE FALSE FALSE TRUE TRUE TRUE TRUE TRUE TRUE TRUE FALSE TRUE TRUE TRUE TRUE TRUE TRUE TRUE FALSE))
+   (tutorial_states_can_dec
+      (FALSE FALSE FALSE FALSE FALSE TRUE TRUE TRUE TRUE TRUE TRUE TRUE FALSE TRUE TRUE TRUE TRUE TRUE TRUE TRUE))
+   (tutorial_lessons
+      ((Lesson1.btn basics_intro drum_basics_onehand_muted check01.mesh)
+         (Lesson2.btn beat_intro drum_beat_rockbeat_muted check02.mesh)))
+   (enter
+      TUTORIALS_MAIN_PANEL_ENTER
+      INIT_DRUM_TUTORIAL
+      {gamecfg auto_assign_missing_slots})
+   (exit TUTORIALS_MAIN_PANEL_EXIT)
+   (pause)
+   (unpause)
+   (set_local_state
+      ($state)
+      {switch
+         $state
+         (basics_intro
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include drums/basics/intro.dta)})
+         (basics_thrash
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include drums/basics/thrash.dta)})
+         (basics_onehand
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include drums/basics/onehand.dta)})
+         (basics_twohands
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include drums/basics/twohands.dta)})
+         (basics_kick
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include drums/basics/kick.dta)})
+         (basics_interface
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include drums/basics/interface.dta)})
+         (basics_bre
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include drums/basics/bre.dta)})
+         (basics_wrapup
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include drums/basics/wrapup.dta)})
+         (beat_intro
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include drums/beat/intro.dta)})
+         (beat_rockbeat
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include drums/beat/rockbeat.dta)})
+         (beat_part1
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include drums/beat/part1.dta)})
+         (beat_part2
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include drums/beat/part2.dta)})
+         (beat_part3
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include drums/beat/part3.dta)})
+         (beat_combos
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include drums/beat/combos.dta)})
+         (beat_deploy
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include drums/beat/deploy.dta)})
+         (beat_wrapup
+            {thread_task
+               kTaskTutorialSeconds
+               (script
+                  #include drums/beat/wrapup.dta)})
+         {notify
+            "missing state handler"}})
+   (fade_top_in
+      {tutorial_bg_top_fade.mnm
+         animate
+         (units kTaskTutorialSeconds)
+         (range 30 0)})
+   (fade_top_out
+      {tutorial_bg_top_fade.mnm
+         animate
+         (units kTaskTutorialSeconds)})
+   (set_top_visible
+      {tutorial_bg_top_fade.mnm set_frame 0.0})
+   (set_top_invisible
+      {tutorial_bg_top_fade.mnm set_frame 30.0})}
+{new
+   BandScreen
+   tutorials_drums_main_screen
+   (panels TUTORIALS_PRELOAD_PANELS tutorials_background_panel game tutorials_state_panel tutorials_tv_screen_panel coop_track_panel tutorials_tv_overlay_panel tutorials_drums_main_panel)
+   (focus tutorials_drums_main_panel)
+   TUTORIALS_MAIN_SCREEN_GENERAL_PROPERTIES
+   (enter TUTORIALS_MAIN_SCREEN_ENTER)
+   (BUTTON_DOWN_MSG TUTORIALS_MAIN_SCREEN_HANDLERS_BUTTON_DOWN_MSG)}

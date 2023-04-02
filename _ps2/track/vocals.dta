@@ -1,0 +1,994 @@
+#include track_handlers.dta
+(RndDir
+   (types
+      (vocaltrack
+         (editor
+            (reset
+               script
+               (script
+                  {$this reset}))
+            (deploy
+               script
+               (script
+                  {$this deploy}))
+            (stop_deploy
+               script
+               (script
+                  {$this stop_deploy}))
+            (static_vocals
+               bool
+               (post_sync
+                  {$this
+                     set_static_vocals
+                     [static_vocals]}))
+            (test_phrase_meter
+               float
+               (post_sync
+                  {$this
+                     set_phrase_meter
+                     [test_phrase_meter]}))
+            (scrolling_lyric_colors
+               (indent
+                  (scrolling_normal
+                     color
+                     (help
+                        "Color of the normal lyrics."))
+                  (scrolling_now
+                     color
+                     (help
+                        "Color of the current lyric."))
+                  (scrolling_past
+                     color
+                     (help
+                        "Color of the lyrics after they have been read."))
+                  (scrolling_style
+                     color
+                     (help
+                        "Color of the normal lyrics."))
+                  (scrolling_style_now
+                     color
+                     (help
+                        "Color of the current lyric."))
+                  (scrolling_style_past
+                     color
+                     (help
+                        "Color of the lyrics after they have been read."))))
+            (static_lyric_colors
+               (indent
+                  (static_preview
+                     color
+                     (help
+                        "Color of the preview lyrics"))
+                  (static_normal
+                     color
+                     (help
+                        "Color of the normal lyrics."))
+                  (static_now
+                     color
+                     (help
+                        "Color of the current lyric."))
+                  (static_past
+                     color
+                     (help
+                        "Color of the lyrics after they have been read."))
+                  (static_preview_style
+                     color
+                     (help
+                        "Color of the preview lyrics"))
+                  (static_normal_style
+                     color
+                     (help
+                        "Color of the normal lyrics."))
+                  (static_now_style
+                     color
+                     (help
+                        "Color of the current lyric."))
+                  (static_past_style
+                     color
+                     (help
+                        "Color of the lyrics after they have been read."))))
+            (note_tubes
+               (indent
+                  (scrolling_pitched_tube
+                     object
+                     (class Line))
+                  (scrolling_unpitched_tube
+                     object
+                     (class Line))
+                  (scrolling_pitched_style_tube
+                     object
+                     (class Line))
+                  (scrolling_unpitched_style_tube
+                     object
+                     (class Line))
+                  (static_pitched_tube
+                     object
+                     (class Line))
+                  (static_unpitched_tube
+                     object
+                     (class Line))
+                  (static_pitched_style_tube
+                     object
+                     (class Line))
+                  (static_unpitched_style_tube
+                     object
+                     (class Line))))
+            (background_colors
+               (indent
+                  (background
+                     color
+                     (help
+                        "Color of the background."))
+                  (background_spotlight
+                     color
+                     (help
+                        "Color of the background in a spotlight phrase."))))
+            (feedback_colors
+               (array color)
+               (help
+                  "Colors of the rating text for the different ratings."))
+            (feedback_state
+               int
+               (range 0 4)
+               (post_sync
+                  {$this
+                     set_feedback_state
+                     [feedback_state]})
+               (help
+                  "Rating after a phrase 0 - Lousy 1 - Poor 2 - Ok 3 - Good 4 - Great."))
+            (preview_z
+               float
+               (help
+                  "The height at which preview lyrics are shown"))
+            (current_z
+               float
+               (help
+                  "The height at which current lyrics are shown"))
+            (test_arrow_visible
+               bool
+               (post_sync
+                  {$this
+                     set_arrow_visible
+                     [test_arrow_visible]}))
+            (test_pitched
+               bool
+               (post_sync
+                  {$this
+                     set_pitched
+                     [test_pitched]}))
+            (text_lyrics
+               script
+               (script
+                  {$this test_lyrics}))
+            (tube_widths
+               (array float)
+               (fixed_size TRUE)
+               (help
+                  "note tube widths per difficulty"))
+            (phonome_tube_width
+               float
+               (post_sync
+                  {$this
+                     set_phonome_tube_width
+                     [phonome_tube_width]})
+               (help
+                  "width of the phonome tube"))
+            (vocalist_volume
+               object
+               (class RndDir))
+            (configurable_objects
+               (array
+                  object
+                  (class Trans))
+               (help
+                  "Objects which can change transform or showing per configuration."))
+            (side_fade_length
+               float
+               (post_sync
+                  {$this update_fade}))
+            COMMON_TRACK_EDITOR)
+         (test_arrow_visible FALSE)
+         (test_pitched TRUE)
+         (static_vocals FALSE)
+         (enable_vocals_options TRUE)
+         (side top)
+         (feedback_state 0)
+         (feedback_colors
+            ())
+         (phrase_change_duration_ticks 200)
+         (time_before_phrase_to_space_ticks 120)
+         (next_phrase_animation_ratio 0.3)
+         (next_phrase_fade_in_before 1920)
+         (phrase_meter_val 0)
+         (test_phrase_meter 0)
+         (scrolling_normal 0)
+         (scrolling_now 0)
+         (scrolling_past 0)
+         (scrolling_style 0)
+         (scrolling_style_now 0)
+         (scrolling_style_past 0)
+         (static_preview 0)
+         (static_normal 0)
+         (static_now 0)
+         (static_past 0)
+         (static_preview_style 0)
+         (static_normal_style 0)
+         (static_now_style 0)
+         (static_past_style 0)
+         (scrolling_pitched_tube
+            "")
+         (scrolling_unpitched_tube
+            "")
+         (scrolling_pitched_style_tube
+            "")
+         (scrolling_unpitched_style_tube
+            "")
+         (static_pitched_tube
+            "")
+         (static_unpitched_tube
+            "")
+         (static_pitched_style_tube
+            "")
+         (static_unpitched_style_tube
+            "")
+         (background 0)
+         (background_spotlight 0)
+         (preview_z -0.25)
+         (current_z 0.25)
+         (tube_widths
+            (0.5 0.4 0.3 0.2))
+         (phonome_tube_width 0.2)
+         (set_phonome_tube_width
+            ($phonome_tube_width)
+            {if
+               {!=
+                  [parent]
+                  ""}
+               {[parent]
+                  set
+                  phonome_tube_width
+                  $phonome_tube_width}})
+         (vocalist_volume
+            "")
+         (character_options
+            "")
+         (parameter
+            "")
+         (last_frame_scoring FALSE)
+         (min_pitch_range 12)
+         (arrow_smoothing 0.85)
+         (deploy_mask_scroll_rate 672.5)
+         (configurable_objects
+            ())
+         (test_lyrics
+            {word.txt
+               set_text
+               "Current Line"})
+         (streak_meter_disabled FALSE)
+         (disabled FALSE)
+         (side_fade_length 1.5)
+         (arrow_visible FALSE)
+         (pitch_matching TRUE)
+         (set_configuration
+            ($in_obj)
+            {set
+               [configuration]
+               $in_obj}
+            {[configuration]
+               apply}
+            {$this update_fade}
+            {if_else
+               {streak_meter_vox_bot showing}
+               {set
+                  [streak_meter]
+                  streak_meter_vox_bot}
+               {set
+                  [streak_meter]
+                  streak_meter_vox_top}})
+         (set_streak_meter_disabled
+            ($disabled)
+            {if
+               {!=
+                  [parent]
+                  ""}
+               {[parent]
+                  set_streak_meter_disabled
+                  $disabled}}
+            {set
+               [streak_meter_disabled]
+               $disabled})
+         (update_configuration
+            {if_else
+               {'||'
+                  [simulated_net]
+                  {&&
+                     {&&
+                        [player]
+                        {[player]
+                           is_net}}
+                     {&&
+                        {exists gamemode}
+                        {gamemode get is_band_arrangement}}}}
+               {do
+                  {switch
+                     {rnd aspect}
+                     (kRegularAspect
+                        {$this
+                           set_configuration
+                           {object vocals_remote}})
+                     (kWidescreenAspect
+                        {$this
+                           set_configuration
+                           {object vocals_remote_wide}})}
+                  {set
+                     [preview_z]
+                     0.72}
+                  {set
+                     [current_z]
+                     1.32}
+                  {guide.grp set_showing FALSE}
+                  {markers.grp set_showing FALSE}
+                  {tambourine.grp set_showing FALSE}}
+               {switch
+                  [side]
+                  (top
+                     {switch
+                        {rnd aspect}
+                        (kRegularAspect
+                           {switch
+                              {$this get_display_mode}
+                              (kVocalStyleStatic
+                                 {$this
+                                    set_configuration
+                                    {object vocals_top_static}})
+                              (kVocalStyleScrolling
+                                 {$this
+                                    set_configuration
+                                    {object vocals_top}})})
+                        (kWidescreenAspect
+                           {switch
+                              {$this get_display_mode}
+                              (kVocalStyleStatic
+                                 {$this
+                                    set_configuration
+                                    {object vocals_top_static_wide}})
+                              (kVocalStyleScrolling
+                                 {$this
+                                    set_configuration
+                                    {object vocals_top_wide}})})})
+                  (bottom
+                     {switch
+                        {rnd aspect}
+                        (kRegularAspect
+                           {switch
+                              {$this get_display_mode}
+                              (kVocalStyleStatic
+                                 {$this
+                                    set_configuration
+                                    {object vocals_bottom_static}})
+                              (kVocalStyleScrolling
+                                 {$this
+                                    set_configuration
+                                    {object vocals_bottom}})})
+                        (kWidescreenAspect
+                           {switch
+                              {$this get_display_mode}
+                              (kVocalStyleStatic
+                                 {$this
+                                    set_configuration
+                                    {object vocals_bottom_static_wide}})
+                              (kVocalStyleScrolling
+                                 {$this
+                                    set_configuration
+                                    {object vocals_bottom_wide}})})})}})
+         (get_display_mode
+            {if_else
+               {==
+                  [parent]
+                  ""}
+               {if_else
+                  [static_vocals]
+                  kVocalStyleStatic
+                  kVocalStyleScrolling}
+               {[parent]
+                  display_mode}})
+         (track_reset
+            {word.txt
+               set_text
+               ""}
+            {reset.trig trigger}
+            {if
+               [player]
+               {[player]
+                  set_scream_thresholds
+                  0.4
+                  0.33}}
+            {if
+               [player_feedback]
+               {{[player_feedback]
+                     find
+                     setup_vocal.trig}
+                  trigger}}
+            {if
+               {exists tambourine_smasher}
+               {tambourine_smasher reset}}
+            {$this update_fade}
+            {$this enable_player}
+            {if
+               {!=
+                  [parent]
+                  ""}
+               {[parent]
+                  set_last_frame_scoring
+                  TRUE}
+               {[parent]
+                  set_frame_score
+                  0}
+               {[parent]
+                  update_vocal_style}}
+            {set
+               [popup_object]
+               {object popup_help}}
+            {do
+               ($time_til_next
+                  {-
+                     {taskmgr time_til_next 1 1.0e-3}
+                     0.2})
+               {if
+                  {< $time_til_next 0}
+                  {set
+                     $time_til_next
+                     {'+' $time_til_next 1}}}
+               {script_task
+                  kTaskBeats
+                  (delay $time_til_next)
+                  (script
+                     {tube.anim
+                        animate
+                        (loop 0 1)})}})
+         (set_static_vocals
+            ($in_state)
+            {set
+               [static_vocals]
+               $in_state})
+         (set_track_fade)
+         (update_fade
+            {do
+               ($x)
+               ($y)
+               ($z)
+               {fade_left.mesh get_local_pos $x $y $z}
+               {track.env set left_out $x}
+               {track.env
+                  set
+                  left_opaque
+                  {'+'
+                     $x
+                     [side_fade_length]}}
+               {fade_right.mesh get_local_pos $x $y $z}
+               {track.env set right_out $x}
+               {track.env
+                  set
+                  right_opaque
+                  {-
+                     $x
+                     [side_fade_length]}}})
+         (play_intro
+            {play_intro.trig trigger}
+            {if
+               {!=
+                  [player_intro]
+                  ""}
+               {if_else
+                  {&&
+                     {&&
+                        {exists gamemode}
+                        {gamemode get is_band_arrangement}}
+                     {'||'
+                        {&&
+                           [player]
+                           {[player]
+                              is_net}}
+                        [simulated_net]}}
+                  {do
+                     {[player_intro]
+                        fade}
+                     {[player_intro]
+                        intro}}
+                  {do
+                     {[player_intro]
+                        intro}
+                     {script_task
+                        kTaskSeconds
+                        (delay 2)
+                        (script
+                           {[player_intro]
+                              hide})}}}})
+         (set_tambourine
+            ($on)
+            {if_else
+               $on
+               {if_else
+                  {==
+                     [side]
+                     top}
+                  {tambourine_now_show_top.trig trigger}
+                  {tambourine_now_show.trig trigger}}
+               {if_else
+                  {==
+                     [side]
+                     top}
+                  {tambourine_now_hide_top.trig trigger}
+                  {tambourine_now_hide.trig trigger}}}
+            {$this tambourine reset})
+         (tambourine
+            ($action)
+            {tambourine_smasher $action})
+         (set_multiplier)
+         (vocal_hide_streak
+            {hide_streak_meter_bot.trig trigger})
+         (set_streak
+            ($streak $streak_mult $max_streak_mult)
+            {if
+               {&&
+                  {!=
+                     [player]
+                     ""}
+                  {!=
+                     [streak_meter]
+                     ""}}
+               {do
+                  ($notes_per_streak
+                     {[player]
+                        notes_per_streak})
+                  {[streak_meter]
+                     set_multiplier
+                     $streak_mult}
+                  {if
+                     {> $streak 0}
+                     {set
+                        $percent
+                        {/
+                           {mod $streak $notes_per_streak}
+                           $notes_per_streak}}
+                     {if
+                        {!= $percent 0}
+                        {if
+                           {== $streak_mult $max_streak_mult}
+                           {[streak_meter]
+                              set_hit
+                              0}}
+                        {if
+                           {<= $streak_mult $max_streak_mult}
+                           {[streak_meter]
+                              set_hit
+                              $percent}}}}}})
+         (set_feedback_state
+            ($index)
+            {do
+               ($ratings
+                  (vox_rating_0 vox_rating_1 vox_rating_2 vox_rating_3 vox_rating_4))
+               ($rating
+                  {elem $ratings $index})
+               {$this
+                  show_phrase_feedback
+                  $rating
+                  {elem
+                     [feedback_colors]
+                     $index}}
+               {if
+                  {!= $index 4}
+                  {[streak_meter]
+                     set_hit
+                     0}}})
+         (set_arrow_visible
+            ($in_state)
+            {if
+               {!=
+                  $in_state
+                  [arrow_visible]}
+               {if_else
+                  $in_state
+                  {do
+                     {arrow_visible.anim
+                        animate
+                        (range 0 0)}}
+                  {do
+                     {pitch_arrow.grp set_frame -100}
+                     {arrow_visible.anim animate}}}
+               {set
+                  [arrow_visible]
+                  $in_state}})
+         (set_frame_score
+            ($score)
+            {do
+               ($scoring
+                  {> $score 0.3})
+               {if
+                  {!=
+                     $scoring
+                     [last_frame_scoring]}
+                  {if_else
+                     $scoring
+                     {scoring.trig trigger}
+                     {scoring_stop.trig trigger}}
+                  {set
+                     [last_frame_scoring]
+                     $scoring}}})
+         (set_pitched
+            ($in_state)
+            {if
+               {!=
+                  $in_state
+                  [pitch_matching]}
+               {if_else
+                  $in_state
+                  {pitch_arrow_split_close.trig trigger}
+                  {do
+                     {pitch_arrow_split_open.trig trigger}
+                     {pitch_arrow.grp set_frame -100}}}
+               {set
+                  [pitch_matching]
+                  $in_state}})
+         (show_phrase_feedback
+            ($feedback $color)
+            {phrase_feedback.txt
+               set_text
+               {localize $feedback}}
+            {do
+               ($r)
+               ($g)
+               ($b)
+               {unpack_color $color $r $g $b}
+               {phrase_feedback.txt set_color $r $g $b 1}}
+            {if_else
+               {==
+                  [side]
+                  top}
+               {phrase_feedback_bot.trig trigger}
+               {phrase_feedback_top.trig trigger}}
+            {if
+               {!
+                  [streak_meter_disabled]}
+               {if_else
+                  {==
+                     [side]
+                     top}
+                  {script_task
+                     kTaskSeconds
+                     (delay 0.6)
+                     (script
+                        {if
+                           {!
+                              {[player]
+                                 in_tambourine_phrase}}
+                           {show_streak_meter_bot.trig trigger}})}
+                  {script_task
+                     kTaskSeconds
+                     (delay 0.6)
+                     (script
+                        {if
+                           {!
+                              {[player]
+                                 in_tambourine_phrase}}
+                           {show_streak_meter_top.trig trigger}})}}})
+         (set_phrase_meter
+            ($val $pct)
+            {if
+               {!=
+                  $pct
+                  [phrase_meter_val]}
+               {set
+                  [phrase_meter_val]
+                  $pct}})
+         (set_phrase_meter_cap
+            ($in_val))
+         (spotlight_phrase_success
+            {if
+               {!=
+                  [star_power_meter]
+                  ""}
+               {[star_power_meter]
+                  energy_added}})
+         (new_phrase
+            {new_phrase.trig trigger}
+            {if
+               {>=
+                  [phrase_meter_val]
+                  1}
+               {flare.trig trigger}})
+         (set_bonus_gems
+            ($in_val))
+         (deploy
+            {deploy.trig trigger}
+            {if
+               {&&
+                  [parent]
+                  {{[parent]
+                        panel}
+                     exists
+                     crowd_meter}}
+               {{{[parent]
+                        panel}
+                     find
+                     crowd_meter}
+                  deploy
+                  {$this name}}}
+            {if
+               {!=
+                  [streak_meter]
+                  ""}
+               {if
+                  [player]
+                  {[streak_meter]
+                     set_band_multiplier
+                     {{[player]
+                           band}
+                        multiplier}}}
+               {[streak_meter]
+                  star_deploy}}
+            {$this
+               popup_help
+               "deploy"
+               FALSE})
+         (stop_deploy
+            {stop_deploy.trig trigger}
+            {if
+               {&&
+                  [parent]
+                  {{[parent]
+                        panel}
+                     exists
+                     crowd_meter}}
+               {{{[parent]
+                        panel}
+                     find
+                     crowd_meter}
+                  stop_deploy
+                  {$this name}}}
+            {if
+               {!=
+                  [streak_meter]
+                  ""}
+               {if
+                  [player]
+                  {[streak_meter]
+                     set_band_multiplier
+                     {{[player]
+                           band}
+                        multiplier}}}
+               {[streak_meter]
+                  star_deploy_stop}})
+         (increase_phrase_meter_size)
+         (next_feedback_location
+            {phrase_feedback.txt set_showing TRUE})
+         (tambourine_note
+            {if
+               {!=
+                  [popup_object]
+                  ""}
+               {[popup_object]
+                  tambourine_note}})
+         (update_volume_display
+            {switch
+               [parameter]
+               (mic_gain
+                  {{[vocalist_volume]
+                        find
+                        slider.sld}
+                     set_current
+                     {[character_options]
+                        get_mic_gain}})
+               (vocal_level
+                  {{[vocalist_volume]
+                        find
+                        slider.sld}
+                     set_current
+                     {[character_options]
+                        get_vocal_volume}})
+               (cue_vocals
+                  {{[vocalist_volume]
+                        find
+                        slider.sld}
+                     set_current
+                     {profile_mgr get_vocal_cue_volume}})})
+         (activate_volume
+            ($param)
+            {if
+               {&&
+                  {ui current_screen}
+                  {!=
+                     {ui current_screen}
+                     pause_screen}
+                  {!=
+                     {ui current_screen}
+                     pause_vocal_options_screen}
+                  {!=
+                     {ui current_screen}
+                     qp_hth_endgame_screen}
+                  {!=
+                     {ui current_screen}
+                     qp_tow_endgame_screen}
+                  {!=
+                     {ui current_screen}
+                     complete_screen}
+                  {!=
+                     {ui current_screen}
+                     pause_controller_screen}
+                  {!=
+                     {ui current_screen}
+                     pause_mics_screen}
+                  {!=
+                     {ui current_screen}
+                     confirm_quit_mics_screen}
+                  {!=
+                     {ui current_screen}
+                     pause_confirm_quit_controllers_screen}
+                  {!=
+                     {ui current_screen}
+                     tutorials_pause_screen}
+                  {!=
+                     {ui current_screen}
+                     confirm_quit_screen}}
+               {set
+                  [parameter]
+                  $param}
+               {set
+                  [character_options]
+                  {profile_mgr
+                     get_char_options_from_player
+                     {[player]
+                        player_num}}}
+               {[vocalist_volume]
+                  set
+                  showing
+                  TRUE}
+               {{[vocalist_volume]
+                     find
+                     slider.lbl}
+                  set
+                  text_token
+                  $param}
+               {{[vocalist_volume]
+                     find
+                     slider.sld}
+                  set_num_steps
+                  12}
+               {$this update_volume_display}})
+         (deactivate_volume
+            {[vocalist_volume]
+               set_showing
+               FALSE}
+            {set
+               [parameter]
+               ""}
+            {set
+               [character_options]
+               ""})
+         (increment_volume
+            {switch
+               [parameter]
+               (mic_gain
+                  {[character_options]
+                     set_mic_gain
+                     {'+'
+                        {[character_options]
+                           get_mic_gain}
+                        1}}
+                  {profile_mgr
+                     update_mic_gain
+                     {[player]
+                        player_num}})
+               (vocal_level
+                  {[character_options]
+                     set_vocal_volume
+                     {'+'
+                        {[character_options]
+                           get_vocal_volume}
+                        1}}
+                  {profile_mgr
+                     update_vocal_volume
+                     {[player]
+                        player_num}})
+               (cue_vocals
+                  {profile_mgr
+                     set_vocal_cue_volume
+                     {'+'
+                        {profile_mgr get_vocal_cue_volume}
+                        1}})}
+            {$this update_volume_display})
+         (decrement_volume
+            {switch
+               [parameter]
+               (mic_gain
+                  {[character_options]
+                     set_mic_gain
+                     {-
+                        {[character_options]
+                           get_mic_gain}
+                        1}}
+                  {profile_mgr
+                     update_mic_gain
+                     {[player]
+                        player_num}})
+               (vocal_level
+                  {[character_options]
+                     set_vocal_volume
+                     {-
+                        {[character_options]
+                           get_vocal_volume}
+                        1}}
+                  {profile_mgr
+                     update_vocal_volume
+                     {[player]
+                        player_num}})
+               (cue_vocals
+                  {profile_mgr
+                     set_vocal_cue_volume
+                     {-
+                        {profile_mgr get_vocal_cue_volume}
+                        1}})}
+            {$this update_volume_display})
+         #ifdef HX_XBOX
+         (can_chat
+            ($chat)
+            {if_else
+               $chat
+               {{chat find show.trig}
+                  trigger}
+               {{chat find hide.trig}
+                  trigger}})
+         #endif
+         (set_enable_vocals_options
+            ($val)
+            {set
+               [enable_vocals_options]
+               $val}
+            {if
+               {!
+                  [enable_vocals_options]}
+               {$this deactivate_volume}})
+         (BUTTON_DOWN_MSG
+            {if
+               [enable_vocals_options]
+               {switch
+                  $button
+                  (kPad_Tri
+                     {$this activate_volume vocal_level})
+                  (kPad_Circle
+                     {$this activate_volume cue_vocals})
+                  (kPad_Square
+                     {$this activate_volume mic_gain})
+                  (kPad_DRight
+                     {$this increment_volume})
+                  (kPad_DLeft
+                     {$this decrement_volume})
+                  kDataUnhandled}})
+         (BUTTON_UP_MSG
+            {if
+               {==
+                  {[player]
+                     player_num}
+                  $player_num}
+               {switch
+                  $button
+                  (kPad_Tri
+                     {if
+                        {==
+                           [parameter]
+                           vocal_level}
+                        {$this deactivate_volume}})
+                  (kPad_Circle
+                     {if
+                        {==
+                           [parameter]
+                           cue_vocals}
+                        {$this deactivate_volume}})
+                  (kPad_Square
+                     {if
+                        {==
+                           [parameter]
+                           mic_gain}
+                        {$this deactivate_volume}})
+                  kDataUnhandled}})
+         COMMON_TRACK_HANDLERS)))

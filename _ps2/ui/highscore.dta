@@ -1,0 +1,411 @@
+#define HIGHSCORE_PANEL_HANDLERS
+(#ifdef HX_WII
+   (file
+      "high_scores_og.milo")
+   #else
+   (file
+      "high_scores_og.milo")
+   #endif
+   (init_hs
+      {$this update_titles})
+   (update_titles
+      {event.lbl
+         set_localized
+         ""}
+      {song.lbl
+         set_localized
+         ""}
+      {type.lbl
+         set_localized
+         ""}
+      {if_else
+         {<=
+            {meta_performer num_songs}
+            1}
+         {song.lbl
+            set_localized
+            {song_mgr
+               song_name
+               {highscores get_song_sym}}}
+         {song.lbl
+            set_localized
+            {song_mgr
+               song_name
+               {meta_performer get_best_song_sym}}}}
+      {if_else
+         {==
+            {highscores get_track_type_char}
+            a}
+         {do
+            {event.lbl set text_token lb_band}
+            {band_logo.mesh set_showing TRUE}
+            {type.lbl set_showing FALSE}}
+         {do
+            {event.lbl set text_token lb_solo}
+            {band_logo.mesh set_showing FALSE}
+            {type.lbl set_showing TRUE}}}
+      {type.lbl
+         set_localized
+         {highscores get_track_type_char}})
+   (update_list
+      {do
+         ($pos 1)
+         {if_else
+            {<=
+               {meta_performer num_songs}
+               1}
+            {do
+               {set
+                  $num_scores
+                  {highscores get_num_scores}}
+               {set
+                  $song_to_display
+                  {highscores get_song_sym}}}
+            {do
+               {set
+                  $song_to_display
+                  {meta_performer get_best_song_sym}}
+               {set
+                  $num_scores
+                  {highscores get_num_song_scores $song_to_display}}}}
+         {if
+            {> $num_scores 0}
+            {do
+               {foreach_int
+                  $i
+                  1
+                  {'+' $num_scores 1}
+                  {if
+                     {==
+                        $i
+                        [high_score]}
+                     {'++' $pos}}
+                  {if
+                     {!
+                        {> $pos 10}}
+                     {{sprintf
+                           "player%d.lbl"
+                           $pos}
+                        set
+                        text_token
+                        {highscores get_name_song $i $song_to_display}}
+                     {{sprintf
+                           "score%d.lbl"
+                           $pos}
+                        set_localized
+                        {fmt_score
+                           {highscores get_song_score $i $song_to_display}}}}
+                  {'++' $pos}}}
+            {if
+               {==
+                  [high_score]
+                  0}
+               {do
+                  {set
+                     [just_continue]
+                     TRUE}
+                  {helpbar
+                     set_config
+                     ((confirm helpbar_continue))}}}}
+         {if
+            {!
+               {> $pos 10}}
+            {foreach_int
+               $i
+               $pos
+               11
+               {if
+                  {!
+                     {==
+                        $i
+                        [high_score]}}
+                  {do
+                     {{sprintf
+                           "player%d.lbl"
+                           $i}
+                        set_showing
+                        FALSE}
+                     {{sprintf
+                           "score%d.lbl"
+                           $i}
+                        set_showing
+                        FALSE}
+                     {{sprintf
+                           "rank%d.lbl"
+                           $i}
+                        set_showing
+                        FALSE}}}}}}))
+{new
+   UIPanel
+   highscores_qp_panel
+   (player_num
+      {game get leader_num})
+   (back_button_exits FALSE)
+   (high_score 0)
+   (name_label player1.lbl)
+   (score_label score1.lbl)
+   (name_active FALSE)
+   (last_used_name
+      (""))
+   (randomize_button '')
+   (back_button '')
+   HIGHSCORE_PANEL_HANDLERS
+   NAMING_PANEL_HANDLERS
+   (enter
+      {set
+         [name_active]
+         FALSE}
+      {if_else
+         {<=
+            {meta_performer num_songs}
+            1}
+         {do
+            {set
+               $song_sym
+               {meta_performer completed_song}}
+            {set
+               $score
+               {{beatmatch main_performer}
+                  score}}}
+         {do
+            {set
+               $song_sym
+               {meta_performer get_best_song_sym}}
+            {set
+               $score
+               {meta_performer get_best_score}}}}
+      {if_else
+         {gamemode is_solo}
+         {do
+            ($pcfg
+               {game
+                  get_player_config
+                  {gamecfg get leader_num}})
+            {set
+               [high_score]
+               {highscores
+                  is_high_score
+                  $song_sym
+                  {$pcfg get_track_sym}
+                  $score}}}
+         {set
+            [high_score]
+            {highscores is_high_score $song_sym band $score}}}
+      {$this update_titles}
+      {if
+         {!
+            {==
+               [high_score]
+               0}}
+         {do
+            {set
+               [name_label]
+               {sprintf
+                  "player%d.lbl"
+                  [high_score]}}
+            {set
+               [score_label]
+               {sprintf
+                  "score%d.lbl"
+                  [high_score]}}
+            {[score_label]
+               set_localized
+               {fmt_score $score}}
+            {set
+               [name_active]
+               TRUE}
+            {$this init_name}
+            {resize
+               [current_name]
+               0}
+            {insert_elems
+               [current_name]
+               0
+               [last_used_name]}
+            {set
+               [current_pos]
+               {-
+                  {size
+                     [current_name]}
+                  1}}
+            {$this update_name}}}
+      {$this update_list})
+   (SELECT_START_MSG
+      {ui goto_screen complete_screen})
+   (accept_name
+      {if_else
+         {gamemode is_solo}
+         {do
+            ($pcfg
+               {game
+                  get_player_config
+                  {gamecfg get leader_num}})
+            {set
+               $tracktype
+               {$pcfg get_track_sym}}}
+         {set $tracktype band}}
+      {if_else
+         {<=
+            {meta_performer num_songs}
+            1}
+         {highscores
+            save_high_score
+            {meta_performer completed_song}
+            $tracktype
+            {{beatmatch main_performer}
+               score}
+            {$this get_name}}
+         {meta_performer
+            save_scores
+            $tracktype
+            {$this get_name}}}
+      {$this stop_naming}
+      {resize
+         [last_used_name]
+         0}
+      {insert_elems
+         [last_used_name]
+         0
+         [current_name]}
+      {script_task
+         kTaskUISeconds
+         (name
+            {sprint
+               "Score_Delay_Task"})
+         (delay 3)
+         (script
+            {ui goto_screen complete_screen})})
+   (extra_function)
+   (JOYPAD_CONNECT_MSG
+      {if
+         {==
+            $player_num
+            {game get leader_num}}
+         {if_else
+            {== $connected FALSE}
+            {do
+               ($task_name
+                  {sprint
+                     "Score_Delay_Task"})
+               {if
+                  {exists $task_name}
+                  {delete $task_name}
+                  {helpbar
+                     set_config
+                     ((confirm helpbar_continue))}}}
+            {do
+               {if
+                  {==
+                     [kill]
+                     TRUE}
+                  {script_task
+                     kTaskUISeconds
+                     (name
+                        {sprint
+                           "Score_Delay_Task"})
+                     (delay 0.5)
+                     (script
+                        {helpbar
+                           set_config
+                           ((confirm helpbar_continue))})}}}}})
+   (cancel_name)
+   (button_press
+      {ui goto_screen complete_screen})
+   (on_exit)}
+{new
+   BandScreen
+   highscores_screen
+   (panels endgame_background_panel highscores_qp_panel)
+   (focus highscores_qp_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (back complete_screen)
+   (enter
+      {helpbar
+         set_limit_to_player_num
+         {game get leader_num}})}
+{new
+   UIPanel
+   highscores_list_panel
+   (high_score 0)
+   HIGHSCORE_PANEL_HANDLERS
+   (enter
+      {$this init_hs}
+      {$this update_list})
+   (BUTTON_DOWN_MSG
+      {switch
+         $button
+         (kPad_Tri
+            {ui goto_screen leaderboards_selsong_screen}
+            {synth play button_back})}
+      kDataUnhandled)}
+{new
+   BandScreen
+   highscores_list_screen
+   (panels menu_background_movie_panel meta highscores_list_panel tour_lower3rd_panel)
+   (focus highscores_list_panel)
+   (helpbar
+      ((cancel helpbar_back)))
+   (back leaderboards_selsong_screen)}
+#ifndef HX_XBOX
+{new
+   UIPanel
+   leaderboards_seltrack_panel
+   (file
+      "leaderboards_seltrack.milo")
+   (focus guitar.btn)
+   (enter
+      {helpbar set_limit_to_player_num -1}
+      {meta music_start}
+      {if
+         {==
+            {ui previous_screen}
+            main_community_screen}
+         {fx fade_in}})
+   (SELECT_MSG
+      {highscores
+         set_track_type
+         {switch
+            $component
+            (guitar.btn kTrackGuitar)
+            (bass.btn kTrackBass)
+            (drums.btn kTrackDrum)
+            (vocals.btn kTrackVocals)
+            (band.btn kTrackBand)}}
+      {highscores set_diff_sym easy}
+      {ui goto_screen leaderboards_selsong_screen})}
+{new
+   BandScreen
+   highscore_seltrack_screen
+   (panels menu_background_movie_panel meta leaderboards_seltrack_panel fx tour_lower3rd_panel)
+   (focus leaderboards_seltrack_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (back main_community_screen)}
+#endif
+{new
+   UIPanel
+   highscore_seldiff_panel
+   (file
+      "leaderboards_seldiff.milo")
+   (focus easy.btn)
+   (SELECT_MSG
+      {highscores
+         set_diff_sym
+         {switch
+            $component
+            (easy.btn easy)
+            (medium.btn medium)
+            (hard.btn hard)
+            (expert.btn expert)}}
+      {ui goto_screen leaderboards_selsong_screen})}
+{new
+   BandScreen
+   highscore_seldiff_screen
+   (panels meta highscore_seldiff_panel)
+   (focus highscore_seldiff_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (back highscore_seltrack_screen)}

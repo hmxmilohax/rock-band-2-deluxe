@@ -1,0 +1,23 @@
+(banks
+   (common sfx/common_bank.milo)
+   (meta sfx/metagame_bank.milo))
+(crowd_audio TRUE)
+(crowd_volume 1.0)
+(crowd_reactions TRUE)
+(slider -12 -10 -9 -8 -7 -6 -5 -4 -3 -2 -1 0)
+(ratio_slider 1.0e-2 2.5e-2 5.0e-2 0.1 0.225 0.25 0.275 0.3 0.4 0.5 0.7 1.0)
+(tutorial
+   (streaming_vo
+      (volume -3.0)
+      (dir tutorial/streams)
+      (events
+         #include ../tutorial/tutorial_vo.dta)))
+(song_select
+   (loop_forever TRUE)
+   (fade_time 0.5)
+   (attenuation 9))
+(am_radio
+   (high_frequency 6000.0)
+   (high_gain -10.0)
+   (low_frequency 400.0)
+   (low_gain -10.0))

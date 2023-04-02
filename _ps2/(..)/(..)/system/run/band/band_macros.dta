@@ -1,0 +1,196 @@
+#ifdef BAND_MACROS_DTA
+#else
+#define BAND_MACROS_DTA
+(1)
+#define kPlayIdleRealtime
+(4096)
+#define kPlayIdle
+(8192)
+#define kPlayIdleIntense
+(16384)
+#define kPlayMellow
+(32768)
+#define kPlayNormal
+(65536)
+#define kPlayIntense
+(131072)
+#define kPlaySolo
+(262144)
+#define kPlayDirectedCut
+(520192)
+#define BAND_COOP_CHARS
+((player_bass0 player_drum0 player_guitar0 player_vocals0))
+#define BAND_H2H_BASS_CHARS
+((player_bass0 player_bass1 player_drum0 player_vocals0))
+#define BAND_H2H_DRUM_CHARS
+((player_drum0 player_drum1 player_guitar0 player_vocals0))
+#define BAND_H2H_GUITAR_CHARS
+((player_guitar0 player_guitar1 player_drum0 player_vocals0))
+#define BAND_H2H_VOCALS_CHARS
+((player_vocals0 player_vocals1 player_drum0 player_guitar0))
+#define SHELL_TYPE
+((focus_scale 1)
+   (postprocess
+      "")
+   (update_postproc
+      {if
+         $edit_mode
+         {if_else
+            [postprocess]
+            {[postprocess]
+               select}
+            {rnd reset_postproc}}})
+   (play_cascade
+      ($start_button $delay)
+      {if
+         $start_button
+         {do
+            ($comp)
+            {$start_button
+               stop_anim
+               "enter_anim"}
+            {$start_button
+               stop_anim
+               "exit_anim"}
+            {set
+               $comp
+               {$start_button get nav_down}}
+            {while
+               {&&
+                  {!=
+                     $comp
+                     ""}
+                  {!= $comp $start_button}}
+               {$comp
+                  stop_anim
+                  "enter_anim"}
+               {$comp
+                  stop_anim
+                  "exit_anim"}
+               {set
+                  $comp
+                  {$comp get nav_down}}}
+            {if
+               {exists cascade_intro}
+               {delete cascade_intro}}
+            {$start_button play_anim enter_anim}
+            {set
+               $comp
+               {$start_button get nav_down}}
+            {thread_task
+               kTaskSeconds
+               (name cascade_intro)
+               (script
+                  {set $i 0}
+                  {if
+                     {'||'
+                        {==
+                           $comp
+                           ""}
+                        {== $comp $start_button}}
+                     {$task exit}}
+                  {$task sleep $delay}
+                  {$comp play_anim enter_anim}
+                  {set
+                     $comp
+                     {$comp get nav_down}}
+                  {$task loop})}}})
+   (play_exit
+      ($start_button)
+      {if
+         $start_button
+         {do
+            ($comp)
+            {if
+               {exists cascade_intro}
+               {delete cascade_intro}}
+            {if
+               {$start_button
+                  is_anim_playing
+                  "enter_anim"}
+               {$start_button
+                  play_anim
+                  "exit_anim"}}
+            {set
+               $comp
+               {$start_button get nav_down}}
+            {while
+               {&&
+                  {!=
+                     $comp
+                     ""}
+                  {!= $comp $start_button}}
+               {if
+                  {$comp
+                     is_anim_playing
+                     "enter_anim"}
+                  {$comp
+                     play_anim
+                     "exit_anim"}}
+               {set
+                  $comp
+                  {$comp get nav_down}}}}})
+   (kill_cascade
+      ($start_button)
+      {if
+         $start_button
+         {do
+            ($comp)
+            {if
+               {exists cascade_intro}
+               {delete cascade_intro}}
+            {if_else
+               {$start_button
+                  is_anim_playing
+                  "enter_anim"}
+               {$start_button
+                  stop_anim
+                  "enter_anim"}
+               {if_else
+                  {$start_button
+                     is_anim_playing
+                     "exit_anim"}
+                  {$start_button
+                     stop_anim
+                     "exit_anim"}
+                  {do
+                     {$comp
+                        play_anim
+                        "exit_anim"}
+                     {$comp
+                        stop_anim
+                        "exit_anim"}}}}
+            {set
+               $comp
+               {$start_button get nav_down}}
+            {while
+               {&&
+                  {!=
+                     $comp
+                     ""}
+                  {!= $comp $start_button}}
+               {if_else
+                  {$comp
+                     is_anim_playing
+                     "enter_anim"}
+                  {$comp
+                     stop_anim
+                     "enter_anim"}
+                  {if_else
+                     {$comp
+                        is_anim_playing
+                        "exit_anim"}
+                     {$comp
+                        stop_anim
+                        "exit_anim"}
+                     {do
+                        {$comp
+                           play_anim
+                           "exit_anim"}
+                        {$comp
+                           stop_anim
+                           "exit_anim"}}}}
+               {set
+                  $comp
+                  {$comp get nav_down}}}}}))
+#endif

@@ -1,0 +1,58 @@
+{new
+   Object
+   z
+   (_
+      ($type $x1 $x2 $x3 $x4)
+      {if
+         {exists beatmatch}
+         {do
+            ($player
+               {beatmatch player $x1})
+            {switch
+               $type
+               (kRemoteHit
+                  {$player remote_hit})
+               (kRemotePenalize
+                  {$player remote_penalize})
+               (kRemoteWhammy
+                  {$player remote_whammy $x2})
+               (kRemoteStreak
+                  {$player remote_streak $x2})
+               (kRemoteScore
+                  {$player remote_update_score $x2})
+               (kRemoteCrowd
+                  {$player remote_update_crowd $x2})
+               (kRemoteEnergy
+                  {$player remote_update_energy $x2})
+               (kRemoteDeploy
+                  {$player remote_deploy})
+               (kRemoteEnabled
+                  {$player remote_enabled_state $x2 $x3 $x4})
+               (kRemoteFill
+                  {$player remote_fill $x2})
+               (kRemoteFillHit
+                  {$player remote_fill_hit $x2})
+               (kRemoteSoloStart
+                  {$player remote_solo_start})
+               (kRemoteSoloHit
+                  {$player remote_solo_hit $x2})
+               (kRemoteSoloEnd
+                  {$player remote_solo_end $x2 $x3})
+               (kRemoteVocalState
+                  {$player remote_vocal_state $x2 $x3})
+               (kRemoteTambourine
+                  {$player remote_tambourine_succeeding $x2 $x3})
+               (kRemoteCodaPoints
+                  {$player remote_coda_points $x2})
+               (kRemoteCodaLastGem
+                  {$player remote_hit_last_coda_gem $x2})
+               (kRemoteBlowCoda
+                  {$player remote_blow_coda})
+               (kRemoteAlreadySaved
+                  {$player remote_already_saved $x2})
+               (kRemoteGuitarFx
+                  {$player remote_guitar_fx $x2})
+               {print
+                  "Bad enum "
+                  $type
+                  " in net_delegator\n"}}}})}

@@ -1,0 +1,56 @@
+(heaps
+   #ifdef HX_EE
+   #ifdef _DEBUG
+   (main
+      (size 50000000))
+   (rnd
+      (size 5000000)
+      (handle TRUE))
+   #else
+   (main
+      (size 50000000))
+   (rnd
+      (size 2100000)
+      (handle TRUE))
+   #endif
+   #else
+   #ifdef HX_PC
+   (main
+      (size 350000000))
+   (synth
+      (size 30000000))
+   (face_fx
+      (size 1500000))
+   (server_login
+      (size 20000))
+   #else
+   #ifdef HX_WII
+   #ifdef _DEBUG
+   (main
+      (size 40000000))
+   #else
+   (main
+      (size 27619953))
+   #endif
+   (rnd
+      (size 20000000)
+      (handle TRUE))
+   (song
+      (size 28770000)
+      (handle TRUE))
+   #else
+   (main
+      (size 125000000))
+   (server_login
+      (size 50000))
+   (face_fx
+      (size 1500000))
+   #endif
+   #endif
+   #endif)
+(pool
+   (big_hunk 3100000)
+   (small_hunk 50000))
+(check_consistency FALSE)
+(enable_tracking FALSE)
+(track_stl FALSE)

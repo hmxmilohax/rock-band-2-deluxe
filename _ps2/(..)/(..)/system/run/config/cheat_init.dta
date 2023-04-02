@@ -1,0 +1,71 @@
+{new
+   UIPanel
+   system_cheat_panel
+   (file
+      "../ui/cheat.milo")
+   (focus cheat.lst)
+   (cheat_provider '')
+   (enter
+      {project.lbl
+         set_localized
+         {sprint
+            {elem
+               {find $syscfg rnd title}
+               1}
+            " Cheats"}}
+      {set
+         [cheat_provider]
+         {new CheatProvider}}
+      {cheat.lst
+         set_provider
+         [cheat_provider]})
+   (BUTTON_DOWN_MSG
+      {switch
+         $button
+         (kPad_Tri
+            {ui goto_screen system_cheat_exit_screen})}
+      kDataUnhandled)
+   (KEY_MSG
+      {switch
+         $key
+         (KB_DOWN
+            {$this button_down kPad_DDown 0})
+         (KB_UP
+            {$this button_down kPad_DUp 0})
+         (KB_RIGHT
+            {$this button_down kPad_R1 0})
+         (KB_LEFT
+            {$this button_down kPad_L1 0})
+         (KB_ENTER
+            {handle
+               ($this button_down kPad_X 0)})})
+   (SELECT_START_MSG
+      {if_else
+         {[cheat_provider]
+            invoke
+            {cheat.lst selected_pos}}
+         kDataUnhandled
+         TRUE})}
+{new
+   UIScreen
+   system_cheat_screen
+   (panels system_cheat_panel)
+   (focus system_cheat_panel)}
+{new
+   UIScreen
+   system_cheat_exit_screen
+   (TRANSITION_COMPLETE_MSG
+      {delete
+         {system_cheat_panel get cheat_provider}}
+      {ui pop_screen})}
+{func
+   show_cheats
+   {if
+      {!
+         {ui in_transition}}
+      {if_else
+         {==
+            {ui current_screen}
+            system_cheat_screen}
+         {ui goto_screen system_cheat_exit_screen}
+         {ui push_screen system_cheat_screen}}}}

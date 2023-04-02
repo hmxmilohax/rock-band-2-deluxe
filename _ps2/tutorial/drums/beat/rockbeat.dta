@@ -1,0 +1,226 @@
+SETUP_DRUM_TUTORIAL
+DRUM_TV_WHITE
+START_BG_MUSIC
+{setup_lesson_banner tutorial_drum_beat_rockbeat_part}
+DRUM_ROCKBEAT_DRUMKIT_SHOW
+DRUM_ROCKBEAT_KICK_SHOW
+DRUM_ROCKBEAT_DRUMKIT_UP
+DRUM_ROCKBEAT_KICK_DOWN
+{meta_performer set_song drum_beat_rockbeat}
+LOAD_NEW_DRUMS_SONG_NO_FADE
+HIDE_TRACK_PLAYER_UI
+UNPAUSE_TRACK
+SYNC_PAUSE
+{new
+   Object
+   tutorial_drum_beat_rockbeat_callback
+   (hit
+      ($slot)
+      {if
+         [is_enabled]
+         {if_else
+            {== $slot 0}
+            {do
+               {set
+                  [last_hit_was_kick]
+                  TRUE}
+               DRUM_ROCKBEAT_KICK_DOWN}
+            {do
+               {if_else
+                  {&&
+                     {!
+                        [last_hit_was_kick]}
+                     {<
+                        {-
+                           {taskmgr tutorial_seconds}
+                           [last_hit_time]}
+                        5.0e-2}}
+                  DRUM_ROCKBEAT_DRUMKIT_HITBOTH
+                  {switch
+                     $slot
+                     (1 DRUM_ROCKBEAT_DRUMKIT_HIT1)
+                     (2 DRUM_ROCKBEAT_DRUMKIT_HIT2)
+                     (3 DRUM_ROCKBEAT_DRUMKIT_HIT3)
+                     (4 DRUM_ROCKBEAT_DRUMKIT_HIT4)}}
+               {set
+                  [last_hit_was_kick]
+                  FALSE}}}
+         {set
+            [last_hit_time]
+            {taskmgr tutorial_seconds}}})
+   (downbeat
+      {if
+         [is_enabled]
+         {set
+            [beat_count]
+            0}})
+   (quarterbeat
+      {if
+         [is_enabled]
+         {if
+            {>
+               {-
+                  {taskmgr tutorial_seconds}
+                  [last_hit_time]}
+               0.2}
+            DRUM_ROCKBEAT_DRUMKIT_UP}
+         {'++'
+            [beat_count]}
+         {if
+            {>
+               [beat_count]
+               15}
+            {set
+               [beat_count]
+               0}}
+         {if
+            {&&
+               [do_kick]
+               {'||'
+                  {==
+                     [beat_count]
+                     6}
+                  {==
+                     [beat_count]
+                     14}}}
+            DRUM_ROCKBEAT_KICK_UP}})
+   (set_kick
+      ($val)
+      {set
+         [do_kick]
+         $val})
+   (set_enabled
+      ($val)
+      {set
+         [is_enabled]
+         $val}
+      {set
+         [beat_count]
+         0}
+      {set
+         [last_hit_time]
+         0.0}
+      DRUM_ROCKBEAT_KICK_DOWN
+      DRUM_ROCKBEAT_DRUMKIT_UP
+      {if_else
+         $val
+         {do
+            {{beatmatch active_player 0}
+               add_sink
+               $this}
+            {game add_sink $this}}
+         {do
+            {{beatmatch active_player 0}
+               remove_sink
+               $this}
+            {game remove_sink $this}}})
+   (is_enabled FALSE)
+   (last_hit_time 0.0)
+   (last_hit_was_kick FALSE)
+   (beat_count 0)
+   (do_kick TRUE)}
+AUTOPLAY_ON
+{play_vo tute_drum2_beatwatch}
+STOP_BG_MUSIC
+WAIT_FOR_VO
+FADE_SONG_IN
+LONG_VO_GAP
+{tutorial_drum_beat_rockbeat_callback set_enabled TRUE}
+ENABLE_DRUM_TUTORIAL_METRONOME
+UNPAUSE_TRACK
+SYNC_NOPAUSE
+TRACK_OUT
+PAUSE_TRACK
+DISABLE_DRUM_TUTORIAL_METRONOME
+{tutorial_drum_beat_rockbeat_callback set_enabled FALSE}
+{play_vo tute_drum2_beatbreakdown}
+WAIT_FOR_VO
+LONG_VO_GAP
+{play_vo tute_drum2_righthand}
+LOAD_NEW_DRUMS_SONG
+HIDE_TRACK_PLAYER_UI
+UNPAUSE_TRACK
+DISABLE_SYNC_PAUSE
+{{{get_track_panel}
+      get_first_track}
+   disable_slot
+   KICK_SLOT}
+{{{get_track_panel}
+      get_first_track}
+   disable_slot
+   SNARE_SLOT}
+{{{get_track_panel}
+      get_first_track}
+   enable_slot
+   HIHAT_SLOT}
+{{gamemode get main_panel}
+   mute_all_tracks}
+{tutorial_drum_beat_rockbeat_callback set_kick FALSE}
+{tutorial_drum_beat_rockbeat_callback set_enabled TRUE}
+ENABLE_DRUM_TUTORIAL_METRONOME
+UNPAUSE_TRACK
+SYNC_NOPAUSE
+TRACK_OUT
+PAUSE_TRACK
+DISABLE_DRUM_TUTORIAL_METRONOME
+{tutorial_drum_beat_rockbeat_callback set_enabled FALSE}
+WAIT_FOR_VO
+{play_vo tute_drum2_lefthand}
+LOAD_NEW_DRUMS_SONG
+HIDE_TRACK_PLAYER_UI
+UNPAUSE_TRACK
+DISABLE_SYNC_PAUSE
+{{{get_track_panel}
+      get_first_track}
+   disable_slot
+   KICK_SLOT}
+{{{get_track_panel}
+      get_first_track}
+   enable_slot
+   SNARE_SLOT}
+{{{get_track_panel}
+      get_first_track}
+   disable_slot
+   HIHAT_SLOT}
+{{gamemode get main_panel}
+   mute_all_tracks}
+{tutorial_drum_beat_rockbeat_callback set_kick FALSE}
+{tutorial_drum_beat_rockbeat_callback set_enabled TRUE}
+ENABLE_DRUM_TUTORIAL_METRONOME
+UNPAUSE_TRACK
+SYNC_NOPAUSE
+TRACK_OUT
+PAUSE_TRACK
+DISABLE_DRUM_TUTORIAL_METRONOME
+{tutorial_drum_beat_rockbeat_callback set_enabled FALSE}
+WAIT_FOR_VO
+{play_vo tute_drum2_foot}
+LOAD_NEW_DRUMS_SONG
+HIDE_TRACK_PLAYER_UI
+UNPAUSE_TRACK
+DISABLE_SYNC_PAUSE
+{{{get_track_panel}
+      get_first_track}
+   enable_slot
+   KICK_SLOT}
+{{{get_track_panel}
+      get_first_track}
+   disable_slot
+   SNARE_SLOT}
+{{{get_track_panel}
+      get_first_track}
+   disable_slot
+   HIHAT_SLOT}
+{{gamemode get main_panel}
+   mute_all_tracks}
+{tutorial_drum_beat_rockbeat_callback set_kick TRUE}
+{tutorial_drum_beat_rockbeat_callback set_enabled TRUE}
+ENABLE_DRUM_TUTORIAL_METRONOME
+UNPAUSE_TRACK
+SYNC_NOPAUSE
+TRACK_OUT
+PAUSE_TRACK
+DISABLE_DRUM_TUTORIAL_METRONOME
+{tutorial_drum_beat_rockbeat_callback set_enabled FALSE}
+WAIT_FOR_VO
+{tutorials_state_panel switch_to_next_state}

@@ -1,0 +1,783 @@
+#ifndef TRACK_HANDLERS_DTA
+#define TRACK_HANDLERS_DTA
+(1)
+#include ../ui/global.dta
+#define COMMON_TRACK_EDITOR
+((instrument
+      symbol
+      (list
+         (none bass drum guitar vocals)))
+   (player_intro
+      object
+      (class RndDir))
+   (star_power_meter
+      object
+      (class RndDir))
+   (streak_meter
+      object
+      (class RndDir))
+   (popup_object
+      object
+      (class RndDir))
+   (player_feedback
+      object
+      (class RndDir))
+   (failed_feedback
+      object
+      (class RndDir))
+   (disable_player
+      script
+      (script
+         {$this disable_player 1}))
+   (save_player
+      script
+      (script
+         {$this save_player}
+         {script_task
+            kTaskSeconds
+            (delay 1.5)
+            (script
+               {$this enable_player})})))
+#define COMMON_TRACK_HANDLERS
+((parent
+      "")
+   (player
+      "")
+   (instrument none proxy_save)
+   (player_intro
+      "")
+   (star_power_meter
+      "")
+   (streak_meter
+      "")
+   (popup_object
+      "")
+   (player_feedback
+      "")
+   (failed_feedback
+      "")
+   (disabled FALSE)
+   (simulated_net FALSE proxy_save)
+   (track_fading TRUE)
+   (fade1rect1
+      (256 64))
+   (fade2rect1
+      (256 64))
+   (fade1rect2
+      (192 32))
+   (fade2rect2
+      (192 48))
+   (fade1rect3
+      (128 32))
+   (fade2rect3
+      (128 32))
+   (fade_mesh_width 848.0)
+   (init
+      ($in_parent)
+      {set
+         [parent]
+         $in_parent}
+      {set
+         [player]
+         {[parent]
+            player}}
+      {$this reset})
+   (reset
+      {if
+         {exists game}
+         {if_else
+            {==
+               [instrument]
+               vocals}
+            {do
+               {vocal_warning.mnm stop_animation}
+               {vocal_warning.mnm set_frame 0.0}}
+            {do
+               {warning_track_emissive.anim stop_animation}
+               {warning_track_emissive.anim set_frame 0.0}}}
+         {do
+            ($crowd_meter
+               {$this get_crowd_meter})
+            {if
+               $crowd_meter
+               {do
+                  ($crowd_meter_icon
+                     {$crowd_meter
+                        find
+                        [instrument]})
+                  {if
+                     ($crowd_meter_icon)
+                     {do
+                        ($icon_state_anim
+                           {$crowd_meter_icon find icon_state.anim})
+                        {if
+                           ($icon_state_anim)
+                           {$icon_state_anim stop_animation}
+                           {$icon_state_anim set_frame 0.0}}}}}}}
+         {$this
+            set_track_fade
+            [track_fading]}}
+      {if
+         {!=
+            [star_power_meter]
+            ""}
+         {[star_power_meter]
+            reset}
+         {if
+            {!=
+               [player]
+               ""}
+            {[star_power_meter]
+               set_showing
+               TRUE}}}
+      {if
+         {!=
+            [streak_meter]
+            ""}
+         {[streak_meter]
+            reset}
+         {if
+            {!=
+               [player]
+               ""}
+            {[streak_meter]
+               set_showing
+               TRUE}
+            {if_else
+               {==
+                  [instrument]
+                  bass}
+               {[streak_meter]
+                  set
+                  max_multiplier
+                  6}
+               {[streak_meter]
+                  set
+                  max_multiplier
+                  4}}}}
+      {if
+         {!=
+            [player_feedback]
+            ""}
+         {[player_feedback]
+            reset}}
+      {if
+         {!=
+            [failed_feedback]
+            ""}
+         {[failed_feedback]
+            reset}
+         {do
+            ($task_name
+               {sprint
+                  [instrument]
+                  "_failed"})
+            {if
+               {exists $task_name}
+               {delete $task_name}}}}
+      {if
+         {!=
+            [parent]
+            ""}
+         {[parent]
+            set_bonus_gems
+            FALSE}
+         {[parent]
+            solo_reset}}
+      {reset.trig trigger}
+      {$this track_reset}
+      {$this stop_deploy}
+      {if
+         {exists LOD.anim}
+         {LOD.anim set_frame $track_LOD}}
+      {if
+         {!=
+            [popup_object]
+            ""}
+         {[popup_object]
+            reset}
+         {if
+            {!=
+               [player]
+               ""}
+            {if
+               {'||'
+                  {'||'
+                     {==
+                        {[player]
+                           difficulty}
+                        kDifficultyHard}
+                     {==
+                        {[player]
+                           difficulty}
+                        kDifficultyExpert}}
+                  {[player]
+                     is_net}}
+               {[popup_object]
+                  set
+                  popup_help_disabled
+                  TRUE}}}}
+      {$this setup_player_intro}
+      {if
+         {exists game}
+         {$this setup_crowd_meter}})
+   (setup_player_intro
+      {if
+         {!=
+            [player_intro]
+            ""}
+         {[player_intro]
+            reset}
+         {[player_intro]
+            setup_player
+            {get_player_icon
+               [player]}
+            {get_player_name
+               [player]}}})
+   (setup_crowd_meter
+      {do
+         ($crowd_meter
+            {$this get_crowd_meter})
+         {if
+            $crowd_meter
+            {$crowd_meter
+               send_icon
+               [instrument]
+               {get_player_icon
+                  [player]}}}})
+   (track_reset)
+   (retract
+      {$this set_track_fade FALSE}
+      {retract.trig trigger}
+      {if
+         {!=
+            [instrument]
+            vocals}
+         {script_task
+            kTaskUISeconds
+            (delay 1)
+            (script
+               {$this clear_all})}}
+      {if
+         {!=
+            [player_feedback]
+            ""}
+         {[player_feedback]
+            reset}})
+   (immediate_retract
+      {$this reset}
+      {immediate_retract.trig trigger})
+   (game_won
+      {if_else
+         {exists win_retract.trig}
+         {win_retract.trig trigger}
+         {$this retract}}
+      {if
+         {!=
+            [player_feedback]
+            ""}
+         {[player_feedback]
+            reset}})
+   (game_over
+      {if
+         {!=
+            [popup_object]
+            ""}
+         {[popup_object]
+            reset}}
+      {if
+         {!=
+            [player_intro]
+            ""}
+         {[player_intro]
+            reset}}
+      {if
+         {!=
+            [failed_feedback]
+            ""}
+         {[failed_feedback]
+            reset}}
+      {do
+         ($task_name
+            {sprint
+               [instrument]
+               "_failed"})
+         {if
+            {exists $task_name}
+            {delete $task_name}}})
+   (spotlight_fail
+      {spotlight_fail.trig trigger})
+   (spotlight_fail_guilty
+      {spotlight_fail_guilty.trig trigger})
+   (solo_reset
+      {solo_reset.trig trigger})
+   (set_streak
+      ($streak $streak_mult $max_streak_mult)
+      {if
+         {&&
+            {!=
+               [player]
+               ""}
+            {!=
+               [streak_meter]
+               ""}}
+         {do
+            ($notes_per_streak
+               {[player]
+                  notes_per_streak})
+            {if
+               {&&
+                  {>= $streak_mult 5}
+                  {<
+                     {[streak_meter]
+                        get
+                        streak_multiplier}
+                     5}}
+               {$this super_streak TRUE}}
+            {[streak_meter]
+               set_multiplier
+               $streak_mult}
+            {if
+               {> $streak 0}
+               {set
+                  $percent
+                  {/
+                     {mod $streak $notes_per_streak}
+                     $notes_per_streak}}
+               {if_else
+                  {&&
+                     {< $streak_mult $max_streak_mult}
+                     {!= $percent 0}}
+                  {[streak_meter]
+                     set_hit
+                     $percent}
+                  {[streak_meter]
+                     set_hit
+                     1}}}}})
+   (streak_broken
+      {if
+         {&&
+            {!
+               {game is_game_over}}
+            {!=
+               [streak_meter]
+               ""}}
+         {[streak_meter]
+            break}
+         {synth play streak_fail.cue}}
+      {$this super_streak FALSE})
+   (get_crowd_meter
+      {if_else
+         {get_track_panel}
+         {if_else
+            {{get_track_panel}
+               exists
+               crowd_meter}
+            {if_else
+               {gamemode get update_crowd_meter}
+               {{get_track_panel}
+                  find
+                  crowd_meter}
+               0}
+            0}
+         0})
+   (set_crowd_rating
+      ($in_val $state)
+      {do
+         ($crowd_meter
+            {$this get_crowd_meter})
+         {if
+            $crowd_meter
+            {if_else
+               {>=
+                  $in_val
+                  {$crowd_meter get_peak_value}}
+               {{$crowd_meter
+                     find
+                     [instrument]}
+                  arrow_hide}
+               {{$crowd_meter
+                     find
+                     [instrument]}
+                  arrow_show}}
+            {$crowd_meter
+               set_val
+               [instrument]
+               $in_val}
+            {if
+               {!=
+                  $state
+                  ""}
+               {$crowd_meter
+                  set_player_icon_state
+                  [instrument]
+                  $state}
+               {if_else
+                  {==
+                     $state
+                     "warning"}
+                  {indv_player_warning.trig trigger}
+                  {indv_player_warning_off.trig trigger}}}}})
+   (set_net_talking
+      ($talking)
+      {if
+         {!=
+            [player_intro]
+            ""}
+         {[player_intro]
+            set_talking
+            $talking}})
+   (enable_player
+      {if
+         [disabled]
+         {do
+            ($task_name
+               {sprint
+                  [instrument]
+                  "_failed"})
+            {if
+               {exists $task_name}
+               {delete $task_name}}}
+         {bfb_reset.trig trigger}
+         {set
+            [disabled]
+            FALSE}
+         {if
+            {&&
+               {!
+                  {[player]
+                     is_net}}
+               {!=
+                  [player_intro]
+                  ""}}
+            {[player_intro]
+               hide}}
+         {if
+            {{$this dir}
+               exists
+               crowd_meter}
+            {{{$this dir}
+                  find
+                  crowd_meter}
+               enable_player
+               [instrument]}}})
+   (disable_player
+      ($strikes)
+      {if
+         {!
+            [disabled]}
+         {bfb_failed.trig trigger}
+         {if
+            {!=
+               [player_feedback]
+               ""}
+            {[player_feedback]
+               reset}}
+         {if
+            {!=
+               [popup_object]
+               ""}
+            {[popup_object]
+               reset}}
+         {set
+            [disabled]
+            TRUE}
+         {if
+            {&&
+               {!=
+                  [parent]
+                  ""}
+               {{[parent]
+                     panel}
+                  exists
+                  crowd_meter}}
+            {{{[parent]
+                     panel}
+                  find
+                  crowd_meter}
+               disable_player
+               [instrument]}}
+         {if
+            {&&
+               {!=
+                  [parent]
+                  ""}
+               {!=
+                  [instrument]
+                  vocals}}
+            {[parent]
+               set_gems_enabled
+               -1}}
+         {script_task
+            kTaskSeconds
+            (name
+               {sprint
+                  [instrument]
+                  "_failed"})
+            (delay 1.5)
+            (script
+               {if
+                  {!=
+                     [failed_feedback]
+                     ""}
+                  {if
+                     {!=
+                        [player_intro]
+                        ""}
+                     {[player_intro]
+                        intro}}
+                  {if_else
+                     {&&
+                        [player]
+                        {==
+                           {[player]
+                              enabled_state}
+                           kPlayerDisconnected}}
+                     {[failed_feedback]
+                        disconnected}
+                     {[failed_feedback]
+                        failed
+                        $strikes}}}
+               {if
+                  {!=
+                     [instrument]
+                     vocals}
+                  {if
+                     {!=
+                        [star_power_meter]
+                        ""}
+                     {[star_power_meter]
+                        set_showing
+                        FALSE}}
+                  {if
+                     {!=
+                        [streak_meter]
+                        ""}
+                     {[streak_meter]
+                        set_showing
+                        FALSE}}})}})
+   (save_player
+      {if
+         [disabled]
+         {do
+            ($task_name
+               {sprint
+                  [instrument]
+                  "_failed"})
+            {if
+               {exists $task_name}
+               {delete $task_name}}}
+         {bfb_saved.trig trigger}
+         {if
+            {!=
+               [failed_feedback]
+               ""}
+            {if
+               {!
+                  {[player]
+                     is_net}}
+               {[player_intro]
+                  hide}}
+            {[failed_feedback]
+               saved}}
+         {if
+            {!=
+               [instrument]
+               vocals}
+            {if
+               {!=
+                  [star_power_meter]
+                  ""}
+               {[star_power_meter]
+                  set_showing
+                  TRUE}}
+            {if
+               {!=
+                  [streak_meter]
+                  ""}
+               {[streak_meter]
+                  set_showing
+                  TRUE}}}
+         {if
+            {&&
+               {!=
+                  [player]
+                  ""}
+               {&&
+                  {!=
+                     [parent]
+                     ""}
+                  {!=
+                     [instrument]
+                     vocals}}}
+            {[parent]
+               set_gems_enabled
+               {[player]
+                  enable_time}}}
+         {if
+            {&&
+               {!=
+                  [parent]
+                  ""}
+               {{[parent]
+                     panel}
+                  exists
+                  crowd_meter}}
+            {{{[parent]
+                     panel}
+                  find
+                  crowd_meter}
+               enable_player
+               [instrument]}}})
+   (super_streak
+      ($val))
+   (deploy)
+   (stop_deploy)
+   (play_intro)
+   (on_miss_phrase
+      ($phrase))
+   (set_multiplier)
+   (enter_coda
+      {enter_coda.trig trigger}
+      {if
+         {&&
+            {!=
+               [player_feedback]
+               ""}
+            {!=
+               [instrument]
+               vocals}}
+         {[player_feedback]
+            reset}}
+      {if
+         [player_intro]
+         {[player_intro]
+            reset}}
+      {if
+         [failed_feedback]
+         {[failed_feedback]
+            reset}}
+      {if
+         [star_power_meter]
+         {[star_power_meter]
+            set_showing
+            FALSE}}
+      {if
+         [streak_meter]
+         {[streak_meter]
+            set_showing
+            FALSE}}
+      {if
+         {!
+            {gamemode get is_practice}}
+         {if
+            {&&
+               {!=
+                  [instrument]
+                  vocals}
+               {!=
+                  [parent]
+                  ""}}
+            {[parent]
+               set_gems_enabled
+               {taskmgr ms}}}
+         {if
+            {&&
+               {!=
+                  [instrument]
+                  vocals}
+               {gamemode is_band_arrangement}}
+            {{get_track_panel}
+               vocal_hide_streak}}})
+   (coda_blown
+      {$this spotlight_fail})
+   (coda_fail
+      {$this spotlight_fail_guilty}
+      {$this popup_help rock_ending FALSE})
+   (coda_success
+      {if
+         {get_track_panel}
+         {if_else
+            {== $game.play_mode coop}
+            {{get_track_panel}
+               coda_success}
+            {do
+               {{{get_track_panel}
+                     ending_bonus
+                     [player]}
+                  success}
+               {{get_track_panel}
+                  hth_coda_success
+                  [player]}}}}
+      {if
+         {exists bre_success.trig}
+         {bre_success.trig trigger}}
+      {$this popup_help rock_ending FALSE})
+   (popup_help
+      ($popup_key $state)
+      {if
+         {!=
+            [popup_object]
+            ""}
+         {do
+            ($dead
+               {&&
+                  {!=
+                     [player]
+                     ""}
+                  {!=
+                     {[player]
+                        enabled_state}
+                     kPlayerEnabled}})
+            {if
+               {! $dead}
+               {[popup_object]
+                  help
+                  $popup_key
+                  $state
+                  [instrument]}}}})
+   (player_disabled
+      {$this dts_popup})
+   (player_saved
+      {if
+         {exists beatmatch}
+         {beatmatch
+            foreach_active_player
+            $player
+            {$player popup_help deploy_to_save FALSE}}})
+   (dts_popup
+      {if
+         {exists beatmatch}
+         {beatmatch
+            foreach_active_player
+            $player
+            {if
+               {==
+                  {$player enabled_state}
+                  kPlayerEnabled}
+               {if
+                  {>=
+                     {$player band_energy}
+                     0.5}
+                  {if
+                     {'||'
+                        {==
+                           {$player instrument}
+                           drum}
+                        {==
+                           {$player instrument}
+                           vocals}}
+                     {if_else
+                        {$player in_freestyle_section}
+                        {$player popup_help deploy_to_save TRUE}
+                        {$player popup_help deploy_to_save FALSE}}}
+                  {if
+                     {'||'
+                        {==
+                           {$player instrument}
+                           guitar}
+                        {==
+                           {$player instrument}
+                           bass}}
+                     {$player popup_help deploy_to_save TRUE}}}}}}))
+#endif

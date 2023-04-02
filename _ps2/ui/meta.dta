@@ -1,0 +1,368 @@
+{new
+   HelpBarPanel
+   helpbar
+   (switch_frames 240)
+   (fade_anim_speed 5)
+   (file
+      "helpbar.milo")
+   (update_controllers
+      {$this JOYPAD_CONNECT_MSG 0})}
+{new
+   MetaPanel
+   meta
+   (file meta_panel.milo)
+   (playing_post_set FALSE)
+   (music_play FALSE)
+   (load)
+   (unload)
+   (enter
+      {$this music_start}
+      {set
+         [playing_post_set]
+         FALSE})
+   (music_start
+      {if
+         {&&
+            {$this is_up}
+            {!
+               {postsong_sfx_panel get active}}
+            {!
+               [music_play]}}
+         {set
+            [music_play]
+            TRUE}
+         {synth play shell_crowd_muffled.cue}
+         {platform_mgr enable_xmp}})
+   (music_stop
+      {set
+         [music_play]
+         FALSE}
+      {synth stop shell_crowd_muffled.cue}
+      {platform_mgr disable_xmp})
+   #ifdef HX_EE
+   (music_start_stream
+      ()
+      {script_task
+         kTaskUISeconds
+         (delay 1.0)
+         (name
+            "song_preview")
+         (script
+            {{$this meta_music}
+               start_stream
+               {song_mgr get_song_preview_clip}})})
+   (music_stop_stream
+      {taskmgr clear_song_preview_tasks}
+      {{$this meta_music}
+         stop_stream})
+   #endif
+   (play_postset_loop
+      ($play)
+      {if_else
+         $play
+         {unless
+            [playing_post_set]
+            {synth play shell_crowd_muffled.cue}}
+         {synth stop shell_crowd_muffled.cue}}
+      {set
+         [playing_post_set]
+         $play})}
+{new
+   UIPanel
+   postsong_sfx_panel
+   (active FALSE)
+   (load
+      {set
+         [active]
+         TRUE}
+      {meta music_stop}
+      {platform_mgr disable_xmp}
+      {synth play shell_crowd_muffled.cue})
+   (exit
+      {set
+         [active]
+         FALSE}
+      {synth stop shell_crowd_muffled.cue})}
+#define DIALOG_PANEL_HANDLERS
+((file
+      "dialog_og.milo")
+   (limit none)
+   (helpbar
+      ((min_height 0)))
+   (allow_player
+      ($player_num)
+      {switch
+         [limit]
+         (none TRUE)
+         (session
+            {'||'
+               {==
+                  {game get leader_num}
+                  -1}
+               {game is_player_participating $player_num}})
+         (leader_session
+            {'||'
+               {&&
+                  {is_leader_local}
+                  {game is_player_participating $player_num}}
+               {gamemode get always_allow_player}})})
+   (set_custom
+      ($msg $opt1 $opt2 $focus)
+      {dialog_title.lbl set_showing FALSE}
+      {msg.lbl set_localized $msg}
+      {opt1.btn set_localized $opt1}
+      {opt2.btn set_localized $opt2}
+      {opt1.btn set_showing TRUE}
+      {opt2.btn set_showing TRUE}
+      {yes.btn set_showing FALSE}
+      {no.btn set_showing FALSE}
+      {ok.btn set_showing FALSE}
+      {$this set_focus $focus})
+   (set_yesno
+      ($msg $focus)
+      {dialog_title.lbl set_showing FALSE}
+      {msg.lbl set_localized $msg}
+      {opt1.btn set_showing FALSE}
+      {opt2.btn set_showing FALSE}
+      {yes.btn set_showing TRUE}
+      {no.btn set_showing TRUE}
+      {ok.btn set_showing FALSE}
+      {helpbar
+         set_config
+         ((confirm helpbar_select))}
+      {$this set_focus $focus})
+   (set_ok
+      ($msg)
+      {dialog_title.lbl set_showing FALSE}
+      {msg.lbl set_localized $msg}
+      {opt1.btn set_showing FALSE}
+      {opt2.btn set_showing FALSE}
+      {yes.btn set_showing FALSE}
+      {no.btn set_showing FALSE}
+      {ok.btn set_showing TRUE}
+      {helpbar
+         set_config
+         ((confirm helpbar_continue))}
+      {$this set_focus ok.btn})
+   (set_msg
+      ($msg)
+      {$this set_focus msg.lbl}
+      {dialog_title.lbl set_showing FALSE}
+      {msg.lbl set_localized $msg}
+      {msg.lbl set_showing TRUE}
+      {opt1.btn set_showing FALSE}
+      {opt2.btn set_showing FALSE}
+      {yes.btn set_showing FALSE}
+      {no.btn set_showing FALSE}
+      {ok.btn set_showing FALSE}
+      {helpbar
+         set_config
+         ((confirm helpbar_continue))})
+   (set_title
+      ($msg)
+      {dialog_title.lbl set_showing TRUE}
+      {dialog_title.lbl set_localized $msg}))
+{new
+   DialogPanel
+   dialog_panel
+   DIALOG_PANEL_HANDLERS
+   (TRANSITION_COMPLETE_MSG
+      {set
+         [limit]
+         none}
+      {$this set_player_num -1}
+      {helpbar min_height 0}
+      {helpbar set_limit_to_player_num -1})}
+{new
+   DialogPanel
+   error_dialog_panel
+   DIALOG_PANEL_HANDLERS
+   (mode default)
+   (blank_help TRUE)
+   (enter
+      {do
+         {helpbar set helpbar_lock TRUE}
+         {helpbar special_limit_to_player_num -1}
+         {helpbar special_limit_to_session FALSE}
+         {helpbar
+            special_config
+            ((confirm helpbar_select))}}
+      {if_else
+         {yes.btn showing}
+         {$this set_focus yes.btn}
+         {if_else
+            {opt1.btn showing}
+            {$this set_focus opt1.btn}
+            {if_else
+               {no.btn showing}
+               {$this set_focus no.btn}
+               {if_else
+                  {ok.btn showing}
+                  {$this set_focus ok.btn}
+                  {$this set_focus opt2.btn}}}}})
+   (exit
+      {do
+         ($backup_playernum
+            {helpbar get backup_playernum})
+         ($backup_session
+            {helpbar get backup_session})
+         {helpbar set helpbar_lock FALSE}
+         {if_else
+            {== TRUE $backup_session}
+            {helpbar set_limit_to_session $backup_session}
+            {if
+               {!= -1 $backup_playernum}
+               {helpbar set_limit_to_player_num $backup_playernum}}}
+         {helpbar
+            set_config
+            {helpbar get backup_config}}})
+   (FOCUS_MSG
+      {unless
+         {ui in_transition}
+         {synth play button_toggle}}
+      kDataUnhandled)
+   (SELECT_MSG
+      {switch
+         [mode]
+         (pad_lost
+            {band_ui_sink hide_error_dialog}
+            {switch
+               $component
+               (opt1.btn
+                  {band_ui_sink check_controllers})
+               (opt2.btn
+                  {band_ui_sink trigger_quit_early_transition})})
+         (remote_exit
+            {band_ui_sink hide_error_dialog}
+            {switch
+               $component
+               (yes.btn
+                  {band_ui_sink trigger_quit_early_transition})})
+         (swap
+            {ui hide_error_dialog}
+            {set
+               [blank_help]
+               TRUE}
+            {band_ui_sink trigger_quit_early_transition})
+         (default
+            {ui hide_error_dialog})})
+   (SELECT_START_MSG
+      {synth play button_select}
+      kDataUnhandled)
+   (set_error_msg
+      ($error_reason)
+      {if_else
+         {== $error_reason kControllerSwap}
+         {set
+            [mode]
+            swap}
+         {set
+            [mode]
+            default}}
+      {$this
+         set_ok
+         {localize_token
+            {switch
+               $error_reason
+               (kLostConnection error_lost_connection)
+               (kLoneHeadToHead error_lone_hth)
+               (kLoneBandCoop error_lone_band_coop)
+               (kNoLeader error_no_leader)
+               (kKicked error_kicked)
+               (kLostServer error_lost_server)
+               (kControllerSwap error_controller_swap)
+               (kEthernetUnplugged error_ethernet_unplugged)
+               (kLostSongData error_lost_song_data)
+               (kLocalUserSignedOut error_local_user_signed_out)
+               (kBandOwnerSignedOut error_band_owner_signed_out)
+               (kProfileOwnerSignedOut error_profile_owner_signed_out)}}})
+   (set_error_token
+      ($token)
+      {set
+         [mode]
+         default}
+      {$this
+         set_ok
+         {localize_token $token}})
+   (JOYPAD_CONNECT_MSG
+      {if
+         {==
+            [mode]
+            pad_lost}
+         {$this set_focus opt1.btn}})
+   (TRANSITION_COMPLETE_MSG
+      {if
+         {==
+            [mode]
+            pad_lost}
+         {$this set_focus opt1.btn}})
+   (pad_lost
+      ($port $controller_sym)
+      {band_ui_sink hide_error_dialog}
+      {set
+         [mode]
+         pad_lost}
+      {if_else
+         {== $port -1}
+         {do
+            {ui hide_error_dialog}
+            {band_ui_sink trigger_quit_early_transition}}
+         {do
+            {$this
+               set_custom
+               #ifdef HX_WII
+               {if_else
+                  {==
+                     {{game
+                           get_player_config
+                           {joypad_get_player_from_padnum $port}}
+                        get_controller_type}
+                     kControllerVocals}
+                  {localize error_pad_lost_vocals}
+                  {do
+                     {sprintf
+                        {localize error_pad_lost}
+                        {{game
+                              get_player_config
+                              {joypad_get_player_from_padnum $port}}
+                           get
+                           player_name}
+                        {localize_token $controller_sym}}}}
+               #else
+               {sprintf
+                  {localize error_pad_lost}
+                  {{game
+                        get_player_config
+                        {joypad_get_player_from_padnum $port}}
+                     get
+                     player_name}
+                  {localize_token $controller_sym}}
+               #endif
+               {localize_token continue}
+               {localize_token error_return_to_main}
+               opt2.btn}}})
+   (remote_exit
+      {set
+         [mode]
+         remote_exit}
+      {$this
+         set_yesno
+         {localize_token error_confirm_remote_exit}
+         no.btn})}
+{new
+   DialogPanel
+   overflow_dialog_panel
+   DIALOG_PANEL_HANDLERS
+   (setup_overflow
+      {$this
+         set_msg
+         {localize controller_overflow}}
+      {helpbar min_height 0})}
+{new
+   UIPanel
+   network_busy_icon_panel
+   (file network_busy_icon.milo)}
+{new
+   UIPanel
+   remote_member_available_panel
+   (file remote_member_available.milo)}

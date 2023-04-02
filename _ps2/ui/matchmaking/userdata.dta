@@ -1,0 +1,439 @@
+{new
+   UIPanel
+   friendlist_panel
+   (file
+      "friendlist_dialog_wii.milo")
+   (focus friendlist.lst)
+   (friendlist_pos 0)
+   (show_pending FALSE)
+   (enter
+      {friendcode.lbl
+         set_localized
+         {platform_mgr get_friend_code}}
+      {platform_mgr add_sink $this}
+      #ifdef HX_WII
+      {platform_mgr allow_add_friend TRUE}
+      #endif
+      {set
+         [show_pending]
+         FALSE}
+      {$this enumerate}
+      {set
+         [selected_friend]
+         FALSE})
+   (TRANSITION_COMPLETE_MSG
+      {$this enumerate})
+   (BUTTON_DOWN_MSG
+      {switch
+         $action
+         (kAction_Confirm
+            {if_else
+               {==
+                  {friendlist.lst selected_pos}
+                  0}
+               {ui push_screen add_friend_screen}
+               {do
+                  {remove_friend_dialog
+                     set
+                     friend_id
+                     {friends_provider
+                        get_friend_nickname
+                        {friendlist.lst selected_pos}}}
+                  {ui push_screen remove_friend_dialog}}})
+         (kAction_Cancel
+            {ui goto_screen main_community_screen})
+         (kAction_ViewModify
+            {set
+               [show_pending]
+               {!
+                  [show_pending]}}
+            {if_else
+               [show_pending]
+               {helpbar
+                  ((view_modify wii_hb_showcurrent))}
+               {helpbar
+                  ((view_modify wii_hb_showpending))}}
+            {$this enumerate})
+         kDataUnhandled})
+   (enumerate
+      {if_else
+         [show_pending]
+         {do
+            {type_label.lbl set text_token friend_list_pending}
+            {friends_provider enumerate_pending}}
+         {do
+            {type_label.lbl set text_token friend_list_current}
+            {friends_provider enumerate_friends}}}
+      {friendlist.lst set_provider friends_provider})
+   (update
+      {set
+         [friendlist_pos]
+         {friendlist.lst selected_pos}}
+      {if_else
+         {==
+            [friendlist_pos]
+            0}
+         {helpbar
+            ((confirm helpbar_select))}
+         {helpbar
+            ((confirm wii_hb_removefriend))}})
+   (SCROLL_MSG
+      {$this update})
+   (exit
+      {input_mgr set_user ''}
+      {platform_mgr remove_sink $this}
+      {friends_provider cleanup})}
+{new
+   BandScreen
+   friendlist_screen
+   (panels meta options_background_panel friendlist_panel)
+   (helpbar
+      ((cancel helpbar_cancel)
+         (confirm helpbar_select)
+         (view_modify wii_hb_showpending)))
+   (focus friendlist_panel)
+   (back main_community_screen)}
+{new
+   UIPanel
+   add_friend_panel
+   (file
+      "add_friendcode_wii.milo")
+   (focus FriendCode.lbl)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (name_label FriendCode.lbl)
+   (name_active TRUE)
+   (back_button_exits TRUE)
+   (randomize_button '')
+   (back_button '')
+   NAMING_PANEL_HANDLERS
+   (enter
+      {set
+         [numbers_only]
+         TRUE}
+      {set
+         [for_friendcode]
+         TRUE}
+      {$this init_name}
+      {$this update_name})
+   (accept_name
+      {if_else
+         {==
+            {platform_mgr
+               check_friend_code
+               {$this get_name}}
+            TRUE}
+         {do
+            {$this stop_naming}
+            {if_else
+               {platform_mgr
+                  add_friend
+                  {$this get_name}}
+               {ui goto_screen friend_registered_dialog}
+               {ui goto_screen friend_error_screen}}}
+         {ui goto_screen invalid_friendcode_dialog}})
+   (cancel_name
+      {$this stop_naming}
+      {ui pop_screen})}
+{new
+   BandScreen
+   add_friend_screen
+   (panels add_friend_panel)
+   (helpbar
+      ((cancel helpbar_cancel)
+         (confirm helpbar_confirm)))
+   (focus add_friend_panel)
+   (back friendlist_screen)}
+{new
+   UIPanel
+   add_nickname_panel
+   (file
+      "add_nickname_wii.milo")
+   (focus Nickname.lbl)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (name_label Nickname.lbl)
+   (name_active TRUE)
+   (back_button_exits TRUE)
+   (randomize_button '')
+   (back_button '')
+   (friendcode
+      "")
+   (friendlist_pos 0)
+   (for_edit_only FALSE)
+   (friend_name
+      "")
+   NAMING_PANEL_HANDLERS
+   (enter
+      {$this init_name}
+      {$this update_name})
+   (accept_name
+      {if_else
+         {==
+            {platform_mgr
+               check_profane
+               {$this get_name}}
+            TRUE}
+         {do
+            {set
+               [friend_name]
+               {$this get_name}}
+            {$this init_name}
+            {$this update_name}
+            {ui goto_screen nickname_error_screen}}
+         {do
+            {if_else
+               {==
+                  [for_edit_only]
+                  TRUE}
+               {platform_mgr
+                  change_friend_nickname
+                  [friendlist_pos]
+                  {$this get_name}}
+               {platform_mgr
+                  add_friend
+                  [friendcode]
+                  {$this get_name}}}
+            {friend_options_panel
+               set
+               friend_name
+               {$this get_name}}
+            {remove_friend_dialog
+               set
+               friend_name
+               {$this get_name}}
+            {print
+               "add_nickname_panel nickname value: "
+               {$this get_name}
+               "\n"}
+            {$this stop_naming}
+            {if_else
+               {==
+                  [for_edit_only]
+                  TRUE}
+               {do
+                  {set
+                     [for_edit_only]
+                     FALSE}
+                  {ui goto_screen friend_options_screen}}
+               {ui goto_screen friend_registered_dialog}}}})
+   (cancel_name
+      {$this stop_naming}
+      {ui goto_screen friendlist_screen})}
+{new
+   BandScreen
+   add_nickname_screen
+   (panels add_nickname_panel)
+   (helpbar
+      ((cancel helpbar_cancel)
+         (confirm helpbar_confirm)))
+   (focus add_nickname_panel)
+   (back friendlist_screen)
+   (allow_remote_exit TRUE)}
+{new
+   UIPanel
+   set_username_panel
+   (file
+      "set_username_wii.milo")
+   (focus Username.lbl)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (name_label Username.lbl)
+   (name_active TRUE)
+   (back_button_exits TRUE)
+   (randomize_button '')
+   (back_button '')
+   (for_edit_only FALSE)
+   (username '')
+   (failure_goto '')
+   NAMING_PANEL_HANDLERS
+   (enter
+      {$this init_name}
+      {$this update_name})
+   (accept_name
+      {if_else
+         {==
+            {platform_mgr
+               check_profane
+               {$this get_name}}
+            TRUE}
+         {do
+            {set
+               [username]
+               {$this get_name}}
+            {$this init_name}
+            {$this update_name}
+            {ui goto_screen username_error_screen}}
+         {do
+            {profile_mgr
+               set_username
+               {$this get_name}}
+            {platform_mgr send_netfinished}
+            {$this stop_naming}
+            {ui goto_screen network_start_screen}}})
+   (cancel_name
+      {$this stop_naming}
+      {ui pop_screen})}
+{new
+   BandScreen
+   set_username_screen
+   (panels set_username_panel)
+   (helpbar
+      ((cancel helpbar_cancel)
+         (confirm helpbar_confirm)))
+   (focus set_username_panel)
+   (allow_remote_exit TRUE)}
+{new
+   UIPanel
+   friend_options_panel
+   (file
+      "friend_options_wii.milo")
+   (focus opt1.btn)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (friend_name
+      "")
+   (friendlist_pos 0)
+   (enter
+      {print
+         "friend_options_panel nickname value: "
+         [friend_name]
+         "\n"}
+      {friendname.lbl
+         set_localized
+         [friend_name]})
+   (update)
+   (SELECT_MSG
+      {switch
+         $component
+         (opt1.btn
+            {print
+               "button 1 select\n"}
+            {friends_provider
+               invite_friend
+               [friendlist_pos]}
+            {ui goto_screen invited_to_game_dialog})
+         (opt2.btn
+            {print
+               "button 2 select\n"}
+            {add_nickname_panel set for_edit_only TRUE}
+            {ui goto_screen add_nickname_screen})
+         (opt3.btn
+            {print
+               "button 3 select\n"}
+            {ui goto_screen remove_friend_dialog})})}
+{new
+   BandScreen
+   friend_options_screen
+   (panels meta options_background_panel friend_options_panel)
+   (helpbar
+      ((cancel helpbar_cancel)
+         (confirm helpbar_confirm)))
+   (focus friend_options_panel)
+   (back friendlist_screen)
+   (allow_remote_exit TRUE)}
+{new
+   BandScreen
+   remove_friend_dialog
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (friend_id 0)
+   (enter
+      {dialog_panel
+         set_yesno
+         {sprintf
+            {localize remove_friend_dialog_local}
+            [friend_id]}
+         yes.btn})
+   (SELECT_MSG
+      {switch
+         $component
+         (yes.btn
+            {if_else
+               {platform_mgr
+                  remove_friend
+                  [friend_id]}
+               {ui pop_screen}
+               {ui
+                  goto_screen
+                  {ui friend_error_screen}}})
+         (no.btn
+            {ui pop_screen})})}
+{new
+   BandScreen
+   friend_registered_dialog
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize friend_registered_dialog_local}})
+   (SELECT_MSG
+      {switch
+         $component
+         (ok.btn
+            {ui pop_screen})})}
+{new
+   BandScreen
+   invalid_friendcode_dialog
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize invalid_friendcode_local}})
+   (SELECT_MSG
+      {switch
+         $component
+         (ok.btn
+            {ui pop_screen})})}
+{new
+   BandScreen
+   invited_to_game_dialog
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {sprintf
+            {localize invited_to_game_local}
+            {friend_options_panel get friend_name}}})
+   (SELECT_MSG
+      {switch
+         $component
+         (ok.btn
+            {ui goto_screen friendlist_screen})})}
+{new
+   BandScreen
+   username_error_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {sprintf
+            {localize username_profane}
+            {set_username_panel get username}}})
+   (SELECT_MSG
+      {switch
+         $component
+         (ok.btn
+            {ui goto_screen set_username_screen})})}
+{new
+   BandScreen
+   friend_error_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize friend_error_local}})
+   (SELECT_MSG
+      {switch
+         $component
+         (ok.btn
+            {ui pop_screen})})}

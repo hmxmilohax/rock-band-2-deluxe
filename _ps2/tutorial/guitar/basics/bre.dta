@@ -1,0 +1,195 @@
+SETUP_GUITAR_TUTORIAL
+GUITAR_TV_WHITE
+START_BG_MUSIC
+{setup_lesson_banner tutorial_guitar_basics_bre_part}
+{play_vo tute_guitar1_breintro}
+WAIT_FOR_VO
+SHORT_VO_GAP
+{play_vo tute_guitar1_bre}
+{meta_performer set_song guitar_basics_bre_demo}
+LOAD_NEW_GUITAR_SONG
+HIDE_TRACK_PLAYER_UI
+UNPAUSE_TRACK
+UNHIDE_ENDING_BONUS
+SYNC_PAUSE
+WAIT_FOR_VO
+LONG_VO_GAP
+{play_vo tute_guitar1_freestylenotes}
+SHOW_LONG_NOTE_ARROW
+WAIT_FOR_VO
+HIDE_LONG_NOTE_ARROW
+LONG_VO_GAP
+UNPAUSE_TRACK
+SYNC_NOPAUSE
+START_BRE_AUTOPLAYER_GUITAR
+FADE_SONG_IN
+SYNC_NOPAUSE
+STOP_BRE_AUTOPLAYER
+SYNC_PAUSE
+{play_vo tute_guitar1_brelanding}
+SHOW_GREEN_BRE_ARROW
+WAIT_FOR_VO
+HIDE_GREEN_BRE_ARROW
+LONG_VO_GAP
+UNPAUSE_TRACK
+SYNC_NOPAUSE
+AUTOPLAY_ON
+SYNC_NOPAUSE
+{play_vo tute_guitar1_brenotall}
+{{{get_track_panel}
+      find
+      guitar}
+   set_track_fade
+   FALSE}
+TRACK_OUT
+WAIT_FOR_VO
+LONG_VO_GAP
+{meta_performer set_song guitar_basics_bre}
+{{{get_track_panel}
+      find
+      guitar}
+   set_track_fade
+   {{{get_track_panel}
+         find
+         guitar}
+      track_fading}}
+LOAD_NEW_GUITAR_SONG_NO_FADE
+HIDE_TRACK_PLAYER_UI
+UNPAUSE_TRACK
+UNHIDE_ENDING_BONUS
+SYNC_PAUSE
+{new
+   Object
+   tutorial_guitar_basics_bre_callback
+   (swing
+      {if
+         {>
+            {taskmgr beat}
+            TUTORIALS_GUITAR_BRE_END_BEAT}
+         {set
+            [play_too_slow]
+            FALSE}}
+      {set
+         $swing_now
+         {taskmgr tutorial_seconds}}
+      {if
+         {&&
+            {&&
+               {>
+                  {-
+                     $swing_now
+                     [last_hit_time]}
+                  TUTORIALS_GUITAR_BRE_TOO_SLOW}
+               {!=
+                  [last_hit_time]
+                  0.0}}
+            [play_too_slow]}
+         {do
+            {set
+               [play_too_slow]
+               FALSE}}}
+      {set
+         [last_hit_time]
+         $swing_now})
+   (coda_success
+      {set
+         [hit_last_gem]
+         TRUE}
+      {set
+         [running]
+         FALSE})
+   (coda_blown
+      {set
+         [hit_last_gem]
+         FALSE}
+      {set
+         [running]
+         FALSE})
+   (lesson_running
+      {if_else
+         {&&
+            [running]
+            {<
+               {{beatmatch active_player 0}
+                  percent_complete}
+               END_OF_SONG_PERCENT}}
+         TRUE
+         FALSE})
+   (coda_blown_guilty
+      {set
+         [hit_last_gem]
+         FALSE}
+      {set
+         [running]
+         FALSE})
+   (failed
+      {!
+         [hit_last_gem]})
+   (hit_last_gem FALSE)
+   (running TRUE)
+   (last_hit_time 0.0)
+   (play_too_slow TRUE)}
+{play_vo tute_guitar1_bretask}
+STOP_BG_MUSIC
+GUITAR_TV_OFF
+WAIT_FOR_VO
+LONG_VO_GAP
+{set_info_text
+   {localize tutorial_guitar_basics_bre_task}}
+{show_info_text TRUE}
+{{beatmatch active_player 0}
+   add_sink
+   tutorial_guitar_basics_bre_callback}
+{game add_sink tutorial_guitar_basics_bre_callback}
+AUTOPLAY_OFF
+RESET_CODA_POINTS
+DISABLE_SYNC_PAUSE
+UNPAUSE_TRACK
+FADE_SONG_IN
+UNHIDE_ENDING_BONUS
+{$task
+   wait
+   {tutorial_guitar_basics_bre_callback lesson_running}}
+{{{get_track_panel}
+      find
+      guitar}
+   set_track_fade
+   FALSE}
+{if_else
+   {tutorial_guitar_basics_bre_callback failed}
+   {$task sleep 3}
+   {$task sleep 5}}
+TRACK_OUT
+HIDE_ENDING_BONUS
+{$task sleep 1}
+PAUSE_TRACK
+WAIT_FOR_VO
+{{{get_track_panel}
+      find
+      guitar}
+   set_track_fade
+   {{{get_track_panel}
+         find
+         guitar}
+      track_fading}}
+{if_else
+   {tutorial_guitar_basics_bre_callback failed}
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_basics_bre_failed}}
+      {play_vo tute_guitar1_brefinishbad}}
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_basics_bre_done}}
+      {play_vo tute_guitar1_brefinish}}}
+{show_info_text FALSE}
+{show_part_text FALSE}
+{show_banner_text TRUE}
+START_BG_MUSIC
+GUITAR_TV_WHITE
+WAIT_FOR_VO
+SHORT_VO_GAP
+{do_fail_menu
+   {tutorial_guitar_basics_bre_callback failed}}
+RETURN_FROM_FAIL_MENU
+{tutorials_state_panel switch_to_next_state}

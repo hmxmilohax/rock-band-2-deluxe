@@ -1,0 +1,1379 @@
+(mem
+   (heaps
+      (main
+         (size 10000000))
+      (server_login
+         (size 20000))))
+(track_graphics
+   (slot_colors green red yellow blue orange))
+(objects
+   #include objects.dta)
+(characters
+   #include characters.dta)
+(scoring
+   #include scoring.dta)
+(locale ../ui/eng/locale_milo.dta ../ui/eng/locale.dta)
+(ui
+   (color_presets
+      #include ../ui/color_presets.dta)
+   (patch
+      (sets
+         (general 10)
+         (chest 5)
+         (arm 5))
+      (stickers
+         (bobos 10)
+         (dogs 10))
+      (tattoos
+         (patch_chest chest torso_skin_proxy)
+         (patch_left_arm arm torso_skin_proxy)
+         (patch_right_arm arm torso_skin_proxy)
+         (patch_facepaint general head_skin_proxy))))
+(songs
+   (song0
+      (name
+         "Forever Yours")
+      (song
+         (name
+            "songs/forever/forever")
+         (midi_file
+            "songs/forever/forever.mid"))
+      (rank
+         (drum 1)
+         (guitar 1)
+         (bass 1)
+         (vocals 1)
+         (band 1)))
+   (song1
+      (name
+         "Freaky As U Want Me")
+      (song
+         (name
+            "songs/freaky/freaky")
+         (midi_file
+            "songs/freaky/freaky.mid"))
+      (rank
+         (drum 3)
+         (guitar 2)
+         (bass 2)
+         (vocals 2)
+         (band 2)))
+   (song2
+      (name
+         "2 Tru 4 U")
+      (song
+         (name
+            "songs/2tru4u/2tru4u")
+         (midi_file
+            "songs/2tru4u/2tru4u.mid"))
+      (rank
+         (drum 2)
+         (guitar 3)
+         (bass 3)
+         (vocals 3)
+         (band 3)))
+   (song3
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/captjammy/captjammy")
+         (midi_file
+            "songs/captjammy/captjammy.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (unranked_song
+      (song
+         (name
+            "songs/unranked/unranked")
+         (midi_file
+            "songs/unranked/unranked.mid")))
+   (tutorial_song
+      (song
+         (name
+            "songs/tutorial/tutorial")
+         (midi_file
+            "songs/tutorial/tutorial.mid"))
+      (tutorial TRUE)))
+(download_songs
+   (download0
+      (name
+         "Download Song B")
+      (song
+         (name
+            "songs/dloadb/dloadb")
+         (midi_file
+            "songs/dloadb/dloadb.mid"))
+      (rank
+         (drum 1.5)
+         (guitar 1.5)
+         (bass 1.5)
+         (vocals 1.5)
+         (band 1.5))
+      (downloaded TRUE))
+   (download1
+      (name
+         "Download Song A")
+      (song
+         (name
+            "songs/dloada/dloada")
+         (midi_file
+            "songs/dloada/dloada.mid"))
+      (rank
+         (drum 1.5)
+         (guitar 1.5)
+         (bass 1.5)
+         (vocals 1.5)
+         (band 1.5))
+      (downloaded TRUE)))
+(solo_songs
+   (song3
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam3/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song4
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam4/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song5
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam5/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song6
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam6/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song7
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam7/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song8
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam8/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song9
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam9/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song10
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam10/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song11
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam11/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song12
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam12/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song13
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam13/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song14
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam14/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song15
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam15/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song16
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam16/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song17
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam17/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song18
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam18/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song19
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam19/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song20
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam20/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song21
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam21/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song22
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam22/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song23
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam23/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song24
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam24/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song25
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam25/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song26
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam26/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song27
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam27/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song28
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam28/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song29
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam29/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song30
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam30/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song31
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam31/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song32
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam32/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song33
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam33/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song34
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam34/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song35
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam35/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song36
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam36/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song37
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam37/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song38
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam38/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (song39
+      (name
+         "Captain Jammy")
+      (song
+         (name
+            "songs/cjam39/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 4)
+         (vocals 4)
+         (band 4)))
+   (unlock0
+      (name
+         "Unlock 0")
+      (song
+         (name
+            "songs/cjam39/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 4)
+         (guitar 4)
+         (bass 0)
+         (vocals 0)
+         (band 0))
+      (unlockable TRUE))
+   (unlock1
+      (name
+         "Unlock 1")
+      (song
+         (name
+            "songs/cjam39/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 3)
+         (guitar 3)
+         (bass 4)
+         (vocals 4)
+         (band 4))
+      (unlockable TRUE))
+   (unlock2
+      (name
+         "Unlock 2")
+      (song
+         (name
+            "songs/cjam39/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 2)
+         (guitar 2)
+         (bass 4)
+         (vocals 4)
+         (band 4))
+      (unlockable TRUE))
+   (unlock3
+      (name
+         "Unlock 3")
+      (song
+         (name
+            "songs/cjam39/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 1)
+         (guitar 1)
+         (bass 4)
+         (vocals 4)
+         (band 4))
+      (unlockable TRUE))
+   (unlock4
+      (name
+         "Unlock 4")
+      (song
+         (name
+            "songs/cjam39/cjam")
+         (midi_file
+            "cjam.mid"))
+      (rank
+         (drum 0)
+         (guitar 0)
+         (bass 4)
+         (vocals 4)
+         (band 4))
+      (unlockable TRUE)))
+(song_groupings
+   (rank))
+(tour
+   (solo
+      (default_difficulty kDifficultyMedium)
+      (max_money 999999999)
+      (num_initial_unlock_songs 1)
+      (max_song
+         (kDifficultyEasy 29)
+         (kDifficultyMedium 40)
+         (kDifficultyHard 40)
+         (kDifficultyExpert 40))
+      (track_icons
+         ((bass
+               "B")
+            (guitar
+               "G")
+            (drum
+               "D")
+            (vocals
+               "V"))
+         ((bass
+               "b")
+            (guitar
+               "g")
+            (drum
+               "d")
+            (vocals
+               "v"))
+         ((bass
+               "1")
+            (guitar
+               "2")
+            (drum
+               "3")
+            (vocals
+               "4"))
+         ((bass
+               "a")
+            (guitar
+               "u")
+            (drum
+               "r")
+            (vocals
+               "v")))
+      (challenge
+         (auto_min_songs 3)
+         (hints
+            (welcome
+               (screen tour_challenge_welcome_screen))
+            (new_tier
+               (screen tour_challenge_new_tier_screen)
+               (one_off TRUE))
+            (impossible
+               (screen tour_challenge_impossible_screen)
+               (one_off TRUE)))
+         (challenges
+            (tier0-0
+               (songs song0)
+               (min_players 3)
+               (required_part bass)
+               (char_unlock
+                  (token elvish_set)
+                  (outfits
+                     (male legs jeans)
+                     (female earrings sparkles)
+                     (male torso tshirt))
+                  (instruments
+                     (guitar guitar01)
+                     (mic mic01)
+                     (bass bass01))))
+            (tier0-1
+               (diff_tier 0)
+               (songs song1 song2)
+               (prereqs
+                  (all tier0-0)
+                  (any tier0-0 tier1-0))
+               (venues venue0 venue1))
+            (tier1-0
+               (diff_tier 1)
+               (songs song3))))
+      (towns
+         (tier1_1
+            (small_club
+               (song1
+                  (reward_per_star 100)
+                  (songs 1))
+               (song2
+                  (reward_per_star 100)
+                  (songs 2))
+               (song3
+                  (reward_per_star 100)
+                  (songs 3))
+               (song4
+                  (reward_per_star 100)
+                  (songs 4))
+               (song22
+                  (reward_per_star 100)
+                  (songs 22))))
+         (tier1_2
+            (last
+               (song5
+                  (reward_per_star 100)
+                  (songs 5))
+               (song6
+                  (reward_per_star 100)
+                  (songs 6))
+               (song16
+                  (reward_per_star 100)
+                  (songs 16))
+               (song23
+                  (reward_per_star 100)
+                  (songs 23))
+               (song38
+                  (reward_per_star 100)
+                  (songs 38))))
+         (tier1_3
+            (big_club
+               (song7
+                  (reward_per_star 100)
+                  (songs 7))
+               (song8
+                  (reward_per_star 100)
+                  (songs 8))
+               (song11
+                  (reward_per_star 100)
+                  (songs 11))
+               (song24
+                  (reward_per_star 100)
+                  (songs 24))
+               (song29
+                  (reward_per_star 100)
+                  (songs 29))))
+         (tier2_1
+            (big_club
+               (song9
+                  (reward_per_star 100)
+                  (songs 9))
+               (song10
+                  (reward_per_star 100)
+                  (songs 10))
+               (song12
+                  (reward_per_star 100)
+                  (songs 12))
+               (song26
+                  (reward_per_star 100)
+                  (songs 26))
+               (song31
+                  (reward_per_star 100)
+                  (songs 31))))
+         (tier2_2
+            (theater
+               (song13
+                  (reward_per_star 100)
+                  (songs 13))
+               (song14
+                  (reward_per_star 100)
+                  (songs 14))
+               (song18
+                  (reward_per_star 100)
+                  (songs 18))
+               (song25
+                  (reward_per_star 100)
+                  (songs 25))
+               (song32
+                  (reward_per_star 100)
+                  (songs 32))))
+         (tier3_1
+            (arena
+               (song15
+                  (reward_per_star 100)
+                  (songs 15))
+               (song17
+                  (reward_per_star 100)
+                  (songs 17))
+               (song19
+                  (reward_per_star 100)
+                  (songs 19))
+               (song27
+                  (reward_per_star 100)
+                  (songs 27))
+               (song33
+                  (reward_per_star 100)
+                  (songs 33))))
+         (tier3_4
+            (arena
+               (song20
+                  (reward_per_star 100)
+                  (songs 20))
+               (song21
+                  (reward_per_star 100)
+                  (songs 21))
+               (song28
+                  (reward_per_star 100)
+                  (songs 28))
+               (song36
+                  (reward_per_star 100)
+                  (songs 36))
+               (song37
+                  (reward_per_star 100)
+                  (songs 37))))
+         (tier3_5
+            (big_club
+               (unlock0
+                  (display_song TRUE)
+                  (reward_per_star 15)
+                  (songs 43))
+               (unlock1
+                  (display_song TRUE)
+                  (reward_per_star 15)
+                  (songs 44))
+               (unlock2
+                  (display_song TRUE)
+                  (reward_per_star 15)
+                  (songs 45))
+               (unlock3
+                  (display_song TRUE)
+                  (reward_per_star 15)
+                  (songs 46))
+               (unlock4
+                  (display_song TRUE)
+                  (reward_per_star 15)
+                  (songs 47))
+               (unlock5
+                  (display_song TRUE)
+                  (reward_per_star 15)
+                  (songs 48))
+               (unlock6
+                  (display_song TRUE)
+                  (reward_per_star 15)
+                  (songs 49))
+               (unlock7
+                  (display_song TRUE)
+                  (reward_per_star 15)
+                  (songs 50))
+               (unlock8
+                  (display_song TRUE)
+                  (reward_per_star 15)
+                  (songs 51))
+               (unlock9
+                  (display_song TRUE)
+                  (reward_per_star 15)
+                  (songs 52))
+               (unlock10
+                  (display_song TRUE)
+                  (reward_per_star 15)
+                  (songs 53))
+               (unlock11
+                  (display_song TRUE)
+                  (reward_per_star 15)
+                  (songs 54))
+               (unlock12
+                  (display_song TRUE)
+                  (reward_per_star 15)
+                  (songs 55))
+               (unlock13
+                  (display_song TRUE)
+                  (reward_per_star 15)
+                  (songs 56))
+               (all
+                  (reward_per_star 100)
+                  (songs 43 44 45 46 47 48 49 50 51 52 53 54 55 56))))
+         (moscow
+            (arena
+               (song30
+                  (reward_per_star 100)
+                  (songs 30))
+               (song34
+                  (reward_per_star 100)
+                  (songs 34))
+               (song35
+                  (reward_per_star 100)
+                  (songs 35))
+               (song39
+                  (reward_per_star 100)
+                  (songs 39))
+               (song40
+                  (reward_per_star 100)
+                  (songs 40))))
+         (tokyo
+            (arena
+               (download
+                  (reward_per_star 100))))
+         (sydney
+            (arena
+               (unlock1
+                  (reward_per_star 100)
+                  (songs
+                     (unlock 1)))
+               (unlock2
+                  (reward_per_star 100)
+                  (songs
+                     (unlock 2)))
+               (unlock3
+                  (reward_per_star 100)
+                  (songs
+                     (unlock 3)))
+               (unlock4
+                  (reward_per_star 100)
+                  (songs
+                     (unlock 4)))
+               (unlock5
+                  (reward_per_star 100)
+                  (songs
+                     (unlock 5)))))))
+   (band
+      (fame_difficulty_multiply TRUE)
+      (keep_max_fame TRUE)
+      (max_stars_per_song 5)
+      (town_fame_ratings one two three four five)
+      (world_fame_ratings one two three four five)
+      (buzz
+         (new_performance 3)
+         (venues
+            (small_club
+               (performance
+                  (0 1 2 4)
+                  (-2 0 1 2)
+                  (-4 -2 1 2)
+                  (-8 -4 -2 1))
+               (lose_penalty -2))
+            (big_club
+               (performance
+                  (0 1 2 4)
+                  (-2 0 1 2)
+                  (-4 -2 1 2)
+                  (-8 -4 -2 1))
+               (lose_penalty -4))
+            (theater
+               (performance
+                  (0 1 2 4)
+                  (-2 0 1 8)
+                  (-4 -2 1 2)
+                  (-8 -4 -2 1))
+               (lose_penalty -6))
+            (arena
+               (performance
+                  (0 1 2 4)
+                  (-2 0 1 2)
+                  (-4 -2 1 2)
+                  (-8 -4 -2 1))
+               (lose_penalty -8)))
+         (fans
+            (10 100)
+            (30 1500)
+            (50 25000)
+            (70 250000)
+            (90 1000000)
+            (100 5000000))
+         (buzz_caps 40 60 80 100))
+      (medal_strings
+         "E"
+         "M"
+         "H"
+         "X")
+      (items
+         (tour_vehicle_vangood
+            (icon
+               "V"))
+         (tour_vehicle_busgood
+            (icon
+               "B"))
+         (tour_vehicle_jetgood
+            (icon
+               "J")))
+      (moments
+         (frequency 1 1)
+         (vehicles
+            (tour_vehicle_vangood
+               (tour_am_test0
+                  (reward_per_star
+                     ($stars $reward_per_star)
+                     {if_else
+                        {>= $stars 4}
+                        {'*' $reward_per_star 2}
+                        0}))
+               (tour_am_test1
+                  (buzz_change
+                     ($avg_stars $buzz_change)
+                     {if_else
+                        {&&
+                           {>= $avg_stars 4}
+                           {> $buzz_change 0}}
+                        {'*' $buzz_change 2}
+                        $buzz_change}))
+               (tour_am_test2
+                  (buzz_change
+                     ($avg_stars $buzz_change)
+                     {'+' $buzz_change 5})))
+            (tour_vehicle_busgood
+               (tour_am_test3)
+               (tour_am_test4)
+               (tour_am_test5))
+            (tour_vehicle_jetgood)))
+      #define ONEOFF_HINT
+      ((advance
+            {{tour performer}
+               add_seen_hint
+               {{tour hint}
+                  get_type}}))
+      (hints
+         (welcome
+            ONEOFF_HINT
+            (cond TRUE)
+            (screen welcome_screen))
+         (first_gig
+            ONEOFF_HINT
+            (cond
+               {{tour performer}
+                  world_fame})
+            (screen first_gig_screen))
+         (new_item
+            (cond
+               {!=
+                  {{tour performer}
+                     unlocked_item}
+                  ''})
+            (screen new_item_screen)
+            (advance
+               {{tour performer}
+                  clear_unlocked_item}))
+         (new_venue
+            ONEOFF_HINT
+            (cond
+               {!=
+                  {{tour performer}
+                     unlocked_venue_token}
+                  ''})
+            (screen new_venue_screen)))
+      (tiers
+         (tier1_1
+            (small_club
+               (1_1_small_club0
+                  (songs too_hot)
+                  (fame
+                     (town 0))
+                  (reward_per_star 5))
+               (1_1_small_club1
+                  (songs too_hot)
+                  (fame
+                     (town 0))
+                  (reward_per_star 5)))
+            (big_club)
+            (last
+               (1_1_last
+                  (songs tempt_me)
+                  (reward_per_star 0))))
+         (tier1_2
+            (small_club)
+            (big_club))
+         (tier1_3
+            (small_club)
+            (big_club))
+         (tier2_1
+            (small_club)
+            (big_club)
+            (theater)
+            (arena))
+         (tier2_2
+            (small_club)
+            (big_club)
+            (theater))
+         (tier2_3
+            (small_club)
+            (big_club)
+            (theater))
+         (tier3_1
+            (small_club)
+            (big_club)
+            (theater)
+            (arena))
+         (tier3_2
+            (small_club)
+            (big_club)
+            (theater))
+         (tier3_3
+            (small_club)
+            (big_club)
+            (theater))
+         (tier3_4
+            (small_club)
+            (big_club)
+            (theater)
+            (arena))
+         (tier3_5
+            (small_club)
+            (big_club)
+            (theater))
+         (tier3_6
+            (small_club)
+            (big_club)
+            (theater)))
+      (world
+         (newyork
+            (order 4)
+            (region us east)
+            (venues
+               (small_club small_club_10)
+               (big_club big_club_01)
+               (arena
+                  arena_01
+                  (newyork_arena0
+                     (songs too_close)
+                     (fame
+                        (world 10))
+                     (reward_per_star 3))
+                  (newyork_arena1
+                     (songs something)
+                     (fame
+                        (town 20))
+                     (reward_per_star 3)
+                     (award_item tour_vehicle_busgood))))
+            (unlocks
+               (played
+                  (male camotanktop_nyliberty)
+                  (female thermalundertee_nyliberty))
+               (completed
+                  (male wifebeater_nyhc)
+                  (female tanktop_nyhc))))
+         (chicago
+            (order 3)
+            (region us east)
+            (venues
+               (small_club
+                  small_club_02
+                  (chicago_small_club0
+                     (songs too_hot)
+                     (fame
+                        (town 0))
+                     (reward_per_star 5)
+                     (award_item tour_vehicle_jetgood)))
+               (big_club big_club_02)
+               (theater theater_01)))
+         (boston
+            (order 5)
+            (region us east)
+            (venues
+               (small_club
+                  small_club_03
+                  (boston_small_club0
+                     (songs too_hot)
+                     (fame
+                        (town 0))
+                     (reward_per_star 5))
+                  (boston_small_club1
+                     (songs too_hot)
+                     (fame
+                        (town 0))
+                     (reward_per_star 5)))
+               (big_club
+                  big_club_03
+                  (some_expensive_event
+                     (songs too_coool)
+                     (award_item tour_vehicle_vangood)
+                     (reward_per_star 333)))
+               (theater theater_12)))
+         (losangeles
+            (order 0)
+            (region us west)
+            (venues
+               (small_club small_club_06)
+               (big_club small_club_06)
+               (theater theater_06)
+               (arena arena_06)))
+         (sanfrancisco
+            (order 1)
+            (region us west)
+            (venues
+               (small_club small_club_01)
+               (big_club small_club_01)
+               (theater theater_01)))
+         (seattle
+            (order 2)
+            (region us west)
+            (venues
+               (small_club small_club_01)
+               (big_club small_club_01)
+               (theater theater_01)))
+         (berlin
+            (order 11)
+            (region europe east)
+            (venues
+               (small_club small_club_01)
+               (big_club small_club_01)
+               (theater theater_01)
+               (arena arena_01)))
+         (stockholm
+            (order 13)
+            (region europe east)
+            (venues
+               (small_club small_club_01)
+               (big_club small_club_01)
+               (theater theater_01)))
+         (rome
+            (order 12)
+            (region europe east)
+            (venues
+               (small_club small_club_01)
+               (big_club small_club_01)
+               (theater theater_01)))
+         (london
+            (order 8)
+            (region europe west)
+            (venues
+               (small_club small_club_01)
+               (big_club small_club_01)
+               (theater theater_01)
+               (arena arena_01)))
+         (paris
+            (order 9)
+            (region europe west)
+            (venues
+               (small_club small_club_01)
+               (big_club small_club_01)
+               (theater theater_01)))
+         (amsterdam
+            (order 10)
+            (region europe west)
+            (venues
+               (small_club small_club_01)
+               (big_club small_club_01)
+               (theater theater_01)))
+         (reykjavik
+            (order 7)
+            (venues
+               (theater
+                  theater_01
+                  (reykjavik_theater0
+                     (songs too_hot for_you)
+                     (fame
+                        (town 0))
+                     (reward_per_star 5)))))
+         (tokyo
+            (order 16))
+         (sydney
+            (order 15)
+            (venues
+               (theater theater_01)
+               (arena arena_01)))
+         (rio
+            (order 6)
+            (venues
+               (arena arena_01)))
+         (moscow
+            (order 14)
+            (venues
+               (arena arena_01)))))
+   (test_events
+      (arena
+         (arena0
+            (songs borntobewild)
+            (reward_per_star 0)))))
+#merge ../../../system/run/config/default.dta

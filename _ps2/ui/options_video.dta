@@ -1,0 +1,139 @@
+{new
+   UIPanel
+   options_video_panel
+   #ifdef HX_XBOX
+   (file
+      "options_video_ps2.milo")
+   #else
+   (file
+      "options_video_ps2.milo")
+   #endif
+   (focus progressive_scan.btn)
+   (enter
+      {$this
+         set_player_num
+         {game get leader_num}}
+      {$this update_options})
+   (exit
+      {meta music_start})
+   (SELECT_MSG
+      {switch
+         $component
+         (progressive_scan.btn
+            {if_else
+               {profile_mgr get_progressive_scan}
+               {do
+                  {profile_mgr set_progressive_scan FALSE}
+                  {$this update_options}}
+               {ui push_screen progressive_scan_continue_screen}})
+         (widescreen.btn
+            {do
+               ($new_state
+                  {!
+                     {profile_mgr get_widescreen}})
+               {profile_mgr set_widescreen $new_state}
+               {$this
+                  update_from_profile
+                  {$this find widescreen_check.mesh}}
+               {$this update_check_help $component}
+               {helpbar update_icons}})})
+   (FOCUS_MSG
+      {switch
+         $new_focus
+         (widescreen.btn)
+         (progressive_scan.btn)})
+   (update_options
+      {$this
+         update_from_profile
+         {$this find widescreen_check.mesh}}
+      {$this
+         update_from_profile
+         {$this find progressive_scan_check.mesh}})
+   (update_from_profile
+      ($component)
+      {switch
+         $component
+         (widescreen_check.mesh
+            {{$this find widescreen_check.mesh}
+               set_showing
+               {profile_mgr get_widescreen}})
+         (progressive_scan_check.mesh
+            {{$this find progressive_scan_check.mesh}
+               set_showing
+               {profile_mgr get_progressive_scan}})})
+   (update_check_help
+      ($component))}
+{new
+   BandScreen
+   progressive_scan_continue_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize_token progressive_scan_notice}}
+      {dialog_panel
+         set_title
+         {localize_token progressive_scan_notice_title}})
+   (exit)
+   (SELECT_MSG
+      {ui goto_screen progressive_scan_confirm_screen})}
+#define PROGRESSIVE_SCAN_CONFIRM_SCREEN
+((panels dialog_panel)
+   (focus dialog_panel)
+   (timer_count 0)
+   (timer_running TRUE)
+   (reset_timer
+      {set
+         [timer_running]
+         TRUE}
+      {set
+         [timer_count]
+         0})
+   (enter
+      {helpbar min_height 0}
+      {profile_mgr set_progressive_scan TRUE}
+      {dialog_panel
+         set_yesno
+         {localize_token progressive_scan_confirm}
+         no.btn}
+      {$this reset_timer})
+   (exit)
+   (poll
+      {if
+         [timer_running]
+         {'+='
+            [timer_count]
+            {taskmgr ui_delta_seconds}}
+         {if
+            {>=
+               [timer_count]
+               kProgressiveScanConfirmTime}
+            {set
+               [timer_running]
+               FALSE}
+            {profile_mgr set_progressive_scan FALSE}
+            {$this progressive_scan_choice}}})
+   (SELECT_MSG
+      {switch
+         $component
+         (yes.btn kDataUnhandled)
+         (no.btn
+            {profile_mgr set_progressive_scan FALSE})}
+      {$this progressive_scan_choice}))
+{new
+   BandScreen
+   progressive_scan_confirm_screen
+   PROGRESSIVE_SCAN_CONFIRM_SCREEN
+   (progressive_scan_choice
+      {options_video_panel update_options}
+      {ui pop_screen})}
+{new
+   BandScreen
+   options_video_screen
+   (panels meta menu_background_movie_panel options_background_panel options_video_panel)
+   (focus options_video_panel)
+   (back options_audio_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}

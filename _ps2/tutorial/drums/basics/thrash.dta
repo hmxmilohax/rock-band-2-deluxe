@@ -1,0 +1,167 @@
+SETUP_DRUM_TUTORIAL
+DRUM_TV_WHITE
+START_BG_MUSIC
+{setup_lesson_banner tutorial_drum_basics_thrash_part}
+UNHIDE_INTRO_DRUMKIT
+SHOW_INTRO_DRUMKIT_NEUTRAL
+LONG_VO_GAP
+{play_vo tute_drum1_padpic}
+SHOW_INTRO_DRUMKIT_PADS
+WAIT_FOR_VO
+SHORT_VO_GAP
+{play_vo tute_drum1_kickpic}
+SHOW_INTRO_DRUMKIT_KICK
+WAIT_FOR_VO
+LONG_VO_GAP
+HIDE_INTRO_DRUMKIT
+{play_vo tute_drum1_stickgrip1}
+DRUM_ROCKBEAT_STICK_SHOW
+DRUM_ROCKBEAT_STICK_PICKUP
+WAIT_FOR_VO
+SHORT_VO_GAP
+{play_vo tute_drum1_stickgrip2}
+DRUM_ROCKBEAT_STICK_HOLD
+WAIT_FOR_VO
+LONG_VO_GAP
+DRUM_ROCKBEAT_STICK_HIDE
+{play_vo tute_drum1_stickgrip3}
+SHOW_DRUM_GUY
+WAIT_FOR_VO
+SHORT_VO_GAP
+{play_vo tute_drum1_stickintro}
+DRUM_THRASH_HANDS_HIT_ALL_DRUMS
+DRUM_THRASH_HANDS_HIT_ALL_DRUMS
+DRUM_THRASH_HANDS_HIT_ALL_DRUMS
+WAIT_FOR_VO
+LONG_VO_GAP
+HIDE_DRUM_GUY
+{new
+   Object
+   tutorial_drum_basics_thrash_callback
+   (drum_hit
+      ($pad_num)
+      {if_else
+         {{profile_mgr
+               get_char_options_from_player
+               {gamecfg get leader_num}}
+            get_lefty}
+         {do
+            {if_else
+               {== $pad_num 0}
+               {set $sample_num 0}
+               {set
+                  $sample_num
+                  {- 5 $pad_num}}}}
+         {do
+            {set $sample_num $pad_num}}}
+      {[sample_names $sample_num]
+         play}
+      {if
+         {<
+            [pads_hit $pad_num]
+            DRUM_THRASH_NUM_DRUM_HITS}
+         {set
+            [pads_hit $pad_num]
+            {'+'
+               [pads_hit $pad_num]
+               1}}
+         {if_else
+            {==
+               [pads_hit $pad_num]
+               DRUM_THRASH_NUM_DRUM_HITS}
+            {$this pad_finished $pad_num}
+            {$this pad_hit $pad_num}}})
+   (pad_hit
+      ($pad_num)
+      {{gamemode get main_panel}
+         make_flash
+         [burst_names $pad_num]
+         DRUM_THRASH_PAD_FLASH_FRAMES})
+   (pad_finished
+      ($pad_num)
+      {'++'
+         [total_pads_complete]}
+      {{gamemode get main_panel}
+         make_flash
+         [burst_names $pad_num]
+         DRUM_THRASH_PAD_FLASH_FRAMES}
+      {if
+         {==
+            [total_pads_complete]
+            DRUM_THRASH_NUM_DRUM_PADS}
+         {set
+            [not_completed]
+            FALSE}}
+      {$this hide_arrow $pad_num})
+   (hide_arrow
+      ($arrow_num)
+      {[arrow_names $arrow_num]
+         set_showing
+         FALSE}
+      {[x_names $arrow_num]
+         set_showing
+         TRUE})
+   (failed
+      {if_else
+         [not_completed]
+         TRUE
+         FALSE})
+   (pads_hit
+      (0 0 0 0 0))
+   (total_pads_complete 0)
+   (not_completed TRUE)
+   (x_names
+      (64x64_X4.mesh 64x64_X.mesh 64x64_X1.mesh 64x64_X2.mesh 64x64_X3.mesh))
+   (arrow_names
+      (64x64_arrow4.mesh 64x64_arrow.mesh 64x64_arrow1.mesh 64x64_arrow2.mesh 64x64_arrow3.mesh))
+   (burst_names
+      (128x128_burst4.mesh 128x128_burst.mesh 128x128_burst1.mesh 128x128_burst2.mesh 128x128_burst3.mesh))
+   (sample_names
+      (ds1005.cue ds1001.cue ds1002.cue ds1003.cue ds1004.cue))}
+{play_vo tute_drum1_tune}
+SHOW_DRUM_THRASH_TASK
+WAIT_FOR_VO
+LONG_VO_GAP
+{set_info_text
+   {localize tutorial_drum_basics_thrash_task}}
+{show_info_text TRUE}
+{{gamemode get main_panel}
+   add_drum_hit_callback
+   tutorial_drum_basics_thrash_callback}
+{{gamemode get main_panel}
+   enable_controller}
+{{gamemode get main_panel}
+   set_sfx_volume
+   0.0}
+{$task
+   wait_timeout
+   {tutorial_drum_basics_thrash_callback failed}
+   TUTORIAL_DRUM_BASICS_THRASH_TIMEOUT
+   $timeout}
+{{gamemode get main_panel}
+   remove_drum_hit_callback
+   tutorial_drum_basics_thrash_callback}
+{delete tutorial_drum_basics_thrash_callback}
+FREEZE_SCORE_TEXT
+{$task sleep TUTORIAL_DRUM_BASICS_THRASH_PAUSE1}
+{if_else
+   $timeout
+   {do
+      {set_banner_text
+         {localize tutorial_drum_basics_thrash_failed}}
+      {play_vo tute_drum1_fail}}
+   {do
+      {set_banner_text
+         {localize tutorial_drum_basics_thrash_done}}
+      {play_vo tute_drum1_winfast}}}
+{show_info_text FALSE}
+{show_part_text FALSE}
+{show_banner_text TRUE}
+HIDE_SCORE
+HIDE_DRUM_THRASH_TASK
+START_BG_MUSIC
+WAIT_FOR_VO
+SHORT_VO_GAP
+{do_fail_menu $timeout}
+RETURN_FROM_FAIL_MENU
+{tutorials_state_panel switch_to_next_state}

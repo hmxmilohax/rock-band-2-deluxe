@@ -1,0 +1,1089 @@
+{new
+   StorePanel
+   store_panel
+   (file
+      "store.milo")
+   (saved_offer_sym '')
+   (load
+      #ifndef NOWIINETWORKING
+      #ifndef HX_EE
+      {content_loading_panel allowed_to_show TRUE}
+      #endif
+      #endif
+      {content_mgr start_refresh}
+      {store_browser_panel reset}
+      {set
+         [saved_offer_sym]
+         ''})
+   (is_loaded
+      {content_mgr refresh_done})
+   (finish_load
+      #ifndef NOWIINETWORKING
+      #ifndef HX_EE
+      {content_loading_panel allowed_to_show FALSE}
+      #endif
+      #endif
+      {background.tnm set_frame 0}
+      {wait.grp set_showing FALSE})
+   (enter
+      {$this
+         set_showing
+         [load_ok]}
+      {if
+         [load_ok]
+         {motd.lbl
+            set_localized
+            {$this motd}}
+         {meta music_stop}
+         {platform_mgr disable_xmp}
+         #ifdef HX_XBOX
+         {gamertag.lbl set_showing TRUE}
+         {gamertag.lbl
+            set_localized
+            {platform_mgr
+               get_name
+               {{input_mgr get_user}
+                  get_pad_num}}}
+         #else
+         {gamertag.lbl set_showing FALSE}
+         #endif
+         {ps3_storelogo.grp set_showing FALSE}
+         {sd_hd.tnm
+            set_frame
+            {if_else
+               {==
+                  {rnd aspect}
+                  kWidescreenAspect}
+               1
+               0}}})
+   (enum_start
+      {wait.grp set_showing TRUE}
+      {wait_loop.grp set_showing TRUE}
+      {wait.grp animate}
+      {wait_loop.grp
+         animate
+         (loop)})
+   (enum_finished
+      {if
+         {store_panel is_up}
+         {wait.grp set_showing FALSE}
+         {wait_loop.grp set_showing FALSE}})
+   (exit
+      {meta music_start}
+      {platform_mgr enable_xmp})
+   (show_motd
+      {background.tnm
+         animate
+         (range
+            {background.tnm frame}
+            0)}
+      {motd.lbl set_showing TRUE})
+   (hide_motd
+      {background.tnm
+         animate
+         (range
+            {background.tnm frame}
+            {background.tnm end_frame})}
+      {motd.lbl set_showing FALSE})
+   (show_sort
+      {sort.lbl
+         set
+         text_token
+         {[offer_provider]
+            current_sort}}
+      {do
+         ($filter
+            {store_panel cur_store_filter})
+         {sort.grp
+            set_showing
+            {$filter allow_sort_toggle}}
+         {shortcut.grp
+            set_showing
+            {$filter allow_shortcut}}})
+   (hide_sort
+      {sort.grp set_showing FALSE}
+      {shortcut.grp set_showing FALSE})
+   (preview_download_complete_msg
+      {if
+         {store_details_panel is_up}
+         {store_details_panel
+            refresh
+            {store_info_panel cur_offer}}})}
+#define STORE_UNLOAD_HANDLERS
+((panels meta movie_panel)
+   (enter
+      {ui
+         goto_screen
+         [next_screen]}))
+{new
+   BandScreen
+   store_unload_screen
+   STORE_UNLOAD_HANDLERS
+   (next_screen store_unloaded_screen)}
+{new
+   BandScreen
+   store_unload_matchmaking_screen
+   STORE_UNLOAD_HANDLERS
+   (next_screen store_unloaded_matchmaking_screen)}
+{new StoreUnloadPanel store_unload_panel}
+#define STORE_UNLOADED_HANDLERS
+((panels meta movie_panel store_unload_panel)
+   (enter
+      #ifdef HX_XBOX
+      {rock_central force_logout}
+      #endif
+      {ui
+         goto_screen
+         [next_screen]}))
+{new
+   BandScreen
+   store_unloaded_screen
+   STORE_UNLOADED_HANDLERS
+   (next_screen main_screen)}
+{new
+   BandScreen
+   store_unloaded_matchmaking_screen
+   STORE_UNLOADED_HANDLERS
+   (next_screen finding_screen)}
+#define BUTTON_POP_BACK
+({if
+      {== $action kAction_Cancel}
+      {if_else
+         {store_panel cur_filter_depth}
+         {do
+            {store_panel pop_filter}
+            {ui
+               goto_screen
+               {if_else
+                  {store_panel cur_filter_depth}
+                  store_subfilter_screen
+                  store_main_screen}
+               TRUE
+               TRUE}}
+         {ui goto_screen store_unload_screen TRUE TRUE}}})
+{new
+   StoreUIPanel
+   store_filter_panel
+   (file
+      "store_filter.milo")
+   (force_exit TRUE)
+   (focus filter.lst)
+   (enter
+      {do
+         ($provider
+            {store_panel get filter_provider})
+         ($selected
+            {store_panel cur_selected_filter})
+         {$provider
+            set_depth
+            {store_panel cur_filter_depth}}
+         {filter.lst set_provider $provider}
+         {if_else
+            {== $selected ''}
+            {do
+               ($idx 0)
+               {while
+                  {!
+                     {$provider is_active $idx}}
+                  {'++' $idx}}
+               {filter.lst set_selected $idx}}
+            {filter.lst set_selected $selected}}}
+      {store_panel show_motd}
+      {store_panel hide_sort})
+   (BUTTON_DOWN_MSG BUTTON_POP_BACK kDataUnhandled)
+   (SELECT_MSG
+      {store_panel
+         push_filter
+         {filter.lst selected_sym}}
+      {ui
+         goto_screen
+         {if_else
+            {<
+               {store_panel cur_filter_depth}
+               {store_panel num_filters_required}}
+            store_subfilter_screen
+            store_browser_screen}
+         TRUE})}
+{new
+   BandScreen
+   store_loading_screen
+   (panels meta movie_panel meta_loading)
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {ui goto_screen store_real_loading_screen})}
+{new
+   BandScreen
+   store_real_loading_screen
+   (panels meta movie_panel store_panel meta_loading)
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {if
+         {store_panel get load_ok}
+         {ui goto_screen store_main_screen}})}
+{new
+   StoreMainPanel
+   store_main_panel
+   (file
+      "store_main.milo")
+   (enter
+      {$this
+         set_config_data
+         {store_panel get_new_release_data}})}
+{new
+   BandScreen
+   store_main_screen
+   (panels meta postsong_sfx_panel movie_panel store_main_panel store_filter_panel store_panel)
+   (focus store_filter_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}
+{new
+   BandScreen
+   store_subfilter_screen
+   (panels meta postsong_sfx_panel movie_panel store_filter_panel store_panel)
+   (focus store_filter_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}
+{new
+   StoreHeldButtonPanel
+   store_browser_panel
+   (file
+      "store_browser.milo")
+   (focus song.lst)
+   (joypad
+      (hold_ms 500)
+      (repeat_ms 80))
+   (held_buttons
+      (kAction_Option
+         {if_else
+            {{store_panel cur_store_filter}
+               allow_shortcut}
+            0.25
+            -1.0}))
+   (saved_selected_pos -1)
+   (saved_first_showing -1)
+   (saved_sort '')
+   (load
+      {store_panel hide_motd})
+   (enter
+      {do
+         ($provider
+            {store_panel get offer_provider})
+         {song.lst set_provider $provider}
+         {if_else
+            {==
+               [saved_selected_pos]
+               -1}
+            {do
+               ($idx 0)
+               {while
+                  {!
+                     {$provider is_active $idx}}
+                  {'++' $idx}}
+               {song.lst set_selected $idx}}
+            {do
+               {$provider
+                  set_sort
+                  [saved_sort]}
+               {song.lst
+                  set_selected
+                  [saved_selected_pos]
+                  [saved_first_showing]}}}}
+      {store_panel
+         set
+         saved_offer_sym
+         {song.lst selected_sym}}
+      {$this refresh}
+      {store_panel show_sort})
+   (exit
+      {store_panel hide_sort})
+   (TRANSITION_COMPLETE_MSG
+      {$this reset})
+   (reset
+      {set
+         [saved_selected_pos]
+         -1}
+      {set
+         [saved_first_showing]
+         -1}
+      {set
+         [saved_sort]
+         ''})
+   (on_button_held
+      ($user_num $user $raw_button $action $pad_num)
+      {if
+         {&&
+            {{store_panel cur_store_filter}
+               allow_shortcut}
+            {!
+               {song.lst is_scrolling}}}
+         {store_details_panel shortcut_enter}})
+   (BUTTON_DOWN_MSG
+      {if
+         {== $action kAction_Cancel}
+         {store_preview_mgr clear_current_preview}}
+      BUTTON_POP_BACK
+      {switch
+         $action
+         (kAction_ViewModify
+            {if
+               {&&
+                  {{store_panel cur_store_filter}
+                     allow_sort_toggle}
+                  {!
+                     {song.lst is_scrolling}}}
+               {do
+                  ($provider
+                     {store_panel get offer_provider})
+                  ($song
+                     {song.lst selected_sym})
+                  {synth play button_toggle}
+                  {$provider next_sort}
+                  {song.lst set_dirty}
+                  {song.lst set_selected $song}
+                  {store_panel show_sort}}
+               {$this refresh}})
+         (kAction_Option
+            {if
+               {!
+                  {song.lst is_scrolling}}
+               {do
+                  ($prev_ix
+                     {song.lst selected_pos})
+                  ($group
+                     {{store_panel get offer_provider}
+                        pos_to_group
+                        $prev_ix})
+                  ($song_ix
+                     {mod
+                        {'+' 1 $prev_ix}
+                        {{store_panel get offer_provider}
+                           num_data}})
+                  {while
+                     {&&
+                        {!= $song_ix $prev_ix}
+                        {==
+                           $group
+                           {{store_panel get offer_provider}
+                              pos_to_group
+                              $song_ix}}}
+                     {set
+                        $song_ix
+                        {mod
+                           {'+' 1 $song_ix}
+                           {{store_panel get offer_provider}
+                              num_data}}}}
+                  {if
+                     {!= $song_ix $prev_ix}
+                     {'++' $song_ix}
+                     {song.lst set_selected $song_ix}
+                     {store_panel
+                        set
+                        saved_offer_sym
+                        {song.lst selected_sym}}
+                     {$this refresh}}}})}
+      kDataUnhandled)
+   (SCROLL_MSG
+      {store_panel
+         set
+         saved_offer_sym
+         {song.lst selected_sym}}
+      {$this refresh})
+   (refresh
+      {store_details_panel
+         refresh
+         {$this selected_song}}
+      {do
+         ($provider
+            {store_panel get offer_provider})
+         {scroller.mesh
+            set_local_scale
+            1
+            {min
+               1
+               {/
+                  {song.lst get display_num}
+                  {$provider num_data}}}
+            1}
+         {scroll.tnm
+            set_frame
+            {/
+               {min
+                  {song.lst first_showing}
+                  {max
+                     0
+                     {-
+                        {$provider num_data}
+                        {song.lst get display_num}}}}
+               {$provider num_data}}}
+         {do
+            ($showing
+               {>
+                  {$provider num_data}
+                  {song.lst get display_num}})
+            {scroller.mesh set_showing $showing}}}
+      {if_else
+         {{$this selected_song}
+            has_data
+            preview_audio}
+         {store_preview_mgr
+            set_current_preview_file
+            {{$this selected_song}
+               get_data
+               (preview_audio)}}
+         {store_preview_mgr clear_current_preview}})
+   (SELECT_MSG
+      {store_info_panel set reset TRUE}
+      {store_panel
+         set
+         saved_offer_sym
+         {song.lst selected_sym}}
+      {set
+         [saved_selected_pos]
+         {song.lst selected_pos}}
+      {set
+         [saved_first_showing]
+         {song.lst first_showing}}
+      {set
+         [saved_sort]
+         {{store_panel get offer_provider}
+            current_sort}}
+      {ui goto_screen store_info_screen})
+   (selected_song
+      {store_panel
+         find_offer
+         {song.lst selected_sym}})
+   (enum_finished
+      {if
+         {store_panel is_up}
+         {song.lst set_dirty}})}
+{new
+   StoreUIPanel
+   store_details_panel
+   (file
+      "store_details.milo")
+   (cur_preview_art
+      "")
+   (joypad
+      (hold_ms 500)
+      (repeat_ms 80))
+   (finish_load
+      {set
+         [cur_preview_art]
+         ""})
+   (enter
+      {loading.mnm
+         animate
+         (loop)})
+   (exit
+      {store_panel cancel_art}
+      {store_panel set saved_offer_sym ''})
+   (art_loaded
+      {album.mesh set_showing TRUE})
+   (refresh
+      ($offer)
+      {if_else
+         {$offer has_data artist}
+         {if_else
+            {$offer is_cover}
+            {do
+               {band_name.lbl
+                  set_localized
+                  ""}
+               {band_famousby.lbl set text_token store_famous_by}
+               {band_famousby_name.lbl
+                  set_localized
+                  {$offer
+                     get_data
+                     (artist)}}}
+            {do
+               {band_name.lbl
+                  set_localized
+                  {$offer
+                     get_data
+                     (artist)}}
+               {band_famousby.lbl
+                  set_localized
+                  ""}
+               {band_famousby_name.lbl
+                  set_localized
+                  ""}}}
+         {do
+            {band_name.lbl set text_token store_various_artists}
+            {band_famousby.lbl
+               set_localized
+               ""}
+            {band_famousby_name.lbl
+               set_localized
+               ""}}}
+      {if_else
+         {&&
+            {!=
+               {$offer offer_type}
+               pack}
+            {$offer has_data album_name}
+            {!
+               {$offer is_cover}}}
+         {album.lbl
+            set_localized
+            {$offer
+               get_data
+               (album_name)}}
+         {album.lbl
+            set_localized
+            ""}}
+      {if_else
+         {'||'
+            {==
+               {$offer offer_type}
+               album}
+            {==
+               {$offer offer_type}
+               song}}
+         {do
+            {year.lbl
+               set_localized
+               {sprint
+                  {$offer year_released}}}
+            {genre.lbl
+               set_localized
+               {$offer genre}}}
+         {do
+            {year.lbl
+               set_localized
+               ""}
+            {genre.lbl
+               set_localized
+               ""}}}
+      #ifdef HX_PS3
+      {rating.grp set_showing TRUE}
+      {if_else
+         {==
+            {$offer
+               get_data
+               (esrb_rating)}
+            NO_ESRB}
+         {notify
+            {$offer short_name}
+            " has no valid ESRB rating"}
+         {rating.mesh
+            set_mat
+            {sprintf
+               "esrb_%s.mat"
+               {$offer
+                  get_data
+                  (esrb_rating)}}}}
+      {rating_desc.lbl
+         set_localized
+         {$offer
+            get_data
+            (esrb_desc)}}
+      #else
+      {rating.grp set_showing FALSE}
+      #endif
+      {do
+         ($missing_parts
+            {array 0})
+         {if
+            {==
+               {$offer offer_type}
+               song}
+            {foreach
+               $track
+               (STORE_PART_SYMBOLS)
+               {unless
+                  {$offer
+                     get_data
+                     (rank $track)}
+                  {push_back $missing_parts $track}}}}
+         {warning.grp
+            set_showing
+            {size $missing_parts}}
+         {do
+            ($part_token
+               {if_else
+                  {==
+                     {size $missing_parts}
+                     1}
+                  store_part_singular
+                  store_part_plural})
+            ($missing_part_str
+               "")
+            {foreach_int
+               $i
+               0
+               {size $missing_parts}
+               {if
+                  {> $i 0}
+                  {set
+                     $missing_part_str
+                     {sprint
+                        $missing_part_str
+                        "/"}}}
+               {set
+                  $missing_part_str
+                  {sprint
+                     $missing_part_str
+                     {localize
+                        {sprint
+                           "missing_"
+                           {elem $missing_parts $i}}}}}}
+            {warning.lbl
+               set_localized
+               {sprintf
+                  {localize $part_token}
+                  $missing_part_str}}}}
+      {if
+         {exists downloading.grp}
+         {downloading.grp
+            set_showing
+            {if_else
+               {$offer has_data preview_audio}
+               {store_preview_mgr
+                  is_downloading_file
+                  {$offer
+                     get_data
+                     (preview_audio)}}
+               FALSE}}}
+      {if_else
+         {$offer has_data preview_art}
+         {unless
+            {==
+               [cur_preview_art]
+               {$offer
+                  get_data
+                  (preview_art)}}
+            {set
+               [cur_preview_art]
+               {$offer
+                  get_data
+                  (preview_art)}}
+            {album.mesh set_showing FALSE}
+            {album.mesh set_mat album.mat}
+            {store_panel
+               load_art
+               [cur_preview_art]
+               album.tex
+               $this}}
+         {do
+            {set
+               [cur_preview_art]
+               ''}
+            {album.mesh set_showing TRUE}
+            {album.mesh set_mat album_generic.mat}}})
+   (shortcut_period 1.5)
+   (shortcut_selected '')
+   (shortcut_enter
+      {synth play button_select}
+      {store_browser_screen set_focus_panel store_details_panel}
+      {with
+         store_browser_panel
+         {song.lst set_state kComponentNormal}}
+      {with
+         store_shortcut
+         {group.lst
+            set_provider
+            {store_panel get group_provider}}
+         {do
+            ($offer_provider
+               {store_panel get offer_provider})
+            ($list
+               {store_browser_panel find song.lst})
+            {group.lst
+               set_selected
+               {$offer_provider
+                  pos_to_shortcut
+                  {$list selected_pos}}}}
+         {store_details_panel
+            set
+            shortcut_selected
+            {group.lst selected_pos}}}
+      {shortcut_off.grp stop_animation}
+      {shortcut_on.grp
+         animate
+         (period
+            [shortcut_period])}
+      {helpbar
+         set_config
+         ((cancel helpbar_back)
+            (confirm helpbar_select))}
+      {with
+         store_panel
+         {shortcut.grp set_showing FALSE}})
+   (shortcut_exit
+      {store_browser_screen set_focus_panel store_browser_panel}
+      {with
+         store_browser_panel
+         {song.lst set_state kComponentFocused}}
+      {shortcut_on.grp stop_animation}
+      {shortcut_off.grp
+         animate
+         (period
+            [shortcut_period])}
+      {helpbar
+         set_config
+         {store_browser_screen get helpbar}}
+      {with
+         store_panel
+         {shortcut.grp set_showing TRUE}})
+   (BUTTON_DOWN_MSG
+      {if_else
+         {== $action kAction_Cancel}
+         {do
+            {synth play button_back}
+            {$this shortcut_exit}}
+         {with
+            store_shortcut
+            {handle
+               (group.lst
+                  button_down
+                  $player_num
+                  $player
+                  $raw_button
+                  {if_else
+                     {== $action kAction_Start}
+                     kAction_Confirm
+                     $action})}}})
+   (BUTTON_UP_MSG
+      {if_else
+         {== $action kAction_Option}
+         {$this on_select}
+         kDataUnhandled})
+   (SELECT_MSG
+      {$this on_select})
+   (on_select
+      {$this shortcut_exit}
+      {with
+         store_shortcut
+         {unless
+            {==
+               {store_details_panel get shortcut_selected}
+               {group.lst selected_pos}}
+            {do
+               ($offer_provider
+                  {store_panel get offer_provider})
+               ($list
+                  {store_browser_panel find song.lst})
+               {$list
+                  set_selected
+                  {$offer_provider
+                     shortcut_to_pos
+                     {group.lst selected_sym}}}
+               {$list set_dirty}
+               {store_browser_panel refresh}}}})}
+{new
+   BandScreen
+   store_browser_screen
+   (panels meta postsong_sfx_panel movie_panel store_browser_panel store_details_panel store_panel)
+   (focus store_browser_panel)
+   (helpbar
+      {if_else
+         {{store_panel cur_store_filter}
+            allow_shortcut}
+         {if_else
+            {{store_panel cur_store_filter}
+               allow_sort_toggle}
+            ((cancel helpbar_back)
+               (confirm helpbar_select)
+               (view_modify store_helpbar_sort)
+               (option helpbar_next_heading helpbar_next_heading_hold))
+            ((cancel helpbar_back)
+               (confirm helpbar_select)
+               (option helpbar_next_heading helpbar_next_heading_hold))}
+         {if_else
+            {{store_panel cur_store_filter}
+               allow_sort_toggle}
+            ((cancel helpbar_back)
+               (confirm helpbar_select)
+               (view_modify store_helpbar_sort)
+               (option helpbar_next_heading))
+            ((cancel helpbar_back)
+               (confirm helpbar_select)
+               (option helpbar_next_heading))}})
+   (enter
+      {$this set_focus_panel store_browser_panel})}
+{new
+   StoreUIPanel
+   store_info_panel
+   (file
+      "store_info.milo")
+   (focus buttons.lst)
+   (force_exit TRUE)
+   (sub_offer 0)
+   (scroll_sfx FALSE)
+   (refresh_buttons
+      ($init)
+      {do
+         ($provider
+            {store_panel get info_provider})
+         ($offer
+            {$this cur_offer})
+         ($show_preview
+            {&&
+               {$offer has_data preview_audio}
+               {store_preview_mgr
+                  allow_preview_download
+                  {$offer
+                     get_data
+                     (preview_audio)}}})
+         {$provider set_offer $offer $show_preview}
+         {if
+            $init
+            {$provider
+               set_back_offer
+               {if_else
+                  [sub_offer]
+                  {store_panel
+                     find_offer
+                     {store_panel get saved_offer_sym}}
+                  ''}}}
+         {buttons.lst
+            set
+            display_num
+            {$provider num_data}}
+         {if_else
+            $init
+            {do
+               {buttons.lst set_provider $provider}
+               {do
+                  ($idx 0)
+                  {while
+                     {!
+                        {$provider is_active $idx}}
+                     {'++' $idx}}
+                  {buttons.lst set_selected $idx}}}
+            {buttons.lst set_dirty}}})
+   (enter
+      {do
+         ($provider
+            {store_panel get info_provider})
+         ($offer
+            {$this cur_offer})
+         ($type
+            {$offer offer_type})
+         {$this refresh_buttons TRUE}
+         {song.lbl
+            set_localized
+            {$offer offer_name}}
+         {cost.lbl
+            set_showing
+            {!
+               {$this is_purchased $offer}}}
+         {cost.lbl
+            set_localized
+            {sprint
+               {$offer cost_str}}}
+         {desc.lbl
+            set_localized
+            {$offer description}}
+         {desc_placement.tnm
+            set_frame
+            {if_else
+               {== $type song}
+               0
+               1}}
+         {difficulty.grp
+            set_showing
+            {== $type song}}
+         {if
+            {== $type song}
+            {foreach
+               $part
+               (STORE_PART_SYMBOLS)
+               {do
+                  ($tier
+                     {song_mgr
+                        rank_tier
+                        {$offer
+                           get_data
+                           (rank $part)}
+                        $part})
+                  ($max_buttons
+                     {-
+                        {song_mgr num_rank_tiers $part}
+                        1})
+                  {foreach_int
+                     $r
+                     1
+                     $max_buttons
+                     {{sprintf
+                           "diff_%s%i.mesh"
+                           $part
+                           $r}
+                        set_mat
+                        {if_else
+                           {<= $r $tier}
+                           {if_else
+                              {== $tier 6}
+                              diff_button_skull.mat
+                              diff_button_on.mat}
+                           diff_button_off.mat}}}}}}
+         {song.lst
+            set_showing
+            {!= $type song}}
+         {if
+            {!= $type song}
+            {do
+               ($song_provider
+                  {store_panel get info_song_provider})
+               {$song_provider set_offer $offer}
+               {song.lst set_provider $song_provider}}
+            {song.lst auto_scroll}}
+         {store_details_panel refresh $offer}}
+      #ifdef HX_PS3
+      {with
+         store_panel
+         {ps3_storelogo.grp set_showing TRUE}}
+      {drm.lbl set_showing TRUE}
+      #else
+      {drm.lbl set_showing FALSE}
+      #endif)
+   (SCROLL_MSG
+      {if
+         {== $component buttons.lst}
+         {synth play button_toggle}})
+   (unload
+      {set
+         [sub_offer]
+         0}
+      #ifdef HX_PS3
+      {if
+         {store_panel is_up}
+         {with
+            store_panel
+            {ps3_storelogo.grp set_showing FALSE}}}
+      #endif)
+   (BUTTON_DOWN_MSG
+      {if
+         {== $action kAction_Cancel}
+         {$this go_back}}
+      kDataUnhandled)
+   (cur_offer
+      {if_else
+         [sub_offer]
+         [sub_offer]
+         {store_panel
+            find_offer
+            {store_panel get saved_offer_sym}}})
+   (SELECT_MSG
+      {switch
+         {$component selected_sym}
+         (store_preview_audio
+            {do
+               ($offer
+                  {store_panel
+                     find_offer
+                     {store_panel get saved_offer_sym}})
+               {if_else
+                  {$offer has_data preview_audio}
+                  {do
+                     {store_preview_mgr
+                        download_preview_file
+                        {$offer
+                           get_data
+                           (preview_audio)}}
+                     {store_details_panel
+                        refresh
+                        {store_panel
+                           find_offer
+                           {store_panel get saved_offer_sym}}}}
+                  {notify
+                     "No preview audio file in store_index\n"}}
+               {$this refresh_buttons FALSE}})
+         (store_buy_now
+            {store_preview_mgr clear_current_preview}
+            {store_panel
+               check_out
+               {$this cur_offer}})
+         (store_download_again
+            #ifdef HX_XBOX
+            {store_preview_mgr clear_current_preview}
+            {store_panel
+               check_out
+               {$this cur_offer}}
+            #else
+            {ui push_screen store_download_again_screen}
+            #endif)
+         (store_view_album
+            {$this
+               goto_sub_offer
+               {store_panel
+                  find_album
+                  {$this cur_offer}}})
+         (store_view_pack
+            {$this
+               goto_sub_offer
+               {store_panel
+                  find_pack
+                  {$this cur_offer}}})
+         (exit
+            {$this go_back})})
+   (go_back
+      {if_else
+         [sub_offer]
+         {do
+            {set
+               [sub_offer]
+               0}
+            {ui goto_screen store_info_screen TRUE TRUE}}
+         {ui goto_screen store_browser_screen FALSE TRUE}})
+   (goto_sub_offer
+      ($sub_offer)
+      {set
+         [sub_offer]
+         $sub_offer}
+      {ui goto_screen store_info_screen TRUE})
+   (enum_finished
+      {if
+         {store_panel is_up}
+         {do
+            ($offer
+               {$this cur_offer})
+            {$this refresh_buttons FALSE}
+            {cost.lbl
+               set_showing
+               {!
+                  {$this is_purchased $offer}}}}})
+   (is_purchased
+      ($offer)
+      {{store_panel get offer_provider}
+         show_browser_purchased
+         $offer})
+   (checkout_finished
+      {if
+         {store_panel is_up}
+         {do
+            ($offer
+               {$this cur_offer})
+            {if_else
+               {$offer has_data preview_audio}
+               {store_preview_mgr
+                  set_current_preview_file
+                  {$offer
+                     get_data
+                     (preview_audio)}}
+               {store_preview_mgr clear_current_preview}}}})}
+{new
+   BandScreen
+   store_info_screen
+   (panels meta postsong_sfx_panel movie_panel store_details_panel store_info_panel store_panel)
+   (focus store_info_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}
+#ifdef HX_PS3
+{new
+   BandScreen
+   store_download_again_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize store_download_again_ps3}})
+   (SELECT_MSG
+      {ui pop_screen})}
+#endif

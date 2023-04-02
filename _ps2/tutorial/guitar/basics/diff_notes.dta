@@ -1,0 +1,99 @@
+#define DIFF_NOTES_TO_HIT
+(8)
+SETUP_GUITAR_TUTORIAL
+GUITAR_TV_WHITE
+START_BG_MUSIC
+{setup_lesson_banner tutorial_guitar_basics_diff_notes_part}
+{play_vo tute_guitar1_multinote}
+WAIT_FOR_VO
+SHORT_VO_GAP
+{meta_performer set_song guitar_basics_diff_notes}
+LOAD_NEW_GUITAR_SONG_NO_FADE
+HIDE_TRACK_PLAYER_UI
+UNPAUSE_TRACK
+SYNC_PAUSE
+{new
+   Object
+   tutorial_guitar_basics_diff_notes_callback
+   (hit
+      {set
+         [num_gems_hit]
+         {'+'
+            [num_gems_hit]
+            1}}
+      {if
+         {<=
+            [num_gems_hit]
+            DIFF_NOTES_TO_HIT}
+         {update_task_score
+            {localize tutorial_guitar_basics_diff_notes_score}
+            [num_gems_hit]
+            DIFF_NOTES_TO_HIT}
+         ANIMATE_SCORE})
+   (passed
+      {>=
+         [num_gems_hit]
+         DIFF_NOTES_TO_HIT})
+   (failed
+      {!
+         {$this passed}})
+   (lesson_running
+      {&&
+         {<
+            [num_gems_hit]
+            DIFF_NOTES_TO_HIT}
+         {<
+            {{beatmatch active_player 0}
+               percent_complete}
+            END_OF_SONG_PERCENT}})
+   (num_gems_hit 0)}
+{play_vo tute_guitar1_multinoteintro}
+STOP_BG_MUSIC
+GUITAR_TV_OFF
+WAIT_FOR_VO
+SHORT_VO_GAP
+{set_info_text
+   {localize tutorial_guitar_basics_diff_notes_task}}
+{show_info_text TRUE}
+{{beatmatch active_player 0}
+   add_sink
+   tutorial_guitar_basics_diff_notes_callback}
+{update_task_score
+   {localize tutorial_guitar_basics_diff_notes_score}
+   0
+   DIFF_NOTES_TO_HIT}
+SHOW_SCORE
+FADE_SONG_IN
+UNPAUSE_TRACK
+{$task
+   wait
+   {tutorial_guitar_basics_diff_notes_callback lesson_running}}
+HIDE_SCORE
+{if
+   {!
+      {tutorial_guitar_basics_diff_notes_callback failed}}
+   {$task sleep 1}}
+TRACK_OUT
+PAUSE_TRACK
+WAIT_FOR_VO
+{if_else
+   {tutorial_guitar_basics_diff_notes_callback failed}
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_basics_diff_notes_failed}}
+      {play_vo tute_guitar1_multifail}}
+   {do
+      {set_banner_text
+         {localize tutorial_guitar_basics_diff_notes_done}}
+      {play_vo tute_guitar1_multifinished}}}
+{show_info_text FALSE}
+{show_part_text FALSE}
+{show_banner_text TRUE}
+START_BG_MUSIC
+GUITAR_TV_WHITE
+WAIT_FOR_VO
+SHORT_VO_GAP
+{do_fail_menu
+   {tutorial_guitar_basics_diff_notes_callback failed}}
+RETURN_FROM_FAIL_MENU
+{tutorials_state_panel switch_to_next_state}

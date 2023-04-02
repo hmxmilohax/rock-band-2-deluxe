@@ -1,0 +1,519 @@
+#define HIDE_GEM_TAILS
+({{{{get_track_panel}
+            get_first_track}
+         find
+         tails.grp}
+      set
+      showing
+      0})
+#define UNHIDE_GEM_TAILS
+({{{{get_track_panel}
+            get_first_track}
+         find
+         tails.grp}
+      set
+      showing
+      1})
+#define RESET_TUT_INFO
+({tut_info.tnm
+      set_frame
+      {gamemode get tut_info_frame}})
+#define HIGHLIGHT_SOLO
+({blackdot.grp set_showing TRUE})
+#define UNHIGHLIGHT_SOLO
+({blackdot.grp set_showing FALSE})
+#define CROWD_METER_HIGH
+(0.88)
+#define CROWD_METER_LOW
+(0.35)
+#define CROWD_METER_REAL_LOW
+(1.0e-2)
+#define CROWD_METER_MIDDLE
+(0.5)
+#define TRACK_OUT_FRAME
+(-3000.0)
+#define TRACK_IN_FRAME
+(-2300.0)
+#define TRACK_SLEEP_TIME
+(1.5)
+#define VOCALS_OUT_FRAME
+(30.0)
+#define VOCALS_IN_FRAME
+(0.0)
+#define VOCALS_SLEEP_TIME
+(1.5)
+#define HIDE_UI_ELEMENTS
+({{gamemode get main_panel}
+      hide_all_ui})
+#define HIDE_ALL_UI
+(HIDE_UI_ELEMENTS)
+#define GET_STAR_POWER_METER
+({{get_track_panel}
+      find
+      star_power_01})
+#define SHOW_BAND_ENERGY
+({GET_STAR_POWER_METER reset}
+   {GET_STAR_POWER_METER set_showing TRUE}
+   {$task sleep 0.2})
+#define HIDE_BAND_ENERGY
+({GET_STAR_POWER_METER set_showing FALSE})
+#define SHOW_FILLING_BAND_ENERGY_HALF_INSTANT
+({{GET_STAR_POWER_METER find band_meter_fill.anim}
+      set_frame
+      0.5}
+   {{GET_STAR_POWER_METER find be_ready_tutorial.trig}
+      trigger})
+#define SHOW_FILLING_BAND_ENERGY_HALF
+({{GET_STAR_POWER_METER find be_filling_tutorial.trig}
+      trigger}
+   {{GET_STAR_POWER_METER find band_meter_fill.anim}
+      animate
+      (units kTaskTutorialSeconds)
+      (range 0.0 0.5)
+      (period 0.25)}
+   {$task sleep 0.25}
+   {{GET_STAR_POWER_METER find be_ready_tutorial.trig}
+      trigger})
+#define SHOW_FILLING_BAND_ENERGY
+(SHOW_FILLING_BAND_ENERGY_HALF
+   {{GET_STAR_POWER_METER find band_meter_fill.anim}
+      animate
+      (units kTaskTutorialSeconds)
+      (range 0.5 1.0)
+      (period 0.25)}
+   {$task sleep 0.25})
+#define SHOW_DRAINING_BAND_ENERGY_HALF
+({{GET_STAR_POWER_METER find be_filling_tutorial.trig}
+      trigger}
+   {{GET_STAR_POWER_METER find band_meter_fill.anim}
+      animate
+      (units kTaskTutorialSeconds)
+      (range 0.5 0.0)
+      (period 0.25)}
+   {$task sleep 0.25}
+   {GET_STAR_POWER_METER reset})
+#define SHOW_DRAINING_BAND_ENERGY
+({{GET_STAR_POWER_METER find band_meter_fill.anim}
+      animate
+      (units kTaskTutorialSeconds)
+      (range 1.0 0.5)
+      (period 0.25)}
+   {$task sleep 0.25}
+   SHOW_DRAINING_BAND_ENERGY_HALF)
+#define HIDE_TAMBOURINE_UI
+({{{{get_track_panel}
+            find
+            vocals}
+         find
+         tambourine_now_hide.trig}
+      trigger})
+#define HIDE_PITCH_ARROW
+({{{{get_track_panel}
+            find
+            vocals}
+         find
+         pitch_arrow.grp}
+      set_showing
+      FALSE})
+#define UNHIDE_PITCH_ARROW
+({{{{get_track_panel}
+            find
+            vocals}
+         find
+         pitch_arrow.grp}
+      set_showing
+      TRUE})
+#define HIDE_SOLO_FEEDBACK
+({{{get_track_panel}
+         find
+         player_feedback_01}
+      set_showing
+      FALSE})
+#define UNHIDE_SOLO_FEEDBACK
+({{{get_track_panel}
+         find
+         player_feedback_01}
+      set_showing
+      TRUE})
+#define HIDE_STAR_POWER_METER
+({{{{get_track_panel}
+            find
+            vocals}
+         find
+         band_power_vox__meter}
+      set_showing
+      FALSE})
+#define HIDE_PHRASE_METER
+()
+#define HIDE_STREAK_METER
+({do
+      {{{get_track_panel}
+            find
+            vocals}
+         set_streak_meter_disabled
+         TRUE}
+      {{{{get_track_panel}
+               find
+               vocals}
+            find
+            streak_meter_vox_top}
+         set_showing
+         FALSE}})
+#define UNHIDE_STAR_POWER_METER
+({{{{get_track_panel}
+            find
+            vocals}
+         find
+         band_power_vox__meter}
+      set_showing
+      TRUE})
+#define UNHIDE_PHRASE_METER
+()
+#define UNHIDE_STREAK_METER
+({do
+      {{{get_track_panel}
+            find
+            vocals}
+         set_streak_meter_disabled
+         FALSE}
+      {{{{get_track_panel}
+               find
+               vocals}
+            find
+            streak_meter_vox_top}
+         set_showing
+         TRUE}})
+#define HIDE_TRACK_PANEL
+({beatmatch set_time_paused TRUE}
+   {game set_paused TRUE}
+   {{gamemode get main_panel}
+      pause_ambient_loop
+      FALSE}
+   {{get_track_panel}
+      set_showing
+      FALSE})
+#define HIDE_SCORE_METER
+({{{get_track_panel}
+         find
+         scoreboard}
+      set_showing
+      FALSE})
+#define UNHIDE_SCORE_METER
+({{{get_track_panel}
+         find
+         scoreboard}
+      set_showing
+      TRUE})
+#undef HIDE_ENDING_BONUS
+#define HIDE_ENDING_BONUS
+({{{get_track_panel}
+         find
+         ending_bonus}
+      set_showing
+      FALSE})
+#undef UNHIDE_ENDING_BONUS
+#define UNHIDE_ENDING_BONUS
+({{{get_track_panel}
+         find
+         ending_bonus}
+      set_showing
+      TRUE})
+#define HIDE_VOCALS_PLAYER_UI
+(HIDE_STAR_POWER_METER HIDE_PHRASE_METER HIDE_STREAK_METER)
+#define UNHIDE_VOCALS_PLAYER_UI
+(UNHIDE_STAR_POWER_METER UNHIDE_PHRASE_METER UNHIDE_STREAK_METER)
+#define GET_STREAK_METER
+({{get_track_panel}
+      find
+      streak_meter_01})
+#define HIDE_TRACK_STREAK_METER
+({GET_STREAK_METER set_showing FALSE})
+#define UNHIDE_TRACK_STREAK_METER
+({GET_STREAK_METER set_showing TRUE})
+#define HIDE_TRACK_PLAYER_UI
+(HIDE_TRACK_STREAK_METER HIDE_BAND_ENERGY HIDE_SCORE_METER)
+#define UNHIDE_TRACK_PLAYER_UI
+(UNHIDE_TRACK_STREAK_METER SHOW_BAND_ENERGY UNHIDE_SCORE_METER)
+#define TRACK_IN_LANES_ANIMATE
+({{{{get_track_panel}
+            get_first_track}
+         find
+         tutorial_guitar_intro.tnm}
+      animate
+      (range TRACK_OUT_FRAME TRACK_IN_FRAME)}
+   {{{{get_track_panel}
+            get_first_track}
+         find
+         tutorial_drum_intro.tnm}
+      animate
+      (range TRACK_OUT_FRAME TRACK_IN_FRAME)})
+#define TRACK_IN_ANIMATE
+({{{{get_track_panel}
+            get_first_track}
+         find
+         tutorial_track_intro.tnm}
+      animate
+      (range TRACK_OUT_FRAME TRACK_IN_FRAME)}
+   TRACK_IN_LANES_ANIMATE)
+#define TRACK_OUT
+({$this disable_controller}
+   {{{{get_track_panel}
+            get_first_track}
+         find
+         tutorial_track_top_intro.tnm}
+      animate
+      (range TRACK_IN_FRAME TRACK_OUT_FRAME)}
+   {{{{get_track_panel}
+            get_first_track}
+         find
+         tutorial_guitar_intro.tnm}
+      animate
+      (range TRACK_IN_FRAME TRACK_OUT_FRAME)}
+   {{{{get_track_panel}
+            get_first_track}
+         find
+         tutorial_drum_intro.tnm}
+      animate
+      (range TRACK_IN_FRAME TRACK_OUT_FRAME)}
+   {$this fade_song_out 1.0}
+   {$task sleep TRACK_SLEEP_TIME})
+#define FORCE_TRACK_OUT
+({{{{get_track_panel}
+            get_first_track}
+         find
+         tutorial_track_top_intro.tnm}
+      set_frame
+      TRACK_IN_FRAME}
+   {{{{get_track_panel}
+            get_first_track}
+         find
+         tutorial_track_intro.tnm}
+      set_frame
+      TRACK_OUT_FRAME}
+   {{{{get_track_panel}
+            get_first_track}
+         find
+         tutorial_guitar_intro.tnm}
+      set_frame
+      TRACK_OUT_FRAME}
+   {{{{get_track_panel}
+            get_first_track}
+         find
+         tutorial_drum_intro.tnm}
+      set_frame
+      TRACK_OUT_FRAME})
+#define FORCE_ARROW_ON
+({{beatmatch active_player 0}
+      set_tutorial_arrow
+      TRUE})
+#define FORCE_ARROW_OFF
+({{beatmatch active_player 0}
+      set_tutorial_arrow
+      FALSE})
+#define VOCALS_OUT_NO_PAUSE
+({$this disable_controller}
+   AUTOPLAY_ON
+   FORCE_ARROW_ON
+   {{{get_track_panel}
+         find
+         vocals}
+      set_enable_vocals_options
+      FALSE}
+   {{{{get_track_panel}
+            find
+            vocals}
+         find
+         tutorial_outro.tnm}
+      animate
+      (units kTaskTutorialSeconds)
+      (range VOCALS_IN_FRAME VOCALS_OUT_FRAME)
+      (period VOCALS_SLEEP_TIME)})
+#define VOCALS_OUT_NO_FADE
+(VOCALS_OUT_NO_PAUSE
+   {$task sleep VOCALS_SLEEP_TIME})
+#define VOCALS_OUT
+(VOCALS_OUT_NO_PAUSE
+   {$this fade_song_out 1.0})
+#define FORCE_VOCALS_OUT
+({{{{get_track_panel}
+            find
+            vocals}
+         find
+         tutorial_outro.tnm}
+      set_frame
+      VOCALS_OUT_FRAME})
+#define TRACK_IN_WAIT
+({$task sleep TRACK_SLEEP_TIME})
+#define TRACK_IN
+(TRACK_IN_ANIMATE
+   {$this fade_song_in 1.0}
+   TRACK_IN_WAIT)
+#define TRACK_OUT_NOW
+({{coop_track_panel find reset_all.trig}
+      trigger}
+   {$this fade_song_out 0.1}
+   {$task sleep 0.1})
+#define DISABLE_VOCALS_POPUP_HELP_INTRO
+({{{{get_track_panel}
+            find
+            vocals}
+         get
+         popup_object}
+      set
+      intro_disabled
+      TRUE})
+#define DISABLE_VOCALS_POPUP_HELP_GAME
+({{{{get_track_panel}
+            find
+            vocals}
+         get
+         popup_object}
+      set
+      popup_help_disabled
+      TRUE})
+#define ENABLE_VOCALS_POPUP_HELP_INTRO
+({{{{get_track_panel}
+            find
+            vocals}
+         get
+         popup_object}
+      set
+      intro_disabled
+      FALSE})
+#define ENABLE_VOCALS_POPUP_HELP_GAME
+({{{{get_track_panel}
+            find
+            vocals}
+         get
+         popup_object}
+      set
+      popup_help_disabled
+      FALSE})
+#define DISABLE_VOCALS_POPUP_HELP
+(DISABLE_VOCALS_POPUP_HELP_INTRO DISABLE_VOCALS_POPUP_HELP_GAME)
+#define ENABLE_VOCALS_POPUP_HELP
+(ENABLE_VOCALS_POPUP_HELP_INTRO ENABLE_VOCALS_POPUP_HELP_GAME)
+#define DISABLE_TRACK_POPUP_HELP_INTRO
+({{{get_track_panel}
+         find
+         popup_help_01}
+      set
+      intro_disabled
+      TRUE})
+#define DISABLE_TRACK_POPUP_HELP_GAME
+({{{get_track_panel}
+         find
+         popup_help_01}
+      set
+      popup_help_disabled
+      TRUE})
+#define ENABLE_TRACK_POPUP_HELP_INTRO
+({{{get_track_panel}
+         find
+         popup_help_01}
+      set
+      intro_disabled
+      FALSE})
+#define ENABLE_TRACK_POPUP_HELP_GAME
+({{{get_track_panel}
+         find
+         popup_help_01}
+      set
+      popup_help_disabled
+      FALSE})
+#define DISABLE_TRACK_POPUP_HELP
+(DISABLE_TRACK_POPUP_HELP_INTRO DISABLE_TRACK_POPUP_HELP_GAME)
+#define ENABLE_TRACK_POPUP_HELP
+(ENABLE_TRACK_POPUP_HELP_INTRO ENABLE_TRACK_POPUP_HELP_GAME)
+#define SHOW_VOCALS_POPUP_HELP_TAMBOURINE
+({{{{get_track_panel}
+            find
+            vocals}
+         get
+         popup_object}
+      help
+      tambourine
+      TRUE
+      vocals})
+#define STOP_VOCALS_POPUP_HELP_TAMBOURINE
+({{{{get_track_panel}
+            find
+            vocals}
+         get
+         popup_object}
+      help
+      tambourine
+      FALSE
+      vocals})
+#define SHOW_VOCALS_POPUP_HELP_INTRO
+({{{{get_track_panel}
+            find
+            vocals}
+         get
+         popup_object}
+      help
+      intro_vocals
+      TRUE
+      vocals})
+#define DISABLE_POPUP_HELP
+({{{get_track_panel}
+         find
+         popup_help_01}
+      set
+      intro_disabled
+      TRUE})
+#define ENABLE_POPUP_HELP
+({{{get_track_panel}
+         find
+         popup_help_01}
+      set
+      intro_disabled
+      FALSE})
+#define SHOW_POPUP_HELP_STARPOWER
+({{{get_track_panel}
+         find
+         popup_help_01}
+      help
+      deploy
+      TRUE
+      guitar})
+#define STOP_POPUP_HELP_STARPOWER
+({{{get_track_panel}
+         find
+         popup_help_01}
+      help
+      deploy
+      FALSE
+      guitar})
+#define SHOW_POPUP_HELP_BRE
+({{{get_track_panel}
+         find
+         popup_help_01}
+      help
+      rock_ending
+      TRUE
+      guitar})
+#define STOP_POPUP_HELP_BRE
+({{{get_track_panel}
+         find
+         popup_help_01}
+      help
+      rock_ending
+      FALSE
+      guitar})
+#define SHOW_POPUP_HELP_GUITAR
+({{{get_track_panel}
+         find
+         popup_help_01}
+      help
+      intro_guitar
+      TRUE
+      guitar})
+#define SHOW_POPUP_HELP_VOCALS
+({{{get_track_panel}
+         find
+         popup_help_01}
+      help
+      intro_vocals
+      TRUE
+      vocals})

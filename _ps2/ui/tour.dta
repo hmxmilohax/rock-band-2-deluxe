@@ -1,0 +1,91 @@
+{new
+   WorldMapPanel
+   tour_world_bg_panel
+   (file world/tour_worldmap.milo)
+   (zoomed FALSE)
+   (town boston)
+   (venue big_club)
+   (playing_town_loop FALSE)
+   (enter
+      {set
+         [zoomed]
+         FALSE}
+      {set
+         [town]
+         {{tour performer}
+            town}}
+      {set
+         [venue]
+         {{tour performer}
+            venue}}
+      {meta music_stop}
+      {synth play bwt_spaceamb.cue}
+      {set
+         [playing_town_loop]
+         FALSE})
+   (exit
+      {synth stop bwt_spaceamb.cue}
+      {synth stop bwt_cityamb.cue}
+      {meta music_start})
+   (play_town_loop
+      ($play)
+      {if_else
+         $play
+         {unless
+            [playing_town_loop]
+            {synth play bwt_cityamb.cue}}
+         {synth stop bwt_cityamb.cue}}
+      {set
+         [playing_town_loop]
+         $play})
+   (update
+      {$this
+         sync
+         [town]
+         [venue]
+         [zoomed]})
+   (zoom_in
+      {set
+         [zoomed]
+         TRUE}
+      {$this update})
+   (zoom_out
+      {set
+         [zoomed]
+         FALSE}
+      {set
+         [venue]
+         ''}
+      {$this update})
+   (zoom_in_impl
+      {zoom.grp
+         animate
+         (dest
+            {zoom.grp end_frame})})
+   (zoom_out_impl
+      {zoom.grp
+         animate
+         (dest 0)})}
+{func
+   log_tour
+   ($system $data)}
+#define TOUR_EVENT_PANEL_HANDLERS
+((confirm_event
+      {log_tour
+         "EVENT "
+         {{tour event}
+            event_token}}
+      {{tour performer}
+         set_random_songs}
+      {meta_performer
+         set_song
+         {{tour performer}
+            next_song}}
+      {game
+         set_venue
+         {tour venue_variant}}
+      {session_mgr
+         send_to_all
+         (gamecfg load_all_chars)
+         TRUE}
+      {gamecfg load_all_chars}))

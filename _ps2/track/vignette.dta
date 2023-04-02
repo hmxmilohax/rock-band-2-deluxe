@@ -1,0 +1,34 @@
+(RndDir
+   (types
+      (vignette
+         (editor
+            (state
+               symbol
+               (list
+                  (stop steady warning peak))
+               (post_sync
+                  {$this
+                     [state]})))
+         (state stop)
+         #ifdef HX_XBOX
+         (reset)
+         (set_state
+            ($in_val)
+            {if
+               {!=
+                  [state]
+                  $in_val}
+               {set
+                  [state]
+                  $in_val}
+               {$this
+                  [state]}})
+         (stop
+            {stop.trig trigger})
+         (steady
+            {steady.trig trigger})
+         (warning
+            {warning.trig trigger})
+         (peak
+            {peak.trig trigger})
+         #endif)))

@@ -1,0 +1,90 @@
+#define LS_NO_FAME
+((mode_property is_tour TRUE)
+   (or
+      (not
+         (mode_property max_players 1))
+      (and
+         (mode_property max_players 1)
+         (venue small_club_01 small_club_02 small_club_03 small_club_04 small_club_05 small_club_06 small_club_07 small_club_08 small_club_09 small_club_10 small_club_11 small_club_12))))
+#define LS_LOW_FAME
+((mode_property is_tour TRUE)
+   (or
+      (and
+         (not
+            (mode_property max_players 1))
+         (unlocked tour_vehicle_van))
+      (and
+         (mode_property max_players 1)
+         (venue small_club_01 small_club_02 small_club_03 small_club_04 small_club_05 small_club_06 small_club_07 small_club_08 small_club_09 small_club_10 small_club_11 small_club_12))))
+#define LS_MID_FAME
+((mode_property is_tour TRUE)
+   (or
+      (and
+         (not
+            (mode_property max_players 1))
+         (unlocked tour_vehicle_bus))
+      (and
+         (mode_property max_players 1)
+         (venue big_club_01 big_club_02 big_club_03 big_club_04 big_club_05 big_club_06 big_club_07 big_club_08 big_club_09 big_club_10 big_club_11 big_club_12))))
+#define LS_HIGH_FAME
+((mode_property is_tour TRUE)
+   (or
+      (and
+         (not
+            (mode_property max_players 1))
+         (unlocked tour_vehicle_jet))
+      (and
+         (mode_property max_players 1)
+         (venue theater_01 theater_02 theater_03 theater_04 theater_05 theater_06 theater_07 theater_08 theater_09 arena_01 arena_02 arena_03 arena_04 arena_05 arena_06 arena_07 arena_08))))
+(loading/ls_seattle1.milo
+   (not
+      (unlocked tour_vehicle_jet)))
+(loading/ls_nyc2.milo
+   (not
+      (unlocked tour_vehicle_jet))
+   (city newyork))
+(loading/ls_amsterdam1.milo)
+(loading/ls_london2.milo)
+(loading/ls_LA1.milo
+   LS_LOW_FAME
+   (not
+      (unlocked tour_vehicle_bus))
+   (city losangeles seattle sanfrancisco boston newyork chicago))
+(loading/ls_stockholm02.milo
+   LS_LOW_FAME
+   (not
+      (unlocked tour_vehicle_bus))
+   (city stockholm rome berlin london paris amsterdam))
+(loading/ls_stockholm01.milo
+   LS_LOW_FAME
+   (not
+      (unlocked tour_vehicle_bus)))
+(loading/ls_berlin1.milo
+   LS_LOW_FAME
+   (city berlin))
+(loading/ls_berlin2.milo
+   LS_LOW_FAME
+   (city berlin))
+(loading/ls_LA4.milo
+   LS_MID_FAME
+   (city losangeles))
+(loading/ls_nyc4.milo LS_MID_FAME)
+(loading/ls_chicago3.milo LS_MID_FAME)
+(loading/ls_boston2.milo
+   LS_MID_FAME
+   (venue big_club_06))
+(loading/ls_chicago2.milo LS_MID_FAME)
+(loading/ls_boston3.milo
+   LS_MID_FAME
+   (venue theater_05))
+(loading/ls_sydney4.milo LS_HIGH_FAME)
+(loading/ls_london4.milo LS_HIGH_FAME)
+(loading/ls_seattle2.milo LS_HIGH_FAME)
+(loading/ls_amsterdam3.milo LS_HIGH_FAME)
+(loading/ls_berlin4.milo LS_HIGH_FAME)
+(loading/ls_rio.milo LS_HIGH_FAME)
+(loading/ls_reykjavik3.milo LS_HIGH_FAME)
+(loading/ls_stockholm3.milo
+   (city stockholm))
+(loading/ls_sanfran2.milo
+   (city sanfrancisco))

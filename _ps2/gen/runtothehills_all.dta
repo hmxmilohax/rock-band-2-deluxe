@@ -1,0 +1,40 @@
+#include config/macros.dta
+#define __SONG
+(runtothehills)
+#define __VENUE
+(blank_01)
+#define __PLAYER_LIST
+(((drum 3)
+      (bass 3)
+      (guitar 3)
+      (vocals 3)))
+(ui
+   (my_init
+      {gamemode set_mode qp_coop_local}
+      {setup_game __SONG __VENUE __PLAYER_LIST}
+      {set $first_screen loading_screen}
+      {{game get_player_config 0}
+         set
+         autoplay
+         TRUE}
+      {{game get_player_config 1}
+         set
+         autoplay
+         TRUE}
+      {{game get_player_config 2}
+         set
+         autoplay
+         TRUE}
+      {{game get_player_config 3}
+         set
+         autoplay
+         TRUE}
+      {set $skip_intro TRUE}
+      {set $fake_controllers TRUE}))
+(beatmatcher)
+(rnd
+   (maximize FALSE)
+   (width 640)
+   (height 448)
+   {set_aspect 2})
+#merge config/band.dta

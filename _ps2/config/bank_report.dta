@@ -1,0 +1,11 @@
+#include macros.dta
+(synth
+   (use_null_synth TRUE)
+   #include synth.dta)
+(sound
+   #include sound.dta)
+(songs
+   #include ../songs/songs.dta)
+(venues
+   #include venues.dta)
+#merge ../../../system/run/config/default.dta

@@ -1,0 +1,3669 @@
+#ifndef MINIMAL_SONGS
+#ifdef DEBUG_SONGS
+#include songs/songs_debug.dta
+#endif
+(afterlife
+ (name
+  "Afterlife")
+ (artist
+  "Avenged Sevenfold")
+ (master TRUE)
+ (context 214)
+ (song
+  (name songs/afterlife/afterlife)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (-1.0 -1.0 -2.0 -2.0 -4.0 -3.0 -3.0 -4.5 -4.5))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/afterlife/afterlife.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/cowbell_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 75234 103500)
+ (preview_clip songs/afterlife/prev_afterlife)
+ (rank
+  (drum 390)
+  (guitar 353)
+  (bass 353)
+  (vocals 145)
+  (band 300))
+ (genre metal)
+ (album_art TRUE)
+ (decade the00s)
+ (vocal_gender male)
+ (year_released 2007)
+ (album_name
+  "Avenged Sevenfold")
+ (song_practice_1
+  (name songs/afterlife/afterlife_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1))
+  (midi_file songs/afterlife/afterlife.mid))
+ (base_song TRUE))
+(allthesmallthings
+ (name
+  "All the Small Things")
+ (artist
+  "Blink-182")
+ (master TRUE)
+ (context 114)
+ (song
+  (name songs/allthesmallthings/allthesmallthings)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -4.5 -4.5 -2.5 -4.5))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/allthesmallthings/allthesmallthings.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 17159 47090)
+ (preview_clip songs/allthesmallthings/prev_allthesmallthings)
+ (rank
+  (drum 220)
+  (guitar 150)
+  (bass 150)
+  (vocals 150)
+  (band 175))
+ (genre punk)
+ (tutorial TRUE)
+ (decade the90s)
+ (album_art TRUE)
+ (vocal_gender male)
+ (year_released 1999)
+ (album_name
+  "Enema of the State")
+ (song_practice_1
+  (name songs/allthesmallthings/allthesmallthings_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar 5)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1))
+  (midi_file songs/allthesmallthings/allthesmallthings.mid)))
+(callme
+ (name
+  "Call Me")
+ (artist
+  "Blondie")
+ (master TRUE)
+ (context 176)
+ (song
+  (name songs/callme/callme)
+  (tracks
+   ((drum
+     (0 1 2))
+    (bass 3)
+    (guitar
+     (4 5))
+    (vocals 6)))
+  (pans
+   (0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (-0.5 -2.0 -2.0 -3.0 -3.0 -3.0 -3.0 -3.5))
+  (cores
+   (-1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/callme/callme.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/Tambourine_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 24750 52750)
+ (preview_clip songs/callme/prev_callme)
+ (rank
+  (drum 206)
+  (guitar 160)
+  (bass 150)
+  (vocals 160)
+  (band 213))
+ (genre poprock)
+ (album_art TRUE)
+ (decade the80s)
+ (vocal_gender female)
+ (year_released 1980)
+ (album_name
+  "American Gigolo")
+ (song_practice_1
+  (name songs/callme/callme_p70)
+  (tracks
+   ((drum
+     (0 1 2))
+    (bass 3)
+    (guitar
+     (4 5))))
+  (pans
+   (0.0 -1.0 1.0 0.0 -1.0 1.0))
+  (vols
+   (0.0 -1.5 -1.5 -3.0 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 1 1))
+  (midi_file songs/callme/callme.mid))
+ (tutorial TRUE))
+(buddyholly
+ (name
+  "Buddy Holly")
+ (artist
+  "Weezer")
+ (master TRUE)
+ (context 104)
+ (song
+  (name songs/buddyholly/buddyholly)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -4.5 -4.5 -2.5 -4.5))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/buddyholly/buddyholly.mid))
+ (song_scroll_speed 2100)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 83313 111920)
+ (preview_clip songs/buddyholly/prev_buddyholly)
+ (rank
+  (drum 150)
+  (guitar 160)
+  (bass 150)
+  (vocals 130)
+  (band 150))
+ (genre alternative)
+ (tutorial TRUE)
+ (decade the90s)
+ (album_art TRUE)
+ (vocal_gender male)
+ (year_released 1994)
+ (album_name
+  "Weezer (Blue Album)")
+ (song_practice_1
+  (name songs/buddyholly/buddyholly_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar 5)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1))
+  (midi_file songs/buddyholly/buddyholly.mid)))
+(elscorcho
+ (name
+  "El Scorcho")
+ (artist
+  "Weezer")
+ (master TRUE)
+ (context 142)
+ (song
+  (name songs/elscorcho/elscorcho)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (-2.0 -3.5 -3.0 -3.0 -1.5 -4.5 -4.5 -2.0 -2.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/elscorcho/elscorcho.mid)
+  (hopo_threshold 100))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoSlow)
+ (preview 15750 70430)
+ (preview_clip songs/elscorcho/prev_elscorcho)
+ (rank
+  (drum 201)
+  (guitar 130)
+  (bass 130)
+  (vocals 120)
+  (band 160))
+ (genre alternative)
+ (album_art TRUE)
+ (decade the90s)
+ (vocal_gender male)
+ (year_released 1996)
+ (album_name
+  "Pinkerton")
+ (song_practice_1
+  (name songs/elscorcho/elscorcho_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1))
+  (hopo_threshold 100)
+  (midi_file songs/elscorcho/elscorcho.mid))
+ (tutorial TRUE))
+(callingdrlove
+ (name
+  "Calling Dr. Love")
+ (artist
+  "KISS")
+ (master TRUE)
+ (context 133)
+ (song
+  (name songs/callingdrlove/callingdrlove)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -3.0 -3.0 -3.0 -3.0 -3.0 -2.5 -4.5))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/callingdrlove/callingdrlove.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/cowbell3_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 25727 55635)
+ (preview_clip songs/callingdrlove/prev_callingdrlove)
+ (rank
+  (drum 230)
+  (guitar 260)
+  (bass 225)
+  (vocals 160)
+  (band 250))
+ (genre classicrock)
+ (tutorial TRUE)
+ (decade the70s)
+ (album_art TRUE)
+ (vocal_gender male)
+ (year_released 1976)
+ (album_name
+  "Rock & Roll Over")
+ (song_practice_1
+  (name songs/callingdrlove/callingdrlove_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar 5)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1))
+  (midi_file songs/callingdrlove/callingdrlove.mid)))
+(girlswhoplayguitars
+ (name
+  "Girls Who Play Guitars")
+ (artist
+  "Maxïmo Park")
+ (master TRUE)
+ (context 210)
+ (song
+  (name songs/girlswhoplayguitars/girlswhoplayguitars)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (-0.5 -0.5 -4.0 -4.0 -4.5 -4.0 -4.0 -4.5 -4.5))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/girlswhoplayguitars/girlswhoplayguitars.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoFast)
+ (preview 18645 46625)
+ (preview_clip songs/girlswhoplayguitars/prev_girlswhoplayguitars)
+ (rank
+  (drum 260)
+  (guitar 235)
+  (bass 240)
+  (vocals 150)
+  (band 225))
+ (genre poprock)
+ (album_art TRUE)
+ (decade the00s)
+ (vocal_gender male)
+ (year_released 2007)
+ (album_name
+  "Our Earthly Pleasures")
+ (song_practice_1
+  (name songs/girlswhoplayguitars/girlswhoplayguitars_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1))
+  (midi_file songs/girlswhoplayguitars/girlswhoplayguitars.mid))
+ (tutorial TRUE))
+(dieallright
+ (name
+  "Die, All Right!")
+ (artist
+  "The Hives")
+ (master TRUE)
+ (context 37)
+ (song
+  (name songs/dieallright/dieallright)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -3.5 -3.5 -3.0 -3.0 -3.0 -1.5 -2.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/dieallright/dieallright.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoFast)
+ (preview 33901 63065)
+ (preview_clip songs/dieallright/prev_dieallright)
+ (rank
+  (drum 310)
+  (guitar 230)
+  (bass 230)
+  (vocals 250)
+  (band 250))
+ (genre punk)
+ (tutorial TRUE)
+ (decade the00s)
+ (album_art TRUE)
+ (vocal_gender male)
+ (year_released 2000)
+ (album_name
+  "Veni Vidi Vicious")
+ (song_practice_1
+  (name songs/dieallright/dieallright_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar 5)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1))
+  (midi_file songs/dieallright/dieallright.mid)))
+(girluwant
+ (name
+  "Girl U Want")
+ (artist
+  "Devo")
+ (master TRUE)
+ (context 357)
+ (song
+  (name songs/girluwant/girluwant)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (-1.0 -1.0 -1.0 -1.0 -2.0 -6.0 -6.0 -6.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/girluwant/girluwant.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/handclap_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoFast)
+ (preview 28500 58500)
+ (preview_clip songs/girluwant/prev_girluwant)
+ (rank
+  (drum 165)
+  (guitar 131)
+  (bass 197)
+  (vocals 103)
+  (band 150))
+ (genre poprock)
+ (album_art TRUE)
+ (decade the80s)
+ (vocal_gender male)
+ (year_released 1980)
+ (album_name
+  "Freedom of Choice")
+ (tutorial TRUE)
+ (song_practice_1
+  (name songs/girluwant/girluwant_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar 5)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1))
+  (midi_file songs/girluwant/girluwant.mid)))
+(gimmethreesteps
+ (name
+  "Gimme Three Steps")
+ (artist
+  "Lynyrd Skynyrd")
+ (master TRUE)
+ (context 39)
+ (song
+  (name songs/gimmethreesteps/gimmethreesteps)
+  (tracks
+   ((drum
+     (0 1 2))
+    (bass 3)
+    (guitar
+     (4 5))
+    (vocals 6)))
+  (pans
+   (0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 -4.5 -4.5 0.0 -4.5 -4.5 -3.0 -4.5))
+  (cores
+   (-1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/gimmethreesteps/gimmethreesteps.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/cowbell_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 125898 155109)
+ (preview_clip songs/gimmethreesteps/prev_gimmethreesteps)
+ (rank
+  (drum 150)
+  (guitar 329)
+  (bass 218)
+  (vocals 160)
+  (band 215))
+ (genre southernrock)
+ (tutorial TRUE)
+ (decade the70s)
+ (album_art TRUE)
+ (vocal_gender male)
+ (year_released 1973)
+ (album_name
+  "Pronounced 'Leh-'nérd 'Skin-'nérd")
+ (song_practice_1
+  (name songs/gimmethreesteps/gimmethreesteps_p70)
+  (tracks
+   ((drum
+     (0 1 2))
+    (bass 3)
+    (guitar 4)))
+  (pans
+   (0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 -1.5 -1.5 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 1))
+  (midi_file songs/gimmethreesteps/gimmethreesteps.mid)))
+(indestructible
+ (name
+  "Indestructible")
+ (artist
+  "Disturbed")
+ (master TRUE)
+ (context 206)
+ (song
+  (name songs/indestructible/indestructible)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (-0.5 -1.5 -2.0 -2.0 -4.3 -3.1 -3.1 -2.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/indestructible/indestructible.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/cowbell_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoSlow)
+ (preview 126800 161500)
+ (preview_clip songs/indestructible/prev_indestructible)
+ (rank
+  (drum 350)
+  (guitar 320)
+  (bass 320)
+  (vocals 146)
+  (band 300))
+ (genre numetal)
+ (album_art TRUE)
+ (decade the00s)
+ (vocal_gender male)
+ (year_released 2008)
+ (album_name
+  "Indestructible")
+ (song_practice_1
+  (name songs/indestructible/indestructible_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1))
+  (midi_file songs/indestructible/indestructible.mid))
+ (tutorial TRUE))
+(interstatelovesong
+ (name
+  "Interstate Love Song")
+ (artist
+  "Stone Temple Pilots")
+ (master TRUE)
+ (context 109)
+ (song
+  (name songs/interstatelovesong/interstatelovesong)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -3.5 -3.5 -4.0 -4.5 -4.5 -2.5 -4.5))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/interstatelovesong/interstatelovesong.mid))
+ (song_scroll_speed 2000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 30836 59000)
+ (preview_clip songs/interstatelovesong/prev_interstatelovesong)
+ (rank
+  (drum 310)
+  (guitar 175)
+  (bass 175)
+  (vocals 130)
+  (band 210))
+ (genre rock)
+ (tutorial TRUE)
+ (decade the90s)
+ (album_art TRUE)
+ (vocal_gender male)
+ (year_released 1994)
+ (album_name
+  "Purple")
+ (song_practice_1
+  (name songs/interstatelovesong/interstatelovesong_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar 5)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1))
+  (midi_file songs/interstatelovesong/interstatelovesong.mid)))
+(ithurts
+ (name
+  "It Hurts")
+ (artist
+  "Angels & Airwaves")
+ (master TRUE)
+ (context 190)
+ (song
+  (name songs/ithurts/ithurts)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (-1.0 -2.0 -3.0 -3.0 -3.0 -2.0 -2.0 -3.0 -4.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/ithurts/ithurts.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 98568 128452)
+ (preview_clip songs/ithurts/prev_ithurts)
+ (rank
+  (drum 265)
+  (guitar 230)
+  (bass 230)
+  (vocals 147)
+  (band 280))
+ (genre alternative)
+ (album_art TRUE)
+ (decade the00s)
+ (vocal_gender male)
+ (year_released 2006)
+ (album_name
+  "We Don't Need to Whisper")
+ (song_practice_1
+  (name songs/ithurts/ithurts_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1))
+  (midi_file songs/ithurts/ithurts.mid))
+ (tutorial TRUE))
+(jokerandthe
+ (name
+  "Joker & the Thief")
+ (artist
+  "Wolfmother")
+ (master TRUE)
+ (context 91)
+ (song
+  (name songs/jokerandthe/jokerandthe)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -1.5 -3.5 -3.5 -2.5 -4.5))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/jokerandthe/jokerandthe.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 98000 126000)
+ (preview_clip songs/jokerandthe/prev_jokerandthe)
+ (rank
+  (drum 230)
+  (guitar 375)
+  (bass 375)
+  (vocals 240)
+  (band 305))
+ (genre rock)
+ (tutorial TRUE)
+ (decade the00s)
+ (album_art TRUE)
+ (vocal_gender male)
+ (year_released 2005)
+ (album_name
+  "Wolfmother")
+ (song_practice_1
+  (name songs/jokerandthe/jokerandthe_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar 5)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1))
+  (midi_file songs/jokerandthe/jokerandthe.mid)))
+(justwhatineeded
+ (name
+  "Just What I Needed")
+ (artist
+  "The Cars")
+ (master TRUE)
+ (context 197)
+ (song
+  (name songs/justwhatineeded/justwhatineeded)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (-1.0 -1.0 -3.0 -3.0 -3.0 -3.0 -3.0 -3.0 -4.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/justwhatineeded/justwhatineeded.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/cowbell_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 79600 110000)
+ (preview_clip songs/justwhatineeded/prev_justwhatineeded)
+ (rank
+  (drum 145)
+  (guitar 204)
+  (bass 204)
+  (vocals 160)
+  (band 178))
+ (genre rock)
+ (album_art TRUE)
+ (decade the70s)
+ (vocal_gender male)
+ (year_released 1978)
+ (album_name
+  "The Cars")
+ (song_practice_1
+  (name songs/justwhatineeded/justwhatineeded_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1))
+  (midi_file songs/justwhatineeded/justwhatineeded.mid))
+ (tutorial TRUE))
+(littlesister
+ (name
+  "Little Sister")
+ (artist
+  "Queens of the Stone Age")
+ (master TRUE)
+ (context 86)
+ (song
+  (name songs/littlesister/littlesister)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.5 -3.5 -2.5 -4.5))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/littlesister/littlesister.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 39100 68200)
+ (preview_clip songs/littlesister/prev_littlesister)
+ (rank
+  (drum 360)
+  (guitar 280)
+  (bass 280)
+  (vocals 160)
+  (band 270))
+ (genre alternative)
+ (tutorial TRUE)
+ (decade the00s)
+ (album_art TRUE)
+ (vocal_gender male)
+ (year_released 2005)
+ (album_name
+  "Lullabies to Paralyze")
+ (song_practice_1
+  (name songs/littlesister/littlesister_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar 5)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1))
+  (midi_file songs/littlesister/littlesister.mid)))
+(messageinabottle
+ (name
+  "Message In A Bottle")
+ (artist
+  "The Police")
+ (master TRUE)
+ (context 153)
+ (song
+  (name songs/messageinabottle/messageinabottle)
+  (tracks
+   ((drum
+     (0 1 2))
+    (bass 3)
+    (guitar
+     (4 5))
+    (vocals 6)))
+  (pans
+   (0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 -1.0 -1.0 -3.0 -1.0 -1.0 -2.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/messageinabottle/messageinabottle.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/handclap_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 92043 118236)
+ (preview_clip songs/messageinabottle/prev_messageinabottle)
+ (rank
+  (drum 346)
+  (guitar 240)
+  (bass 240)
+  (vocals 136)
+  (band 268))
+ (genre rock)
+ (album_art TRUE)
+ (decade the70s)
+ (vocal_gender male)
+ (year_released 1979)
+ (album_name
+  "Regatta de Blanc")
+ (song_practice_1
+  (name songs/messageinabottle/messageinabottle_p70)
+  (tracks
+   ((drum
+     (0 1 2))
+    (bass 3)
+    (guitar
+     (4 5))))
+  (pans
+   (0.0 -1.0 1.0 0.0 -1.0 1.0))
+  (vols
+   (0.0 -1.5 -1.5 -3.0 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 1 1))
+  (midi_file songs/messageinabottle/messageinabottle.mid))
+ (tutorial TRUE))
+(marchofthepigs
+ (name
+  "March of the Pigs")
+ (artist
+  "Nine Inch Nails")
+ (master TRUE)
+ (context 136)
+ (song
+  (name songs/marchofthepigs/marchofthepigs)
+  (tracks
+   ((drum
+     (0 1))
+    (bass 2)
+    (guitar
+     (3 4))
+    (vocals 5)))
+  (pans
+   (-1.0 1.0 0.0 -1.0 1.0 0.0 1.0))
+  (vols
+   (-2.0 -2.0 -1.0 -2.0 -2.0 -2.5 -3.0))
+  (cores
+   (-1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/marchofthepigs/marchofthepigs.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/cowbell3_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 26563 55634)
+ (preview_clip songs/marchofthepigs/prev_marchofthepigs)
+ (rank
+  (drum 400)
+  (guitar 285)
+  (bass 320)
+  (vocals 240)
+  (band 350))
+ (genre rock)
+ (tutorial TRUE)
+ (decade the90s)
+ (album_art TRUE)
+ (vocal_gender male)
+ (year_released 1994)
+ (album_name
+  "The Downward Spiral")
+ (song_practice_1
+  (name songs/marchofthepigs/marchofthepigs_p70)
+  (tracks
+   ((drum
+     (0 1))
+    (bass 2)
+    (guitar 3)))
+  (pans
+   (-1.0 1.0 0.0 0.0))
+  (vols
+   (-1.5 -1.5 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 1))
+  (midi_file songs/marchofthepigs/marchofthepigs.mid)))
+(monkeygonetoheaven
+ (name
+  "Monkey Gone to Heaven")
+ (artist
+  "Pixies")
+ (master TRUE)
+ (context 226)
+ (song
+  (name songs/monkeygonetoheaven/monkeygonetoheaven)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (-3.0 -3.5 -3.0 -3.0 -4.0 -2.0 -2.0 -2.0 0.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/monkeygonetoheaven/monkeygonetoheaven.mid)
+  (hopo_threshold 250))
+ (song_scroll_speed 2300)
+ (bank sfx/cowbell_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 20500 47600)
+ (preview_clip songs/monkeygonetoheaven/prev_monkeygonetoheaven)
+ (rank
+  (drum 120)
+  (guitar 140)
+  (bass 140)
+  (vocals 121)
+  (band 145))
+ (genre alternative)
+ (characters grungehop)
+ (decade the80s)
+ (vocal_gender male)
+ (tutorial TRUE)
+ (song_practice_1
+  (name songs/monkeygonetoheaven/monkeygonetoheaven_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1))
+  (midi_file songs/monkeygonetoheaven/monkeygonetoheaven.mid)
+  (hopo_threshold 250))
+ (format 2)
+ (version 1)
+ (year_released 1989)
+ (album_art TRUE)
+ (album_name
+  "Doolittle")
+ (album_track_number 7))
+(moonagedaydream
+ (name
+  "Moonage Daydream")
+ (artist
+  "David Bowie")
+ (master TRUE)
+ (context 44)
+ (song
+  (name songs/moonagedaydream/moonagedaydream)
+  (tracks
+   ((drum
+     (0 1 2))
+    (bass 3)
+    (guitar
+     (4 5))
+    (vocals 6)))
+  (pans
+   (0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 0.0 -3.5 -3.5 -3.5 -2.0 -5.0))
+  (cores
+   (-1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/moonagedaydream/moonagedaydream.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoSlow)
+ (preview 36500 63400)
+ (preview_clip songs/moonagedaydream/prev_moonagedaydream)
+ (rank
+  (drum 200)
+  (guitar 200)
+  (bass 200)
+  (vocals 250)
+  (band 215))
+ (genre glam)
+ (tutorial TRUE)
+ (decade the70s)
+ (album_art TRUE)
+ (vocal_gender male)
+ (year_released 1972)
+ (album_name
+  "The Rise & Fall of Ziggy Stardust & the Spiders from Mars")
+ (song_practice_1
+  (name songs/moonagedaydream/moonagedaydream_p70)
+  (tracks
+   ((drum
+     (0 1 2))
+    (bass 3)
+    (guitar 4)))
+  (pans
+   (0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 -1.5 -1.5 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 1))
+  (midi_file songs/moonagedaydream/moonagedaydream.mid)))
+(perfectdrug
+ (name
+  "The Perfect Drug")
+ (artist
+  "Nine Inch Nails")
+ (master TRUE)
+ (context 134)
+ (song
+  (name songs/perfectdrug/perfectdrug)
+  (tracks
+   ((drum
+     (0 1))
+    (bass 2)
+    (guitar
+     (3 4))
+    (vocals 5)))
+  (pans
+   (-1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (-2.0 -2.0 -1.5 -3.0 -3.0 -3.0 -2.5))
+  (cores
+   (-1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/perfectdrug/perfectdrug.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/cowbell3_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 51548 80994)
+ (preview_clip songs/perfectdrug/prev_perfectdrug)
+ (rank
+  (drum 500)
+  (guitar 290)
+  (bass 140)
+  (vocals 175)
+  (band 390))
+ (genre rock)
+ (decade the90s)
+ (vocal_gender male)
+ (year_released 1997)
+ (album_art TRUE)
+ (album_name
+  "Lost Highway")
+ (song_practice_1
+  (name songs/perfectdrug/perfectdrug_p70)
+  (tracks
+   ((drum
+     (0 1))
+    (bass 2)
+    (guitar
+     (3 4))))
+  (pans
+   (-1.0 1.0 0.0 -1.0 1.0))
+  (vols
+   (-1.5 -1.5 -3.0 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 1 1))
+  (midi_file songs/perfectdrug/perfectdrug.mid))
+ (tutorial TRUE))
+(morethanafeeling
+ (name
+  "More Than A Feeling")
+ (artist
+  "Boston")
+ (master TRUE)
+ (context 164)
+ (song
+  (name songs/morethanafeeling/morethanafeeling)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -3.0 -3.0 -3.0 -3.0 -3.0 -1.5 -2.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/morethanafeeling/morethanafeeling.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/handclap_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 45760 72450)
+ (preview_clip songs/morethanafeeling/prev_morethanafeeling)
+ (rank
+  (drum 206)
+  (guitar 226)
+  (bass 220)
+  (vocals 242)
+  (band 250))
+ (genre classicrock)
+ (tutorial TRUE)
+ (decade the70s)
+ (album_art TRUE)
+ (vocal_gender male)
+ (year_released 1976)
+ (album_name
+  "Boston")
+ (song_practice_1
+  (name songs/morethanafeeling/morethanafeeling_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar 5)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1))
+  (midi_file songs/morethanafeeling/morethanafeeling.mid)))
+(rio
+ (name
+  "Rio")
+ (artist
+  "Duran Duran")
+ (master TRUE)
+ (context 355)
+ (song
+  (name songs/rio/rio)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (-1.0 -1.0 -2.5 -2.5 -3.5 -4.0 -4.0 -4.0 -4.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/rio/rio.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 48600 71300)
+ (preview_clip songs/rio/prev_rio)
+ (rank
+  (drum 341)
+  (guitar 260)
+  (bass 226)
+  (vocals 167)
+  (band 250))
+ (genre poprock)
+ (album_art TRUE)
+ (decade the80s)
+ (vocal_gender male)
+ (year_released 1982)
+ (album_name
+  "Rio")
+ (tutorial TRUE)
+ (song_practice_1
+  (name songs/rio/rio_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar 5)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1))
+  (midi_file songs/rio/rio.mid)))
+(movealong
+ (name
+  "Move Along")
+ (artist
+  "All-American Rejects")
+ (master TRUE)
+ (context 106)
+ (song
+  (name songs/movealong/movealong)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -2.5 -2.5 -2.0 -3.5 -3.5 -1.5 -4.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/movealong/movealong.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 48111 77368)
+ (preview_clip songs/movealong/prev_movealong)
+ (rank
+  (drum 380)
+  (guitar 150)
+  (bass 150)
+  (vocals 210)
+  (band 275))
+ (genre emo)
+ (tutorial TRUE)
+ (decade the00s)
+ (album_art TRUE)
+ (vocal_gender male)
+ (year_released 2005)
+ (album_name
+  "Move Along")
+ (song_practice_1
+  (name songs/movealong/movealong_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar 5)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1))
+  (midi_file songs/movealong/movealong.mid)))
+(saintsoflosangeles
+ (name
+  "Saints of Los Angeles")
+ (artist
+  "Mötley Crüe")
+ (master TRUE)
+ (context 177)
+ (song
+  (name songs/saintsoflosangeles/saintsoflosangeles)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 -0.5 -2.0 -2.0 -3.2 -3.7 -3.7 -5.1 -4.5))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/saintsoflosangeles/saintsoflosangeles.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 67036 96780)
+ (preview_clip songs/saintsoflosangeles/prev_saintsoflosangeles)
+ (rank
+  (drum 332)
+  (guitar 291)
+  (bass 290)
+  (vocals 140)
+  (band 275))
+ (genre metal)
+ (album_art TRUE)
+ (decade the00s)
+ (vocal_gender male)
+ (year_released 2008)
+ (album_name
+  "Saints of Los Angeles")
+ (song_practice_1
+  (name songs/saintsoflosangeles/saintsoflosangeles_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1))
+  (midi_file songs/saintsoflosangeles/saintsoflosangeles.mid))
+ (tutorial TRUE))
+(siva
+ (name
+  "Siva")
+ (artist
+  "Smashing Pumpkins")
+ (master TRUE)
+ (context 49)
+ (song
+  (name songs/siva/siva)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -2.0 -2.0 -2.0 -3.5 -3.5 -2.5 -2.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/siva/siva.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/cowbell_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 20712 50340)
+ (preview_clip songs/siva/prev_siva)
+ (rank
+  (drum 410)
+  (guitar 317)
+  (bass 228)
+  (vocals 140)
+  (band 275))
+ (genre alternative)
+ (tutorial TRUE)
+ (decade the90s)
+ (album_art TRUE)
+ (vocal_gender male)
+ (year_released 1991)
+ (album_name
+  "Gish")
+ (song_practice_1
+  (name songs/siva/siva_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar 5)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1))
+  (midi_file songs/siva/siva.mid)))
+(simpleman
+ (name
+  "Simple Man")
+ (artist
+  "Lynyrd Skynyrd")
+ (master TRUE)
+ (context 152)
+ (song
+  (name songs/simpleman/simpleman)
+  (tracks
+   ((drum
+     (0 1 2))
+    (bass 3)
+    (guitar
+     (4 5))
+    (vocals 6)))
+  (pans
+   (0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (-0.5 -1.5 -1.5 -3.0 -3.0 -3.0 -3.0 -4.5))
+  (cores
+   (-1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/simpleman/simpleman.mid)
+  (hopo_threshold 95))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 103839 113561)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (preview_clip songs/simpleman/prev_simpleman)
+ (rank
+  (drum 130)
+  (guitar 175)
+  (bass 175)
+  (vocals 206)
+  (band 148))
+ (genre southernrock)
+ (album_art TRUE)
+ (decade the70s)
+ (vocal_gender male)
+ (year_released 1973)
+ (album_name
+  "Pronounced 'Leh-'nérd 'Skin-'nérd")
+ (song_practice_1
+  (name songs/simpleman/simpleman_p70)
+  (tracks
+   ((drum
+     (0 1 2))
+    (bass 3)
+    (guitar
+     (4 5))))
+  (pans
+   (0.0 -1.0 1.0 0.0 -1.0 1.0))
+  (vols
+   (0.0 -1.5 -1.5 -3.0 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 1 1))
+  (midi_file songs/simpleman/simpleman.mid)
+  (hopo_threshold 95))
+ (tutorial TRUE))
+(synchronicity2
+ (name
+  "Synchronicity II")
+ (artist
+  "The Police")
+ (master TRUE)
+ (context 85)
+ (song
+  (name songs/synchronicity2/synchronicity2)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -3.0 -3.0 -1.5 -3.0 -3.0 -3.5 -4.5))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/synchronicity2/synchronicity2.mid)
+  (hopo_threshold 250))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 47700 78000)
+ (preview_clip songs/synchronicity2/prev_synchronicity2)
+ (rank
+  (drum 240)
+  (guitar 220)
+  (bass 210)
+  (vocals 240)
+  (band 225))
+ (genre poprock)
+ (tutorial TRUE)
+ (decade the80s)
+ (album_art TRUE)
+ (vocal_gender male)
+ (year_released 1983)
+ (album_name
+  "Synchronicity")
+ (song_practice_1
+  (name songs/synchronicity2/synchronicity2_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar 5)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1))
+  (midi_file songs/synchronicity2/synchronicity2.mid)
+  (hopo_threshold 250)))
+(snowheyoh
+ (name
+  "Snow ((Hey Oh))")
+ (artist
+  "Red Hot Chili Peppers")
+ (master TRUE)
+ (context 239)
+ (song
+  (name songs/snowheyoh/snowheyoh)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (-1.0 -1.0 -3.0 -3.0 -2.0 -2.0 -2.0 -4.5 -6.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/snowheyoh/snowheyoh.mid)
+  (hopo_threshold 80))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 40936 78000)
+ (preview_clip songs/snowheyoh/prev_snowheyoh)
+ (rank
+  (drum 320)
+  (guitar 382)
+  (bass 230)
+  (vocals 80)
+  (band 230))
+ (genre rock)
+ (characters grungehop)
+ (decade the00s)
+ (vocal_gender male)
+ (tutorial TRUE)
+ (song_practice_1
+  (name songs/snowheyoh/snowheyoh_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1))
+  (midi_file songs/snowheyoh/snowheyoh.mid)
+  (hopo_threshold 80))
+ (format 2)
+ (version 1)
+ (album_art TRUE)
+ (year_released 2006)
+ (album_name
+  "Stadium Arcadium")
+ (album_track_number 2))
+(teenagelobotomy
+ (name
+  "Teenage Lobotomy")
+ (artist
+  "Ramones")
+ (master TRUE)
+ (context 135)
+ (song
+  (name songs/teenagelobotomy/teenagelobotomy)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -3.0 -3.0 -3.0 -3.0 -3.0 -2.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/teenagelobotomy/teenagelobotomy.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoFast)
+ (preview 13142 43100)
+ (preview_clip songs/teenagelobotomy/prev_teenagelobotomy)
+ (rank
+  (drum 270)
+  (guitar 245)
+  (bass 227)
+  (vocals 135)
+  (band 210))
+ (genre punk)
+ (tutorial TRUE)
+ (decade the70s)
+ (album_art TRUE)
+ (vocal_gender male)
+ (year_released 1977)
+ (album_name
+  "Rocket to Russia")
+ (song_practice_1
+  (name songs/teenagelobotomy/teenagelobotomy_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar 5)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1))
+  (midi_file songs/teenagelobotomy/teenagelobotomy.mid)))
+(thisaintascene
+ (name
+  "This Ain't A Scene, It's An Arms Race")
+ (artist
+  "Fall Out Boy")
+ (master TRUE)
+ (context 191)
+ (song
+  (name songs/thisaintascene/thisaintascene)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (-1.0 -1.0 -2.0 -2.0 -2.0 -2.5 -2.5 -2.5 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/thisaintascene/thisaintascene.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/cowbell_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 49412 79412)
+ (preview_clip songs/thisaintascene/prev_thisaintascene)
+ (rank
+  (drum 255)
+  (guitar 236)
+  (bass 235)
+  (vocals 142)
+  (band 220))
+ (genre poprock)
+ (album_art TRUE)
+ (decade the00s)
+ (vocal_gender male)
+ (year_released 2007)
+ (album_name
+  "Infinity on High")
+ (song_practice_1
+  (name songs/thisaintascene/thisaintascene_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1))
+  (midi_file songs/thisaintascene/thisaintascene.mid))
+ (tutorial TRUE))
+(thekill
+ (name
+  "The Kill")
+ (artist
+  "30 Seconds to Mars")
+ (master TRUE)
+ (context 105)
+ (song
+  (name songs/thekill/thekill)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -2.5 -2.5 -1.5 -3.0 -3.0 -2.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/thekill/thekill.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoSlow)
+ (preview 36501 63715)
+ (preview_clip songs/thekill/prev_thekill)
+ (rank
+  (drum 210)
+  (guitar 150)
+  (bass 120)
+  (vocals 220)
+  (band 175))
+ (genre emo)
+ (tutorial TRUE)
+ (decade the00s)
+ (album_art TRUE)
+ (vocal_gender male)
+ (year_released 2005)
+ (album_name
+  "A Beautiful Lie")
+ (song_practice_1
+  (name songs/thekill/thekill_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar 5)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1))
+  (midi_file songs/thekill/thekill.mid)))
+(timeisrunningout
+ (name
+  "Time Is Running Out")
+ (artist
+  "Papa Roach")
+ (master TRUE)
+ (context 236)
+ (song
+  (name songs/timeisrunningout/timeisrunningout)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (-0.5 -1.0 -2.5 -2.5 -3.5 -3.8 -3.8 -2.5 -4.5))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/timeisrunningout/timeisrunningout.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 57300 78300)
+ (preview_clip songs/timeisrunningout/prev_timeisrunningout)
+ (rank
+  (drum 100)
+  (guitar 111)
+  (bass 111)
+  (vocals 150)
+  (band 140))
+ (genre alternative)
+ (characters altrock)
+ (decade the00s)
+ (vocal_gender male)
+ (tutorial TRUE)
+ (song_practice_1
+  (name songs/timeisrunningout/timeisrunningout_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1))
+  (midi_file songs/timeisrunningout/timeisrunningout.mid))
+ (format 2)
+ (version 1)
+ (album_art TRUE)
+ (year_released 2006)
+ (album_name
+  "The Paramour Sessions")
+ (album_track_number 7))
+(wecarealot
+ (name
+  "We Care A Lot")
+ (artist
+  "Faith No More")
+ (master TRUE)
+ (context 51)
+ (song
+  (name songs/wecarealot/wecarealot)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0 -3.0 -2.0 -1.5))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/wecarealot/wecarealot.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 40240 70124)
+ (preview_clip songs/wecarealot/prev_wecarealot)
+ (rank
+  (drum 200)
+  (guitar 190)
+  (bass 131)
+  (vocals 100)
+  (band 155))
+ (genre rock)
+ (tutorial TRUE)
+ (decade the80s)
+ (album_art TRUE)
+ (vocal_gender male)
+ (year_released 1985)
+ (album_name
+  "We Care a Lot")
+ (song_practice_1
+  (name songs/wecarealot/wecarealot_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar 5)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1))
+  (midi_file songs/wecarealot/wecarealot.mid)))
+(whydoyouloveme
+ (name
+  "Why Do You Love Me?")
+ (artist
+  "Garbage")
+ (master TRUE)
+ (context 140)
+ (song
+  (name songs/whydoyouloveme/whydoyouloveme)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (-1.0 -1.0 -1.0 -1.0 -2.0 -3.0 -3.0 -2.5 -4.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/whydoyouloveme/whydoyouloveme.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoFast)
+ (preview 34150 73400)
+ (preview_clip songs/whydoyouloveme/prev_whydoyouloveme)
+ (rank
+  (drum 320)
+  (guitar 225)
+  (bass 225)
+  (vocals 210)
+  (band 245))
+ (genre poprock)
+ (album_art TRUE)
+ (decade the00s)
+ (vocal_gender female)
+ (year_released 2005)
+ (album_name
+  "Bleed Like Me")
+ (song_practice_1
+  (name songs/whydoyouloveme/whydoyouloveme_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1))
+  (midi_file songs/whydoyouloveme/whydoyouloveme.mid))
+ (tutorial TRUE))
+(crushcrushcrush
+ (name
+  "Crushcrushcrush")
+ (artist
+  "Paramore")
+ (master TRUE)
+ (context 163)
+ (song
+  (name songs/crushcrushcrush/crushcrushcrush)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -4.5 -4.5 -2.5 -4.5))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/crushcrushcrush/crushcrushcrush.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 45050 65830)
+ (preview_clip songs/crushcrushcrush/prev_crushcrushcrush)
+ (rank
+  (drum 230)
+  (guitar 205)
+  (bass 175)
+  (vocals 134)
+  (band 200))
+ (genre poprock)
+ (tutorial TRUE)
+ (decade the00s)
+ (album_art TRUE)
+ (vocal_gender female)
+ (year_released 2007)
+ (album_name
+  "Riot!")
+ (song_practice_1
+  (name songs/crushcrushcrush/crushcrushcrush_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar 5)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1))
+  (midi_file songs/crushcrushcrush/crushcrushcrush.mid)))
+(yougotanotherthingcoming
+ (name
+  "You've Got Another Thing Comin'")
+ (artist
+  "Judas Priest")
+ (master TRUE)
+ (context 184)
+ (song
+  (name songs/yougotanotherthingcoming/yougotanotherthingcoming)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (-1.0 -1.0 -3.0 -3.0 -3.0 -3.0 -3.0 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/yougotanotherthingcoming/yougotanotherthingcoming.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/cowbell_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 52000 82000)
+ (preview_clip songs/yougotanotherthingcoming/prev_yougotanotherthingcoming)
+ (rank
+  (drum 176)
+  (guitar 141)
+  (bass 140)
+  (vocals 236)
+  (band 226))
+ (genre metal)
+ (album_art TRUE)
+ (decade the80s)
+ (vocal_gender male)
+ (year_released 1982)
+ (album_name
+  "Screaming for Vengeance")
+ (song_practice_1
+  (name songs/yougotanotherthingcoming/yougotanotherthingcoming_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1))
+  (midi_file songs/yougotanotherthingcoming/yougotanotherthingcoming.mid))
+ (tutorial TRUE))
+(liveforever
+ (name
+  "Live Forever")
+ (artist
+  "Oasis")
+ (master TRUE)
+ (context 111)
+ (song
+  (name songs/liveforever/liveforever)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -4.5 -4.5 -2.5 -4.5))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/liveforever/liveforever.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoSlow)
+ (preview 138885 168762)
+ (preview_clip songs/liveforever/prev_liveforever)
+ (rank
+  (drum 235)
+  (guitar 230)
+  (bass 220)
+  (vocals 200)
+  (band 220))
+ (genre rock)
+ (tutorial TRUE)
+ (decade the90s)
+ (album_art TRUE)
+ (vocal_gender male)
+ (year_released 1994)
+ (album_name
+  "Definitely Maybe")
+ (song_practice_1
+  (name songs/liveforever/liveforever_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar 5)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1))
+  (midi_file songs/liveforever/liveforever.mid)))
+(zero
+ (name
+  "Zero")
+ (artist
+  "Smashing Pumpkins")
+ (master TRUE)
+ (context 53)
+ (song
+  (name songs/zero/zero)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (-3.0 0.0 -3.0 -3.0 -1.5 -4.5 -4.5 -3.0 -8.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/zero/zero.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 16000 46000)
+ (preview_clip songs/zero/prev_zero)
+ (rank
+  (drum 160)
+  (guitar 283)
+  (bass 255)
+  (vocals 148)
+  (band 250))
+ (genre alternative)
+ (album_art TRUE)
+ (decade the90s)
+ (vocal_gender male)
+ (year_released 1995)
+ (album_name
+  "Mellon Collie & the Infinite Sadness")
+ (song_practice_1
+  (name songs/zero/zero_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1 1))
+  (midi_file songs/zero/zero.mid))
+ (tutorial TRUE))
+(truckin
+ (name
+  "Truckin'")
+ (artist
+  "The Grateful Dead")
+ (master TRUE)
+ (context 146)
+ (song
+  (name songs/truckin/truckin)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar
+     (5 6))
+    (vocals 7)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -4.5 -4.5 -2.5 -4.5))
+  (cores
+   (-1 -1 -1 -1 -1 1 1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file songs/truckin/truckin.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank world/big_club/big_club_bank.milo)
+ (anim_tempo kTempoMedium)
+ (preview 15000 35000)
+ (preview_clip songs/truckin/prev_truckin)
+ (rank
+  (drum 360)
+  (guitar 322)
+  (bass 290)
+  (vocals 210)
+  (band 295))
+ (genre classicrock)
+ (tutorial TRUE)
+ (decade the70s)
+ (album_art TRUE)
+ (vocal_gender male)
+ (year_released 1970)
+ (album_name
+  "American Beauty")
+ (song_practice_1
+  (name songs/truckin/truckin_p70)
+  (tracks
+   ((drum
+     (0 1 2 3))
+    (bass 4)
+    (guitar 5)))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0 0.0))
+  (vols
+   (0.0 0.0 -1.5 -1.5 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 1))
+  (midi_file songs/truckin/truckin.mid)))
+(drum_trainer_beats
+ (name
+  "Drum Trainer - Beats")
+ (artist
+  "Mister Beats")
+ (song
+  (name drum_trainer/songs/beats/beats)
+  (tracks
+   ((drum
+     (0 1))
+    (bass 2)))
+  (pans
+   (-1.0 1.0 0.0))
+  (vols
+   (-96.0 -96.0 -96.0))
+  (cores
+   (-1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file drum_trainer/songs/beats/beats.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoSlow)
+ (preview 16000 46000)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(drum_trainer_fills
+ (name
+  "Drum Trainer - Beats")
+ (artist
+  "Mister Beats")
+ (song
+  (name drum_trainer/songs/fills/fills)
+  (tracks
+   ((drum
+     (0 1))
+    (bass 2)))
+  (pans
+   (-1.0 1.0 0.0))
+  (vols
+   (-96.0 -96.0 -96.0))
+  (cores
+   (-1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file drum_trainer/songs/fills/fills.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoSlow)
+ (preview 16000 46000)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(drum_trainer_freestyle
+ (name
+  "Drum Trainer - Freestyle")
+ (artist
+  "Mister Beats")
+ (song
+  (name drum_trainer/songs/freestyle/freestyle)
+  (tracks
+   ((drum
+     (0 1))
+    (bass 2)))
+  (pans
+   (-1.0 1.0 0.0))
+  (vols
+   (-96.0 -96.0 -96.0))
+  (cores
+   (-1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file drum_trainer/songs/freestyle/freestyle.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoSlow)
+ (preview 16000 46000)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(vocals_basics_singing_demo
+ (name
+  "Vocals - Singing Demo")
+ (artist
+  "Helen")
+ (song
+  (name tutorial/songs/vocals_basics_singing_demo/vocals_basics_singing_demo)
+  (tracks
+   ((vocals 0)))
+  (pans
+   (0.0 -1.0 1.0))
+  (vols
+   (-6.0 -6.0 -6.0))
+  (cores
+   (-1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file tutorial/songs/vocals_basics_singing_demo/vocals_basics_singing_demo.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoSlow)
+ (preview 16000 46000)
+ (genre alternative)
+ (decade the90s)
+ (year_released 1909)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(vocals_basics_singing
+ (name
+  "Vocals - Singing")
+ (artist
+  "Helen")
+ (song
+  (name tutorial/songs/vocals_basics_singing/vocals_basics_singing)
+  (tracks
+   ((vocals 0)))
+  (pans
+   (0.0 -1.0 1.0))
+  (vols
+   (-6.0 -6.0 -6.0))
+  (cores
+   (-1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file tutorial/songs/vocals_basics_singing/vocals_basics_singing.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoSlow)
+ (preview 16000 46000)
+ (genre alternative)
+ (decade the90s)
+ (year_released 1909)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(vocals_basics_nonpitched
+ (name
+  "Vocals - Nonpitched Notes")
+ (artist
+  "Helen")
+ (song
+  (name tutorial/songs/vocals_basics_nonpitched/vocals_basics_nonpitched)
+  (tracks
+   ((vocals 0)))
+  (pans
+   (0.0 -1.0 1.0))
+  (vols
+   (-6.0 -6.0 -6.0))
+  (cores
+   (-1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file tutorial/songs/vocals_basics_nonpitched/vocals_basics_nonpitched.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoSlow)
+ (preview 16000 46000)
+ (genre hardrock)
+ (decade the90s)
+ (year_released 1909)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(vocals_basics_mechanics
+ (name
+  "Vocals - Mechanics")
+ (artist
+  "Helen")
+ (song
+  (name tutorial/songs/vocals_basics_mechanics/vocals_basics_mechanics)
+  (tracks
+   ((vocals 0)))
+  (pans
+   (0.0 -1.0 1.0))
+  (vols
+   (-6.0 -6.0 -6.0))
+  (cores
+   (-1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file tutorial/songs/vocals_basics_mechanics/vocals_basics_mechanics.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoSlow)
+ (preview 16000 46000)
+ (genre alternative)
+ (decade the90s)
+ (year_released 1909)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(vocals_basics_rhythm
+ (name
+  "Vocals - Rhythm")
+ (artist
+  "Helen")
+ (song
+  (name tutorial/songs/vocals_basics_rhythm/vocals_basics_rhythm)
+  (tracks
+   ((vocals 0)))
+  (pans
+   (0.0 -1.0 1.0))
+  (vols
+   (-6.0 -6.0 -6.0))
+  (cores
+   (-1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file tutorial/songs/vocals_basics_rhythm/vocals_basics_rhythm.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoFast)
+ (preview 16000 46000)
+ (genre hardrock)
+ (decade the70s)
+ (year_released 1907)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(vocals_basics_rhythm_muted
+ (name
+  "Vocals - Rhythm Muted")
+ (artist
+  "Helen")
+ (song
+  (name tutorial/songs/vocals_basics_rhythm/vocals_basics_rhythm)
+  (tracks
+   ((vocals 0)))
+  (pans
+   (0.0 -1.0 1.0))
+  (vols
+   (-96.0 -96.0 -96.0))
+  (cores
+   (-1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file tutorial/songs/vocals_basics_rhythm/vocals_basics_rhythm.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoFast)
+ (preview 16000 46000)
+ (genre hardrock)
+ (decade the70s)
+ (year_released 1907)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(vocals_basics_starpower
+ (name
+  "Vocals - Star Power")
+ (artist
+  "Helen")
+ (song
+  (name tutorial/songs/vocals_basics_starpower/vocals_basics_starpower)
+  (tracks
+   ((vocals 0)))
+  (pans
+   (0.0 -1.0 1.0))
+  (vols
+   (-6.0 -6.0 -6.0))
+  (cores
+   (-1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue)))
+  (midi_file tutorial/songs/vocals_basics_starpower/vocals_basics_starpower.mid))
+ (song_scroll_speed 2300)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoSlow)
+ (preview 16000 46000)
+ (genre alternative)
+ (decade the90s)
+ (year_released 1909)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(guitar_basics_notes
+ (name
+  "Guitar Basics - Notes")
+ (artist
+  "Izzy")
+ (song
+  (name tutorial/songs/guitar_basics_notes/guitar_basics_notes)
+  (tracks
+   ((guitar 0)))
+  (pans
+   (0.0 0.0))
+  (vols
+   (-4.5 -6.0))
+  (cores
+   (1 -1))
+  (midi_file tutorial/songs/guitar_basics_notes/guitar_basics_notes.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(guitar_basics_notes_muted
+ (name
+  "Guitar Basics - Notes Muted")
+ (artist
+  "Izzy")
+ (song
+  (name tutorial/songs/guitar_basics_notes/guitar_basics_notes)
+  (tracks
+   ((guitar 0)))
+  (pans
+   (0.0 0.0))
+  (vols
+   (-96.0 -96.0))
+  (cores
+   (1 -1))
+  (midi_file tutorial/songs/guitar_basics_notes/guitar_basics_notes.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(guitar_basics_diff_notes
+ (name
+  "Guitar Basics - Diff Notes")
+ (artist
+  "Izzy")
+ (song
+  (name tutorial/songs/guitar_basics_diff_notes/guitar_basics_diff_notes)
+  (tracks
+   ((guitar 0)))
+  (pans
+   (0.0 0.0))
+  (vols
+   (-4.5 -7.0))
+  (cores
+   (1 -1))
+  (midi_file tutorial/songs/guitar_basics_diff_notes/guitar_basics_diff_notes.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(guitar_basics_held_notes
+ (name
+  "Guitar Basics - Held Notes")
+ (artist
+  "Izzy")
+ (song
+  (name tutorial/songs/guitar_basics_held_notes/guitar_basics_held_notes)
+  (tracks
+   ((guitar 0)))
+  (pans
+   (0.0 0.0))
+  (vols
+   (-4.5 -7.0))
+  (cores
+   (1 -1))
+  (midi_file tutorial/songs/guitar_basics_held_notes/guitar_basics_held_notes.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(guitar_basics_chords
+ (name
+  "Guitar Basics - Chords")
+ (artist
+  "Izzy")
+ (song
+  (name tutorial/songs/guitar_basics_chords/guitar_basics_chords)
+  (tracks
+   ((guitar 0)))
+  (pans
+   (0.0 0.0))
+  (vols
+   (-4.5 -7.0))
+  (cores
+   (1 -1))
+  (midi_file tutorial/songs/guitar_basics_chords/guitar_basics_chords.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(guitar_basics_interface
+ (name
+  "Guitar Basics - Interface")
+ (artist
+  "Izzy")
+ (song
+  (name tutorial/songs/guitar_basics_interface/guitar_basics_interface)
+  (tracks
+   ((guitar 0)))
+  (pans
+   (0.0 0.0))
+  (vols
+   (-96.0 -96.0))
+  (cores
+   (1 -1))
+  (midi_file tutorial/songs/guitar_basics_interface/guitar_basics_interface.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(guitar_basics_bre_demo
+ (name
+  "Guitar Basics - BRE DEMO")
+ (artist
+  "Izzy")
+ (song
+  (name tutorial/songs/guitar_basics_bre/guitar_basics_bre_demo)
+  (tracks
+   ((guitar 0)))
+  (pans
+   (0.0 0.0))
+  (vols
+   (-4.5 -96.0))
+  (cores
+   (1 -1))
+  (midi_file tutorial/songs/guitar_basics_bre/guitar_basics_bre_demo.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(guitar_basics_bre
+ (name
+  "Guitar Basics - BRE")
+ (artist
+  "Izzy")
+ (song
+  (name tutorial/songs/guitar_basics_bre/guitar_basics_bre)
+  (tracks
+   ((guitar 0)))
+  (pans
+   (0.0 0.0))
+  (vols
+   (-4.5 -96.0))
+  (cores
+   (1 -1))
+  (midi_file tutorial/songs/guitar_basics_bre/guitar_basics_bre.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(guitar_medium_consecutive
+ (name
+  "Guitar Medium - Consecutive")
+ (artist
+  "Izzy")
+ (song
+  (name tutorial/songs/guitar_medium_consecutive/guitar_medium_consecutive)
+  (tracks
+   ((guitar 0)))
+  (pans
+   (0.0 0.0))
+  (vols
+   (-4.5 -7.0))
+  (cores
+   (1 -1))
+  (midi_file tutorial/songs/guitar_medium_consecutive/guitar_medium_consecutive.mid))
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(guitar_medium_consecutive_muted
+ (name
+  "Guitar Medium - Consecutive Muted")
+ (artist
+  "Izzy")
+ (song
+  (name tutorial/songs/guitar_medium_consecutive/guitar_medium_consecutive)
+  (tracks
+   ((guitar 0)))
+  (pans
+   (0.0 0.0))
+  (vols
+   (-96.0 -96.0))
+  (cores
+   (1 -1))
+  (midi_file tutorial/songs/guitar_medium_consecutive/guitar_medium_consecutive.mid))
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(guitar_medium_combos
+ (name
+  "Guitar Medium - Combos")
+ (artist
+  "Izzy")
+ (song
+  (name tutorial/songs/guitar_medium_combos/guitar_medium_combos)
+  (tracks
+   ((guitar 0)))
+  (pans
+   (0.0 0.0))
+  (vols
+   (-4.5 -7.0))
+  (cores
+   (1 -1))
+  (midi_file tutorial/songs/guitar_medium_combos/guitar_medium_combos.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(guitar_medium_whammy
+ (name
+  "Guitar Medium - Whammy")
+ (artist
+  "Izzy")
+ (song
+  (name tutorial/songs/guitar_medium_whammy/guitar_medium_whammy)
+  (tracks
+   ((guitar 0)))
+  (pans
+   (0.0 0.0))
+  (vols
+   (-4.5 -7.0))
+  (cores
+   (1 -1))
+  (midi_file tutorial/songs/guitar_medium_whammy/guitar_medium_whammy.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(guitar_medium_deploy
+ (name
+  "Guitar Medium - Deploy")
+ (artist
+  "Izzy")
+ (song
+  (name tutorial/songs/guitar_medium_whammy/guitar_medium_whammy)
+  (tracks
+   ((guitar 0)))
+  (pans
+   (0.0 0.0))
+  (vols
+   (-4.5 -7.0))
+  (cores
+   (1 -1))
+  (midi_file tutorial/songs/guitar_medium_whammy/guitar_medium_deploy.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(guitar_medium_solo
+ (name
+  "Guitar Medium - Solo Explained")
+ (artist
+  "Izzy")
+ (song
+  (name tutorial/songs/guitar_medium_solo/guitar_medium_solo)
+  (tracks
+   ((guitar 0)))
+  (pans
+   (0.0 0.0))
+  (vols
+   (-4.5 -7.0))
+  (cores
+   (1 -1))
+  (midi_file tutorial/songs/guitar_medium_solo/guitar_medium_solo.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(guitar_advanced_fingering
+ (name
+  "Guitar Advanced - Fingering")
+ (artist
+  "Izzy")
+ (song
+  (name tutorial/songs/guitar_advanced_fingering/guitar_advanced_fingering)
+  (tracks
+   ((guitar 0)))
+  (pans
+   (0.0 0.0))
+  (vols
+   (-4.5 -7.0))
+  (cores
+   (1 -1))
+  (midi_file tutorial/songs/guitar_advanced_fingering/guitar_advanced_fingering.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(guitar_advanced_fingering_muted
+ (name
+  "Guitar Advanced - Fingering Muted")
+ (artist
+  "Izzy")
+ (song
+  (name tutorial/songs/guitar_advanced_fingering/guitar_advanced_fingering)
+  (tracks
+   ((guitar 0)))
+  (pans
+   (0.0 0.0))
+  (vols
+   (-96.0 -96.0))
+  (cores
+   (1 -1))
+  (midi_file tutorial/songs/guitar_advanced_fingering/guitar_advanced_fingering.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(guitar_advanced_strings
+ (name
+  "Guitar Advanced - Strings")
+ (artist
+  "Izzy")
+ (song
+  (name tutorial/songs/guitar_advanced_strings/guitar_advanced_strings)
+  (tracks
+   ((guitar 0)))
+  (pans
+   (0.0 0.0))
+  (vols
+   (-4.5 -7.0))
+  (cores
+   (1 -1))
+  (midi_file tutorial/songs/guitar_advanced_strings/guitar_advanced_strings.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(guitar_advanced_hopos
+ (name
+  "Guitar Advanced - HOPOs")
+ (artist
+  "Izzy")
+ (song
+  (name tutorial/songs/guitar_advanced_hopos/guitar_advanced_hopos)
+  (tracks
+   ((guitar 0)))
+  (pans
+   (0.0 0.0))
+  (vols
+   (-4.5 -7.0))
+  (cores
+   (1 -1))
+  (midi_file tutorial/songs/guitar_advanced_hopos/guitar_advanced_hopos.mid))
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(guitar_advanced_mixed
+ (name
+  "Guitar Advanced - Mixed Practice")
+ (artist
+  "Izzy")
+ (song
+  (name tutorial/songs/guitar_advanced_mixed/guitar_advanced_mixed)
+  (tracks
+   ((guitar 0)))
+  (pans
+   (0.0 0.0))
+  (vols
+   (-4.5 -7.0))
+  (cores
+   (1 -1))
+  (midi_file tutorial/songs/guitar_advanced_mixed/guitar_advanced_mixed.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(drum_basics_onehand
+ (name
+  "Drum Basics - One Hand")
+ (artist
+  "Kurt")
+ (song
+  (name tutorial/songs/drum_basics_kick/drum_basics_kick)
+  (tracks
+   ((drum
+     (0 1 2 3))))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0))
+  (vols
+   (-96.0 0.0 -96.0 -96.0 -6.0))
+  (cores
+   (-1 -1 -1 -1 -1))
+  (midi_file tutorial/songs/drum_basics_onehand/drum_basics_onehand.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(drum_basics_onehand_muted
+ (name
+  "Drum Basics - One Hand Muted")
+ (artist
+  "Kurt")
+ (song
+  (name tutorial/songs/drum_basics_kick/drum_basics_kick)
+  (tracks
+   ((drum
+     (0 1 2 3))))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0))
+  (vols
+   (-96.0 -96.0 -96.0 -96.0 -96.0))
+  (cores
+   (-1 -1 -1 -1 -1))
+  (midi_file tutorial/songs/drum_basics_onehand/drum_basics_onehand.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(drum_basics_twohands
+ (name
+  "Drum Basics - Two Hands")
+ (artist
+  "Kurt")
+ (song
+  (name tutorial/songs/drum_basics_kick/drum_basics_kick)
+  (tracks
+   ((drum
+     (0 1 2 3))))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0))
+  (vols
+   (-96.0 0.0 -3.0 -3.0 -6.0))
+  (cores
+   (-1 -1 -1 -1 -1))
+  (midi_file tutorial/songs/drum_basics_twohands/drum_basics_twohands.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(drum_basics_kick
+ (name
+  "Drum Basics - The Kick Drum")
+ (artist
+  "Kurt")
+ (song
+  (name tutorial/songs/drum_basics_kick/drum_basics_kick)
+  (tracks
+   ((drum
+     (0 1 2 3))))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0))
+  (vols
+   (0.0 -96.0 -96.0 -96.0 -6.0))
+  (cores
+   (-1 -1 -1 -1 -1))
+  (midi_file tutorial/songs/drum_basics_kick/drum_basics_kick.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(drum_basics_interface
+ (name
+  "Drum Basics - Interface")
+ (artist
+  "Kurt")
+ (song
+  (name tutorial/songs/drum_basics_kick/drum_basics_kick)
+  (tracks
+   ((drum
+     (0 1 2 3))))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0))
+  (vols
+   (-96.0 -96.0 -96.0 -96.0 -96.0))
+  (cores
+   (-1 -1 -1 -1 -1))
+  (midi_file tutorial/songs/drum_basics_interface/drum_basics_interface.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(drum_basics_bre
+ (name
+  "Drum Basics - BRE")
+ (artist
+  "Kurt")
+ (song
+  (name tutorial/songs/drum_basics_bre/drum_basics_bre)
+  (tracks
+   ((drum
+     (0 1 2 3))))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0))
+  (vols
+   (-96.0 0.0 -3.0 -3.0 -96.0))
+  (cores
+   (-1 -1 -1 -1 -1))
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (midi_file tutorial/songs/drum_basics_bre/drum_basics_bre.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(drum_beat_rockbeat
+ (name
+  "Beat Basics - Rock Beat")
+ (artist
+  "Kurt")
+ (song
+  (name tutorial/songs/drum_beat_rockbeat/drum_beat_rockbeat)
+  (tracks
+   ((drum
+     (0 1 2 3))))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0))
+  (vols
+   (0.0 0.0 -3.0 -3.0 -6.0))
+  (cores
+   (-1 -1 -1 -1 -1))
+  (midi_file tutorial/songs/drum_beat_rockbeat/drum_beat_rockbeat.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(drum_beat_rockbeat_muted
+ (name
+  "Beat Basics - Rock Beat Muted")
+ (artist
+  "Kurt")
+ (song
+  (name tutorial/songs/drum_beat_rockbeat/drum_beat_rockbeat)
+  (tracks
+   ((drum
+     (0 1 2 3))))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0))
+  (vols
+   (-96.0 -96.0 -96.0 -96.0 -96.0))
+  (cores
+   (-1 -1 -1 -1 -1))
+  (midi_file tutorial/songs/drum_beat_rockbeat/drum_beat_rockbeat.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(drum_beat_rockbeat_hat
+ (name
+  "Beat Basics - Rock Beat Hat only")
+ (artist
+  "Kurt")
+ (song
+  (name tutorial/songs/drum_beat_rockbeat/drum_beat_rockbeat)
+  (tracks
+   ((drum
+     (0 1 2 3))))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0))
+  (vols
+   (-96.0 -96.0 -3.0 -3.0 -6.0))
+  (cores
+   (-1 -1 -1 -1 -1))
+  (midi_file tutorial/songs/drum_beat_rockbeat/drum_beat_rockbeat.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(drum_beat_rockbeat_hatsnare
+ (name
+  "Beat Basics - Rock Beat Hat & Snare only")
+ (artist
+  "Kurt")
+ (song
+  (name tutorial/songs/drum_beat_rockbeat/drum_beat_rockbeat)
+  (tracks
+   ((drum
+     (0 1 2 3))))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0))
+  (vols
+   (-96.0 0.0 -3.0 -3.0 -6.0))
+  (cores
+   (-1 -1 -1 -1 -1))
+  (midi_file tutorial/songs/drum_beat_rockbeat/drum_beat_rockbeat.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(drum_beat_combos
+ (name
+  "Beat Basics - Combos")
+ (artist
+  "Kurt")
+ (song
+  (name tutorial/songs/drum_beat_rockbeat/drum_beat_rockbeat)
+  (tracks
+   ((drum
+     (0 1 2 3))))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0))
+  (vols
+   (0.0 0.0 -3.0 -3.0 -6.0))
+  (cores
+   (-1 -1 -1 -1 -1))
+  (midi_file tutorial/songs/drum_beat_combos/drum_beat_combos.mid))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+(drum_beat_deploy
+ (name
+  "Beat Basics - Deploy")
+ (artist
+  "Kurt")
+ (song
+  (name tutorial/songs/drum_beat_rockbeat/drum_beat_rockbeat)
+  (tracks
+   ((drum
+     (0 1 2 3))))
+  (pans
+   (0.0 0.0 -1.0 1.0 0.0))
+  (vols
+   (0.0 0.0 -3.0 -3.0 -6.0))
+  (cores
+   (-1 -1 -1 -1 -1))
+  (midi_file tutorial/songs/drum_beat_deploy/drum_beat_deploy.mid)
+  (drum_solo
+   (seqs
+    (kick.cue snare.cue tom1.cue tom2.cue crash.cue)))
+  (drum_freestyle
+   (seqs
+    (kick.cue snare.cue hat.cue ride.cue crash.cue))))
+ (song_scroll_speed 3000)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (anim_tempo kTempoMedium)
+ (preview 11981 35990)
+ (validate_ignore TRUE)
+ (tutorial TRUE))
+#endif
+(audio_sliders
+ (name
+  "Audio Sliders")
+ (song
+  (name sfx/streams/audio_sliders)
+  (tracks
+   ((drum
+     (0 1))
+    (guitar
+     (2 3))
+    (crowd
+     (6 7))))
+  (pans
+   (-1.0 1.0 -1.0 1.0 -1.0 1.0 -3.0 3.0))
+  (vols
+   (-3.0 -3.0 -3.0 -3.0 -3.0 -3.0 -3.0 -3.0))
+  (cores
+   (-1 -1 -1 -1 -1 -1 -1 -1))
+  (midi_file sfx/streams/audio_sliders.mid))
+ (validate_ignore TRUE)
+ (fake TRUE)
+ (preview 0 13500))
+#ifndef _SHIP
+(framerate
+ (name
+  "Frame Rate Test")
+ (artist
+  "EricB")
+ (master FALSE)
+ (context 1)
+ (song
+  (name ui/framerate/worstcase)
+  (tracks
+   ((drum
+     (0 1 2 3 4))
+    (bass 5)
+    (guitar
+     (6 7))
+    (vocals
+     (8 9))))
+  (pans
+   (0.0 -1.0 1.0 -1.0 1.0 0.0 -1.0 1.0 -1.0 1.0 -1.0 1.0))
+  (vols
+   (-96.0 -96.0 -96.0 -96.0 -96.0 -96.0 -96.0 -96.0 -96.0 -96.0 -96.0 -96.0))
+  (cores
+   (-1 -1 -1 -1 -1 -1 1 1 -1 -1 -1 -1))
+  (midi_file ui/framerate/worstcase.mid))
+ (validate_ignore TRUE)
+ (fake TRUE)
+ (bank sfx/tambourine_bank.milo)
+ (venue_bank none)
+ (song_scroll_speed 2300)
+ (anim_tempo kTempoSlow)
+ (genre rock)
+ (decade the00s))
+#endif

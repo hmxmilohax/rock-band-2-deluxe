@@ -1,0 +1,30 @@
+{new
+   BandScreen
+   vocalist_must_have_mic_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (message band_vocalist_needs_mic)
+   (enter
+      {helpbar
+         set_config
+         ((confirm helpbar_select))}
+      {dialog_panel
+         set_custom
+         {localize_token
+            [message]}
+         ""
+         {localize_token RETURN}
+         opt2.btn}
+      {dialog_panel
+         disable
+         {dialog_panel find opt1.btn}}
+      {platform_mgr add_sink $this signin_changed})
+   (exit
+      {platform_mgr remove_sink $this signin_changed}
+      {dialog_panel
+         enable
+         {dialog_panel find opt1.btn}})
+   (SIGNIN_CHANGED_MSG
+      {ui pop_screen})
+   (SELECT_MSG
+      {ui pop_screen})}

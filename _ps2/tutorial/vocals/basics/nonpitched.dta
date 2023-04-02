@@ -1,0 +1,81 @@
+#define TUTORIAL_VOCALS_NONPITCHED_SCORE_MAX
+(1200)
+SETUP_VOCALS_TUTORIAL
+VOCALS_TV_WHITE
+START_BG_MUSIC
+{setup_lesson_banner tutorial_vocals_basics_nonpitched_part}
+{meta_performer set_song vocals_basics_nonpitched}
+LOAD_NEW_VOCALS_SONG_NO_FADE
+HIDE_VOCALS_PLAYER_UI
+UNPAUSE_TRACK
+SYNC_PAUSE
+{play_vo tute_vocals1_nonpitched1}
+WAIT_FOR_VO
+SHOW_NONPITCHED_ARROW
+{play_vo tute_vocals1_nonpitched2}
+WAIT_FOR_VO
+HIDE_NONPITCHED_ARROW
+LONG_VO_GAP
+{new
+   Object
+   tutorial_vocals_basics_nonpitched_callback
+   (phrase_end
+      {if
+         {>
+            {$this percent_hit}
+            [last_percent_hit]}
+         {set
+            [last_percent_hit]
+            {$this percent_hit}}})
+   (percent_hit
+      {'*'
+         100.0
+         {/
+            {{beatmatch active_player 0}
+               score}
+            TUTORIAL_VOCALS_NONPITCHED_SCORE_MAX}})
+   (failed
+      {<=
+         {$this percent_hit}
+         50.0})
+   (last_percent_hit 0.0)}
+{play_vo tute_vocals1_singtry}
+STOP_BG_MUSIC
+VOCALS_TV_OFF
+WAIT_FOR_VO
+LONG_VO_GAP
+{set_info_text
+   {localize tutorial_vocals_basics_nonpitched_task}}
+{show_info_text TRUE}
+{{beatmatch active_player 0}
+   add_sink
+   tutorial_vocals_basics_nonpitched_callback}
+UNPAUSE_TRACK
+FADE_SONG_IN
+SYNC_NOPAUSE
+FREEZE_SCORE_TEXT
+VOCALS_OUT
+PAUSE_TRACK
+WAIT_FOR_VO
+{if_else
+   {tutorial_vocals_basics_nonpitched_callback failed}
+   {do
+      {set_banner_text
+         {localize tutorial_vocals_basics_nonpitched_failed}}
+      {play_vo tute_vocals1_nonpitchedfail}}
+   {do
+      {set_banner_text
+         {localize tutorial_vocals_basics_nonpitched_done}}
+      {play_vo tute_vocals1_nonpitchedwin}}}
+{show_info_text FALSE}
+{show_part_text FALSE}
+{show_score_text FALSE}
+{show_banner_text TRUE}
+START_BG_MUSIC
+VOCALS_TV_WHITE
+WAIT_FOR_VO
+LONG_VO_GAP
+{do_fail_menu
+   {tutorial_vocals_basics_nonpitched_callback failed}}
+RETURN_FROM_FAIL_MENU
+{tutorials_state_panel switch_to_next_state}

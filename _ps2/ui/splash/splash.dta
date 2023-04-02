@@ -1,0 +1,373 @@
+{new
+   UIPanel
+   intro_movie_panel
+   (file
+      "../world/transition_video.milo")
+   (moviefinished FALSE)
+   (elapsedtime 0.0)
+   (allowinput FALSE)
+   (button_press_queued FALSE)
+   (load
+      {splash_screen load}
+      {splash_panel load}
+      {meta load})
+   (unload
+      {meta unload}
+      {splash_panel unload}
+      {splash_screen unload})
+   (enter
+      {set $moviefinished FALSE}
+      {video_file.mov
+         set
+         movie_file
+         {sprintf
+            "videos/intro.pss"}}
+      {set
+         [elapsedtime]
+         {taskmgr ui_seconds}})
+   (TRANSITION_COMPLETE_MSG
+      {video_file.mov animate})
+   (poll
+      {do
+         ($last_play_delta
+            {-
+               {taskmgr ui_seconds}
+               [elapsedtime]})
+         {if
+            {!
+               [allowinput]}
+            {if
+               {> $last_play_delta 1}
+               {set
+                  [allowinput]
+                  TRUE}}}
+         {if
+            {> $last_play_delta 120}
+            {video_file.mov set_movie_done 1}
+            {set $moviefinished TRUE}
+            {ui goto_screen splash_screen}}}
+      {if
+         {'||'
+            {&&
+               {! $moviefinished}
+               {video_file.mov is_movie_done}}
+            {&&
+               [button_press_queued]
+               [allowinput]}}
+         {do
+            {set $moviefinished TRUE}
+            {ui goto_screen splash_screen}}})
+   (BUTTON_DOWN_MSG
+      {if_else
+         [allowinput]
+         {if
+            {&&
+               {'||'
+                  {== $button kPad_Start}
+                  {== $button kPad_X}}
+               {! $moviefinished}}
+            {do
+               {video_file.mov set_movie_done 1}
+               {set $moviefinished TRUE}
+               {ui goto_screen splash_screen}}}
+         {if
+            {&&
+               {'||'
+                  {== $button kPad_Start}
+                  {== $button kPad_X}}
+               {! $moviefinished}}
+            {set
+               [button_press_queued]
+               TRUE}}})
+   (exit)}
+{new
+   BandScreen
+   intro_movie
+   (panels fx intro_movie_panel)
+   (focus intro_movie_panel)
+   (helpbar
+      ((min_height 0)))}
+{new
+   BandScreen
+   intro_to_splash_screen
+   (panels meta_loading meta fx)
+   (helpbar
+      ((min_height 0)))
+   (TRANSITION_COMPLETE_MSG
+      {ui goto_screen splash_screen})
+   (enter)
+   (exit)}
+{func
+   get_intro_screen
+   {do
+      ($result '')
+      {if_else
+         FALSE
+         ''
+         {do
+            ($controllers
+               (drum guitar vocals))
+            ($screens
+               (first_time_drum_screen first_time_guitar_screen first_time_vocals_screen))
+            {foreach_int
+               $i
+               0
+               3
+               {if
+                  {&&
+                     {==
+                        {gamecfg
+                           get_instrument_from_controller
+                           {splash_panel get last_player_num}}
+                        {elem $controllers $i}}
+                     {profile_mgr
+                        first_timer
+                        {elem $controllers $i}}}
+                  {set
+                     $result
+                     {elem $controllers $i}}}
+               {if
+                  {!= $result ''}
+                  {set $i 3}}}
+            {if
+               {&&
+                  {== $result ''}
+                  {profile_mgr get_show_calibration_message}}
+               {set $result calibration}}}}
+      $result}}
+#define MAYBE_SHOW_NEXT_FIRST_TIME_SCREEN
+({set
+      $instrument
+      {get_intro_screen}}
+   {cond
+      ({== $instrument drum}
+         {profile_mgr set_not_first_timers drum}
+         {first_time_instrument_panel set controller_type kControllerDrum}
+         {if_else
+            {==
+               {first_time_instrument_screen get new_drummer}
+               TRUE}
+            {do
+               {first_time_instrument_screen set new_drummer FALSE}
+               {ui goto_screen first_time_instrument_screen}}
+            {ui goto_screen main_screen}})
+      ({== $instrument guitar}
+         {profile_mgr set_not_first_timers guitar}
+         {first_time_instrument_panel set controller_type kControllerGuitar}
+         {if_else
+            {==
+               {first_time_instrument_screen get new_guitarist}
+               TRUE}
+            {do
+               {first_time_instrument_screen set new_guitarist FALSE}
+               {ui goto_screen first_time_instrument_screen}}
+            {ui goto_screen main_screen}})
+      ({== $instrument vocals}
+         {profile_mgr set_not_first_timers vocals}
+         {first_time_instrument_panel set controller_type kControllerVocals}
+         {if_else
+            {==
+               {first_time_instrument_screen get new_vocalist}
+               TRUE}
+            {do
+               {first_time_instrument_screen set new_vocalist FALSE}
+               {ui goto_screen first_time_instrument_screen}}
+            {ui goto_screen main_screen}})
+      ({== $instrument calibration}
+         {profile_mgr set_show_calibration_message FALSE}
+         {ui goto_screen first_time_screen})
+      (TRUE
+         {ui goto_screen main_screen})})
+#define DEFAULT_SPLASH_ALPHA_THRESHOLD
+(175.0)
+{new
+   UIPanel
+   splash_panel
+   (file
+      "splash.milo")
+   (focus start.btn)
+   (alpha_threshold DEFAULT_SPLASH_ALPHA_THRESHOLD)
+   (alpha_threshold_fading FALSE)
+   (player_num -1)
+   (last_player_num -1)
+   (attract_mode_timeout
+      {elem
+         {find $syscfg attract time_to_enter}
+         1})
+   (enter_time 0.0)
+   (attract_timeout_done FALSE)
+   (SCREEN_CHANGE_MSG
+      {set
+         [alpha_threshold]
+         DEFAULT_SPLASH_ALPHA_THRESHOLD}
+      {set
+         [alpha_threshold_fading]
+         TRUE})
+   (set_alpha_threshold
+      {if
+         [alpha_threshold_fading]
+         {do
+            {set
+               [alpha_threshold]
+               {-
+                  [alpha_threshold]
+                  {/ DEFAULT_SPLASH_ALPHA_THRESHOLD 30.0}}}
+            {if
+               {<
+                  [alpha_threshold]
+                  5.0}
+               {do
+                  {set
+                     [alpha_threshold]
+                     0.0}
+                  {set
+                     [alpha_threshold_fading]
+                     FALSE}}}}}
+      {rb2_logo.mat
+         set
+         alpha_threshold
+         {int
+            [alpha_threshold]}})
+   (enter
+      {set
+         [alpha_threshold_fading]
+         FALSE}
+      {set
+         [alpha_threshold]
+         DEFAULT_SPLASH_ALPHA_THRESHOLD}
+      {set
+         [enter_time]
+         {taskmgr ui_seconds}}
+      {set
+         [attract_timeout_done]
+         FALSE}
+      {meta music_start}
+      {$this set_alpha_threshold}
+      {foreach
+         $instrument
+         (drum guitar vocals)
+         {if
+            {==
+               {profile_mgr first_timer $instrument}
+               FALSE}
+            {profile_mgr set_show_calibration_message FALSE}}})
+   (poll
+      {$this set_alpha_threshold}
+      {if
+         {&&
+            {!
+               {ui in_transition}}
+            {==
+               {ui current_screen}
+               splash_screen}}
+         {cond
+            ({&&
+                  {!
+                     [attract_timeout_done]}
+                  {>
+                     {-
+                        {taskmgr ui_seconds}
+                        [enter_time]}
+                     [attract_mode_timeout]}}
+               {set
+                  [attract_timeout_done]
+                  TRUE}
+               {meta music_stop}
+               {platform_mgr disable_xmp}
+               {ui goto_screen attract_screen})}})
+   (BUTTON_DOWN_MSG
+      {cond
+         ({== $button kPad_Start}
+            {handle
+               ($this button_down kPad_X 0)})
+         (TRUE kDataUnhandled)})
+   (SELECT_MSG
+      {set
+         [attract_timeout_done]
+         TRUE}
+      {set
+         [last_player_num]
+         $player_num}
+      MAYBE_SHOW_NEXT_FIRST_TIME_SCREEN)}
+{new
+   BandScreen
+   splash_screen
+   (panels meta splash_panel fx)
+   (focus splash_panel)
+   (helpbar
+      ((min_height 0)))
+   (enter)}
+{new
+   BandScreen
+   first_time_autoload_screen
+   (panels meta)
+   (focus meta)
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {autoload})
+   (exit)
+   (TRANSITION_COMPLETE_MSG
+      {ui goto_screen intro_movie})}
+#define FIRST_TIME_SCREEN_HANDLERS
+((exit
+      {platform_mgr remove_sink $this signin_changed})
+   (SIGNIN_CHANGED_MSG
+      {ui goto_screen main_screen})
+   (SELECT_MSG MAYBE_SHOW_NEXT_FIRST_TIME_SCREEN))
+{new
+   UIPanel
+   first_time_instrument_panel
+   (controller_type none)
+   (file
+      {if_else
+         {==
+            [controller_type]
+            2}
+         {sprintf
+            "first_time_vocals_ps2.milo"}
+         {sprintf
+            "first_time_%s.milo"
+            {elem
+               (CHAR_INSTRUMENT_SYMBOLS)
+               [controller_type]}}})
+   (focus ok.btn)
+   (enter
+      {green.lbl
+         set
+         text_token
+         {if_else
+            {platform_mgr is_enter_cancel_swapped}
+            how_to_back
+            how_to_forward}}
+      {red.lbl
+         set
+         text_token
+         {if_else
+            {platform_mgr is_enter_cancel_swapped}
+            how_to_forward
+            how_to_back}})}
+{new
+   BandScreen
+   first_time_instrument_screen
+   (panels meta first_time_instrument_panel)
+   (focus first_time_instrument_panel)
+   (helpbar
+      ((confirm helpbar_continue)))
+   (new_guitarist TRUE)
+   (new_drummer TRUE)
+   (new_vocalist TRUE)
+   (enter)
+   FIRST_TIME_SCREEN_HANDLERS}
+{new
+   BandScreen
+   first_time_screen
+   (panels meta dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_continue)))
+   (enter
+      {dialog_panel
+         set_ok
+         {localize calibration_notice}})
+   FIRST_TIME_SCREEN_HANDLERS}

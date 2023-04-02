@@ -1,0 +1,145 @@
+(RndDir
+   (types
+      (head2head
+         (editor
+            (reset
+               script
+               (script
+                  {$this reset}))
+            (max_diff
+               int
+               (post_sync
+                  {$this
+                     set_score_diff
+                     [test_score_diff]})
+               (help
+                  "Maximum score difference that is displayed"))
+            (test_score_diff
+               int
+               (post_sync
+                  {$this
+                     set_score_diff
+                     [test_score_diff]})))
+         (test_score_diff 0)
+         (max_diff 10000)
+         (diff 0)
+         (winner 0)
+         (tie_window 100)
+         (arrow_direction none)
+         (reset
+            {set
+               [diff]
+               0}
+            {set
+               [winner]
+               0}
+            {set
+               [arrow_direction]
+               none}
+            {h2h_meter_bar.tnm
+               set_frame
+               {/
+                  {h2h_meter_bar.tnm end_frame}
+                  2}})
+         (set_score_diff
+            ($diff)
+            {if_else
+               {&&
+                  {<=
+                     $diff
+                     [tie_window]}
+                  {>=
+                     $diff
+                     {-
+                        [tie_window]}}}
+               {set
+                  [winner]
+                  0}
+               {if_else
+                  {>
+                     $diff
+                     [tie_window]}
+                  {set
+                     [winner]
+                     1}
+                  {set
+                     [winner]
+                     -1}}}
+            {if
+               {!=
+                  $diff
+                  [diff]}
+               {do
+                  ($diff_diff
+                     {-
+                        $diff
+                        [diff]})
+                  ($direction
+                     {if_else
+                        {> $diff_diff 0}
+                        right
+                        left})
+                  {if
+                     {!=
+                        $direction
+                        [arrow_direction]}
+                     {set
+                        [arrow_direction]
+                        $direction}
+                     {if
+                        {exists flipper}
+                        {delete flipper}}
+                     {script_task
+                        kTaskSeconds
+                        (delay 0.1)
+                        (name flipper)
+                        (script
+                           {if_else
+                              {==
+                                 [arrow_direction]
+                                 right}
+                              {arrow_flip_RT.trig trigger}
+                              {arrow_flip_LFT.trig trigger}})}}
+                  {set
+                     [diff]
+                     $diff}
+                  {if
+                     {!= $diff_diff 0}
+                     {if_else
+                        {>
+                           $diff
+                           [max_diff]}
+                        {set
+                           $diff
+                           [max_diff]}
+                        {if
+                           {<
+                              $diff
+                              {-
+                                 [max_diff]}}
+                           {set
+                              $diff
+                              {-
+                                 [max_diff]}}}}
+                     {do
+                        ($range
+                           {max
+                              -1
+                              {min
+                                 1
+                                 {/
+                                    $diff
+                                    [max_diff]}}})
+                        ($center_frame
+                           {/
+                              {h2h_meter_bar.tnm end_frame}
+                              2.0})
+                        {h2h_meter_bar.tnm
+                           set_frame
+                           {'+'
+                              $center_frame
+                              {'*'
+                                 0.5
+                                 {'*'
+                                    $range
+                                    {h2h_meter_bar.tnm end_frame}}}}}}}}}))))

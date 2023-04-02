@@ -1,0 +1,575 @@
+{new
+   CharCreatorPanel
+   charcreator_panel
+   (load
+      {charcreator_maker_panel set reset_name_focus TRUE})
+   (enter
+      {helpbar
+         set_limit_to_player_num
+         [char_player_num]}
+      #ifdef HX_XBOX
+      {practice_space_panel select_cam creator}
+      #endif)
+   (unload
+      {helpbar set_limit_to_player_num -1})}
+{new
+   BandScreen
+   charcreator_cancel_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_yesno
+         {localize_token shell_charcreator_cancel}
+         no.btn}
+      {dialog_panel
+         set_player_num
+         {charcreator_panel get char_player_num}})
+   (SELECT_MSG
+      {switch
+         $component
+         (yes.btn
+            {ui
+               pop_screen
+               {gamemode get matchmaking_screen}})
+         (no.btn
+            {ui pop_screen})})}
+{new
+   BandScreen
+   charcreator_no_name_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize_token shell_charcreator_no_name}}
+      {dialog_panel
+         set_player_num
+         {charcreator_panel get char_player_num}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   charcreator_name_not_unique_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {sprintf
+            {localize_token shell_charcreator_name_not_unique_fmt}
+            {{charcreator_panel get_tour_char}
+               get_char_name}}}
+      {dialog_panel
+         set_player_num
+         {charcreator_panel get char_player_num}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   charcreator_confirm_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_yesno
+         {localize_token shell_charcreator_confirm}
+         yes.btn}
+      {dialog_panel
+         set_player_num
+         {charcreator_panel get char_player_num}})
+   (next_screen '')
+   (SELECT_MSG
+      {switch
+         $component
+         (yes.btn
+            {do
+               ($tour_char
+                  {charcreator_panel get_tour_char})
+               ($char
+                  {charcreator_panel get_char})
+               {if
+                  {==
+                     {$tour_char get_char_name}
+                     ""}
+                  {$tour_char
+                     set_char_name
+                     {charcreator_panel random_char_name}}}
+               {$char deform TRUE}
+               {charcreator_panel add_char_to_profile}
+               {{game
+                     get_player_config
+                     {charcreator_panel get char_player_num}}
+                  set_char
+                  $tour_char}
+               {set
+                  [next_screen]
+                  {if_else
+                     {gamemode get is_solo}
+                     {do
+                        {tour_solo_hub_panel set reset TRUE}
+                        {gamemode get post_matchmaking_screen}}
+                     {gamemode get matchmaking_screen}}}
+               {band_ui_sink show_network_busy_icon}
+               {entity_uploader update_char $tour_char $this}})
+         (no.btn
+            {ui pop_screen})})
+   (BUTTON_DOWN_MSG
+      {if_else
+         {band_ui_sink is_network_busy}
+         TRUE
+         kDataUnhandled})
+   (ROCK_CENTRAL_OP_COMPLETE_MSG
+      {band_ui_sink hide_network_busy_icon}
+      {switch
+         $arg1
+         (RB_RETCODE_CHAR_NAME_PROFANE
+            {ui goto_screen charcreator_name_profane_screen})
+         (RB_RETCODE_CHAR_NAME_IP
+            {ui goto_screen charcreator_name_ip_screen})
+         {autosave_goto_pop_goto
+            [next_screen]}})}
+#define CHARCREATOR_NEW_CHAR
+({{game
+         get_player_config
+         {charcreator_panel get char_player_num}}
+      get_char})
+{new
+   BandScreen
+   charcreator_name_profane_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {sprintf
+            {localize_token shell_charcreator_name_profane_fmt}
+            {CHARCREATOR_NEW_CHAR get_char_name}}}
+      {dialog_panel
+         set_player_num
+         {charcreator_panel get char_player_num}})
+   (SELECT_MSG
+      {autosave_goto_pop_goto
+         {charcreator_confirm_screen get next_screen}})}
+{new
+   BandScreen
+   charcreator_name_ip_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {sprintf
+            {localize_token shell_charcreator_name_ip_fmt}
+            {CHARCREATOR_NEW_CHAR get_char_name}}}
+      {dialog_panel
+         set_player_num
+         {charcreator_panel get char_player_num}})
+   (SELECT_MSG
+      {autosave_goto_pop_goto
+         {charcreator_confirm_screen get next_screen}})}
+{new
+   UIPanel
+   charcreator_maker_panel
+   (file
+      "charcreator_maker.milo")
+   (focus name.btn)
+   (player_num
+      {charcreator_panel get char_player_num})
+   (new_char 0)
+   (reset_name_focus TRUE)
+   (enter
+      {if
+         [reset_name_focus]
+         {$this set_focus name.btn}
+         {set
+            [reset_name_focus]
+            FALSE}}
+      {set
+         [new_char]
+         {charcreator_panel get_tour_char}}
+      {$this update_name_label}
+      {part.lbl
+         set
+         text_token
+         {[new_char]
+            instrument_icon}}
+      {hometown.lst
+         set_provider
+         {tour hometown_provider}}
+      {hometown.lst
+         set_selected
+         {[new_char]
+            hometown}}
+      {attitude.lst
+         set_data
+         (attitude_banger attitude_dramatic attitude_rocker attitude_spazz)}
+      {attitude.lst
+         set_selected
+         {switch
+            {[new_char]
+               get_attitude}
+            (kGenreBanger attitude_banger)
+            (kGenreDramatic attitude_dramatic)
+            (kGenreRocker attitude_rocker)
+            (kGenreSpazz attitude_spazz)}})
+   (update_name_label
+      {if_else
+         {==
+            {[new_char]
+               get_char_name}
+            ""}
+         {name.lbl set text_token shell_enter_name}
+         {name.lbl
+            set_localized
+            {[new_char]
+               get_char_name}}})
+   (SCROLL_MSG
+      {switch
+         $component
+         (hometown.lst
+            {[new_char]
+               set_hometown
+               {hometown.lst selected_sym}})
+         (attitude.lst
+            {[new_char]
+               set_attitude
+               {charcreator_panel get_char}
+               {$this
+                  sym_to_attitude
+                  {attitude.lst selected_sym}}})})
+   (sym_to_attitude
+      ($sym)
+      {switch
+         $sym
+         (attitude_banger kGenreBanger)
+         (attitude_dramatic kGenreDramatic)
+         (attitude_rocker kGenreRocker)
+         (attitude_spazz kGenreSpazz)})
+   (SELECT_MSG
+      {switch
+         $component
+         (name.btn
+            {platform_mgr
+               show_keyboard
+               $player_num
+               {get_char_name_length}
+               {localize create_char_vk_title}
+               {localize create_char_vk_desc}
+               {if_else
+                  {==
+                     {[new_char]
+                        get_char_name}
+                     ""}
+                  {charcreator_panel random_char_name}
+                  {[new_char]
+                     get_char_name}}
+               $this})
+         (hometown.btn
+            {hometown.lst store}
+            {$this set_focus hometown.lst})
+         (attitude.btn
+            {attitude.lst store}
+            {$this set_focus attitude.lst})
+         (appearance.btn
+            {ui goto_screen charcreator_appearance_screen})
+         (create.btn
+            {do
+               ($char_name
+                  {{charcreator_panel get_tour_char}
+                     get_char_name})
+               {cond
+                  ({==
+                        $char_name
+                        ""}
+                     {ui push_screen charcreator_no_name_screen})
+                  ({!
+                        {profile_mgr
+                           is_char_name_unique
+                           [player_num]
+                           $char_name}}
+                     {ui push_screen charcreator_name_not_unique_screen})
+                  {ui push_screen charcreator_confirm_screen}}})})
+   (VIRTUAL_KEYBOARD_RESULT_MSG
+      {if
+         {&&
+            $ok
+            $this
+            {ui focus_panel}
+            {==
+               {ui focus_panel}
+               $this}}
+         {[new_char]
+            set_char_name
+            $text}
+         {$this update_name_label}})
+   (BUTTON_DOWN_MSG
+      {if_else
+         {'||'
+            {== $button kPad_X}
+            {== $button kPad_Tri}}
+         {cond
+            ({==
+                  {$this focus_name}
+                  hometown.lst}
+               {if_else
+                  {== $button kPad_X}
+                  {hometown.lst confirm}
+                  {hometown.lst undo $player_num}}
+               {$this set_focus hometown.btn})
+            ({==
+                  {$this focus_name}
+                  attitude.lst}
+               {if_else
+                  {== $button kPad_X}
+                  {attitude.lst confirm}
+                  {attitude.lst undo $player_num}}
+               {$this set_focus attitude.btn})
+            (TRUE
+               {if_else
+                  {== $button kPad_Tri}
+                  {ui push_screen charcreator_cancel_screen}
+                  kDataUnhandled})}
+         kDataUnhandled})}
+{new
+   BandScreen
+   charcreator_maker_screen
+   (panels meta charcreator_panel practice_couch_panel charcreator_maker_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (focus charcreator_maker_panel)}
+{new
+   UIPanel
+   eyecolor_panel
+   (file
+      "color_select.milo")
+   (focus color.lst)
+   (undo_eye_index -1)
+   (enter
+      {title.lbl set text_token shell_eye_color}
+      {do
+         ($char
+            {charcreator_panel get_char})
+         {color.lst
+            set_colors
+            {$char get eye_color_palette}}
+         {color.lst
+            set_selected
+            {$char get eye_color_index}}
+         {set
+            [undo_eye_index]
+            {$char get eye_color_index}}})
+   (SCROLL_MSG
+      {{charcreator_panel get_tour_char}
+         set_eye_color
+         {charcreator_panel get_char}
+         {color.lst selected_pos}})
+   (SELECT_MSG
+      {charcreator_appearance_panel confirm_outfit}
+      {ui pop_screen})
+   (BUTTON_DOWN_MSG
+      {if
+         {== $button kPad_Tri}
+         {{charcreator_panel get_tour_char}
+            set_eye_color
+            {charcreator_panel get_char}
+            [undo_eye_index]}
+         {ui pop_screen}}
+      kDataUnhandled)}
+{new
+   BandScreen
+   eyecolor_screen
+   (panels eyecolor_panel)
+   (focus eyecolor_panel)}
+#ifdef HX_XBOX
+{new
+   OutfitPanel
+   charcreator_appearance_panel
+   (file
+      "charcreator_appearance.milo")
+   (focus weight.btn)
+   (reset_focus TRUE)
+   (show_outfit_text TRUE)
+   (player_num
+      {charcreator_panel get char_player_num})
+   (select_cam FALSE)
+   (outfit_char charcreator_panel)
+   (in_shop FALSE)
+   (enter
+      {do
+         ($tour_char
+            {charcreator_panel get_tour_char})
+         ($char
+            {charcreator_panel get_char})
+         {weight.sld set_num_steps 5}
+         {weight.sld
+            set_frame
+            {$char get weight}}
+         {height.sld set_num_steps 5}
+         {height.sld
+            set_frame
+            {$char get height}}
+         {skin.lst
+            set_colors
+            {$char get skin_color_palette}}
+         {skin.lst
+            set_selected
+            {$char get skin_color_index}}})
+   (SELECT_MSG
+      {unless
+         {==
+            {$this focus_category}
+            ''}
+         {$this store_outfit}}
+      {switch
+         $component
+         (weight.btn
+            {weight.sld store}
+            {$this set_focus weight.sld})
+         (height.btn
+            {height.sld store}
+            {$this set_focus height.sld})
+         (skin.btn
+            {skin.lst store}
+            {$this set_focus skin.lst})
+         (done.btn
+            {ui goto_screen charcreator_maker_screen})}
+      kDataUnhandled)
+   (SCROLL_MSG
+      {do
+         ($tour_char
+            {charcreator_panel get_tour_char})
+         ($char
+            {charcreator_panel get_char})
+         {switch
+            $component
+            (skin.lst
+               {$tour_char
+                  set_skin_color
+                  $char
+                  {skin.lst selected_pos}})
+            (weight.sld
+               {$tour_char
+                  set_weight
+                  $char
+                  {weight.sld frame}}
+               {$char deform FALSE})
+            (height.sld
+               {$tour_char
+                  set_height
+                  $char
+                  {height.sld frame}}
+               {$char deform FALSE})}})
+   (FOCUS_MSG
+      {$this update_cam $new_focus})
+   (TRANSITION_COMPLETE_MSG
+      {$this
+         update_cam
+         {$this focus_name}})
+   #ifdef HX_XBOX
+   (update_cam
+      ($focus)
+      {practice_space_panel
+         select_cam
+         {if_else
+            {'||'
+               {== $focus heads.lst}
+               {== $focus hair.lst}}
+            creator_heads
+            creator}})
+   #endif
+   (BUTTON_DOWN_MSG
+      {do
+         ($category
+            {$this focus_category})
+         ($selected
+            {$this focus_outfit})
+         {if_else
+            {!= $selected ''}
+            {switch
+               $button
+               (kPad_X
+                  {cond
+                     ({== $category heads}
+                        {ui push_screen eyecolor_screen})
+                     ({== $category hair}
+                        {if_else
+                           {$this find_outfit_config}
+                           {do
+                              {color_select_panel set color_idx 0}
+                              {color_select_panel set outfit_panel $this}
+                              {ui push_screen color_select_screen}}
+                           {$this confirm_outfit}})
+                     (TRUE
+                        {$this confirm_outfit})})
+               (kPad_Tri
+                  {$this undo_outfit}
+                  TRUE)
+               kDataUnhandled}
+            {switch
+               {$this focus_name}
+               (skin.lst
+                  {switch
+                     $button
+                     (kPad_X
+                        {skin.lst confirm}
+                        {$this set_focus skin.btn})
+                     (kPad_Tri
+                        {skin.lst undo $player_num}
+                        {$this set_focus skin.btn})
+                     kDataUnhandled})
+               (weight.sld
+                  {switch
+                     $button
+                     (kPad_X
+                        {weight.sld confirm}
+                        {$this set_focus weight.btn})
+                     (kPad_Tri
+                        {weight.sld undo $player_num}
+                        {$this set_focus weight.btn})
+                     kDataUnhandled})
+               (height.sld
+                  {switch
+                     $button
+                     (kPad_X
+                        {height.sld confirm}
+                        {$this set_focus height.btn})
+                     (kPad_Tri
+                        {height.sld undo $player_num}
+                        {$this set_focus height.btn})
+                     kDataUnhandled})
+               kDataUnhandled}}})
+   (on_color_select
+      ($category $index $color)
+      {if
+         {&&
+            {== $category hair}
+            {== $index 0}}
+         {do
+            ($tour_char
+               {charcreator_panel get_tour_char})
+            ($char
+               {charcreator_panel get_char})
+            {$tour_char set_eyebrow_color $char $color}}})}
+#endif
+{new
+   BandScreen
+   charcreator_appearance_screen
+   (panels
+      meta
+      charcreator_panel
+      practice_couch_panel
+      #ifdef HX_XBOX
+      charcreator_appearance_panel
+      shop_closet_lower3rd_panel
+      #endif)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   #ifdef HX_XBOX
+   (focus charcreator_appearance_panel)
+   #else
+   (focus charcreator_panel)
+   #endif
+   (back charcreator_maker_screen)}

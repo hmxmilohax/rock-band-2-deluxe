@@ -1,0 +1,27 @@
+(EventTrigger
+   (types
+      (particle_trigger
+         (editor
+            (systems
+               (array
+                  object
+                  (class ParticleLauncher)
+                  (list
+                     {$this launcher_list}))))
+         (systems
+            ())
+         (launcher_list
+            {do
+               ($array
+                  {array 0})
+               {{$this dir}
+                  iterate
+                  ParticleLauncher
+                  $obj
+                  {push_back $array $obj}}
+               $array})
+         (trigger
+            {foreach
+               $elem
+               [systems]
+               {$elem launch_particles}}))))
