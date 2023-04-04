@@ -1,6 +1,6 @@
 # Rock Band 2 Deluxe
 
-![Header Image](dependencies/header.png)
+![Header Image](dependencies/header.gif)
 
 # Introduction
 

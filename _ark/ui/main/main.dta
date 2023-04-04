@@ -145,6 +145,8 @@
    (is_loaded
       {content_mgr refresh_done})
    (enter
+   {set $splashed 1}
+   ANIMATED_LOGO_ENTER
       {set $leaderspeed $speedmod}
       {$this update_motd}
       {community_panel update_button_status}
@@ -177,6 +179,12 @@
       {store.btn set_showing FALSE} ;hide it too
    )
    (exit
+      {if {exists logo_task_populate} ;check if the above task is running
+         {delete logo_task_populate} ;delete the task if running
+      }
+      {if {exists logo_task_animate} ;check if the above task is running
+         {delete logo_task_animate} ;delete the task if running
+      }
       {fx fade_out}
       {platform_mgr remove_sink $this connection_status_changed}
       {server remove_sink $this server_status_changed}
@@ -649,7 +657,19 @@
    UIPanel
    attract_overlay_panel
    (file
-      "attract_overlay.milo")}
+      "attract_overlay.milo")
+   (enter
+      {set $splashed 1}
+      ANIMATED_LOGO_ENTER
+   )
+   (exit
+      {if {exists logo_task_populate} ;check if the above task is running
+         {delete logo_task_populate} ;delete the task if running
+      }
+      {if {exists logo_task_animate} ;check if the above task is running
+         {delete logo_task_animate} ;delete the task if running
+      }
+   )}
 {new
    BandScreen
    attract_screen
