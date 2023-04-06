@@ -1,0 +1,265 @@
+{func
+   get_char_name_length
+   {elem
+      {find $syscfg profile_mgr char_name_length}
+      1}}
+{func
+   get_band_name_length
+   {elem
+      {find $syscfg profile_mgr band_name_length}
+      1}}
+{func
+   get_motto_length
+   {elem
+      {find $syscfg profile_mgr motto_length}
+      1}}
+{func
+   band_leader_char
+   {{game
+         get_player_config
+         {game get leader_num}}
+      get_char}}
+{func
+   set_char_from_controller
+   ($player_num)
+   {{game get_player_config $player_num}
+      set_char
+      {available_prefab $player_num}}}
+{func
+   setup_game
+   ($song $venue $player_list)
+   {do
+      ($i 0)
+      ($slot_index 0)
+      {tour set_bwtmode kMetaTour_StartNew}
+      {foreach
+         $player
+         $player_list
+         {if_else
+            {== 0 $i}
+            {session reset 0 FALSE}
+            {session add_local $i}}
+         {do
+            ($pcfg
+               {game get_player_config $i})
+            ($track
+               {elem $player 0})
+            {$pcfg set_track_type $track}
+            {$pcfg
+               set_controller_type
+               {switch
+                  {$pcfg get_track_type}
+                  (kTrackDrum kControllerDrum)
+                  ((kTrackGuitar kTrackBass)
+                     kControllerGuitar)
+                  (kTrackVocals kControllerVocals)
+                  kControllerNone}}
+            {$pcfg
+               set_difficulty
+               {elem $player 1}}
+            {$pcfg set_ready TRUE}}
+         {'++' $i}}
+      {game set_venue $venue}
+      {meta_performer set_song $song}
+      {game set leader_num 0}
+      {gamecfg auto_assign_missing_slots}
+      {set $i 0}
+      {foreach
+         $player
+         $player_list
+         {do
+            ($pcfg
+               {game get_player_config $i})
+            ($track
+               {elem $player 0})
+            ($prefab
+               {if_else
+                  {==
+                     {size $player}
+                     3}
+                  {elem $player 2}
+                  0})
+            {$pcfg
+               set_char
+               {if_else
+                  $prefab
+                  {find_prefab $prefab}
+                  {available_prefab
+                     {if_else
+                        {== $track bass}
+                        guitar
+                        $track}}}}}
+         {'++' $i}}}}
+{func
+   game_restart
+   {{gamemode get game_screen}
+      reenter_screen}
+   {world_panel setup}
+   {if
+      {&&
+         {ui current_screen}
+         {!=
+            {ui current_screen}
+            {gamemode get game_screen}}}
+      {ui pop_screen}}}
+{func
+   set_all_hud_showing
+   ($show)
+   {{get_track_panel}
+      set_showing
+      $show}}
+{func
+   reset_all_callbacks
+   {func hopo_callback}
+   {func swingAtHopo_callback}
+   {func whammy_start_callback}
+   {func whammy_end_callback}
+   {func star_phrase_miss_callback}
+   {func star_phrase_captured_callback}
+   {func star_use_begin_callback}
+   {func star_use_end_callback}
+   {func hopo_hit}}
+{reset_all_callbacks}
+{func
+   player_pan
+   ($player)
+   {if_else
+      {game multiplayer}
+      {elem
+         (-1 1 -1 1 -1 1 -1 1)
+         $player}
+      0}}
+{func
+   play_game_seq
+   ($sfx)
+   {synth play $sfx}}
+{func
+   play_game_seq_player
+   ($sfx_single $sfx_multi $player)
+   {do
+      ($sfx
+         {if_else
+            {game multiplayer}
+            $sfx_multi
+            $sfx_single})
+      {synth
+         play
+         $sfx
+         (pan
+            {player_pan $player})}}}
+#ifdef HX_XBOX
+{func
+   fmt_money
+   ($money)
+   {sprintf
+      "%s%s"
+      {localize locale_currency}
+      {localize_separated_int $money}}}
+#endif
+{func
+   fmt_score
+   ($score)
+   {localize_separated_int $score}}
+{func
+   fmt_songs_played
+   ($num_played $num_total)
+   {sprintf
+      {localize tour_solo_progress}
+      $num_played
+      $num_total}}
+{func
+   is_leader_local
+   {do
+      ($leader_num
+         {gamecfg get leader_num})
+      {&&
+         {!= $leader_num -1}
+         {gamecfg is_player_local $leader_num}}}}
+{func
+   local_to_leader_player_num
+   {if_else
+      {is_leader_local}
+      -1
+      {game get leader_num}}}
+{func
+   update_tour_display
+   {foreach
+      $a
+      (tour_solo_diff_panel tour_solo_event_panel tour_band_event_panel tour_band_town_panel tour_world_status tour_selsong_panel)
+      {if
+         {$a is_up}
+         {$a refresh}}}}
+{func
+   missing_slot_to_track_icon
+   ($slot)
+   {cnv_instrumenttoicon
+      {if_else
+         {== 3 $slot}
+         {do
+            ($guitar_player_idx
+               {game get_player_num_from_slot_num 0})
+            {if_else
+               {&&
+                  {!= -1 $guitar_player_idx}
+                  {game is_player_participating $guitar_player_idx}
+                  {==
+                     bass
+                     {{game get_player_config $guitar_player_idx}
+                        get_track_sym}}}
+               guitar
+               bass}}
+         {if_else
+            {== 0 $slot}
+            {do
+               ($bass_player_idx
+                  {game get_player_num_from_slot_num 3})
+               {if_else
+                  {&&
+                     {!= -1 $bass_player_idx}
+                     {game is_player_participating $bass_player_idx}
+                     {==
+                        guitar
+                        {{game get_player_config $bass_player_idx}
+                           get_track_sym}}}
+                  bass
+                  guitar}}
+            {elem
+               (COOP_SLOTS_ORDER)
+               $slot}}}}}
+{func
+   get_player_icon
+   ($player)
+   {if_else
+      {!=
+         $player
+         ""}
+      {do
+         ($pcfg
+            {$player config})
+         ($player_char
+            {$pcfg get_char})
+         {if_else
+            $player_char
+            {$player_char
+               track_icon
+               {$pcfg get_track_sym}}
+            G}}
+      G}}
+{func
+   get_player_name
+   ($player)
+   {if_else
+      $player
+      {do
+         ($pcfg
+            {$player config})
+         {$pcfg intro_name}}
+      ""}}
+{func
+   get_player_name_from_slot
+   ($slot)
+   {do
+      ($player_num
+         {game get_player_num_from_slot_num $slot})
+      {get_player_name
+         {game get_player $player_num}}}}

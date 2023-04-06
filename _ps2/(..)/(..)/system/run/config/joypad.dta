@@ -1,0 +1,376 @@
+(disable FALSE)
+(deadzone 36)
+(threshold 0.75)
+#ifdef HX_WII
+(ignore 1 3 5 6 7)
+#else
+(ignore 1 2 3 4 5 6 7)
+#endif
+(hold_ms 500)
+(repeat_ms 50)
+(midi_joypad
+   (disable TRUE)
+   (mapping
+      (36 kPad_L2)
+      (38 kPad_L1)
+      (46 kPad_R1)
+      (48 kPad_R2)
+      (45 kPad_X))
+   (thresholds
+      (36 50))
+   (come_first FALSE))
+#ifdef HX_EE
+(controllers
+   (hx_guitar_ps3
+      (detect
+         (type kJoypadPs3HxGuitar))
+      (lefty_flip TRUE)
+      (translate_sticks FALSE))
+   (hx_guitar_rb2_ps3
+      (detect
+         (type kJoypadPs3HxGuitarRb2))
+      (lefty_flip TRUE)
+      (translate_sticks FALSE))
+   (hx_drums_ps3
+      (detect
+         (type kJoypadPs3HxDrums)))
+   (hx_drums_rb2_ps3
+      (detect
+         (type kJoypadPs3HxDrumsRb2)))
+   (ro_guitar
+      (detect
+         (type kJoypadAnalog)
+         (button kPad_DLeft))
+      (lefty_flip TRUE)
+      (translate_sticks FALSE))
+   (digital
+      (detect
+         (type kJoypadDigital)))
+   (analog
+      (detect
+         (type kJoypadAnalog)))
+   (dualshock
+      (detect
+         (type kJoypadDualShock))))
+#endif
+#ifdef HX_WII
+(controllers
+   (gamecube
+      (detect
+         (type kJoypadDualShock))
+      (bidirectional TRUE))
+   (hx_guitar_ps3
+      (detect
+         (type kJoypadPs3HxGuitar))
+      (lefty_flip TRUE)
+      (translate_sticks FALSE))
+   (hx_drums_ps3
+      (detect
+         (type kJoypadPs3HxDrums))))
+#endif
+#ifdef HX_PS3
+(controllers
+   (hx_guitar_ps3
+      (detect
+         (type kJoypadPs3HxGuitar))
+      (lefty_flip TRUE))
+   (hx_drums_ps3
+      (detect
+         (type kJoypadPs3HxDrums)))
+   (analog
+      (detect
+         (type kJoypadAnalog)))
+   (dualshock
+      (detect
+         (type kJoypadDualShock))))
+#endif
+#ifdef HX_PC
+(controllers
+   (midi
+      (detect
+         (type kJoypadMidi)))
+   (ro_guitar
+      (detect
+         (stick kLeftAnalog X -1)
+         (stick kLeftAnalog Y 0))
+      (lefty_flip TRUE))
+   (digital
+      (detect
+         (button kPad_RStickRight)
+         (button kPad_RStickDown)))
+   (hx_xbox
+      (detect
+         (button kPad_RStickUp)))
+   (analog
+      (detect))
+   (dualshock
+      (detect)))
+#endif
+#ifdef HX_XBOX
+(controllers
+   (strat_xbox
+      (detect
+         (type kJoypadXboxHxGuitar))
+      (lefty_flip TRUE))
+   (ro_guitar_xbox
+      (detect
+         (type kJoypadXboxRoGuitar))
+      (ignore_buttons kPad_L2 kPad_R2)
+      (lefty_flip TRUE))
+   (hx_drums_xbox
+      (detect
+         (type kJoypadXboxDrums)))
+   (hx_drums_xbox
+      (detect
+         (type kJoypadXboxDrums)))
+   (stagekit_xbox
+      (detect
+         (type kJoypadXboxStageKit)))
+   (digital
+      (detect
+         (type kJoypadDigital)))
+   (analog
+      (detect
+         (type kJoypadAnalog))))
+#endif
+(five_way_controllers strat_xbox hx_guitar_ps3 hx_guitar_rb2_ps3)
+(adapters
+   (map
+      ('4 axis 16 button joystick' default)
+      ('SmartJoy PLUS Adapter' smart_plus)
+      ('SmartJoy PLUS USB Adapter' smart_plus)
+      ('SmartJoy Dual PLUS Adapter' smart_plus)
+      ('MP-8866 Dual USB Joypad' ro_dual)
+      ('6-button joystick' 6-button)
+      ('PSX/USB Pad Adaptor (4-axis, 12-button, POV,effects)' kiky_system_x)
+      ('TigerGame PS/PS2 Game Controller Adapter' tiger)
+      ('XBOX 360 For Windows (Controller)' xbox)
+      ('Controller (XBOX 360 For Windows)' xbox)
+      ('Controller (Guitar Hero X-plorer  )' xbox)
+      ('USB Joystick     ' smart_plus)
+      ('GameCube Joypad' gamecube)
+      ('Wii Remote' wii_core)
+      ('Wii Classic' wii_classic)
+      ('USB Instrument' usb_instrument))
+   (default
+      (buttons
+         (0 kPad_Tri)
+         (1 kPad_Circle)
+         (2 kPad_X)
+         (3 kPad_Square)
+         (4 kPad_L2)
+         (5 kPad_R2)
+         (6 kPad_L1)
+         (7 kPad_R1)
+         (8 kPad_Select)
+         (9 kPad_Start)
+         (10 kPad_R3)
+         (11 kPad_L3)
+         (12 kPad_DUp)
+         (13 kPad_DRight)
+         (14 kPad_DDown)
+         (15 kPad_DLeft)))
+   (smart_plus
+      (buttons
+         (0 kPad_Tri)
+         (1 kPad_Circle)
+         (2 kPad_X)
+         (3 kPad_Square)
+         (4 kPad_L2)
+         (5 kPad_R2)
+         (6 kPad_L1)
+         (7 kPad_R1)
+         (8 kPad_Start)
+         (9 kPad_Select)
+         (10 kPad_L3)
+         (11 kPad_R3))
+      (pov
+         (0 kPad_DUp)
+         (1 kPad_DRight)
+         (2 kPad_DDown)
+         (3 kPad_DLeft)))
+   (kiky_system_x
+      (buttons
+         (0 kPad_Tri)
+         (1 kPad_Circle)
+         (2 kPad_X)
+         (3 kPad_Square)
+         (4 kPad_L2)
+         (5 kPad_R2)
+         (6 kPad_L1)
+         (7 kPad_R1)
+         (8 kPad_Select)
+         (9 kPad_Start)
+         (10 kPad_L3)
+         (11 kPad_R3))
+      (pov
+         (0 kPad_DUp)
+         (1 kPad_DRight)
+         (2 kPad_DDown)
+         (3 kPad_DLeft)))
+   (ro_dual
+      (buttons
+         (0 kPad_Tri)
+         (1 kPad_Circle)
+         (2 kPad_X)
+         (3 kPad_Square)
+         (4 kPad_L1)
+         (5 kPad_R1)
+         (6 kPad_L2)
+         (7 kPad_R2)
+         (8 kPad_Start)
+         (9 kPad_Select)
+         (10 kPad_L3)
+         (11 kPad_R3))
+      (pov
+         (0 kPad_DUp)
+         (1 kPad_DRight)
+         (2 kPad_DDown)
+         (3 kPad_DLeft)))
+   (6-button
+      (buttons
+         (0 kPad_X)
+         (1 kPad_Circle)
+         (2 kPad_Square)
+         (3 kPad_Tri)
+         (4 kPad_L2)
+         (5 kPad_R2)))
+   (tiger
+      (buttons
+         (0 kPad_Tri)
+         (1 kPad_Circle)
+         (2 kPad_X)
+         (3 kPad_Square)
+         (4 kPad_L2)
+         (5 kPad_R2)
+         (6 kPad_L1)
+         (7 kPad_R1)
+         (8 kPad_Start)
+         (9 kPad_Select)
+         (10 kPad_L3)
+         (11 kPad_R3)
+         (12 kPad_DUp)
+         (13 kPad_DRight)
+         (14 kPad_DDown)
+         (15 kPad_DLeft)))
+   (xbox
+      (buttons
+         (0 kPad_X)
+         (1 kPad_Tri)
+         (2 kPad_Square)
+         (3 kPad_Circle)
+         (4 kPad_L1)
+         (5 kPad_L2)
+         (6 kPad_Select)
+         (7 kPad_Start)
+         (23 kPad_R2))
+      (pov
+         (0 kPad_DUp)
+         (1 kPad_DRight)
+         (2 kPad_DDown)
+         (3 kPad_DLeft))
+      (sticks xbox))
+   (gamecube
+      (buttons
+         (0 kPad_DLeft)
+         (1 kPad_DRight)
+         (2 kPad_DDown)
+         (3 kPad_DUp)
+         (4 kPad_R1)
+         (5 kPad_R2)
+         (6 kPad_L2)
+         (8 kPad_X)
+         (9 kPad_Tri)
+         (10 kPad_Circle)
+         (11 kPad_Square)
+         (12 kPad_Start)))
+   (wii_core
+      (buttons
+         (0 kPad_DLeft)
+         (1 kPad_DRight)
+         (2 kPad_DDown)
+         (3 kPad_DUp)
+         (4 kPad_Start)
+         (8 kPad_Circle)
+         (9 kPad_Square)
+         (10 kPad_Tri)
+         (11 kPad_X)
+         (12 kPad_R1)
+         (15 kPad_R3)))
+   (wii_classic
+      (buttons
+         (0 kPad_DUp)
+         (1 kPad_DLeft)
+         (2 kPad_R2)
+         (3 kPad_Circle)
+         (4 kPad_X)
+         (5 kPad_Square)
+         (6 kPad_Tri)
+         (7 kPad_L2)
+         (9 kPad_R1)
+         (10 kPad_Start)
+         (11 kPad_R3)
+         (12 kPad_Select)
+         (13 kPad_L1)
+         (14 kPad_DDown)
+         (15 kPad_DRight)))
+   (usb_instrument
+      (buttons
+         (1 kPad_X)
+         (2 kPad_Circle)
+         (3 kPad_Tri)
+         (0 kPad_Square)
+         (4 kPad_L1)
+         (6 kPad_L2)
+         (16 kPad_DUp)
+         (17 kPad_DDown)
+         (18 kPad_DLeft)
+         (19 kPad_DRight)
+         (9 kPad_Start)
+         (8 kPad_Select)
+         (5 kPad_R1))))
+(button_filters
+   (analog
+      (kPad_Circle kPad_Tri)
+      (kPad_Tri kPad_Circle))
+   (dualshock
+      (kPad_Circle kPad_Tri)
+      (kPad_Tri kPad_Circle))
+   (ro_guitar
+      (kPad_R2 kPad_X)
+      (kPad_Circle kPad_Tri)
+      (kPad_Tri kPad_R1)
+      (kPad_X kPad_Square))
+   (ro_guitar_xbox
+      (6 kPad_X)
+      (4 kPad_Tri)
+      (5 kPad_R1))
+   (strat_xbox
+      (5 kPad_R1)
+      (kPad_R1 kPad_L1))
+   (hx_guitar_ps3
+      (kPad_X kPad_X)
+      (kPad_Circle kPad_Tri)
+      (kPad_Tri kPad_R1)
+      (kPad_R1 kPad_L1))
+   (hx_guitar_rb2_ps3
+      (kPad_X kPad_X)
+      (kPad_Circle kPad_Tri)
+      (kPad_Tri kPad_R1)
+      (kPad_R1 kPad_L1))
+   (hx_drums_ps3
+      (kPad_Circle kPad_Tri)
+      (kPad_Tri kPad_DUp)
+      (kPad_Square kPad_DDown)
+      (kPad_L1 kPad_R1))
+   (hx_drums_rb2_ps3
+      (kPad_Circle kPad_Tri)
+      (kPad_Tri kPad_DUp)
+      (kPad_Square kPad_DDown)
+      (kPad_L1 kPad_R1))
+   (hx_drums_xbox
+      (2 kPad_R1)
+      (4 kPad_Tri)
+      (5 kPad_DUp)
+      (7 kPad_DDown)
+      (6 kPad_X)))

@@ -6,6 +6,11 @@
    (goto_lesson
       ($num)
       {tutorials_state_panel set_lesson $num}
+      #ifdef HX_EE
+      {{game get_participant_config 0}
+         set_track_type
+         {gamemode get start_tracktype}}
+      #endif
       {ui goto_screen tutorials_loading_screen})
    (enter
       {modifier_mgr deactivate_modifier mod_blackvenue}
@@ -23,12 +28,25 @@
          {tutorials_state_panel get_all_lessons}
          {{elem $lesson 3}
             set_showing
+            #ifndef HX_EE
             {{profile_mgr
                   get_profile
                   {session_mgr get_leader_num}}
+            #else
+            {{profile_mgr
+                  get_options_from_player
+                  {gamecfg get leader_num}}
+            #endif
                is_lesson_complete
-               {elem $lesson 2}}}}
-      {$this set just_entered FALSE})
+               {elem $lesson 2}}}}}
+      {$this set just_entered FALSE}
+      #ifdef HX_EE
+      {if
+         {==
+            {ui previous_screen}
+            training_menu_screen}
+         {fx fade_in}}
+      #endif)
    (TRANSITION_COMPLETE_MSG
       {if
          {&&
@@ -37,8 +55,10 @@
             {==
                {ui current_screen}
                tutorials_lesson_menu_screen}
+            #ifndef HX_EE
             {!
-               {net_sync has_destination_screen}}}
+               {net_sync has_destination_screen}}
+            #endif}
          {autosave}})
    (exit
       {$this set just_entered TRUE})
@@ -63,6 +83,7 @@
                   {'++'
                      [lesson_num_scroll]}}}}}
       kDataUnhandled)
+   #ifndef HX_EE
    (SELECT_MSG
       {{game get_participant_config 0}
          set_ready
@@ -82,6 +103,30 @@
                [lesson_num]}
             {'++'
                [lesson_num]}}})
+   #else
+   (SELECT_START_MSG
+      {{game get_participant_config 0}
+         set_ready
+         TRUE}
+      kDataUnhandled)
+   (SELECT_MSG
+      {set
+         [lesson_num]
+         0}
+      {foreach
+         $lesson
+         {tutorials_state_panel get_all_lessons}
+         {if_else
+            {==
+               {elem $lesson 0}
+               $component}
+            {$this
+               goto_lesson
+               [lesson_num]}
+            {'++'
+               [lesson_num]}}}
+      kDataUnhandled)
+   #endif
    (allow_player
       ($player_num)
       {game is_player_participating $player_num})
@@ -91,12 +136,16 @@
 {new
    BandScreen
    tutorials_lesson_menu_screen
-   (panels meta movie_panel tutorials_lesson_menu_panel)
+   (panels meta #ifndef HX_EE movie_panel #else menu_background_movie_panel #endif tutorials_lesson_menu_panel #ifdef HX_EE fx #endif)
    (focus tutorials_lesson_menu_panel)
    (back training_menu_screen)
    (enter
+   #ifdef HX_EE
       {input_mgr set_limit kLimitSession}
-      {meta music_start})
+      {meta music_start}
+   #else
+      {band_ui_sink set post_matchmaking TRUE}
+   #endif)
    (helpbar
       ((cancel helpbar_back)
          (confirm helpbar_select)))}

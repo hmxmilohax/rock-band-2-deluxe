@@ -1,0 +1,2631 @@
+#include band_macros.dta
+(BandCharacter
+   (description
+      "Band Guitarist characters that get specialized by the app")
+   (superclasses Character)
+   (types))
+#define COLOR_PRESET_SCRIPT
+((script
+      {do
+         ($new_preset_name
+            {milo
+               save_color_preset
+               {$this get color_normal}
+               {$this get color_focus}
+               {$this get color_disabled}
+               {$this get color_selecting}})
+         {if
+            {!=
+               ""
+               $new_preset_name}
+            {do
+               {$this set color_preset $new_preset_name}
+               {milo update_open_editor $this}}}})
+   (help
+      "Save the current colors as a preset"))
+(BandLabel
+   (description
+      "Label with jitter, and text fitting, alignment, and kerning options.")
+   (allowed_dirs PanelDir)
+   (superclasses UILabel)
+   (ext lbl)
+   (editor
+      (color_preset
+         symbol
+         (list
+            {milo get_color_preset_list})
+         (post_sync
+            {milo update_open_editor $this})
+         (help
+            "Color preset. Choose 'custom_colors' to save colors for this instance only")
+         (no_test))
+      (color_normal
+         color
+         (post_sync
+            {milo update_open_editor $this})
+         (help
+            "color for this state. (This is NOT saved if a preset is used)"))
+      (color_focus
+         color
+         (post_sync
+            {milo update_open_editor $this})
+         (help
+            "color for this state. (This is NOT saved if a preset is used)"))
+      (color_disabled
+         color
+         (post_sync
+            {milo update_open_editor $this})
+         (help
+            "color for this state. (This is NOT saved if a preset is used)"))
+      (color_selecting
+         color
+         (post_sync
+            {milo update_open_editor $this})
+         (help
+            "color for this state. (This is NOT saved if a preset is used)"))
+      (save_as_preset script COLOR_PRESET_SCRIPT))
+   (types))
+(BandButton
+   (description
+      "Button with jitter, text fitting, alignment, and kerning options")
+   (allowed_dirs)
+   (superclasses UIButton)
+   (resource_file
+      "../ui/button.milo")
+   (focus_anim_duration 0.1)
+   (ext btn)
+   (editor
+      (color_preset
+         symbol
+         (list
+            {milo get_color_preset_list})
+         (post_sync
+            {milo update_open_editor $this})
+         (help
+            "Color preset. Choose 'custom_colors' to save colors for this instance only")
+         (no_test))
+      (color_normal
+         color
+         (post_sync
+            {milo update_open_editor $this})
+         (help
+            "color for this state. (This is NOT saved if a preset is used)"))
+      (color_focus
+         color
+         (post_sync
+            {milo update_open_editor $this})
+         (help
+            "color for this state. (This is NOT saved if a preset is used)"))
+      (color_disabled
+         color
+         (post_sync
+            {milo update_open_editor $this})
+         (help
+            "color for this state. (This is NOT saved if a preset is used)"))
+      (color_selecting
+         color
+         (post_sync
+            {milo update_open_editor $this})
+         (help
+            "color for this state. (This is NOT saved if a preset is used)"))
+      (save_as_preset script COLOR_PRESET_SCRIPT))
+   (types))
+(BandHighlight
+   (description
+      "Special highlight bar that chases the focus component")
+   (allowed_dirs PanelDir)
+   (superclasses UIComponent)
+   (ext hlit)
+   (init
+      {$this set_type default})
+   (types
+      (default
+         (resource_file
+            "highlight.milo")
+         (anim_duration 0.1)
+         (meshes
+            ("highlight.mesh"
+               (normal
+                  "normal.mat")
+               (focused
+                  "normal.mat")
+               (disabled
+                  "disabled.mat"))))))
+(BandList
+   (description
+      "List that shows navigation icons next to the selected list item")
+   (allowed_dirs)
+   (superclasses UIList)
+   (init
+      {$this set_type default})
+   (ext lst)
+   (types
+      (default
+         (resource_file
+            "../ui/list.milo")
+         (vertical TRUE)
+         (element
+            ((text
+                  "list.lbl")))
+         (back_arrow
+            "back.mesh")
+         (next_arrow
+            "next.mesh")
+         (highlight
+            "highlight.mesh")
+         (icon_margin -10)
+         (colors
+            (((normal
+                     (normal 0.5 0.5 0.5)
+                     (focused 1 1 1)
+                     (disabled 0.3 0.3 0.3)
+                     (selecting 1 1 1))
+                  (highlight
+                     (normal 0.5 0.5 0)
+                     (focused 1 1 0)
+                     (disabled 0.5 0.5 0)
+                     (selecting 1 0 0))
+                  (disabled
+                     (normal 0.1 0.1 0)
+                     (focused 0.1 0.1 0)
+                     (disabled 0.1 0.1 0)
+                     (selecting 0.1 0.1 0)))))
+         (provider
+            ("text")))))
+(BandSwatch
+   (description
+      "Special list for selecting colors")
+   (allowed_dirs PanelDir)
+   (superclasses UIList)
+   (init
+      {$this set_type default})
+   (ext lst)
+   (editor
+      (color_palette
+         object
+         (class ColorPalette)
+         (help
+            "Palette containing our color options")))
+   (types
+      (default
+         (resource_file
+            "swatch.milo")
+         (vertical FALSE)
+         (element
+            ((mesh
+                  "color.mesh")))
+         (back_arrow
+            "back.mesh")
+         (next_arrow
+            "next.mesh")
+         (highlight
+            "highlight.mesh")
+         (colors
+            ((normal 0.3 0.3 0.3)
+               (focused 1 1 1)
+               (disabled 0.1 0.1 0.1)
+               (selecting 1 1 1)
+               (selected 1 1 0))))))
+(Label3d
+   (description
+      "3d label")
+   (superclasses Trans Draw)
+   (ext lbl3d)
+   (editor
+      (text
+         string
+         (help
+            "string to turn into 3d text"))
+      (resource
+         file
+         (help
+            "milo file with letter objects"))
+      (max_width
+         float
+         (help
+            "when length is greater than this value, start scaling the phrase"))
+      (all_caps
+         bool
+         (help
+            "You know you make me want to SHOUT!"))
+      (jitter
+         (indent
+            (jitter_depth
+               float
+               (help
+                  "jitter each letter in depth"))
+            (jitter_height
+               float
+               (help
+                  "jitter each letter in height")))))
+   (types))
+(BandCamShot
+   (description
+      "Band specific camera shot")
+   (superclasses CamShot)
+   (allowed_dirs WorldDir)
+   (init
+      {$this set_type band}
+      {$this set category NORMAL}
+      {foreach
+         $char
+         {switch
+            $game.play_mode
+            (h2h_drum BAND_H2H_DRUM_CHARS)
+            (h2h_guitar BAND_H2H_GUITAR_CHARS)
+            (h2h_vocals BAND_H2H_VOCALS_CHARS)
+            {eval BAND_COOP_CHARS}}
+         {if
+            {exists $char}
+            {$this
+               add_target
+               {object $char}}}})
+   (milo_name
+      {do
+         ($dir
+            {$this dir})
+         {if_else
+            {==
+               variant
+               {$dir get_type}}
+            {sprint
+               {switch
+                  $game.play_mode
+                  (h2h_drum h2hd_)
+                  (h2h_guitar h2hg_)
+                  (h2h_vocals h2hv_)
+                  coop_}
+               {$dir name}
+               ".shot"}
+            ""}})
+   (ext shot)
+   (editor
+      (targets
+         (array
+            (struct
+               (target
+                  object
+                  (class Trans))
+               (anim
+                  object
+                  (class CharClipGroup)
+                  (dir
+                     {do
+                        ($target
+                           [targets
+                              {elem $milo_prop_path 1}
+                              target])
+                        {if_else
+                           {&&
+                              $target
+                              {$target is_a Character}
+                              {$target find main.drv}}
+                           {{$target find main.drv}
+                              get
+                              clips_ptr}
+                           {milo cur_dir}}}))
+               (teleport
+                  bool
+                  (help
+                     "do we teleport this character?"))
+               (to
+                  TRANSFORM
+                  (help
+                     "the transform to teleport the character to"))
+               (return
+                  bool
+                  (help
+                     "return to original position after shot?"))
+               (self_shadow
+                  bool
+                  (help
+                     "should character cast a self shadow"))
+               (spot_cutout
+                  bool
+                  (help
+                     "should character create spotlight cutouts"))
+               (floor_shadow
+                  bool
+                  (help
+                     "should character cast a shadow on floor"))
+               (freeze
+                  bool
+                  (help
+                     "use freeze frame?"))
+               (freeze_delay
+                  float
+                  (help
+                     "delay time until freeze, in camera units"))
+               (fast_forward
+                  float
+                  (help
+                     "Fast forward chosen animation by this time, in camera units"))
+               (forward_event
+                  symbol
+                  (help
+                     "Event to fastforward relative to")
+                  (list
+                     ('' freeze)))
+               (target_ik
+                  object
+                  (class Trans)
+                  (dir
+                     [targets
+                        {elem $milo_prop_path 1}
+                        target])
+                  (help
+                     "Trans inside of target that you want to hit a Trans in the world"))
+               (world_ik
+                  object
+                  (class Trans)
+                  (help
+                     "Where you want target_ik to hit."))
+               (set_ik
+                  script
+                  (help
+                     "put world_ik where target_ik is, useful when composing the scene")
+                  (script
+                     {do
+                        ($i
+                           {elem $milo_prop_path 1})
+                        {$this
+                           adjust_ik
+                           [targets $i world_ik]
+                           [targets $i world_ik]
+                           [targets $i target_ik]}}))
+               (world_prop
+                  object
+                  (class Trans)
+                  (help
+                     "Object in the world to position at target_prop"))
+               (target_prop
+                  object
+                  (class Trans)
+                  (dir
+                     [targets
+                        {elem $milo_prop_path 1}
+                        target])
+                  (help
+                     "Trans inside target that world_prop should hit"))
+               (env_override
+                  object
+                  (class Environ)
+                  (help
+                     "environment override for this target during this shot")))))
+      (zero_time
+         float
+         (help
+            "synchronization time for this camshot"))
+      (store
+         script
+         (script
+            {$this store}))
+      (view
+         script
+         (script
+            {$this view}))
+      (view_freeze
+         script
+         (script
+            {$this view_freeze})
+         (help
+            "Start a view but freeze them all in place"))
+      (stop
+         script
+         (script
+            {if
+               {exists milo}
+               {milo set_anim_paused TRUE}}
+            {$this stop})))
+   (types
+      (band
+         (flag_list
+            (("kBCSBDistNull"
+                  "kBCSBDistNear"
+                  "kBCSBDistFar"
+                  "kBCSBDistCloseup"
+                  "kBCSBDistBehind")
+               ("kBCSBFacingNull"
+                  "kBCSBFacingLeft"
+                  "kBCSBFacingRight")
+               "kValidMale"
+               "kValidFemale"
+               "kValidBanger"
+               "kValidDramatic"
+               "kValidRocker"
+               "kValidSpazz"))
+         (editor
+            (distance
+               symbol
+               (list
+                  (null near far closeup behind))
+               (help
+                  "Distance categorization of the shot"))
+            (facing
+               symbol
+               (list
+                  (null left right))
+               (help
+                  "Facing categorization of the shot"))
+            (bass_focus
+               bool
+               (help
+                  "Is the bass player a major focus of this shot?"))
+            (drums_focus
+               bool
+               (help
+                  "Is the drumer a major focus of this shot?"))
+            (guitar_focus
+               bool
+               (help
+                  "Is the guitar player a major focus of this shot?"))
+            (vocal_focus
+               bool
+               (help
+                  "Is the vocalist a major focus of this shot?"))
+            (drums2_focus
+               bool
+               (help
+                  "Is the drumer a major focus of this shot?"))
+            (guitar2_focus
+               bool
+               (help
+                  "Is the guitar player a major focus of this shot?"))
+            (vocal2_focus
+               bool
+               (help
+                  "Is the vocalist a major focus of this shot?"))
+            (min_time
+               int
+               (help
+                  "reg: minimum time this shot can last, DCuts: time past zero time in which the shot can be interupted"))
+            (max_time
+               int
+               (help
+                  "maximum duration for this shot, 0 is infinite"))
+            (special
+               bool
+               (help
+                  "if true, this shot won't be picked as part of the normal logic"))
+            (postprocess
+               object
+               (class PostProc)
+               (help
+                  "Post process object to use for this shot"))
+            (next_shot
+               object
+               (class BandCamShot)
+               (help
+                  "Force this shot to play after this one"))
+            (crowd_density
+               float
+               (range 0 1)
+               (help
+                  "density of crowd"))
+            (crowd_face_camera
+               bool
+               (help
+                  "Whether the crowd should face the camera"))
+            (crowd_anim
+               symbol
+               (list
+                  ('' bad great idle ok carry_surfer crowd_reaching crowdlove headbang realtime_idle intro_specific))
+               (help
+                  "Crowd animation to play, overrides normal excitement level"))
+            (one_time
+               bool
+               (help
+                  "only play this camera once per song"))
+            (event_start
+               object
+               (class EventTrigger)
+               (help
+                  "Event Trigger to fire when this camshot starts"))
+            (event_end
+               object
+               (class EventTrigger)
+               (help
+                  "Event Trigger to fire when this camshot ends"))
+            (valid_male
+               bool
+               (hide
+                  {!
+                     {has_substr
+                        [category]
+                        "directed"}})
+               (help
+                  "is this shot valid if the target is male?"))
+            (valid_female
+               bool
+               (hide
+                  {!
+                     {has_substr
+                        [category]
+                        "directed"}})
+               (help
+                  "is this shot valid for if the target is female?"))
+            (valid_banger
+               bool
+               (hide
+                  {!
+                     {has_substr
+                        [category]
+                        "directed"}})
+               (help
+                  "is this shot valid for the Banger genre?"))
+            (valid_dramatic
+               bool
+               (hide
+                  {!
+                     {has_substr
+                        [category]
+                        "directed"}})
+               (help
+                  "is this shot valid for the Dramatic genre?"))
+            (valid_rocker
+               bool
+               (hide
+                  {!
+                     {has_substr
+                        [category]
+                        "directed"}})
+               (help
+                  "is this shot valid for the Rocker genre?"))
+            (valid_spazz
+               bool
+               (hide
+                  {!
+                     {has_substr
+                        [category]
+                        "directed"}})
+               (help
+                  "is this shot valid for the Spazz genre?"))
+            (lighting_override
+               bool
+               (help
+                  "override lighting on this shot? (only use for special shots like win, loose, etc)"))
+            (lighting_preset
+               object
+               (class LightPreset)
+               (help
+                  "light preset to fire for this camera only, only use in special cases, lighting override must be on, goes back to normal lighting when the shot is done!"))
+            (lighting_category
+               symbol
+               (list LIGHTING_CATEGORIES)
+               (help
+                  "Permanently change the lighting category, lighting override must be on with no preset selected."))
+            (play_anim
+               object
+               (class Anim)
+               (help
+                  "animation to play with camshot"))
+            (play_shot
+               script
+               (help
+                  "play this shot (useful for testing next shots)")
+               (script
+                  {$world force_shot $this}))
+            (stop_shot
+               script
+               (help
+                  "stop the current shot from playing")
+               (script
+                  {$world force_shot ''})))
+         (distance null)
+         (facing null)
+         (low_excitement_ok TRUE)
+         (postprocess
+            {object
+               ""})
+         (min_time 0)
+         (max_time 0)
+         (special FALSE)
+         (bass_focus FALSE)
+         (drums_focus FALSE)
+         (guitar_focus FALSE)
+         (vocal_focus FALSE)
+         (drums2_focus FALSE)
+         (guitar2_focus FALSE)
+         (vocal2_focus FALSE)
+         (crowd_density 1)
+         (crowd_face_camera FALSE)
+         (crowd_anim '')
+         (one_time FALSE)
+         (one_time_played FALSE)
+         (valid_male TRUE)
+         (valid_female TRUE)
+         (valid_banger TRUE)
+         (valid_dramatic TRUE)
+         (valid_rocker TRUE)
+         (valid_spazz TRUE)
+         (event_start '')
+         (event_end '')
+         (lighting_preset '')
+         (lighting_override FALSE)
+         (lighting_category INTRO)
+         (play_anim '')
+         (shot_over
+            {if_else
+               [next_shot]
+               {if
+                  {'||'
+                     {!
+                        {exists milo}}
+                     {!=
+                        $this
+                        {milo get_anim}}}
+                  {$world
+                     force_shot
+                     [next_shot]}}
+               {handle
+                  ($world camshot_end)}})
+         (freeze_char
+            ($char $freeze $units)
+            {$char freeze_char $freeze $units})
+         (play_group
+            ($char $grp $fwd $units $event)
+            {$char
+               change_group
+               $grp
+               {!
+                  {exists game}}
+               FALSE
+               $fwd
+               $units
+               $event})
+         (freeze
+            ($char)
+            {$char freeze})
+         (unfreeze
+            ($char)
+            {$char unfreeze})
+         (start_shot
+            #ifndef _SHIP
+            {rnd
+               reflect
+               camera
+               {print
+                  "BandCamShot:"
+                  {$this name}
+                  " category:"
+                  [category]
+                  "\n"}
+               {print
+                  " distance:"
+                  [distance]
+                  " facing:"
+                  [facing]
+                  "\n"}
+               {print
+                  "bass_focus:"
+                  [bass_focus]
+                  " drums_focus:"
+                  [drums_focus]
+                  " guitar_focus:"
+                  [guitar_focus]
+                  " vocal_focus:"
+                  [vocal_focus]
+                  "\n"}
+               {print
+                  " drums2_focus:"
+                  [drums2_focus]
+                  " guitar2_focus:"
+                  [guitar2_focus]
+                  " vocal2_focus:"
+                  [vocal2_focus]
+                  "\n"}
+               {print
+                  "min_time:"
+                  [min_time]
+                  " max_time:"
+                  [max_time]
+                  " special:"
+                  [special]
+                  {if_else
+                     $camera.postproc_override
+                     {sprint
+                        " postproc override: "
+                        $camera.postproc_override}
+                     {sprint
+                        " postprocess: "
+                        [postprocess]}}
+                  "\n"}}
+            #endif
+            {if
+               [play_anim]
+               {[play_anim]
+                  animate}}
+            {if_else
+               {&&
+                  $world
+                  {==
+                     {$world get excitement_level}
+                     excitement_bad}
+                  {$world find failing.pp}}
+               {{$world find failing.pp}
+                  select}
+               {if_else
+                  [postprocess]
+                  {do
+                     {[postprocess]
+                        select}
+                     {set
+                        $camera.postproc_cache
+                        {[postprocess]
+                           name}}}
+                  {do
+                     ($pp
+                        {if_else
+                           {&&
+                              $camera.postproc_override
+                              {$world exists $camera.postproc_override}}
+                           {$world find $camera.postproc_override}
+                           {do
+                              {set $camera.postproc_blendtime 0}
+                              {$world
+                                 find
+                                 "ProFilm_a.pp"}}})
+                     ($ob
+                        {$world
+                           find
+                           "override_blender.pp"})
+                     {if_else
+                        {&& $pp $ob}
+                        {do
+                           {if
+                              {!= $camera.postproc_cache $pp}
+                              {pp_blend_task $ob $pp $camera.postproc_blendtime kTaskBeats 0}}
+                           {set
+                              $camera.postproc_cache
+                              {$pp name}}}
+                        {notify
+                           "postproc missing, "
+                           $pp
+                           "   "
+                           $ob
+                           "\n"}}}}}
+            {if
+               {&&
+                  [lighting_override]
+                  {! $camera.disable_picking}}
+               {if_else
+                  [lighting_preset]
+                  {$world
+                     force_preset
+                     [lighting_preset]}
+                  {$world
+                     set_lighting
+                     [lighting_category]
+                     ()
+                     FALSE}}}
+            {if
+               [event_start]
+               {[event_start]
+                  trigger}}
+            {if
+               [one_time]
+               {set
+                  [one_time_played]
+                  TRUE}}
+            {unless
+               $camera.disable_picking
+               {if
+                  {find_elem
+                     (LOSE WIN WIN_P1 WIN_P2 WIN_TIE WIN_QUICK)
+                     [category]}
+                  {handle
+                     ($world playing_final_cam)}}}
+            {if
+               [crowd]
+               {[crowd]
+                  override_anim
+                  [crowd_anim]}
+               {[crowd]
+                  crowd_update}
+               {[crowd]
+                  set
+                  rotate
+                  [crowd_face_camera]}
+               {[crowd]
+                  set_fullness
+                  [crowd_density]
+                  [crowd_density]}})
+         (stop_shot
+            {if
+               [event_end]
+               {[event_end]
+                  trigger}}
+            {if
+               [crowd]
+               {[crowd]
+                  override_anim
+                  ''}}
+            {if
+               {&&
+                  [lighting_override]
+                  [lighting_preset]
+                  $world}
+               {$world force_preset ''}})
+         (test_targets
+            {do
+               ($bass FALSE)
+               ($drum FALSE)
+               ($guitar FALSE)
+               ($vocal FALSE)
+               ($continue TRUE)
+               {$this
+                  iterate_refs
+                  $ref
+                  {set $continue FALSE}}
+               {if
+                  {&&
+                     $continue
+                     {has_substr
+                        {$cam name}
+                        "coop_"}
+                     {!=
+                        [category]
+                        INTRO}}
+                  {foreach_int
+                     $i
+                     0
+                     {$this
+                        size
+                        (targets)}
+                     {do
+                        ($targ
+                           [targets $i target])
+                        ($tanim
+                           [targets $i anim])
+                        {if_else
+                           $targ
+                           {do
+                              ($tname
+                                 {$targ name})
+                              {if
+                                 {has_substr
+                                    $tname
+                                    "player_bass0"}
+                                 {set $bass TRUE}
+                                 {unless
+                                    $tanim
+                                    {notify
+                                       "missing bass animation on "
+                                       $cam
+                                       " camera"}}}
+                              {if
+                                 {has_substr
+                                    $tname
+                                    "player_drum0"}
+                                 {set $drum TRUE}
+                                 {unless
+                                    $tanim
+                                    {notify
+                                       "missing drum animation on "
+                                       $cam
+                                       " camera"}}}
+                              {if
+                                 {has_substr
+                                    $tname
+                                    "player_guitar0"}
+                                 {set $guitar TRUE}
+                                 {unless
+                                    $tanim
+                                    {notify
+                                       "missing guitar animation on "
+                                       $cam
+                                       " camera"}}}
+                              {if
+                                 {has_substr
+                                    $tname
+                                    "player_vocals0"}
+                                 {set $vocal TRUE}
+                                 {unless
+                                    $tanim
+                                    {notify
+                                       "missing vocal animation on "
+                                       $cam
+                                       " camera"}}}}
+                           {notify
+                              $cam
+                              " has empty target"}}}}
+                  {unless
+                     {&& $bass $drum $guitar $vocal}
+                     {notify
+                        "camera "
+                        $cam
+                        " missing all 4 required targets!"}}}
+               {if
+                  {&&
+                     $continue
+                     {has_substr
+                        {$cam name}
+                        "h2hd_"}
+                     {!=
+                        [category]
+                        INTRO}}
+                  {foreach_int
+                     $i
+                     0
+                     {$this
+                        size
+                        (targets)}
+                     {do
+                        ($targ
+                           [targets $i target])
+                        ($tanim
+                           [targets $i anim])
+                        {if_else
+                           $targ
+                           {do
+                              ($tname
+                                 {$targ name})
+                              {if
+                                 {has_substr
+                                    $tname
+                                    "player_drum0"}
+                                 {set $bass TRUE}
+                                 {unless
+                                    $tanim
+                                    {notify
+                                       "missing drum animation on "
+                                       $cam
+                                       " camera"}}}
+                              {if
+                                 {has_substr
+                                    $tname
+                                    "player_drum1"}
+                                 {set $drum TRUE}
+                                 {unless
+                                    $tanim
+                                    {notify
+                                       "missing drum1 animation on "
+                                       $cam
+                                       " camera"}}}
+                              {if
+                                 {has_substr
+                                    $tname
+                                    "player_guitar0"}
+                                 {set $guitar TRUE}
+                                 {unless
+                                    $tanim
+                                    {notify
+                                       "missing guitar animation on "
+                                       $cam
+                                       " camera"}}}
+                              {if
+                                 {has_substr
+                                    $tname
+                                    "player_vocals0"}
+                                 {set $vocal TRUE}
+                                 {unless
+                                    $tanim
+                                    {notify
+                                       "missing vocal animation on "
+                                       $cam
+                                       " camera"}}}}
+                           {notify
+                              $cam
+                              " has empty target"}}}}
+                  {unless
+                     {&& $bass $drum $guitar $vocal}
+                     {notify
+                        "camera "
+                        $cam
+                        " missing all 4 required targets!"}}}
+               {if
+                  {&&
+                     $continue
+                     {has_substr
+                        {$cam name}
+                        "h2hg_"}
+                     {!=
+                        [category]
+                        INTRO}}
+                  {foreach_int
+                     $i
+                     0
+                     {$this
+                        size
+                        (targets)}
+                     {do
+                        ($targ
+                           [targets $i target])
+                        ($tanim
+                           [targets $i anim])
+                        {if_else
+                           $targ
+                           {do
+                              ($tname
+                                 {$targ name})
+                              {if
+                                 {has_substr
+                                    $tname
+                                    "player_drum0"}
+                                 {set $bass TRUE}
+                                 {unless
+                                    $tanim
+                                    {notify
+                                       "missing drum animation on "
+                                       $cam
+                                       " camera"}}}
+                              {if
+                                 {has_substr
+                                    $tname
+                                    "player_guitar0"}
+                                 {set $drum TRUE}
+                                 {unless
+                                    $tanim
+                                    {notify
+                                       "missing guitar0 animation on "
+                                       $cam
+                                       " camera"}}}
+                              {if
+                                 {has_substr
+                                    $tname
+                                    "player_guitar1"}
+                                 {set $guitar TRUE}
+                                 {unless
+                                    $tanim
+                                    {notify
+                                       "missing guitar1 animation on "
+                                       $cam
+                                       " camera"}}}
+                              {if
+                                 {has_substr
+                                    $tname
+                                    "player_vocals0"}
+                                 {set $vocal TRUE}
+                                 {unless
+                                    $tanim
+                                    {notify
+                                       "missing vocal animation on "
+                                       $cam
+                                       " camera"}}}}
+                           {notify
+                              $cam
+                              " has empty target"}}}}
+                  {unless
+                     {&& $bass $drum $guitar $vocal}
+                     {notify
+                        "camera "
+                        $cam
+                        " missing all 4 required targets!"}}}
+               {if
+                  {&&
+                     $continue
+                     {has_substr
+                        {$cam name}
+                        "h2hv_"}
+                     {!=
+                        [category]
+                        INTRO}}
+                  {foreach_int
+                     $i
+                     0
+                     {$this
+                        size
+                        (targets)}
+                     {do
+                        ($targ
+                           [targets $i target])
+                        ($tanim
+                           [targets $i anim])
+                        {if_else
+                           $targ
+                           {do
+                              ($tname
+                                 {$targ name})
+                              {if
+                                 {has_substr
+                                    $tname
+                                    "player_drum0"}
+                                 {set $bass TRUE}
+                                 {unless
+                                    $tanim
+                                    {notify
+                                       "missing drum animation on "
+                                       $cam
+                                       " camera"}}}
+                              {if
+                                 {has_substr
+                                    $tname
+                                    "player_guitar0"}
+                                 {set $guitar TRUE}
+                                 {unless
+                                    $tanim
+                                    {notify
+                                       "missing guitar animation on "
+                                       $cam
+                                       " camera"}}}
+                              {if
+                                 {has_substr
+                                    $tname
+                                    "player_vocals0"}
+                                 {set $drum TRUE}
+                                 {unless
+                                    $tanim
+                                    {notify
+                                       "missing drum animation on "
+                                       $cam
+                                       " camera"}}}
+                              {if
+                                 {has_substr
+                                    $tname
+                                    "player_vocals1"}
+                                 {set $vocal TRUE}
+                                 {unless
+                                    $tanim
+                                    {notify
+                                       "missing vocal1 animation on "
+                                       $cam
+                                       " camera"}}}}
+                           {notify
+                              $cam
+                              " has empty target"}}}}
+                  {unless
+                     {&& $bass $drum $guitar $vocal}
+                     {notify
+                        "camera "
+                        $cam
+                        " missing all 4 required targets!"}}}})
+         (shot_ok
+            ($prev_shot)
+            {if_else
+               {has_substr
+                  {$this name}
+                  "_dir"}
+               1
+               {if_else
+                  $cameras.validating
+                  {do
+                     {if_else
+                        {has_substr
+                           {$this name}
+                           $cameras.namefilter}
+                        TRUE
+                        FALSE}}
+                  {do
+                     {if_else
+                        {&&
+                           [min_time]
+                           {! $edit_mode}}
+                        {do
+                           {set
+                              $mt
+                              {beatmatch
+                                 sec_to_beat
+                                 {'+'
+                                    {taskmgr seconds}
+                                    {/
+                                       [min_time]
+                                       30}}}}
+                           {if_else
+                              {< $camera.next_cam_beat $mt}
+                              FALSE
+                              {if_else
+                                 [max_time]
+                                 {do
+                                    {set
+                                       $mt
+                                       {beatmatch
+                                          sec_to_beat
+                                          {'+'
+                                             {taskmgr seconds}
+                                             {/
+                                                [max_time]
+                                                30}}}}
+                                    {if_else
+                                       {> $camera.next_cam_beat $mt}
+                                       FALSE
+                                       TRUE}}
+                                 TRUE}}}
+                        {if_else
+                           {&&
+                              [max_time]
+                              {! $edit_mode}}
+                           {do
+                              {set
+                                 $mt
+                                 {beatmatch
+                                    sec_to_beat
+                                    {'+'
+                                       {taskmgr seconds}
+                                       {/
+                                          [max_time]
+                                          30}}}}
+                              {if_else
+                                 {> $camera.next_cam_beat $mt}
+                                 FALSE
+                                 TRUE}}
+                           TRUE}}}}}))
+      (shell
+         (editor
+            (seated
+               bool
+               (help
+                  "Are the focus characters seated or not")))
+         (seated FALSE)
+         (play_group
+            ($char $grp $fwd $units $event)
+            {$char
+               change_group
+               $grp
+               {!
+                  {exists game}}
+               FALSE
+               $fwd
+               $units
+               $event})
+         (teleport
+            ($thing)
+            {handle
+               ($thing sync_waypoint)})
+         (start_shot
+            {if
+               [seated]
+               {foreach_int
+                  $i
+                  0
+                  {$this
+                     size
+                     (targets)}
+                  {handle
+                     ([targets $i target]
+                        disable_pelvis_ik)}}}
+            #ifndef _SHIP
+            {rnd
+               reflect
+               camera
+               {print
+                  "BandCamShot:"
+                  {$this name}
+                  " category:"
+                  [category]
+                  "\n"}}
+            #endif)
+         (stop_shot
+            {if
+               [seated]
+               {foreach_int
+                  $i
+                  0
+                  {$this
+                     size
+                     (targets)}
+                  {handle
+                     ([targets $i target]
+                        enable_pelvis_ik)}}}))
+      (snapshot
+         (target0_face '')
+         (target1_face '')
+         (target2_face '')
+         (target3_face '')
+         (target0_face_frame 0)
+         (target1_face_frame 0)
+         (target2_face_frame 0)
+         (target3_face_frame 0)
+         (postprocess
+            {object
+               ""})
+         (editor
+            (target0_face
+               string
+               (help
+                  "name of the target 0 facial animation clip to show")
+               (list
+                  {$this get_faces 0})
+               (post_sync
+                  {$this view}))
+            (target1_face
+               string
+               (help
+                  "name of the target 1 facial animation clip to show")
+               (list
+                  {$this get_faces 1})
+               (post_sync
+                  {$this view}))
+            (target2_face
+               string
+               (help
+                  "name of the target 2 facial animation clip to show")
+               (list
+                  {$this get_faces 2})
+               (post_sync
+                  {$this view}))
+            (target3_face
+               string
+               (help
+                  "name of the target 3 facial animation clip to show")
+               (list
+                  {$this get_faces 3})
+               (post_sync
+                  {$this view}))
+            (target0_face_frame
+               float
+               (help
+                  "frames into target 0 face clip to go")
+               (post_sync
+                  {$this view}))
+            (target1_face_frame
+               float
+               (help
+                  "frames into target 1 face clip to go")
+               (post_sync
+                  {$this view}))
+            (target2_face_frame
+               float
+               (help
+                  "frames into target 2 face clip to go")
+               (post_sync
+                  {$this view}))
+            (target3_face_frame
+               float
+               (help
+                  "frames into target 3 face clip to go")
+               (post_sync
+                  {$this view}))
+            (postprocess
+               object
+               (class PostProc)
+               (help
+                  "Post process object to use for this shot")))
+         (play_group
+            ($char $grp $fwd $units $event)
+            {$char
+               iterate
+               CharDriver
+               $d
+               {$d enter}}
+            {$char
+               change_group
+               $grp
+               {!
+                  {exists game}}
+               FALSE
+               $fwd
+               $units
+               $event})
+         (start_shot
+            {$this
+               set_face_anim
+               0
+               [target0_face]
+               [target0_face_frame]}
+            {$this
+               set_face_anim
+               1
+               [target1_face]
+               [target1_face_frame]}
+            {$this
+               set_face_anim
+               2
+               [target2_face]
+               [target2_face_frame]}
+            {$this
+               set_face_anim
+               3
+               [target3_face]
+               [target3_face_frame]}
+            {if
+               [postprocess]
+               {[postprocess]
+                  select}}
+            {taskmgr set_seconds_beat 0 0 TRUE}
+            {foreach_int
+               $i
+               0
+               {$this
+                  size
+                  (targets)}
+               {do
+                  ($char
+                     [targets $i target])
+                  {if
+                     $char
+                     {with
+                        {$char find bone.servo}
+                        {set
+                           [move_self]
+                           FALSE}
+                        {set
+                           [delta_changed]
+                           FALSE}}
+                     {{$char find right_eye.lookat}
+                        enter}
+                     {{$char find left_eye.lookat}
+                        enter}
+                     {{$char find lip.faceservo}
+                        set
+                        enable_blink
+                        FALSE}
+                     {$char unfreeze}
+                     {$char poll}
+                     {$this
+                        adjust_ik
+                        [targets $i target]
+                        [targets $i target_ik]
+                        [targets $i world_ik]}
+                     {$char poll}
+                     {$char
+                        iterate
+                        CharHair
+                        $hair
+                        {$hair reset 15}}
+                     {$this
+                        adjust_ik
+                        [targets $i world_prop]
+                        [targets $i world_prop]
+                        [targets $i target_prop]}
+                     {$char freeze}
+                     {with
+                        {$char find bone.servo}
+                        {set
+                           [move_self]
+                           TRUE}
+                        {set
+                           [delta_changed]
+                           FALSE}}
+                     {{$char find lip.faceservo}
+                        set
+                        enable_blink
+                        TRUE}}}})
+         (set_face_anim
+            ($i $clip $frame)
+            {if
+               {&&
+                  $clip
+                  {<
+                     $i
+                     {$this
+                        size
+                        (targets)}}}
+               {do
+                  ($dude
+                     [targets $i target])
+                  {if
+                     $dude
+                     {do
+                        ($drv
+                           {find_obj $dude expression.drv})
+                        {if
+                           $drv
+                           {if_else
+                              {{$drv get_clips}
+                                 exists
+                                 $clip}
+                              {do
+                                 {$drv play $clip kPlayNoBlend}
+                                 {$drv offset $frame}}
+                              {notify
+                                 "Could not find clip "
+                                 $clip
+                                 " in "
+                                 {path_name
+                                    {$drv get_clips}}}}}}}}})
+         (get_faces
+            ($i)
+            {do
+               ($list
+                  {array 0})
+               {push_back $list ''}
+               {if
+                  {<
+                     $i
+                     {$this
+                        size
+                        (targets)}}
+                  {do
+                     ($target
+                        [targets $i target])
+                     {if
+                        {&&
+                           $target
+                           {$target is_a Character}
+                           {$target exists expression.drv}}
+                        {do
+                           ($clips
+                              {{$target find expression.drv}
+                                 get
+                                 clips_ptr})
+                           {$clips
+                              iterate_self
+                              CharClip
+                              $clip
+                              {push_back
+                                 $list
+                                 {$clip name}}}}
+                        {sort $list}}}}
+               $list})))
+   (views
+      (flags
+         ("Category"
+            [category])
+         ("DoF"
+            [use_depth_of_field])
+         ("Target 0"
+            [keyframes 0 targets 0 entity])
+         ("Target 1"
+            [keyframes 1 targets 0 entity])
+         ("Total Duration"
+            {$this duration_seconds})
+         ("Blur Depth"
+            [keyframes 0 blur_depth])
+         ("Max Blur"
+            [keyframes 0 max_blur])
+         ("Focus Blur Mult"
+            [keyframes 0 focus_blur_multiplier])
+         ("Shake Freq"
+            [keyframes 0 shake_noisefreq])
+         ("Shake Amp"
+            [keyframes 0 shake_noiseamp])
+         ("Shake Max x"
+            [keyframes 0 shake_maxangle x])
+         ("Shake Max y"
+            [keyframes 0 shake_maxangle y]))
+      (Shadows
+         ("Category"
+            [category])
+         ("Bass Shadow"
+            [targets 0 self_shadow])
+         ("Bass Cutout"
+            [targets 0 spot_cutout])
+         ("Bass Floorspot"
+            [targets 0 floor_shadow])
+         ("Drum Shadow"
+            [targets 1 self_shadow])
+         ("Drum Cutout"
+            [targets 1 spot_cutout])
+         ("Drum Floorspot"
+            [targets 1 floor_shadow])
+         ("Guitar Shadow"
+            [targets 2 self_shadow])
+         ("Guitar Cutout"
+            [targets 2 spot_cutout])
+         ("Guitar Floorspot"
+            [targets 2 floor_shadow])
+         ("Vocal Shadow"
+            [targets 3 self_shadow])
+         ("Vocal Cutout"
+            [targets 3 spot_cutout])
+         ("Vocal Floorspot"
+            [targets 3 floor_shadow]))))
+#define PLAYER_SETTINGS
+(("kPlayer1"
+      "kPlayer2"
+      "kPlayerNone"
+      "kPlayerShared"))
+(BandCrowdMeterDir
+   (description
+      "Crowd meter hud element, has a needle")
+   (superclasses RndDir)
+   (types)
+   (editor
+      (guitar_slot_anim
+         object
+         (class Group)
+         (help
+            "Guitar group")
+         HIDE_IN_PROXY)
+      (bass_slot_anim
+         object
+         (class Group)
+         (help
+            "Bass group")
+         HIDE_IN_PROXY)
+      (drum_slot_anim
+         object
+         (class Group)
+         (help
+            "Drum group")
+         HIDE_IN_PROXY)
+      (vocals_slot_anim
+         object
+         (class Group)
+         (help
+            "Vocals group")
+         HIDE_IN_PROXY)
+      (peak_value
+         float
+         (help
+            "Peak state value"))))
+(BandStarMeterDir
+   (description
+      "Star meter hud element")
+   (superclasses RndDir)
+   (types)
+   (editor
+      (main_group
+         object
+         (class Group)
+         (help
+            "animated from 0 to 100 as the meter fills")
+         HIDE_IN_PROXY)
+      (ready_group
+         object
+         (class Group)
+         (help
+            "drawn and animated only when star power is ready")
+         HIDE_IN_PROXY)
+      (fill_group
+         object
+         (class Group)
+         (help
+            "drawn and animated only when star power is filling up")
+         HIDE_IN_PROXY)
+      (anim_group
+         object
+         (class Group)
+         (help
+            "always animated")
+         HIDE_IN_PROXY)
+      (engage_anim_1
+         object
+         (class Anim)
+         (help
+            "anim to drive when player 1 is trying to engage")
+         HIDE_IN_PROXY)
+      (engage_anim_2
+         object
+         (class Anim)
+         (help
+            "anim to drive when player 2 is trying to engage")
+         HIDE_IN_PROXY)
+      (value
+         float
+         (range 0 1)
+         (help
+            "test value between 0 and 1"))
+      (using_star_power
+         bool
+         (help
+            "for testing; whether we're using star power or not.")
+         (no_test))
+      (engaging_1
+         bool
+         (help
+            "whether player 1 is trying to engage, for testing."))
+      (engaging_2
+         bool
+         (help
+            "whether player 2 is trying to engage, for testing."))
+      (player
+         int
+         (list PLAYER_SETTINGS)
+         (help
+            "which player to track"))))
+(BandScoreDisplay
+   (description
+      "Score displaying hud element")
+   (superclasses RndDir)
+   (types)
+   (editor
+      (display_meshs
+         (array
+            object
+            (class Mesh))
+         (help
+            "mesh for each displayed digit")
+         HIDE_IN_PROXY)
+      (digit_mats
+         (array
+            object
+            (class Mat))
+         (help
+            "material for each digit (0-9)")
+         HIDE_IN_PROXY)
+      (blank_mat
+         object
+         (class Mat)
+         (help
+            "material for a blank space")
+         HIDE_IN_PROXY)
+      (score
+         int
+         (help
+            "enter the score for testing"))
+      (player
+         int
+         (list PLAYER_SETTINGS)
+         (help
+            "which player to track"))))
+(BandStreakDisplay
+   (description
+      "Streak displaying hud element")
+   (superclasses RndDir)
+   (types)
+   (editor
+      (color_anim
+         object
+         (class MatAnim)
+         (help
+            "mat anim specifying the color for each state")
+         HIDE_IN_PROXY)
+      (shake_anim
+         object
+         (class Anim)
+         (help
+            "anim that is fired when achieving a new streak")
+         HIDE_IN_PROXY)
+      (frame_mat
+         object
+         (class Mat)
+         (help
+            "material for the frame (has color applied to it)")
+         HIDE_IN_PROXY)
+      (mult_glow_mesh
+         object
+         (class Mesh)
+         (help
+            "glow mesh; hidden when no streak, color of its material is changed to match the streak color")
+         HIDE_IN_PROXY)
+      (mult_frame_mat
+         object
+         (class Mat)
+         (help
+            "material for multiplier frame")
+         HIDE_IN_PROXY)
+      (led_mats
+         (array
+            object
+            (class Mat))
+         (help
+            "material for LED's; one material per color.")
+         HIDE_IN_PROXY)
+      (led_meshs
+         (array
+            object
+            (class Mesh))
+         (help
+            "meshes for the LED streak indicators")
+         HIDE_IN_PROXY)
+      (digit_mats
+         (array
+            object
+            (class Mat))
+         (help
+            "one material per digit")
+         HIDE_IN_PROXY)
+      (mult_digit_mesh
+         object
+         (class Mesh)
+         (help
+            "mesh for the multiplier digit")
+         HIDE_IN_PROXY)
+      (x_digit_mesh
+         object
+         (class Mesh)
+         (help
+            "mesh for the X")
+         HIDE_IN_PROXY)
+      (blank_digit_mat
+         object
+         (class Mat)
+         (help
+            "material for a blank digit")
+         HIDE_IN_PROXY)
+      (x_digit_mat
+         object
+         (class Mat)
+         (help
+            "material for the X")
+         HIDE_IN_PROXY)
+      (blown_mesh_1
+         object
+         (class Mesh)
+         (help
+            "mesh to indicate when player 1 blows a streak")
+         HIDE_IN_PROXY)
+      (blown_mesh_2
+         object
+         (class Mesh)
+         (help
+            "mesh to indicate when player 2 blows a streak")
+         HIDE_IN_PROXY)
+      (blown_mat
+         object
+         (class Mat)
+         (help
+            "material used for the indicators when the streak is blown")
+         HIDE_IN_PROXY)
+      (blown_display_time
+         float
+         (range 0 5)
+         (no_test serialize)
+         (help
+            "length of time the blown streak indicator should light up for")
+         HIDE_IN_PROXY)
+      (player_1_blows
+         script
+         (script
+            {$this blow_streak 0}))
+      (player_2_blows
+         script
+         (script
+            {$this blow_streak 1}))
+      (multiplier
+         int
+         (range 1 9)
+         (help
+            "multiplier value for testing"))
+      (star_mode
+         bool
+         (help
+            "toggle star power for testing"))
+      (partial_streak
+         int
+         (range 0 20)
+         (help
+            "partial streak for testing"))
+      (player
+         int
+         (list PLAYER_SETTINGS)
+         (help
+            "which player to track"))
+      (refresh
+         script
+         (script
+            {$this refresh}))))
+(BandLeadMeter
+   (description
+      "Multiplayer lead meter hud element, shows which player is in the lead")
+   (superclasses RndDir)
+   (types)
+   (editor
+      (needle_anim
+         object
+         (class Anim)
+         (help
+            "anim to drive the needle")
+         HIDE_IN_PROXY)
+      (logo_glow_anim
+         object
+         (class Anim)
+         (help
+            "anim to make the logo glow different colors")
+         HIDE_IN_PROXY)
+      (glow_mesh_1
+         object
+         (class Mesh)
+         (help
+            "mesh that is shown when player 1 is ahead")
+         HIDE_IN_PROXY)
+      (glow_mesh_2
+         object
+         (class Mesh)
+         (help
+            "mesh that is shown when player 2 is ahead")
+         HIDE_IN_PROXY)
+      (pegged_anim_1
+         object
+         (class Anim)
+         (help
+            "animation to play when player 1 has a huge lead")
+         HIDE_IN_PROXY)
+      (pegged_anim_2
+         object
+         (class Anim)
+         (help
+            "animation to play when player 2 has a huge lead")
+         HIDE_IN_PROXY)
+      (lens_mesh
+         object
+         (class Mesh)
+         (help
+            "lens mesh")
+         HIDE_IN_PROXY)
+      (lens_mat_neutral
+         object
+         (class Mat)
+         (help
+            "lens mat to use when the score is tied")
+         HIDE_IN_PROXY)
+      (lens_mat_1
+         object
+         (class Mat)
+         (help
+            "lens mat to use when player 1 is winning")
+         HIDE_IN_PROXY)
+      (lens_mat_2
+         object
+         (class Mat)
+         (help
+            "lens mat to use when player 2 is winning")
+         HIDE_IN_PROXY)
+      (score_diff
+         int
+         (help
+            "difference in scores for testing. a positive number means the first player is ahead."))
+      (refresh
+         script
+         (script
+            {$this refresh}))))
+(BandMeshLauncher
+   (description
+      "A MeshLauncher object emits meshes along a path.")
+   (superclasses Poll)
+   (ext ml)
+   (types
+      (basic_launcher
+         (editor
+            (launch_mesh
+               script
+               (script
+                  {$this launch_mesh}))
+            (trans_anim
+               object
+               (class TransAnim))
+            (parent_trans
+               object
+               (class Trans)))
+         (trans_anim
+            "")
+         (parent_trans
+            "")
+         (launch_mesh
+            {if
+               {!=
+                  [trans_anim]
+                  ""}
+               {$this
+                  launch
+                  [trans_anim]
+                  [parent_trans]}}))
+      (particle_launcher
+         (editor
+            (launch
+               script
+               (script
+                  {$this launch_particles}))
+            (part
+               object
+               (class ParticleSys))
+            (trans
+               object
+               (class Trans))
+            (num_parts
+               int
+               (range 0 1000))
+            (use_life
+               bool
+               (refresh life)
+               (post_sync
+                  {if
+                     {!
+                        [use_life]}
+                     {set
+                        [life]
+                        0}}))
+            (life
+               float
+               (read_only
+                  {!
+                     [use_life]}))
+            (use_speed
+               bool
+               (refresh speed)
+               (post_sync
+                  {if
+                     {!
+                        [use_speed]}
+                     {set
+                        [speed]
+                        0}}))
+            (speed
+               float
+               (read_only
+                  {!
+                     [use_speed]}))
+            (use_size
+               bool
+               (refresh size)
+               (post_sync
+                  {if
+                     {!
+                        [use_size]}
+                     {set
+                        [size]
+                        0}}))
+            (size
+               float
+               (read_only
+                  {!
+                     [use_size]}))
+            (use_delta_size
+               bool
+               (refresh delta_size)
+               (post_sync
+                  {if
+                     {!
+                        [use_delta_size]}
+                     {set
+                        [delta_size]
+                        0}}))
+            (delta_size
+               float
+               (read_only
+                  {!
+                     [use_delta_size]}))
+            (use_start_color
+               bool
+               (refresh start_color start_alpha)
+               (post_sync
+                  {if
+                     {!
+                        [use_start_color]}
+                     {set
+                        [start_color]
+                        0}
+                     {set
+                        [start_alpha]
+                        0}}))
+            (start_color
+               color
+               (read_only
+                  {!
+                     [use_start_color]}))
+            (start_alpha
+               float
+               (read_only
+                  {!
+                     [use_start_color]})
+               (range 0 1))
+            (use_mid_color
+               bool
+               (refresh mid_color mid_alpha)
+               (post_sync
+                  {if
+                     {!
+                        [use_mid_color]}
+                     {set
+                        [mid_color]
+                        0}
+                     {set
+                        [mid_alpha]
+                        0}}))
+            (mid_color
+               color
+               (read_only
+                  {!
+                     [use_mid_color]}))
+            (mid_alpha
+               float
+               (read_only
+                  {!
+                     [use_mid_color]})
+               (range 0 1))
+            (use_end_color
+               bool
+               (refresh end_color end_alpha)
+               (post_sync
+                  {if
+                     {!
+                        [use_end_color]}
+                     {set
+                        [end_color]
+                        0}
+                     {set
+                        [end_alpha]
+                        0}}))
+            (end_color
+               color
+               (read_only
+                  {!
+                     [use_end_color]}))
+            (end_alpha
+               float
+               (read_only
+                  {!
+                     [use_end_color]})
+               (range 0 1))
+            (use_emit_direction
+               bool
+               (refresh pitch_low pitch_high yaw_low yaw_high)
+               (post_sync
+                  {if
+                     {!
+                        [use_end_color]}
+                     {set
+                        [pitch_low]
+                        0}
+                     {set
+                        [pitch_high]
+                        0}
+                     {set
+                        [yaw_low]
+                        0}
+                     {set
+                        [yaw_high]
+                        0}}))
+            (pitch_low
+               float
+               (read_only
+                  {!
+                     [use_emit_direction]}))
+            (pitch_high
+               float
+               (read_only
+                  {!
+                     [use_emit_direction]}))
+            (yaw_low
+               float
+               (read_only
+                  {!
+                     [use_emit_direction]}))
+            (yaw_high
+               float
+               (read_only
+                  {!
+                     [use_emit_direction]})))))
+   (editor
+      (multi_mesh
+         object
+         (class MultiMesh)
+         (help
+            "Controlled MultiMesh to emit from."))))
+#define kNoAttitude
+(0)
+(CompositeCharacter
+   (description
+      "Character with outfits and compositing decal texture tech")
+   (superclasses Character)
+   (editor
+      (skin_color_index
+         int
+         (help
+            "Skin color index"))
+      (skin_color_palette
+         object
+         (class ColorPalette)
+         (help
+            "Skin color palette"))
+      (skin_tattoo_palette
+         object
+         (class ColorPalette)
+         (help
+            "Color palette to apply to tattoo's"))
+      (eye_color_index
+         int
+         (help
+            "Eye color index"))
+      (eye_color_palette
+         object
+         (class ColorPalette)
+         (help
+            "Eye color palette"))
+      (eyebrow_color_index
+         int
+         (help
+            "Eyebrow color index, uses hair.pal"))
+      (attitude
+         int
+         (help
+            "Character attitude")
+         (list
+            ("kNoAttitude"
+               "kGenreBanger"
+               "kGenreDramatic"
+               "kGenreRocker"
+               "kGenreSpazz")))
+      (gender
+         symbol
+         (help
+            "gender")
+         (list
+            (male female)))
+      (randomize_colors
+         script
+         (script
+            {$this
+               iterate
+               OutfitConfig
+               $o
+               {$o randomize_colors}}))
+      (write_character
+         script
+         (script
+            {$this write_character})
+         (help
+            "Writes out character definition to band\\run\\character_config.dta"))))
+(LayerDir
+   (description
+      "Draws configurable layer planes from an orthographic camera")
+   (types)
+   (superclasses RndDir)
+   (editor
+      (layers
+         (array
+            (struct
+               (name
+                  string
+                  (hide
+                     {$this is_proxy})
+                  (refresh layers))
+               (active
+                  bool
+                  (help
+                     "is this layer active?")
+                  (hide
+                     {!
+                        [layers
+                           {elem $milo_prop_path 1}
+                           layer_optional]}))
+               (color
+                  color
+                  (help
+                     {if_else
+                        {$this is_proxy}
+                        "layers preview color value to apply (not saved)"
+                        "layers default color value to apply (saved)"})
+                  (hide
+                     {!
+                        [layers
+                           {elem $milo_prop_path 1}
+                           allow_color]}))
+               (color_idx
+                  int
+                  (help
+                     {if_else
+                        {$this is_proxy}
+                        "layers preview color value to apply from palette (not saved)"
+                        "layers default color value to apply from palette (saved)"})
+                  (hide
+                     {'||'
+                        {!
+                           [layers
+                              {elem $milo_prop_path 1}
+                              allow_color]}
+                        {!
+                           [layers
+                              {elem $milo_prop_path 1}
+                              color_palette]}}))
+               (alpha
+                  float
+                  (help
+                     {if_else
+                        {$this is_proxy}
+                        "layers preview alpha value to apply (not saved)"
+                        "layers default alpha value to apply (saved)"})
+                  (range 0 1)
+                  (hide
+                     {!
+                        [layers
+                           {elem $milo_prop_path 1}
+                           allow_alpha]}))
+               (bitmap
+                  string
+                  (list
+                     {$this get_bitmap_list})
+                  (help
+                     {if_else
+                        {$this is_proxy}
+                        "preview bitmap to apply (not saved)"
+                        "default bitmap to apply (saved)"})
+                  (hide
+                     {<
+                        {size
+                           [layers
+                              {elem $milo_prop_path 1}
+                              bitmap_list]}
+                        2}))
+               (setup
+                  (indent
+                     (mat
+                        object
+                        (class Mat)
+                        (help
+                           "Material this layer controls"))
+                     (proxy
+                        object
+                        (class RndDir)
+                        (help
+                           "set the proxy file to use if this is a user-created patch layer"))
+                     (layer_optional
+                        bool
+                        (help
+                           "can this layer can be turned off?")
+                        (refresh layers))
+                     (bitmap_list
+                        (array file)
+                        (help
+                           "list of available bitmaps")
+                        (refresh layers))
+                     (allow_color
+                        bool
+                        (help
+                           "allow users to change color")
+                        (refresh layers))
+                     (color_palette
+                        object
+                        (class Object color_palette)
+                        (help
+                           "select a palette object to get colors from")
+                        (hide
+                           {'||'
+                              {!
+                                 [layers
+                                    {elem $milo_prop_path 1}
+                                    allow_color]}
+                              {$this is_proxy}}))
+                     (allow_alpha
+                        bool
+                        (help
+                           "allow users to change alpha as slider")
+                        (refresh layers))
+                     (alpha_min
+                        float
+                        (read_only
+                           {!
+                              [layers
+                                 {elem $milo_prop_path 1}
+                                 allow_alpha]})
+                        (refresh layers)
+                        (help
+                           "minimum alpha value allowed"))
+                     (alpha_max
+                        float
+                        (read_only
+                           {!
+                              [layers
+                                 {elem $milo_prop_path 1}
+                                 allow_alpha]})
+                        (refresh layers)
+                        (help
+                           "maximum alpha value allowed")))
+                  (hide
+                     {$this is_proxy})))
+            (header
+               [layers
+                  {elem $milo_prop_path 1}
+                  name])))
+      (randomize_colors
+         script
+         (script
+            {$this randomize_colors}))
+      (use_free_cam
+         bool
+         (help
+            "allows dir to have it's own camera instead of using the preset fixed camera")
+         (hide
+            {$this is_proxy}))))
+(ColorPalette
+   (description
+      "List of primary/secondary colors for OutfitConfig")
+   (allowed_dirs RndDir)
+   (types)
+   (ext pal)
+   (editor
+      (colors
+         (array
+            color
+            (help
+               "Color for materials")))))
+(OutfitConfig
+   (description
+      "Configurable options for outfits")
+   (allowed_dirs Character)
+   (types)
+   (ext cfg)
+   (editor
+      (colors
+         (array
+            (struct
+               (color_index
+                  int
+                  (help
+                     "Index of color choice"))
+               (mats
+                  (array
+                     (struct
+                        (mat
+                           object
+                           (class Mat)
+                           (help
+                              "Material with configurable colors/texture"))
+                        (primary_palette
+                           object
+                           (class ColorPalette)
+                           (help
+                              "Colors for material color, shown to the user if set"))
+                        (secondary_palette
+                           object
+                           (class ColorPalette)
+                           (help
+                              "Colors for material two_color, not shown to user unless primary_palette isn't set"))
+                        (textures
+                           (array
+                              object
+                              (class Tex))
+                           (help
+                              "Textures to use instead of colors, must be same size as primary color palette!"))))
+                  (help
+                     "Color palette of first item in this list defines user's options in game"))))
+         (help
+            "All color/texture choices for this outfit in game"))
+      (randomize_colors
+         script
+         (script
+            {$this randomize_colors})
+         (help
+            "Set random color indices")
+         (refresh colors))
+      (apply
+         script
+         (script
+            {$this apply})
+         (help
+            "Apply color choices to the outfit"))))
+(PatchRenderer
+   (description
+      "Special texture renderer for character patches")
+   (allowed_dirs)
+   (superclasses Anim Draw)
+   (types)
+   (ext patch)
+   (editor
+      (output_texture
+         object
+         (class Tex)
+         (help
+            "Patch texture to write to"))
+      (test_mode
+         symbol
+         (list
+            (blank test))
+         (help
+            "Blank/test modes for milo"))
+      (position
+         symbol
+         (list
+            (front back left right))
+         (help
+            "Position of patch, controls which cam shot we use"))
+      (back_mat
+         object
+         (class Mat)
+         (help
+            "background material for patch"))
+      (overlay_mat
+         object
+         (class Mat)
+         (help
+            "Overlay material for patch"))))
+(RenderDir
+   (description
+      "Wraps a PanelDir, to allow it to be used in a rendered tex")
+   (allowed_dirs)
+   (superclasses PanelDir)
+   (editor
+      (panel_dir
+         object
+         (class PanelDir)
+         (help
+            "PanelDir that we wrap")))
+   (types
+      (shell
+         (postprocess
+            "")
+         (editor
+            (postprocess
+               object
+               (class PostProc)
+               (help
+                  "Post process object to use when this panel is on screen")
+               (post_sync
+                  {$this update_postproc}))
+            (refresh_postproc
+               script
+               (script
+                  {$this update_postproc})
+               (help
+                  "Refresh postprocessor selection on the tool")))
+         (update_postproc
+            {if
+               $edit_mode
+               {if_else
+                  [postprocess]
+                  {[postprocess]
+                     select}
+                  {rnd reset_postproc}}}))))
+#define kMomentNone
+(0)
+#define kMomentSuccess
+(1)
+#define kMomentFail
+(2)
+#define kIcon
+(0)
+#define kInstrument
+(1)
+(EventCompleteDir
+   (description
+      "PanelDir for tour event complete screens")
+   (superclasses PanelDir)
+   (editor
+      (enabled
+         bool
+         (no_test))
+      (play
+         script
+         (script
+            {$this play})
+         (help
+            "Play animations"))
+      (skip
+         script
+         (script
+            {$this skip})
+         (help
+            "Skip to end of animations"))
+      (items
+         (array
+            (struct
+               (anim
+                  object
+                  (class Anim))
+               (icon_label
+                  object
+                  (class BandLabel))
+               (instrument_label
+                  object
+                  (class BandLabel))
+               (icon_label_str string)
+               (text_label
+                  object
+                  (class BandLabel))
+               (text_label_str string)
+               (text_label_start int)
+               (text_label_end int)
+               (sfx
+                  object
+                  (class Sequence))
+               (active bool)
+               (moment_success_group
+                  object
+                  (class Group))
+               (moment_fail_group
+                  object
+                  (class Group))
+               (moment_name symbol)
+               (moment_success_label
+                  object
+                  (class BandLabel))
+               (moment_fail_label
+                  object
+                  (class BandLabel))
+               (moment_str string)
+               (moment_end int)
+               (moment_sfx
+                  object
+                  (class Sequence))
+               (moment_state
+                  int
+                  (list
+                     ("kMomentNone"
+                        "kMomentSuccess"
+                        "kMomentFail")))
+               (item_type
+                  int
+                  (list
+                     ("kIcon"
+                        "kInstrument"))))))
+      (initial_delay
+         float
+         range
+         (0 5.0))
+      (anim_time
+         float
+         range
+         (0 5.0))
+      (count_time
+         float
+         range
+         (0 5.0))
+      (moment_time
+         float
+         range
+         (0 5.0))
+      (challenge_list
+         object
+         (class BandList)))
+   (types))

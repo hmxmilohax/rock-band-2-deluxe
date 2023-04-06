@@ -1,0 +1,1058 @@
+#ifdef TRUE
+#else
+#define FALSE
+(0)
+#define TRUE
+(1)
+#define kPlatformNone
+(0)
+#define kPlatformPS2
+(1)
+#define kPlatformXBox
+(2)
+#define kPlatformPC
+(3)
+#define kPlatformPS3
+(4)
+#define kPlatformWii
+(5)
+#define kOldGfx
+(0)
+#define kNewGfx
+(1)
+#define kDataInt
+(0)
+#define kDataFloat
+(1)
+#define kDataVar
+(2)
+#define kDataFunc
+(3)
+#define kDataObject
+(4)
+#define kDataSymbol
+(5)
+#define kDataArray
+(16)
+#define kDataCommand
+(17)
+#define kDataString
+(18)
+#define kDataProperty
+(19)
+#define kMergeMerge
+(0)
+#define kMergeReplace
+(1)
+#define kMergeKeep
+(2)
+#define kLoadFront
+(0)
+#define kLoadBack
+(1)
+#define kLoadFrontStayBack
+(2)
+#define kLoadStayBack
+(3)
+#define kCopyDeep
+(0)
+#define kCopyShallow
+(1)
+#define kCopyFromMax
+(2)
+#define kTaskSeconds
+(0)
+#define kTaskBeats
+(1)
+#define kTaskUISeconds
+(2)
+#define kTaskTutorialSeconds
+(3)
+#define TASK_UNITS
+(("kTaskSeconds"
+      "kTaskBeats"
+      "kTaskUISeconds"
+      "kTaskTutorialSeconds"))
+#define kSquareAspect
+(0)
+#define kRegularAspect
+(1)
+#define kWidescreenAspect
+(2)
+#define ASPECT_ENUM
+(("kSquareAspect"
+      "kRegularAspect"
+      "kWidescreenAspect"))
+#define kProcessNone
+(0)
+#define kProcessWorld
+(1)
+#define kProcessPost
+(2)
+#define kProcessAll
+(3)
+#define kAnimRange
+(0)
+#define kAnimLoop
+(1)
+#define kAnimShuttle
+(2)
+#define ANIM_ENUM
+(("kAnimRange"
+      "kAnimLoop"
+      "kAnimShuttle"))
+#define kHighlightWireframe
+(0)
+#define kHighlightSphere
+(1)
+#define kHighlightNone
+(2)
+#define HIGHLIGHT_ENUM
+(("kHighlightWireframe"
+      "kHighlightSphere"
+      "kHighlightNone"))
+#define k30_fps
+(0)
+#define k480_fpb
+(1)
+#define k30_fps_ui
+(2)
+#define k1_fpb
+(3)
+#define k30_fps_tutorial
+(3)
+#define RATE_ENUM
+(("k30_fps"
+      "k480_fpb"
+      "k30_fps_ui"
+      "k1_fpb"
+      "k30_fps_tutorial"))
+#define PI
+(3.1415927)
+#define kHugeFloat
+(1.0e30)
+#define kFirstFit
+(0)
+#define kBestFit
+(1)
+#define kLRUFit
+(2)
+#define kLastFit
+(3)
+#define kPad_L2
+(0)
+#define kPad_R2
+(1)
+#define kPad_L1
+(2)
+#define kPad_R1
+(3)
+#define kPad_Tri
+(4)
+#define kPad_Circle
+(5)
+#define kPad_X
+(6)
+#define kPad_Square
+(7)
+#define kPad_Select
+(8)
+#define kPad_L3
+(9)
+#define kPad_R3
+(10)
+#define kPad_Start
+(11)
+#define kPad_DUp
+(12)
+#define kPad_DRight
+(13)
+#define kPad_DDown
+(14)
+#define kPad_DLeft
+(15)
+#define kPad_LStickUp
+(16)
+#define kPad_LStickRight
+(17)
+#define kPad_LStickDown
+(18)
+#define kPad_LStickLeft
+(19)
+#define kPad_RStickUp
+(20)
+#define kPad_RStickRight
+(21)
+#define kPad_RStickDown
+(22)
+#define kPad_RStickLeft
+(23)
+#define kPad_NumButtons
+(24)
+#define kPad_Xbox_LT
+(0)
+#define kPad_Xbox_RT
+(1)
+#define kPad_Xbox_LB
+(2)
+#define kPad_Xbox_RB
+(3)
+#define kPad_Xbox_B
+(4)
+#define kPad_Xbox_Y
+(5)
+#define kPad_Xbox_A
+(6)
+#define kPad_Xbox_X
+(7)
+#define kPad_Xbox_LS
+(9)
+#define kPad_Xbox_RS
+(10)
+#define kLeftAnalog
+(0)
+#define kRightAnalog
+(1)
+#define kJoypadNone
+(0)
+#define kJoypadDigital
+(1)
+#define kJoypadAnalog
+(2)
+#define kJoypadDualShock
+(3)
+#define kJoypadMidi
+(4)
+#define kJoypadXboxHxGuitar
+(5)
+#define kJoypadXboxRoGuitar
+(6)
+#define kJoypadXboxDrums
+(7)
+#define kJoypadXboxStageKit
+(8)
+#define kJoypadPs3HxGuitar
+(9)
+#define kJoypadPs3HxDrums
+(10)
+#define kJoypadPs3HxGuitarRb2
+(11)
+#define kJoypadPs3HxDrumsRb2
+(13)
+#define KB_ENTER
+(10)
+#define KB_BACKSPACE
+(8)
+#define KB_TAB
+(9)
+#define KB_SPACE
+(32)
+#define KB_a
+(97)
+#define KB_b
+(98)
+#define KB_c
+(99)
+#define KB_d
+(100)
+#define KB_e
+(101)
+#define KB_f
+(102)
+#define KB_g
+(103)
+#define KB_h
+(104)
+#define KB_i
+(105)
+#define KB_j
+(106)
+#define KB_k
+(107)
+#define KB_l
+(108)
+#define KB_m
+(109)
+#define KB_n
+(110)
+#define KB_o
+(111)
+#define KB_p
+(112)
+#define KB_q
+(113)
+#define KB_r
+(114)
+#define KB_s
+(115)
+#define KB_t
+(116)
+#define KB_u
+(117)
+#define KB_v
+(118)
+#define KB_w
+(119)
+#define KB_x
+(120)
+#define KB_y
+(121)
+#define KB_z
+(122)
+#define KB_CAP_LOCK
+(290)
+#define KB_NUM_LOCK
+(291)
+#define KB_SCROLL_LOCK
+(292)
+#define KB_PRINT
+(300)
+#define KB_PAUSE
+(301)
+#define KB_ESCAPE
+(302)
+#define KB_INSERT
+(310)
+#define KB_DELETE
+(311)
+#define KB_HOME
+(312)
+#define KB_END
+(313)
+#define KB_PAGE_UP
+(314)
+#define KB_PAGE_DOWN
+(315)
+#define KB_LEFT
+(320)
+#define KB_RIGHT
+(321)
+#define KB_UP
+(322)
+#define KB_DOWN
+(323)
+#define KB_F1
+(401)
+#define KB_F2
+(402)
+#define KB_F3
+(403)
+#define KB_F4
+(404)
+#define KB_F5
+(405)
+#define KB_F6
+(406)
+#define KB_F7
+(407)
+#define KB_F8
+(408)
+#define KB_F9
+(409)
+#define KB_F10
+(410)
+#define KB_F11
+(411)
+#define KB_F12
+(412)
+#define kMCNoError
+(0)
+#define kMCNoCard
+(1)
+#define kMCNotFormatted
+(2)
+#define kMCDifferentCard
+(3)
+#define kMCReadWriteFailed
+(4)
+#define kMCCorrupt
+(5)
+#define kMCNotEnoughSpace
+(6)
+#define kMCFileExists
+(7)
+#define kMCFileNotFound
+(8)
+#define kMCMultipleFilesFound
+(9)
+#define kMCObsoleteVersion
+(10)
+#define kMCNewerVersion
+(11)
+#define kMCGeneralError
+(12)
+#define kMCUnsupported
+(13)
+#define kMCAlreadyFormatted
+(14)
+#define kMCInsufficientInodes
+(15)
+#define kMCSystemCorrupt
+(16)
+#define kMCAccessError
+(17)
+#define kMCMaxedSysMem
+(18)
+#define kUserPrivilegeBlocked
+(0)
+#define kUserPrivilegeFriendsOnly
+(1)
+#define kUserPrivilegeAllowed
+(2)
+#define kOSNotifyTopRight
+(0)
+#define kOSNotifyBottomCenter
+(1)
+#define k1KHz
+(300000)
+#define k2KHz
+(150000)
+#define k4KHz
+(75000)
+#define k10KHz
+(30000)
+#define k20KHz
+(15000)
+#define kFXModeOff
+(0)
+#define kFXModeRoom
+(1)
+#define kFXModeSmallStudio
+(2)
+#define kFXModeMedStudio
+(3)
+#define kFXModeLargeStudio
+(4)
+#define kFXModeHall
+(5)
+#define kFXModeSpace
+(6)
+#define kFXModeEcho
+(7)
+#define kFXModeDelay
+(8)
+#define kFXModePipe
+(9)
+#define kFXModeChorus
+(10)
+#define kFXModeWah
+(11)
+#define kFXModeFlanger
+(12)
+#define kFXCoreNone
+(-1)
+#define kFXCore0
+(0)
+#define kFXCore1
+(1)
+#define FX_CORES
+(("kFXCoreNone"
+      "kFXCore0"
+      "kFXCore1"))
+#define kAttackLinear
+(0)
+#define kAttackExp
+(1)
+#define ATTACK_MODES
+(("kAttackLinear"
+      "kAttackExp"))
+#define kSustainLinInc
+(0)
+#define kSustainLinDec
+(2)
+#define kSustainExpInc
+(4)
+#define kSustainExpDec
+(6)
+#define SUSTAIN_MODES
+(("kSustainLinInc"
+      "kSustainLinDec"
+      "kSustainExpInc"
+      "kSustainExpDec"))
+#define kReleaseLinear
+(0)
+#define kReleaseExp
+(1)
+#define RELEASE_MODES
+(("kReleaseLinear"
+      "kReleaseExp"))
+#define kSendAll
+(0)
+#define kSendCenter
+(1)
+#define kSendStereo
+(2)
+#define kVolumeEmpty
+(0)
+#define kVolumeTriangles
+(1)
+#define kVolumeBSP
+(2)
+#define kVolumeBox
+(3)
+#define kMutableVerts
+(31)
+#define kMutableFaces
+(32)
+#define kMutableAll
+(63)
+#define kUseMetaHeap
+(1024)
+#define kConstraintNone
+(0)
+#define kConstraintLocalRotate
+(1)
+#define kConstraintParentWorld
+(2)
+#define kConstraintLookAtTarget
+(3)
+#define kConstraintShadowTarget
+(4)
+#define kConstraintBillboardZ
+(5)
+#define kConstraintBillboardXZ
+(6)
+#define kConstraintBillboardXYZ
+(7)
+#define kConstraintFastBillboardXYZ
+(8)
+#define COPY_DEFAULT
+(0)
+#define COPY_LITKEYS
+(2)
+#define COPY_MATKEYS
+(4)
+#define COPY_MESHGEOM
+(8)
+#define COPY_SHARETRANS
+(16)
+#define COPY_MESHKEYS
+(64)
+#define COPY_PARTKEYS
+(128)
+#define COPY_TRANSKEYS
+(256)
+#define COPY_CHILDREN
+(512)
+#define COPY_PARTS
+(1024)
+#define COPY_CAMKEYS
+(2048)
+#define COPY_ENVKEYS
+(4096)
+#define COPY_BASEONLY
+(8192)
+#define kLeft
+(1)
+#define kCenter
+(2)
+#define kRight
+(4)
+#define kTop
+(16)
+#define kMiddle
+(32)
+#define kBottom
+(64)
+#define kTopLeft
+(17)
+#define kTopCenter
+(18)
+#define kTopRight
+(20)
+#define kMiddleLeft
+(33)
+#define kMiddleCenter
+(34)
+#define kMiddleRight
+(36)
+#define kBottomLeft
+(65)
+#define kBottomCenter
+(66)
+#define kBottomRight
+(68)
+#define kCapsModeNone
+(0)
+#define kForceLower
+(1)
+#define kForceUpper
+(2)
+#define kTexRegular
+(1)
+#define kTexRendered
+(2)
+#define kTexMovie
+(4)
+#define kTexBackBuffer
+(8)
+#define kTexFrontBuffer
+(24)
+#define kTexRenderedNoZ
+(34)
+#define kLightPoint
+(0)
+#define kLightDirectional
+(1)
+#define kLightFakeSpot
+(2)
+#define kLightFloorSpot
+(3)
+#define kLightShadowRef
+(4)
+#define kShotNoBans
+(0)
+#define kShotNoPs3
+(1)
+#define kShotNoXbox
+(2)
+#define kBeamConic
+(0)
+#define kBeamRect
+(1)
+#define kBeamSheet
+(2)
+#define kBeamQuadXYZ
+(3)
+#define kBeamQuadZ
+(4)
+#define kCrowdRotateNone
+(0)
+#define kCrowdRotateFace
+(1)
+#define kCrowdRotateAway
+(2)
+#define CROWD_ROTATE
+(("kCrowdRotateNone"
+      "kCrowdRotateFace"
+      "kCrowdRotateAway"))
+#define kBlendDest
+(0)
+#define kBlendSrc
+(1)
+#define kBlendAdd
+(2)
+#define kBlendSrcAlpha
+(3)
+#define kBlendSrcAlphaAdd
+(4)
+#define kBlendSubtract
+(5)
+#define kBlendMultiply
+(6)
+#define BLEND_ENUM
+(("kBlendDest"
+      "kBlendSrc"
+      "kBlendAdd"
+      "kBlendSrcAlpha"
+      "kBlendSrcAlphaAdd"
+      "kBlendSubtract"
+      "kBlendMultiply"))
+#define kZModeDisable
+(0)
+#define kZModeNormal
+(1)
+#define kZModeTransparent
+(2)
+#define kZModeForce
+(3)
+#define kZModeDecal
+(4)
+#define ZMODE_ENUM
+(("kZModeDisable"
+      "kZModeNormal"
+      "kZModeTransparent"
+      "kZModeForce"
+      "kZModeDecal"))
+#define kStencilIgnore
+(0)
+#define kStencilWrite
+(1)
+#define kStencilTest
+(2)
+#define STENCILMODE_ENUM
+(("kStencilIgnore"
+      "kStencilWrite"
+      "kStencilTest"))
+#define kTexWrapClamp
+(0)
+#define kTexWrapRepeat
+(1)
+#define kTexBorderBlack
+(2)
+#define kTexBorderWhite
+(3)
+#define TEXWRAP_ENUM
+(("kTexWrapClamp"
+      "kTexWrapRepeat"
+      "kTexBorderBlack"
+      "kTexBorderWhite"))
+#define kTexGenNone
+(0)
+#define kTexGenXfm
+(1)
+#define kTexGenSphere
+(2)
+#define kTexGenProjected
+(3)
+#define kTexGenXfmOrigin
+(4)
+#define kTexGenEnviron
+(5)
+#define TEXGEN_ENUM
+(("kTexGenNone"
+      "kTexGenXfm"
+      "kTexGenSphere"
+      "kTexGenProjected"
+      "kTexGenXfmOrigin"
+      "kTexGenEnviron"))
+#define kRecordRegular
+(0)
+#define kRecordCreated
+(1)
+#define kRecordDeleted
+(2)
+#define kNetUnreliable
+(0)
+#define kNetReliable
+(1)
+#define kNetLocal
+(0)
+#define kNetHost
+(1)
+#define kNetJoin
+(2)
+#define kNetInLobby
+(0)
+#define kNetLoading
+(1)
+#define kNetInGame
+(2)
+#define kNetSuccess
+(0)
+#define kNetNotHosting
+(1)
+#define kNetBusy
+(2)
+#define kNetNoRoom
+(3)
+#define kNetWrongMode
+(4)
+#define kNetNoJoiningAllowed
+(5)
+#define kNetPlayerAuthenticationFailed
+(6)
+#define JOIN_RESPONSE_MSG
+(join_response_msg
+   ($joined)
+   ($error))
+#define REMOTE_PLAYER_LEFT_MSG
+(remote_player_left_msg
+   ($player_num))
+#define REMOTE_PLAYER_CHANGED_MSG
+(remote_player_changed_msg
+   ($player_num))
+#define NEW_REMOTE_PLAYER_MSG
+(new_remote_player_msg
+   ($player_num $player_data))
+#define CHANGE_GAME_MSG
+(change_game_msg
+   ($game_data))
+#define END_GAME_MSG
+(end_game_msg
+   ($result $report))
+#define INVITE_ACCEPTED_MSG
+(invite_accepted
+   ($padnum))
+#define VIRTUAL_KEYBOARD_RESULT_MSG
+(virtual_keyboard_result_msg
+   ($ok $text))
+#define UI_CHANGED_MSG
+(ui_changed
+   ($showing))
+#define SIGNIN_CHANGED_MSG
+(signin_changed
+   ($signin_mask $signin_changed_mask))
+#define BUTTON_DOWN_MSG
+(button_down
+   ($button $player_num))
+#define BUTTON_UP_MSG
+(button_up
+   ($button $player_num))
+#define JOYPAD_CONNECT_MSG
+(joypad_connect
+   ($player_num $connected))
+#define KEY_MSG
+(key
+   ($key $shift $control $alt))
+#define MEMCARD_RESULT_MSG
+(memcard_result
+   ($result))
+#define SELECT_MSG
+(component_select
+   ($component $player_num))
+#define SELECT_START_MSG
+(component_select_start
+   ($component $button $player_num))
+#define FOCUS_MSG
+(component_focus
+   ($new_focus $old_focus $panel_dir))
+#define SCREEN_CHANGE_MSG
+(screen_change
+   ($new_screen $old_screen $back))
+#define TRANSITION_COMPLETE_MSG
+(transition_complete
+   ($new_screen $old_screen))
+#define TEXT_ENTRY_MSG
+(text_entry
+   ($component $text))
+#define TEXT_ENTRY_INVALID_MSG
+(text_entry_invalid
+   ($component $bad_char $end_of_field))
+#define SCROLL_SELECT_MSG
+(component_scroll_select
+   ($component $selected $player_num))
+#define SCROLL_MSG
+(component_scroll
+   ($component $player_num))
+#define kComponentNormal
+(0)
+#define kComponentFocused
+(1)
+#define kComponentDisabled
+(2)
+#define kComponentSelecting
+(3)
+#define kFitWrap
+(0)
+#define kFitStretched
+(1)
+#define kFitJust
+(2)
+#define kFitEllipsis
+(3)
+#define kArrowAlways
+(0)
+#define kArrowOnlyFocused
+(1)
+#define kArrowNever
+(2)
+#define kExcitementBoot
+(0)
+#define kExcitementBad
+(1)
+#define kExcitementOkay
+(2)
+#define kExcitementGreat
+(3)
+#define kExcitementPeak
+(4)
+#define kNumExcitements
+(5)
+#define kPlayNow
+(1)
+#define kPlayNoBlend
+(2)
+#define kPlayFirst
+(3)
+#define kPlayLast
+(4)
+#define kPlayDirty
+(8)
+#define kPlayNoLoop
+(16)
+#define kPlayLoop
+(32)
+#define kPlayGraphLoop
+(48)
+#define kPlayNodeLoop
+(64)
+#define kPlayRealTime
+(512)
+#define kPlayUserTime
+(1024)
+#define kPlayBeatAlign1
+(4096)
+#define kPlayBeatAlign2
+(8192)
+#define kPlayBeatAlign4
+(16384)
+#define kPlayBeatAlign8
+(32768)
+#define kPlayNoDefault
+(0)
+#define kPlayBeatTime
+(0)
+#define PLAY_BLEND_FLAGS
+(("kPlayNoDefault"
+      "kPlayNow"
+      "kPlayDirty"
+      "kPlayNoBlend"
+      "kPlayFirst"
+      "kPlayLast"))
+#define PLAY_LOOP_FLAGS
+(("kPlayNoDefault"
+      "kPlayNoLoop"
+      "kPlayLoop"
+      "kPlayGraphLoop"
+      "kPlayNodeLoop"))
+#define PLAY_TIME_FLAGS
+(("kPlayBeatTime"
+      "kPlayRealTime"
+      "kPlayBeatAlign1"
+      "kPlayBeatAlign2"
+      "kPlayBeatAlign4"
+      "kPlayBeatAlign8"))
+#define kRotNone
+(9)
+#define kRotFull
+(2)
+#define kRotX
+(3)
+#define kRotY
+(4)
+#define kRotZ
+(5)
+#define kApplyBlend
+(0)
+#define kApplyAdd
+(1)
+#define kApplyRotateTo
+(2)
+#define kCollidePlane
+(0)
+#define kCollideSphere
+(1)
+#define kCollideInsideSphere
+(2)
+#define kCollideCylinder
+(3)
+#define kCollideInsideCylinder
+(4)
+#define kFaceFxLipSyncRotX
+(0)
+#define kFaceFxLipSyncRotY
+(1)
+#define kFaceFxLipSyncRotZ
+(2)
+#define FACE_FX_LIP_SYNC_OPS
+(("kFaceFxLipSyncRotX"
+      "kFaceFxLipSyncRotY"
+      "kFaceFxLipSyncRotZ"))
+#define kDbSilence
+(-96.0)
+#define STD_EXTS
+(.dtb .dtx .seq .mid .bin .acp .acs .acg .fac .voc .usr .vnn .xvocab)
+#define PS2_EXTS
+(.milo_ps2 .ipu .vgs .icn .wav_ps2 .pss .ico .sys '_keep*.png_ps2' '_keep*.bmp_ps2' .pan)
+#define WII_EXTS
+(.milo_wii .wav_wii .mogg .tpl .dat .txt .csv .arc .pan .bmp_wii .png_wii)
+#define XBOX_EXTS
+(.milo_xbox '_keep*.png_xbox' '_keep*.bmp_xbox' .xbv .hxma .mogg xbox_shaders)
+#define PS3_EXTS
+(.milo_ps3 '_keep*.png_ps3' '_keep*.bmp_ps3' .xbv .vpo .fpo .mogg ps3_shaders icon0.png)
+#define STD_SKIP_DIRS
+(CVS iop test tools .svn text-base prop-base)
+#define SYSTEM_SUBDIRS
+("../../system/run/char"
+   "../../system/run/config"
+   "../../system/run/shaders"
+   "../../system/run/track"
+   "../../system/run/ui"
+   "../../system/run/world")
+#define XBOX_HD_EXTS
+(.dta .seq .mid .bin .milo .xnse .xbnk .xbv .mogg .png .png_xbox .bmp .ltf .acs .acg)
+#define kTriggerNone
+(0)
+#define kTriggerShow
+(1)
+#define kTriggerHide
+(2)
+#define kTriggerEnable
+(3)
+#define kTriggerDisable
+(4)
+#define HIDE_IN_PROXY
+((hide
+      {!=
+         $this
+         {$this dir}}))
+#define LANGUAGES
+((eng ita fre deu esl gbr))
+#define kStageOff
+(0)
+#define kStageOn
+(1)
+#define kStageBass
+(2)
+#define kStageDrumKick
+(3)
+#define kStageDrumSnare
+(4)
+#define kStageDrumCrash
+(5)
+#define kStageGuitar
+(6)
+#define kStageVocal
+(7)
+#define kStageSweepLeft_slow
+(8)
+#define kStageSweepLeft_medium
+(9)
+#define kStageSweepLeft_fast
+(10)
+#define kStageSweepRight_slow
+(11)
+#define kStageSweepRight_medium
+(12)
+#define kStageSweepRight_fast
+(13)
+#define kStageOne
+(0)
+#define kStageTwo
+(1)
+#define kStageFour
+(2)
+#define kStageOneOffset
+(3)
+#define kStageTwoOffset
+(4)
+#define kStageFourOffset
+(5)
+#define kStageAll
+(6)
+#define kStageStrobeOff
+(0)
+#define kStageStrobe6
+(6)
+#define kStageStrobe8
+(8)
+#define kStageStrobe10
+(10)
+#define kStageStrobe12
+(12)
+#define kGemTypeNormal
+(0)
+#define kGemTypeDoubler
+(1)
+#define kGemTypeCatcher
+(2)
+#define kPlayer1
+(0)
+#define kPlayer2
+(1)
+#define kPlayerNone
+(-1)
+#define kPlayerShared
+(-2)
+#define kMPGem1
+(1)
+#define kMPGem2
+(2)
+#define kMPGem3
+(4)
+#define kMPGem4
+(8)
+#define kMPGem5
+(16)
+#endif

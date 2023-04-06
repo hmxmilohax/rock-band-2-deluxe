@@ -1,0 +1,629 @@
+{new
+   UIPanel
+   tutorials_state_panel
+   (file
+      "")
+   (enter
+      {if
+         {!
+            [is_paused]}
+         {tutorials_state_panel set_paused FALSE}}
+      {set
+         [just_entered]
+         TRUE}
+      {script_task
+         kTaskUISeconds
+         (delay 1.0e-2)
+         (script
+            {tutorials_state_panel post_enter})})
+   (post_enter
+      {if
+         [just_entered]
+         {set
+            [just_entered]
+            FALSE}
+         {game add_sink tutorials_event_handlers}
+         {platform_mgr add_sink tutorials_event_handlers ui_changed}
+         {$this on_guide_change}
+         {$this on_mics_change}
+         {$this check_lost_controller}})
+   (exit
+      {set
+         [just_entered]
+         FALSE}
+      {set
+         [is_paused]
+         FALSE}
+      {set
+         [pause_queued]
+         0}
+      {$this reset_tutorial})
+   (is_mic_disconnected
+      {!
+         {synth
+            is_mic_connected
+            {joypad_get_players_padnum
+               {{gamemode get main_panel}
+                  get_tutorial_player}}}})
+   (is_mic_talking
+      {synth
+         is_mic_user_talking
+         {joypad_get_players_padnum
+            {{gamemode get main_panel}
+               get_tutorial_player}}})
+   (mic_percent_talking
+      {synth
+         mic_user_percent_talking
+         {joypad_get_players_padnum
+            {{gamemode get main_panel}
+               get_tutorial_player}}})
+   (on_mics_change
+      {if
+         {gamemode get tutorial_cares_about_mics}
+         {if
+            {&&
+               {ui current_screen}
+               {!
+                  {ui in_transition}}
+               {==
+                  {ui current_screen}
+                  {gamemode get main_screen}}
+               {$this is_mic_disconnected}
+               {!
+                  [is_paused]}}
+            {tutorials_pause_mic_screen pre_enter}
+            {ui push_screen tutorials_pause_mic_screen}}})
+   (check_lost_controller
+      {if_else
+         {&&
+            {ui current_screen}
+            {!=
+               {ui current_screen}
+               pause_screen}
+            {!=
+               {ui current_screen}
+               {gamemode get confirm_quit_screen}}
+            {!=
+               {ui current_screen}
+               {gamemode get confirm_restart_screen}}
+            {!
+               {ui in_transition}}
+            {!
+               {tutorials_pause_screen get_is_quitting}}
+            {game missing_controllers}}
+         {do
+            {set
+               [unpause_on_transition]
+               TRUE}
+            {tutorials_state_panel pause}
+            {band_ui_sink set_net_sync FALSE}
+            {ui push_screen tutorials_pause_controller_screen}
+            TRUE}
+         FALSE})
+   #ifdef HX_PS3
+   (on_guide_change
+      {if
+         {&&
+            {ui current_screen}
+            {==
+               {ui current_screen}
+               {gamemode get main_screen}}}
+         {if_else
+            {platform_mgr guide_showing}
+            {if
+               {!
+                  [is_paused]}
+               {tutorials_state_panel pause}}
+            {if
+               [is_paused]
+               {tutorials_state_panel unpause}}}})
+   #else
+   (on_guide_change
+      {if
+         {&&
+            {ui current_screen}
+            {!
+               {ui in_transition}}
+            {==
+               {ui current_screen}
+               {gamemode get main_screen}}
+            {platform_mgr guide_showing}
+            {!
+               [is_paused]}}
+         {tutorials_pause_screen pre_enter}
+         {ui push_screen tutorials_pause_screen}})
+   #endif
+   (poll
+      {if
+         {&&
+            {>
+               [pause_queued]
+               0}
+            {!
+               [is_loading_song]}}
+         {set
+            [pause_queued]
+            {-
+               [pause_queued]
+               1}}
+         {if
+            {<
+               [pause_queued]
+               1}
+            {set
+               [pause_queued]
+               0}
+            {if
+               [is_paused]
+               {$this repause}}}}
+      {if
+         {&&
+            {!=
+               [next_state]
+               invalid_state}
+            {!
+               {ui in_transition}}}
+         {$this
+            set_state
+            [next_state]}})
+   (start_tutorial
+      {$this
+         set_state
+         {$this get start_state}})
+   (reset_tutorial
+      {game remove_sink tutorials_event_handlers}
+      {platform_mgr remove_sink tutorials_event_handlers ui_changed}
+      {synth stop_all_sfx}
+      {{gamemode get main_panel}
+         reset_vo}
+      {{{gamemode get main_panel}
+            find
+            blackout.trig}
+         trigger}
+      AUTOPLAY_OFF)
+   (set_lesson
+      ($num)
+      {$this remember_lesson $num}
+      {set
+         [lesson_data]
+         {$this get_lesson $num}}
+      {set
+         [start_state]
+         {elem
+            [lesson_data]
+            1}}
+      {set
+         [tutorials_song]
+         {elem
+            [lesson_data]
+            2}})
+   (remember_lesson
+      ($num)
+      {{gamemode get main_panel}
+         set
+         lesson_num
+         $num})
+   (get_lesson
+      ($num)
+      {elem
+         {$this get_all_lessons}
+         $num})
+   (get_all_lessons
+      {{gamemode get main_panel}
+         get
+         tutorial_lessons})
+   (get_next_state
+      ($inc)
+      {do
+         ($old)
+         ($new)
+         {find_elem
+            {{gamemode get main_panel}
+               get
+               tutorial_states}
+            {$this get state}
+            $old}
+         {set
+            $new
+            {mod
+               {'+' $old $inc}
+               {size
+                  {{gamemode get main_panel}
+                     get
+                     tutorial_states}}}}
+         {elem
+            {{gamemode get main_panel}
+               get
+               tutorial_states}
+            $new}})
+   (get_prev_state
+      ($inc)
+      {do
+         ($old)
+         ($new)
+         {find_elem
+            {{gamemode get main_panel}
+               get
+               tutorial_states}
+            {$this get state}
+            $old}
+         {set
+            $new
+            {mod
+               {- $old $inc}
+               {size
+                  {{gamemode get main_panel}
+                     get
+                     tutorial_states}}}}
+         {elem
+            {{gamemode get main_panel}
+               get
+               tutorial_states}
+            $new}})
+   (switch_to_state
+      ($state)
+      {$this set_state $state}
+      {$task exit})
+   (state_has_ambient_loop
+      ($state)
+      {do
+         ($state_index)
+         {find_elem
+            {{gamemode get main_panel}
+               get
+               tutorial_states}
+            $state
+            $state_index}
+         {elem
+            {{gamemode get main_panel}
+               get
+               tutorial_states_ambient}
+            $state_index}})
+   (state_can_inc_lesson
+      ($state)
+      {do
+         ($state_index)
+         {find_elem
+            {{gamemode get main_panel}
+               get
+               tutorial_states}
+            $state
+            $state_index}
+         {elem
+            {{gamemode get main_panel}
+               get
+               tutorial_states_can_inc}
+            $state_index}})
+   (state_can_dec_lesson
+      ($state)
+      {do
+         ($state_index)
+         {find_elem
+            {{gamemode get main_panel}
+               get
+               tutorial_states}
+            $state
+            $state_index}
+         {elem
+            {{gamemode get main_panel}
+               get
+               tutorial_states_can_dec}
+            $state_index}})
+   (switch_to_next_state
+      {$this
+         switch_to_state
+         {$this get_next_state 1}})
+   (set_next_state
+      ($state)
+      {$this set next_state $state}
+      {$task exit})
+   (restart_state
+      {$this
+         switch_to_state
+         {$this get state}})
+   (tutorial_inc
+      ($num)
+      {if
+         [can_inc_lesson]
+         {do
+            ($next
+               {$this get_next_state $num})
+            {taskmgr clear_tasks}
+            {$this reset_vo}
+            {$this set_state $next}}})
+   (tutorial_dec
+      ($num)
+      {if
+         [can_dec_lesson]
+         {do
+            ($next
+               {$this get_prev_state $num})
+            {taskmgr clear_tasks}
+            {$this reset_vo}
+            {$this set_state $next}}})
+   (pause_helper
+      ($warn)
+      {if_else
+         {&&
+            [is_paused]
+            $warn}
+         {notify
+            "Tutorial tried to pause while already paused!"}
+         {do
+            {if_else
+               [is_loading_song]
+               {do
+                  {set
+                     [pause_queued]
+                     5}
+                  {synth pause_all_sfx TRUE}
+                  {{gamemode get main_panel}
+                     pause_ambient_loop
+                     FALSE}
+                  {{gamemode get main_panel}
+                     pause_vo}}
+               {do
+                  {set
+                     [unpause_enable_vocals_options]
+                     {{{get_track_panel}
+                           find
+                           vocals}
+                        get
+                        enable_vocals_options}}
+                  {{{get_track_panel}
+                        find
+                        vocals}
+                     set_enable_vocals_options
+                     FALSE}
+                  {{{gamemode get main_panel}
+                        find
+                        tutorial_helpbar.grp}
+                     set_showing
+                     FALSE}
+                  {set
+                     [game_paused]
+                     {beatmatch time_paused}}
+                  {beatmatch set_time_paused TRUE}
+                  {game set_paused TRUE}
+                  {synth pause_all_sfx TRUE}
+                  {{gamemode get main_panel}
+                     pause_ambient_loop
+                     FALSE}
+                  {{gamemode get main_panel}
+                     pause_vo}
+                  {tutorials_state_panel set_paused TRUE}
+                  {{gamemode get main_panel}
+                     set_paused
+                     TRUE}
+                  {{gamemode get main_panel}
+                     pause}
+                  #ifndef HX_OG
+                  {stagekit_pause TRUE}
+                  #endif}}
+            {set
+               [is_paused]
+               TRUE}}})
+   (pause
+      {$this pause_helper TRUE})
+   (repause
+      {$this pause_helper FALSE})
+   (unpause_helper
+      ($warn)
+      {if_else
+         {'||'
+            [is_paused]
+            {! $warn}}
+         {do
+            {if_else
+               {<
+                  [pause_queued]
+                  1}
+               {do
+                  {{{get_track_panel}
+                        find
+                        vocals}
+                     set_enable_vocals_options
+                     [unpause_enable_vocals_options]}
+                  {{{gamemode get main_panel}
+                        find
+                        tutorial_helpbar.grp}
+                     set_showing
+                     TRUE}
+                  {beatmatch
+                     set_time_paused
+                     [game_paused]}
+                  {if
+                     {!
+                        [game_paused]}
+                     {game set_paused FALSE}}
+                  {synth pause_all_sfx FALSE}
+                  {if
+                     [game_paused]
+                     {{gamemode get main_panel}
+                        pause_ambient_loop
+                        FALSE}}
+                  {{gamemode get main_panel}
+                     unpause_vo}
+                  {tutorials_state_panel set_paused FALSE}
+                  {{gamemode get main_panel}
+                     set_paused
+                     FALSE}
+                  {{gamemode get main_panel}
+                     unpause}
+                  #ifndef HX_OG
+                  {stagekit_pause FALSE}
+                  #endif}
+               {do
+                  {synth pause_all_sfx FALSE}
+                  {{gamemode get main_panel}
+                     unpause_vo}}}
+            {set
+               [is_paused]
+               FALSE}
+            {set
+               [pause_queued]
+               0}}
+         {notify
+            "Tutorial tried to unpause while already unpaused!"}})
+   (unpause
+      {$this unpause_helper TRUE})
+   (reunpause
+      {$this unpause_helper FALSE})
+   (set_state
+      ($state)
+      {if_else
+         {$this state_has_ambient_loop $state}
+         {{gamemode get main_panel}
+            start_ambient_loop}
+         {{gamemode get main_panel}
+            stop_ambient_loop}}
+      {set
+         [can_inc_lesson]
+         {$this state_can_inc_lesson $state}}
+      {set
+         [can_dec_lesson]
+         {$this state_can_dec_lesson $state}}
+      {set
+         [can_restart_lesson]
+         {&&
+            [can_inc_lesson]
+            [can_dec_lesson]}}
+      {$this set state $state}
+      {$this set next_state invalid_state}
+      {switch
+         $state
+         (loading_screen
+            {ui goto_screen tutorials_loading_screen})
+         (back_to_main_menu
+            {tutorials_state_panel reset_tutorial}
+            {gamemode set main_screen main_screen}
+            {ui goto_screen meta_loading_tutorial_main_screen})
+         (back_to_lesson_menu
+            {tutorials_state_panel reset_tutorial}
+            {ui goto_screen meta_loading_tutorial_screen})
+         {{gamemode get main_panel}
+            set_local_state
+            $state}})
+   (reset_vo
+      {{gamemode get main_panel}
+         reset_vo})
+   (play_vo
+      ($vo)
+      {{gamemode get main_panel}
+         play_vo
+         $vo})
+   (hide_all_ui
+      {{gamemode get main_panel}
+         hide_all_ui})
+   (enable_sync_with_tutorial ENABLE_SYNC_PAUSE)
+   (sync_with_tutorial
+      {if
+         [can_sync_with_tutorial]
+         {do
+            {set
+               [waiting_on_beatmatch]
+               FALSE}
+            {beatmatch set_time_paused TRUE}
+            {game set_paused TRUE}
+            {{gamemode get main_panel}
+               pause_ambient_loop
+               FALSE}}})
+   (is_synced
+      {!
+         {'||'
+            {$this get waiting_on_beatmatch}
+            {$this get waiting_on_tutorial}}})
+   (sync_with_tutorial_nopause
+      {set
+         [waiting_on_beatmatch_nopause]
+         FALSE})
+   (is_synced_nopause
+      {!
+         {'||'
+            {$this get waiting_on_beatmatch_nopause}
+            {$this get waiting_on_tutorial_nopause}}})
+   (can_update_score
+      {!
+         [score_text_frozen]})
+   (init_state
+      {set
+         [is_paused]
+         FALSE}
+      {set
+         [tv_state]
+         0}
+      {set
+         [can_sync_with_tutorial]
+         TRUE}
+      {set
+         [waiting_on_tutorial]
+         TRUE}
+      {set
+         [waiting_on_beatmatch]
+         TRUE}
+      {set
+         [waiting_on_tutorial_nopause]
+         TRUE}
+      {set
+         [waiting_on_beatmatch_nopause]
+         TRUE}
+      {set
+         [score_text_frozen]
+         FALSE}
+      {set
+         [beat_callback_enabled]
+         FALSE}
+      {set
+         [amb_playing]
+         FALSE}
+      {{gamemode get main_screen}
+         set
+         unpause_on_transition
+         FALSE})
+   (beat_callback
+      ($beat $beat_count)
+      {{gamemode get main_panel}
+         beat_callback
+         $beat
+         $beat_count})
+   (beat_callback_is_enabled
+      {$this get beat_callback_enabled})
+   (beat_callback_set_enabled
+      ($val)
+      {$this set beat_callback_enabled $val})
+   (started_loading_song
+      {$this set is_loading_song TRUE})
+   (finished_loading_song
+      {$this set is_loading_song FALSE})
+   (state invalid_state)
+   (next_state invalid_state)
+   (start_state thrash)
+   (tutorials_song tutorial_explode)
+   (is_paused FALSE)
+   (pause_queued 0)
+   (lesson_data 0)
+   (tv_state 0)
+   (can_inc_lesson FALSE)
+   (can_dec_lesson FALSE)
+   (can_restart_lesson FALSE)
+   (can_sync_with_tutorial TRUE)
+   (waiting_on_tutorial TRUE)
+   (waiting_on_beatmatch TRUE)
+   (waiting_on_tutorial_nopause TRUE)
+   (waiting_on_beatmatch_nopause TRUE)
+   (score_text_frozen FALSE)
+   (beat_callback_enabled FALSE)
+   (just_entered FALSE)
+   (unpause_enable_vocals_options FALSE)
+   (fail_menu_response '')
+   (amb_playing FALSE)
+   (is_loading_song FALSE)
+   (game_paused FALSE)}
+{new
+   BandScreen
+   tutorial_to_main_screen
+   (panels)
+   (TRANSITION_COMPLETE
+      {ui
+         goto_screen
+         {gamemode get quit_screen}})}

@@ -1,0 +1,111 @@
+{func
+   hth_set_track_types
+   {gamecfg
+      foreach_player_config
+      $pcfg
+      {if
+         {$pcfg is_local_player}
+         {if_else
+            {'||'
+               {!
+                  {gamemode get allow_bass}}
+               {!=
+                  {$pcfg get_controller_type}
+                  kControllerGuitar}}
+            {$pcfg
+               set_track_type
+               {$pcfg get_controller_sym}}
+            {$pcfg set_track_type kTrackNone}}}}}
+{func
+   hth_goto_tracksel_screen
+   {hth_set_track_types}
+   {session
+      send_to_all
+      (hth_set_track_types)
+      kNetReliable}
+   {ui
+      goto_screen
+      {if_else
+         {&&
+            {gamemode get allow_bass}
+            {gamecfg has_participating_guitar_controller}
+            {gamemode get separate_parts}}
+         qp_hth_seltrack_screen
+         {gamemode get ready_screen}}}}
+{new
+   UIPanel
+   qp_hth_seltrack_panel
+   #ifdef HX_XBOX
+   (file
+      "qp_hth_seldiff.milo")
+   #else
+   (file
+      "qp_hth_seldiff_og.milo")
+   #endif
+   LIMIT_TO_LEADER_SESSION
+   (enter
+      {{$this find_self song.lbl}
+         set_localized
+         {song_mgr
+            song_name
+            {game get_song}}}
+      {{$this find_self by_line.lbl}
+         set_localized
+         {song_mgr
+            by_line
+            {game get_song}}}
+      {player.lbl set_showing FALSE}
+      {waiting_part.lbl set_showing FALSE}
+      {ready.lbl set_showing FALSE}
+      {$this set_focus guitar.btn}
+      {selpart.grp set_showing TRUE}
+      {seldiff.grp set_showing FALSE}
+      {session add_sink $this})
+   (exit
+      {session remove_sink $this})
+   (SELECT_MSG
+      {do
+         ($track
+            {basename
+               {$component name}})
+         {game
+            foreach_player_config
+            $pcfg
+            {if
+               {$pcfg is_participating}
+               {if_else
+                  {$pcfg is_local_player}
+                  {$pcfg set_track_type $track}
+                  {do
+                     ($player_num
+                        {$pcfg get player_num})
+                     {session
+                        send_to_player
+                        $player_num
+                        {'`'
+                           ({game
+                                 get_player_config
+                                 {',' $player_num}}
+                              set_track_type
+                              {',' $track})}
+                        kNetReliable}}}}}}
+      {ui
+         goto_screen
+         {gamemode get ready_screen}})
+   (load
+      {hth_split_seldiff_panel load})
+   (unload
+      {hth_split_seldiff_panel unload})}
+{new
+   BandScreen
+   qp_hth_seltrack_screen
+   (panels meta postsong_sfx_panel menu_background_movie_panel qp_hth_seltrack_panel)
+   (focus qp_hth_seltrack_panel)
+   (helpbar
+      {if_else
+         {is_leader_local}
+         ((cancel helpbar_back)
+            (confirm helpbar_select))
+         ((cancel helpbar_back))})
+   LIMIT_TO_LEADER_SESSION
+   (back qp_selsong_screen)}
