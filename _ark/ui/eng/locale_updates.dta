@@ -863,7 +863,11 @@
 (tweak_modify "tweaks")
 
 (milosliderlbl
-   "Speed / Framerate")
+#ifndef HX_EE
+   "speed / framerate"
+#else
+   "speed settings"
+#endif)
 (speed_msg
    "SONG SPEED: %d%%")
 (trackspeed_msg
@@ -873,7 +877,11 @@
 (extra_modify
    "modifiers")
 (speed_modify
-   "speed / framerate")
+#ifndef HX_EE
+   "speed / framerate"
+#else
+   "speed settings"
+#endif)
 (options_audio
    "audio settings")
 ;overshell
