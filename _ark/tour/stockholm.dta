@@ -1,0 +1,86 @@
+(small_club
+	small_club_10
+	(celebrityskin
+		(songs
+			celebrityskin)
+		(display_song TRUE)
+		(fame (world 3))
+		(money_per_star 5))
+	(any
+		(songs
+			any
+			any)
+		(fame (world 3))
+		(money_per_star 5)))
+(big_club
+	big_club_11
+	(areyougonnabemygirl
+		(songs
+			 areyougonnabemygirl)
+		(display_song TRUE)
+		(fame (town 10))
+		(money_per_star 25))
+	(any
+		(songs
+			any
+			any
+			any)
+		(fame (town 10))
+		(money_per_star 25))
+	(ludwigshowcase
+		(songs
+			hellothere
+			lazyeye
+			RANDOM_NOFIRSTNOLAST)
+		(fame
+			(town 30)
+			(world 200))
+		(money_per_star 120)
+		(sellout TRUE)
+		BWT_CHAR_UNLOCK_LUDWIG))
+(theater
+	theater_03
+	(vasoline
+		(songs
+			 vasoline)
+		(display_song TRUE)
+		(fame
+			(town 30)
+			(world 100))
+		(money_per_star 120))
+	(any
+		(songs
+			any
+			any
+			any
+			any)
+		(fame
+			(town 30)
+			(world 200))
+		(money_per_star 80))
+	(designermara
+		(songs
+			coolforcats
+			pinballwizard
+			pumpitup
+			everlong
+			conventionallover)
+		(fame
+			(town 30)
+			(world 200))
+		(money_per_star 80)
+		(char_unlock
+			(token char_unlock_cityshirts_rockband1)
+			(outfits
+				(male
+					torso
+					polo_stockholmcoatofarms)
+				(female
+					torso
+					baseballtee_stockholmcoatofarms)
+				(male
+					torso
+					tshirtdeath_stockholmfish)
+				(female
+					torso
+					basictee_stockholmfish)))))

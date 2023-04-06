@@ -21,12 +21,23 @@
             {set
                [player_num]
                $player_num}
+            #ifdef HX_EE
+            {game set leader_num $player_num}
+            {band_ui_sink set post_matchmaking TRUE}
+            {session_mgr add_sink $this new_local_player}
+            {session_mgr
+               add_local_player
+               $player_num
+               {gamecfg get_controller_type_from_controller $player_num}}
+            #else
             {session_mgr
                add_sink
                $this
                (add_local_user_result_msg)}
-            {session_mgr add_local_user $player}}
+            {session_mgr add_local_user $player}
+            #endif}
          {ui push_screen drum_trainer_non_drum_warning_screen}})
+   #ifndef HX_EE
    (add_local_user_result_msg
       ($success $user)
       {if
@@ -80,8 +91,60 @@
             player_num
             [player_num]}}
       {ui goto_screen drum_trainer_loading_screen})
+   #else
+   (new_local_player
+      ($user)
+      {session_mgr remove_sink $this new_local_player}
+      {game
+         set_player_slot_num
+         [player_num]
+         0}
+      {gamecfg auto_assign_missing_slots}
+      {do
+         ($pcfg
+            {game
+               get_player_config
+               [player_num]})
+         {$pcfg
+            set_char
+            {available_prefab
+               [player_num]}}
+         {meta_performer
+            set_song
+            {gamemode get start_song}}
+         {game set_venue arena_01}
+         {do
+            ($player_config
+               {game
+                  get_player_config
+                  [player_num]})
+            {$player_config
+               set_difficulty
+               {gamemode get start_difficulty}}
+            {$player_config
+               set_track_type
+               {gamemode get start_tracktype}}
+            {$player_config set_ready TRUE}}
+         {{gamemode get game_panel}
+            set
+            player_num
+            [player_num]}}
+      {ui goto_screen drum_trainer_loading_screen})
+   #endif
    (enter
-      {session clear})
+      {session clear}
+      #ifdef HX_EE
+      {$this set_player_num -1}
+      {game set leader_num -1}
+      {band_ui_sink set post_matchmaking FALSE}
+      {if
+         {==
+            {ui previous_screen}
+            training_menu_screen}
+         {fx fade_in}}
+      {helpbar set_limit_to_player_num -1}
+      {helpbar set_limit_to_session FALSE}
+      #endif)
    (TRANSITION_COMPLETE_MSG
       {if
          {&&
@@ -90,14 +153,17 @@
             {==
                {ui current_screen}
                drum_trainer_menu_screen}
+            #ifndef HX_EE
             {!
-               {net_sync has_destination_screen}}}
+               {net_sync has_destination_screen}}
+            #endif
+            }
          {autosave}}
       kDataUnhandled)}
 {new
-   AutoloadScreen
+   #ifndef HX_EE AutoloadScreen #else BandScreen #endif
    drum_trainer_menu_screen
-   (panels meta movie_panel options_background_panel drum_trainer_menu_panel)
+   (panels meta #ifndef HX_EE movie_panel #else menu_background_movie_panel #endif options_background_panel drum_trainer_menu_panel #ifdef HX_EE fx #endif)
    (focus drum_trainer_menu_panel)
    (back training_menu_screen)
    (helpbar
@@ -108,9 +174,14 @@
    drum_trainer_content_loading_panel
    (load
       {content_mgr start_refresh}
-      {content_loading_panel allowed_to_show TRUE})
+      #ifndef HX_EE
+      {content_loading_panel allowed_to_show TRUE}
+      #endif
+      )
    (finish_load
-      {content_loading_panel allowed_to_show FALSE})
+   #ifndef HX_EE
+   {content_loading_panel allowed_to_show FALSE}
+   #endif)
    (is_loaded
       {content_mgr refresh_done})}
 {new
