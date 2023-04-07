@@ -219,7 +219,7 @@
 ;{modifier_mgr activate_modifier mod_awesome}
 ;{modifier_mgr activate_modifier mod_selectdeploy}
 ;{modifier_mgr activate_modifier mod_auto_play}
-
+#ifndef HX_EE
 #define INIT_DTA_READER
 (
    {set $dxsettings {read_file #ifdef HX_XBOX "GAME:/dx.dta" #endif #ifdef HX_PS3 "GD:/dev_hdd0/game/BLUS30147/USRDIR/dx.dta" #endif}}
@@ -467,4 +467,5 @@
 )
 ;{unless {file_exists dx.dta} INIT_DTA_WRITER}
 INIT_DTA_READER
+#endif
 #include init_dev.dta
