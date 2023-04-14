@@ -1,5 +1,6 @@
 #define OVERSHELL_DISALLOWED_SCREENS
 ({'||' 
+   {ui in_transition}
    {== {ui current_screen} game_screen}
    {== {ui current_screen} hth_game_screen}
    {== {ui current_screen} practice_game_screen}
@@ -9,10 +10,17 @@
    {== {ui current_screen} song_select_screen} 
    {== {ui current_screen} endgame_screen} 
    {== {ui current_screen} options_color_screen}})
+#ifndef HX_EE
 #define G_RED
 (kPad_Circle)
 #define G_YELLOW
 (kPad_Tri)
+#else
+#define G_RED
+(kPad_Tri)
+#define G_YELLOW
+(kPad_Circle)
+#endif
 #define G_BLUE
 (kPad_Square)
 #define G_ORANGE
