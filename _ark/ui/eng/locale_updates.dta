@@ -955,6 +955,12 @@
 (mod_nomuting "No Track Muting")
 (mod_nomuting_desc "We Got the Beat, even when you don't")
 (mod_nomuting_obtain "(bug, should be available by default)")
+(mod_gemdivider
+   "No Gem Dividers")
+(mod_gemdivider_desc 
+   "Removes the lines in between the gems")
+(mod_gemdivider_obtain 
+   "(bug, should be available by default)")
 (mod_oggems
    "OG Gems")
 (mod_oggems_desc 
