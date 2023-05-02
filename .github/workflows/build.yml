@@ -21,7 +21,7 @@ jobs:
           chmod +x dependencies/linux/arkhelper
           chmod +x dependencies/linux/dtab
           chmod +x dependencies/linux/superfreq
-          dependencies/linux/arkhelper dir2ark ./_ark ./_build/ps2/gen -n "MAIN" -e -v 4 -s 4000000000
+          dependencies/linux/arkhelper dir2ark ./_ark ./_build/ps2/gen -n "MAIN" -e -v 4 -s 4073741823
       
       - name: Upload result
         uses: actions/upload-artifact@v2
@@ -39,7 +39,7 @@ jobs:
           chmod +x dependencies/linux/arkhelper
           chmod +x dependencies/linux/dtab
           chmod +x dependencies/linux/superfreq
-          dependencies/linux/arkhelper dir2ark ./_ark ./_build/ps2/gen -n "MAIN" -e -v 4 -s 4000000000
+          dependencies/linux/arkhelper dir2ark ./_ark ./_build/ps2/gen -n "MAIN" -e -v 4 -s 4073741823
       
       - name: Upload result
         uses: actions/upload-artifact@v2
