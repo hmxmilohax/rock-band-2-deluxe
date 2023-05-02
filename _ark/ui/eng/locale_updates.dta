@@ -909,6 +909,15 @@
 (os_cam "Cycle Camera")
 (os_gtrfx "Cycle Guitar FX")
 ; track settings
+(os_trkpreset "Presets")
+(os_prstreset "[Reset]")
+(os_rb2dxprst "Rock Band 2 DX")
+(os_rb1prst "Rock Band 1")
+(os_rb2prst "Rock Band 2")
+(os_rb3prst "Rock Band 3")
+(os_rb4prst "Rock Band 4")
+(os_lrbprst "LEGO Rock Band")
+(os_trkresetmsg "This will reset everything used to set custom textures. If you do this after being in-game, it will do nothing.\nAre you sure?")
 (rb1 "Rock Band 1")
 (rb2 "Rock Band 2")
 (rb3 "Rock Band 3")
@@ -954,6 +963,12 @@
 (mod_nomuting "No Track Muting")
 (mod_nomuting_desc "We Got the Beat, even when you don't")
 (mod_nomuting_obtain "(bug, should be available by default)")
+(mod_gemdivider
+   "No Gem Dividers")
+(mod_gemdivider_desc 
+   "Removes the lines in between the gems")
+(mod_gemdivider_obtain 
+   "(bug, should be available by default)")
 (mod_oggems
    "OG Gems")
 (mod_oggems_desc 

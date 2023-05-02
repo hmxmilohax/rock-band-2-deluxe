@@ -1,3 +1,29 @@
+#define ANIMATED_LOGO_ENTER
+(
+;      {if {exists logo_task_populate} ;check if the above task is running
+;         {delete logo_task_populate} ;delete the task if running
+;      }
+;      {if {exists logo_task_animate} ;check if the above task is running
+;         {delete logo_task_animate} ;delete the task if running
+;      }
+;{set $logocountbit 0}
+;{thread_task kTaskSeconds (name logo_task_populate) (script
+{new Tex {sprint "logoframe" $logocountbit ".tex"}}
+{{sprint "logoframe" $logocountbit ".tex"} set_bitmap {sprint "track/logo/rb2dx-gradient_" $logocountbit ".png"}}
+;{set $logocountbit {+ $logocountbit 1}}
+;{unless {>= $logocountbit 119} {$task loop}})}
+
+;{set $logocountdif 0}
+;{thread_task kTaskSeconds (name logo_task_animate) (script
+{if_else $splashed
+{main_rblogo.mat set diffuse_tex {sprint "logoframe" $logocountdif ".tex"}}
+{rb2_logo.mat set diffuse_tex {sprint "logoframe" $logocountdif ".tex"}}
+}
+;{set $logocountdif {+ $logocountdif 1}}
+;{$task sleep 0.016}
+;{if {>= $logocountdif 119} {set $logocountdif 0}}
+;{$task loop})}
+)
 {new
    UIPanel
    intro_panel
@@ -112,6 +138,8 @@
          {int
             [alpha_threshold]}})
    (enter
+   {set $splashed 0}
+   ANIMATED_LOGO_ENTER
       {set
          [alpha_threshold_fading]
          FALSE}
@@ -136,6 +164,14 @@
       {set
          [enter_time]
          {taskmgr ui_seconds}})
+   (exit
+      {if {exists logo_task_populate} ;check if the above task is running
+         {delete logo_task_populate} ;delete the task if running
+      }
+      {if {exists logo_task_animate} ;check if the above task is running
+         {delete logo_task_animate} ;delete the task if running
+      }
+   )
    (poll
       {$this set_alpha_threshold}
       #ifdef HX_PS3

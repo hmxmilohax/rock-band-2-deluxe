@@ -203,7 +203,20 @@
       {{$this loaded_dir}
          reset})
    (on_extend
-   
+   {new Tex transparent.tex}
+   {{$this find transparent.tex} set_bitmap "track/custom_track_textures/_no_highway.png"}
+   {if_else {modifier_mgr is_modifier_active mod_gemdivider}
+      {beatmatch foreach_active_player $player
+         {switch {$player instrument}
+            (bass {{{{get_track_panel} find bass} find drum_slots_narrow.mat} set diffuse_tex {$this find transparent.tex}})
+            (guitar {{{{get_track_panel} find guitar} find drum_slots_narrow.mat} set diffuse_tex {$this find transparent.tex}})
+            (drum {{{{get_track_panel} find drum} find drum_slots_narrow.mat} set diffuse_tex {$this find transparent.tex}})}}
+      {beatmatch foreach_active_player $player ;handle adding the appropriate callbacks to each player
+         {switch {$player instrument}
+            (bass {{{{get_track_panel} find bass} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})
+            (guitar {{{{get_track_panel} find guitar} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})
+            (drum {{{{get_track_panel} find drum} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})}}
+   }
    {if $voxhwcustomtexture 
       {{$this find vocal_bg.tex} set_bitmap {sprint "track/voxhw/vocal_bg_" $voxhw ".png"}}
    }
