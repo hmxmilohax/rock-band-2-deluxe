@@ -1,0 +1,45 @@
+(default_hometown boston)
+#ifdef HX_XBOX
+(default_money 100)
+#endif
+#define ONEOFF_HINT
+((advance
+      {{tour performer}
+         add_seen_hint
+         {{tour hint}
+            get_type}}))
+(band
+   #include tour_band.dta)
+(solo
+   #include tour_solo.dta)
+(challenge
+   (auto_min_songs 3)
+   (hints
+      (welcome
+         (screen tour_challenge_welcome_screen))
+      (new_tier
+         (screen tour_challenge_new_tier_screen)
+         (one_off TRUE))
+      (impossible
+         (screen tour_challenge_impossible_screen)
+         (one_off TRUE)))
+   (achievements
+      (ach_challenge_novice
+         (kDifficultyMedium 25)
+         (kDifficultyHard 10)
+         (kDifficultyExpert 5))
+      (ach_challenge_master
+         (kDifficultyHard 25)
+         (kDifficultyExpert 10))
+      (ach_challenge_savant
+         (kDifficultyExpert 25)))
+   (challenges
+      #include tour_challenge.dta))
+$ans
+=
+0
+#ifndef _SHIP
+(test_event
+   (songs random random random)
+   (reward_per_star 100))
+#endif

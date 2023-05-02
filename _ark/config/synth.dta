@@ -1,20 +1,14 @@
 (use_xma FALSE)
 (oggvorbis
 	(keyindex 0)
-	
 #ifdef HX_XBOX
-	
 #ifdef _DEBUG
 	(throttle 0.50)
-	
 #else 
 	(throttle 0.20)
-	
 #endif 
-	
 #else 
 	(throttle 0.20)
-	
 #endif 
 )
 (iop
@@ -22,9 +16,9 @@
 	(spu_buffers 60)
 	(max_slip 500))
 (metamusic
-	(volume -12.00)
+	(volume #ifdef HX_EE -3.0 #else -12.00 #endif)
 	(fade_time 2.00)
-	(music
+	(music #ifndef HX_EE
 		shellmusic_aceofspades
 		shellmusic_badreputation
 		shellmusic_drainyou
@@ -68,7 +62,7 @@
 		shellmusic_variation2
 		shellmusic_variation3
 		shellmusic_variation4
-		)
+		#endif)
 	(background_sfx
 		(sequence meta_people)
 		(min_delay_sec 10)
@@ -77,23 +71,53 @@
 (fx
 	(chain FALSE)
 	(core_0
-		(mode kFXModeEcho)
+		(mode #ifdef HX_EE kFXModeOff #else kFXModeEcho #endif)
 		(volume -10)
 		(delay 0.50)
 		(feedback -10))
 	(core_1
-		(mode kFXModeLargeStudio)
-		(volume -8)
-		(delay 0.00)
-		(feedback -96)))
+		(mode #ifdef HX_EE kFXModeOff #else kFXModeLargeStudio #endif)
+		(volume #ifdef HX_EE -10 #else -8 #endif)
+		(delay #ifdef HX_EE 0.5 #else 0.00 #endif)
+		(feedback #ifdef HX_EE -10 #else -96 #endif)))
+   #ifdef HX_EE
+   (effect_0
+      (mode kFXModeDelay)
+      (volume -2)
+      (delay 0.4)
+      (feedback -12.0))
+   (effect_1
+      (mode kFXModeEcho)
+      (volume -1)
+      (delay 0.15)
+      (feedback -96.0))
+   (effect_2
+      (mode kFXModeEcho)
+      (volume -3)
+      (delay 0.35)
+      (feedback -12.0))
+   (effect_3
+      (mode kFXModeEcho)
+      (volume -4.5)
+      (delay 0.7)
+      (feedback -12.0))
+   (effect_4
+      (mode kFXModeOff)
+      (volume -3)
+      (delay 0.4)
+      (feedback -6))
+   #endif
 (mics
 	
 #ifdef HX_PS3
 	8
 	
 #else 
+#ifdef HX_EE
+	2
+#else
 	4
-	
+#endif
 #endif 
 )
 (mic (volume 0))

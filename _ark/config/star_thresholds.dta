@@ -1,5 +1,127 @@
 (thresholds 0.3 0.6 0.9 1.8 3.0 4.0 5.0)
 (band_thresholds
+#ifdef HX_EE
+   ((vocals)
+      0.21
+      0.46
+      0.77
+      1.86
+      3.1
+      4.2
+      99.0)
+   ((guitar)
+      0.21
+      0.46
+      0.77
+      1.86
+      3.1
+      4.2
+      99.0)
+   ((bass)
+      0.32
+      0.69
+      1.15
+      2.76
+      4.6
+      6.2
+      99.0)
+   ((drum)
+      0.21
+      0.46
+      0.77
+      1.86
+      3.1
+      4.2
+      99.0)
+   ((guitar vocals)
+      0.24
+      0.51
+      0.85
+      2.04
+      3.4
+      4.8
+      99.0)
+   ((bass vocals)
+      0.29
+      0.62
+      1.03
+      2.49
+      4.15
+      5.8
+      99.0)
+   ((drum vocals)
+      0.24
+      0.51
+      0.85
+      2.04
+      3.4
+      4.8
+      99.0)
+   ((bass guitar)
+      0.29
+      0.62
+      1.03
+      2.49
+      4.15
+      5.8
+      99.0)
+   ((drum guitar)
+      0.24
+      0.51
+      0.85
+      2.04
+      3.4
+      4.8
+      99.0)
+   ((drum bass)
+      0.29
+      0.62
+      1.03
+      2.49
+      4.15
+      5.8
+      99.0)
+   ((bass guitar vocals)
+      0.31
+      0.66
+      1.1
+      2.64
+      4.4
+      6.46
+      99.0)
+   ((drum guitar vocals)
+      0.27
+      0.58
+      0.97
+      2.34
+      3.9
+      5.8
+      99.0)
+   ((drum bass vocals)
+      0.31
+      0.66
+      1.1
+      2.64
+      4.4
+      6.46
+      99.0)
+   ((drum bass guitar)
+      0.31
+      0.66
+      1.1
+      2.64
+      4.4
+      6.46
+      99.0)
+   ((drum bass guitar vocals)
+      0.35
+      0.75
+      1.24
+      2.98
+      4.97
+      7.7
+      99.0)
+#else
    ((vocals)
       0.21
       0.46
@@ -119,7 +241,8 @@
       3.21
       5.35
       8.16
-      81.6))
-(bonus_thresholds 0.0 0.0 0.0 0.0 0.0 0.0 0.0)
+      81.6)
+      #endif)
+(bonus_thresholds #ifdef HX_EE 0.25 0.5 0.75 0.9 1.0 1.0 1.0 #else 0.0 0.0 0.0 0.0 0.0 0.0 0.0 #endif)
 (difficulty_thresholds
    (kDifficultyEasy kDifficultyEasy kDifficultyEasy kDifficultyEasy kDifficultyEasy kDifficultyEasy kDifficultyEasy))
