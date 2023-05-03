@@ -91,7 +91,7 @@ This guide contains full instructions on how to install Rock Band 2 Deluxe for P
 
 ### Playing Rock Band 2 Deluxe requires these things:
 
-- **A vanilla copy of Rock Band 2** for PS3 or Xbox 360 that you can extract onto your PC. The **USA** version is required for PS3 (`BLUS30147`)
+- **A vanilla copy of Rock Band 2** for PS3 or Xbox 360 that you can extract onto your PC. The **USA** version is required (PS3: `BLUS30147` 360: `45410869`).
 - For Console: A **modded/hacked PS3 or Xbox 360** and a way to transfer files to it, we recommend using FTP
 - For Emulator: A **mid-to-high-end PC** capable of running RPCS3
 
@@ -126,7 +126,7 @@ This guide contains full instructions on how to install Rock Band 2 Deluxe for P
 
 **NOTE: You WILL need a HACKED/MODDED (CFW or HFW/HEN) PS3 in order to play this mod on console. We hope this is clear.**
 
-**NOTE: Rock Band 2 Deluxe only works with** ***North American (`BLUS30147`)*** **copies of the game on PS3.**
+**NOTE: Rock Band 2 Deluxe only works with** ***North American (`BLUS30147`)*** **copies of the game.**
 
 * Download [**Rock Band 2 Deluxe for PS3**](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-PS3.zip). 
   * Extract the zip and copy the `.pkg` file to the root of a FAT32 formatted USB drive.
@@ -140,7 +140,8 @@ This guide contains full instructions on how to install Rock Band 2 Deluxe for P
 
 **NOTE: You WILL need a HACKED/MODDED (RGH or JTAG) Xbox 360 in order to play this mod on console. We hope this is clear.**
 
-* **Install your vanilla copy of Rock Band 2** to your console's hard drive.
+* **Install your North American copy of Rock Band 2** to your console's hard drive.
+  * Remember, **you need to be running** ***the USA version*** **of the game** (`45410869`).
   * In case anything goes wrong, we recommend that you **rename `default.xex` to `default_vanilla.xex`**.
 
 * **Disable updates** for Rock Band 2 in Aurora. Rock Band 2 Deluxe rolls `TU6` into its base installation.
@@ -160,7 +161,8 @@ This guide contains full instructions on how to install Rock Band 2 Deluxe for P
 
 *Follow [**Repo Setup (Advanced)**](#repo-setup-advanced) first in order to properly follow this guide.*
 
-* **Extract your vanilla copy of Rock Band 2** and copy the contents of the `gen` folder to `\_build\xbox\gen\`.
+* **Extract your North American copy of Rock Band 2** and copy the contents of the `gen` folder to `\_build\xbox\gen\`.
+  * Remember, **you need to be running** ***the USA version*** **of the game** (`45410869`).
 
 * Navigate to `_xenia` and **map your controller with x360ce**.
   * When it asks you to create `xinput1_3.dll`, create it and **rename it to `xinput1_4.dll`**.
