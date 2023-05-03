@@ -91,7 +91,8 @@ This guide contains full instructions on how to install Rock Band 2 Deluxe for P
 
 ### Playing Rock Band 2 Deluxe requires these things:
 
-- **A vanilla copy of Rock Band 2** for PS3 or Xbox 360 that you can extract onto your PC. The **USA** version is required (PS3: `BLUS30147` 360: `45410869`).
+- **A vanilla copy of Rock Band 2** for PS3 or Xbox 360 that you can extract onto your PC. The **USA** version is required.
+  - (PS3: `BLUS30147`, 360: `45410869`)
 - For Console: A **modded/hacked PS3 or Xbox 360** and a way to transfer files to it, we recommend using FTP
 - For Emulator: A **mid-to-high-end PC** capable of running RPCS3
 
