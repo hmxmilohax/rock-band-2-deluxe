@@ -1,0 +1,553 @@
+#include macros.dta
+(mem
+   #include mem.dta)
+(content_mgr
+   (roots
+      ".")
+   (file_read_failed
+      {band_ui_sink content_file_read_failed}))
+(profile_mgr
+   (max_chars_per_inst 8)
+   (max_leaders_per_char 10)
+   (max_bands_per_char 20)
+   (char_name_length 20)
+   (band_name_length 40)
+   (motto_length 64))
+(platform_mgr
+   (keyboard_allowed_chars
+      " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!\q#$%&'()*+,-./:;=?@[\\]^_`{|}~¿¡¬√ƒ≈∆«»… ÀÃÕŒœ–—“”‘’÷ÿŸ⁄€‹›ﬁﬂ‡·‚„‰ÂÊÁËÈÍÎÏÌÓÔÒÚÛÙıˆ¯˘˙˚¸˝˛ˇ"))
+(system
+   (ng FALSE)
+   (language)
+   (region
+      (force na))
+   (iop_modules
+      (iop/scrtchpd.irx)
+      (iop/sio2man.irx)
+      (iop/mtapman.irx)
+      (iop/mcman.irx)
+      (iop/mcserv.irx)
+      (iop/usbd.irx
+         "thpri=15,16")
+      #ifndef _SHIP
+      (iop/usbkb.irx
+         "keybd=1"
+         "debug=0")
+      #endif
+      (iop/padman.irx)
+      (iop/msifrpc.irx)
+      (iop/libsd.irx)
+      (iop/sdrdrv.irx)
+      (iop/cdvdstm.irx)
+      #ifdef _DEBUG
+      (iop/usbhmx_d.irx)
+      #else
+      #ifdef _SHIP
+      (iop/usbhmx_s.irx)
+      #else
+      (iop/usbhmx_r.irx)
+      #endif
+      #endif)
+   (xbox_map_file
+      "%s/band_%s.map"))
+(synth
+   #include synth.dta)
+(joypad
+   (ignore)
+   (hold_ms 1000)
+   (repeat_ms 80)
+   (midi_joypad
+      (disable FALSE))
+   (controller_mapping
+      (ro_guitar guitar)
+      (ro_guitar_xbox ro_guitar_xbox)
+      (strat_xbox ro_guitar_xbox)
+      (hx_guitar_ps3 hx_guitar_ps3)
+      (hx_guitar_rb2_ps3 hx_guitar_ps3)
+      (midi midi_drums)
+      (hx_drums_xbox hx_drums_xbox)
+      (hx_drums_ps3 hx_drums_ps3)
+      (hx_drums_rb2_ps3 hx_drums_ps3)
+      (hx_xbox joypad_guitar_xbox)
+      (digital joypad)
+      (analog joypad)
+      (dualshock joypad)
+      (stagekit_xbox joypad)
+      (gamecube joypad)
+      (wii_core joypad)
+      (wii_freestyle joypad)
+      (wii_classic joypad)
+      (none joypad))
+   (instrument_mapping
+      (ro_guitar kControllerGuitar)
+      (ro_guitar_xbox kControllerGuitar)
+      (strat_xbox kControllerGuitar)
+      (hx_guitar_ps3 kControllerGuitar)
+      (hx_guitar_rb2_ps3 kControllerGuitar)
+      (midi kControllerDrum)
+      (hx_drums_xbox kControllerDrum)
+      (hx_drums_ps3 kControllerDrum)
+      (hx_drums_rb2_ps3 kControllerDrum)
+      (hx_xbox
+         {if_else
+            {modifier_mgr is_modifier_active mod_padguitar}
+            kControllerGuitar
+            {if_else
+               {modifier_mgr is_modifier_active mod_paddrum}
+                  kControllerDrum
+                  kControllerVocals}})
+      (digital 
+         {if_else
+            {modifier_mgr is_modifier_active mod_padguitar}
+            kControllerGuitar
+            {if_else
+               {modifier_mgr is_modifier_active mod_paddrum}
+                  kControllerDrum
+                  kControllerVocals}})
+      (analog 
+         {if_else
+            {modifier_mgr is_modifier_active mod_padguitar}
+            kControllerGuitar
+            {if_else
+               {modifier_mgr is_modifier_active mod_paddrum}
+                  kControllerDrum
+                  kControllerVocals}})
+      (dualshock 
+         {if_else
+            {modifier_mgr is_modifier_active mod_padguitar}
+            kControllerGuitar
+            {if_else
+               {modifier_mgr is_modifier_active mod_paddrum}
+                  kControllerDrum
+                  kControllerVocals}})
+      (stagekit_xbox kControllerVocals)
+      (gamecube 
+         {if_else
+            {modifier_mgr is_modifier_active mod_padguitar}
+            kControllerGuitar
+            {if_else
+               {modifier_mgr is_modifier_active mod_paddrum}
+                  kControllerDrum
+                  kControllerVocals}})
+      (wii_core 
+         {if_else
+            {modifier_mgr is_modifier_active mod_padguitar}
+            kControllerGuitar
+            {if_else
+               {modifier_mgr is_modifier_active mod_paddrum}
+                  kControllerDrum
+                  kControllerVocals}})
+      (wii_freestyle 
+         {if_else
+            {modifier_mgr is_modifier_active mod_padguitar}
+            kControllerGuitar
+            {if_else
+               {modifier_mgr is_modifier_active mod_paddrum}
+                  kControllerDrum
+                  kControllerVocals}})
+      (wii_classic 
+         {if_else
+            {modifier_mgr is_modifier_active mod_padguitar}
+            kControllerGuitar
+            {if_else
+               {modifier_mgr is_modifier_active mod_paddrum}
+                  kControllerDrum
+                  kControllerVocals}})
+      (none kControllerNone)))
+(spew
+   #include spew.dta)
+(timer
+   #ifdef HX_XBOX
+   (draw
+      (enable TRUE))
+   (world
+      (enable TRUE)
+      (draw FALSE))
+   (world_regular
+      (enable TRUE)
+      (budget 9))
+   (world_postproc
+      (enable TRUE)
+      (budget 9))
+   (hud_track
+      (enable TRUE)
+      (budget 6))
+   (game
+      (enable TRUE)
+      (budget 1))
+   (cpu
+      (draw FALSE))
+   (cpu_regular
+      (enable TRUE)
+      (budget 16.7))
+   (cpu_postproc
+      (enable TRUE)
+      (budget 16.7))
+   (gs
+      (draw FALSE))
+   (gs_regular
+      (enable TRUE)
+      (budget 16.7))
+   (gs_postproc
+      (enable TRUE)
+      (budget 16.7))
+   (synth_poll
+      (enable TRUE))
+   (net_poll
+      (enable TRUE))
+   (debug
+      (enable TRUE))
+   #else
+   #ifdef HX_PS3
+   (draw
+      (enable TRUE))
+   (world
+      (enable TRUE)
+      (draw FALSE))
+   (world_regular
+      (enable TRUE)
+      (budget 9))
+   (world_postproc
+      (enable TRUE)
+      (budget 9))
+   (hud_track
+      (enable TRUE)
+      (budget 6))
+   (game
+      (enable TRUE)
+      (budget 1))
+   (cpu
+      (draw FALSE))
+   (cpu_regular
+      (enable TRUE)
+      (budget 16.7))
+   (cpu_postproc
+      (enable TRUE)
+      (budget 16.7))
+   (gs
+      (draw FALSE))
+   (gs_regular
+      (enable TRUE)
+      (budget 16.7))
+   (gs_postproc
+      (enable TRUE)
+      (budget 16.7))
+   (gs_idle
+      (enable TRUE))
+   #else
+   #ifdef HX_EE
+   (anim
+      (enable TRUE))
+   (synth
+      (enable TRUE))
+   (movie
+      (enable TRUE)
+      (budget 7)
+      (draw TRUE))
+   (ui_draw
+      (enable TRUE))
+   (ui_poll
+      (enable TRUE))
+   (cpu
+      (draw FALSE))
+   (cpu_regular
+      (enable TRUE)
+      (budget 16.7))
+   (gs
+      (draw FALSE))
+   (gs_regular
+      (enable TRUE)
+      (budget 15.0))
+   (trackpanel_poll
+      (enable FALSE)
+      (budget 5))
+   (draw
+      (enable FALSE))
+   (world
+      (enable TRUE)
+      (draw FALSE))
+   (vag_decryption
+      (enable FALSE))
+   #else
+   #ifdef HX_WII
+   (synth
+      (enable TRUE))
+   (vorbis
+      (enable TRUE))
+   (frame_callback
+      (enable TRUE))
+   (usb_poll
+      (enable TRUE)
+      (draw TRUE))
+   (movie
+      (enable TRUE)
+      (budget 5)
+      (draw TRUE))
+   (ui_draw
+      (enable TRUE))
+   (ui_poll
+      (enable TRUE))
+   (draw
+      (enable TRUE))
+   (world
+      (enable TRUE)
+      (budget 9))
+   (hud_track
+      (enable TRUE)
+      (budget 6))
+   (game
+      (enable TRUE)
+      (budget 1))
+   #else
+   (draw
+      (enable TRUE))
+   (world
+      (enable TRUE)
+      (budget 9))
+   (hud_track
+      (enable TRUE)
+      (budget 6))
+   (game
+      (enable TRUE)
+      (budget 1))
+   #endif
+   #endif
+   #endif
+   #endif)
+(rnd
+   (bpp 32)
+   (pal TRUE)
+   (title
+      "Rock Band")
+   (overlays
+      (time
+         (lines 1)
+         (showing FALSE)
+         (color 0 0 0 0.7))
+      (cheats
+         (lines 1)
+         (showing FALSE)
+         (color 0 0 0 0.7))
+      (light_preset
+         (lines 4)
+         (showing FALSE)
+         (color 0 0 0 0.5))
+      (camera
+         (lines 5)
+         (showing FALSE)
+         (color 0 0 0 0.5))
+      (char_status
+         (lines 4)
+         (showing FALSE))
+      (score
+         (lines 15)
+         (showing FALSE))
+      (score_debug
+         (lines 1)
+         (showing FALSE))
+      (lights
+         (lines 1)
+         (showing FALSE))
+      (camtest
+         (lines 1)
+         (showing FALSE))
+      (latency
+         (lines 2)
+         (showing FALSE)))
+   (timer_script
+      {set_timer_ms
+         game
+         {-
+            {-
+               {-
+                  {timer_ms cpu}
+                  {timer_ms world}}
+               {timer_ms hud_track}}
+            {timer_ms debug}}}
+      {switch
+         {rnd last_proc_cmds}
+         (kProcessPost
+            {set
+               $world_postproc
+               {timer_ms world}}
+            {set
+               $cpu_postproc
+               {timer_ms cpu}}
+            {set
+               $gs_postproc
+               {timer_ms gs}})
+         (kProcessWorld
+            {set
+               $world_regular
+               {timer_ms world}}
+            {set
+               $cpu_regular
+               {timer_ms cpu}}
+            {set
+               $gs_regular
+               {timer_ms gs}})
+         (kProcessAll
+            {set $world_postproc 0}
+            {set $cpu_postproc 0}
+            {set $gs_postproc 0}
+            {set
+               $world_regular
+               {timer_ms world}}
+            {set
+               $cpu_regular
+               {timer_ms cpu}}
+            {set
+               $gs_regular
+               {timer_ms gs}})}
+      {set_timer_ms world_postproc $world_postproc}
+      {set_timer_ms cpu_postproc $cpu_postproc}
+      {set_timer_ms gs_postproc $gs_postproc}
+      {set_timer_ms world_regular $world_regular}
+      {set_timer_ms cpu_regular $cpu_regular}
+      {set_timer_ms gs_regular $gs_regular}
+      #ifdef HX_EE
+      {switch
+         {rnd last_proc_cmds}
+         (kProcessPost
+            {set
+               $world_postproc
+               {timer_ms world}}
+            {set
+               $cpu_postproc
+               {timer_ms cpu}}
+            {set
+               $gs_postproc
+               {timer_ms gs}})
+         (kProcessWorld
+            {set
+               $world_regular
+               {timer_ms world}}
+            {set
+               $cpu_regular
+               {timer_ms cpu}}
+            {set
+               $gs_regular
+               {timer_ms gs}})
+         (kProcessAll
+            {set $world_postproc 0}
+            {set $cpu_postproc 0}
+            {set $gs_postproc 0}
+            {set
+               $world_regular
+               {timer_ms world}}
+            {set
+               $cpu_regular
+               {timer_ms cpu}}
+            {set
+               $gs_regular
+               {timer_ms gs}})}
+      {set_timer_ms world_postproc $world_postproc}
+      {set_timer_ms cpu_postproc $cpu_postproc}
+      {set_timer_ms gs_postproc $gs_postproc}
+      {set_timer_ms world_regular $world_regular}
+      {set_timer_ms cpu_regular $cpu_regular}
+      {set_timer_ms gs_regular $gs_regular}
+      #endif)
+   (text_superscript_scale 0.5))
+(ui
+   #include ../ui/ui.dta)
+(attract
+   #include attract.dta)
+(net
+   #include net.dta)
+(objects
+   #include objects.dta)
+(locale ../ui/eng/locale_milo.dta ../ui/eng/locale.dta ../ui/eng/locale_updates.dta)
+(venues VENUES)
+(song_groupings
+   (rank
+      ((drum generic_tier1)
+         (guitar generic_tier1)
+         (bass generic_tier1)
+         (vocals generic_tier1)
+         (band generic_tier1))
+      ((drum generic_tier2)
+         (guitar generic_tier2)
+         (bass generic_tier2)
+         (vocals generic_tier2)
+         (band generic_tier2))
+      ((drum generic_tier3)
+         (guitar generic_tier3)
+         (bass generic_tier3)
+         (vocals generic_tier3)
+         (band generic_tier3))
+      ((drum generic_tier4)
+         (guitar generic_tier4)
+         (bass generic_tier4)
+         (vocals generic_tier4)
+         (band generic_tier4))
+      ((drum generic_tier6)
+         (guitar generic_tier6)
+         (bass generic_tier6)
+         (vocals generic_tier6)
+         (band generic_tier6))
+      ((drum generic_tier8)
+         (guitar generic_tier8)
+         (bass generic_tier8)
+         (vocals generic_tier8)
+         (band generic_tier8))
+      ((drum generic_tier9)
+         (guitar generic_tier9)
+         (bass generic_tier9)
+         (vocals generic_tier9)
+         (band generic_tier9)))
+   (genre alternative blues classicrock country emo fusion glam grunge indierock jazz metal new_wave novelty numetal poprock prog punk rock southernrock urban other)
+   (decade the60s the70s the80s the90s the00s)
+   (alpha_song)
+   (alpha_artist))
+(song_select_gap 30.0)
+(quick_cheats
+   #include cheats.dta)
+(long_cheats
+   #include long_cheats.dta)
+(modifiers
+   #include modifiers.dta)
+(beatmatcher
+   #include beatmatcher.dta)
+(game
+   #include game.dta)
+(modes
+   #include modes.dta)
+(player
+   #include player.dta)
+(scoring
+   #include scoring.dta)
+(achievements
+   #include achievements.dta)
+(track_graphics
+   #include track_graphics.dta)
+(sound
+   #include sound.dta)
+(tour
+   #include tour.dta)
+(hud
+   (crowd_meter
+      (speed 0.9))
+   (star_meter
+      (speed 0.9))
+   (lead_meter
+      (max_lead 10000))
+   (message_show_time 2.5)
+   (sp_deploy_msg_delay 1.5)
+   (sp_deploy_repeat_delay 7))
+(characters
+   #include characters.dta)
+(tips
+   (#include tips.dta))
+(loading_screens
+   (#include loading_screens.dta))
+(videos
+   #include videos.dta)
+(data_graveyard)
+(generate_weights FALSE)
+(generate_panfiles FALSE)
+(holmes
+   (log_host video)
+   (log_path
+      "O:\\filedepot\\rockband\\statlor\\uploaded"))
+#merge ../../../system/run/config/default.dta

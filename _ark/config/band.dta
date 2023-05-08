@@ -1,7 +1,11 @@
 #include macros.dta
-#ifndef HX_EE
+#ifndef HX_WII
 #include macros_update.dta
 #include xlast_macros_update.dta
+#endif
+#ifdef HX_WII
+#define PATCH_NO_STICKERS
+(1)
 #endif
 #define GEMCOLOR_SET
 (green red yellow blue orange)
@@ -13,7 +17,6 @@
    (roots
       ".")
    (file_read_failed
-      #ifndef HX_EE
       ($content_name $corrupt)
       {do
          ($trans_screen
@@ -31,73 +34,52 @@
                   set
                   corrupt
                   $corrupt}}
-            {band_ui content_file_read_failed $content_name $corrupt}}}
-      #else
-      {band_ui_sink content_file_read_failed}
-      #endif
-      )
-   )
+            {band_ui content_file_read_failed $content_name $corrupt}}}))
 (profile_mgr
-#ifndef HX_EE
    (max_characters 24)
    (max_bands 24)
    (max_remote_bands 50)
    (char_name_length 16)
    (band_name_length 32)
-#else
-   (max_chars_per_inst 8)
-   (max_leaders_per_char 10)
-   (max_bands_per_char 20)
-   (char_name_length 20)
-   (band_name_length 40)
-#endif
    (motto_length 64))
 (platform_mgr
-#ifdef HX_EE
-   (keyboard_allowed_chars
-      " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!\q#$%&'()*+,-./:;=?@[\\]^_`{|}~¿¡¬√ƒ≈∆«»… ÀÃÕŒœ–—“”‘’÷ÿŸ⁄€‹›ﬁﬂ‡·‚„‰ÂÊÁËÈÍÎÏÌÓÔÒÚÛÙıˆ¯˘˙˚¸˝˛ˇ")
-#endif
    (ps3_game_data_icon
       "mc/gamedata/icon0.png")
    (ps3_game_data_version
-      "01.00"))
+      "01.00")
+#ifdef HX_WII
+   (wii_game_data_icon
+      "test/remote_metadata/icon0.png_wii")
+   (wii_game_data_version
+      "02.00")
+#endif)
 (system
-#ifndef HX_EE
    (language
       (force eng))
-#else
-   (ng FALSE)
-   (language)
-   (region
-      (force na))
-#endif
    (iop_modules
       (iop/scrtchpd.irx)
       (iop/sio2man.irx)
-      (iop/mtapman.irx)
       (iop/mcman.irx)
       (iop/mcserv.irx)
-      (iop/usbd.irx
-         "thpri=15,16")
-      #ifndef _SHIP
+      #ifdef _SHIP
+      (iop/usbd.irx FALSE)
+      (iop/usbkb.irx FALSE)
+      #else
+      (iop/usbd.irx)
       (iop/usbkb.irx
          "keybd=1"
          "debug=0")
       #endif
       (iop/padman.irx)
       (iop/msifrpc.irx)
+      #ifdef _SHIP
+      (iop/mtapman.irx FALSE)
+      #else
+      (iop/mtapman.irx)
+      #endif
       (iop/libsd.irx)
       (iop/sdrdrv.irx)
-      (iop/cdvdstm.irx)
-      #ifdef _DEBUG
-      (iop/usbhmx_d.irx)
-      #else
-      #ifdef _SHIP
-      (iop/usbhmx_s.irx)
-      #else
-      (iop/usbhmx_r.irx)
-      #endif
-      #endif)
+      (iop/cdvdstm.irx))
 #ifdef HX_PS3
    (ng TRUE)
 #endif
@@ -233,32 +215,32 @@
       (dualshock kControllerVocals)
 #endif
       (hx_xbox
-         {if_else
-            {modifier_mgr is_modifier_active mod_padguitar}
+	  {if_else
+        {modifier_mgr is_modifier_active mod_padguitar}
             kControllerGuitar
             {if_else
                {modifier_mgr is_modifier_active mod_paddrum}
                   kControllerDrum
                   kControllerVocals}})
       (digital
-          {if_else
-            {modifier_mgr is_modifier_active mod_padguitar}
+	  {if_else
+        {modifier_mgr is_modifier_active mod_padguitar}
             kControllerGuitar
             {if_else
                {modifier_mgr is_modifier_active mod_paddrum}
                   kControllerDrum
                   kControllerVocals}})
       (analog
-          {if_else
-            {modifier_mgr is_modifier_active mod_padguitar}
+	  {if_else
+        {modifier_mgr is_modifier_active mod_padguitar}
             kControllerGuitar
             {if_else
                {modifier_mgr is_modifier_active mod_paddrum}
                   kControllerDrum
                   kControllerVocals}})
       (dualshock 
-         {if_else
-            {modifier_mgr is_modifier_active mod_padguitar}
+	  {if_else
+        {modifier_mgr is_modifier_active mod_padguitar}
             kControllerGuitar
             {if_else
                {modifier_mgr is_modifier_active mod_paddrum}
@@ -319,40 +301,6 @@
       (enable TRUE))
    (net_poll
       (enable TRUE)))
-#else
-#ifdef HX_EE
-   (anim
-      (enable TRUE))
-   (synth
-      (enable TRUE))
-   (movie
-      (enable TRUE)
-      (budget 7)
-      (draw TRUE))
-   (ui_draw
-      (enable TRUE))
-   (ui_poll
-      (enable TRUE))
-   (cpu
-      (draw FALSE))
-   (cpu_regular
-      (enable TRUE)
-      (budget 16.7))
-   (gs
-      (draw FALSE))
-   (gs_regular
-      (enable TRUE)
-      (budget 15.0))
-   (trackpanel_poll
-      (enable FALSE)
-      (budget 5))
-   (draw
-      (enable FALSE))
-   (world
-      (enable TRUE)
-      (draw FALSE))
-   (vag_decryption
-      (enable FALSE))
 #else
 (timer
    (world
@@ -421,12 +369,7 @@
    (vorbis
       (enable TRUE)))
 #endif
-#endif
 (rnd
-#ifdef HX_EE
-   (bpp 32)
-   (pal TRUE)
-#endif
    (title
       "Rock Band")
    (overlays
@@ -464,10 +407,10 @@
       (latency
          (lines 2)
          (showing FALSE)))
-   #ifdef HX_EE
+   #ifdef HX_WII
    (timer_script
       {set_timer_ms
-         game
+         game_etc
          {-
             {-
                {-
@@ -486,7 +429,32 @@
                {timer_ms cpu}}
             {set
                $gs_postproc
-               {timer_ms gs}})
+               {timer_ms gs}}
+            {set
+               $world_draw_postproc
+               {timer_ms world_draw}}
+            {set
+               $world_poll_postproc
+               {timer_ms world_poll}})
+         (kProcessChar
+            {set
+               $world_char
+               {timer_ms world}}
+            {set
+               $cpu_char
+               {timer_ms cpu}}
+            {set
+               $gs_char
+               {timer_ms gs}}
+            {set
+               $mesh_char
+               {timer_ms mesh}}
+            {set
+               $world_draw_char
+               {timer_ms world_draw}}
+            {set
+               $world_poll_char
+               {timer_ms world_poll}})
          (kProcessWorld
             {set
                $world_regular
@@ -496,29 +464,17 @@
                {timer_ms cpu}}
             {set
                $gs_regular
-               {timer_ms gs}})
-         (kProcessAll
-            {set $world_postproc 0}
-            {set $cpu_postproc 0}
-            {set $gs_postproc 0}
+               {timer_ms gs}}
             {set
-               $world_regular
-               {timer_ms world}}
+               $mesh_regular
+               {timer_ms mesh}}
             {set
-               $cpu_regular
-               {timer_ms cpu}}
+               $world_draw_regular
+               {timer_ms world_draw}}
             {set
-               $gs_regular
-               {timer_ms gs}})}
-      {set_timer_ms world_postproc $world_postproc}
-      {set_timer_ms cpu_postproc $cpu_postproc}
-      {set_timer_ms gs_postproc $gs_postproc}
-      {set_timer_ms world_regular $world_regular}
-      {set_timer_ms cpu_regular $cpu_regular}
-      {set_timer_ms gs_regular $gs_regular}
-      {switch
-         {rnd last_proc_cmds}
-         (kProcessPost
+               $world_poll_regular
+               {timer_ms world_poll}})
+         (kProcessPostChar
             {set
                $world_postproc
                {timer_ms world}}
@@ -527,21 +483,25 @@
                {timer_ms cpu}}
             {set
                $gs_postproc
-               {timer_ms gs}})
-         (kProcessWorld
+               {timer_ms gs}}
             {set
-               $world_regular
-               {timer_ms world}}
+               $world_draw_postproc
+               {timer_ms world_draw}}
             {set
-               $cpu_regular
-               {timer_ms cpu}}
-            {set
-               $gs_regular
-               {timer_ms gs}})
+               $world_poll_postproc
+               {timer_ms world_poll}}
+            {set $world_char 0}
+            {set $cpu_char 0}
+            {set $gs_char 0}
+            {set $mesh_char 0}
+            {set $world_draw_char 0}
+            {set $world_poll_char 0})
          (kProcessAll
             {set $world_postproc 0}
             {set $cpu_postproc 0}
             {set $gs_postproc 0}
+            {set $world_draw_postproc 0}
+            {set $world_poll_postproc 0}
             {set
                $world_regular
                {timer_ms world}}
@@ -550,14 +510,31 @@
                {timer_ms cpu}}
             {set
                $gs_regular
-               {timer_ms gs}})}
+               {timer_ms gs}}
+            {set
+               $world_draw_regular
+               {timer_ms world_draw}}
+            {set
+               $world_poll_regular
+               {timer_ms world_poll}})}
       {set_timer_ms world_postproc $world_postproc}
+      {set_timer_ms world_poll_postproc $world_poll_postproc}
+      {set_timer_ms world_draw_postproc $world_draw_postproc}
       {set_timer_ms cpu_postproc $cpu_postproc}
       {set_timer_ms gs_postproc $gs_postproc}
+      {set_timer_ms mesh_postproc $mesh_postproc}
       {set_timer_ms world_regular $world_regular}
+      {set_timer_ms world_poll_regular $world_poll_regular}
+      {set_timer_ms world_draw_regular $world_draw_regular}
       {set_timer_ms cpu_regular $cpu_regular}
-      {set_timer_ms gs_regular $gs_regular})
-   (text_superscript_scale 0.5)
+      {set_timer_ms gs_regular $gs_regular}
+      {set_timer_ms mesh_regular $mesh_regular}
+      {set_timer_ms world_char $world_char}
+      {set_timer_ms world_poll_char $world_poll_char}
+      {set_timer_ms world_draw_char $world_draw_char}
+      {set_timer_ms cpu_char $cpu_char}
+      {set_timer_ms gs_char $gs_char}
+      {set_timer_ms mesh_char $mesh_char})
    #else
    (timer_script
       {set_timer_ms
@@ -612,9 +589,9 @@
       {set_timer_ms gs_regular $gs_regular})
    (text_superscript_scale 0.42))
 #endif
-#ifndef HX_EE
 (store
    #include store.dta)
+#ifndef HX_WII
 (ugc_store
    #include ugc_store.dta)
 #endif
@@ -626,7 +603,7 @@
    #include net.dta)
 (objects
    #include objects.dta
-#ifndef HX_EE
+#ifndef HX_WII
    (updated_song_select_slots
       (ugc_purchased
          (object
@@ -681,10 +658,8 @@
 #endif
 (locale ../ui/eng/locale_milo.dta ../ui/eng/locale.dta ../ui/eng/locale_updates.dta)
 (venues VENUES)
-#ifndef HX_EE
 (song_select
    #include song_select.dta)
-#endif
 (song_groupings
    (rank
       ((drum generic_tier1)
@@ -721,20 +696,9 @@
          (guitar generic_tier9)
          (bass generic_tier9)
          (vocals generic_tier9)
-         (band generic_tier9)))
-   #ifdef HX_EE
-   (genre alternative blues classicrock country emo fusion glam grunge indierock jazz metal new_wave novelty numetal poprock prog punk rock southernrock urban other)
-   (decade the60s the70s the80s the90s the00s)
-   (alpha_song)
-   (alpha_artist)
-   #endif)
-#ifdef HX_EE
-(song_select_gap 30.0)
-#endif
-#ifndef HX_EE
+         (band generic_tier9))))
 (missing_song_data
    #include ../songs/rb1/missing_song_data.dta)
-#endif
 (quick_cheats
    #include cheats.dta)
 (long_cheats
@@ -769,10 +733,8 @@
    (message_show_time 2.5)
    (sp_deploy_msg_delay 1.5)
    (sp_deploy_repeat_delay 7)
-   #ifndef HX_EE
    (botb_names_fade_out_seconds 9)
-   (botb_names_fade_in_seconds 10)
-   #endif)
+   (botb_names_fade_in_seconds 10))
 (characters
    #include characters.dta
    #ifdef HX_WII
@@ -788,7 +750,6 @@
 (videos
    #include videos.dta)
 (data_graveyard)
-#ifndef HX_EE
 (helpbar
    (drum_icon_width 18)
    (vocal_icon_width 18)
@@ -813,13 +774,5 @@
 #ifndef HX_WII
 (ugcnet
    (packets_per_chunk 20))
-#endif
-#else
-(generate_weights FALSE)
-(generate_panfiles FALSE)
-(holmes
-   (log_host video)
-   (log_path
-      "O:\\filedepot\\rockband\\statlor\\uploaded"))
 #endif
 #merge ../../../system/run/config/default.dta
