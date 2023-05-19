@@ -107,6 +107,12 @@
 ;overdrive bar texture
 {set $odbar "rb2dx"}
 
+;do track rails custom textures
+{set $railscustomtexture FALSE}
+
+;rails texture
+{set $rails "rb2"}
+
 ;do score custom textures
 {set $scorecustomtexture TRUE}
 

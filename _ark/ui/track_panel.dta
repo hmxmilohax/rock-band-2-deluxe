@@ -280,7 +280,8 @@
    {if $odbarcustomtexture
       {{$this find rb2_player_meter_background.tex} set_bitmap {sprint "track/overdrive_bar/player_meter_background_" $odbar ".png"}}
       {{$this find player_meter_long.tex} set_bitmap {sprint "track/overdrive_bar/player_meter_long_" $odbar ".png"}}
-	  {{$this find rising_sun_fx_small.tex} set_bitmap {sprint "track/overdrive_bar/rising_sun_fx_small_" $odbar ".png"}}
+	   {{$this find rising_sun_fx_small.tex} set_bitmap {sprint "track/overdrive_bar/rising_sun_fx_small_" $odbar ".png"}}
+      {{$this find indv_player_meter_bar.tex} set_bitmap {sprint "track/overdrive_bar/indv_player_meter_bar_" $odbar ".png"}}
    }
 
    {if $multiringcustomtexture
@@ -292,6 +293,11 @@
 
    {if $streakcustomtexture
       {{$this find bass_superstreak_pattern.tex} set_bitmap {sprint "track/streak/" $streak ".png"}}
+   }
+
+   {if $railscustomtexture
+      {{$this find rails.tex} set_bitmap {sprint "track/rails/rails_" $rails ".png"}}
+      {{$this find rails.tex} iterate_refs $ref {$ref set intensify {!= $rails "rb2"}}}
    }
 
    {if $spotlightcustomtexture

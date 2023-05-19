@@ -10,6 +10,8 @@ move "%~dp0..\custom_textures\overdrive_bar\overdrive_bar.dta" "%~dp0..\_ark\tra
 "%~dp0..\dependencies/sed.exe" -i -e "s/player_meter_//g" "%~dp0..\_ark\track\overdrive_bar\overdrive_bar.dta"
 "%~dp0..\dependencies/sed.exe" -i -e "s/long_//g" "%~dp0..\_ark\track\overdrive_bar\overdrive_bar.dta"
 "%~dp0..\dependencies/sed.exe" -i -e "s/background_//g" "%~dp0..\_ark\track\overdrive_bar\overdrive_bar.dta"
+"%~dp0..\dependencies/sed.exe" -i -e "s/indv_bar_//g" "%~dp0..\_ark\track\overdrive_bar\overdrive_bar.dta"
+"%~dp0..\dependencies/sed.exe" -i -e "s/rising_sun_fx_small_//g" "%~dp0..\_ark\track\overdrive_bar\overdrive_bar.dta"
 FOR /F "tokens=*" %%G IN ('dir /b *.png') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\overdrive_bar/%%G" "%~dp0..\custom_textures\overdrive_bar\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.jpg') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\overdrive_bar/%%G" "%~dp0..\custom_textures\overdrive_bar\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.bmp') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\overdrive_bar/%%G" "%~dp0..\custom_textures\overdrive_bar\%%~nG.png"
