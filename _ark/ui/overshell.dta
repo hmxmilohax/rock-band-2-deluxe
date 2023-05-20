@@ -596,7 +596,7 @@
     (focus sel_section.lst)
     (enter
         {sel_section.lst set_data
-            (#include ../track/smashers/smashers.dta)}
+            (#include ../track_new/smashers/smashers.dta)}
         {title.lbl set_localized {localize os_smashers}})
     (exit)
     (SELECT_MSG
@@ -855,7 +855,7 @@
     (focus sel_section.lst)
     (enter
         {sel_section.lst set_data
-            (#include ../track/streak/streak.dta)}
+            (#include ../track_new/streak/streak.dta)}
         {title.lbl set_localized {localize os_strk}})
     (exit)
     (SELECT_MSG
@@ -892,7 +892,7 @@
     (focus sel_section.lst)
     (enter
         {sel_section.lst set_data
-            (#include ../track/spotlight/spotlight.dta)}
+            (#include ../track_new/spotlight/spotlight.dta)}
         {title.lbl set_localized {localize os_spotlight}})
     (exit)
     (SELECT_MSG
