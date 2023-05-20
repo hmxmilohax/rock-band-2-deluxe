@@ -115,4 +115,8 @@
 		(warning_screen tour_world_marathon_screen)
 		(allow_moments FALSE)
 		BWT_BUZZ_MEDIUMBLOCKPLUS
-		BWT_CHAR_UNLOCK08))
+		BWT_CHAR_UNLOCK08)
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))

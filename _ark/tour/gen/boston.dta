@@ -12,7 +12,11 @@
 			any
 			any)
 		(fame (world 3))
-		(money_per_star 5)))
+		(money_per_star 5))
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))
 (big_club
 	big_club_06
 	(learntofly
@@ -35,7 +39,11 @@
 			feelthepain
 			wheredyougo)
 		(fame (town 12))
-		(money_per_star 25)))
+		(money_per_star 25))
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))
 (theater
 	theater_05
 	(pleasure
@@ -99,4 +107,8 @@
 					wornlongsleeveshirt_bostonlobstah)
 				(female
 					torso
-					thermalundertee_bostonlobstah)))))
+					thermalundertee_bostonlobstah))))
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))

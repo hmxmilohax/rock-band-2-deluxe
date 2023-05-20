@@ -12,7 +12,11 @@
 			any
 			any)
 		(fame (world 3))
-		(money_per_star 5)))
+		(money_per_star 5))
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))
 (big_club
 	big_club_04
 	(nightmare
@@ -37,7 +41,11 @@
 			anywayyouwantit
 			alabamagetaway)
 		(fame (town 12))
-		(money_per_star 25)))
+		(money_per_star 25))
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))
 (theater
 	theater_07
 	(vasoline
@@ -86,4 +94,8 @@
 					tshirtdeath_sanfranbridge)
 				(female
 					torso
-					basictee_sanfranciscobridge)))))
+					basictee_sanfranciscobridge))))
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))

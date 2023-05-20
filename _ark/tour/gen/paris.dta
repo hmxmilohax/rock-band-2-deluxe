@@ -11,7 +11,11 @@
 			any
 			any)
 		(fame (world 3))
-		(money_per_star 5)))
+		(money_per_star 5))
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))
 (big_club
 	big_club_09
 	(imsosick
@@ -36,7 +40,11 @@
 			any
 			any)
 		(fame (town 10))
-		(money_per_star 25)))
+		(money_per_star 25))
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))
 (theater
 	theater_01
 	(vasoline
@@ -83,4 +91,8 @@
 					worntshirt_parisbikes)
 				(female
 					torso
-					thintank_parisbikes)))))
+					thintank_parisbikes))))
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))

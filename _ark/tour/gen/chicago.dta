@@ -12,7 +12,11 @@
 			any
 			any)
 		(fame (world 3))
-		(money_per_star 5)))
+		(money_per_star 5))
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))
 (big_club
 	big_club_03
 	(orangecrush
@@ -44,7 +48,11 @@
 			giveitall
 			downwiththesickness)
 		(fame (town 12))
-		(money_per_star 25)))
+		(money_per_star 25))
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))
 
 ;;House of Blues
 		
@@ -91,7 +99,11 @@
 		(fame 
 			(town 30)
 			(world 100))
-		(money_per_star 25)))		
+		(money_per_star 25))
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))		
 				
 (theater
 	theater_04
@@ -150,7 +162,11 @@
 					tshirtdeath_chicagodeathdish)
 				(female
 					torso
-					choppedtee_chicagodeathdish)))))
+					choppedtee_chicagodeathdish))))
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))
 
 ;;Soldier Field
 
@@ -186,4 +202,9 @@
 		(fame 
 			(town 150)
 			(world 800))
-		(money_per_star 80)))
+		(money_per_star 80))
+		
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))

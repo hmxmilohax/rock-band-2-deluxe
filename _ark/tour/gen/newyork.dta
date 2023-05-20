@@ -11,7 +11,11 @@
 			any
 			any)
 		(fame (world 3))
-		(money_per_star 5)))
+		(money_per_star 5))
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))
 (big_club
 	big_club_01
 	(sabotage
@@ -35,7 +39,11 @@
 			onewayoranother
 			psychokiller)
 		(fame (town 12))
-		(money_per_star 25)))
+		(money_per_star 25))
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))
 (arena
 	arena_08
 	(any
@@ -100,7 +108,11 @@
 			(town 30)
 			(world 450))
 		(money_per_star 120)
-		BWT_BUZZ_MEDIUMBLOCKMEGAPLUS))
+		BWT_BUZZ_MEDIUMBLOCKMEGAPLUS)
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))
 
 ;;Metlife Stadium
 
@@ -135,4 +147,8 @@
 			(world 800))
 		(money_per_star 120))	
 		
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1))
 		)

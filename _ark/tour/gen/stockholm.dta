@@ -11,7 +11,11 @@
 			any
 			any)
 		(fame (world 3))
-		(money_per_star 5)))
+		(money_per_star 5))
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))
 (big_club
 	big_club_11
 	(areyougonnabemygirl
@@ -37,7 +41,11 @@
 			(world 200))
 		(money_per_star 120)
 		(sellout TRUE)
-		BWT_CHAR_UNLOCK_LUDWIG))
+		BWT_CHAR_UNLOCK_LUDWIG)
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))
 (theater
 	theater_03
 	(vasoline
@@ -83,4 +91,8 @@
 					tshirtdeath_stockholmfish)
 				(female
 					torso
-					basictee_stockholmfish)))))
+					basictee_stockholmfish))))
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))

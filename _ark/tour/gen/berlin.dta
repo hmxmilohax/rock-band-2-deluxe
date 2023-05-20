@@ -11,7 +11,11 @@
 			any
 			any)
 		(fame (world 3))
-		(money_per_star 5)))
+		(money_per_star 5))
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))
 (big_club
 	big_club_10
 	(timewehad
@@ -36,7 +40,11 @@
 			any
 			any)
 		(fame (town 10))
-		(money_per_star 25)))
+		(money_per_star 25))
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))
 (arena
 	arena_07
 	(outside
@@ -86,4 +94,8 @@
 		(fame
 			(town 30)
 			(world 200))
-		(money_per_star 120)))
+		(money_per_star 120))
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))

@@ -13,7 +13,11 @@
 			any
 			any)
 		(fame (world 3))
-		(money_per_star 5)))
+		(money_per_star 5))
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))
 (big_club
 	big_club_05
 	(whenyouwereyoung
@@ -43,7 +47,11 @@
 		(fame
 			(town 12)
 			(world 100))
-		(money_per_star 25)))
+		(money_per_star 25))
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))
 (arena
 	arena_01
 	(danicalifornia
@@ -104,7 +112,11 @@
 					wornlongsleeveshirt_lasurgery)
 				(female
 					torso
-					choppedtee_lasurgery)))))
+					choppedtee_lasurgery))))
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))
 
 
 ;;Staples Center
@@ -141,7 +153,10 @@
 			(world 100))
 		(money_per_star 120))	
 		
-		)
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1)))
 
 ;; SoFi Stadium
 		
@@ -179,5 +194,9 @@
 			(town 150)
 			(world 800))
 		(money_per_star 120))
-		
+	
+	(jukebox
+		(songs any)
+		(item tour_bwt_complete)
+		(money_per_star 1))	
 	)
