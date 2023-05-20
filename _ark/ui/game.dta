@@ -56,6 +56,7 @@
        {if_else
          {'||'
             $skip_intro
+            {&& {gamemode get local_network} {modifier_mgr is_modifier_active mod_blackvenue}}
             {gamemode get is_framerate_test}}
          {handle
             ($this intro_skip)}
@@ -95,24 +96,23 @@
 		;;Old black venue mod, kept in cases of online users missing black venue
 		{if
 			{modifier_mgr is_modifier_active mod_blackvenue}
-            {do
-               {$world iterate PostProc $p
-               {$p set brightness -800}}}
-            {do
-               {$world iterate PostProc $p
-               {$p set contrast -800}}}
-            {do
-               {$world iterate PostProc $p
-               {$p set lightness -800}}}
-				{do
-					{$world iterate PostProc $p
-					{$p set emulate_fps 1}}}}
+            {$world iterate PostProc $p
+            {$p set brightness -800}}
+            {$world iterate PostProc $p
+            {$p set contrast -800}}
+            {$world iterate PostProc $p
+            {$p set lightness -800}}
+				{$world iterate PostProc $p
+				{$p set emulate_fps 1}}
+            {world_panel set_showing FALSE}}
 	 kDataUnhandled)
    (intro_end
       {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
       {set $bass_groove_active FALSE} {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
 	  {set $drum_groove_active FALSE}
 	  {set $guitar_groove_active FALSE}
+     {handle
+         ($this on_extend)}
 	  {if {modifier_mgr is_modifier_active mod_blackvenue}
          {if {! $already_restarted} ;cheap attempt to fix the "notes too quick bug" by restarting once automatically on initial song start, this should work all the time
             {do
@@ -120,6 +120,15 @@
                {game_restart}
             }
          }
+         {$world iterate PostProc $p
+         {$p set brightness -800}}
+         {$world iterate PostProc $p
+         {$p set contrast -800}}
+         {$world iterate PostProc $p
+         {$p set lightness -800}}
+         {$world iterate PostProc $p
+         {$p set emulate_fps 1}}
+         {world_panel set_showing FALSE}
 	  }
    kDataUnhandled)
    (intro_skip
@@ -390,13 +399,14 @@
          2}
       {$this set_showing FALSE})
    (poll
+   {if {! {modifier_mgr is_modifier_active mod_blackvenue}}
       {if
          [hide_frames]
          {--
             [hide_frames]}
          {unless
             [hide_frames]
-            {$this set_showing TRUE}}})
+            {$this set_showing TRUE}}}})
    (unload
       #ifndef HX_PC
       {rnd suspend}
