@@ -61,13 +61,9 @@
                {$offer has_data album_track_number}}
             {$offer album_name}
             'gNullStr;'})
-      (browser_shortcut
-         ($offer)
-         {$offer first_char artist TRUE})
       (browser_cover
          ($offer)
-         {$offer is_cover})
-      (shortcut_groups SONG_SELECT_ALPHA_SYMBOLS))
+         {$offer is_cover}))
    (by_genre
       (cmp_song_to_song
          ($lhs $rhs)
