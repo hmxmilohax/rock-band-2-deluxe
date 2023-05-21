@@ -245,10 +245,26 @@
       {{$this find square_smasher_bright_orange.tex} set_bitmap {sprint "track_new/smashers/square_smasher_bright_orange_" $smasher ".png"}}
       {{$this find square_smasher_bright_red.tex} set_bitmap {sprint "track_new/smashers/square_smasher_bright_red_" $smasher ".png"}}
       {{$this find square_smasher_bright_yellow.tex} set_bitmap {sprint "track_new/smashers/square_smasher_bright_yellow_" $smasher ".png"}}
-	  {{$this find radial_shockwave.tex} set_bitmap {sprint "track_new/smashers/radial_shockwave_" $smasher ".png"}}
-	  {{$this find radial_shockwave_subtract.tex} set_bitmap {sprint "track_new/smashers/radial_shockwave_subtract_" $smasher ".png"}}
-	  {{$this find shockwave.tex} set_bitmap {sprint "track_new/smashers/shockwave_" $smasher ".png"}}
    }
+   }
+
+   {if $flamescustomtexture
+      {{$this find radial_shockwave.tex} set_bitmap {sprint "track_new/flames/radial_shockwave_" $flames ".png"}}
+      {{$this find radial_shockwave_subtract.tex} set_bitmap {sprint "track_new/flames/radial_shockwave_subtract_" $flames ".png"}}
+      {{$this find shockwave.tex} set_bitmap {sprint "track_new/flames/shockwave_" $flames ".png"}}
+      {{$this find flare_green.tex} set_bitmap {sprint "track_new/flames/flare_green_" $flames ".png"}}
+      {{$this find flare_red.tex} set_bitmap {sprint "track_new/flames/flare_red_" $flames ".png"}}
+      {{$this find flare_yellow.tex} set_bitmap {sprint "track_new/flames/flare_yellow_" $flames ".png"}}
+      {{$this find flare_blue.tex} set_bitmap {sprint "track_new/flames/flare_blue_" $flames ".png"}}
+      {{$this find flare_orange.tex} set_bitmap {sprint "track_new/flames/flare_orange_" $flames ".png"}}
+      {{$this find flare_orange_kick_smasher.tex} set_bitmap {sprint "track_new/flames/flare_orange_kick_smasher_" $flames ".png"}}
+      {{$this find flare_style.tex} set_bitmap {sprint "track_new/flames/flare_style_" $flames ".png"}}
+      {{$this find flare_light_can_star.tex} set_bitmap {sprint "track_new/flames/flare_light_can_star_" $flames ".png"}}
+      {{$this find broken_glass01.tex} set_bitmap {sprint "track_new/flames/broken_glass01_" $flames ".png"}}
+      {{$this find broken_glass02.tex} set_bitmap {sprint "track_new/flames/broken_glass02_" $flames ".png"}}
+      {{$this find gem_cap.tex} set_bitmap {sprint "track_new/flames/gem_cap_" $flames ".png"}}
+      {{$this find spark.tex} set_bitmap {sprint "track_new/flames/sparks_" $flames ".png"}}
+      {{$this find sparks.tex} set_bitmap {sprint "track_new/flames/sparks_" $flames ".png"}}
    }
    
    {if $voxarrowcustomtexture
