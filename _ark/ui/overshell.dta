@@ -164,6 +164,10 @@
             {set $scoretex FALSE}
             {set $odbarcustomtexture FALSE}
             {set $odbar FALSE}
+            {set $railscustomtexture FALSE}
+            {set $rails FALSE}
+            {set $flamescustomtexture FALSE}
+            {set $flames FALSE}
             {set $multiringcustomtexture FALSE}
             {set $multiring FALSE}
             {set $streakcustomtexture FALSE}
@@ -191,6 +195,10 @@
             {set $scoretex rb4}
             {set $odbarcustomtexture TRUE}
             {set $odbar rb2dx}
+            {set $railscustomtexture TRUE}
+            {set $rails rb2}
+            {set $flamescustomtexture TRUE}
+            {set $flames rb2dx}
             {set $multiringcustomtexture TRUE}
             {set $multiring rb2dx}
             {set $streakcustomtexture TRUE}
@@ -218,6 +226,10 @@
             {set $scoretex rb1}
             {set $odbarcustomtexture TRUE}
             {set $odbar rb2}
+            {set $railscustomtexture TRUE}
+            {set $rails rb2}
+            {set $flamescustomtexture TRUE}
+            {set $flames rb2}
             {set $multiringcustomtexture TRUE}
             {set $multiring rb2}
             {set $streakcustomtexture TRUE}
@@ -245,6 +257,10 @@
             {set $scoretex rb2}
             {set $odbarcustomtexture TRUE}
             {set $odbar rb2}
+            {set $railscustomtexture TRUE}
+            {set $rails rb2}
+            {set $flamescustomtexture TRUE}
+            {set $flames rb2}
             {set $multiringcustomtexture TRUE}
             {set $multiring rb2}
             {set $railscustomtexture TRUE}
@@ -270,8 +286,8 @@
             {set $voxnotes rb2dx}
             {set $voxodcustomtexture TRUE}
             {set $voxod rb3}
-      ;      {set $scorecustomtexture FALSE}
-      ;      {set $scoretex none}
+            {set $scorecustomtexture TRUE}
+            {set $scoretex rb2}
             {set $odbarcustomtexture TRUE}
             {set $odbar rb3}
             {set $railscustomtexture TRUE}
@@ -311,12 +327,12 @@
             {set $scoretex rb4}
             {set $odbarcustomtexture TRUE}
             {set $odbar rb4}
-            {set $multiringcustomtexture TRUE}
-            {set $multiring rb4}
             {set $railscustomtexture TRUE}
             {set $rails rb4}
             {set $flamescustomtexture TRUE}
             {set $flames rb4}
+            {set $multiringcustomtexture TRUE}
+            {set $multiring rb4}
             {set $streakcustomtexture TRUE}
             {set $streak rb4}
             {set $spotlightcustomtexture TRUE}
@@ -334,20 +350,24 @@
             {set $trackangle FALSE}
             {set $voxhwcustomtexture TRUE}
             {set $voxhw rb2}
-      ;      {set $gemcustomtexture FALSE}
-      ;      {set $gem none}
-      ;      {set $smashercustomtexture FALSE}
-      ;      {set $smasher none}
+            {set $gemcustomtexture TRUE}
+            {set $gem rb2}
+            {set $smashercustomtexture TRUE}
+            {set $smasher rb2}
             {set $voxarrowcustomtexture TRUE}
             {set $voxarrow rb2}
             {set $voxnotescustomtexture TRUE}
             {set $voxnotes rb2}
             {set $voxodcustomtexture TRUE}
             {set $voxod lrb}
-      ;      {set $scorecustomtexture FALSE}
-      ;      {set $scoretex none}
+            {set $scorecustomtexture TRUE}
+            {set $scoretex rb2}
             {set $odbarcustomtexture TRUE}
             {set $odbar lrb}
+            {set $railscustomtexture TRUE}
+            {set $rails rb2}
+            {set $flamescustomtexture TRUE}
+            {set $flames rb2}
             {set $multiringcustomtexture TRUE}
             {set $multiring lrb}
             {set $streakcustomtexture TRUE}
