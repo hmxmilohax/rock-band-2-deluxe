@@ -7,6 +7,7 @@
     (is_autoloading FALSE)
     (enter
         {modifiers.lst set circular 1}
+        {modifiers.lst set scroll_time 0}
         {$this set is_autoloading FALSE}
         {modifiers.lst set_provider modifier_mgr}
         {profile_mgr
