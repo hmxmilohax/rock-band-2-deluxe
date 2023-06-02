@@ -4,7 +4,7 @@
    )
    ("rb3"
       {set $trackangle TRUE}
-      {set $track_pitch -41}
+      {set $track_pitch -40.5}
       {set $track_fov 19}
       {set $track_y_pos -100}
       {set $track_z_pos 22}
@@ -13,12 +13,12 @@
    )
    ("rb4"
       {set $trackangle TRUE}
-      {set $track_pitch -40.5}
+      {set $track_pitch -40.15}
       {set $track_fov 21}
-      {set $track_y_pos -112.5}
-      {set $track_z_pos 26.51}
-      {set $track_fade_start 90}
-      {set $track_fade_length 30}
+      {set $track_y_pos -112}
+      {set $track_z_pos 26.25}
+      {set $track_fade_start 130}
+      {set $track_fade_length 15}
    )
    ("rr"
       {set $trackangle TRUE}

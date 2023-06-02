@@ -147,6 +147,8 @@
     (SELECT_MSG
     {switch {$component selected_sym}
          (os_prstreset
+            {modifier_mgr deactivate_modifier mod_rb3sustain}
+            {modifier_mgr deactivate_modifier mod_gemdivider}
             {set $trackangle FALSE}
             {set $voxhwcustomtexture FALSE}
             {set $voxhw FALSE}
@@ -178,6 +180,8 @@
             {ui pop_screen}
          )
          (os_rb2dxprst
+            {modifier_mgr deactivate_modifier mod_rb3sustain}
+            {modifier_mgr deactivate_modifier mod_gemdivider}
             {set $trackangle FALSE}
             {set $voxhwcustomtexture TRUE}
             {set $voxhw rb2}
@@ -209,6 +213,8 @@
             {ui pop_screen}
          )
          (os_rb1prst
+            {modifier_mgr deactivate_modifier mod_rb3sustain}
+            {modifier_mgr deactivate_modifier mod_gemdivider}
             {set $trackangle FALSE}
             {set $voxhwcustomtexture TRUE}
             {set $voxhw rb2}
@@ -240,6 +246,8 @@
             {ui pop_screen}
          )
          (os_rb2prst
+            {modifier_mgr deactivate_modifier mod_rb3sustain}
+            {modifier_mgr deactivate_modifier mod_gemdivider}
             {set $trackangle FALSE}
             {set $voxhwcustomtexture TRUE}
             {set $voxhw rb2}
@@ -268,11 +276,13 @@
             {set $streakcustomtexture TRUE}
             {set $streak rb2}
             {set $spotlightcustomtexture TRUE}
-            {set $spotlight rb2}
+            {set $spotlight rb2_guitar}
             {ui goto_screen overshell_track_screen}
             {ui pop_screen}
          )
          (os_rb3prst
+            {modifier_mgr activate_modifier mod_rb3sustain}
+            {modifier_mgr activate_modifier mod_gemdivider}
             {set $trackangle TRUE}
             {set $voxhwcustomtexture TRUE}
             {set $voxhw rb3}
@@ -287,7 +297,7 @@
             {set $voxodcustomtexture TRUE}
             {set $voxod rb3}
             {set $scorecustomtexture TRUE}
-            {set $scoretex rb2}
+            {set $scoretex rb3}
             {set $odbarcustomtexture TRUE}
             {set $odbar rb3}
             {set $railscustomtexture TRUE}
@@ -300,7 +310,7 @@
             {set $streak rb3_guitar}
             {set $spotlightcustomtexture TRUE}
             {set $spotlight rb3_guitar}
-            {set $track_pitch -41}
+            {set $track_pitch -40.5}
             {set $track_fov 19}
             {set $track_y_pos -100}
             {set $track_z_pos 22}
@@ -310,6 +320,8 @@
             {ui pop_screen}
          )
          (os_rb4prst
+            {modifier_mgr deactivate_modifier mod_rb3sustain}
+            {modifier_mgr activate_modifier mod_gemdivider}
             {set $trackangle TRUE}
             {set $voxhwcustomtexture TRUE}
             {set $voxhw rb3}
@@ -337,16 +349,18 @@
             {set $streak rb4}
             {set $spotlightcustomtexture TRUE}
             {set $spotlight rb4}
-            {set $track_pitch -40.5}
+            {set $track_pitch -40.15}
             {set $track_fov 21}
-            {set $track_y_pos -112.5}
-            {set $track_z_pos 26.51}
-            {set $track_fade_start 90}
-            {set $track_fade_length 30}
+            {set $track_y_pos -112}
+            {set $track_z_pos 26.25}
+            {set $track_fade_start 130}
+            {set $track_fade_length 15}
             {ui goto_screen overshell_track_screen}
             {ui pop_screen}
          )
          (os_lrbprst
+            {modifier_mgr deactivate_modifier mod_rb3sustain}
+            {modifier_mgr deactivate_modifier mod_gemdivider}
             {set $trackangle FALSE}
             {set $voxhwcustomtexture TRUE}
             {set $voxhw rb2}
@@ -1005,7 +1019,7 @@
       )
       (rb3
       {set $trackangle TRUE}
-      {set $track_pitch -41}
+      {set $track_pitch -40.5}
       {set $track_fov 19}
       {set $track_y_pos -100}
       {set $track_z_pos 22}
@@ -1014,12 +1028,12 @@
       )
       (rb4
       {set $trackangle TRUE}
-      {set $track_pitch -40.5}
+      {set $track_pitch -40.15}
       {set $track_fov 21}
-      {set $track_y_pos -112.5}
-      {set $track_z_pos 26.51}
-      {set $track_fade_start 90}
-      {set $track_fade_length 30}
+      {set $track_y_pos -112}
+      {set $track_z_pos 26.25}
+      {set $track_fade_start 130}
+      {set $track_fade_length 15}
       )
       (rr
       {set $trackangle TRUE}
