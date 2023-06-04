@@ -299,26 +299,6 @@
             {elem {find $entry song_speed} 1}
          }
       }
-      {if {== {elem $entry 0} {basename gem_texture}}
-         {set $gem
-            {elem {find $entry gem_texture} 1}
-         }
-      }
-      {if {== {elem $entry 0} {basename smasher_texture}}
-         {set $smasher
-            {elem {find $entry smasher_texture} 1}
-         }
-      }
-      {if {== {elem $entry 0} {basename emissive_texture}}
-         {set $emissive
-            {elem {find $entry emissive_texture} 1}
-         }
-      }
-      {if {== {elem $entry 0} {basename spotlight_texture}}
-         {set $spotlight
-            {elem {find $entry spotlight_texture} 1}
-         }
-      }
       {if {== {elem $entry 0} {basename blackbg}}
          {if {== {elem {find $entry blackbg} 1} 1}
             {modifier_mgr activate_modifier mod_blackvenue}
