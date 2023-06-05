@@ -9,6 +9,7 @@
    (file
       "../practice/practice_space.milo")
    (enter
+      {set $iamingamenow FALSE}
       {$this refresh}
       {meta music_stop}
       {synth play bwt_practice_amb.cue})
