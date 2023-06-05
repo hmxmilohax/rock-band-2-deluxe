@@ -38,7 +38,12 @@
          ($world start)}))
 (watcher
    (can_switch_tracks FALSE)
-   (slop 100)
+   (slop 
+      {if_else {<= $speedmod 1.0}
+         100
+         {* 100 $speedmod}
+      }
+   )
    (cheat_error 0)
    (autoplay_accuracy
       (100 100 100 100))
