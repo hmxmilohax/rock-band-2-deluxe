@@ -668,6 +668,7 @@
    (check_setlist TRUE)
    (show_warning FALSE)
    (enter
+      {set $iamingamenow FALSE}
       {song.lst set scroll_time 0}
       {if_else
          {song_offer_provider get is_leaderboards}

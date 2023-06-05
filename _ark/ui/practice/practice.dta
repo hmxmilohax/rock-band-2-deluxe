@@ -88,6 +88,7 @@
    (file practice_sel_section.milo)
    (focus sel_section.lst)
    (enter
+      {set $iamingamenow FALSE}
       {gamecfg set_section 0 -1}
       {gamecfg set_section 1 -1}
       {sel_section.lst set_provider practice_section_provider}
@@ -222,6 +223,7 @@
          set_ready
          TRUE})
    (start_loading
+      {set $iamingamenow TRUE}
       {gamecfg set_active_roster TRUE}
       {ui goto_screen practice_loading_screen})}
 {new

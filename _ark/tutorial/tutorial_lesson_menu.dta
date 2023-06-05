@@ -6,9 +6,11 @@
    (goto_lesson
       ($num)
       {tutorials_state_panel set_lesson $num}
+      {modifier_mgr deactivate_modifier mod_blackvenue}
+      {set $iamingamenow TRUE}
       {ui goto_screen tutorials_loading_screen})
    (enter
-      {modifier_mgr deactivate_modifier mod_blackvenue}
+      {set $iamingamenow FALSE}
       {$this
          set_focus
          {elem

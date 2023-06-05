@@ -249,6 +249,9 @@
       {vocal_track.btn set_localized {sprintf {localize fps_msg} {int $emulatefps}}} ;set venue fps msg
       {do {crowd.btn set_showing FALSE} {sfx.btn set_showing FALSE} {$this disable crowd.btn} {$this disable sfx.btn}
          {crowd.sld set_showing FALSE} {sfx.sld set_showing FALSE}}
+      {if $iamingamenow
+         {$this disable background_music.btn}
+      }
      {$this update_all_from_profile}
      )
    (display_trackspeed_msg

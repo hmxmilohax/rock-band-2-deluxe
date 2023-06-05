@@ -5,7 +5,7 @@
       "drum_trainer_menu.milo")
    (focus beats.btn)
    (enter
-      {modifier_mgr deactivate_modifier mod_blackvenue})
+      {set $iamingamenow FALSE})
    (SELECT_MSG
       {if_else
          {player_on_instrument $player_num kControllerDrum}
@@ -26,7 +26,9 @@
                $this
                (add_local_user_result_msg)}
             {session_mgr add_local_user $player}}
-         {ui push_screen drum_trainer_non_drum_warning_screen}})
+         {ui push_screen drum_trainer_non_drum_warning_screen}}
+   {set $iamingamenow TRUE}
+   {modifier_mgr deactivate_modifier mod_blackvenue})
    (add_local_user_result_msg
       ($success $user)
       {if

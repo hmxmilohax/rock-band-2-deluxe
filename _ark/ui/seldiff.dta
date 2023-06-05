@@ -578,6 +578,7 @@
          {band_ui trigger_event remote_exit}
          kDataUnhandled})
    (start_loading
+      {set $iamingamenow TRUE}
       {$this export_all update}
       {do
          ($band

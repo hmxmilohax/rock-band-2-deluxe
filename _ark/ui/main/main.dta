@@ -145,6 +145,7 @@
    (is_loaded
       {content_mgr refresh_done})
    (enter
+      {set $iamingamenow FALSE}
    {set $splashed 1}
    ANIMATED_LOGO_ENTER
       {set $leaderspeed $speedmod}
