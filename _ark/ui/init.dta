@@ -71,77 +71,41 @@
 {set $slot4_color 3} ;3 = blue
 {set $slot5_color 4} ;4 = orange
 
-;do gem custom textures
-{set $gemcustomtexture TRUE}
-
 ;gem texture
 {set $gem "rb2dx"}
-
-;do smasher custom textures
-{set $smashercustomtexture TRUE}
 
 ;smasher texture
 {set $smasher "rb2dx"}
 
-;do streak custom texture
-{set $streakcustomtexture TRUE}
-
 ;streak texture
 {set $streak "rb4"}
-
-;do overdrive custom textures
-{set $spotlightcustomtexture TRUE}
 
 ;overdrive texture
 {set $spotlight "rb4"}
 
-;do multiplier ring custom textures
-{set $multiringcustomtexture TRUE}
-
 ;multiplier ring texture
 {set $multiring "rb2dx"}
-
-;do overdrive bar custom textures
-{set $odbarcustomtexture TRUE}
 
 ;overdrive bar texture
 {set $odbar "rb2dx"}
 
-;do track rails custom textures
-{set $railscustomtexture FALSE}
-
 ;rails texture
-{set $rails "rb2"}
-
-;do score custom textures
-{set $scorecustomtexture TRUE}
+{set $rails "none"}
 
 ;score texture
 {set $scoretex "rb4"}
 
-;do vocal arrow custom textures
-{set $voxarrowcustomtexture TRUE}
-
 ;vocal arrow texture
 {set $voxarrow "rb2dx"}
-
-;do vocal notes custom textures
-{set $voxnotescustomtexture TRUE}
 
 ;vocal notes texture
 {set $voxnotes "rb2dx"}
 
-;do vocal overdrive custom textures
-{set $voxodcustomtexture FALSE}
-
 ;vocal overdrive texture
-{set $voxod "rb2"}
-
-;do vocal highway custom textures
-{set $voxhwcustomtexture FALSE}
+{set $voxod "none"}
 
 ;vocal highway texture
-{set $voxhw "rb2"}
+{set $voxhw "none"}
 
 ;custom track scaling/angles/rotation
 ;highly experimental, don't edit unless you know what you're doing
@@ -175,17 +139,6 @@
 (
    {set $dxsettings {read_file #ifdef HX_XBOX "GAME:/dx.dta" #endif #ifdef HX_PS3 "GD:/dev_hdd0/game/BLUS30147/USRDIR/dx.dta" #endif}}
    {foreach $entry $dxsettings
-      {if {== {elem $entry 0} {basename mic_vols}}
-         {set $mic_vol_1
-            {elem {find $entry mic_vols} 1}
-         }
-         {set $mic_vol_2
-            {elem {find $entry mic_vols} 2}
-         }
-         {set $mic_vol_3
-            {elem {find $entry mic_vols} 3}
-         }
-      }
       {if {== {elem $entry 0} {basename gem_colors}}
          {set $slot1_color
             {elem {find $entry gem_colors} 1}
@@ -203,92 +156,6 @@
             {elem {find $entry gem_colors} 5}
          }
       }
-      {if {== {elem $entry 0} {basename sustain_colors}}
-         {set $sus1_color
-            {elem {find $entry sustain_colors} 1}
-         }
-         {set $sus2_color
-            {elem {find $entry sustain_colors} 2}
-         }
-         {set $sus3_color
-            {elem {find $entry sustain_colors} 3}
-         }
-         {set $sus4_color
-            {elem {find $entry sustain_colors} 4}
-         }
-         {set $sus5_color
-            {elem {find $entry sustain_colors} 5}
-         }
-      }
-      {if {== {elem $entry 0} {basename smasher_colors}}
-         {set $fret1_color
-            {elem {find $entry smasher_colors} 1}
-         }
-         {set $fret2_color
-            {elem {find $entry smasher_colors} 2}
-         }
-         {set $fret3_color
-            {elem {find $entry smasher_colors} 3}
-         }
-         {set $fret4_color
-            {elem {find $entry smasher_colors} 4}
-         }
-         {set $fret5_color
-            {elem {find $entry smasher_colors} 5}
-         }
-      }
-      {if {== {elem $entry 0} {basename drum_smasher_colors}}
-         {set $smasher1_color
-            {elem {find $entry drum_smasher_colors} 1}
-         }
-         {set $smasher2_color
-            {elem {find $entry drum_smasher_colors} 2}
-         }
-         {set $smasher3_color
-            {elem {find $entry drum_smasher_colors} 3}
-         }
-         {set $smasher4_color
-            {elem {find $entry drum_smasher_colors} 4}
-         }
-      }
-      {if {== {elem $entry 0} {basename drum_tom_colors}}
-         {set $drum1_color
-            {elem {find $entry drum_tom_colors} 1}
-         }
-         {set $drum2_color
-            {elem {find $entry drum_tom_colors} 2}
-         }
-         {set $drum3_color
-            {elem {find $entry drum_tom_colors} 3}
-         }
-         {set $drum4_color
-            {elem {find $entry drum_tom_colors} 4}
-         }
-      }
-      {if {== {elem $entry 0} {basename drum_cymbal_color}}
-         {set $cym1_color
-            {elem {find $entry drum_cymbal_color} 1}
-         }
-         {set $cym2_color
-            {elem {find $entry drum_cymbal_color} 2}
-         }
-         {set $cym3_color
-            {elem {find $entry drum_cymbal_color} 3}
-         }
-         {set $cym4_color
-            {elem {find $entry drum_cymbal_color} 4}
-         }
-      }
-      {if {== {elem $entry 0} {basename kick_color}}
-         {set $kick_color
-            {elem {find $entry kick_color} 1}
-         }
-      }
-      {if {== {elem $entry 0} {basename emulate_fps}}
-         {set $emulatefps
-            {elem {find $entry emulate_fps} 1}
-         }
-      }
       {if {== {elem $entry 0} {basename track_speed}}
          {set $trackspeed
             {elem {find $entry track_speed} 1}
@@ -299,8 +166,103 @@
             {elem {find $entry song_speed} 1}
          }
       }
-      {if {== {elem $entry 0} {basename blackbg}}
-         {if {== {elem {find $entry blackbg} 1} 1}
+      {if {== {elem $entry 0} {basename emulate_fps}}
+         {set $emulatefps
+            {elem {find $entry emulate_fps} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename gem_texture}}
+         {set $gem
+            {elem {find $entry gem_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename smasher_texture}}
+         {set $smasher
+            {elem {find $entry smasher_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename streak_texture}}
+         {set $streak
+            {elem {find $entry streak_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename spotlight_texture}}
+         {set $spotlight
+            {elem {find $entry spotlight_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename multiring_texture}}
+         {set $multiring
+            {elem {find $entry multiring_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename odbar_texture}}
+         {set $odbar
+            {elem {find $entry odbar_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename rails_texture}}
+         {set $rails
+            {elem {find $entry rails_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename score_texture}}
+         {set $scoretex
+            {elem {find $entry score_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename voxarrow_texture}}
+         {set $voxarrow
+            {elem {find $entry voxarrow_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename voxnotes_texture}}
+         {set $voxnotes
+            {elem {find $entry voxnotes_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename voxod_texture}}
+         {set $voxod
+            {elem {find $entry voxod_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename voxhw_texture}}
+         {set $voxhw
+            {elem {find $entry voxhw_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename angle_preset}}
+         {set $anglepreset
+            {elem {find $entry angle_preset} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_nofail}}
+         {if {== {elem {find $entry mod_nofail} 1} 1}
+            {modifier_mgr activate_modifier mod_nofail}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_doublespeed}}
+         {if {== {elem {find $entry mod_doublespeed} 1} 1}
+            {modifier_mgr activate_modifier mod_doublespeed}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_nohud}}
+         {if {== {elem {find $entry mod_nohud} 1} 1}
+            {modifier_mgr activate_modifier mod_nohud}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_newvenuesonly}}
+         {if {== {elem {find $entry mod_newvenuesonly} 1} 1}
+            {modifier_mgr activate_modifier mod_newvenuesonly}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_awesome}}
+         {if {== {elem {find $entry mod_awesome} 1} 1}
+            {modifier_mgr activate_modifier mod_awesome}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_blackvenue}}
+         {if {== {elem {find $entry mod_blackvenue} 1} 1}
             {modifier_mgr activate_modifier mod_blackvenue}
          }
       }
@@ -319,11 +281,6 @@
             {modifier_mgr activate_modifier mod_staticfills}
          }
       }
-      {if {== {elem $entry 0} {basename mod_freestyledrums}}
-         {if {== {elem {find $entry mod_freestyledrums} 1} 1}
-            {modifier_mgr activate_modifier mod_freestyledrums}
-         }
-      }
       {if {== {elem $entry 0} {basename mod_mididrum}}
          {if {== {elem {find $entry mod_mididrum} 1} 1}
             {modifier_mgr activate_modifier mod_mididrum}
@@ -337,6 +294,16 @@
       {if {== {elem $entry 0} {basename mod_paddrum}}
          {if {== {elem {find $entry mod_paddrum} 1} 1}
             {modifier_mgr activate_modifier mod_paddrum}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_selectdeploy}}
+         {if {== {elem {find $entry mod_selectdeploy} 1} 1}
+            {modifier_mgr activate_modifier mod_selectdeploy}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_noquickrestart}}
+         {if {== {elem {find $entry mod_noquickrestart} 1} 1}
+            {modifier_mgr activate_modifier mod_noquickrestart}
          }
       }
       {if {== {elem $entry 0} {basename mod_vocalgender}}
@@ -359,9 +326,14 @@
             {modifier_mgr activate_modifier mod_rb3sustain}
          }
       }
-      {if {== {elem $entry 0} {basename mod_whammyfx}}
-         {if {== {elem {find $entry mod_whammyfx} 1} 1}
+      {if {== {elem $entry 0} {basename mod_nowhammyfx}}
+         {if {== {elem {find $entry mod_nowhammyfx} 1} 1}
             {modifier_mgr activate_modifier mod_nowhammyfx}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_gemdivider}}
+         {if {== {elem {find $entry mod_gemdivider} 1} 1}
+            {modifier_mgr activate_modifier mod_gemdivider}
          }
       }
       {if {== {elem $entry 0} {basename mod_nocrowd}}
@@ -384,18 +356,33 @@
             {modifier_mgr activate_modifier mod_flashbang}
          }
       }
-      {if {== {elem $entry 0} {basename mod_fakejuke}}
-         {if {== {elem {find $entry mod_fakejuke} 1} 1}
-            {modifier_mgr activate_modifier mod_fakejuke}
-         }
-      }
-      {if {== {elem $entry 0} {basename mod_doublespeed}}
-         {if {== {elem {find $entry mod_doublespeed} 1} 1}
-            {modifier_mgr activate_modifier mod_doublespeed}
-         }
-      }
    }
 )
 ;{unless {file_exists dx.dta} INIT_DTA_WRITER}
 INIT_DTA_READER
+
+{unless {== $gem none} {set $gemcustomtexture TRUE}}
+
+{unless {== $smasher none} {set $smashercustomtexture TRUE}}
+
+{unless {== $streak none} {set $streakcustomtexture TRUE}}
+
+{unless {== $spotlight none} {set $spotlightcustomtexture TRUE}}
+
+{unless {== $multiring none} {set $multiringcustomtexture TRUE}}
+
+{unless {== $odbar none} {set $odbarcustomtexture TRUE}}
+
+{unless {== $rails none} {set $railscustomtexture TRUE}}
+
+{unless {== $scoretex none} {set $scorecustomtexture TRUE}}
+
+{unless {== $voxarrow none} {set $voxarrowcustomtexture TRUE}}
+
+{unless {== $voxnotes none} {set $voxnotescustomtexture TRUE}}
+
+{unless {== $voxod none} {set $voxodcustomtexture TRUE}}
+
+{unless {== $voxhw none} {set $voxhwcustomtexture TRUE}}
+
 #include init_dev.dta
