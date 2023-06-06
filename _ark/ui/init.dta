@@ -92,6 +92,9 @@
 ;rails texture
 {set $rails "none"}
 
+;flames texture
+{set $flames "none"}
+
 ;score texture
 {set $scoretex "rb4"}
 
@@ -204,6 +207,11 @@
       {if {== {elem $entry 0} {basename rails_texture}}
          {set $rails
             {elem {find $entry rails_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename flames_texture}}
+         {set $flames
+            {elem {find $entry flames_texture} 1}
          }
       }
       {if {== {elem $entry 0} {basename score_texture}}
@@ -374,6 +382,8 @@ INIT_DTA_READER
 {unless {== $odbar none} {set $odbarcustomtexture TRUE}}
 
 {unless {== $rails none} {set $railscustomtexture TRUE}}
+
+{unless {== $flames none} {set $flamescustomtexture TRUE}}
 
 {unless {== $scoretex none} {set $scorecustomtexture TRUE}}
 
