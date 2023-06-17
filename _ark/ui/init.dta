@@ -159,6 +159,11 @@
             {elem {find $entry gem_colors} 5}
          }
       }
+      {if {== {elem $entry 0} {basename no_save_mode}}
+         {set $nosavemode
+            {elem {find $entry no_save_mode} 1}
+         }
+      }
       {if {== {elem $entry 0} {basename track_speed}}
          {set $trackspeed
             {elem {find $entry track_speed} 1}
@@ -362,6 +367,11 @@
       {if {== {elem $entry 0} {basename mod_flashbang}}
          {if {== {elem {find $entry mod_flashbang} 1} 1}
             {modifier_mgr activate_modifier mod_flashbang}
+         }
+      }
+      {if {== {elem $entry 0} {basename load_custom_settings}}
+         {set $loadcustomsettings
+            {elem {find $entry load_custom_settings} 1}
          }
       }
    }

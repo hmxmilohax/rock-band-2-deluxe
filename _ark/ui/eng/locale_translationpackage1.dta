@@ -1077,7 +1077,9 @@
 (upload_error_server_down
    "The Rock Central server appears to be unavailable.  Rock Band 2 will attempt to upload again automatically during a later autosave.")
 (mc_auto_warning
-   "This game saves data automatically at certain points. While the HDD access indicator is flashing, data is being saved. Do not switch off the power when the HDD access indicator is flashing.")
+   "Pressing the SELECT button twice will open 'Deluxe Settings', allowing you to fully customize the game to your liking.\n\nRB2DX is a free mod by MiloHax;\nif you paid for this mod, you were scammed!")
+(dx_settings_loaded
+   "Deluxe Settings successfully loaded!")
 (mc_autosave_disabled
    "Autosave has been disabled.  In order to re-enable it, you need to save or load your game using the \qManage Data\q menu under the \qOptions\q menu.")
 (mc_load_device_missing
