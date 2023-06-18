@@ -9,7 +9,6 @@ for %%i in (*.jpg) do @echo "%%~ni">> voxod.dta
 move "%~dp0..\custom_textures\voxod\voxod.dta" "%~dp0..\_ark\track\voxod\voxod.dta"
 "%~dp0..\dependencies/sed.exe" -i -e "s/sunburst_//g" "%~dp0..\_ark\track\voxod\voxod.dta"
 "%~dp0..\dependencies/sed.exe" -i -e "s/vox_now_bar_effect_//g" "%~dp0..\_ark\track\voxod\voxod.dta"
-FOR /F "tokens=*" %%G IN ('dir /b *.png') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\voxod/%%G" "%~dp0..\custom_textures\voxod\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.jpg') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\voxod/%%G" "%~dp0..\custom_textures\voxod\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.bmp') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\voxod/%%G" "%~dp0..\custom_textures\voxod\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.png') DO "%~dp0..\dependencies/windows/superfreq.exe" png2tex "%~dp0..\custom_textures\voxod/%%G" "%~dp0..\_ark\track\voxod\gen\%%~nG.png_xbox" --platform x360 --miloVersion 25

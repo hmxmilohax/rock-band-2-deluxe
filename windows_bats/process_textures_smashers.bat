@@ -26,7 +26,6 @@ move "%~dp0..\custom_textures\smashers\smashers.dta" "%~dp0..\_ark\track_new\sma
 "%~dp0..\dependencies/sed.exe" -i -e ":a;N;$!ba;s/\n/\t/g" "%~dp0..\_ark\track_new\smashers\smashers.dta"
 "%~dp0..\dependencies/sed.exe" -i -e "s/\t/ /g" "%~dp0..\_ark\track_new\smashers\smashers.dta"
 "%~dp0..\dependencies/sed.exe" -i -e "s/\"rb2\"/               \"rb2\"/g" "%~dp0..\_ark\track_new\smashers\smashers.dta"
-FOR /F "tokens=*" %%G IN ('dir /b *.png') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\smashers/%%G" "%~dp0..\custom_textures\smashers\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.jpg') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\smashers/%%G" "%~dp0..\custom_textures\smashers\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.bmp') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\smashers/%%G" "%~dp0..\custom_textures\smashers\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.png') DO "%~dp0..\dependencies/windows/superfreq.exe" png2tex "%~dp0..\custom_textures\smashers/%%G" "%~dp0..\_ark\track_new\smashers\gen\%%~nG.png_xbox" --platform x360 --miloVersion 25

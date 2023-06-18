@@ -12,7 +12,6 @@ move "%~dp0..\custom_textures\voxnotes\voxnotes.dta" "%~dp0..\_ark\track\voxnote
 "%~dp0..\dependencies/sed.exe" -i -e "s/star_anim2_//g" "%~dp0..\_ark\track\voxnotes\voxnotes.dta"
 "%~dp0..\dependencies/sed.exe" -i -e "s/star_anim3_//g" "%~dp0..\_ark\track\voxnotes\voxnotes.dta"
 "%~dp0..\dependencies/sed.exe" -i -e "s/star_anim4_//g" "%~dp0..\_ark\track\voxnotes\voxnotes.dta"
-FOR /F "tokens=*" %%G IN ('dir /b *.png') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\voxnotes/%%G" "%~dp0..\custom_textures\voxnotes\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.jpg') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\voxnotes/%%G" "%~dp0..\custom_textures\voxnotes\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.bmp') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\voxnotes/%%G" "%~dp0..\custom_textures\voxnotes\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.png') DO "%~dp0..\dependencies/windows/superfreq.exe" png2tex "%~dp0..\custom_textures\voxnotes/%%G" "%~dp0..\_ark\track\voxnotes\gen\%%~nG.png_xbox" --platform x360 --miloVersion 25
