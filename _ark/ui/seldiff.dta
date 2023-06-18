@@ -811,6 +811,7 @@
                            set_remote_player_difficulty
                            {$user get player_num}
                            $diff}}}}
+               {set $iamingamenow TRUE}
                {ui goto_screen loading_screen}}}}
       kDataUnhandled)}
 {new

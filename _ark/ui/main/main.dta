@@ -145,6 +145,7 @@
    (is_loaded
       {content_mgr refresh_done})
    (enter
+      {set $dontrungemdividers FALSE}
       {set $iamingamenow FALSE}
    {set $splashed 1}
    ANIMATED_LOGO_ENTER
@@ -298,6 +299,8 @@
    SessionPanel
    main_quickplay_panel
    MAIN_SUBSCREEN_PANEL_HANDLER
+   (enter
+      {set $dontrungemdividers FALSE})
    (exit
       {synth reset_mics_changed})
    (SELECT_MSG
@@ -328,9 +331,11 @@
                   {ui goto_screen main_bandcoop_screen})
                (score_duel.btn
                   {main_panel push_focus}
+                  {set $dontrungemdividers TRUE}
                   {ui goto_screen main_score_duel_screen})
                (tug_of_war.btn
                   {main_panel push_focus}
+                  {set $dontrungemdividers TRUE}
                   {ui goto_screen main_tug_of_war_screen})}}})
    (session_ready_complete_msg
       {gamecfg auto_assign_missing_slots}

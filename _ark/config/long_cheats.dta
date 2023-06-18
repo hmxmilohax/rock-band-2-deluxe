@@ -1,7 +1,7 @@
 #define OVERSHELL_DISALLOWED_SCREENS
 ({'||' 
    {== {ui current_screen} game_screen}
-   {== {ui current_screen} hth_game_screen}
+   {== {ui current_screen} h2h_game_screen}
    {== {ui current_screen} practice_game_screen}
    {== {ui current_screen} overshell_main_screen}
    {== {ui current_screen} modifiers_screen}
