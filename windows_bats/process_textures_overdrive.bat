@@ -11,5 +11,6 @@ move "%~dp0..\custom_textures\spotlight\spotlight.dta" "%~dp0..\_ark\track_new\s
 FOR /F "tokens=*" %%G IN ('dir /b *.jpg') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\spotlight/%%G" "%~dp0..\custom_textures\spotlight\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.bmp') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\spotlight/%%G" "%~dp0..\custom_textures\spotlight\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.png') DO "%~dp0..\dependencies/windows/superfreq.exe" png2tex "%~dp0..\custom_textures\spotlight/%%G" "%~dp0..\_ark\track_new\spotlight\gen\%%~nG.png_xbox" --platform x360 --miloVersion 25
+del sed* /a /s
 cd "%~dp0..\_ark/track_new/spotlight/gen"
 FOR /F "tokens=*" %%G IN ('dir /b *.png_xbox') DO python "%~dp0..\dependencies/swap_rb_art_bytes.py" "%~dp0..\_ark/track_new/spotlight/gen/%%G" "%~dp0..\_ark/track_new/spotlight/gen/%%~nG.png_ps3"
