@@ -203,8 +203,12 @@
       {{$this loaded_dir}
          reset})
    (on_extend
-   {new Tex transparent.tex}
-   {{$this find transparent.tex} set_bitmap "track/custom_track_textures/_no_highway.png"}
+
+{unless {modifier_mgr is_modifier_active mod_nohud}
+
+   {unless $texrunonce
+      {new Tex transparent.tex}
+      {{$this find transparent.tex} set_bitmap "track/custom_track_textures/_no_highway.png"}}
    
    {unless $dontrungemdividers
    {if_else {modifier_mgr is_modifier_active mod_gemdivider}
@@ -350,6 +354,9 @@
 {set $multiringcustomtexture FALSE}
 {set $streakcustomtexture FALSE}
 {set $spotlightcustomtexture FALSE}
+{set $texrunonce TRUE}
+
+}
 
    {$this play_intro}
       {if
