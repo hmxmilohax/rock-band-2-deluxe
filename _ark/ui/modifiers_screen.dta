@@ -116,6 +116,7 @@
                 {if_else {== $action kAction_Cancel}
                     {do
                     {ui goto_screen overshell_main_screen}
+                    {synth play button_toggle}
                     {ui pop_screen}
                     {set $mod_os_entered FALSE}}
                 kDataUnhandled}

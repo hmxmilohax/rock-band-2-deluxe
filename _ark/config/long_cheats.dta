@@ -64,4 +64,5 @@
    {unless OVERSHELL_DISALLOWED_SCREENS
       {do
          {set $modifier_exit {ui current_screen}}
+         {synth play button_error}
          {ui push_screen overshell_main_screen}}})

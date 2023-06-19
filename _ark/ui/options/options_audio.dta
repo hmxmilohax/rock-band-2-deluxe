@@ -335,6 +335,7 @@
             {== $action kAction_Cancel}
             {do
             {ui goto_screen overshell_main_screen}
+            {synth play button_toggle}
             {ui pop_screen}}
          kDataUnhandled}})
    (set_speeds
@@ -543,6 +544,7 @@
             {== $action kAction_Cancel}
             {do
             {ui goto_screen overshell_track_screen}
+            {synth play button_toggle}
             {ui pop_screen}}
          kDataUnhandled}})
    (on_slider_change

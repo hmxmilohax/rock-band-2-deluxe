@@ -33,6 +33,7 @@
     (BUTTON_DOWN_MSG
         {if
             {== $action kAction_Cancel}
+            {synth play button_toggle}
             {if_else {exists $modifier_exit}
             {ui goto_screen $modifier_exit}
             {ui goto_screen splash_screen}
@@ -78,6 +79,7 @@
     (BUTTON_DOWN_MSG
         {if
         {== $action kAction_Cancel}
+        {synth play button_toggle}
          {ui goto_screen overshell_main_screen}
          {ui pop_screen}}
          kDataUnhandled)
@@ -117,6 +119,7 @@
     (BUTTON_DOWN_MSG
         {if
         {== $action kAction_Cancel}
+        {synth play button_toggle}
          {ui goto_screen overshell_main_screen}
          {ui pop_screen}}
          kDataUnhandled)
@@ -421,6 +424,7 @@
     (BUTTON_DOWN_MSG
         {if
         {== $action kAction_Cancel}
+        {synth play button_toggle}
          {ui goto_screen overshell_track_screen}
          {ui pop_screen}}
          kDataUnhandled)
@@ -484,6 +488,7 @@
     (BUTTON_DOWN_MSG
         {if
         {== $action kAction_Cancel}
+        {synth play button_toggle}
          {ui goto_screen overshell_trkpreset_screen}
          {ui pop_screen}}
          kDataUnhandled)
@@ -529,6 +534,7 @@
     (BUTTON_DOWN_MSG
         {if
         {== $action kAction_Cancel}
+        {synth play button_toggle}
          {ui goto_screen overshell_tex_screen}
          {ui pop_screen}}
          kDataUnhandled)
@@ -566,6 +572,7 @@
     (BUTTON_DOWN_MSG
         {if
         {== $action kAction_Cancel}
+        {synth play button_toggle}
          {ui goto_screen overshell_voxtrk_screen}
          {ui pop_screen}}
          kDataUnhandled)
@@ -603,6 +610,7 @@
     (BUTTON_DOWN_MSG
         {if
         {== $action kAction_Cancel}
+        {synth play button_toggle}
          {ui goto_screen overshell_track_screen}
          {ui pop_screen}}
          kDataUnhandled)
@@ -640,6 +648,7 @@
     (BUTTON_DOWN_MSG
         {if
         {== $action kAction_Cancel}
+        {synth play button_toggle}
          {ui goto_screen overshell_track_screen}
          {ui pop_screen}}
          kDataUnhandled)
@@ -677,6 +686,7 @@
     (BUTTON_DOWN_MSG
         {if
         {== $action kAction_Cancel}
+        {synth play button_toggle}
          {ui goto_screen overshell_track_screen}
          {ui pop_screen}}
          kDataUnhandled)
@@ -714,6 +724,7 @@
     (BUTTON_DOWN_MSG
         {if
         {== $action kAction_Cancel}
+        {synth play button_toggle}
          {ui goto_screen overshell_track_screen}
          {ui pop_screen}}
          kDataUnhandled)
@@ -751,6 +762,7 @@
     (BUTTON_DOWN_MSG
         {if
         {== $action kAction_Cancel}
+        {synth play button_toggle}
          {ui goto_screen overshell_voxtrk_screen}
          {ui pop_screen}}
          kDataUnhandled)
@@ -788,6 +800,7 @@
     (BUTTON_DOWN_MSG
         {if
         {== $action kAction_Cancel}
+        {synth play button_toggle}
          {ui goto_screen overshell_voxtrk_screen}
          {ui pop_screen}}
          kDataUnhandled)
@@ -825,6 +838,7 @@
     (BUTTON_DOWN_MSG
         {if
         {== $action kAction_Cancel}
+        {synth play button_toggle}
          {ui goto_screen overshell_voxtrk_screen}
          {ui pop_screen}}
          kDataUnhandled)
@@ -862,6 +876,7 @@
     (BUTTON_DOWN_MSG
         {if
         {== $action kAction_Cancel}
+        {synth play button_toggle}
          {ui goto_screen overshell_track_screen}
          {ui pop_screen}}
          kDataUnhandled)
@@ -899,6 +914,7 @@
     (BUTTON_DOWN_MSG
         {if
         {== $action kAction_Cancel}
+        {synth play button_toggle}
          {ui goto_screen overshell_track_screen}
          {ui pop_screen}}
          kDataUnhandled)
@@ -936,6 +952,7 @@
     (BUTTON_DOWN_MSG
         {if
         {== $action kAction_Cancel}
+        {synth play button_toggle}
          {ui goto_screen overshell_track_screen}
          {ui pop_screen}}
          kDataUnhandled)
@@ -973,6 +990,7 @@
     (BUTTON_DOWN_MSG
         {if
         {== $action kAction_Cancel}
+        {synth play button_toggle}
          {ui goto_screen overshell_track_screen}
          {ui pop_screen}}
          kDataUnhandled)
@@ -1010,6 +1028,7 @@
     (BUTTON_DOWN_MSG
         {if
         {== $action kAction_Cancel}
+        {synth play button_toggle}
          {ui goto_screen overshell_track_screen}
          {ui pop_screen}}
          kDataUnhandled)
@@ -1075,6 +1094,7 @@
     (BUTTON_DOWN_MSG
         {if
         {== $action kAction_Cancel}
+        {synth play button_toggle}
          {ui goto_screen overshell_track_screen}
          {ui pop_screen}}
          kDataUnhandled)
