@@ -230,7 +230,7 @@
 (hmx_store
    "Speed / Framerate")
 (ugc_store
-   "Note Colors")
+   "Colors")
 (ugc_store_need_to_signin
    "To visit The Rock Band Network, you must be signed into an Xbox LIVE enabled gamer profile and connected to Xbox LIVE.")
 (ugc_store_need_to_signin_not_guest
@@ -922,7 +922,7 @@
 (gemcolor_3 "blue")
 (gemcolor_4 "orange")
 
-(colrsliderlbl "Note Colors")
+(colrsliderlbl "Colors")
 (tweak_modify "tweaks")
 
 (milosliderlbl
@@ -940,19 +940,21 @@
 (options_audio
    "audio settings")
 ;overshell
-(os_clr "Note Colors")
+(os_clr "Colors")
 (os_spd "Set Speeds")
 (os_mod "Modifiers")
 (os_gems "Gems")
-(os_smashers "Smashers")
-(os_rails "Rails")
+(os_smashers "Strikeline")
+(os_rails "Track Rails")
 (os_flames "Flames")
 (os_strk "Streak")
 (os_spotlight "Overdrive")
-(os_trkset "Track Options")
-(os_tex "Textures")
+(os_trkset "Appearance")
+(os_tex "[CUSTOMIZE]")
+(os_tex1 "Customize Track Theme")
 (os_score "Score")
-(os_voxtrk "Vocal Track")
+(os_voxtrk "Vocal Track...")
+(os_voxtrk1 "Vocal Track")
 (os_voxhw "Highway")
 (os_voxarrow "Arrow")
 (os_voxnotes "Notes")
@@ -963,10 +965,12 @@
 (os_angle "Track Angle")
 (os_postproc "Post Processing")
 (os_postfx "Toggle Post FX")
-(os_cam "Cycle Camera")
+(os_cam "Camera & Audio")
+(os_cycam "Cycle Camera")
 (os_gtrfx "Cycle Guitar FX")
 ; track settings
-(os_trkpreset "Presets")
+(os_blnk " ")
+(os_trkpreset "Track Theme")
 (os_prstreset "[Reset]")
 (os_rb2dxprst "Rock Band 2 DX")
 (os_rb1prst "Rock Band 1")
@@ -974,6 +978,7 @@
 (os_rb3prst "Rock Band 3")
 (os_rb4prst "Rock Band 4")
 (os_lrbprst "LEGO Rock Band")
+(os_tbrbprst "Beatles Rock Band")
 (os_trkresetmsg "This will reset everything used to set custom textures. If you do this after being in-game, it will do nothing.\nAre you sure?")
 (rb1 "Rock Band 1")
 (rb2 "Rock Band 2")
