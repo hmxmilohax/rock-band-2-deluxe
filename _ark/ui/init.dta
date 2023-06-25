@@ -65,17 +65,17 @@
 ;set default venue fps.
 {set $emulatefps 24}
 
-{set $slot1_color 3} ;0 = green, preset colors to GRYBO
+{set $slot1_color 0} ;0 = green, preset colors to GRYBO
 {set $slot2_color 1} ;1 = red
 {set $slot3_color 2} ;2 = yellow
-{set $slot4_color 1} ;3 = blue
-{set $slot5_color 3} ;4 = orange
+{set $slot4_color 3} ;3 = blue
+{set $slot5_color 4} ;4 = orange
 
 ;gem texture
-{set $gem "riskidx"}
+{set $gem "rb2dx"}
 
 ;smasher texture
-{set $smasher "riski"}
+{set $smasher "rb2dx"}
 
 ;streak texture
 {set $streak "rb4"}
@@ -87,7 +87,7 @@
 {set $multiring "rb2dx"}
 
 ;overdrive bar texture
-{set $odbar "riskidx"}
+{set $odbar "rb2dx"}
 
 ;rails texture
 {set $rails "none"}
@@ -137,7 +137,6 @@
 ;{modifier_mgr activate_modifier mod_awesome}
 ;{modifier_mgr activate_modifier mod_selectdeploy}
 ;{modifier_mgr activate_modifier mod_auto_play}
-{modifier_mgr activate_modifier mod_padguitar}
 
 #define INIT_DTA_READER
 (

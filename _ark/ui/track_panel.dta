@@ -236,14 +236,6 @@
 	  {{$this find prism_green.tex} set_bitmap {sprint "track/gems/prism_green_" $gem ".png"}}
 	  {{$this find prism_red.tex} set_bitmap {sprint "track/gems/prism_red_" $gem ".png"}}
      {{$this find prism_spotlight.tex} set_bitmap {sprint "track/gems/prism_spotlight_" $gem ".png"}}
-     {if {|| {== $gem "riski"} {== $gem "riskidx"}}
-         {{$this find track_flash_blue.tex} set_bitmap "track/custom_track_textures/track_flash_blue.png"}
-         {{$this find track_flash_blue_glow.tex} set_bitmap "track/custom_track_textures/track_flash_blue_glow.png"}
-         {{$this find track_flash_red.tex} set_bitmap "track/custom_track_textures/track_flash_red.png"}
-         {{$this find track_flash_red_glow.tex} set_bitmap "track/custom_track_textures/track_flash_red_glow.png"}
-         {{$this find track_flash_yellow.tex} set_bitmap "track/custom_track_textures/track_flash_yellow.png"}
-         {{$this find track_flash_yellow_glow.tex} set_bitmap "track/custom_track_textures/track_flash_yellow_glow.png"}
-     }
    }
 
    {if $smashercustomtexture

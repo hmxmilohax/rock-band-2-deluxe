@@ -138,7 +138,7 @@
         "practice/practice_sel_section.milo")
     (focus sel_section.lst)
     (enter
-        {sel_section.lst set_data (os_tex os_prstreset riski riskidx os_rb2dxprst os_rb2prst os_rb1prst os_rb3prst os_rb4prst os_lrbprst os_tbrbprst)}
+        {sel_section.lst set_data (os_tex os_prstreset os_rb2dxprst os_rb2prst os_rb1prst os_rb3prst os_rb4prst os_lrbprst os_tbrbprst)}
         {title.lbl set_localized {localize os_trkpreset}})
     (exit)
     (SELECT_MSG
@@ -176,60 +176,6 @@
             {set $streak FALSE}
             {set $spotlightcustomtexture FALSE}
             {set $spotlight FALSE}
-         )
-         (riski
-            {set $trackangle FALSE}
-            {set $voxhwcustomtexture TRUE}
-            {set $voxhw rb2}
-            {set $gemcustomtexture TRUE}
-            {set $gem riski}
-            {set $smashercustomtexture TRUE}
-            {set $smasher riski}
-            {set $voxarrowcustomtexture TRUE}
-            {set $voxarrow rb2dx}
-            {set $voxnotescustomtexture TRUE}
-            {set $voxnotes rb2dx}
-            {set $voxodcustomtexture TRUE}
-            {set $voxod rb2}
-            {set $scorecustomtexture TRUE}
-            {set $scoretex rb4}
-            {set $odbarcustomtexture TRUE}
-            {set $odbar rb2}
-            {set $multiringcustomtexture TRUE}
-            {set $multiring rb2dx}
-            {set $streakcustomtexture TRUE}
-            {set $streak rb4}
-            {set $spotlightcustomtexture TRUE}
-            {set $spotlight rb4}
-            {ui goto_screen overshell_track_screen}
-            {ui pop_screen}
-         )
-         (riskidx
-            {set $trackangle FALSE}
-            {set $voxhwcustomtexture TRUE}
-            {set $voxhw rb2}
-            {set $gemcustomtexture TRUE}
-            {set $gem riskidx}
-            {set $smashercustomtexture TRUE}
-            {set $smasher riskidx}
-            {set $voxarrowcustomtexture TRUE}
-            {set $voxarrow rb2dx}
-            {set $voxnotescustomtexture TRUE}
-            {set $voxnotes rb2dx}
-            {set $voxodcustomtexture TRUE}
-            {set $voxod rb2}
-            {set $scorecustomtexture TRUE}
-            {set $scoretex rb4}
-            {set $odbarcustomtexture TRUE}
-            {set $odbar risikdx}
-            {set $multiringcustomtexture TRUE}
-            {set $multiring rb2dx}
-            {set $streakcustomtexture TRUE}
-            {set $streak rb4}
-            {set $spotlightcustomtexture TRUE}
-            {set $spotlight rb4}
-            {ui goto_screen overshell_track_screen}
-            {ui pop_screen}
          )
          (os_rb2dxprst
             {modifier_mgr deactivate_modifier mod_rb3sustain}
