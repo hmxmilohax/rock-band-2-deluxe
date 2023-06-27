@@ -207,16 +207,17 @@
 {unless {modifier_mgr is_modifier_active mod_nohud}
 
    {unless $texrunonce
-      {new Tex transparent.tex}
-      {{$this find transparent.tex} set_bitmap "track/custom_track_textures/_no_highway.png"}}
+      ;{new Tex transparent.tex} ;the new tex doesnt save so i changed it to an unused existing tex -LX
+      {{$this find all_icons.tex} set_bitmap "track/custom_track_textures/_no_highway.png"}
+   }
    
    {unless $dontrungemdividers
    {if_else {modifier_mgr is_modifier_active mod_gemdivider}
       {beatmatch foreach_active_player $player
          {switch {$player instrument}
-            (bass {{{{get_track_panel} find bass} find drum_slots_narrow.mat} set diffuse_tex {$this find transparent.tex}})
-            (guitar {{{{get_track_panel} find guitar} find drum_slots_narrow.mat} set diffuse_tex {$this find transparent.tex}})
-            (drum {{{{get_track_panel} find drum} find drum_slots_narrow.mat} set diffuse_tex {$this find transparent.tex}})}}
+            (bass {{{{get_track_panel} find bass} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})
+            (guitar {{{{get_track_panel} find guitar} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})
+            (drum {{{{get_track_panel} find drum} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})}}
       {beatmatch foreach_active_player $player ;handle adding the appropriate callbacks to each player
          {switch {$player instrument}
             (bass {{{{get_track_panel} find bass} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})
@@ -328,6 +329,10 @@
       {{$this find spotlight_bass_track.tex} set_bitmap {sprint "track_new/spotlight/" $spotlight ".png"}}
       {{$this find spotlight_guitar_track.tex} set_bitmap {sprint "track_new/spotlight/" $spotlight ".png"}}
       {{$this find spotlight_drums_track.tex} set_bitmap {sprint "track_new/spotlight/" $spotlight ".png"}}
+      ;{{$this find spotlight_bass_track.tex} iterate_refs $ref {$ref set color {pack_color 1 0 0}}}
+      ;{{$this find spotlight_guitar_track.tex} iterate_refs $ref {$ref set color {pack_color 1 0 0}}}
+      ;{{$this find spotlight_drums_track.tex} iterate_refs $ref {$ref set color {pack_color 1 0 0}}}
+      ; will implement when im done being lazy
       {if_else {exists {sprint "track_new/spotlight/" $spotlight "_emissive.png"}}
          {do
             {{$this find spotlight_bass_track_emissive.tex} set_bitmap {sprint "track_new/spotlight/" $spotlight "_emissive.png"}}
