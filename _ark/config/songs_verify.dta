@@ -1,8 +1,5 @@
-
 #include ../songs/songs.dta
-
 #include ../songs_download/songs.dta
-
 #merge ../songs/rb1/missing_song_data.dta
 (random_song)
 (make_a_setlist)
