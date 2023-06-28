@@ -1,6 +1,4 @@
-
 (localhpack "LocalH's Pack")
-
 (bleepbloops "Bleep Bloops")
 (solomedley "Solo Medleys")
 (bleepbloopuc "Bleep Bloop Undercharts")
@@ -188,7 +186,92 @@
 
 
 
-
+(main_store
+   "TWEAKS") ;was "MUSIC STORE", fuck that lmao
+(leader_hb_choosesong105 "Choose Song at 105%")
+(leader_hb_choosesong110 "Choose Song at 110%")
+(leader_hb_choosesong115 "Choose Song at 115%")
+(leader_hb_choosesong120 "Choose Song at 120%")
+(leader_hb_choosesong125 "Choose Song at 125%")
+(leader_hb_choosesong130 "Choose Song at 130%")
+(leader_hb_choosesong135 "Choose Song at 135%")
+(leader_hb_choosesong140 "Choose Song at 140%")
+(leader_hb_choosesong145 "Choose Song at 145%")
+(leader_hb_choosesong150 "Choose Song at 150%")
+(leader_hb_choosesong155 "Choose Song at 155%")
+(leader_hb_choosesong160 "Choose Song at 160%")
+(leader_hb_choosesong165 "Choose Song at 165%")
+(leader_hb_choosesong170 "Choose Song at 170%")
+(leader_hb_choosesong175 "Choose Song at 175%")
+(leader_hb_choosesong180 "Choose Song at 180%")
+(leader_hb_choosesong185 "Choose Song at 185%")
+(leader_hb_choosesong190 "Choose Song at 190%")
+(leader_hb_choosesong195 "Choose Song at 195%")
+(leader_hb_choosesong200 "Choose Song at 200%")
+(leader_hb_choosesong205 "Choose Song at 205%")
+(leader_hb_choosesong210 "Choose Song at 210%")
+(leader_hb_choosesong215 "Choose Song at 215%")
+(leader_hb_choosesong220 "Choose Song at 220%")
+(leader_hb_choosesong225 "Choose Song at 225%")
+(leader_hb_choosesong230 "Choose Song at 230%")
+(leader_hb_choosesong235 "Choose Song at 235%")
+(leader_hb_choosesong240 "Choose Song at 240%")
+(leader_hb_choosesong245 "Choose Song at 245%")
+(leader_hb_choosesong250 "Choose Song at 250%")
+#ifdef HX_PS3
+(error_cheating
+   "Sorry, you have a modifier activated that disables online play. You cannot access any online features until the modifier is disabled.")
+#else
+(error_cheating
+   "Sorry, you have a modifier activated that disables Xbox LIVE play. You cannot access any Xbox LIVE features until the modifier is disabled.")
+#endif
+(attract_press_start
+   " ")
+(charcreator_full_profile_fmt
+   "You already own the maximum of %d characters.  If you want to make a new character, you'll have to delete an old one first.")
+(shell_press_start_to_rock
+   " ")
+(nice_solo
+   "Nice")
+(mc_auto_warning
+   "Pressing the SELECT button twice will open 'Deluxe Settings', allowing you to fully customize the game to your liking.\n\nRB2DX is a free mod by MiloHax;\nif you paid for this mod, you were scammed!")
+(dx_settings_loaded
+   "Deluxe Settings successfully loaded!")
+#ifdef HX_XBOX
+(motd_overshell_tip
+   "Press the BACK button twice on any menu to change modifiers, textures, speeds, and more on the fly.")
+#else
+(motd_overshell_tip
+   "Press the SELECT button twice on any menu to change modifiers, textures, speeds, and more on the fly.")
+#endif
+(motd_nosaving
+   "Saving is currently disabled due to modifiers.")
+(male
+   "masculine")
+(female
+   "feminine")
+(modifier_enter_entry_name
+   "ALL MODIFIERS UNLOCKED!")
+(modifier_enter_msg
+   "All modifiers are unlocked by default. Go have fun!")
+(loading_help51
+   "Also go play World Tour Definitive Edition!")
+#ifdef HX_PS3
+(loading_help38
+   "There's no penalty for singing during empty sections.")
+#endif
+(loading_help57
+   "Having a hard time playing Easy? Turn on the No Fail modifier from the Deluxe Settings menu!")
+(loading_help59
+   "Having trouble winning over the crowd? Choose the \qNo Fail\q Modifier from the Deluxe Settings menu!")
+(loading_help60
+   "Want to listen to your music? Check out Jukebox Mode in the Deluxe Settings menu.")
+(loading_help64
+   "You can change your game experience with Modifiers, Track Options, and Speeds, found in the Deluxe Settings menu.")
+(loading_help69
+   "Hey parents! Are your kids failing out of songs and getting sad? Hey kids! Are your parents failing out of songs and ruining your fun? Choose the \qNo Fail\q modifier from the Deluxe Settings menu!")
+(loading_help70
+   "Would you rather just scream nonsense and wail randomly on the drums than try to get a good score? You are not alone! Choose the \qNo Fail\q modifier from the Deluxe Settings menu.")
 (drum_trainer_fill_30
    "Row of Toms")
 (drum_trainer_fill_38
@@ -197,6 +280,8 @@
    "Boom Boom Chick")
 (drum_trainer_beat_20
    "4 On The Floor")
+(matchmaker_choose_gender
+   "Select Body Type")
 #ifdef HX_XBOX
 (cal_audio_fail_calbert
    "We couldn't get a reliable audio reading. Please ensure the guitar controller is in front of a speaker, vibration is enabled for your gamer profile, and try again.\n\nIf you are in a room with a lot of echo, try lowering the volume of your speakers and try again.")
