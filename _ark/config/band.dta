@@ -3,12 +3,11 @@
 #include macros_update.dta
 #include xlast_macros_update.dta
 #endif
+#include ../dx/config/dx_macros.dta
 #ifdef HX_WII
 #define PATCH_NO_STICKERS
 (1)
 #endif
-#define GEMCOLOR_SET
-(green red yellow blue orange)
 (band_version
    #include band_version.dta)
 (mem

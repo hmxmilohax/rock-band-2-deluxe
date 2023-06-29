@@ -81,8 +81,7 @@
                   $state}})
          (reset
             {reset.trig trigger}
-            {$this set_energy 0 none guitar}
-         )
+            {$this set_energy 0 none guitar})
          (energy_ready
             ($instrument)
             {do
