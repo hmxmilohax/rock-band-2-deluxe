@@ -507,6 +507,9 @@
          {profile_mgr get_all_unlocked}
          {online.btn set_state kComponentDisabled}})
    (SELECT_MSG
+      {switch $component
+         (online_bandcoop.btn
+            {modifier_mgr activate_modifier mod_vocalgender})}
       {gamemode
          set_mode
          {switch
