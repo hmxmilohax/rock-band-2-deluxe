@@ -528,6 +528,7 @@
       {$this export_all verify_controller_types}
       {$this update_all})
    (enter
+      #ifdef HX_XBOX DX_FPS_SETUP #endif
       #ifndef _SHIP
       {if
          {&&

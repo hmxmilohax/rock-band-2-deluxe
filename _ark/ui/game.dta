@@ -566,11 +566,7 @@
 	  {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
 	  {set $drum_groove_active FALSE} {set $guitar_groove_active FALSE} {set $bass_groove_active FALSE}
 ;setup for venue fps
-	  {if {!= $emulatefps 24} {{$world iterate PostProc $p {$p set emulate_fps $emulatefps}}}
-	  {if {>= {$emulatefps 25} {$char iterate CharHair $hair {$hair reset 35}}
-	  {$world iterate WorldDir $wd {$wd iterate BandCamShot $bcs
-	  {foreach $property (shake_noisefreq shake_noiseamp) {$bcs set (keyframes $i $property) {'*' {$bcs get (keyframes $i $property)} 0.25}}}
-      {foreach $component (x y) {$bcs set (keyframes $i shake_maxangle $component) {'*' {$bcs get (keyframes $i shake_maxangle $component)} 0.25}}}}}}}}
+DX_FPS_SETUP
 ;set all players to autoplay if the modifier is active
       {if {modifier_mgr is_modifier_active mod_auto_play}  {do {beatmatch foreach_active_player $player {$player set_auto_play enable}}}}
 ;set for static drums

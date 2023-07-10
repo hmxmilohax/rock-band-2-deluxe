@@ -21,6 +21,7 @@
       {synth stop rockshop_amb.cue}
       {input_mgr set_user ''})
    (enter
+      #ifdef HX_XBOX DX_FPS_SETUP #endif
       {set
          [hide_ui]
          1}
