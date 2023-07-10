@@ -406,6 +406,11 @@
    (back main_quickplay_screen)
    MAIN_SCREEN_H2H_HANDLERS
    (SELECT_MSG
+      {switch $component
+         (player_match_scoreduel.btn
+            {modifier_mgr activate_modifier mod_vocalgender})
+         (ranked_match_scoreduel.btn
+            {modifier_mgr activate_modifier mod_vocalgender})}
       {gamemode
          set_mode
          {switch
@@ -443,6 +448,11 @@
    (back main_quickplay_screen)
    MAIN_SCREEN_H2H_HANDLERS
    (SELECT_MSG
+      {switch $component
+         (player_match_tow.btn
+            {modifier_mgr activate_modifier mod_vocalgender})
+         (ranked_match_tow.btn
+            {modifier_mgr activate_modifier mod_vocalgender})}
       {gamemode
          set_mode
          {switch
@@ -540,6 +550,9 @@
    main_worldtour_panel
    MAIN_SUBSCREEN_PANEL_HANDLER
    (SELECT_MSG
+      {switch $component
+         (online.btn
+            {modifier_mgr activate_modifier mod_vocalgender})}
       {if_else
          {'||'
             {!= $component online.btn}
