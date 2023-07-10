@@ -145,6 +145,9 @@
    (is_loaded
       {content_mgr refresh_done})
    (enter
+      #ifdef HX_XBOX
+      {$this iterate PostProc $p {$p set emulate_fps 60}}
+      #endif
       {set $dontrungemdividers FALSE}
       {set $iamingamenow FALSE}
    {set $splashed 1}
