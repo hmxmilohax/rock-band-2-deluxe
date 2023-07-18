@@ -1,121 +1,130 @@
-# Rock Band 2 Deluxe
+<div align="center">
 
-![Header Image](dependencies/images/header.gif)
+<img src="dependencies/images/header.gif" width="100%" alt="Header GIF">
 
-# Introduction
+## *Rock Band 2 Deluxe* is a Massive Quality-of-Life Improvement Mod for PlayStation 3, Xbox 360, and Wii.
 
-### Rock Band 2 Deluxe is a Massive Quality-of-Life Improvement Mod by [MiloHax](https://github.com/hmxmilohax)
+### With features like an FC indicator, custom track themes, an increased song limit, and various chart upgrades, *Rock Band 2 Deluxe* makes the experience as definitive as possible!
 
-This guide contains full instructions on how to install Rock Band 2 Deluxe for PlayStation 3 or Xbox 360.
+### 👉 See [Full Feature List](https://github.com/hmxmilohax/rock-band-3-deluxe/blob/main/dependencies/features.md#features)
 
-*There is also a (less supported) PS2 version available in* ***[this branch](https://github.com/hmxmilohax/rock-band-2-deluxe/tree/ps2).***
+### 📥 [Download Now!](https://github.com/hmxmilohax/rock-band-3-deluxe#%EF%B8%8F-what-youll-need)
 
-# Table of Contents  
-- [Features](#features)
-  - [Quality of Life](#quality-of-life)
-  - [Authoring](#authoring)
-  - [Additional Modifications](#additional-modifications)
-- [What You'll Need](#what-youll-need)
-- [Downloads](#downloads)
-- [How to Install](#how-to-install)
-  - [Installing on RPCS3 (Recommended for PC)](#installing-on-rpcs3-recommended-for-pc)
-  - [Installing on PS3](#installing-on-ps3)
-  - [Installing on Xbox 360](#installing-on-xbox-360)
-  - [Installing on Xenia (Advanced)](#installing-on-xenia-advanced)
-- [Optional Upgrades](#optional-upgrades)
-  - [Songs](#songs)
-  - [Custom Textures](#custom-textures)
-- [Repo Setup (Advanced)](#repo-setup-advanced)
-- [Dependencies](#dependencies)
+<br/>
 
-# Features
+<img src="dependencies/images/rb2dx.gif" width="100%" alt="RB2DX">
 
-## Quality of Life
-* No strum limit executable modification by GMS
-* Fast start executable modification by ihatecompvir
-* Additional intro skip scripting to skip the intro movie
-* [Custom settings loader](https://github.com/hmxmilohax/dx-settings-loader) as a frontend for Xbox and Xenia
-* `Overshell` - a custom on-screen menu system for changing modifiers, speeds, textures, and more. Opened by pressing `SELECT, SELECT` on most menu screens
-* 1080p support via PS3/RPCS3
-* Full Combo indicator per instrument via the multiplier
-* New tour setlists utilizing the Rock Band 1 setlist by C0Assassin
-* Updated genres from Lego Rock Band/Rock Band 3/Rock Band 4
-* Non-Playable characters now playable
-* All modifiers unlocked by default
-* Integrated Rock Band 1 unexportables
-* No losing fans in career on quit/restart
-* `Flawless` accomplishment replaced with `Full Combo`, and checks perfect note streak as well as all notes hit
-* Double bass pedal port supported on stock rb2/rb3 kits
-* Modifier for E-kits to fix an issue the above line introduces (midi drum bass kick fix)
-* Disables drum fills by default and replaces activations with auto activations (static fills)
-* Modifier to restore Legacy Drum Fills
-* Bass streak effect from RB3/RB4 available on all instruments - modifier to restore vanilla functionality
-* New menu, `Tweaks`, in game for additional modifications
-* Selectable song speed and track speed by 5% increments
-* Selectable venue framerate up to 60fps
-* Black Venue modifier with decreased load times and system load
-* Press select to restart the section in practice mode
-* Default difficulty on first load is Expert
-* Song title always visible modifier
-* Detailed song title modifier including album, year, track number (does not work properly in random/setlists)
-* Manual calibration adjusts by 1ms instead of 5ms
+</div>
+<br/>
 
-## Authoring
-* Author shown on song title - in your songs.dta `(author `Author Name`)`
-* Autoplay modifier for chart demos
-* Gameplay watermarks to deter abuse of autoplay including -
-    * Disabling autosave
-    * Replacing endgame percentage with `BOT`
-    * Manipulating MTV Overlay
-* Cycle camera menu button - available in-game when autoplay is enabled
+# ✍️ What You'll Need
 
-## Additional Modifications
-* Selectable colors per fret
-* Several modifiers to change the look of the highway/track
-* Nice (69%) and Awesome Choke (98-99%) callouts on solo completion
-* Various visual upgrades from the fourth main-line Rock Band title
-* New main menu music pulled from other Rock Band titles
-* Pad is guitar modifier - same functionality as GH1, GH2
-* Pad is drum modifier
-* Freestyle drums modifier
-* Modifier to not force vocal gender per match song
-* No flames modifier
-* Firework gems modifier
-* No crowd modifier
-* No whammy effect modifier
-* No track muting modifier
-* No sustain tails modifier
-* Rock Band 3 Sustain look modifier
+### Playing *Rock Band 2 Deluxe* requires these things:
 
-# What You'll Need
+- **A vanilla copy of Rock Band 2** for PS3, Xbox 360, or Wii that you can extract onto your PC.
+    - The **USA** version is required for PS3 (`BLUS30147`).
+- For Console: A **modded/hacked PS3, Xbox 360, or Wii** and a way to transfer files to it. An SD card is required for Wii.
+- For Emulator: A PC capable of running RPCS3 or Dolphin.
 
-### Playing Rock Band 2 Deluxe requires these things:
+<br/>
 
-- **A vanilla copy of Rock Band 2** for PS3 or Xbox 360 that you can extract onto your PC. The **USA** version is required.
-  - (PS3: `BLUS30147`, 360: `45410869`)
-- For Console: A **modded/hacked PS3 or Xbox 360** and a way to transfer files to it, we recommend using FTP
-- For Emulator: A **mid-to-high-end PC** capable of running RPCS3
+# 📥 Downloads
 
-# Downloads
+*Rock Band 2 Deluxe recieves very frequent updates. You can click the `Watch` button (All Activity) to be notified about any updates that occur.*
 
-### [Rock Band 2 Deluxe for PS3](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-PS3.zip)
-### [Rock Band 2 Deluxe for Xbox 360](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-Xbox.zip)
+## PlayStation 3
+![last updated:](https://img.shields.io/github/last-commit/hmxmilohax/rock-band-3-deluxe?label=last%20updated%3A)
+### 📥 [Rock Band 2 Deluxe (Standard) for PS3](https://nightly.link/hmxmilohax/rock-band-3-deluxe/workflows/build/main/RB2DX-PS3-Base.zip)
 
-*Have a modded PS2 or can't run RPCS3? Check out the [PS2 Version](https://github.com/hmxmilohax/rock-band-2-deluxe/tree/ps2#what-youll-need)!*
+> The standard install, typical for most users.
 
-# How to Install
+📥 [RB2DX (With RB2_plus Keys Upgrades) for PS3](https://nightly.link/hmxmilohax/rock-band-3-deluxe/workflows/build/main/RB2DX-PS3-keys.zip)
 
-## Installing on [RPCS3](https://rpcs3.net/) (Recommended for PC)
+> Contains additional Keys/Pro Keys upgrades from [RB2_plus](https://github.com/rjkiv/RB2_plus). Significantly larger file size. More info [here](#-RB2_plus-keys-upgrades).
+
+📥 [RB2DX (Original Song Updates) for PS3](https://nightly.link/hmxmilohax/rock-band-3-deluxe/workflows/build/main/RB2DX-PS3-original-mids.zip)
+
+> By default, *Rock Band 2 Deluxe* contains additional song updates. This version reverts them to vanilla.
+
+<br/>
+
+Continue to: 
+    - [Installing on RPCS3](#-installing-on-rpcs3)
+    - [Installing on PS3](#-installing-on-ps3)
+
+## Xbox 360
+![last updated:](https://img.shields.io/github/last-commit/hmxmilohax/rock-band-3-deluxe?label=last%20updated%3A)
+### 📥 [Rock Band 2 Deluxe (Standard) for Xbox 360](https://nightly.link/hmxmilohax/rock-band-3-deluxe/workflows/build/main/RB2DX-Xbox-Base.zip)
+
+> The standard install, typical for most users.
+
+📥 [RB2DX (With RB2_plus Keys Upgrades) for Xbox 360](https://nightly.link/hmxmilohax/rock-band-3-deluxe/workflows/build/main/RB2DX-Xbox-keys.zip)
+
+> Contains additional Keys/Pro Keys upgrades from [RB2_plus](https://github.com/rjkiv/RB2_plus). Significantly larger file size. More info [here](#-RB2_plus-keys-upgrades).
+
+📥 [RB2DX (Original Song Updates) for Xbox 360](https://nightly.link/hmxmilohax/rock-band-3-deluxe/workflows/build/main/RB2DX-Xbox-original-mids.zip)
+
+> By default, *Rock Band 2 Deluxe* contains additional song updates. This version reverts them to vanilla.
+
+📥 [RB2DX (Series X/S Xenia) for Xbox 360](https://nightly.link/hmxmilohax/rock-band-3-deluxe/workflows/build/main/RB2DX-Xbox-Base-Force-Guitar-Controller.zip)
+
+> Forces all instruments to be Guitar controllers since Xenia UWP does not support them at the moment.
+
+📥 [RB2DX (Series X/S Xenia, Original Song Updates) for Xbox 360](https://nightly.link/hmxmilohax/rock-band-3-deluxe/workflows/build/main/RB2DX-Xbox-original-mids-Force-Guitar-Controller.zip)
+
+> See above two.
+
+<br/>
+
+Continue to: 
+    - [Installing on Xbox 360](#-installing-on-xbox-360)
+    - [Installing on Xbox Series X/S](#-installing-on-xbox-series-xs-xenia-uwp)
+
+## Wii
+![last updated:](https://img.shields.io/github/last-commit/hmxmilohax/rock-band-3-deluxe?label=last%20updated%3A)
+### 📥 [Rock Band 2 Deluxe for Wii](https://nightly.link/hmxmilohax/rock-band-3-deluxe/workflows/build/main/RB2DX-Wii-rawfiles.zip)
+
+> The standard install, typical for most users.
+
+<br/>
+
+Continue to: 
+    - [Installing on Wii](#-installing-on-wii)
+    - [Installing on Dolphin Emulator](#-installing-on-dolphin-emulator)
+
+<br/>
+
+# 📩 How to Install
+
+### Select your Platform of Choice
+
+  - [RPCS3 (Recommended for PC)](#-installing-on-rpcs3)
+  - [PlayStation 3](#-installing-on-ps3)
+  - [Xbox 360](#-installing-on-xbox-360)
+  - [Wii](#-installing-on-wii)
+  - [Dolphin Emulator](#-installing-on-dolphin-emulator)
+  - [Xbox Series X/S (Xenia UWP)](#-installing-on-xbox-series-xs-xenia-uwp)
+  - [Xenia (Advanced)](#-installing-on-xenia-advanced)
+<br/>
+
+## 📩 Installing on [RPCS3](https://rpcs3.net/)
 
 * **Install your North American copy of Rock Band 2** through the emulator. The [**official RPCS3 site covers this nicely**](https://rpcs3.net/quickstart).
-  * Remember, **you need to be running** ***BLUS30147***. RPCS3 will tell you this in the game selection GUI under the `Serial` column.
+  * Remember, **Rock Band 2 needs to be** ***BLUS30147***. RPCS3 will tell you this in the game selection GUI under the `Serial` column.
 
-* Download [**Rock Band 2 Deluxe for PS3**](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-PS3.zip). 
-  * Extract the zip and **drag and drop the `.pkg` file on top of the main RPCS3 window** to install it. Select `Yes` to confirm.
+<img src="dependencies/images/serial.png" alt="Serial">
 
-***Rock Band 2 Deluxe is now installed!*** We highly recommend you check out [**Optional Upgrades**](#optional-upgrades) for songs and other cool stuff you can add to your game.
+* Download [**Rock Band 2 Deluxe for PS3**](#playstation-3). 
+  * Extract the zip and **drag and drop the `.pkg` file on top of the main RPCS3 window** to install it.
+  * Select `Yes` to confirm.
 
-**To update Rock Band 2 Deluxe**, [**re-download it**](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-PS3.zip) and repeat the above steps. You can click the `Watch` button (All Activity) to be notified about any updates that occur.
+<img src="dependencies/images/rpcs3_dxpkg.png" alt="RPCS3 DX PKG">
+
+### ✅ ***Rock Band 2 Deluxe is now installed!***
+
+We highly recommend you check out [**Optional Upgrades**](#-optional-upgrades) for songs and other cool stuff you can add to your game.
+
+<br/>
 
 ***Sidenote:*** *we recommend* ***enabling `Write Color Buffers`*** *for Rock Band 2 to prevent any character model issues.*
 
@@ -123,95 +132,225 @@ This guide contains full instructions on how to install Rock Band 2 Deluxe for P
 ![GPU Tab](dependencies/images/gputab.png)
 ![Write Color Buffers](dependencies/images/writecolorbuffers.png)
 
-## Installing on PS3
+<br/>
+
+## 📩 Installing on PS3
 
 **NOTE: You WILL need a HACKED/MODDED (CFW or HFW/HEN) PS3 in order to play this mod on console. We hope this is clear.**
 
-**NOTE: Rock Band 2 Deluxe only works with** ***North American (`BLUS30147`)*** **copies of the game.**
+**NOTE: *Rock Band 2 Deluxe* only works with** ***North American (`BLUS30147`)*** **copies of the game on PS3.**
 
-* Download [**Rock Band 2 Deluxe for PS3**](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-PS3.zip). 
+* Download [**Rock Band 2 Deluxe for PS3**](#playstation-3). 
   * Extract the zip and copy the `.pkg` file to the root of a FAT32 formatted USB drive.
-  * Navigate to `Package Manager` and install it like any other package.
+  * Remove it from your PC and plug it in to the *rightmost* USB port on your PS3.
+  * Navigate to `Package Manager > Install Package Files > Standard` in the XMB and install it just like any other package.
 
-***Rock Band 2 Deluxe is now installed!*** We highly recommend you check out [**Optional Upgrades**](#optional-upgrades) for songs and other cool stuff you can add to your game.
+<img src="dependencies/images/ps3_dxpkg.png" width="75%" alt="PS3 DX PKG">
 
-**To update Rock Band 2 Deluxe**, [**re-download it**](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-PS3.zip) and repeat the above steps. You can click the `Watch` button (All Activity) to be notified about any updates that occur.
+### ✅ ***Rock Band 2 Deluxe is now installed!***
 
-## Installing on Xbox 360
+We highly recommend you check out [**Optional Upgrades**](#-optional-upgrades) for songs and other cool stuff you can add to your game.
+
+<br/>
+
+## 📩 Installing on Xbox 360
 
 **NOTE: You WILL need a HACKED/MODDED (RGH or JTAG) Xbox 360 in order to play this mod on console. We hope this is clear.**
 
-* **Install your North American copy of Rock Band 2** to your console's hard drive.
-  * Remember, **you need to be running** ***the USA version*** **of the game** (`45410869`).
+* **Install your vanilla copy of Rock Band 2** to your console's hard drive.
   * In case anything goes wrong, we recommend that you **rename `default.xex` to `default_vanilla.xex`**.
 
-* **Disable updates** for Rock Band 2 in Aurora. Rock Band 2 Deluxe rolls `TU6` into its base installation.
+* **Disable updates** for Rock Band 2 in Aurora. *Rock Band 2 Deluxe* rolls `TU5` into its base installation.
 
-* Download [**Rock Band 2 Deluxe for Xbox 360**](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-Xbox.zip). 
-  * **Copy the contents of it to where your copy of Rock Band 2 is installed** (we recommend using FTP to do so). Select `Yes` to overwrite the files.
+* Download [**Rock Band 2 Deluxe for Xbox 360**](#xbox-360). 
+  * **Copy the contents of it to where your copy of Rock Band 2 is installed** (we recommend using FTP to do so).
+  * Select `Yes` to overwrite the files if it asks you to.
 
-* We also recommend **clearing your song cache**, as well as your **system cache**.
-  * *To clear your **song cache**, navigate to `System Settings > Storage > Rock Band 2` and delete the song cache.*
-  * *To clear your **system cache**, navigate to `System Settings > Storage` and press `Y` to clear the system cache.*
+### ✅ ***Rock Band 2 Deluxe is now installed!***
 
-***Rock Band 2 Deluxe is now installed!*** We highly recommend you check out [**Optional Upgrades**](#optional-upgrades) for songs and other cool stuff you can add to your game.
+We highly recommend you check out [**Optional Upgrades**](#-optional-upgrades) for songs and other cool stuff you can add to your game.
 
-**To update Rock Band 2 Deluxe**, [**re-download it**](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-Xbox.zip) and repeat the above steps. You can click the `Watch` button (All Activity) to be notified about any updates that occur.
+<br/>
 
-## Installing on Xenia (Advanced)
+***Sidenote:*** We also recommend **clearing your song cache**, as well as your **system cache**.
+* *To clear your **song cache**, navigate to `System Settings > Storage > Rock Band 2` and delete the song cache.*
+* *To clear your **system cache**, navigate to `System Settings > Storage` and press `Y` to clear the system cache.*
 
-*Follow [**Repo Setup (Advanced)**](#repo-setup-advanced) first in order to properly follow this guide.*
+<br/>
 
-* **Extract your North American copy of Rock Band 2** and copy the contents of the `gen` folder to `\_build\xbox\gen\`.
-  * Remember, **you need to be running** ***the USA version*** **of the game** (`45410869`).
+## 📩 Installing on Wii
 
-* Navigate to `_xenia` and **map your controller with x360ce**.
-  * When it asks you to create `xinput1_3.dll`, create it and **rename it to `xinput1_4.dll`**.
+**NOTE: You WILL need a HACKED/MODDED/HOMEBREWED Wii in order to play this mod on console. You also cannot play this mod on a Wii Mini. We hope this is clear.**
+
+**NOTE: *Rock Band 2 Deluxe* is compatible with both Wii and vWii, as well as [Dolphin Emulator](#-installing-on-dolphin-emulator).**
+
+<br/>
+
+***You need to have [RB2Enhanced](https://RB2e.rbenhanced.rocks/) installed before you do anything. Install that first using its guide and then come back.***
+
+* Download [**Rock Band 2 Deluxe for Wii**](https://nightly.link/hmxmilohax/rock-band-3-deluxe/workflows/build/main/RB2DX-Wii-rawfiles.zip).
+* Copy the `RB2` folder to the **root of your SD card**. Click `Yes` to overwrite the files if it asks you to.
+* When you launch *RB2Enhanced* through the Homebrew Channel, ***Deluxe*** **will be loaded as well**.
+
+### ✅ ***Rock Band 2 Deluxe is now installed!***
+
+<br/>
+
+***NOTE: The following features are currently unsupported on Wii:***
+* FC Indicator
+* Track Themes
+* Overdrive Color Selection
+* RB4/Rivals Menu Themes
+* Venue FPS Selection
+* Post Processing Menu
+* Song Title Overlay Customization
+* Song Upgrades
+* currentsong.txt/json
+* RB2DX Discord Rich Presence (for Dolphin)
+* Saving *Deluxe Settings* for future sessions
+* Debug Logging
+
+<br/>
+
+## 📩 Installing on [Dolphin Emulator](https://dolphin-emu.org/)
+
+* **Enable `Insert SD Card` and `Automatically Sync with Folder`** in your Dolphin config under the `Wii` tab in SD Card Settings.
+* Right-click Rock Band 2 in your games list and **set it as your Default ISO**.
+* Download the latest version of [**RB2Enhanced**](https://RB2e.rbenhanced.rocks/) for Wii. ***This is required in order to run Deluxe***.
+    * **Copy the files to `\Load\WiiSDSync\`** in your Dolphin Emulator folder. This is usually in Documents.
+* Download [**Rock Band 2 Deluxe for Wii**](https://nightly.link/hmxmilohax/rock-band-3-deluxe/workflows/build/main/RB2DX-Wii-rawfiles.zip).
+    * Copy the `RB2` folder to `\Load\WiiSDSync\`.
+    * Click `Yes` to overwrite the files if it asks you to.
+* Launch the *RB2Enhanced* loader to **start** ***RB2Enhanced*** **alongside** ***Rock Band 2 Deluxe***.
+    * Either: click `Open` on the top left, navigate to `\Load\WiiSDSync\RB2\RB2e\` and **open `launcher.dol`**.
+    * Or: **add `\Load\WiiSDSync\RB2\RB2e\` as a game folder** in your game path settings.
+
+### ✅ ***Rock Band 2 Deluxe is now installed!***
+
+<br/>
+
+***NOTE: The following features are currently unsupported on Wii:***
+* FC Indicator
+* Track Themes
+* Overdrive Color Selection
+* RB4/Rivals Menu Themes
+* Venue FPS Selection
+* Post Processing Menu
+* Song Title Overlay Customization
+* Song Upgrades
+* currentsong.txt/json
+* RB2DX Discord Rich Presence (for Dolphin)
+* Saving *Deluxe Settings* for future sessions
+* Debug Logging
+
+<br/>
+
+## 📩 Installing on Xbox Series X/S ([Xenia UWP](https://github.com/SirMangler/xenia/releases))
+
+**NOTE: You WILL need an Xbox Series X/S running in [Developer Mode](https://learn.microsoft.com/en-us/windows/uwp/xbox-apps/devkit-activation). We hope this is clear.**
+
+* **Extract and copy your vanilla copy of Rock Band 2** to your USB drive.
+  * In case anything goes wrong, we recommend that you **rename `default.xex` to `default_vanilla.xex`**.
+
+* Download [**Rock Band 2 Deluxe for Xbox 360**](#xbox-360). Xenia UWP currently does not have guitar support so you need to download one of the `Series X/S Xenia` versions.
+  * **Copy the contents of it and paste them on top of your vanilla copy of Rock Band 2**.
+  * Click `Yes` to overwrite the files if it asks you to.
+
+### ✅ ***Rock Band 2 Deluxe is now installed!***
+
+We highly recommend you check out [**Optional Upgrades**](#-optional-upgrades) for songs and other cool stuff you can add to your game.
+
+<br/>
+
+***Sidenote:*** *we recommend* ***enabling `Readback Resolve`*** *in Xenia settings to prevent any character model issues.*
+
+<br/>
+
+## 📩 Installing on Xenia (Advanced)
+
+*Follow [**Building (Advanced)**](#-building-advanced) first in order to properly follow this guide.*
+
+* **Extract your vanilla copy of Rock Band 2** and copy the contents of the `gen` folder to `\_build\xbox\gen\`.
 
 * Then, **navigate to `windows_bats`** if you're on Windows or **`user_scripts`** if you're on Linux and **run `build_xenia` to automatically update, build, and run Rock Band 2 Deluxe.**
   * *You need to run this script every time in order to play and update the game. `run_xenia` will run the game only and won't update and build it unless a new update is available, so you can use that if `build_xenia` takes too long.*
 
-***Rock Band 2 Deluxe is now installed!*** We highly recommend you check out [**Optional Upgrades**](#optional-upgrades) for songs and other cool stuff you can add to your game.
+* If your controller does not respond, navigate to the `_xenia` folder and **map your controller with x360ce**.
+  * When it asks you to create `xinput1_3.dll`, create it and **rename it to `xinput1_4.dll`**.
+  * If your controller is mapped and recognized and still doesn't register any inputs, unplug it from your PC and plug it back in while Xenia is still open.
 
-***Sidenote:*** *if you're experiencing issues regarding character models, navigate to `_xenia`, open `xenia-canary.config.toml` in your text editor of choice, and change `gpu` from `vulkan` to `d3d12` and `d3d12_readback_resolve` from `false` to `true` (you may need to press `CTRL + F` to find these). This will fix all texture issues but will drastically affect the framerate, you also may experience BSODs. If you don't want to deal with any of this, we recommend using* [***RPCS3***](#installing-on-rpcs3-recommended-for-pc) *instead.*
+### ✅ ***Rock Band 2 Deluxe is now installed!***
+
+We highly recommend you check out [**Optional Upgrades**](#-optional-upgrades) for songs and other cool stuff you can add to your game.
+
+<br/>
+
+***Sidenote:*** *if you're experiencing issues regarding character models,*
+
+* Navigate to `_xenia`, open `xenia-canary.config.toml` in your text editor of choice.
+* Change the following settings (you may need to press `CTRL + F` to find these):
+  *  `gpu` from `vulkan` to `d3d12`,
+  *  `d3d12_readback_resolve` from `false` to `true`. 
 
 ![D3D12](dependencies/images/d3d12.png)
 ![Readback Resolve](dependencies/images/readbackresolve.png)
 
-# Optional Upgrades
+*This will fix all texture issues but will drastically affect the framerate, you also may experience BSODs. If you don't want to deal with any of this, we recommend using [RPCS3](#-installing-on-rpcs3) instead.*
 
-*These are some optional, but very handy additions you can make to your Rock Band 2 Deluxe installation.*
+<br/>
 
-## Songs
+# 🔥 Optional Upgrades
+
+### These are some optional, but very handy additions you can make to your *Rock Band 2 Deluxe* installation.
+
+  - [Additional Songs](#-additional-songs)
+    - [RPCS3](#-installing-songs-on-rpcs3)
+    - [PS3](#-installing-songs-on-ps3)
+    - [Xbox 360](#-installing-songs-on-xbox-360)
+    - [Xenia](#-installing-songs-on-xenia-desktop-and-uwp)
+  - [RB2_plus Keys Upgrades](#-RB2_plus-keys-upgrades)
+  - [Custom Textures](#-custom-textures-ps3360-only)
+
+<br/>
+
+## 🎵 Additional Songs
 
 You can find song packs compatible with all Rock Band titles for both platforms on [**This Spreadsheet**](https://docs.google.com/spreadsheets/d/1-3lo2ASxM-3yVr_JH14F7-Lc1v2_FcS5Rv_yDCANEmk/edit#gid=0).
 
 You can also use [**Onyx Music Game Toolkit**](https://github.com/mtolly/onyxite-customs) to generate your own custom song packs for Rock Band games or convert Xbox 360 packs to PS3, and vice versa. Converting custom songs from games like Clone Hero is a breeze.
 
-### Installing Songs on RPCS3
+### 🎵 Installing Songs on RPCS3
 
 * Download a PS3 song pack of your choice and open RPCS3.
 * Drag and drop the song pack you want to install on top of the main RPCS3 window and select `Yes` to install it.
 
-![RPCS3 PKG](dependencies/images/rpcs3_pkg.png)
+<img src="dependencies/images/rpcs3_pkg.png" alt="RPCS3 PKG">
 
-### Installing Songs on PS3
+### 🎵 Installing Songs on PS3
 
 * Download a PS3 song pack of your choice and put it on the root of a USB drive.
 * Open `Package Manager` and select the song pack you want to install.
 
-![PS3 PKG](dependencies/images/ps3_pkg.png)
+<img src="dependencies/images/ps3_pkg.png" width="50%" alt="PS3 PKG">
 
-### Installing Songs on Xbox 360
+### 🎵 Installing Songs on Xbox 360
 
 * Download an Xbox 360 song pack of your choice.
 * Copy it to its respective folder.
 
 ***For RB2 LIVE files, install them to:***
 
-![RB2 LIVE](dependencies/images/360_rb2live.png)
+<img src="dependencies/images/360_RB2live.png" width="50%" alt="RB2 LIVE">
 
-### Installing Songs on Xenia
+***For RB2 CON files, install them to:***
+
+<img src="dependencies/images/360_RB2con.png" width="50%" alt="RB2 CON">
+
+***For RB2 LIVE files, install them to:***
+
+<img src="dependencies/images/360_rb2live.png" width="50%" alt="RB2 LIVE">
+
+### 🎵 Installing Songs on Xenia (Desktop and UWP)
 
 * Download an Xbox 360 song pack of your choice.
 * Open Xenia, navigate to `File > Install Content`, and select your song pack(s) of choice. You can select more than one at a time.
@@ -219,51 +358,74 @@ You can also use [**Onyx Music Game Toolkit**](https://github.com/mtolly/onyxite
 
 ![Xenia Songs](dependencies/images/xenia_installcontent.png)
 
-## Custom Textures
+* If you're on Xbox Series X/S, copy the entire `content` folder to your USB drive.
+  * Click `Yes` to overwrite the files if it asks you to.
 
-Rock Band 2 Deluxe has a variety of custom textures, found in the `Deluxe Settings` menu in-game, as well as a way to import your own with relative ease.
+<br/>
+
+## 🎹 [RB2_plus](https://github.com/rjkiv/RB2_plus) Keys Upgrades
+
+[RB2_plus](https://github.com/rjkiv/RB2_plus) features optional Keys and Pro Keys upgrades that you can install alongside *Rock Band 2 Deluxe* fairly easily. These upgrades include new audio files (.mogg's) for the upgraded songs. These take up additional file size and generally are a generation removed from the original audio mix with additional processing, but can be a great addition for any Keys or Pro Keys player.
+
+You can download a build of *Rock Band 2 Deluxe* containing these upgrades for both [**PS3**](https://nightly.link/hmxmilohax/rock-band-3-deluxe/workflows/build/main/RB2DX-PS3-keys.zip) and [**Xbox 360**](https://nightly.link/hmxmilohax/rock-band-3-deluxe/workflows/build/main/RB2DX-Xbox-keys.zip).
+
+<br/>
+
+## 🎨 Custom Textures (PS3/360 Only)
+
+By default, *Rock Band 2 Deluxe* contains a variety of custom textures, found in the `Deluxe Settings` menu in-game, as well as a way to import your own with relative ease.
 
 ### Importing Your Own Textures
 
-*Follow [**Repo Setup (Advanced)**](#repo-setup-advanced) first in order to properly follow this guide.*
+*Follow [**Building (Advanced)**](#-building-advanced) first in order to properly follow this guide.*
 
 * Copy any `.jpg`, `.png`, or `.bmp` file into `\custom_textures\***\`, then navigate back to `windows_bats` and run `process_textures_***.bat`.
-  * These will make them show up in game, resize your images accordingly (including those with arbitrary resolutions), and convert them to the proper format for Rock Band 2 Deluxe to read.
+  * These will make them show up in game, resize your images accordingly (including those with arbitrary resolutions), and convert them to the proper format for *Rock Band 2 Deluxe* to read.
 
 ***You will need to rebuild Rock Band 2 Deluxe in order for these to take effect.***
 
-# Repo Setup (Advanced)
+<br/>
 
-### Installing Required Dependencies
+# 🔨 Building (Advanced)
 
-* Install [**Git for Windows**](https://gitforwindows.org/), [**Dot Net 6.0 Runtime**](https://dotnet.microsoft.com/en-us/download/dotnet/6.0/runtime), and [**Python**](https://www.python.org/downloads/) (version 3.9 or later).
-  * Install **Git** and **Dot Net 6.0 Runtime** with their default options, and ***select "Add python.exe to PATH"*** on the **Python** installer.
+### Installing Python (Required)
+
+* Head to the [**Python downloads**](https://www.python.org/downloads/), download and install Python (version 3.9 or later).
+  * ***Select "Add python.exe to PATH"*** on the installer.
 
 ![Python PATH](dependencies/images/pythonpath.png)
 
-* Open a **new command prompt** (press `Win+R`, type `cmd` and press Enter), type in `pip install gitpython`, and press enter. Close the command prompt when it's done installing.
-
 ### Initializing the Repo
 
-* Go to the **[Releases](https://github.com/hmxmilohax/rock-band-2-deluxe/releases)** of this repo and **download `_init_repo.bat`** if you're on Windows or **`_init_repo.sh`** if you're on Linux.
-  * Make a new **empty** folder, **put `_init_repo` in the folder, and run it**. This will pull the repo down for you and make sure you're completely up to date. **This will take some time.**
+* Go to the **[Releases](https://github.com/hmxmilohax/rock-band-3-deluxe/releases)** of this repo and **download `_init_repo.py`**.
+  * Make a new **empty** folder, **put `_init_repo.py` in the folder, and run it**. This will pull the repo down for you and make sure you're completely up to date. **This will take some time.**
 
 ### ***The folder should look like this once it's done:***
 
 ![Repo Folder](dependencies/images/repofolder.png)
 
-***The Rock Band 2 Deluxe repo is now set up!*** You can now return to [**Installing on Xenia (Advanced)**](#installing-on-xenia-advanced) or [**Custom Textures**](#custom-textures).
+### ✅ ***The Rock Band 2 Deluxe repo is now set up!***
 
-# Dependencies
+From here, you can make any personal modifications to the game or build it yourself.
 
-[**Git for Windows**](https://gitforwindows.org/) - CLI application to allow auto updating Deluxe repo files
+* Navigate to `windows_bats` if you're on Windows or `user_scripts` if you're on Linux.
+  * Run the `build_` script for your platform of choice to build *Rock Band 2 Deluxe*.
+  * Built contents will be in the `_build` folder on the root of the repo.
 
-[**Dot Net 6.0 Runtime**](https://dotnet.microsoft.com/en-us/download/dotnet/6.0/runtime) - Needed to run ArkHelper
+You can now return to [**Installing on Xenia (Advanced)**](#-installing-on-xenia-advanced) or [**Custom Textures**](#-custom-textures).
 
-[**Python**](https://www.python.org/downloads/) - For user script functionality (NOTE: 3.9 or newer is highly recommended!)
+<br/>
 
-[**Mackiloha**](https://github.com/PikminGuts92/Mackiloha) - ArkHelper for building Deluxe - SuperFreq for building .bmp_xbox highway images
+# 🖥️ Dependencies
 
-[**swap_rb_art_bytes.py**](https://github.com/PikminGuts92/re-notes/blob/master/scripts/swap_rb_art_bytes.py) - Python script for converting Xbox images to PS3
+[Git for Windows](https://gitforwindows.org/) - CLI application to allow auto updating Deluxe repo files
 
-[**dtab**](https://github.com/mtolly/dtab) - For serializing `.dtb` script files
+[Dot Net 6.0 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/6.0/runtime) - Needed to run ArkHelper
+
+[Python](https://www.python.org/downloads/) - For user script functionality (NOTE: 3.9 or newer is highly recommended!)
+
+[Mackiloha](https://github.com/PikminGuts92/Mackiloha) - ArkHelper for building Deluxe - SuperFreq for building .bmp_xbox highway images
+
+[swap_rb_art_bytes.py](https://github.com/PikminGuts92/re-notes/blob/master/scripts/swap_rb_art_bytes.py) - Python script for converting Xbox images to PS3
+
+[dtab](https://github.com/mtolly/dtab) - For serializing `.dtb` script files
