@@ -160,7 +160,7 @@ We highly recommend you check out [**Optional Upgrades**](#-optional-upgrades) f
 * **Extract your vanilla copy of Rock Band 2** and copy the contents of the `gen` folder to `\_build\xbox\gen\`.
 
 * Then, **navigate to `windows_bats`** if you're on Windows or **`user_scripts`** if you're on Linux and **run `build_xenia` to automatically update, build, and run Rock Band 2 Deluxe.**
-  * *You need to run this script every time in order to play and update the game.
+  * *You need to run this script every time in order to play and update the game.*
 
 * If your controller does not respond, navigate to the `_xenia` folder and **map your controller with x360ce**.
   * When it asks you to create `xinput1_3.dll`, create it and **rename it to `xinput1_4.dll`**.
