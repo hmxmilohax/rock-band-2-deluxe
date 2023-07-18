@@ -1,10 +1,12 @@
 # pull_repo.py
 from pathlib import Path
+# Check if git is installed and install it if necessary
+import subprocess
 try:
     import git
-except:
-    cmd_install = "pip install gitpython".split()
-    subprocess.run(cmd_install)
+except ImportError:
+    subprocess.check_call(["python", "-m", "pip", "install", "gitpython"])
+    import git
 
 # pass in the repo url and repo path, and this function will clone/pull from said repo
 # with the repo contents going in repo_path/(name of repo)
@@ -25,3 +27,9 @@ def pull_repo(repo_url: str, repo_path: Path) -> Path:
 
     print(f"Contents from repo {repo_name} successfully pulled.")
     return repo_pull_path
+
+def main():
+    pull_repo(repo_url="https://github.com/rjkiv/rb3_plus.git", repo_path=Path(__file__).parent)
+
+if __name__ == "__main__":
+    main()
