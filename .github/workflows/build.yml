@@ -31,6 +31,10 @@ jobs:
       - name: Build ARK
         run: |
           dependencies/linux/arkhelper dir2ark ./_ark ./_build/xbox/gen -n "patch_xbox" -e -v 5
+      - name: Remove Excess files
+        run: |
+          find . -name "*.txt" -type f -delete
+          find . -name "*.zbm" -type f -delete
       
       - name: Upload result
         uses: actions/upload-artifact@v2
