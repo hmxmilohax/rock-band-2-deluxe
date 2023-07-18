@@ -343,15 +343,6 @@
 ;{unless {file_exists dx.dta} INIT_DTA_WRITER}
 INIT_DTA_READER
 DX_TEXTURE_RESET_HANDLER
-
-{unless {== $spotlight none} {set $spotlightcustomtexture TRUE}}
-
-{if $spotlightcustomtexture ;for dxsl backwards compatibility
-   {set $spotlightgtr $spotlight}
-   {set $spotlightbass $spotlight}
-   {set $spotlightdrum $spotlight}
-}
-
 DX_DO_CUSTOM_TEXTURE_HANDLER
 
 #include init_dev.dta
