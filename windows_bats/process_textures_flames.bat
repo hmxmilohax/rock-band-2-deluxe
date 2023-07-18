@@ -7,13 +7,6 @@ for %%i in (*.bmp) do @echo "%%~ni">> flames.dta
 for %%i in (*.png) do @echo "%%~ni">> flames.dta
 for %%i in (*.jpg) do @echo "%%~ni">> flames.dta
 move "%~dp0..\custom_textures\flames\flames.dta" "%~dp0..\_ark\track_new\flames\flames.dta"
-"%~dp0..\dependencies/sed.exe" -i -e "s/flare_//g" "%~dp0..\_ark\track_new\flames\flames.dta"
-"%~dp0..\dependencies/sed.exe" -i -e "s/green_//g" "%~dp0..\_ark\track_new\flames\flames.dta"
-"%~dp0..\dependencies/sed.exe" -i -e "s/red_//g" "%~dp0..\_ark\track_new\flames\flames.dta"
-"%~dp0..\dependencies/sed.exe" -i -e "s/yellow_//g" "%~dp0..\_ark\track_new\flames\flames.dta"
-"%~dp0..\dependencies/sed.exe" -i -e "s/blue_//g" "%~dp0..\_ark\track_new\flames\flames.dta"
-"%~dp0..\dependencies/sed.exe" -i -e "s/orange_//g" "%~dp0..\_ark\track_new\flames\flames.dta"
-"%~dp0..\dependencies/sed.exe" -i -e "s/style_//g" "%~dp0..\_ark\track_new\flames\flames.dta"
 "%~dp0..\dependencies/sed.exe" -i -e "s/kick_smasher_//g" "%~dp0..\_ark\track_new\flames\flames.dta"
 "%~dp0..\dependencies/sed.exe" -i -e "s/light_can_star_//g" "%~dp0..\_ark\track_new\flames\flames.dta"
 "%~dp0..\dependencies/sed.exe" -i -e "s/broken_glass//g" "%~dp0..\_ark\track_new\flames\flames.dta"

@@ -24,8 +24,14 @@
 ;streak texture
 {set $streak "rb4"}
 
-;overdrive texture
-{set $spotlight "rb4"}
+;overdrive texture (guitar)
+{set $spotlightgtr "rb4"}
+
+;overdrive texture (bass)
+{set $spotlightbass "rb4"}
+
+;overdrive texture (drums)
+{set $spotlightdrum "rb4"}
 
 ;multiplier ring texture
 {set $multiring "rb2dx"}
@@ -138,9 +144,23 @@
             {elem {find $entry streak_texture} 1}
          }
       }
-      {if {== {elem $entry 0} {basename spotlight_texture}}
+      {if {== {elem $entry 0} {basename spotlight_texture}} ;for dxsl backwards compatibility
          {set $spotlight
-            {elem {find $entry spotlight_texture} 1}
+            {elem {find $entry spotlight_texture} 1}}
+      }
+      {if {== {elem $entry 0} {basename spotlight_guitar_texture}}
+         {set $spotlightgtr
+            {elem {find $entry spotlight_guitar_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename spotlight_bass_texture}}
+         {set $spotlightbass
+            {elem {find $entry spotlight_bass_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename spotlight_drums_texture}}
+         {set $spotlightdrum
+            {elem {find $entry spotlight_drums_texture} 1}
          }
       }
       {if {== {elem $entry 0} {basename multiring_texture}}
@@ -322,31 +342,16 @@
 )
 ;{unless {file_exists dx.dta} INIT_DTA_WRITER}
 INIT_DTA_READER
-
-{unless {== $gem none} {set $gemcustomtexture TRUE}}
-
-{unless {== $smasher none} {set $smashercustomtexture TRUE}}
-
-{unless {== $streak none} {set $streakcustomtexture TRUE}}
+DX_TEXTURE_RESET_HANDLER
 
 {unless {== $spotlight none} {set $spotlightcustomtexture TRUE}}
 
-{unless {== $multiring none} {set $multiringcustomtexture TRUE}}
+{if $spotlightcustomtexture ;for dxsl backwards compatibility
+   {set $spotlightgtr $spotlight}
+   {set $spotlightbass $spotlight}
+   {set $spotlightdrum $spotlight}
+}
 
-{unless {== $odbar none} {set $odbarcustomtexture TRUE}}
-
-{unless {== $rails none} {set $railscustomtexture TRUE}}
-
-{unless {== $flames none} {set $flamescustomtexture TRUE}}
-
-{unless {== $scoretex none} {set $scorecustomtexture TRUE}}
-
-{unless {== $voxarrow none} {set $voxarrowcustomtexture TRUE}}
-
-{unless {== $voxnotes none} {set $voxnotescustomtexture TRUE}}
-
-{unless {== $voxod none} {set $voxodcustomtexture TRUE}}
-
-{unless {== $voxhw none} {set $voxhwcustomtexture TRUE}}
+DX_DO_CUSTOM_TEXTURE_HANDLER
 
 #include init_dev.dta
