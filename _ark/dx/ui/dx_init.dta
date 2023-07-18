@@ -144,10 +144,6 @@
             {elem {find $entry streak_texture} 1}
          }
       }
-      {if {== {elem $entry 0} {basename spotlight_texture}} ;for dxsl backwards compatibility
-         {set $spotlight
-            {elem {find $entry spotlight_texture} 1}}
-      }
       {if {== {elem $entry 0} {basename spotlight_guitar_texture}}
          {set $spotlightgtr
             {elem {find $entry spotlight_guitar_texture} 1}
