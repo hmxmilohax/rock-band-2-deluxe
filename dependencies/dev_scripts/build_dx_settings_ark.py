@@ -32,6 +32,8 @@ def build_dxsl_ark():
     root_dir = cwd.parents[1] # root directory of the repo
     # print(f"root dir: {root_dir}")
 
+    files_to_remove = "*.milo_ps3"
+
     # clone/pull dx_settings_loader_path
     dx_settings_loader_path = pull_repo(repo_url="https://github.com/hmxmilohax/dx-settings-loader.git", repo_path=cwd)
     # print(f"DX path: {dx_settings_loader_path}")
@@ -54,6 +56,15 @@ def build_dxsl_ark():
         cmd_pull = "git pull https://github.com/hmxmilohax/dx-settings-loader main".split()
         subprocess.run(cmd_pull, shell=(platform == "win32"))
 
+    # temporarily move other console's files out of the ark to reduce overall size
+    for f in ark_location.rglob(files_to_remove):
+        temp_path = str(f).replace(f"{str(root_dir)}\\", "").replace(f"{str(root_dir)}/","")
+        # print(temp_path)
+        the_new_filename = root_dir.joinpath("_tmp").joinpath(temp_path)
+        the_new_filename.parent.mkdir(parents=True, exist_ok=True)
+        #print(f"moving file {temp_path} to {the_new_filename}")
+        f.rename(the_new_filename)
+    
     # build the ark
     failed = False
     try:
