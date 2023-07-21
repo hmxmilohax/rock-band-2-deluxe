@@ -187,8 +187,13 @@
             {modifier_mgr deactivate_modifier mod_rb3sustain}
             {modifier_mgr deactivate_modifier mod_gemdivider}
             {set $trackangle FALSE}
-            {set $voxhwcustomtexture TRUE}
-            {set $voxhw rb2}
+            {if_else $texrunonce
+               {do
+                  {set $voxhwcustomtexture TRUE}
+                  {set $voxhw rb2}}
+               {do
+                  {set $voxhwcustomtexture FALSE}
+                  {set $voxhw FALSE}}}
             {set $gemcustomtexture TRUE}
             {set $gem rb2dx}
             {set $smashercustomtexture TRUE}
@@ -197,14 +202,24 @@
             {set $voxarrow rb2dx}
             {set $voxnotescustomtexture TRUE}
             {set $voxnotes rb2dx}
-            {set $voxodcustomtexture TRUE}
-            {set $voxod rb2}
+            {if_else $texrunonce
+               {do
+                  {set $voxodcustomtexture TRUE}
+                  {set $voxod rb2}}
+               {do
+                  {set $voxodcustomtexture FALSE}
+                  {set $voxod FALSE}}}
             {set $scorecustomtexture TRUE}
             {set $scoretex rb4}
             {set $odbarcustomtexture TRUE}
             {set $odbar rb2dx}
-            {set $railscustomtexture TRUE}
-            {set $rails rb2}
+            {if_else $texrunonce
+               {do
+                  {set $railscustomtexture TRUE}
+                  {set $rails rb2}}
+               {do
+                  {set $railscustomtexture FALSE}
+                  {set $rails FALSE}}}
             {set $flamescustomtexture TRUE}
             {set $flames rb2dx}
             {set $multiringcustomtexture TRUE}
@@ -224,28 +239,58 @@
             {set $trackangle FALSE}
             {set $voxhwcustomtexture TRUE}
             {set $voxhw rb1}
-            {set $gemcustomtexture TRUE}
-            {set $gem rb2}
+            {if_else $texrunonce
+               {do
+                  {set $gemcustomtexture TRUE}
+                  {set $gem rb2}}
+               {do
+                  {set $gemcustomtexture FALSE}
+                  {set $gem FALSE}}}
             {set $smashercustomtexture TRUE}
             {set $smasher rb1}
             {set $voxarrowcustomtexture TRUE}
             {set $voxarrow rb1}
-            {set $voxnotescustomtexture TRUE}
-            {set $voxnotes rb2}
+            {if_else $texrunonce
+               {do
+                  {set $voxnotescustomtexture TRUE}
+                  {set $voxnotes rb2}}
+               {do
+                  {set $voxnotescustomtexture FALSE}
+                  {set $voxnotes FALSE}}}
             {set $voxodcustomtexture TRUE}
             {set $voxod rb1}
             {set $scorecustomtexture TRUE}
             {set $scoretex rb1}
-            {set $odbarcustomtexture TRUE}
-            {set $odbar rb2}
-            {set $railscustomtexture TRUE}
-            {set $rails rb2}
-            {set $flamescustomtexture TRUE}
-            {set $flames rb2}
+            {if_else $texrunonce
+               {do
+                  {set $odbarcustomtexture TRUE}
+                  {set $odbar rb2}}
+               {do
+                  {set $odbarcustomtexture FALSE}
+                  {set $odbar FALSE}}}
+            {if_else $texrunonce
+               {do
+                  {set $railscustomtexture TRUE}
+                  {set $rails rb2}}
+               {do
+                  {set $railscustomtexture FALSE}
+                  {set $rails FALSE}}}
+            {if_else $texrunonce
+               {do
+                  {set $flamescustomtexture TRUE}
+                  {set $flames rb2}}
+               {do
+                  {set $flamescustomtexture FALSE}
+                  {set $flames FALSE}}}
             {set $multiringcustomtexture TRUE}
             {set $multiring rb1}
-            {set $streakcustomtexture TRUE}
-            {set $streak rb2}
+            {if_else $texrunonce
+               {do
+                  {set $streakcustomtexture TRUE}
+                  {set $streak rb2}}
+               {do
+                  {set $streakcustomtexture FALSE}
+                  {set $streak FALSE}}}
             {set $spotlightgtrcustomtexture TRUE}
             {set $spotlightgtr rb1_guitar}
             {set $spotlightbasscustomtexture TRUE}
@@ -345,8 +390,13 @@
             {set $voxarrow rb2dx}
             {set $voxnotescustomtexture TRUE}
             {set $voxnotes rb2dx}
-            {set $voxodcustomtexture TRUE}
-            {set $voxod rb2}
+            {if_else $texrunonce
+               {do
+                  {set $voxodcustomtexture TRUE}
+                  {set $voxod rb2}}
+               {do
+                  {set $voxodcustomtexture FALSE}
+                  {set $voxod FALSE}}}
             {set $scorecustomtexture TRUE}
             {set $scoretex rb4}
             {set $odbarcustomtexture TRUE}
@@ -376,26 +426,66 @@
             {modifier_mgr deactivate_modifier mod_rb3sustain}
             {modifier_mgr deactivate_modifier mod_gemdivider}
             {set $trackangle FALSE}
-            {set $voxhwcustomtexture TRUE}
-            {set $voxhw rb2}
-            {set $gemcustomtexture TRUE}
-            {set $gem rb2}
-            {set $smashercustomtexture TRUE}
-            {set $smasher rb2}
-            {set $voxarrowcustomtexture TRUE}
-            {set $voxarrow rb2}
-            {set $voxnotescustomtexture TRUE}
-            {set $voxnotes rb2}
+            {if_else $texrunonce
+               {do
+                  {set $voxhwcustomtexture TRUE}
+                  {set $voxhw rb2}}
+               {do
+                  {set $voxhwcustomtexture FALSE}
+                  {set $voxhw FALSE}}}
+            {if_else $texrunonce
+               {do
+                  {set $gemcustomtexture TRUE}
+                  {set $gem rb2}}
+               {do
+                  {set $gemcustomtexture FALSE}
+                  {set $gem FALSE}}}
+            {if_else $texrunonce
+               {do
+                  {set $smashercustomtexture TRUE}
+                  {set $smasher rb2}}
+               {do
+                  {set $smashercustomtexture FALSE}
+                  {set $smasher FALSE}}}
+            {if_else $texrunonce
+               {do
+                  {set $voxarrowcustomtexture TRUE}
+                  {set $voxarrow rb2}}
+               {do
+                  {set $voxarrowcustomtexture FALSE}
+                  {set $voxarrow FALSE}}}
+            {if_else $texrunonce
+               {do
+                  {set $voxnotescustomtexture TRUE}
+                  {set $voxnotes rb2}}
+               {do
+                  {set $voxnotescustomtexture FALSE}
+                  {set $voxnotes FALSE}}}
             {set $voxodcustomtexture TRUE}
             {set $voxod lrb}
-            {set $scorecustomtexture TRUE}
-            {set $scoretex rb2}
+            {if_else $texrunonce
+               {do
+                  {set $scorecustomtexture TRUE}
+                  {set $scoretex rb2}}
+               {do
+                  {set $scorecustomtexture FALSE}
+                  {set $scoretex FALSE}}}
             {set $odbarcustomtexture TRUE}
             {set $odbar lrb}
-            {set $railscustomtexture TRUE}
-            {set $rails rb2}
-            {set $flamescustomtexture TRUE}
-            {set $flames rb2}
+            {if_else $texrunonce
+               {do
+                  {set $railscustomtexture TRUE}
+                  {set $rails rb2}}
+               {do
+                  {set $railscustomtexture FALSE}
+                  {set $rails FALSE}}}
+            {if_else $texrunonce
+               {do
+                  {set $flamescustomtexture TRUE}
+                  {set $flames rb2}}
+               {do
+                  {set $flamescustomtexture FALSE}
+                  {set $flames FALSE}}}
             {set $multiringcustomtexture TRUE}
             {set $multiring lrb}
             {set $streakcustomtexture TRUE}
@@ -417,8 +507,13 @@
             {set $gem tbrb}
             {set $smashercustomtexture TRUE}
             {set $smasher rb2dx}
-            {set $voxarrowcustomtexture TRUE}
-            {set $voxarrow rb2}
+            {if_else $texrunonce
+               {do
+                  {set $voxarrowcustomtexture TRUE}
+                  {set $voxarrow rb2}}
+               {do
+                  {set $voxarrowcustomtexture FALSE}
+                  {set $voxarrow FALSE}}}
             {set $voxnotescustomtexture TRUE}
             {set $voxnotes rb2dx}
             {set $voxodcustomtexture TRUE}
