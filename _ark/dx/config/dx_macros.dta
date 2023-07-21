@@ -202,6 +202,7 @@
    
    {if $voxarrowcustomtexture
       {{$this find pitch_arrow_split.tex} set_bitmap {sprint "track/voxarrow/pitch_arrow_split_" $voxarrow ".png"}}
+      {{$this find pitch_arrow_effect.tex} set_bitmap {sprint "track/voxarrow/pitch_arrow_effect_" $voxarrow ".png"}}
    }
    
    {if $voxnotescustomtexture
