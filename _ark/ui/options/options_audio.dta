@@ -30,26 +30,29 @@
    (is_loaded
       {content_mgr refresh_done})
    (enter
-      {meta music_stop}
-      {platform_mgr disable_xmp}
-      {song_preview audio_sliders}
-      {$this set_fg_instr}
+      {unless $iamingamenow
+         {meta music_stop}
+         {platform_mgr disable_xmp}
+         {song_preview audio_sliders}
+         {$this set_fg_instr}}
       {$this update_all_from_profile}
-      {song_preview_fg
-         {profile_mgr get_foreground_volume_db}}
-      {song_preview_bg
-         {profile_mgr get_background_volume_db}}
-      {song_preview_crowd
-         {profile_mgr get_crowd_volume_db}}
-      {song_preview_vocals
-         {profile_mgr get_vocal_cue_volume_db}}
+      {unless $iamingamenow
+         {song_preview_fg
+            {profile_mgr get_foreground_volume_db}}
+         {song_preview_bg
+            {profile_mgr get_background_volume_db}}
+         {song_preview_crowd
+            {profile_mgr get_crowd_volume_db}}
+         {song_preview_vocals
+            {profile_mgr get_vocal_cue_volume_db}}}
       {memcardmgr
          add_sink
          $this
          (save_load_all_complete_msg)})
    (exit
-      {song_preview ''}
-      {meta music_start}
+      {unless $iamingamenow
+         {song_preview ''}
+         {meta music_start}}
       {memcardmgr remove_sink $this save_load_all_complete_msg})
    (save_load_all_complete_msg
       {$this update_all_from_profile})
@@ -83,6 +86,11 @@
             {sfx.sld store}
             {$this set_focus sfx.sld})})
    (BUTTON_DOWN_MSG
+      {if_else {== $action kAction_Cancel}
+         {do
+            {synth play button_toggle}
+            {ui pop_screen}}
+          kDataUnhandled}
       {switch
          {$this focus_name}
          (vocal_track.sld
@@ -315,10 +323,10 @@
             {switch
                $action
                (kAction_Confirm
-                  {crowd.sld confirm}
+                  {vocal_track.sld confirm}
                   {$this set_focus vocal_track.btn})
                (kAction_Cancel
-                  {crowd.sld undo $player}
+                  {vocal_track.sld undo $player}
                   {$this set_focus vocal_track.btn})
                kDataUnhandled})
 ;         (sfx.sld
@@ -610,6 +618,23 @@
 {new
    AutoloadScreen
    vocals_audio_screen
+   (panels options_background_panel options_audio_panel)
+   (focus options_audio_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (enter
+      {session
+         add_sink
+         $this
+         (signin_changed)})
+   (exit
+      {session remove_sink $this signin_changed})
+   (SIGNIN_CHANGED_MSG
+      {vocal_options_panel set signin_change_waiting TRUE})}
+{new
+   AutoloadScreen
+   vocals_audio_screen_with_bg
    (panels meta movie_panel options_background_panel options_audio_panel)
    (focus options_audio_panel)
    (back vocal_options_screen)
@@ -628,6 +653,14 @@
 {new
    AutoloadScreen
    options_audio_screen
+   (panels options_background_panel options_audio_panel)
+   (focus options_audio_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}
+{new
+   AutoloadScreen
+   options_audio_screen_with_bg
    (panels meta movie_panel options_background_panel options_audio_panel)
    (focus options_audio_panel)
    (back options_console_screen)

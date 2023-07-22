@@ -56,6 +56,11 @@
       SET_UP_GAMERTAG
       {$this update_all_from_profile})
    (BUTTON_DOWN_MSG
+      {if_else {== $action kAction_Cancel}
+         {do
+            {synth play button_toggle}
+            {ui pop_screen}}
+         kDataUnhandled}
       {switch
          {$this focus_name}
          (vocalhudtype.lst
@@ -118,7 +123,7 @@
             {cue_level.sld store}
             {$this set_focus cue_level.sld})
          (audio_options.btn
-            {ui goto_screen vocals_audio_screen})})
+            {ui push_screen vocals_audio_screen})})
    (FOCUS_MSG
       {$this update_helpbar $new_focus})
    (SCROLL_SELECT_MSG
@@ -280,6 +285,14 @@
 {new
    BandScreen
    vocal_options_screen
+   (panels options_background_panel vocal_options_panel)
+   (focus vocal_options_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}
+{new
+   BandScreen
+   vocal_options_screen_with_bg
    (panels meta movie_panel options_background_panel vocal_options_panel)
    (focus vocal_options_panel)
    (back options_gameplay_screen)

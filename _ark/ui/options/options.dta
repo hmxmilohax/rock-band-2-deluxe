@@ -49,10 +49,10 @@
          $component
          #ifndef HX_PS3
          (gameplay.btn
-            {warn_no_signin_goto_screen options_gameplay_screen $player_num})
+            {warn_no_signin_goto_screen options_gameplay_screen_with_bg $player_num})
          #endif
          (console.btn
-            {ui goto_screen options_console_screen})
+            {ui goto_screen options_console_screen_with_bg})
          (calibrate_av.btn
             {ui goto_screen cal_welcome_screen}
             {do
@@ -69,7 +69,7 @@
                   {!
                      {platform_mgr is_player_a_guest $player_num}}}
                {do
-                  {ui goto_screen options_savedata_screen $player_num}
+                  {ui goto_screen options_savedata_screen_with_bg $player_num}
                   {input_mgr
                      set_user
                      {user_mgr get_band_user $player_num}}}
@@ -433,6 +433,13 @@
                   {option_character_operations_screen set canleaveband TRUE}
                   {option_character_operations_screen set canleaveband FALSE}}
                {ui push_screen option_character_operations_screen}})})
+   (BUTTON_DOWN_MSG
+      {if_else {== $action kAction_Cancel}
+         {do
+            {synth play button_toggle}
+            {ui pop_screen}}
+            kDataUnhandled}
+       kDataUnhandled)
    (VIRTUAL_KEYBOARD_RESULT_MSG
       {if
          {&&
@@ -485,6 +492,17 @@
 {new
    BandScreen
    options_characterdata_screen
+   (panels options_background_panel options_characterdata_panel)
+   (focus options_characterdata_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm opt_hb_choosecharacter)))
+   (enter ENTER_HANDLER_FOR_SIGNOUT)
+   (exit EXIT_HANDLER_FOR_SIGNOUT)
+   (SIGNIN_CHANGED_MSG SIGNIN_CHANGE_HANDLER_FOR_SIGNOUT)}
+{new
+   BandScreen
+   options_characterdata_screen_with_bg
    (panels meta movie_panel options_background_panel options_characterdata_panel)
    (focus options_characterdata_panel)
    (back options_savedata_screen)
@@ -773,6 +791,13 @@
                         {option_band_operations_screen set canremovechar TRUE}
                         {option_band_operations_screen set canremovechar FALSE}}}}
                {ui push_screen option_band_operations_screen}})})
+   (BUTTON_DOWN_MSG
+      {if_else {== $action kAction_Cancel}
+         {do
+            {synth play button_toggle}
+            {ui pop_screen}}
+            kDataUnhandled}
+         kDataUnhandled)
    (VIRTUAL_KEYBOARD_RESULT_MSG
       {if
          {&&
@@ -825,6 +850,17 @@
 {new
    BandScreen
    options_banddata_screen
+   (panels options_background_panel options_banddata_panel)
+   (focus options_banddata_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm tour_hb_selband)))
+   (enter ENTER_HANDLER_FOR_SIGNOUT)
+   (exit EXIT_HANDLER_FOR_SIGNOUT)
+   (SIGNIN_CHANGED_MSG SIGNIN_CHANGE_HANDLER_FOR_SIGNOUT)}
+{new
+   BandScreen
+   options_banddata_screen_with_bg
    (panels meta movie_panel options_background_panel options_banddata_panel)
    (focus options_banddata_panel)
    (back options_savedata_screen)
@@ -1155,7 +1191,7 @@
                   {char_data_provider get_num_chars}
                   0}
                {ui push_screen options_nocharacters_screen}
-               {ui goto_screen options_characterdata_screen}})
+               {ui push_screen options_characterdata_screen}})
          (banddata.btn
             {band_data_provider
                init
@@ -1166,10 +1202,31 @@
                   {band_data_provider get_num_bands}
                   0}
                {ui push_screen options_nobands_screen}
-               {ui goto_screen options_banddata_screen}})})}
+               {ui push_screen options_characterdata_screen}})})
+   (BUTTON_DOWN_MSG
+      {if $mod_os_entered
+         {if_else {== $action kAction_Cancel}
+            {do
+               {synth play button_toggle}
+               {ui pop_screen}}
+               kDataUnhandled}}
+         kDataUnhandled)}
 {new
    AutoloadScreen
    options_savedata_screen
+   (panels options_background_panel options_savedata_panel)
+   (focus options_savedata_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (load ENTER_HANDLER_FOR_SIGNOUT)
+   (enter
+      {gamemode set_mode options})
+   (exit EXIT_HANDLER_FOR_SIGNOUT)
+   (SIGNIN_CHANGED_MSG SIGNIN_CHANGE_HANDLER_FOR_SIGNOUT)}
+{new
+   AutoloadScreen
+   options_savedata_screen_with_bg
    (panels meta movie_panel options_background_panel options_savedata_panel)
    (focus options_savedata_panel)
    (back options_screen)
@@ -1194,6 +1251,22 @@
             {warn_no_signin_screen set text_token warn_active_options_not_signed_in}}
          {warn_no_signin_screen set destination_screen $screen}
          {ui goto_screen warn_no_signin_screen}}}
+   {input_mgr
+      set_user
+      {user_mgr get_band_user $player_num}}}
+{func
+   warn_no_signin_push_screen
+   ($screen $player_num)
+   {if_else
+      {platform_mgr is_player_signed_in $player_num}
+      {ui push_screen $screen}
+      {do
+         {if_else
+            {== $screen options_savedata_screen}
+            {warn_no_signin_screen set text_token warn_savedata_not_signed_in}
+            {warn_no_signin_screen set text_token warn_active_options_not_signed_in}}
+         {warn_no_signin_screen set destination_screen $screen}
+         {ui push_screen warn_no_signin_screen}}}
    {input_mgr
       set_user
       {user_mgr get_band_user $player_num}}}
@@ -1228,6 +1301,10 @@
       {platform_mgr remove_sink $this signin_changed})
    (SIGNIN_CHANGED_MSG
       {warn_no_signin_goto_screen
+         [destination_screen]
+         {{input_mgr get_user}
+            get_user_num}}
+      {warn_no_signin_push_screen
          [destination_screen]
          {{input_mgr get_user}
             get_user_num}})
