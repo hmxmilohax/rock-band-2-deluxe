@@ -1202,7 +1202,7 @@
                   {band_data_provider get_num_bands}
                   0}
                {ui push_screen options_nobands_screen}
-               {ui push_screen options_characterdata_screen}})})
+               {ui push_screen options_banddata_screen}})})
    (BUTTON_DOWN_MSG
       {if $mod_os_entered
          {if_else {== $action kAction_Cancel}
