@@ -56,7 +56,6 @@
        {if_else
          {'||'
             $skip_intro
-            {&& {gamemode get local_network} {modifier_mgr is_modifier_active mod_blackvenue}}
             {gamemode get is_framerate_test}}
          {handle
             ($this intro_skip)}
