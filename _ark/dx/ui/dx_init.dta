@@ -21,6 +21,9 @@
 ;smasher texture
 {set $smasher "rb2dx"}
 
+;highway texture
+{set $highway "_1_none"}
+
 ;streak texture
 {set $streak "rb4"}
 
@@ -77,6 +80,7 @@
 {set $track_fade_start 70} ;start point of the fadeout at the end of the track
 {set $track_fade_length 50} ;length of the fadeout at the end of the track
 
+{modifier_mgr activate_modifier mod_hw_alpha}
 ;{modifier_mgr activate_modifier mod_nofail}
 ;{modifier_mgr activate_modifier mod_doublespeed}
 ;{modifier_mgr activate_modifier mod_choose_venue}

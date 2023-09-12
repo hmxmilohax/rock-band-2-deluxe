@@ -38,7 +38,12 @@
       {{{{get_track_panel} find bass} find streak_meter} star_deploy_stop}
       {bass stop_deploy}}
       {unless {modifier_mgr is_modifier_active mod_legacybass} {if {< [num_gems_combo] 39} {set $bass_groove_active FALSE} {{{{get_track_panel} find bass} find BassSuperStreak_OFF.trig} trigger}}}
-	  )
+	   {unless {== $highway "_1_none"}
+         {{{{get_track_panel} find bass} find indv_player_warning.trig} trigger}
+         {{{{get_track_panel} find bass} find warning_track_emissive.anim} stop_animation}
+         {{{{get_track_panel} find bass} find warning_track_emissive.anim} set_frame 15.0}
+      }
+     )
    (num_gems_hit 0)
    (num_gems_combo 0)
    (num_gems_miss 0)
@@ -82,7 +87,12 @@
       {{{{get_track_panel} find guitar} find streak_meter} star_deploy_stop}
       {guitar stop_deploy}}
       {unless {modifier_mgr is_modifier_active mod_legacybass} {if {< [num_gems_combo] 29} {set $guitar_groove_active FALSE} {{{{get_track_panel} find guitar} find BassSuperStreak_OFF.trig} trigger}}}
-	  )
+	   {unless {== $highway "_1_none"}
+         {{{{get_track_panel} find guitar} find indv_player_warning.trig} trigger}
+         {{{{get_track_panel} find guitar} find warning_track_emissive.anim} stop_animation}
+         {{{{get_track_panel} find guitar} find warning_track_emissive.anim} set_frame 15.0}
+      }
+     )
    (num_gems_hit 0)
    (num_gems_combo 0)
    (num_gems_miss 0)
@@ -126,7 +136,12 @@
       {{{{get_track_panel} find drum} find streak_meter} star_deploy_stop}
       {drum stop_deploy}}
       {unless {modifier_mgr is_modifier_active mod_legacybass} {if {< [num_gems_combo] 29} {set $drum_groove_active FALSE} {{{{get_track_panel} find drum} find BassSuperStreak_OFF.trig} trigger}}}
-	  )
+	   {unless {== $highway "_1_none"}
+         {{{{get_track_panel} find drum} find indv_player_warning.trig} trigger}
+         {{{{get_track_panel} find drum} find warning_track_emissive.anim} stop_animation}
+         {{{{get_track_panel} find drum} find warning_track_emissive.anim} set_frame 15.0}
+      }
+     )
    (num_gems_hit 0)
    (num_gems_combo 0)
    (num_gems_miss 0)
@@ -191,6 +206,31 @@
          set_showing
          {gamemode get show_track}}
       {$this set_track_out}
+      {beatmatch foreach_active_player $player {switch {$player instrument}
+      (bass
+      {{{{get_track_panel} find bass} find streak_meter} star_deploy}
+      {unless {== $highway "_1_none"}
+         {{{{get_track_panel} find bass} find indv_player_warning.trig} trigger}
+         {{{{get_track_panel} find bass} find warning_track_emissive.anim} stop_animation}
+         {{{{get_track_panel} find bass} find warning_track_emissive.anim} set_frame 15.0}
+      }
+      )
+      (guitar
+      {{{{get_track_panel} find guitar} find streak_meter} star_deploy}
+      {unless {== $highway "_1_none"}
+         {{{{get_track_panel} find guitar} find indv_player_warning.trig} trigger}
+         {{{{get_track_panel} find guitar} find warning_track_emissive.anim} stop_animation}
+         {{{{get_track_panel} find guitar} find warning_track_emissive.anim} set_frame 15.0}
+      }
+      )
+      (drum
+      {{{{get_track_panel} find drum} find streak_meter} star_deploy}
+      {unless {== $highway "_1_none"}
+         {{{{get_track_panel} find drum} find indv_player_warning.trig} trigger}
+         {{{{get_track_panel} find drum} find warning_track_emissive.anim} stop_animation}
+         {{{{get_track_panel} find drum} find warning_track_emissive.anim} set_frame 15.0}
+      }
+      )}}
       {$this play_intro}
    )
    (on_reset
