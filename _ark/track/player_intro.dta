@@ -68,42 +68,41 @@
             {reset.trig trigger}
          {beatmatch foreach_active_player $player {switch {$player instrument}
          (bass
-         {if_else {modifier_mgr is_modifier_active mod_hw_alpha}
-            {do
+         ;{if_else {modifier_mgr is_modifier_active mod_hw_alpha}
+            ;{do
                {{{{get_track_panel} find bass} find indv_player_warning_off.trig} trigger}
                {{{{get_track_panel} find bass} find warning_track_emissive.anim} animate}
-            }
-            {do
-               {{{{get_track_panel} find bass} find warning_track_emissive.anim} stop_animation}
-               {{{{get_track_panel} find bass} find warning_track_emissive.anim} set_frame 15.0}
-            }
-         }
+            ;}
+            ;{do
+               ;{{{{get_track_panel} find bass} find warning_track_emissive.anim} stop_animation}
+               ;{{{{get_track_panel} find bass} find warning_track_emissive.anim} set_frame 15.0}
+            ;}
+         ;}
          )
          (guitar
-         {if_else {modifier_mgr is_modifier_active mod_hw_alpha}
-            {do
+         ;{if_else {modifier_mgr is_modifier_active mod_hw_alpha}
+            ;{do
                {{{{get_track_panel} find guitar} find indv_player_warning_off.trig} trigger}
                {{{{get_track_panel} find guitar} find warning_track_emissive.anim} animate}
-            }
-            {do
-               {{{{get_track_panel} find guitar} find warning_track_emissive.anim} stop_animation}
-               {{{{get_track_panel} find guitar} find warning_track_emissive.anim} set_frame 15.0}
-            }
-         }
+            ;}
+            ;{do
+               ;{{{{get_track_panel} find guitar} find warning_track_emissive.anim} stop_animation}
+               ;{{{{get_track_panel} find guitar} find warning_track_emissive.anim} set_frame 15.0}
+            ;}
+         ;}
          )
-         (vocals
-         )
+         (vocals)
          (drum
-         {if_else {modifier_mgr is_modifier_active mod_hw_alpha}
-            {do
+         ;{if_else {modifier_mgr is_modifier_active mod_hw_alpha}
+            ;{do
                {{{{get_track_panel} find drum} find indv_player_warning_off.trig} trigger}
                {{{{get_track_panel} find drum} find warning_track_emissive.anim} animate}
-            }
-            {do
-               {{{{get_track_panel} find drum} find warning_track_emissive.anim} stop_animation}
-               {{{{get_track_panel} find drum} find warning_track_emissive.anim} set_frame 15.0}
-            }
-         }
+            ;}
+            ;{do
+               ;{{{{get_track_panel} find drum} find warning_track_emissive.anim} stop_animation}
+               ;{{{{get_track_panel} find drum} find warning_track_emissive.anim} set_frame 15.0}
+            ;}
+         ;}
          )}})
          (intro
             {if
@@ -118,6 +117,44 @@
                   (delay 1.0e-2)
                   (script
                      {intro.trig trigger}
+         {beatmatch foreach_active_player $player {switch {$player instrument}
+         (bass
+         ;{if_else {modifier_mgr is_modifier_active mod_hw_alpha}
+            ;{do
+               {{{{get_track_panel} find bass} find indv_player_warning_off.trig} trigger}
+               {{{{get_track_panel} find bass} find warning_track_emissive.anim} animate}
+            ;}
+            ;{do
+               ;{{{{get_track_panel} find bass} find warning_track_emissive.anim} stop_animation}
+               ;{{{{get_track_panel} find bass} find warning_track_emissive.anim} set_frame 15.0}
+            ;}
+         ;}
+         )
+         (guitar
+         ;{if_else {modifier_mgr is_modifier_active mod_hw_alpha}
+            ;{do
+               {{{{get_track_panel} find guitar} find indv_player_warning_off.trig} trigger}
+               {{{{get_track_panel} find guitar} find warning_track_emissive.anim} animate}
+            ;}
+            ;{do
+               ;{{{{get_track_panel} find guitar} find warning_track_emissive.anim} stop_animation}
+               ;{{{{get_track_panel} find guitar} find warning_track_emissive.anim} set_frame 15.0}
+            ;}
+         ;}
+         )
+         (vocals)
+         (drum
+         ;{if_else {modifier_mgr is_modifier_active mod_hw_alpha}
+            ;{do
+               {{{{get_track_panel} find drum} find indv_player_warning_off.trig} trigger}
+               {{{{get_track_panel} find drum} find warning_track_emissive.anim} animate}
+            ;}
+            ;{do
+               ;{{{{get_track_panel} find drum} find warning_track_emissive.anim} stop_animation}
+               ;{{{{get_track_panel} find drum} find warning_track_emissive.anim} set_frame 15.0}
+            ;}
+         ;}
+         )}}
 			{beatmatch foreach_active_player $player {switch {$player instrument}
 			(bass
 			;{set $bass_groove_active FALSE}

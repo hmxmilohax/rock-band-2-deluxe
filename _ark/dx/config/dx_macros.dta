@@ -135,7 +135,9 @@
       {{$this find all_icons.tex} set_bitmap "track/custom_track_textures/_no_highway.png"}
       {{$this find track_reflect.tex} set_bitmap "track/custom_track_textures/white.png"}
    }
-   
+
+   {{$this find track_reflect.tex} iterate_refs $ref {$ref set intensify {! {modifier_mgr is_modifier_active mod_hw_alpha}}}}
+
    {unless $dontrungemdividers
    {if_else {modifier_mgr is_modifier_active mod_gemdivider}
       {beatmatch foreach_active_player $player
