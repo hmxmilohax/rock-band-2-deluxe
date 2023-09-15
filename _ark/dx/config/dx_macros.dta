@@ -134,6 +134,7 @@
       ;{new Tex transparent.tex} ;the new tex doesnt save so i changed it to an unused existing tex -LX
       {{$this find all_icons.tex} set_bitmap "track/custom_track_textures/_no_highway.png"}
       {{$this find track_reflect.tex} set_bitmap "track/custom_track_textures/white.png"}
+      {{$this find smasher_plate_orange_nomip.tex} set_bitmap "track/rails/rails_warning_rb2.png"}
    }
 
    {{$this find track_reflect.tex} iterate_refs $ref {$ref set intensify {! {modifier_mgr is_modifier_active mod_hw_alpha}}}}
@@ -154,15 +155,9 @@
    
    {if $highwaycustomtexture
       {{$this find track_reflect_warning.tex} set_bitmap {sprint "track_new/highways/" $highway ".png"}}
-      {if_else {== $highway "_1_none"}
-         {do
-         {{$this find track_reflect_warning.tex} iterate_refs $ref {$ref set intensify FALSE}}
-         }
-         {do
-         {{$this find track_reflect_warning.tex} iterate_refs $ref {$ref set intensify TRUE}}
-         }
-      }
    }
+
+   {{$this find track_reflect_warning.tex} iterate_refs $ref {$ref set intensify {!= $highway "_1_none"}}}
 
    {if $voxhwcustomtexture 
       {{$this find vocal_bg.tex} set_bitmap {sprint "track/voxhw/vocal_bg_" $voxhw ".png"}}
@@ -262,9 +257,16 @@
 
    {if $railscustomtexture
       {{$this find rails.tex} set_bitmap {sprint "track/rails/rails_" $rails ".png"}}
-      {{$this find rails.tex} iterate_refs $ref {$ref set intensify {!= $rails "rb2"}}}
+      {{$this find smasher_plate_orange_nomip.tex} set_bitmap {sprint "track/rails/rails_warning_" $rails ".png"}}
    }
    
+   {{$this find rails.tex} iterate_refs $ref {$ref set intensify {!= $rails "rb2"}}}
+   {{$this find smasher_plate_orange_nomip.tex} iterate_refs $ref {$ref set intensify {!= $rails "rb2"}}}
+   {if {== $rails none}
+      {{$this find rails.tex} iterate_refs $ref {$ref set intensify FALSE}}
+      {{$this find smasher_plate_orange_nomip.tex} iterate_refs $ref {$ref set intensify FALSE}}
+   }
+
    {if $spotlightgtrcustomtexture
       {{$this find spotlight_guitar_track.tex} set_bitmap {sprint "track_new/spotlight/" $spotlightgtr ".png"}}
       ;{{$this find spotlight_guitar_track.tex} iterate_refs $ref {$ref set color {pack_color 1 0 0}}}

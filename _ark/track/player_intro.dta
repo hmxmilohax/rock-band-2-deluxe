@@ -156,6 +156,7 @@
             ;}
          ;}
          )}}}
+         
 			{beatmatch foreach_active_player $player {switch {$player instrument}
 			(bass
 			;{set $bass_groove_active FALSE}
@@ -168,6 +169,7 @@
             {{{{get_track_panel} find bass} find warning_track_emissive.anim} stop_animation}
             {{{{get_track_panel} find bass} find warning_track_emissive.anim} set_frame 15.0}
          }
+         {{{{get_track_panel} find bass} find rails.mat} set diffuse_tex {{get_track_panel} find rails.tex}}
 			)
 			(guitar
 			;{set $guitar_groove_active FALSE}
@@ -180,6 +182,7 @@
             {{{{get_track_panel} find guitar} find warning_track_emissive.anim} stop_animation}
             {{{{get_track_panel} find guitar} find warning_track_emissive.anim} set_frame 15.0}
          }
+         {{{{get_track_panel} find guitar} find rails.mat} set diffuse_tex {{get_track_panel} find rails.tex}}
 			)
 			(vocals
 			)
@@ -194,6 +197,7 @@
             {{{{get_track_panel} find drum} find warning_track_emissive.anim} stop_animation}
             {{{{get_track_panel} find drum} find warning_track_emissive.anim} set_frame 15.0}
          }
+         {{{{get_track_panel} find drum} find rails.mat} set diffuse_tex {{get_track_panel} find rails.tex}}
 			)}}
 
 			)}})

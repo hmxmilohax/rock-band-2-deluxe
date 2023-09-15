@@ -1159,6 +1159,12 @@
 (mod_hw_alpha "Custom Highway Transparency")
 (mod_hw_alpha_desc "Makes custom highways see-through")
 (mod_hw_alpha_obtain "(bug, should be available by default)")
+(mod_nohwwarn "No Low Health Warning")
+(mod_nohwwarn_desc "Disables the highway flashing when you're close to failing out")
+(mod_nohwwarn_obtain "(bug, should be available by default)")
+(mod_railwarn "Low Health Warning On Rails")
+(mod_railwarn_desc "Makes the highway sides red when you're close to failing out")
+(mod_railwarn_obtain "(bug, should be available by default)")
 (mod_gemdivider
    "No Gem Dividers")
 (mod_gemdivider_desc 
