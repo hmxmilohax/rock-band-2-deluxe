@@ -117,6 +117,7 @@
                   (delay 1.0e-2)
                   (script
                      {intro.trig trigger}
+         {unless {== $highway "_1_none"}
          {beatmatch foreach_active_player $player {switch {$player instrument}
          (bass
          ;{if_else {modifier_mgr is_modifier_active mod_hw_alpha}
@@ -154,7 +155,7 @@
                ;{{{{get_track_panel} find drum} find warning_track_emissive.anim} set_frame 15.0}
             ;}
          ;}
-         )}}
+         )}}}
 			{beatmatch foreach_active_player $player {switch {$player instrument}
 			(bass
 			;{set $bass_groove_active FALSE}
