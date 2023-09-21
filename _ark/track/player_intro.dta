@@ -68,7 +68,7 @@
             {reset.trig trigger}
          {beatmatch foreach_active_player $player {switch {$player instrument}
          (bass
-         ;{if_else {modifier_mgr is_modifier_active mod_hw_alpha}
+         ;{if_else {modifier_mgr is_modifier_active mod_hwalpha}
             ;{do
                {{{{get_track_panel} find bass} find indv_player_warning_off.trig} trigger}
                {{{{get_track_panel} find bass} find warning_track_emissive.anim} animate}
@@ -80,7 +80,7 @@
          ;}
          )
          (guitar
-         ;{if_else {modifier_mgr is_modifier_active mod_hw_alpha}
+         ;{if_else {modifier_mgr is_modifier_active mod_hwalpha}
             ;{do
                {{{{get_track_panel} find guitar} find indv_player_warning_off.trig} trigger}
                {{{{get_track_panel} find guitar} find warning_track_emissive.anim} animate}
@@ -93,7 +93,7 @@
          )
          (vocals)
          (drum
-         ;{if_else {modifier_mgr is_modifier_active mod_hw_alpha}
+         ;{if_else {modifier_mgr is_modifier_active mod_hwalpha}
             ;{do
                {{{{get_track_panel} find drum} find indv_player_warning_off.trig} trigger}
                {{{{get_track_panel} find drum} find warning_track_emissive.anim} animate}
@@ -120,7 +120,7 @@
          {unless {== $highway "_1_none"}
          {beatmatch foreach_active_player $player {switch {$player instrument}
          (bass
-         ;{if_else {modifier_mgr is_modifier_active mod_hw_alpha}
+         ;{if_else {modifier_mgr is_modifier_active mod_hwalpha}
             ;{do
                {{{{get_track_panel} find bass} find indv_player_warning_off.trig} trigger}
                {{{{get_track_panel} find bass} find warning_track_emissive.anim} animate}
@@ -132,7 +132,7 @@
          ;}
          )
          (guitar
-         ;{if_else {modifier_mgr is_modifier_active mod_hw_alpha}
+         ;{if_else {modifier_mgr is_modifier_active mod_hwalpha}
             ;{do
                {{{{get_track_panel} find guitar} find indv_player_warning_off.trig} trigger}
                {{{{get_track_panel} find guitar} find warning_track_emissive.anim} animate}
@@ -145,7 +145,7 @@
          )
          (vocals)
          (drum
-         ;{if_else {modifier_mgr is_modifier_active mod_hw_alpha}
+         ;{if_else {modifier_mgr is_modifier_active mod_hwalpha}
             ;{do
                {{{{get_track_panel} find drum} find indv_player_warning_off.trig} trigger}
                {{{{get_track_panel} find drum} find warning_track_emissive.anim} animate}

@@ -6,7 +6,8 @@
     (focus sel_section.lst)
     (enter
         {sel_section.lst set_data (os_mod os_sys os_spd os_trkset os_cam)}
-        {title.lbl set_localized {localize os_dxsettings}})
+        {title.lbl set_localized {localize os_dxsettings}}
+        {full_selection.mesh set_showing FALSE})
     (exit)
     (SELECT_MSG
     {switch {$component selected_sym}
@@ -59,7 +60,8 @@
     (focus sel_section.lst)
     (enter
         {sel_section.lst set_data (os_console #ifndef HX_PS3 os_gameplay #endif os_data)}
-        {title.lbl set_localized {localize os_sys}})
+        {title.lbl set_localized {localize os_sys}}
+        {full_selection.mesh set_showing FALSE})
     (exit)
     (SELECT_MSG
     {switch {$component selected_sym}
@@ -125,7 +127,8 @@
     (focus sel_section.lst)
     (enter
         {sel_section.lst set_data (os_trkpreset os_angle os_clr)}
-        {title.lbl set_localized {localize os_trkset}})
+        {title.lbl set_localized {localize os_trkset}}
+        {full_selection.mesh set_showing FALSE})
     (exit)
     (SELECT_MSG
     {switch {$component selected_sym}
@@ -168,7 +171,8 @@
     (focus sel_section.lst)
     (enter
         {sel_section.lst set_data (os_cycam os_gtrfx)}
-        {title.lbl set_localized {localize os_cam}})
+        {title.lbl set_localized {localize os_cam}}
+        {full_selection.mesh set_showing FALSE})
     (exit)
     (SELECT_MSG
     {switch {$component selected_sym}
@@ -210,7 +214,8 @@
          {if_else $texrunonce
             {sel_section.lst set_data (os_tex os_rb2dxprst os_rb2prst os_rb1prst os_rb3prst os_rb4prst os_lrbprst os_tbrbprst)}
             {sel_section.lst set_data (os_tex os_rb2dxprst os_rb2prst_reset os_rb1prst os_rb3prst os_rb4prst os_lrbprst os_tbrbprst)}}
-        {title.lbl set_localized {localize os_trkpreset}})
+        {title.lbl set_localized {localize os_trkpreset}}
+        {full_selection.mesh set_showing FALSE})
     (exit)
     (SELECT_MSG
     {switch {$component selected_sym}
@@ -643,8 +648,9 @@
         "practice/practice_sel_section.milo")
     (focus sel_section.lst)
     (enter
-        {sel_section.lst set_data (os_gems os_smashers os_flames os_score os_rails os_odbar os_multi_ring os_hw os_strk os_spotlight os_voxtrk)}
-        {title.lbl set_localized {localize os_tex1}})
+        {sel_section.lst set_data (os_gems os_smashers os_flames os_score os_bre os_rails os_odbar os_multi_ring os_hw os_strk os_spotlight os_voxtrk)}
+        {title.lbl set_localized {localize os_tex1}}
+        {full_selection.mesh set_showing FALSE})
     (exit)
     (SELECT_MSG
     {switch {$component selected_sym}
@@ -658,6 +664,10 @@
          )
 		   (os_score
             {set $dx_tracked_texture_loader score}
+            {ui push_screen overshell_texload_screen}
+         )
+         (os_bre
+            {set $dx_tracked_texture_loader bre}
             {ui push_screen overshell_texload_screen}
          )
          (os_flames
@@ -720,7 +730,8 @@
     (focus sel_section.lst)
     (enter
         {sel_section.lst set_data (os_spotlightall os_spotlightgtr os_spotlightbass os_spotlightdrum)}
-        {title.lbl set_localized {localize os_spotlightheader}})
+        {title.lbl set_localized {localize os_spotlightheader}}
+        {full_selection.mesh set_showing FALSE})
     (exit)
     (SELECT_MSG
     {switch {$component selected_sym}
@@ -774,7 +785,8 @@
     (focus sel_section.lst)
     (enter
         {sel_section.lst set_data (os_voxarrow os_voxhw os_voxnotes os_voxod)}
-        {title.lbl set_localized {localize os_voxtrk1}})
+        {title.lbl set_localized {localize os_voxtrk1}}
+        {full_selection.mesh set_showing FALSE})
     (exit)
     (SELECT_MSG
       {switch {$component selected_sym}
@@ -824,6 +836,7 @@
         "practice/practice_sel_section.milo")
     (focus sel_section.lst)
     (enter
+      {full_selection.mesh set_showing FALSE}
       {switch $dx_tracked_texture_loader
          (gems
             {sel_section.lst set_data (#include ../track/gems/gems.dta)}
@@ -839,6 +852,11 @@
             {sel_section.lst set_data (#include ../track/score/score.dta)}
             {title.lbl set_localized {localize os_score}}
             {anchor_corner02.tex set_bitmap {sprint "track/score/indv_player_meter_" $scoretex ".png"}}
+         )
+         (bre
+            {sel_section.lst set_data (#include ../track_new/bre/bre.dta)}
+            {title.lbl set_localized {localize os_bre}}
+            {anchor_corner02.tex set_bitmap {sprint "track_new/bre/bre_shield_" $bretex ".png"}}
          )
          (flames
             {sel_section.lst set_data (#include ../track_new/flames/flames.dta)}
@@ -931,6 +949,10 @@
             {set $scorecustomtexture TRUE}
             {set $scoretex {$component selected_sym}}
          )
+         (bre
+            {set $brecustomtexture TRUE}
+            {set $bretex {$component selected_sym}}
+         )
          (flames
             {set $flamescustomtexture TRUE}
             {set $flames {$component selected_sym}}
@@ -1015,6 +1037,9 @@
          (score
             {anchor_corner02.tex set_bitmap {sprint "track/score/indv_player_meter_" {$component selected_sym} ".png"}}
          )
+         (bre
+            {anchor_corner02.tex set_bitmap {sprint "track_new/bre/bre_shield_" {$component selected_sym} ".png"}}
+         )
          (flames
             {anchor_corner02.tex set_bitmap {sprint "track_new/flames/sparks_" {$component selected_sym} ".png"}}
          )
@@ -1074,7 +1099,8 @@
     (enter
         {sel_section.lst set_data
             (rb2 rb3 rb4 rr)}
-        {title.lbl set_localized {localize os_angle}})
+        {title.lbl set_localized {localize os_angle}}
+        {full_selection.mesh set_showing FALSE})
     (exit)
     (SELECT_MSG
       {switch {$component selected_sym}

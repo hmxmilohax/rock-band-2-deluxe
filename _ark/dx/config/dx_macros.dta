@@ -116,6 +116,8 @@
 
    {if {== $scoretex rb2} {set $scoretex "none"}}
 
+   {if {== $bretex rb2} {set $bretex "none"}}
+
    {if {== $voxarrow rb2} {set $voxarrow "none"}}
 
    {if {== $voxnotes rb2} {set $voxnotes "none"}}
@@ -133,24 +135,21 @@
    {unless $texrunonce
       ;{new Tex transparent.tex} ;the new tex doesnt save so i changed it to an unused existing tex -LX
       {{$this find all_icons.tex} set_bitmap "track/custom_track_textures/_no_highway.png"}
-      {{$this find track_reflect.tex} set_bitmap "track/custom_track_textures/white.png"}
       {{$this find smasher_plate_orange_nomip.tex} set_bitmap "track/rails/rails_warning_rb2.png"}
    }
-
-   {{$this find track_reflect.tex} iterate_refs $ref {$ref set intensify {! {modifier_mgr is_modifier_active mod_hw_alpha}}}}
 
    {unless $dontrungemdividers
    {if_else {modifier_mgr is_modifier_active mod_gemdivider}
       {beatmatch foreach_active_player $player
          {switch {$player instrument}
-            (bass {{{{get_track_panel} find bass} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})
-            (guitar {{{{get_track_panel} find guitar} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})
-            (drum {{{{get_track_panel} find drum} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})}}
+            (bass {{{get_bass_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})
+            (guitar {{{get_guitar_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})
+            (drum {{{get_drum_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})}}
       {beatmatch foreach_active_player $player ;handle adding the appropriate callbacks to each player
          {switch {$player instrument}
-            (bass {{{{get_track_panel} find bass} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})
-            (guitar {{{{get_track_panel} find guitar} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})
-            (drum {{{{get_track_panel} find drum} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})}}
+            (bass {{{get_bass_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})
+            (guitar {{{get_guitar_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})
+            (drum {{{get_drum_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})}}
    }}
    
    {if $highwaycustomtexture
@@ -158,10 +157,18 @@
    }
 
    {{$this find track_reflect_warning.tex} iterate_refs $ref {$ref set intensify {!= $highway "_1_none"}}}
+   {{$this find track_reflect.tex} iterate_refs $ref {$ref set intensify {! {modifier_mgr is_modifier_active mod_hwalpha}}}}
 
    {if $voxhwcustomtexture 
       {{$this find vocal_bg.tex} set_bitmap {sprint "track/voxhw/vocal_bg_" $voxhw ".png"}}
    }
+
+   {if $brecustomtexture
+      {{$this find blossom.tex} set_bitmap {sprint "track_new/bre/blossom_" $bretex ".png"}}
+      {{$this find bre_black_wing.tex} set_bitmap {sprint "track_new/bre/bre_black_wing_" $bretex ".png"}}
+      {{$this find bre_shield.tex} set_bitmap {sprint "track_new/bre/bre_shield_" $bretex ".png"}}
+   }
+
    {if $gemcustomtexture
       {{$this find prism_gems.tex} set_bitmap {sprint "track/gems/prism_gems_" $gem ".png"}}
 	  {{$this find prism_gem_emissive.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_" $gem ".png"}}
@@ -303,6 +310,8 @@
 
 ;after all of the queued texture updates are completed, set them to false so they do not run again until a new texture is queued via overshell
 {set $voxhwcustomtexture FALSE}
+{set $highwaycustomtexture FALSE}
+{set $brecustomtexture FALSE}
 {set $gemcustomtexture FALSE}
 {set $smashercustomtexture FALSE}
 {set $voxarrowcustomtexture FALSE}
@@ -348,6 +357,8 @@
 {unless {== $flames none} {set $flamescustomtexture TRUE}}
 
 {unless {== $scoretex none} {set $scorecustomtexture TRUE}}
+
+{unless {== $bretex none} {set $brecustomtexture TRUE}}
 
 {unless {== $voxarrow none} {set $voxarrowcustomtexture TRUE}}
 

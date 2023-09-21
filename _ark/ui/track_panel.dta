@@ -8,14 +8,13 @@
       {$this check_fc}
       {set [num_gems_hit] {'+' [num_gems_hit] 1}}
       {set [num_gems_combo] {'+' [num_gems_combo] 1}}
-      {unless {modifier_mgr is_modifier_active mod_legacybass} {if {&& {> [num_gems_combo] 39} {! $bass_groove_active}} {set $bass_groove_active TRUE} {{{{get_track_panel} find bass} find BassSuperStreak_ON.trig} trigger}}}
 	  )
    (miss
       {unless {! $bass_firstnote}
 	  {set [num_gems_miss] {'+' [num_gems_miss] 1}}
 	  {set [num_gems_combo] 0}
       {$this check_missed}
-	  {{{{get_track_panel} find bass} find streak_meter} star_deploy_stop}
+	  {{{get_bass_panel} find streak_meter} star_deploy_stop}
       {bass stop_deploy}}
 	  )
    (pass
@@ -24,55 +23,115 @@
 	  {set [num_gems_pass] {'+' [num_gems_pass] 1}}
 	  {set [num_gems_combo] 0}
       {$this check_missed}
-	  {{{{get_track_panel} find bass} find streak_meter} star_deploy_stop}
+	  {{{get_bass_panel} find streak_meter} star_deploy_stop}
       {bass stop_deploy}
 	  )
    (check_fc
       {$this check_missed}
       {if {== {'+' [num_gems_pass] [num_gems_miss]} 0}
-        {{{{get_track_panel} find bass} find streak_meter} star_deploy}
+        {{{get_bass_panel} find streak_meter} star_deploy}
         {bass deploy}}
 	  )
    (check_missed
 	  {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
-      {{{{get_track_panel} find bass} find streak_meter} star_deploy_stop}
+      {{{get_bass_panel} find streak_meter} star_deploy_stop}
       {bass stop_deploy}}
-      {unless {modifier_mgr is_modifier_active mod_legacybass} {if {< [num_gems_combo] 39} {set $bass_groove_active FALSE} {{{{get_track_panel} find bass} find BassSuperStreak_OFF.trig} trigger}}}
-	   {if_else {== $highway "_1_none"}
-         {if {modifier_mgr is_modifier_active mod_nohwwarn}
-               {{{{get_track_panel} find bass} find indv_player_warning_off.trig} trigger}
-               {{{{get_track_panel} find bass} find warning_track_emissive.anim} stop_animation}
-               {{{{get_track_panel} find bass} find warning_track_emissive.anim} set_frame 0.0}
+      {if_else {== $highway "_1_none"}
+         {do
+            {$this do_streak}
+            {$this do_warning}
          }
-         {if_else {> {{{{get_track_panel} find crowd_meter} find bass.tnm} frame} 0.33}
-            {do
-               {{{{get_track_panel} find bass} find indv_player_warning.trig} trigger}
-               {{{{get_track_panel} find bass} find warning_track_emissive.anim} stop_animation}
-               {{{{get_track_panel} find bass} find warning_track_emissive.anim} set_frame 15.0}
-            }
-            {do
-               {if {= {{{{get_track_panel} find crowd_meter} find bass.tnm} frame} 0.32}
-                  {do
-                     {unless {modifier_mgr is_modifier_active mod_nohwwarn}
-                        {{{{get_track_panel} find bass} find warning_track_emissive.anim} animate}
-                     }
-                  }
-               }
-               {if {modifier_mgr is_modifier_active mod_nohwwarn}
-                  {{{{get_track_panel} find bass} find indv_player_warning.trig} trigger}
-                  {{{{get_track_panel} find bass} find warning_track_emissive.anim} stop_animation}
-                  {{{{get_track_panel} find bass} find warning_track_emissive.anim} set_frame 15.0}
-               }
-            }
-         }
+         {$this do_customhw}
       }
-      {if {modifier_mgr is_modifier_active mod_railwarn}
-         {if_else {> {{{{get_track_panel} find crowd_meter} find bass.tnm} frame} 0.34}
-            {{{{get_track_panel} find bass} find rails.mat} set diffuse_tex {{get_track_panel} find rails.tex}}
-            {{{{get_track_panel} find bass} find rails.mat} set diffuse_tex {{get_track_panel} find smasher_plate_orange_nomip.tex}}
-         }
+      {unless {|| {modifier_mgr is_modifier_active mod_hwstreak} {modifier_mgr is_modifier_active mod_legacybass}}
+         {$this do_groove}
       }
+      {$this do_rail_warning}
      )
+   (do_customhw
+      {if_else {> {{{{get_track_panel} find crowd_meter} find bass.tnm} frame} 0.33}
+         {if_else {> [num_gems_combo] 38}
+            {$this do_customhw_streak}
+            {$this do_customhw_warn_off}
+         }
+         {do
+            {$this do_customhw_warn_on}
+            {if {modifier_mgr is_modifier_active mod_nohwwarn}
+               {if_else {> [num_gems_combo] 38}
+                  {$this do_customhw_streak}
+                  {$this do_customhw_warn_off}
+               }
+            }
+         }
+      }
+   )
+   (do_customhw_warn_off
+      {{{get_bass_panel} find indv_player_warning.trig} trigger}
+      {{{get_bass_panel} find warning_track_emissive.anim} stop_animation}
+      {{{get_bass_panel} find warning_track_emissive.anim} set_frame 15.0}
+   )
+   (do_customhw_warn_on
+      {if {= {{{{get_track_panel} find crowd_meter} find bass.tnm} frame} 0.32}
+         {unless {modifier_mgr is_modifier_active mod_nohwwarn}
+            {{{get_bass_panel} find warning_track_emissive.anim} animate}
+         }
+      }
+   )
+   (do_customhw_streak
+      {if {modifier_mgr is_modifier_active mod_hwstreak} 
+         {{{get_bass_panel} find surface.mat} set emissive_map {{get_track_panel} find bass_superstreak_pattern.tex}}
+      }
+   )
+   (do_warning
+      {if_else {modifier_mgr is_modifier_active mod_nohwwarn}
+         {unless {> [num_gems_combo] 38}
+            {{{get_bass_panel} find indv_player_warning_off.trig} trigger}
+            {{{get_bass_panel} find warning_track_emissive.anim} stop_animation}
+            {{{get_bass_panel} find warning_track_emissive.anim} set_frame 0.0}
+         }
+         {unless {> [num_gems_combo] 38}
+            {do
+               {if {> {{{{get_track_panel} find crowd_meter} find bass.tnm} frame} 0.33}
+                  {{{get_bass_panel} find indv_player_warning_off.trig} trigger}
+                  {{{get_bass_panel} find warning_track_emissive.anim} stop_animation}
+                  {{{get_bass_panel} find warning_track_emissive.anim} set_frame 0.0}
+               }
+               {if {= {{{{get_track_panel} find crowd_meter} find bass.tnm} frame} 0.32}
+                  {{{get_bass_panel} find indv_player_warning.trig} trigger}
+                  {{{get_bass_panel} find warning_track_emissive.anim} animate}
+               }
+            }
+         }
+      }
+   )
+   (do_rail_warning
+      {if {modifier_mgr is_modifier_active mod_railwarn}
+         {if_else {> {{{{get_bass_panel} find crowd_meter} find bass.tnm} frame} 0.34}
+            {{{get_bass_panel} find rails.mat} set diffuse_tex {{get_track_panel} find rails.tex}}
+            {{{get_bass_panel} find rails.mat} set diffuse_tex {{get_track_panel} find smasher_plate_orange_nomip.tex}}
+         }
+      }
+   )
+   (do_streak
+      {if {> [num_gems_combo] 38}
+         {if {modifier_mgr is_modifier_active mod_hwstreak}
+            {$this do_customhw_warn_off}
+            {{{get_bass_panel} find surface.mat} set emissive_map {{get_track_panel} find bass_superstreak_pattern.tex}}
+         }
+      }
+   )
+   (do_groove
+      {if_else {&& {> [num_gems_combo] 39} {! $bass_groove_active}}
+         {do
+            {set $bass_groove_active TRUE}
+            {{{get_bass_panel} find BassSuperStreak_ON.trig} trigger}
+         }
+         {if {< [num_gems_combo] 39}
+            {set $bass_groove_active FALSE}
+            {{{get_bass_panel} find BassSuperStreak_OFF.trig} trigger}
+         }
+      }
+   )
    (num_gems_hit 0)
    (num_gems_combo 0)
    (num_gems_miss 0)
@@ -86,14 +145,13 @@
       {$this check_fc}
       {set [num_gems_hit] {'+' [num_gems_hit] 1}}
       {set [num_gems_combo] {'+' [num_gems_combo] 1}}
-      {unless {modifier_mgr is_modifier_active mod_legacybass} {if {&& {> [num_gems_combo] 29} {! $guitar_groove_active}} {set $guitar_groove_active TRUE} {{{{get_track_panel} find guitar} find BassSuperStreak_ON.trig} trigger}}}
 	  )
    (miss
       {unless {! $guitar_firstnote}
 	  {set [num_gems_miss] {'+' [num_gems_miss] 1}}
 	  {set [num_gems_combo] 0}
       {$this check_missed}
-	  {{{{get_track_panel} find guitar} find streak_meter} star_deploy_stop}
+	  {{{get_guitar_panel} find streak_meter} star_deploy_stop}
       {guitar stop_deploy}}
 	  )
    (pass
@@ -102,55 +160,115 @@
 	  {set [num_gems_pass] {'+' [num_gems_pass] 1}}
 	  {set [num_gems_combo] 0}
       {$this check_missed}
-	  {{{{get_track_panel} find guitar} find streak_meter} star_deploy_stop}
+	  {{{get_guitar_panel} find streak_meter} star_deploy_stop}
       {guitar stop_deploy}
 	  )
    (check_fc
       {$this check_missed}
       {if {== {'+' [num_gems_pass] [num_gems_miss]} 0}
-        {{{{get_track_panel} find guitar} find streak_meter} star_deploy}
+        {{{get_guitar_panel} find streak_meter} star_deploy}
         {guitar deploy}}
 	  )
    (check_missed
 	  {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
-      {{{{get_track_panel} find guitar} find streak_meter} star_deploy_stop}
+      {{{get_guitar_panel} find streak_meter} star_deploy_stop}
       {guitar stop_deploy}}
-      {unless {modifier_mgr is_modifier_active mod_legacybass} {if {< [num_gems_combo] 29} {set $guitar_groove_active FALSE} {{{{get_track_panel} find guitar} find BassSuperStreak_OFF.trig} trigger}}}
-	   {if_else {== $highway "_1_none"}
-         {if {modifier_mgr is_modifier_active mod_nohwwarn}
-               {{{{get_track_panel} find guitar} find indv_player_warning_off.trig} trigger}
-               {{{{get_track_panel} find guitar} find warning_track_emissive.anim} stop_animation}
-               {{{{get_track_panel} find guitar} find warning_track_emissive.anim} set_frame 0.0}
+      {if_else {== $highway "_1_none"}
+         {do
+            {$this do_streak}
+            {$this do_warning}
          }
-         {if_else {> {{{{get_track_panel} find crowd_meter} find guitar.tnm} frame} 0.33}
-            {do
-               {{{{get_track_panel} find guitar} find indv_player_warning.trig} trigger}
-               {{{{get_track_panel} find guitar} find warning_track_emissive.anim} stop_animation}
-               {{{{get_track_panel} find guitar} find warning_track_emissive.anim} set_frame 15.0}
-            }
-            {do
-               {if {= {{{{get_track_panel} find crowd_meter} find guitar.tnm} frame} 0.32}
-                  {do
-                     {unless {modifier_mgr is_modifier_active mod_nohwwarn}
-                        {{{{get_track_panel} find guitar} find warning_track_emissive.anim} animate}
-                     }
-                  }
-               }
-               {if {modifier_mgr is_modifier_active mod_nohwwarn}
-                  {{{{get_track_panel} find guitar} find indv_player_warning.trig} trigger}
-                  {{{{get_track_panel} find guitar} find warning_track_emissive.anim} stop_animation}
-                  {{{{get_track_panel} find guitar} find warning_track_emissive.anim} set_frame 15.0}
+         {$this do_customhw}
+      }
+      {unless {|| {modifier_mgr is_modifier_active mod_hwstreak} {modifier_mgr is_modifier_active mod_legacybass}}
+         {$this do_groove}
+      }
+      {$this do_rail_warning}
+     )
+   (do_customhw
+      {if_else {> {{{{get_track_panel} find crowd_meter} find guitar.tnm} frame} 0.33}
+         {if_else {> [num_gems_combo] 28}
+            {$this do_customhw_streak}
+            {$this do_customhw_warn_off}
+         }
+         {do
+            {$this do_customhw_warn_on}
+            {if {modifier_mgr is_modifier_active mod_nohwwarn}
+               {if_else {> [num_gems_combo] 28}
+                  {$this do_customhw_streak}
+                  {$this do_customhw_warn_off}
                }
             }
          }
       }
+   )
+   (do_customhw_warn_off
+      {{{get_guitar_panel} find indv_player_warning.trig} trigger}
+      {{{get_guitar_panel} find warning_track_emissive.anim} stop_animation}
+      {{{get_guitar_panel} find warning_track_emissive.anim} set_frame 15.0}
+   )
+   (do_customhw_warn_on
+      {if {= {{{{get_track_panel} find crowd_meter} find guitar.tnm} frame} 0.32}
+         {unless {modifier_mgr is_modifier_active mod_nohwwarn}
+            {{{get_guitar_panel} find warning_track_emissive.anim} animate}
+         }
+      }
+   )
+   (do_customhw_streak
+      {if {modifier_mgr is_modifier_active mod_hwstreak} 
+         {{{get_guitar_panel} find surface.mat} set emissive_map {{get_track_panel} find bass_superstreak_pattern.tex}}
+      }
+   )
+   (do_warning
+      {if_else {modifier_mgr is_modifier_active mod_nohwwarn}
+         {unless {> [num_gems_combo] 28}
+            {{{get_guitar_panel} find indv_player_warning_off.trig} trigger}
+            {{{get_guitar_panel} find warning_track_emissive.anim} stop_animation}
+            {{{get_guitar_panel} find warning_track_emissive.anim} set_frame 0.0}
+         }
+         {unless {> [num_gems_combo] 28}
+            {do
+               {if {> {{{{get_track_panel} find crowd_meter} find guitar.tnm} frame} 0.33}
+                  {{{get_guitar_panel} find indv_player_warning_off.trig} trigger}
+                  {{{get_guitar_panel} find warning_track_emissive.anim} stop_animation}
+                  {{{get_guitar_panel} find warning_track_emissive.anim} set_frame 0.0}
+               }
+               {if {= {{{{get_track_panel} find crowd_meter} find guitar.tnm} frame} 0.32}
+                  {{{get_guitar_panel} find indv_player_warning.trig} trigger}
+                  {{{get_guitar_panel} find warning_track_emissive.anim} animate}
+               }
+            }
+         }
+      }
+   )
+   (do_rail_warning
       {if {modifier_mgr is_modifier_active mod_railwarn}
          {if_else {> {{{{get_track_panel} find crowd_meter} find guitar.tnm} frame} 0.34}
-            {{{{get_track_panel} find guitar} find rails.mat} set diffuse_tex {{get_track_panel} find rails.tex}}
-            {{{{get_track_panel} find guitar} find rails.mat} set diffuse_tex {{get_track_panel} find smasher_plate_orange_nomip.tex}}
+            {{{get_guitar_panel} find rails.mat} set diffuse_tex {{get_track_panel} find rails.tex}}
+            {{{get_guitar_panel} find rails.mat} set diffuse_tex {{get_track_panel} find smasher_plate_orange_nomip.tex}}
          }
       }
-     )
+   )
+   (do_streak
+      {if {> [num_gems_combo] 28}
+         {if {modifier_mgr is_modifier_active mod_hwstreak}
+            {$this do_customhw_warn_off}
+            {{{get_guitar_panel} find surface.mat} set emissive_map {{get_track_panel} find bass_superstreak_pattern.tex}}
+         }
+      }
+   )
+   (do_groove
+      {if_else {&& {> [num_gems_combo] 29} {! $guitar_groove_active}}
+         {do
+            {set $guitar_groove_active TRUE}
+            {{{get_guitar_panel} find BassSuperStreak_ON.trig} trigger}
+         }
+         {if {< [num_gems_combo] 29}
+            {set $guitar_groove_active FALSE}
+            {{{get_guitar_panel} find BassSuperStreak_OFF.trig} trigger}
+         }
+      }
+   )
    (num_gems_hit 0)
    (num_gems_combo 0)
    (num_gems_miss 0)
@@ -164,14 +282,13 @@
       {$this check_fc}
       {set [num_gems_hit] {'+' [num_gems_hit] 1}}
       {set [num_gems_combo] {'+' [num_gems_combo] 1}}
-      {unless {modifier_mgr is_modifier_active mod_legacybass}  {if {&& {> [num_gems_combo] 29} {! $drum_groove_active}} {set $drum_groove_active TRUE} {{{{get_track_panel} find drum} find BassSuperStreak_ON.trig} trigger}}}
 	  )
    (miss
       {unless {! $drum_firstnote}
 	  {set [num_gems_miss] {'+' [num_gems_miss] 1}}
 	  {set [num_gems_combo] 0}
       {$this check_missed}
-	  {{{{get_track_panel} find drum} find streak_meter} star_deploy_stop}
+	  {{{get_drum_panel} find streak_meter} star_deploy_stop}
       {drum stop_deploy}}
 	  )
    (pass
@@ -180,55 +297,115 @@
 	  {set [num_gems_pass] {'+' [num_gems_pass] 1}}
 	  {set [num_gems_combo] 0}
       {$this check_missed}
-	  {{{{get_track_panel} find drum} find streak_meter} star_deploy_stop}
+	  {{{get_drum_panel} find streak_meter} star_deploy_stop}
       {drum stop_deploy}
 	  )
    (check_fc
       {$this check_missed}
       {if {== {'+' [num_gems_pass] [num_gems_miss]} 0}
-        {{{{get_track_panel} find drum} find streak_meter} star_deploy}
+        {{{get_drum_panel} find streak_meter} star_deploy}
         {drum deploy}}
 	  )
    (check_missed
 	  {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
-      {{{{get_track_panel} find drum} find streak_meter} star_deploy_stop}
+      {{{get_drum_panel} find streak_meter} star_deploy_stop}
       {drum stop_deploy}}
-      {unless {modifier_mgr is_modifier_active mod_legacybass} {if {< [num_gems_combo] 29} {set $drum_groove_active FALSE} {{{{get_track_panel} find drum} find BassSuperStreak_OFF.trig} trigger}}}
-	   {if_else {== $highway "_1_none"}
-         {if {modifier_mgr is_modifier_active mod_nohwwarn}
-               {{{{get_track_panel} find drum} find indv_player_warning_off.trig} trigger}
-               {{{{get_track_panel} find drum} find warning_track_emissive.anim} stop_animation}
-               {{{{get_track_panel} find drum} find warning_track_emissive.anim} set_frame 0.0}
+      {if_else {== $highway "_1_none"}
+         {do
+            {$this do_streak}
+            {$this do_warning}
          }
-         {if_else {> {{{{get_track_panel} find crowd_meter} find drum.tnm} frame} 0.33}
-            {do
-               {{{{get_track_panel} find drum} find indv_player_warning.trig} trigger}
-               {{{{get_track_panel} find drum} find warning_track_emissive.anim} stop_animation}
-               {{{{get_track_panel} find drum} find warning_track_emissive.anim} set_frame 15.0}
-            }
-            {do
-               {if {= {{{{get_track_panel} find crowd_meter} find drum.tnm} frame} 0.32}
-                  {do
-                     {unless {modifier_mgr is_modifier_active mod_nohwwarn}
-                        {{{{get_track_panel} find drum} find warning_track_emissive.anim} animate}
-                     }
-                  }
-               }
-               {if {modifier_mgr is_modifier_active mod_nohwwarn}
-                  {{{{get_track_panel} find drum} find indv_player_warning.trig} trigger}
-                  {{{{get_track_panel} find drum} find warning_track_emissive.anim} stop_animation}
-                  {{{{get_track_panel} find drum} find warning_track_emissive.anim} set_frame 15.0}
-               }
-            }
-         }
+         {$this do_customhw}
       }
-      {if {modifier_mgr is_modifier_active mod_railwarn}
-         {if_else {> {{{{get_track_panel} find crowd_meter} find drum.tnm} frame} 0.34}
-            {{{{get_track_panel} find drum} find rails.mat} set diffuse_tex {{get_track_panel} find rails.tex}}
-            {{{{get_track_panel} find drum} find rails.mat} set diffuse_tex {{get_track_panel} find smasher_plate_orange_nomip.tex}}
-         }
+      {unless {|| {modifier_mgr is_modifier_active mod_hwstreak} {modifier_mgr is_modifier_active mod_legacybass}}
+         {$this do_groove}
       }
+      {$this do_rail_warning}
      )
+   (do_customhw
+      {if_else {> {{{{get_track_panel} find crowd_meter} find drum.tnm} frame} 0.33}
+         {if_else {> [num_gems_combo] 28}
+            {$this do_customhw_streak}
+            {$this do_customhw_warn_off}
+         }
+         {do
+            {$this do_customhw_warn_on}
+            {if {modifier_mgr is_modifier_active mod_nohwwarn}
+               {if_else {> [num_gems_combo] 28}
+                  {$this do_customhw_streak}
+                  {$this do_customhw_warn_off}
+               }
+            }
+         }
+      }
+   )
+   (do_customhw_warn_off
+      {{{get_drum_panel} find indv_player_warning.trig} trigger}
+      {{{get_drum_panel} find warning_track_emissive.anim} stop_animation}
+      {{{get_drum_panel} find warning_track_emissive.anim} set_frame 15.0}
+   )
+   (do_customhw_warn_on
+      {if {= {{{{get_track_panel} find crowd_meter} find drum.tnm} frame} 0.32}
+         {unless {modifier_mgr is_modifier_active mod_nohwwarn}
+            {{{get_drum_panel} find warning_track_emissive.anim} animate}
+         }
+      }
+   )
+   (do_customhw_streak
+      {if {modifier_mgr is_modifier_active mod_hwstreak} 
+         {{{get_drum_panel} find surface.mat} set emissive_map {{get_track_panel} find bass_superstreak_pattern.tex}}
+      }
+   )
+   (do_warning
+      {if_else {modifier_mgr is_modifier_active mod_nohwwarn}
+         {unless {> [num_gems_combo] 28}
+            {{{get_drum_panel} find indv_player_warning_off.trig} trigger}
+            {{{get_drum_panel} find warning_track_emissive.anim} stop_animation}
+            {{{get_drum_panel} find warning_track_emissive.anim} set_frame 0.0}
+         }
+         {unless {> [num_gems_combo] 28}
+            {do
+               {if {> {{{{get_track_panel} find crowd_meter} find drum.tnm} frame} 0.33}
+                  {{{get_drum_panel} find indv_player_warning_off.trig} trigger}
+                  {{{get_drum_panel} find warning_track_emissive.anim} stop_animation}
+                  {{{get_drum_panel} find warning_track_emissive.anim} set_frame 0.0}
+               }
+               {if {= {{{{get_track_panel} find crowd_meter} find drum.tnm} frame} 0.32}
+                  {{{get_drum_panel} find indv_player_warning.trig} trigger}
+                  {{{get_drum_panel} find warning_track_emissive.anim} animate}
+               }
+            }
+         }
+      }
+   )
+   (do_rail_warning
+      {if {modifier_mgr is_modifier_active mod_railwarn}
+         {if_else {> {{{{get_drum_panel} find crowd_meter} find drum.tnm} frame} 0.34}
+            {{{get_drum_panel} find rails.mat} set diffuse_tex {{get_track_panel} find rails.tex}}
+            {{{get_drum_panel} find rails.mat} set diffuse_tex {{get_track_panel} find smasher_plate_orange_nomip.tex}}
+         }
+      }
+   )
+   (do_streak
+      {if {> [num_gems_combo] 28}
+         {if {modifier_mgr is_modifier_active mod_hwstreak}
+            {$this do_customhw_warn_off}
+            {{{get_drum_panel} find surface.mat} set emissive_map {{get_track_panel} find bass_superstreak_pattern.tex}}
+         }
+      }
+   )
+   (do_groove
+      {if_else {&& {> [num_gems_combo] 29} {! $drum_groove_active}}
+         {do
+            {set $drum_groove_active TRUE}
+            {{{get_drum_panel} find BassSuperStreak_ON.trig} trigger}
+         }
+         {if {< [num_gems_combo] 29}
+            {set $drum_groove_active FALSE}
+            {{{get_drum_panel} find BassSuperStreak_OFF.trig} trigger}
+         }
+      }
+   )
    (num_gems_hit 0)
    (num_gems_combo 0)
    (num_gems_miss 0)
@@ -250,9 +427,9 @@
       {unless {gamemode get is_h2h_arrangement}
          {beatmatch foreach_active_player $player ;handle adding the appropriate callbacks to each player
              {switch {$player instrument}
-                (bass {$player add_sink fc_bass_callback (hit miss pass check_fc check_missed num_gems_hit num_gems_combo num_gems_miss num_gems_pass)})
-                (guitar {$player add_sink fc_guitar_callback (hit miss pass check_fc check_missed num_gems_hit num_gems_combo num_gems_miss num_gems_pass)})
-                (drum {$player add_sink fc_drum_callback (hit miss pass check_fc check_missed num_gems_hit num_gems_combo num_gems_miss num_gems_pass)})}}}
+                (bass {$player add_sink fc_bass_callback (hit miss pass check_fc check_missed do_customhw do_customhw_warn_off do_customhw_warn_on do_customhw_streak do_warning do_rail_warning do_streak do_groove num_gems_hit num_gems_combo num_gems_miss num_gems_pass)})
+                (guitar {$player add_sink fc_guitar_callback (hit miss pass check_fc check_missed do_customhw do_customhw_warn_off do_customhw_warn_on do_customhw_streak do_warning do_rail_warning do_streak do_groove num_gems_hit num_gems_combo num_gems_miss num_gems_pass)})
+                (drum {$player add_sink fc_drum_callback (hit miss pass check_fc check_missed do_customhw do_customhw_warn_off do_customhw_warn_on do_customhw_streak do_warning do_rail_warning do_streak do_groove num_gems_hit num_gems_combo num_gems_miss num_gems_pass)})}}}
 
       {{{gamemode get track_panel} loaded_dir} set view_time_easy {* {/ 2.4 $trackspeed} $speedmod}} ;implement track speed modifier
       {{{gamemode get track_panel} loaded_dir} set view_time_expert {* {/ 1.2 $trackspeed} $speedmod}}
@@ -293,31 +470,6 @@
          set_showing
          {gamemode get show_track}}
       {$this set_track_out}
-      {beatmatch foreach_active_player $player {switch {$player instrument}
-      (bass
-      {{{{get_track_panel} find bass} find streak_meter} star_deploy}
-      {unless {== $highway "_1_none"}
-         {{{{get_track_panel} find bass} find indv_player_warning.trig} trigger}
-         {{{{get_track_panel} find bass} find warning_track_emissive.anim} stop_animation}
-         {{{{get_track_panel} find bass} find warning_track_emissive.anim} set_frame 15.0}
-      }
-      )
-      (guitar
-      {{{{get_track_panel} find guitar} find streak_meter} star_deploy}
-      {unless {== $highway "_1_none"}
-         {{{{get_track_panel} find guitar} find indv_player_warning.trig} trigger}
-         {{{{get_track_panel} find guitar} find warning_track_emissive.anim} stop_animation}
-         {{{{get_track_panel} find guitar} find warning_track_emissive.anim} set_frame 15.0}
-      }
-      )
-      (drum
-      {{{{get_track_panel} find drum} find streak_meter} star_deploy}
-      {unless {== $highway "_1_none"}
-         {{{{get_track_panel} find drum} find indv_player_warning.trig} trigger}
-         {{{{get_track_panel} find drum} find warning_track_emissive.anim} stop_animation}
-         {{{{get_track_panel} find drum} find warning_track_emissive.anim} set_frame 15.0}
-      }
-      )}}
       {$this play_intro}
    )
    (on_reset

@@ -18,7 +18,7 @@
 ;gem texture
 {set $gem "rb2dx"}
 
-;smasher texture
+;strikeline texture
 {set $smasher "rb2dx"}
 
 ;highway texture
@@ -43,13 +43,16 @@
 {set $odbar "rb2dx"}
 
 ;rails texture
-{set $rails "none"}
+{set $rails "rb2"}
 
 ;flames texture
 {set $flames "rb2dx"}
 
 ;score texture
 {set $scoretex "rb4"}
+
+;bre texture
+{set $bretex "rb2"}
 
 ;vocal arrow texture
 {set $voxarrow "rb2dx"}
@@ -80,7 +83,7 @@
 {set $track_fade_start 70} ;start point of the fadeout at the end of the track
 {set $track_fade_length 50} ;length of the fadeout at the end of the track
 
-{modifier_mgr activate_modifier mod_hw_alpha}
+{modifier_mgr activate_modifier mod_hwalpha}
 ;{modifier_mgr activate_modifier mod_nofail}
 ;{modifier_mgr activate_modifier mod_doublespeed}
 ;{modifier_mgr activate_modifier mod_choose_venue}
