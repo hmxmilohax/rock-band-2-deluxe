@@ -451,6 +451,22 @@
             {set $track_z_pos 22}
             {set $track_fade_start 70}
             {set $track_fade_length 50}
+            {set $multioptimized TRUE}
+            {set $track_pitch_2p -40.5}
+            {set $track_fov_2p 19}
+            {set $track_y_pos_2p -115}
+            {set $track_z_pos_2p 25.8}
+            {set $track_fade_start_2p 90}
+            {set $track_fade_length_2p 50}
+            {set $track_cam_offset 0.439}
+            {set $track_pitch_3p -40.25}
+            {set $track_fov_3p 19}
+            {set $track_y_pos_3p -135}
+            {set $track_z_pos_3p 31}
+            {set $track_fade_start_3p 115}
+            {set $track_fade_length_3p 50}
+            {set $track_x_offset 24}
+            {set $track_side_angle 7.5}
          )
          (os_rb4prst
             {modifier_mgr deactivate_modifier mod_rb3sustain}
@@ -497,6 +513,22 @@
             {set $track_z_pos 26.25}
             {set $track_fade_start 130}
             {set $track_fade_length 15}
+            {set $multioptimized TRUE}
+            {set $track_pitch_2p -40.15}
+            {set $track_fov_2p 21}
+            {set $track_y_pos_2p -112}
+            {set $track_z_pos_2p 26.25}
+            {set $track_fade_start_2p 136}
+            {set $track_fade_length_2p 15}
+            {set $track_cam_offset 0.5}
+            {set $track_pitch_3p -40.15}
+            {set $track_fov_3p 21}
+            {set $track_y_pos_3p -128}
+            {set $track_z_pos_3p 30.25}
+            {set $track_fade_start_3p 136}
+            {set $track_fade_length_3p 15}
+            {set $track_x_offset 27.75}
+            {set $track_side_angle 9.5}
          )
          (os_lrbprst
             {modifier_mgr deactivate_modifier mod_rb3sustain}
@@ -618,6 +650,22 @@
             {set $track_z_pos 22}
             {set $track_fade_start 70}
             {set $track_fade_length 50}
+            {set $multioptimized TRUE}
+            {set $track_pitch_2p -40.5}
+            {set $track_fov_2p 19}
+            {set $track_y_pos_2p -115}
+            {set $track_z_pos_2p 25.8}
+            {set $track_fade_start_2p 90}
+            {set $track_fade_length_2p 50}
+            {set $track_cam_offset 0.439}
+            {set $track_pitch_3p -40.25}
+            {set $track_fov_3p 19}
+            {set $track_y_pos_3p -135}
+            {set $track_z_pos_3p 31}
+            {set $track_fade_start_3p 115}
+            {set $track_fade_length_3p 50}
+            {set $track_x_offset 24}
+            {set $track_side_angle 7.5}
          )
       })
     (update_helpbar
@@ -1104,6 +1152,57 @@
     (exit)
     (SELECT_MSG
       {switch {$component selected_sym}
+      ; (os_dta
+      ;    {set $trackangle TRUE}
+      ;    {set $angledta {read_file #ifdef HX_XBOX "GAME:/angle.dta" #endif #ifdef HX_PS3 "GD:/dev_hdd0/game/BLUS30147/USRDIR/angle.dta" #endif}}
+      ;    {foreach $entry $angledta
+      ;       {if {== {elem $entry 0} {basename track_pitch}}
+      ;          {set $track_pitch
+      ;             {elem {find $entry track_pitch} 1}
+      ;          }
+      ;       }
+      ;       {if {== {elem $entry 0} {basename track_fov}}
+      ;          {set $track_fov
+      ;             {elem {find $entry track_fov} 1}
+      ;          }
+      ;       }
+      ;       {if {== {elem $entry 0} {basename track_y_pos}}
+      ;          {set $track_y_pos
+      ;             {elem {find $entry track_y_pos} 1}
+      ;          }
+      ;       }
+      ;       {if {== {elem $entry 0} {basename track_z_pos}}
+      ;          {set $track_z_pos
+      ;             {elem {find $entry track_z_pos} 1}
+      ;          }
+      ;       }
+      ;       {if {== {elem $entry 0} {basename track_fade_start}}
+      ;          {set $track_fade_start
+      ;             {elem {find $entry track_fade_start} 1}
+      ;          }
+      ;       }
+      ;       {if {== {elem $entry 0} {basename track_fade_length}}
+      ;          {set $track_fade_length
+      ;             {elem {find $entry track_fade_length} 1}
+      ;          }
+      ;       }
+      ;       {if {== {elem $entry 0} {basename track_x_offset}}
+      ;          {set $track_x_offset
+      ;             {elem {find $entry track_x_offset} 1}
+      ;          }
+      ;       }
+      ;       {if {== {elem $entry 0} {basename track_side_angle}}
+      ;          {set $track_side_angle
+      ;             {elem {find $entry track_side_angle} 1}
+      ;          }
+      ;       }
+      ;       {if {== {elem $entry 0} {basename track_cam_offset}}
+      ;          {set $track_cam_offset
+      ;             {elem {find $entry track_cam_offset} 1}
+      ;          }
+      ;       }
+      ;    }
+      ; )
       (rb2
       {set $trackangle FALSE}
       )
@@ -1115,6 +1214,22 @@
       {set $track_z_pos 22}
       {set $track_fade_start 70}
       {set $track_fade_length 50}
+      {set $multioptimized TRUE}
+      {set $track_pitch_2p -40.5}
+      {set $track_fov_2p 19}
+      {set $track_y_pos_2p -115}
+      {set $track_z_pos_2p 25.8}
+      {set $track_fade_start_2p 90}
+      {set $track_fade_length_2p 50}
+      {set $track_cam_offset 0.439}
+      {set $track_pitch_3p -40.25}
+      {set $track_fov_3p 19}
+      {set $track_y_pos_3p -135}
+      {set $track_z_pos_3p 31}
+      {set $track_fade_start_3p 115}
+      {set $track_fade_length_3p 50}
+      {set $track_x_offset 24}
+      {set $track_side_angle 7.5}
       )
       (rb4
       {set $trackangle TRUE}
@@ -1124,6 +1239,22 @@
       {set $track_z_pos 26.25}
       {set $track_fade_start 130}
       {set $track_fade_length 15}
+      {set $multioptimized TRUE}
+      {set $track_pitch_2p -40.15}
+      {set $track_fov_2p 21}
+      {set $track_y_pos_2p -112}
+      {set $track_z_pos_2p 26.25}
+      {set $track_fade_start_2p 136}
+      {set $track_fade_length_2p 15}
+      {set $track_cam_offset 0.5}
+      {set $track_pitch_3p -40.15}
+      {set $track_fov_3p 21}
+      {set $track_y_pos_3p -128}
+      {set $track_z_pos_3p 30.25}
+      {set $track_fade_start_3p 136}
+      {set $track_fade_length_3p 15}
+      {set $track_x_offset 27.75}
+      {set $track_side_angle 9.5}
       )
       (rr
       {set $trackangle TRUE}
@@ -1133,6 +1264,7 @@
       {set $track_z_pos 36}
       {set $track_fade_start 15}
       {set $track_fade_length 45}
+      {set $multioptimized FALSE}
       )
       }
     )

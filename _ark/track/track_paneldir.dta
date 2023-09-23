@@ -151,35 +151,179 @@
                         {{$this dir}
                            get_gem_track
                            $idx}}
-                     {$obj
-                        set_pitch
-                        $track_pitch}
-                     {$obj
-                        set_fov
-                        $track_fov}
-                     {$obj
-                        set_cam_pos
+                     {$obj set_pitch
+                        {if_else $multioptimized
+                           {switch {$this name}
+                              ((1_player_wide 1_player_regular)
+                                 $track_pitch
+                              )
+                              ((2_player_wide 2_player_regular)
+                                 $track_pitch_2p
+                              )
+                              ((3_player_wide 3_player_regular)
+                                 $track_pitch_3p
+                              )
+                           }
+                           $track_pitch
+                        }
+                     }
+                     {$obj set_fov
+                        {if_else $multioptimized
+                           {switch {$this name}
+                              ((1_player_wide 1_player_regular)
+                                 $track_fov
+                              )
+                              ((2_player_wide 2_player_regular)
+                                 $track_fov_2p
+                              )
+                              ((3_player_wide 3_player_regular)
+                                 $track_fov_3p
+                              )
+                           }
+                           $track_fov
+                        }
+                     }
+                     {$obj set_cam_pos
                         0
-                        $track_y_pos
-                        $track_z_pos}
+                        {if_else $multioptimized
+                           {switch {$this name}
+                              ((1_player_wide 1_player_regular)
+                                 $track_y_pos
+                              )
+                              ((2_player_wide 2_player_regular)
+                                 $track_y_pos_2p
+                              )
+                              ((3_player_wide 3_player_regular)
+                                 $track_y_pos_3p
+                              )
+                           }
+                           $track_y_pos
+                        }
+                        {if_else $multioptimized
+                           {switch {$this name}
+                              ((1_player_wide 1_player_regular)
+                                 $track_z_pos
+                              )
+                              ((2_player_wide 2_player_regular)
+                                 $track_z_pos_2p
+                              )
+                              ((3_player_wide 3_player_regular)
+                                 $track_z_pos_3p
+                              )
+                           }
+                           $track_z_pos
+                        }
+                     }
                      {do
                         ($fade_start
                            {dist
                               0
-                              $track_y_pos
-                              $track_z_pos
+                              {if_else $multioptimized
+                                 {switch {$this name}
+                                    ((1_player_wide 1_player_regular)
+                                       $track_y_pos
+                                    )
+                                    ((2_player_wide 2_player_regular)
+                                       $track_y_pos_2p
+                                    )
+                                    ((3_player_wide 3_player_regular)
+                                       $track_y_pos_3p
+                                    )
+                                 }
+                                 $track_y_pos
+                              }
+                              {if_else $multioptimized
+                                 {switch {$this name}
+                                    ((1_player_wide 1_player_regular)
+                                       $track_z_pos
+                                    )
+                                    ((2_player_wide 2_player_regular)
+                                       $track_z_pos_2p
+                                    )
+                                    ((3_player_wide 3_player_regular)
+                                       $track_z_pos_3p
+                                    )
+                                 }
+                                 $track_z_pos
+                              }
                               0
-                              $track_fade_start
+                              {if_else $multioptimized
+                                 {switch {$this name}
+                                    ((1_player_wide 1_player_regular)
+                                       $track_fade_start
+                                    )
+                                    ((2_player_wide 2_player_regular)
+                                       $track_fade_start_2p
+                                    )
+                                    ((3_player_wide 3_player_regular)
+                                       $track_fade_start_3p
+                                    )
+                                 }
+                                 $track_fade_start
+                              }
                               0})
                         ($fade_end
                            {dist
                               0
-                              $track_y_pos
-                              $track_z_pos
+                              {if_else $multioptimized
+                                 {switch {$this name}
+                                    ((1_player_wide 1_player_regular)
+                                       $track_y_pos
+                                    )
+                                    ((2_player_wide 2_player_regular)
+                                       $track_y_pos_2p
+                                    )
+                                    ((3_player_wide 3_player_regular)
+                                       $track_y_pos_3p
+                                    )
+                                 }
+                                 $track_y_pos
+                              }
+                              {if_else $multioptimized
+                                 {switch {$this name}
+                                    ((1_player_wide 1_player_regular)
+                                       $track_z_pos
+                                    )
+                                    ((2_player_wide 2_player_regular)
+                                       $track_z_pos_2p
+                                    )
+                                    ((3_player_wide 3_player_regular)
+                                       $track_z_pos_3p
+                                    )
+                                 }
+                                 $track_z_pos
+                              }
                               0
                               {'+'
-                                 $track_fade_start
-                                 $track_fade_length}
+                                 {if_else $multioptimized
+                                    {switch {$this name}
+                                       ((1_player_wide 1_player_regular)
+                                          $track_fade_start
+                                       )
+                                       ((2_player_wide 2_player_regular)
+                                          $track_fade_start_2p
+                                       )
+                                       ((3_player_wide 3_player_regular)
+                                          $track_fade_start_3p
+                                       )
+                                    }
+                                    $track_fade_start
+                                 }
+                                 {if_else $multioptimized
+                                    {switch {$this name}
+                                       ((1_player_wide 1_player_regular)
+                                          $track_fade_length
+                                       )
+                                       ((2_player_wide 2_player_regular)
+                                          $track_fade_length_2p
+                                       )
+                                       ((3_player_wide 3_player_regular)
+                                          $track_fade_length_3p
+                                       )
+                                    }
+                                    $track_fade_length
+                                 }
+                              }
                               0})
                         {$obj
                            set_fade
@@ -190,30 +334,65 @@
                         {do
                            {$obj set_track_offset 0}
                            {$obj set_side_angle 0}
-                           #ifdef HX_PS3
-                           {$obj
-                              set_screen_rect_x
-                              [cam_offset_ps3]}
-                           #else
-                           {$obj
-                              set_screen_rect_x
-                              [cam_offset]}
-                           #endif}
+                           {$obj set_screen_rect_x
+                              {if_else $multioptimized
+                                 $track_cam_offset
+                                 #ifdef HX_PS3
+                                 [cam_offset_ps3]
+                                 #else
+                                 [cam_offset]
+                                 #endif
+                              }
+                           }
+                        }
                         {do
-                           {$obj
-                              set_track_offset
-                              [x_offset]}
-                           {$obj
-                              set_side_angle
-                              [side_angle]}
+                           {$obj set_track_offset
+                              {if_else $multioptimized
+                                 $track_x_offset
+                                 [x_offset]
+                              }
+                           }
+                           {$obj set_side_angle
+                              {if_else $multioptimized
+                                 $track_side_angle
+                                 [side_angle]
+                              }
+                           }
                            {$obj set_screen_rect_x 0}}}
                      {$obj
                         set
                         top_y
                         {'+'
                            {'+'
-                              $track_fade_start
-                              $track_fade_length}
+                              {if_else $multioptimized
+                                 {switch {$this name}
+                                    ((1_player_wide 1_player_regular)
+                                       $track_fade_start
+                                    )
+                                    ((2_player_wide 2_player_regular)
+                                       $track_fade_start_2p
+                                    )
+                                    ((3_player_wide 3_player_regular)
+                                       $track_fade_start_3p
+                                    )
+                                 }
+                                 $track_fade_start
+                              }
+                              {if_else $multioptimized
+                                 {switch {$this name}
+                                    ((1_player_wide 1_player_regular)
+                                       $track_fade_length
+                                    )
+                                    ((2_player_wide 2_player_regular)
+                                       $track_fade_length_2p
+                                    )
+                                    ((3_player_wide 3_player_regular)
+                                       $track_fade_length_3p
+                                    )
+                                 }
+                                 $track_fade_length
+                              }
+                           }
                            5}}
                      {if
                         {&&

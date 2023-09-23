@@ -338,7 +338,7 @@
 
 {unless {== $smasher none} {set $smashercustomtexture TRUE}}
 
-{unless {== $highway _1_none} {set $streakcustomtexture TRUE}}
+{unless {== $highway _1_none} {set $highwaycustomtexture TRUE}}
 
 {unless {== $streak none} {set $streakcustomtexture TRUE}}
 
