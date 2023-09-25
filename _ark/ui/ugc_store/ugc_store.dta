@@ -490,9 +490,6 @@
 {new
    UIPanel
    main_tweaks_panel
-;   (enter   ;setup buttons and shit
-;     {store_hmx.btn set text_token milosliderlbl}
-;     {store_ugc.btn set text_token colrsliderlbl})
    MAIN_SUBSCREEN_PANEL_HANDLER
    (SELECT_MSG
       {switch

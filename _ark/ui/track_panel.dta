@@ -3,14 +3,6 @@
 
 #define TRACK_PANEL_HANDLERS
 ((enter
-;      {if $blackvenue
-;         {if {! $already_restarted} ;cheap attempt to fix the "notes too quick bug" by restarting once automatically on initial song start, this should work in black bg
-;            {do
-;               {set $already_restarted TRUE}
-;               {game_restart}
-;            }
-;         }
-;      }
    DX_TRACK_TEXTURE_HANDLER
       {game add_sink $this}
       {unless {gamemode get is_h2h_arrangement}
@@ -33,7 +25,6 @@
             {gamemode get show_track}
             FALSE}})
    (exit
-;      {set $already_restarted FALSE}
       {game remove_sink $this})
    (unison_hit)
    (unison_miss)
