@@ -79,7 +79,8 @@
          (drum
             {{{{get_track_panel} find drum} find indv_player_warning_off.trig} trigger}
             {{{{get_track_panel} find drum} find warning_track_emissive.anim} animate}
-         )}})
+         )}}
+         )
          (intro
             {if
                {&&

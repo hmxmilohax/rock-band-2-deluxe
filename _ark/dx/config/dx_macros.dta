@@ -152,12 +152,18 @@
             (drum {{{get_drum_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})}}
    }}
    
-   {if $highwaycustomtexture
+   {if_else $highwaycustomtexture
+      {do
       {{$this find track_reflect_warning.tex} set_bitmap {sprint "track_new/highways/" $highway ".png"}}
+      {set $hwset TRUE}
+      }
+      {set $highway "_1_none"}
    }
 
-   {{$this find track_reflect_warning.tex} iterate_refs $ref {$ref set intensify {!= $highway "_1_none"}}}
-   {{$this find track_reflect.tex} iterate_refs $ref {$ref set intensify {! {modifier_mgr is_modifier_active mod_hwalpha}}}}
+   {if $hwset
+      {{$this find track_reflect_warning.tex} iterate_refs $ref {$ref set intensify {!= $highway "_1_none"}}}
+      {{$this find track_reflect.tex} iterate_refs $ref {$ref set intensify {! {modifier_mgr is_modifier_active mod_hwalpha}}}}
+   }
 
    {if $voxhwcustomtexture 
       {{$this find vocal_bg.tex} set_bitmap {sprint "track/voxhw/vocal_bg_" $voxhw ".png"}}
@@ -171,13 +177,13 @@
 
    {if $gemcustomtexture
       {{$this find prism_gems.tex} set_bitmap {sprint "track/gems/prism_gems_" $gem ".png"}}
-	  {{$this find prism_gem_emissive.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_" $gem ".png"}}
-	  {{$this find prism_gem_emissive_3_player.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_3_player_" $gem ".png"}}
-	  {{$this find prism_gem_emissive_dynamic.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_dynamic_" $gem ".png"}}
-	  {{$this find prism_gem_emissive_dynamic_red.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_dynamic_red_" $gem ".png"}}
-	  {{$this find prism_green.tex} set_bitmap {sprint "track/gems/prism_green_" $gem ".png"}}
-	  {{$this find prism_red.tex} set_bitmap {sprint "track/gems/prism_red_" $gem ".png"}}
-     {{$this find prism_spotlight.tex} set_bitmap {sprint "track/gems/prism_spotlight_" $gem ".png"}}
+	   {{$this find prism_gem_emissive.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_" $gem ".png"}}
+	   {{$this find prism_gem_emissive_3_player.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_3_player_" $gem ".png"}}
+	   {{$this find prism_gem_emissive_dynamic.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_dynamic_" $gem ".png"}}
+	   {{$this find prism_gem_emissive_dynamic_red.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_dynamic_red_" $gem ".png"}}
+	   {{$this find prism_green.tex} set_bitmap {sprint "track/gems/prism_green_" $gem ".png"}}
+	   {{$this find prism_red.tex} set_bitmap {sprint "track/gems/prism_red_" $gem ".png"}}
+      {{$this find prism_spotlight.tex} set_bitmap {sprint "track/gems/prism_spotlight_" $gem ".png"}}
    }
 
    {if $smashercustomtexture
@@ -265,13 +271,16 @@
    {if $railscustomtexture
       {{$this find rails.tex} set_bitmap {sprint "track/rails/rails_" $rails ".png"}}
       {{$this find smasher_plate_orange_nomip.tex} set_bitmap {sprint "track/rails/rails_warning_" $rails ".png"}}
+      {set $railsset TRUE}
    }
    
-   {{$this find rails.tex} iterate_refs $ref {$ref set intensify {!= $rails "rb2"}}}
-   {{$this find smasher_plate_orange_nomip.tex} iterate_refs $ref {$ref set intensify {!= $rails "rb2"}}}
-   {if {== $rails none}
-      {{$this find rails.tex} iterate_refs $ref {$ref set intensify FALSE}}
-      {{$this find smasher_plate_orange_nomip.tex} iterate_refs $ref {$ref set intensify FALSE}}
+   {if $railsset
+      {{$this find rails.tex} iterate_refs $ref {$ref set intensify {!= $rails "rb2"}}}
+      {{$this find smasher_plate_orange_nomip.tex} iterate_refs $ref {$ref set intensify {!= $rails "rb2"}}}
+      {if {== $rails none}
+         {{$this find rails.tex} iterate_refs $ref {$ref set intensify FALSE}}
+         {{$this find smasher_plate_orange_nomip.tex} iterate_refs $ref {$ref set intensify FALSE}}
+      }
    }
 
    {if $spotlightgtrcustomtexture
