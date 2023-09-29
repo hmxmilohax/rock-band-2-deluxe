@@ -85,7 +85,9 @@
 {set $track_fade_start 70} ;start point of the fadeout at the end of the track
 {set $track_fade_length 50} ;length of the fadeout at the end of the track
 
+#ifndef HX_EE
 {modifier_mgr activate_modifier mod_hwalpha}
+#endif
 ;{modifier_mgr activate_modifier mod_nofail}
 ;{modifier_mgr activate_modifier mod_doublespeed}
 ;{modifier_mgr activate_modifier mod_choose_venue}
@@ -97,6 +99,7 @@
 ;{modifier_mgr activate_modifier mod_selectdeploy}
 ;{modifier_mgr activate_modifier mod_auto_play}
 
+#ifndef HX_EE ; cant read dx.dta on ps2 (yet)
 #define INIT_DTA_READER
 (
    {set $dxsettings {read_file #ifdef HX_XBOX "GAME:/dx.dta" #endif #ifdef HX_PS3 "GD:/dev_hdd0/game/BLUS30147/USRDIR/dx.dta" #endif}}
@@ -348,6 +351,7 @@
 )
 ;{unless {file_exists dx.dta} INIT_DTA_WRITER}
 INIT_DTA_READER
+#endif
 DX_TEXTURE_RESET_HANDLER
 DX_DO_CUSTOM_TEXTURE_HANDLER
 
