@@ -1,0 +1,10 @@
+; funcs for finding instrument objects in track panel
+{func get_guitar_panel
+   {{get_track_panel} find guitar}
+}
+{func get_bass_panel
+   {{get_track_panel} find bass}
+}
+{func get_drum_panel
+   {{get_track_panel} find drum}
+}

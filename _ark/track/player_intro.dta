@@ -68,42 +68,19 @@
             {reset.trig trigger}
          {beatmatch foreach_active_player $player {switch {$player instrument}
          (bass
-         ;{if_else {modifier_mgr is_modifier_active mod_hwalpha}
-            ;{do
-               {{{{get_track_panel} find bass} find indv_player_warning_off.trig} trigger}
-               {{{{get_track_panel} find bass} find warning_track_emissive.anim} animate}
-            ;}
-            ;{do
-               ;{{{{get_track_panel} find bass} find warning_track_emissive.anim} stop_animation}
-               ;{{{{get_track_panel} find bass} find warning_track_emissive.anim} set_frame 15.0}
-            ;}
-         ;}
+            {{{{get_track_panel} find bass} find indv_player_warning_off.trig} trigger}
+            {{{{get_track_panel} find bass} find warning_track_emissive.anim} animate}
          )
          (guitar
-         ;{if_else {modifier_mgr is_modifier_active mod_hwalpha}
-            ;{do
-               {{{{get_track_panel} find guitar} find indv_player_warning_off.trig} trigger}
-               {{{{get_track_panel} find guitar} find warning_track_emissive.anim} animate}
-            ;}
-            ;{do
-               ;{{{{get_track_panel} find guitar} find warning_track_emissive.anim} stop_animation}
-               ;{{{{get_track_panel} find guitar} find warning_track_emissive.anim} set_frame 15.0}
-            ;}
-         ;}
+            {{{{get_track_panel} find guitar} find indv_player_warning_off.trig} trigger}
+            {{{{get_track_panel} find guitar} find warning_track_emissive.anim} animate}
          )
          (vocals)
          (drum
-         ;{if_else {modifier_mgr is_modifier_active mod_hwalpha}
-            ;{do
-               {{{{get_track_panel} find drum} find indv_player_warning_off.trig} trigger}
-               {{{{get_track_panel} find drum} find warning_track_emissive.anim} animate}
-            ;}
-            ;{do
-               ;{{{{get_track_panel} find drum} find warning_track_emissive.anim} stop_animation}
-               ;{{{{get_track_panel} find drum} find warning_track_emissive.anim} set_frame 15.0}
-            ;}
-         ;}
-         )}})
+            {{{{get_track_panel} find drum} find indv_player_warning_off.trig} trigger}
+            {{{{get_track_panel} find drum} find warning_track_emissive.anim} animate}
+         )}}
+         )
          (intro
             {if
                {&&
@@ -120,49 +97,21 @@
          {unless {== $highway "_1_none"}
          {beatmatch foreach_active_player $player {switch {$player instrument}
          (bass
-         ;{if_else {modifier_mgr is_modifier_active mod_hwalpha}
-            ;{do
-               {{{{get_track_panel} find bass} find indv_player_warning_off.trig} trigger}
-               {{{{get_track_panel} find bass} find warning_track_emissive.anim} animate}
-            ;}
-            ;{do
-               ;{{{{get_track_panel} find bass} find warning_track_emissive.anim} stop_animation}
-               ;{{{{get_track_panel} find bass} find warning_track_emissive.anim} set_frame 15.0}
-            ;}
-         ;}
+            {{{{get_track_panel} find bass} find indv_player_warning_off.trig} trigger}
+            {{{{get_track_panel} find bass} find warning_track_emissive.anim} animate}
          )
          (guitar
-         ;{if_else {modifier_mgr is_modifier_active mod_hwalpha}
-            ;{do
-               {{{{get_track_panel} find guitar} find indv_player_warning_off.trig} trigger}
-               {{{{get_track_panel} find guitar} find warning_track_emissive.anim} animate}
-            ;}
-            ;{do
-               ;{{{{get_track_panel} find guitar} find warning_track_emissive.anim} stop_animation}
-               ;{{{{get_track_panel} find guitar} find warning_track_emissive.anim} set_frame 15.0}
-            ;}
-         ;}
+            {{{{get_track_panel} find guitar} find indv_player_warning_off.trig} trigger}
+            {{{{get_track_panel} find guitar} find warning_track_emissive.anim} animate}
          )
          (vocals)
          (drum
-         ;{if_else {modifier_mgr is_modifier_active mod_hwalpha}
-            ;{do
-               {{{{get_track_panel} find drum} find indv_player_warning_off.trig} trigger}
-               {{{{get_track_panel} find drum} find warning_track_emissive.anim} animate}
-            ;}
-            ;{do
-               ;{{{{get_track_panel} find drum} find warning_track_emissive.anim} stop_animation}
-               ;{{{{get_track_panel} find drum} find warning_track_emissive.anim} set_frame 15.0}
-            ;}
-         ;}
+            {{{{get_track_panel} find drum} find indv_player_warning_off.trig} trigger}
+            {{{{get_track_panel} find drum} find warning_track_emissive.anim} animate}
          )}}}
          
 			{beatmatch foreach_active_player $player {switch {$player instrument}
 			(bass
-			;{set $bass_groove_active FALSE}
-			;{set $bass_milosong FALSE}
-			;{{{{get_track_panel} find bass} find BassSuperStreak_ON.trig} trigger}
-			;{{{{get_track_panel} find bass} find star_deploy.trig} trigger}
 			{{{{get_track_panel} find bass} find streak_meter} star_deploy}
          {unless {== $highway "_1_none"}
             {{{{get_track_panel} find bass} find indv_player_warning.trig} trigger}
@@ -172,10 +121,6 @@
          {{{{get_track_panel} find bass} find rails.mat} set diffuse_tex {{get_track_panel} find rails.tex}}
 			)
 			(guitar
-			;{set $guitar_groove_active FALSE}
-			;{set $guitar_milosong FALSE}
-			;{{{{get_track_panel} find guitar} find BassSuperStreak_ON.trig} trigger}
-			;{{{{get_track_panel} find guitar} find star_deploy.trig} trigger}
 			{{{{get_track_panel} find guitar} find streak_meter} star_deploy}
          {unless {== $highway "_1_none"}
             {{{{get_track_panel} find guitar} find indv_player_warning.trig} trigger}
@@ -187,10 +132,6 @@
 			(vocals
 			)
 			(drum
-			;{set $drum_groove_active FALSE}
-			;{set $drum_milosong FALSE}
-			;{{{{get_track_panel} find drum} find BassSuperStreak_ON.trig} trigger}
-			;{{{{get_track_panel} find drum} find star_deploy.trig} trigger}
 			{{{{get_track_panel} find drum} find streak_meter} star_deploy}
          {unless {== $highway "_1_none"}
             {{{{get_track_panel} find drum} find indv_player_warning.trig} trigger}
