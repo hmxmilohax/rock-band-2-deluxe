@@ -1,11 +1,14 @@
 {new
     UIPanel
     overshell_main_panel
-    (file
-        "practice/practice_sel_section.milo")
+    #ifdef HX_EE
+    (file practice/practice_sel_section_og.milo)
+    #else
+    (file "practice/practice_sel_section.milo")
+    #endif
     (focus sel_section.lst)
     (enter
-        {sel_section.lst set_data (os_mod os_sys os_spd os_trkset os_cam)}
+        {sel_section.lst set_data (os_mod #ifndef HX_EE os_sys #endif os_spd os_trkset #ifndef HX_EE os_cam #endif)}
         {title.lbl set_localized {localize os_dxsettings}}
         {full_selection.mesh set_showing FALSE})
     (exit)
@@ -35,15 +38,16 @@
                     (confirm helpbar_select))})
     (SCROLL_MSG)
     (BUTTON_DOWN_MSG
-        {if
-            {== $action kAction_Cancel}
+         {if_else
+            #ifdef HX_EE {== $button kPad_Tri} #else {== $action kAction_Cancel} #endif
+            {do
             {synth play button_toggle}
             {if_else {exists $modifier_exit}
             {ui goto_screen $modifier_exit}
-            {ui goto_screen splash_screen}
-         }
-         {ui pop_screen}}
-         kDataUnhandled)
+            {ui goto_screen splash_screen}}
+            {ui pop_screen}
+            TRUE}
+         kDataUnhandled})
     (TRANSITION_COMPLETE_MSG
         {$this update_helpbar})}
 {new
@@ -55,8 +59,11 @@
 {new
     UIPanel
     overshell_system_panel
-    (file
-        "practice/practice_sel_section.milo")
+    #ifdef HX_EE
+    (file practice/practice_sel_section_og.milo)
+    #else
+    (file "practice/practice_sel_section.milo")
+    #endif
     (focus sel_section.lst)
     (enter
         {sel_section.lst set_data (os_console #ifndef HX_PS3 os_gameplay #endif os_data)}
@@ -122,11 +129,14 @@
 {new
     UIPanel
     overshell_track_panel
-    (file
-        "practice/practice_sel_section.milo")
+    #ifdef HX_EE
+    (file practice/practice_sel_section_og.milo)
+    #else
+    (file "practice/practice_sel_section.milo")
+    #endif
     (focus sel_section.lst)
     (enter
-        {sel_section.lst set_data (os_trkpreset os_angle os_clr)}
+        {sel_section.lst set_data (os_trkpreset os_angle #ifndef HX_EE os_clr #endif)}
         {title.lbl set_localized {localize os_trkset}}
         {full_selection.mesh set_showing FALSE})
     (exit)
@@ -149,12 +159,14 @@
                     (confirm helpbar_select))})
     (SCROLL_MSG)
     (BUTTON_DOWN_MSG
-        {if
-        {== $action kAction_Cancel}
-        {synth play button_toggle}
+        {if_else
+         #ifdef HX_EE {== $button kPad_Tri} #else {== $action kAction_Cancel} #endif
+         {do
+         {synth play button_toggle}
          {ui goto_screen overshell_main_screen}
-         {ui pop_screen}}
-         kDataUnhandled)
+         {ui pop_screen}
+         TRUE}
+         kDataUnhandled})
     (TRANSITION_COMPLETE_MSG
         {$this update_helpbar})}
 {new
@@ -166,8 +178,11 @@
 {new
     UIPanel
     overshell_cam_panel
-    (file
-        "practice/practice_sel_section.milo")
+    #ifdef HX_EE
+    (file practice/practice_sel_section_og.milo)
+    #else
+    (file "practice/practice_sel_section.milo")
+    #endif
     (focus sel_section.lst)
     (enter
         {sel_section.lst set_data (os_cycam os_gtrfx)}
@@ -207,8 +222,11 @@
 {new
     UIPanel
     overshell_trkpreset_panel
-    (file
-        "practice/practice_sel_section.milo")
+    #ifdef HX_EE
+    (file practice/practice_sel_section_og.milo)
+    #else
+    (file "practice/practice_sel_section.milo")
+    #endif
     (focus sel_section.lst)
     (enter
          {if_else $texrunonce
@@ -675,12 +693,14 @@
                     (confirm helpbar_select))})
     (SCROLL_MSG)
     (BUTTON_DOWN_MSG
-        {if
-        {== $action kAction_Cancel}
-        {synth play button_toggle}
+        {if_else
+         #ifdef HX_EE {== $button kPad_Tri} #else {== $action kAction_Cancel} #endif
+         {do
+         {synth play button_toggle}
          {ui goto_screen overshell_track_screen}
-         {ui pop_screen}}
-         kDataUnhandled)
+         {ui pop_screen}
+         TRUE}
+         kDataUnhandled})
     (TRANSITION_COMPLETE_MSG
         {$this update_helpbar})}
 {new
@@ -692,8 +712,11 @@
 {new
     UIPanel
     overshell_tex_panel
-    (file
-        "practice/practice_sel_section.milo")
+    #ifdef HX_EE
+    (file practice/practice_sel_section_og.milo)
+    #else
+    (file "practice/practice_sel_section.milo")
+    #endif
     (focus sel_section.lst)
     (enter
         {sel_section.lst set_data (os_gems os_smashers os_flames os_score os_bre os_rails os_odbar os_multi_ring os_hw os_strk os_spotlight os_voxtrk)}
@@ -756,12 +779,14 @@
                     (confirm helpbar_select))})
     (SCROLL_MSG)
     (BUTTON_DOWN_MSG
-        {if
-        {== $action kAction_Cancel}
-        {synth play button_toggle}
+        {if_else
+         #ifdef HX_EE {== $button kPad_Tri} #else {== $action kAction_Cancel} #endif
+         {do
+         {synth play button_toggle}
          {ui goto_screen overshell_trkpreset_screen}
-         {ui pop_screen}}
-         kDataUnhandled)
+         {ui pop_screen}
+         TRUE}
+         kDataUnhandled})
     (TRANSITION_COMPLETE_MSG
         {$this update_helpbar})}
 {new
@@ -773,8 +798,11 @@
 {new
     UIPanel
     overshell_spotlight_sel_panel
-    (file
-        "practice/practice_sel_section.milo")
+    #ifdef HX_EE
+    (file practice/practice_sel_section_og.milo)
+    #else
+    (file "practice/practice_sel_section.milo")
+    #endif
     (focus sel_section.lst)
     (enter
         {sel_section.lst set_data (os_spotlightall os_spotlightgtr os_spotlightbass os_spotlightdrum)}
@@ -811,12 +839,14 @@
                     (confirm helpbar_select))})
     (SCROLL_MSG)
     (BUTTON_DOWN_MSG
-        {if
-        {== $action kAction_Cancel}
-        {synth play button_toggle}
+        {if_else
+         #ifdef HX_EE {== $button kPad_Tri} #else {== $action kAction_Cancel} #endif
+         {do
+         {synth play button_toggle}
          {ui goto_screen overshell_trkpreset_screen}
-         {ui pop_screen}}
-         kDataUnhandled)
+         {ui pop_screen}
+         TRUE}
+         kDataUnhandled})
     (TRANSITION_COMPLETE_MSG
         {$this update_helpbar})}
 {new
@@ -828,8 +858,11 @@
 {new
     UIPanel
     overshell_voxtrk_panel
-    (file
-        "practice/practice_sel_section.milo")
+    #ifdef HX_EE
+    (file practice/practice_sel_section_og.milo)
+    #else
+    (file "practice/practice_sel_section.milo")
+    #endif
     (focus sel_section.lst)
     (enter
         {sel_section.lst set_data (os_voxarrow os_voxhw os_voxnotes os_voxod)}
@@ -863,12 +896,14 @@
                     (confirm helpbar_select))})
     (SCROLL_MSG)
     (BUTTON_DOWN_MSG
-        {if
-        {== $action kAction_Cancel}
-        {synth play button_toggle}
+        {if_else
+         #ifdef HX_EE {== $button kPad_Tri} #else {== $action kAction_Cancel} #endif
+         {do
+         {synth play button_toggle}
          {ui goto_screen overshell_tex_screen}
-         {ui pop_screen}}
-         kDataUnhandled)
+         {ui pop_screen}
+         TRUE}
+         kDataUnhandled})
     (TRANSITION_COMPLETE_MSG
         {$this update_helpbar})}
 {new
@@ -880,8 +915,11 @@
 {new
     UIPanel
     overshell_texload_panel
-    (file
-        "practice/practice_sel_section.milo")
+    #ifdef HX_EE
+    (file practice/practice_sel_section_og.milo)
+    #else
+    (file "practice/practice_sel_section.milo")
+    #endif
     (focus sel_section.lst)
     (enter
       {full_selection.mesh set_showing FALSE}
@@ -1124,12 +1162,14 @@
       }
       )
     (BUTTON_DOWN_MSG
-        {if
-        {== $action kAction_Cancel}
-        {synth play button_toggle}
+        {if_else
+         #ifdef HX_EE {== $button kPad_Tri} #else {== $action kAction_Cancel} #endif
+         {do
+         {synth play button_toggle}
          {ui goto_screen overshell_track_screen}
-         {ui pop_screen}}
-         kDataUnhandled)
+         {ui pop_screen}
+         TRUE}
+         kDataUnhandled})
     (TRANSITION_COMPLETE_MSG
         {$this update_helpbar})}
 {new
@@ -1141,8 +1181,11 @@
 {new
     UIPanel
     overshell_angle_panel
-    (file
-        "practice/practice_sel_section.milo")
+    #ifdef HX_EE
+    (file practice/practice_sel_section_og.milo)
+    #else
+    (file "practice/practice_sel_section.milo")
+    #endif
     (focus sel_section.lst)
     (enter
         {sel_section.lst set_data
@@ -1275,12 +1318,14 @@
                     (confirm helpbar_select))})
     (SCROLL_MSG)
     (BUTTON_DOWN_MSG
-        {if
-        {== $action kAction_Cancel}
-        {synth play button_toggle}
+        {if_else
+         #ifdef HX_EE {== $button kPad_Tri} #else {== $action kAction_Cancel} #endif
+         {do
+         {synth play button_toggle}
          {ui goto_screen overshell_track_screen}
-         {ui pop_screen}}
-         kDataUnhandled)
+         {ui pop_screen}
+         TRUE}
+         kDataUnhandled})
     (TRANSITION_COMPLETE_MSG
         {$this update_helpbar})}
 {new
@@ -1289,6 +1334,7 @@
    (panels overshell_angle_panel practice_mode_panel practice_lower3rd_panel)
    (focus overshell_angle_panel)}
 ;
+#ifndef HX_EE ; i dont see a need in properly merging the slider panels - LX
 ;for speed/framerate screen, instruments.sld/btn is now for note speed, background.sld/background_music.btn is now for song speed, and crowd.sld/btn is now for venue fps
 {new
    UIPanel
@@ -1690,3 +1736,204 @@
       ((cancel helpbar_back)
          (confirm helpbar_select)))}
 ;
+#else
+{new
+   UIPanel
+   options_milo_panel
+   (file
+      "options_audio_og.milo")
+   (focus instruments.btn)
+   (set_fg_instr
+      {song_preview_fg_instr guitar})
+   (load
+      {content_mgr start_refresh})
+   (is_loaded
+      {content_mgr refresh_done})
+   (enter
+      {set_up_instrument_and_gamertag
+         {options_audio_screen get player_num}}
+      {$this set_fg_instr}
+      {$this update_all_from_profile}
+      {instruments.sld set_num_steps 41} ;number of steps for note speed slider
+      {background.sld set_num_steps 31} ;number of steps for song speed slider
+      {instruments.sld set_current {int {+ 0.5 {/ {+ {- $trackspeed 1} 0.5} 0.05}}}} ;set note speed slider based on current value
+      {background.sld set_current {int {+ 0.5 {/ {- $speedmod 1} 0.05}}}} ;set song speed slider based on current value
+      {audio_options.lbl set_localized {localize milosliderlbl}}
+      {instruments.btn set_localized {sprintf {localize trackspeed_msg} {int {+ 0.5 {* $trackspeed 100}}}}} ;set note speed msg
+      {background_music.btn set_localized {sprintf {localize speed_msg} {int {+ 0.5 {* $speedmod 100}}}}} ;set song speed msg
+      {memcardmgr add_sink $this save_load_all_complete_msg}
+      {vocal_options.btn set_showing FALSE}
+      {$this disable vocal_options.btn}
+      {video_options.btn set_showing FALSE}
+      {$this disable video_options.btn}
+      {crowd.btn set_showing FALSE}
+      {crowd.sld set_showing FALSE}
+      {$this disable crowd.btn}
+      {sfx.btn set_showing FALSE}
+      {sfx.sld set_showing FALSE}
+      {$this disable sfx.btn})
+   (exit
+      {song_preview ''}
+      {meta music_start}
+      {memcardmgr remove_sink $this save_load_all_complete_msg})
+   (save_load_all_complete_msg
+      {$this update_all_from_profile})
+   (TRANSITION_COMPLETE_MSG
+      {$this
+         update_helpbar
+         {$this focus_name}}
+      kDataUnhandled)
+   (FOCUS_MSG
+      {$this update_helpbar $new_focus})
+   (SCROLL_SELECT_MSG
+      {$this on_slider_change $component})
+   (SCROLL_MSG
+      {$this on_slider_change $component})
+   (SELECT_MSG
+      {switch
+         $component
+         (vocal_options.btn
+            {vocal_options_panel
+               set
+               player_num
+               {options_audio_screen get player_num}}
+            {ui goto_screen vocal_options_screen})
+         (video_options.btn
+            {goto_system_option_screen options_video_screen $player_num})
+         (vocal_track.btn
+            {vocal_track.sld store}
+            {$this set_focus vocal_track.sld})
+         (instruments.btn
+            {instruments.sld store}
+            {$this set_focus instruments.sld})
+         (background_music.btn
+            {background.sld store}
+            {$this set_focus background.sld})
+         (crowd.btn
+            {crowd.sld store}
+            {$this set_focus crowd.sld})
+         (sfx.btn
+            {sfx.sld store}
+            {$this set_focus sfx.sld})})
+   (BUTTON_DOWN_MSG
+      {switch
+         {$this focus_name}
+         (vocal_track.sld
+            {switch
+               $button
+               (kPad_X
+                  {vocal_track.sld confirm}
+                  {$this set_focus vocal_track.btn})
+               (kPad_Tri
+                  {vocal_track.sld undo $player_num}
+                  {$this set_focus vocal_track.btn})
+               kDataUnhandled})
+         (instruments.sld
+            {switch
+               $button
+               (kPad_X
+                  {instruments.sld confirm}
+                  {$this set_focus instruments.btn})
+               (kPad_Tri
+                  {instruments.sld undo $player_num}
+                  {$this set_focus instruments.btn})
+               kDataUnhandled})
+         (background.sld
+            {switch
+               $button
+               (kPad_X
+                  {background.sld confirm}
+                  {$this set_focus background_music.btn})
+               (kPad_Tri
+                  {background.sld undo $player_num}
+                  {$this set_focus background_music.btn})
+               kDataUnhandled})
+         (crowd.sld
+            {switch
+               $button
+               (kPad_X
+                  {crowd.sld confirm}
+                  {$this set_focus crowd.btn})
+               (kPad_Tri
+                  {crowd.sld undo $player_num}
+                  {$this set_focus crowd.btn})
+               kDataUnhandled})
+         (sfx.sld
+            {switch
+               $button
+               (kPad_X
+                  {sfx.sld confirm}
+                  {$this set_focus sfx.btn})
+               (kPad_Tri
+                  {sfx.sld undo $player_num}
+                  {$this set_focus sfx.btn})
+               kDataUnhandled})
+         kDataUnhandled})
+   (on_slider_change
+      ($component)
+      {switch
+         $component
+         (instruments.sld
+               {do {set $component current}}
+            {$this set_speeds})
+         (background.sld
+               {do {set $component current}}
+            {$this set_speeds})
+         })
+   (update_all_from_profile
+      {$this
+         iterate
+         UISlider
+         $s
+         {$this update_from_profile $s}})
+   (update_from_profile
+      ($component)
+      {switch
+         $component
+         (instruments.sld
+            {$component
+               set_current
+               {int {+ 0.5 {/ {+ {- $trackspeed 1} 0.5} 0.05}}}})
+         (background.sld
+            {$component
+               set_current
+               {int {+ 0.5 {/ {- $speedmod 1} 0.05}}}})
+         })
+    (display_trackspeed_msg
+      ($tspd)
+      {instruments.btn set_localized {sprintf {localize trackspeed_msg} {int {+ 0.5 {* $tspd 100}}}}})
+   (display_speed_msg
+      ($mspd)
+     {background_music.btn set_localized {sprintf {localize speed_msg} {int {+ 0.5 {* $mspd 100}}}}})
+   (set_speeds
+         {do
+            {set $trackspeed {- {+ 1 {* {instruments.sld current} 0.05}} 0.5}}
+            {set $speedmod
+               {+ 1 {* {background.sld current} 0.05}}}
+         {$this display_trackspeed_msg $trackspeed}
+         {$this display_speed_msg $speedmod}})
+   (update_helpbar
+      ($new_focus)
+      {switch
+         $new_focus
+         ((vocal_track.btn background_music.btn crowd.btn instruments.btn sfx.btn)
+            {helpbar
+               set_config
+               ((cancel helpbar_back)
+                  (confirm helpbar_changesetting))})
+         ((vocal_track.sld background.sld crowd.sld instruments.sld sfx.sld)
+            {helpbar
+               set_config
+               ((cancel helpbar_cancel)
+                  (confirm helpbar_confirmsetting))})})}
+{new
+   BandScreen
+   options_milo_screen
+   (panels options_background_panel options_milo_panel)
+   (focus options_milo_panel)
+   (back overshell_main_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (TRANSITION_COMPLETE_MSG)}
+#endif
