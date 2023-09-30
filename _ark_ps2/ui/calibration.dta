@@ -205,13 +205,13 @@
          24}
       {set
          [max_slack]
-         71}
+         75}
       {set
          [audio_vol_db]
          0}
       {set
          [anim_cycle_frames]
-         10}
+         50}
       {set
          [anim_num_cycles]
          2}
@@ -229,7 +229,7 @@
          {do
             {set
                [cycle_time_ms]
-               601}
+               605}
             {set
                [old_lag]
                {profile_mgr get_excess_video_lag}}
@@ -242,7 +242,7 @@
          {do
             {set
                [cycle_time_ms]
-               601}
+               605}
             {set
                [old_lag]
                {profile_mgr get_excess_audio_lag}}
@@ -274,7 +274,7 @@
             TRUE}
          {set
             [cycle_time_ms]
-            111}
+            555}
          {set
             [bottom_outliers]
             3}
@@ -650,7 +650,7 @@
       {audiospeaker.mnm
          animate
          (loop 0 4)
-         (period 0.1)}
+         (period 0.5)}
       {audio_offset.lbl
          set_localized
          {sprintf
@@ -659,7 +659,7 @@
       {strum.mnm
          animate
          (loop 0 4)
-         (period 0.1)}
+         (period 0.5)}
       {video_offset.lbl
          set_localized
          {sprintf
@@ -743,7 +743,7 @@
                         {/
                            {profile_mgr get_excess_audio_lag}
                            1.0}
-                        0.1}
+                        0.5}
                      0
                      14}}})
          (video_lag.sld
@@ -755,7 +755,7 @@
                         {/
                            {profile_mgr get_excess_video_lag}
                            1.0}
-                        0.1}
+                        0.5}
                      0
                      14}}})})}
 {new
