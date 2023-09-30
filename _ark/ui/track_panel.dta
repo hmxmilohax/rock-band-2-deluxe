@@ -91,6 +91,18 @@
    ../track/trackpanel_h2h.milo
    })
    TRACK_PANEL_HANDLERS}
+{new
+   TrackPanel
+   hth_track_panel
+   (file
+      {if_else
+         {==
+            {{game get_participant_config 0}
+               get_track_sym}
+            vocals}
+         ../track/trackpanel_hth_vocals.milo
+         ../track/trackpanel_hth.milo})
+   TRACK_PANEL_HANDLERS}
 {func
    get_track_panel
    {gamemode get track_panel}}

@@ -946,7 +946,7 @@
          )
          (flames
             {sel_section.lst set_data (#include ../track_new/flames/flames.dta)}
-            {title.lbl set_localized {localize flames}}
+            {title.lbl set_localized {localize os_flames}}
             {anchor_corner02.tex set_bitmap {sprint "track_new/flames/sparks_" $flames ".png"}}
          )
          (rails

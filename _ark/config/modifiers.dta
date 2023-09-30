@@ -24,7 +24,7 @@
    (mod_selectdeploy unlocked) ;select button to activate OD for drums and vox
    (mod_noquickrestart unlocked)
    ;(mod_forceguitar unlocked) ;commented out for 1.04, will probably explore further later
-   (mod_vocalgender unlocked)
+   #ifndef HX_EE (mod_vocalgender unlocked) #endif
    (mod_gemdivider unlocked)
    (mod_legacybass unlocked)
    (mod_hwstreak unlocked)

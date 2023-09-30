@@ -1,5 +1,5 @@
 {func
-   increment_to_5mult
+   increment_to_1mult
    ($value)
    {'*'
       {'+'
@@ -8,7 +8,7 @@
          1}
       1}}
 {func
-   decrement_to_5mult
+   decrement_to_1mult
    ($value)
    {'*'
       {-
@@ -205,13 +205,13 @@
          24}
       {set
          [max_slack]
-         75}
+         71}
       {set
          [audio_vol_db]
          0}
       {set
          [anim_cycle_frames]
-         50}
+         10}
       {set
          [anim_num_cycles]
          2}
@@ -229,7 +229,7 @@
          {do
             {set
                [cycle_time_ms]
-               605}
+               601}
             {set
                [old_lag]
                {profile_mgr get_excess_video_lag}}
@@ -274,7 +274,7 @@
             TRUE}
          {set
             [cycle_time_ms]
-            555}
+            111}
          {set
             [bottom_outliers]
             3}
@@ -551,25 +551,25 @@
          (kPad_DRight
             {$this
                set_latency
-               {increment_to_5mult
+               {increment_to_1mult
                   {profile_mgr
                      [get_method]}}})
          (kPad_DLeft
             {$this
                set_latency
-               {decrement_to_5mult
+               {decrement_to_1mult
                   {profile_mgr
                      [get_method]}}})
          (kPad_DDown
             {$this
                set_latency
-               {increment_to_5mult
+               {increment_to_1mult
                   {profile_mgr
                      [get_method]}}})
          (kPad_DUp
             {$this
                set_latency
-               {decrement_to_5mult
+               {decrement_to_1mult
                   {profile_mgr
                      [get_method]}}})
          kDataUnhandled})
@@ -650,7 +650,7 @@
       {audiospeaker.mnm
          animate
          (loop 0 4)
-         (period 0.5)}
+         (period 0.1)}
       {audio_offset.lbl
          set_localized
          {sprintf
@@ -659,7 +659,7 @@
       {strum.mnm
          animate
          (loop 0 4)
-         (period 0.5)}
+         (period 0.1)}
       {video_offset.lbl
          set_localized
          {sprintf
@@ -728,7 +728,7 @@
          iterate
          UISlider
          $s
-         {$s set_num_steps 15}
+         {$s set_num_steps 11}
          {$this update_from_profile $s}})
    (update_from_profile
       ($component)
@@ -743,7 +743,7 @@
                         {/
                            {profile_mgr get_excess_audio_lag}
                            1.0}
-                        0.5}
+                        0.1}
                      0
                      14}}})
          (video_lag.sld
@@ -755,7 +755,7 @@
                         {/
                            {profile_mgr get_excess_video_lag}
                            1.0}
-                        0.5}
+                        0.1}
                      0
                      14}}})})}
 {new
