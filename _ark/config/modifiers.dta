@@ -7,11 +7,15 @@
       (deactivate
          {profile_mgr set_doublespeed_mode FALSE})
       #endif unlocked)
-   #ifndef HX_EE (mod_choose_venue (disables (modifier_online_feature)) (activate {modifier_mgr deactivate_modifier mod_blackvenue}) unlocked) #endif
+   #ifndef HX_EE
+   (mod_choose_venue (disables (modifier_online_feature)) (activate {modifier_mgr deactivate_modifier mod_blackvenue}) unlocked)
+   #endif
    (mod_nohud (activate {modifier_mgr deactivate_modifier mod_blackvenue}) (deactivate {modifier_mgr deactivate_modifier mod_fakejuke}) unlocked)
    (mod_unlockall (disables (modifier_saving_feature modifier_achievements_feature)) (activate {profile_mgr unlock_all_songs}) (deactivate {profile_mgr relock_songs}) unlocked)
-   #ifndef HX_EE (mod_newvenuesonly unlocked)
-   (mod_demomode (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature)) unlocked) #endif
+   #ifndef HX_EE
+   (mod_newvenuesonly unlocked)
+   (mod_demomode (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature)) unlocked)
+   #endif
    (mod_awesome unlocked)
    (mod_blackvenue (activate {set $blackvenue TRUE} {modifier_mgr deactivate_modifier mod_nohud} #ifndef HX_EE {modifier_mgr deactivate_modifier mod_choose_venue} #endif {modifier_mgr activate_modifier mod_nocrowd}) (deactivate {set $blackvenue FALSE} {modifier_mgr deactivate_modifier mod_nocrowd}) unlocked)
    (mod_songtitle unlocked)

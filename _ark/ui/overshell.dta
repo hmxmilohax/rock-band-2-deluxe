@@ -719,7 +719,7 @@
     #endif
     (focus sel_section.lst)
     (enter
-        {sel_section.lst set_data (os_gems os_smashers os_flames os_score os_bre os_rails os_odbar os_multi_ring os_hw os_strk os_spotlight os_voxtrk)}
+        {sel_section.lst set_data (os_gems os_smashers os_flames os_score os_bre os_rails os_odbar os_multi_ring #ifndef HX_EE os_hw #endif os_strk os_spotlight os_voxtrk)}
         {title.lbl set_localized {localize os_tex1}}
         {full_selection.mesh set_showing FALSE})
     (exit)
@@ -925,12 +925,12 @@
       {full_selection.mesh set_showing FALSE}
       {switch $dx_tracked_texture_loader
          (gems
-            {sel_section.lst set_data (#include ../track/gems/gems.dta)}
+            {sel_section.lst set_data #ifdef HX_EE (#include ../track_ps2/gems/gems.dta) #else (#include ../track/gems/gems.dta) #endif}
             {title.lbl set_localized {localize os_gems}}
             {anchor_corner02.tex set_bitmap {sprint "track/gems/prism_gems_" $gem ".png"}}
          )
          (smashers
-            {sel_section.lst set_data (#include ../track_new/smashers/smashers.dta)}
+            {sel_section.lst set_data #ifdef HX_EE (#include ../track_ps2/smashers/smashers.dta) #else (#include ../track_new/smashers/smashers.dta) #endif}
             {title.lbl set_localized {localize os_smashers}}
             {anchor_corner02.tex set_bitmap {sprint "track_new/smashers/black_smasher_yellow_" $smasher ".png"}}
          )
@@ -965,7 +965,7 @@
             {anchor_corner02.tex set_bitmap {sprint "track_new/streak/" $streak ".png"}}
          )
          (spotlight
-            {sel_section.lst set_data (#include ../track_new/spotlight/spotlight.dta)}
+            {sel_section.lst set_data #ifdef HX_EE (#include ../track_ps2/spotlight/spotlight.dta) #else (#include ../track_new/spotlight/spotlight.dta) #endif}
             {switch $dx_spotlight_tracked_instrument
                (guitar
                   {anchor_corner02.tex set_bitmap {sprint "track_new/spotlight/" $spotlightgtr ".png"}}
@@ -1016,10 +1016,12 @@
             {anchor_corner02.tex set_bitmap {sprint "track/voxnotes/3d_tube_pitched_" $voxnotes ".png"}}
          )
       }
+        #ifndef HX_EE
         {sit_gargoyle.mat set color {pack_color 1 1 1}}
         {sit_gargoyle.mat set diffuse_tex anchor_corner02.tex}
         {sit_gargoyle.mat set specular_map anchor_corner02.tex}
-        {sit_gargoyle02.mesh set_local_pos_index 2 -140})
+        {sit_gargoyle02.mesh set_local_pos_index 2 -140}
+        #endif)
     (exit)
     (SELECT_MSG
       {switch $dx_tracked_texture_loader

@@ -44,6 +44,7 @@ def build_patch_ark(xbox: bool, rpcs3_directory: str = None, rpcs3_mode: bool = 
     ark_dir = root_dir.joinpath("_ark")
 
     files_to_remove = "*_ps3" if xbox else "*_xbox"
+    ps2_files_to_remove = "*_ps2"
     if rpcs3_mode:
         if platform == "win32":
             build_location = rpcs3_directory + "\\game\\BLUS30147\\USRDIR\\gen"
@@ -74,6 +75,14 @@ def build_patch_ark(xbox: bool, rpcs3_directory: str = None, rpcs3_mode: bool = 
         # print(f"moving file {temp_path} to {the_new_filename}")
         f.rename(the_new_filename)
 
+    for f in ark_dir.rglob(ps2_files_to_remove):
+        temp_path = str(f).replace(f"{str(root_dir)}\\", "").replace(f"{str(root_dir)}/","")
+        # print(temp_path)
+        the_new_filename = root_dir.joinpath("_tmp").joinpath(temp_path)
+        the_new_filename.parent.mkdir(parents=True, exist_ok=True)
+        # print(f"moving file {temp_path} to {the_new_filename}")
+        f.rename(the_new_filename)
+
     # build the ark
     failed = False
     try:
@@ -90,6 +99,11 @@ def build_patch_ark(xbox: bool, rpcs3_directory: str = None, rpcs3_mode: bool = 
 
     # move the other console's files back
     for g in root_dir.joinpath("_tmp").rglob(files_to_remove):
+        final_path = str(g).replace(f"{str(root_dir)}\\_tmp\\", "").replace(f"{str(root_dir)}/_tmp/","")
+        # print(final_path)
+        g.rename(root_dir.joinpath(final_path))
+
+    for g in root_dir.joinpath("_tmp").rglob(ps2_files_to_remove):
         final_path = str(g).replace(f"{str(root_dir)}\\_tmp\\", "").replace(f"{str(root_dir)}/_tmp/","")
         # print(final_path)
         g.rename(root_dir.joinpath(final_path))
