@@ -175,6 +175,10 @@ jobs:
           rm -rf ./_ark/.git
           rm -rf ./_ark/README.md
           rm -rf ./_ark/songs/afterlife
+          rm -rf ./_ark/songs/getclean
+          rm -rf ./_ark/songs/kidsinamerica
+          rm -rf ./_ark/songs/mountainsong
+          rm -rf ./_ark/songs/shacklersrevenge
       - name: Download/Copy RB2 Songs
         run: |
           chmod +x dependencies/linux/gdrive
