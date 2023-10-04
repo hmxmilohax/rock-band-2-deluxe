@@ -121,7 +121,6 @@ jobs:
           python dependencies/dev_scripts/download_ps2_action.py
       - name: Add PS2 files to _ark
         run: |
-          rm -rf ./_ark/songs
           rsync -a ./_ps2_files/* ./_ark
           rsync -a ./_ark_ps2/* ./_ark
           rm -rf ./_ark/.git
@@ -175,12 +174,13 @@ jobs:
           rsync -a ./_ark_ps2/* ./_ark
           rm -rf ./_ark/.git
           rm -rf ./_ark/README.md
-          rm -rf ./_ark/songs
+          rm -rf ./_ark/songs/afterlife
       - name: Download/Copy RB2 Songs
         run: |
           chmod +x dependencies/linux/gdrive
           dependencies/linux/gdrive account import dependencies/linux/gdrive_key.tar
           dependencies/linux/gdrive files download 1gTMkLScBkENtSk2EHDweMmlfMi9XMUGK --recursive --destination ./
+          mkdir ./_ark/songs
           mv ./rb2dxsongs/* ./_ark/songs -f
       - name: Build ARK
         run: |
