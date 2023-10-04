@@ -180,7 +180,6 @@ jobs:
           chmod +x dependencies/linux/gdrive
           dependencies/linux/gdrive account import dependencies/linux/gdrive_key.tar
           dependencies/linux/gdrive files download 1gTMkLScBkENtSk2EHDweMmlfMi9XMUGK --recursive --destination ./
-          mkdir ./_ark/songs
           mv ./rb2dxsongs/* ./_ark/songs -f
       - name: Build ARK
         run: |
