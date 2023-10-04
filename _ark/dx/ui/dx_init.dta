@@ -20,8 +20,12 @@
 ;gem texture
 {set $gem "rb2dx"}
 
+#ifndef HX_EE ; this texture doesn't exist on ps2
 ;strikeline texture
 {set $smasher "rb2dx"}
+#else
+{set $smasher "rb2"}
+#endif
 
 ;highway texture
 {set $highway "_1_none"}
@@ -47,8 +51,12 @@
 ;rails texture
 {set $rails "rb2"}
 
+#ifndef HX_EE ; this texture is different on ps2
 ;flames texture
 {set $flames "rb2dx"}
+#else
+{set $flames "rb2"}
+#endif
 
 ;score texture
 {set $scoretex "rb4"}
