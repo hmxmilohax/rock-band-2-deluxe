@@ -84,7 +84,7 @@ jobs:
           name: RB2DX-PS3
           path: '*.pkg'
 
-build_ps2_ce:
+  build_ps2_ce:
     runs-on: ubuntu-latest
 
     steps:
@@ -134,7 +134,7 @@ build_ps2_ce:
           name: RB2DXCE-PS2
           path: _build/ps2
 
-build_ps2:
+  build_ps2:
     runs-on: ubuntu-latest
 
     steps:
