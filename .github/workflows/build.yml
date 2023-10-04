@@ -117,7 +117,7 @@ jobs:
         run: |
           rm -rf ./_ark/songs
           mv _ps2_files _ark -f
-          mv _ps2_ark _ark -f
+          mv _ark_ps2 _ark -f
           rm -rf ./_ark/.git
           rm -rf ./_ark/README.md
       - name: Build ARK
@@ -166,7 +166,7 @@ jobs:
       - name: Add PS2 files to _ark
         run: |
           mv _ps2_files _ark -f
-          mv _ps2_ark _ark -f
+          mv _ark_ps2 _ark -f
           rm -rf ./_ark/.git
           rm -rf ./_ark/README.md
           rm -rf ./_ark/songs
