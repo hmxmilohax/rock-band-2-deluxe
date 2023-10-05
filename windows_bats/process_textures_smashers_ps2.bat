@@ -12,7 +12,6 @@ move "%~dp0..\custom_textures\smashers_ps2\smashers.dta" "%~dp0..\_ark_ps2\track
 "%~dp0..\dependencies/sed.exe" -i -e "s/smasher_//g" "%~dp0..\_ark_ps2\track_ps2\smashers\smashers.dta"
 "%~dp0..\dependencies/sed.exe" -i -e "s/color_//g" "%~dp0..\_ark_ps2\track_ps2\smashers\smashers.dta"
 del sed* /a /s
-FOR /F "tokens=*" %%G IN ('dir /b *.png') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\smashers_ps2/%%G" "%~dp0..\custom_textures\smashers_ps2\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.jpg') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\smashers_ps2/%%G" "%~dp0..\custom_textures\smashers_ps2\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.bmp') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\smashers_ps2/%%G" "%~dp0..\custom_textures\smashers_ps2\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.png') DO "%~dp0..\dependencies/windows/superfreq.exe" png2tex "%~dp0..\custom_textures\smashers_ps2/%%G" "%~dp0..\_tmp\%%~nG.bmp_ps2"
