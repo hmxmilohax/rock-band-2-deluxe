@@ -157,12 +157,11 @@
    }}
 
    #ifndef HX_EE
-   {if_else $highwaycustomtexture
+   {if $highwaycustomtexture
       {do
       {{$this find track_reflect_warning.tex} set_bitmap {sprint "track_new/highways/" $highway ".png"}}
       {set $hwset TRUE}
       }
-      {set $highway "_1_none"}
    }
 
    {if $hwset
