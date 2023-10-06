@@ -156,17 +156,18 @@
             (drum {{{get_drum_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})}}
    }}
 
+   {if $hwalpha_needs_reset
+      {{$this find track_reflect.tex} iterate_refs $ref {$ref set intensify {! {modifier_mgr is_modifier_active mod_hwalpha}}}}
+   }
+
    #ifndef HX_EE
    {if $highwaycustomtexture
-      {do
       {{$this find track_reflect_warning.tex} set_bitmap {sprint "track_new/highways/" $highway ".png"}}
       {set $hwset TRUE}
-      }
    }
 
    {if $hwset
       {{$this find track_reflect_warning.tex} iterate_refs $ref {$ref set intensify {!= $highway "_1_none"}}}
-      {{$this find track_reflect.tex} iterate_refs $ref {$ref set intensify {! {modifier_mgr is_modifier_active mod_hwalpha}}}}
    }
    #endif
 

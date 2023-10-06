@@ -30,18 +30,22 @@
    ;(mod_forceguitar unlocked) ;commented out for 1.04, will probably explore further later
    #ifndef HX_EE (mod_vocalgender unlocked) #endif
    (mod_gemdivider unlocked)
+   #ifndef HX_EE ; callbacks don't work on ps2 atm
    (mod_legacybass unlocked)
    (mod_hwstreak unlocked)
-   (mod_hwalpha unlocked)
+   (mod_hwalpha (activate {set $hwalpha_needs_reset TRUE}) (deactivate {set $hwalpha_needs_reset TRUE}) unlocked)
    (mod_nohwwarn unlocked)
    (mod_railwarn unlocked)
+   #endif
    (mod_nosustain unlocked)
    (mod_rb3sustain unlocked)
    (mod_nowhammyfx unlocked)
    (mod_nocrowd unlocked)
    (mod_nomuting unlocked)
+   #ifndef HX_EE
    (mod_noflames (activate {modifier_mgr deactivate_modifier mod_flashbang}) unlocked)
    (mod_flashbang (activate {modifier_mgr deactivate_modifier mod_noflames}) unlocked)
+   #endif
    (mod_auto_play (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature)) (deactivate {modifier_mgr deactivate_modifier mod_fakejuke}) (activate {modifier_mgr deactivate_modifier mod_staticfills}) unlocked)
    (mod_fakejuke (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature)) (activate {modifier_mgr activate_modifier mod_auto_play} {modifier_mgr activate_modifier mod_nohud} {modifier_mgr activate_modifier mod_choose_venue} {modifier_mgr activate_modifier mod_vocalgender}) (deactivate {modifier_mgr deactivate_modifier mod_auto_play} {modifier_mgr deactivate_modifier mod_choose_venue} {modifier_mgr deactivate_modifier mod_vocalgender} {modifier_mgr deactivate_modifier mod_nohud}) unlocked)
    )

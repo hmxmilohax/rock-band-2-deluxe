@@ -177,8 +177,8 @@ def build_ps2_ark():
 
     # copy all ark files to temp build folder
     shutil.copytree(ark_dir, tmpbuild_dir, dirs_exist_ok=True)
-    shutil.copytree(ps2_ark_dir, tmpbuild_dir, dirs_exist_ok=True)
     shutil.copytree(ps2_main_dir, tmpbuild_dir, dirs_exist_ok=True)
+    shutil.copytree(ps2_ark_dir, tmpbuild_dir, dirs_exist_ok=True)
     rmtree_harder(root_dir.joinpath("_tmpbuild/.git"))
     os.remove(root_dir.joinpath("_tmpbuild/readme.md"))
 
