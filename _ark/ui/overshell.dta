@@ -355,6 +355,8 @@
             {set $voxod rb1}
             {set $scorecustomtexture TRUE}
             {set $scoretex rb1}
+            {set $odbarcustomtexture TRUE}
+            {set $odbar rb1}
             {if_else $texrunonce
                {do
                   {set $odbarcustomtexture TRUE}
