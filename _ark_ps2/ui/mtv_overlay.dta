@@ -14,11 +14,12 @@
             {gamemode get show_mtv_overlay}}
          {$this setup_text}
          {$this show_overlay TRUE}
-         {if
-            {exists fade.anim}
-            {if_else {modifier_mgr is_modifier_active mod_songtitle}
-              {fade.anim set_frame 50}
-                  {fade.anim animate}}}})
+         {unless {modifier_mgr is_modifier_active mod_songtitle}
+            {if {exists fade.anim}
+               {fade.anim animate}
+            }
+         }
+      })
    (exit
       {if
          {exists game}
@@ -64,8 +65,15 @@
       {$this set_showing $show}
       {if_else
          $show
-         {fade.anim animate}
-         {fade.anim set_frame 0}}
+         {if_else {modifier_mgr is_modifier_active mod_songtitle}
+            {fade.anim set_frame 50}
+            {fade.anim animate}
+         }
+         {if_else {modifier_mgr is_modifier_active mod_songtitle}
+            {fade.anim set_frame 50}
+            {fade.anim set_frame 0}
+         }
+      }
       {$this
          set_paused
          {! $show}})}
