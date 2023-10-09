@@ -365,7 +365,9 @@
    }
 
 ;after all of the queued texture updates are completed, set them to false so they do not run again until a new texture is queued via overshell
+#ifndef HX_EE ; ps2 resets textures once the track is unloaded, so dont do this there
 {set $voxhwcustomtexture FALSE}
+{set $hwalpha_needs_reset FALSE}
 {set $highwaycustomtexture FALSE}
 {set $brecustomtexture FALSE}
 {set $gemcustomtexture FALSE}
@@ -383,7 +385,7 @@
 {set $spotlightbasscustomtexture FALSE}
 {set $spotlightdrumcustomtexture FALSE}
 {set $texrunonce TRUE}
-
+#endif
 }
 )
 
