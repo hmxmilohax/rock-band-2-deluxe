@@ -32,45 +32,46 @@
 
 *Rock Band 2 Deluxe recieves very frequent updates. You can click the `Watch` button (All Activity) to be notified about any updates that occur.*
 
-## PlayStation 3
 ![last updated:](https://img.shields.io/github/last-commit/hmxmilohax/rock-band-2-deluxe?label=last%20updated%3A)
-### 📥 [Rock Band 2 Deluxe for PS3](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-PS3.zip)
-
-> The standard install, typical for most users.
+### 📥 [Playstation 3](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-PS3.zip)
 
 <br/>
 
-Continue to: 
+> Continue to: 
     - [Installing on RPCS3](#-installing-on-rpcs3)
     - [Installing on PS3](#-installing-on-ps3)
 
-## Xbox 360
-![last updated:](https://img.shields.io/github/last-commit/hmxmilohax/rock-band-2-deluxe?label=last%20updated%3A)
-### 📥 [Rock Band 2 Deluxe for Xbox 360](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-Xbox.zip)
-
-> The standard install, typical for most users.
+### 📥 [Xbox 360](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-Xbox.zip)
 
 <br/>
 
-Continue to: 
+> Continue to: 
     - [Installing on Xbox 360](#-installing-on-xbox-360)
 
-## PS2
-![last updated:](https://img.shields.io/github/last-commit/hmxmilohax/rock-band-2-deluxe/ps2?label=last%20updated%3A)
-### 📥 [Rock Band 2 Deluxe for PS2](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/ps2/RB2DX-PS2.zip)
+### 📥 [Playstation 2](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/ps2/RB2DX-PS2.zip)
 
 > The standard install, typical for most users.
 
-📥 [Rock Band 2 Deluxe (Custom Edition) for PS2](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/ps2/RB2DXCE-PS2.zip)
+📥 [Playstation 2 (Custom Edition)](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/ps2/RB2DXCE-PS2.zip)
 
 > A blank PS2 disc for RB2 that you can add your own songs to.
 
 <br/>
 
-Continue to: 
-    - (Nothing here yet...)
+> Continue to: 
+    - [Installing on PCSX2](#-installing-on-pcsx2)
+    - [Installing on PS2](#-installing-on-ps2)
 
 <br/>
+
+## Beta Versions
+![last updated:](https://img.shields.io/github/last-commit/hmxmilohax/rock-band-2-deluxe/develop?label=last%20updated%3A)
+
+***These are highly experimental and may contain bugs!***
+
+### 📥 [RB2DX Beta Builds](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/develop)
+
+> Use these if you want to help us find bugs before releases are made.
 
 # 📩 How to Install
 
@@ -80,6 +81,8 @@ Continue to:
   - [PlayStation 3](#-installing-on-ps3)
   - [Xbox 360](#-installing-on-xbox-360)
   - [Xenia (Advanced)](#-installing-on-xenia-advanced)
+  - [PCSX2](#-installing-on-pcsx2)
+  - [PS2](#-installing-on-ps2)
 <br/>
 
 ## 📩 Installing on [RPCS3](https://rpcs3.net/)
@@ -186,6 +189,20 @@ We highly recommend you check out [**Optional Upgrades**](#-optional-upgrades) f
 
 <br/>
 
+## 📩 Installing on PCSX2
+
+(Instructions coming soon!)
+
+<br/>
+
+## 📩 Installing on PS2
+
+**NOTE: You WILL need a HACKED/MODDED PS2 in order to play this mod on console. We hope this is clear.**
+
+(Instructions coming soon!)
+
+<br/>
+
 # 🔥 Optional Upgrades
 
 ### These are some optional, but very handy additions you can make to your *Rock Band 2 Deluxe* installation.
@@ -195,7 +212,7 @@ We highly recommend you check out [**Optional Upgrades**](#-optional-upgrades) f
     - [PS3](#-installing-songs-on-ps3)
     - [Xbox 360](#-installing-songs-on-xbox-360)
     - [Xenia](#-installing-songs-on-xenia-desktop-and-uwp)
-  - [Custom Textures](#-custom-textures-ps3360-only)
+  - [Custom Textures](#-custom-textures)
 
 <br/>
 
@@ -238,7 +255,7 @@ You can also use [**Onyx Music Game Toolkit**](https://github.com/mtolly/onyxite
 
 <br/>
 
-## 🎨 Custom Textures (PS3/360 Only)
+## 🎨 Custom Textures
 
 By default, *Rock Band 2 Deluxe* contains a variety of custom textures, found in the `Deluxe Settings` menu in-game, as well as a way to import your own with relative ease.
 
