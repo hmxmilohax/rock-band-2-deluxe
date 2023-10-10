@@ -191,7 +191,21 @@ We highly recommend you check out [**Optional Upgrades**](#-optional-upgrades) f
 
 ## 📩 Installing on PCSX2
 
-(Instructions coming soon!)
+* Install [**ImgBurn**](https://www.imgburn.com/index.php?act=download).
+
+* Download [**Rock Band 2 Deluxe for PS2**](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-PS2.zip) or [**RB2DX Custom Edition for PS2**](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DXCE-PS2.zip).
+  * Extract the zip file anywhere on your PC.
+
+* Open ImgBurn and select the `Create image file from files/folders` option.
+  * drag the everything in the extracted RB2DX zip into the large blank space on the left (below the word `source`).
+  * Select a destination and give the ISO a memorable name (something like `RB2DX.ISO`).
+  * click the build button, pressing yes or ok to all popups.
+
+* Once the iso is done building, open PCSX2 and drag on the iso top of your PCSX2 window (and boot the iso if it doesnt do that automatically).
+
+### ✅ ***Rock Band 2 Deluxe is now installed!***
+
+We highly recommend you check out [**Optional Upgrades**](#-optional-upgrades) for songs and other cool stuff you can add to your game.
 
 <br/>
 
@@ -199,7 +213,23 @@ We highly recommend you check out [**Optional Upgrades**](#-optional-upgrades) f
 
 **NOTE: You WILL need a HACKED/MODDED PS2 in order to play this mod on console. We hope this is clear.**
 
-(Instructions coming soon!)
+* Install [**ImgBurn**](https://www.imgburn.com/index.php?act=download).
+
+* Download [**Rock Band 2 Deluxe for PS2**](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DX-PS2.zip) or [**RB2DX Custom Edition for PS2**](https://nightly.link/hmxmilohax/rock-band-2-deluxe/workflows/build/main/RB2DXCE-PS2.zip).
+  * Extract the zip file anywhere on your PC.
+
+* Open ImgBurn and select the `Create image file from files/folders` option.
+  * drag the everything in the extracted RB2DX zip into the large blank space on the left (below the word `source`).
+  * Select a destination and give the ISO a memorable name (something like `RB2DX.ISO`).
+  * click the build button, pressing yes or ok to all popups.
+
+* Once the iso is done building, copy it to your PS2's HDD or to a shared folder that OPL can load from.
+  * (NOT RECOMMENDED) if you are unable to do one of the options above, copy the iso to a FAT32 formatted flash drive in a folder named DVD.
+    * if you are installing the full iso or have enough custom songs to make the size go above 4GB, use [USBUtil](https://www.mediafire.com/file/7a9gtmbubbscthm/USBUTIL_v2.2_rev1.0_EN_Update.zip/file) to put the ISO on your flash drive.
+
+### ✅ ***Rock Band 2 Deluxe is now installed!***
+
+We highly recommend you check out [**Optional Upgrades**](#-optional-upgrades) for songs and other cool stuff you can add to your game.
 
 <br/>
 
