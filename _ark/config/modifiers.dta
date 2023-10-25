@@ -25,25 +25,15 @@
    (mod_mididrum unlocked)
    (mod_padguitar (activate {modifier_mgr deactivate_modifier mod_paddrum}) unlocked) ;updated padguitar to disable paddrum
    (mod_paddrum (activate {modifier_mgr deactivate_modifier mod_padguitar}) unlocked) ;paddrum disables padguitar
-   (mod_selectdeploy unlocked) ;select button to activate OD for drums and vox
+   ;(mod_selectdeploy unlocked) ;select button to activate OD for drums and vox (look into fixing later)
    (mod_noquickrestart unlocked)
    ;(mod_forceguitar unlocked) ;commented out for 1.04, will probably explore further later
    #ifndef HX_EE (mod_vocalgender unlocked) #endif
-   (mod_gemdivider unlocked)
-   #ifndef HX_EE ; callbacks don't work on ps2 atm
-   (mod_legacybass unlocked)
-   (mod_hwstreak unlocked)
-   (mod_hwalpha (activate {set $hwalpha_needs_reset TRUE}) (deactivate {set $hwalpha_needs_reset TRUE}) unlocked)
-   (mod_nohwwarn unlocked)
-   (mod_railwarn unlocked)
-   #endif
-   (mod_nosustain unlocked)
-   (mod_rb3sustain unlocked)
-   (mod_nowhammyfx unlocked)
-   (mod_nocrowd unlocked)
-   (mod_nomuting unlocked)
+   (mod_nowhammyfx unlocked) ;;;;;;;;;;;;;;;;
+   (mod_nocrowd unlocked) ; sfx menu
+   (mod_nomuting unlocked) ;;;;;;;;;;;;;;;;;;
    #ifndef HX_EE
-   (mod_noflames (activate {modifier_mgr deactivate_modifier mod_flashbang}) unlocked)
+   (mod_noflames (activate {modifier_mgr deactivate_modifier mod_flashbang}) unlocked) ; maybe rework this to use textures? -LX
    (mod_flashbang (activate {modifier_mgr deactivate_modifier mod_noflames}) unlocked)
    #endif
    (mod_auto_play (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature)) (deactivate {modifier_mgr deactivate_modifier mod_fakejuke}) (activate {modifier_mgr deactivate_modifier mod_staticfills}) unlocked)

@@ -23,6 +23,9 @@
 ;strikeline texture
 {set $smasher "rb2dx"}
 
+;no gem dividers
+{set $nogemdividers FALSE}
+
 ;highway texture
 {set $highway "_1_none"}
 
@@ -85,8 +88,24 @@
 {set $track_fade_start 70} ;start point of the fadeout at the end of the track
 {set $track_fade_length 50} ;length of the fadeout at the end of the track
 
+;sustain style
+{set $sustains "rb2"}
+
 #ifndef HX_EE
-{modifier_mgr activate_modifier mod_hwalpha}
+;highway transparency
+{set $hwalpha TRUE}
+
+;legacy bass groove
+{set $legacybass FALSE}
+
+;streak on highway instead of overlay
+{set $hwstreak FALSE}
+
+;no highway warning
+{set $nohwwarn FALSE}
+
+;rail warning
+{set $railwarn FALSE}
 #endif
 ;{modifier_mgr activate_modifier mod_nofail}
 ;{modifier_mgr activate_modifier mod_doublespeed}
@@ -298,7 +317,7 @@
       }
       {if {== {elem $entry 0} {basename mod_legacybass}}
          {if {== {elem {find $entry mod_legacybass} 1} 1}
-            {modifier_mgr activate_modifier mod_legacybass}
+            {set $legacybass TRUE}
          }
       }
       {if {== {elem $entry 0} {basename mod_nosustain}}
@@ -318,7 +337,7 @@
       }
       {if {== {elem $entry 0} {basename mod_gemdivider}}
          {if {== {elem {find $entry mod_gemdivider} 1} 1}
-            {modifier_mgr activate_modifier mod_gemdivider}
+            {set $gemdividers TRUE}
          }
       }
       {if {== {elem $entry 0} {basename mod_nocrowd}}

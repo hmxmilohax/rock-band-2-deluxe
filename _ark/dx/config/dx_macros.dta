@@ -143,7 +143,7 @@
    }
 
    {unless $dontrungemdividers
-   {if_else {modifier_mgr is_modifier_active mod_gemdivider}
+   {if_else $nogemdividers
       {beatmatch foreach_active_player $player
          {switch {$player instrument}
             (bass {{{get_bass_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})
@@ -157,7 +157,7 @@
    }}
 
    {if $hwalpha_needs_reset
-      {{$this find track_reflect.tex} iterate_refs $ref {$ref set intensify {! {modifier_mgr is_modifier_active mod_hwalpha}}}}
+      {{$this find track_reflect.tex} iterate_refs $ref {$ref set intensify {! $hwalpha}}}
    }
 
    #ifndef HX_EE
