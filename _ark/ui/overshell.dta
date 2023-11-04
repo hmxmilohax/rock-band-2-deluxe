@@ -749,7 +749,7 @@
     #endif
     (focus sel_section.lst)
     (enter
-        {sel_section.lst set_data (#ifndef HX_EE os_hw #endif os_strk os_spotlight os_hw_behavior os_gems os_smashers os_flames os_sus os_score os_bre os_rails os_odbar os_multi_ring os_voxtrk)}
+        {sel_section.lst set_data (#ifndef HX_EE os_hw #endif os_strk os_spotlight os_hw_behavior os_gems os_smashers os_flames os_sus #ifndef HX_EE os_lanes #endif os_score os_bre os_rails os_odbar os_multi_ring os_voxtrk)}
         {title.lbl set_localized {localize os_tex1}}
         {full_selection.mesh set_showing FALSE})
     (exit)
@@ -760,6 +760,10 @@
          )
          (os_sus
             {ui push_screen overshell_sustains_screen}
+         )
+         (os_lanes
+            {set $dx_tracked_texture_loader lanes}
+            {ui push_screen overshell_texload_screen}
          )
          (os_gems
             {set $dx_tracked_texture_loader gems}
@@ -1212,6 +1216,11 @@
             {title.lbl set_localized {localize os_score}}
             {anchor_corner02.tex set_bitmap {sprint "track/score/indv_player_meter_" $scoretex ".png"}}
          )
+         (lanes
+            {sel_section.lst set_data (#include ../track/lanes/lanes.dta)}
+            {title.lbl set_localized {localize os_lanes}}
+            {anchor_corner02.tex set_bitmap {sprint "track/lanes/gem_mash_green_" $lanestex ".png"}}
+         )
          (bre
             {sel_section.lst set_data (#include ../track_new/bre/bre.dta)}
             {title.lbl set_localized {localize os_bre}}
@@ -1310,6 +1319,10 @@
             {set $scorecustomtexture TRUE}
             {set $scoretex {$component selected_sym}}
          )
+         (lanes
+            {set $lanescustomtexture TRUE}
+            {set $lanestex {$component selected_sym}}
+         )
          (bre
             {set $brecustomtexture TRUE}
             {set $bretex {$component selected_sym}}
@@ -1397,6 +1410,9 @@
          )
          (score
             {anchor_corner02.tex set_bitmap {sprint "track/score/indv_player_meter_" {$component selected_sym} ".png"}}
+         )
+         (lanes
+            {anchor_corner02.tex set_bitmap {sprint "track/lanes/gem_mash_green_" {$component selected_sym} ".png"}}
          )
          (bre
             {anchor_corner02.tex set_bitmap {sprint "track_new/bre/bre_shield_" {$component selected_sym} ".png"}}

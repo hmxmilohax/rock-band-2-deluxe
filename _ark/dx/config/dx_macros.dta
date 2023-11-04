@@ -98,6 +98,8 @@
 
    {if {== $smasher rb2} {set $smasher "none"}}
 
+   {if {== $lanestex rb2} {set $lanestex "none"}}
+
    {if {== $streak rb2} {set $streak "none"}}
 
    {if {== $spotlightgtr rb2_guitar} {set $spotlightgtr "none"}}
@@ -242,6 +244,16 @@
       {{$this find spark.tex} set_bitmap {sprint "track_new/flames/sparks_" $flames ".png"}}
       {{$this find sparks.tex} set_bitmap {sprint "track_new/flames/sparks_" $flames ".png"}}
    }
+
+   #ifndef HX_EE
+   {if $lanescustomtexture
+      {{$this find gem_mash_green_emmisive.tex} set_bitmap {sprint "track/lanes/gem_mash_green_" $lanestex ".png"}}
+      {{$this find gem_mash_red_emmisive.tex} set_bitmap {sprint "track/lanes/gem_mash_red_" $lanestex ".png"}}
+      {{$this find gem_mash_yellow_emmisive.tex} set_bitmap {sprint "track/lanes/gem_mash_yellow_" $lanestex ".png"}}
+      {{$this find gem_mash_blue_emmisive.tex} set_bitmap {sprint "track/lanes/gem_mash_blue_" $lanestex ".png"}}
+      {{$this find gem_mash_orange_emmisive.tex} set_bitmap {sprint "track/lanes/gem_mash_orange_" $lanestex ".png"}}
+   }
+   #endif
    
    {if $voxarrowcustomtexture
       {{$this find pitch_arrow_split.tex} set_bitmap {sprint "track/voxarrow/pitch_arrow_split_" $voxarrow ".png"}}
@@ -372,6 +384,7 @@
 {set $brecustomtexture FALSE}
 {set $gemcustomtexture FALSE}
 {set $smashercustomtexture FALSE}
+{set $lanescustomtexture FALSE}
 {set $voxarrowcustomtexture FALSE}
 {set $voxnotescustomtexture FALSE}
 {set $voxodcustomtexture FALSE}
@@ -395,6 +408,8 @@
 {unless {== $gem none} {set $gemcustomtexture TRUE}}
 
 {unless {== $smasher none} {set $smashercustomtexture TRUE}}
+
+{unless {== $lanestex none} set $lanescustomtexture TRUE}
 
 {unless {== $highway _1_none} {set $highwaycustomtexture TRUE}}
 
