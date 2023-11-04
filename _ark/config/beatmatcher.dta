@@ -47,7 +47,7 @@
    (cheat_error 0)
    (autoplay_accuracy
       (100 100 100 100 #ifdef HX_EE 100 100 100 100 #endif ))
-   (pitch_bend_range {if_else {modifier_mgr is_modifier_active mod_nowhammyfx} 0 1}) ;no whammy fx modifier support
+   (pitch_bend_range {if_else $whammyfx 1 0}) ;no whammy fx modifier support
    (ms_to_full_pitch_bend 1000))
 (parser
    (drum_style_instruments
@@ -59,7 +59,7 @@
    (player_slot 9))
 (audio
    (default_style unmute)
-   (mute_volume {if_else {modifier_mgr is_modifier_active mod_nomuting} -0.001 -96.0}) ;-96.0 for normal muting, -0.001 for "no" muting
+   (mute_volume {if_else $trkmuting -96.0 -0.001}) ;-96.0 for normal muting, -0.001 for "no" muting
    (multiplayer_scale 0.33)
    (multiplayer_attenuation 3.0)
    (multiplayer_common_attenuation 1.5)

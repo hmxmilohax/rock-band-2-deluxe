@@ -107,6 +107,16 @@
 ;rail warning
 {set $railwarn FALSE}
 #endif
+
+;whammy fx
+{set $whammyfx TRUE}
+
+;crowd sfx
+{set $crowdsfx TRUE}
+
+;track muting
+{set $trkmuting TRUE}
+
 ;{modifier_mgr activate_modifier mod_nofail}
 ;{modifier_mgr activate_modifier mod_doublespeed}
 ;{modifier_mgr activate_modifier mod_choose_venue}
@@ -332,7 +342,7 @@
       }
       {if {== {elem $entry 0} {basename mod_nowhammyfx}}
          {if {== {elem {find $entry mod_nowhammyfx} 1} 1}
-            {modifier_mgr activate_modifier mod_nowhammyfx}
+            {set $whammyfx FALSE}
          }
       }
       {if {== {elem $entry 0} {basename mod_gemdivider}}
@@ -342,12 +352,12 @@
       }
       {if {== {elem $entry 0} {basename mod_nocrowd}}
          {if {== {elem {find $entry mod_nocrowd} 1} 1}
-            {modifier_mgr activate_modifier mod_nocrowd}
+            {set $crowdsfx FALSE}
          }
       }
       {if {== {elem $entry 0} {basename mod_nomuting}}
          {if {== {elem {find $entry mod_nomuting} 1} 1}
-            {modifier_mgr activate_modifier mod_nomuting}
+            {set $trkmuting FALSE}
          }
       }
       {if {== {elem $entry 0} {basename mod_noflames}}
