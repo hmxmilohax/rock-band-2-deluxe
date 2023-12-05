@@ -29,11 +29,23 @@
 ;no gem dividers
 {set $nogemdividers FALSE}
 
-;highway texture
-{set $highway "_1_none"}
+;highway texture (guitar)
+{set $highwaygtr "_1_none"}
 
-;streak texture
-{set $streak "rb4"}
+;highway texture (bass)
+{set $highwaybass "_1_none"}
+
+;highway texture (drums)
+{set $highwaydrum "_1_none"}
+
+;streak texture (guitar)
+{set $streakgtr "rb4"}
+
+;streak texture (bass)
+{set $streakbass "rb4"}
+
+;streak texture (drums)
+{set $streakdrum "rb4"}
 
 ;overdrive texture (guitar)
 {set $spotlightgtr "rb4"}

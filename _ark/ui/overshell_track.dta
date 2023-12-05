@@ -81,15 +81,18 @@
          )
          (os_rb3prst
             SET_RB3_TEXTURE_PRESET
+            SET_RB3_TRACK_ANGLE
          )
          (os_rb4prst
             SET_RB4_TEXTURE_PRESET
+            SET_RB4_TRACK_ANGLE
          )
          (os_lrbprst
             SET_LRB_TEXTURE_PRESET
          )
          (os_tbrbprst
             SET_TBRB_TEXTURE_PRESET
+            SET_RB3_TRACK_ANGLE
          )
       })
     (update_helpbar
@@ -162,7 +165,6 @@
    {if_else $nogemdividers os_gemdiv0 os_gemdiv1}
    #ifndef HX_EE
    {if_else $hwalpha os_hwalpha1 os_hwalpha0}
-   os_strk_behavior
    os_warn_behavior
    #endif
 ))
@@ -198,9 +200,6 @@
             {set $hwpos {sel_section.lst selected_sym}}
             {$this lst_reset}
          )
-         (os_strk_behavior
-            {ui push_screen overshell_strk_behavior_screen}
-         )
          (os_warn_behavior
             {ui push_screen overshell_warn_behavior_screen}
          )
@@ -212,12 +211,14 @@
                     (confirm helpbar_select))})
     (SCROLL_MSG)
     (BUTTON_DOWN_MSG
-        {if
-        {== $action kAction_Cancel}
-        {synth play button_toggle}
-         {ui goto_screen overshell_tex_screen}
-         {ui pop_screen}}
-         kDataUnhandled)
+        {if_else
+         #ifdef HX_EE {== $button kPad_Tri} #else {== $action kAction_Cancel} #endif
+         {do
+         {synth play button_toggle}
+         {ui goto_screen overshell_track_screen}
+         {ui pop_screen}
+         TRUE}
+         kDataUnhandled})
     (TRANSITION_COMPLETE_MSG
         {$this update_helpbar})}
 {new
@@ -312,14 +313,50 @@
     {switch {$component selected_sym}
          ((os_hwwarn0 os_hwwarn1)
             {set $nohwwarn {! $nohwwarn}}
-            {if_else {&& $nohwwarn {== $highway "_1_none"}}
+            {if_else $nohwwarn
                {do
-                  {set $highwaycustomtexture TRUE}
-                  {set $highway _1_black_highway}
+                  {if {== $highwaygtr "_1_none"}
+                     {set $highwaycustomtexture TRUE}
+                     {set $highwaygtr _1_black_highway}
+                  }
+                  {if {== $highwaybass "_1_none"}
+                     {set $highwaycustomtexture TRUE}
+                     {set $highwaybass _1_black_highway}
+                  }
+                  {if {== $highwaydrum "_1_none"}
+                     {set $highwaycustomtexture TRUE}
+                     {set $highwaydrum _1_black_highway}
+                  }
                }
-               {if $texrunonce
-                  {set $highwaycustomtexture TRUE}
-                  {set $highway _1_none}
+               {if_else $texrunonce
+                  {do
+                     {if {== $highwaygtr "_1_black_highway"}
+                        {set $highwaycustomtexture TRUE}
+                        {set $highwaygtr _1_none}
+                     }
+                     {if {== $highwaybass "_1_black_highway"}
+                        {set $highwaycustomtexture TRUE}
+                        {set $highwaybass _1_none}
+                     }
+                     {if {== $highwaydrum "_1_black_highway"}
+                        {set $highwaycustomtexture TRUE}
+                        {set $highwaydrum _1_none}
+                     }
+                  }
+                  {do
+                     {if {== $highwaygtr "_1_black_highway"}
+                        {set $highwaycustomtexture FALSE}
+                        {set $highwaygtr _1_none}
+                     }
+                     {if {== $highwaybass "_1_black_highway"}
+                        {set $highwaycustomtexture FALSE}
+                        {set $highwaybass _1_none}
+                     }
+                     {if {== $highwaydrum "_1_black_highway"}
+                        {set $highwaycustomtexture FALSE}
+                        {set $highwaydrum _1_none}
+                     }
+                  }
                }
             }
             {set $warnpos {sel_section.lst selected_sym}}
@@ -403,6 +440,76 @@
       ;             {elem {find $entry track_fade_length} 1}
       ;          }
       ;       }
+      ;       {if {== {elem $entry 0} {basename multioptimized}}
+      ;          {set $multioptimized
+      ;             {elem {find $entry multioptimized} 1}
+      ;          }
+      ;       }
+      ;       {if {== {elem $entry 0} {basename track_pitch_2p}}
+      ;          {set $track_pitch_2p
+      ;             {elem {find $entry track_pitch_2p} 1}
+      ;          }
+      ;       }
+      ;       {if {== {elem $entry 0} {basename track_fov_2p}}
+      ;          {set $track_fov_2p
+      ;             {elem {find $entry track_fov_2p} 1}
+      ;          }
+      ;       }
+      ;       {if {== {elem $entry 0} {basename track_y_pos_2p}}
+      ;          {set $track_y_pos_2p
+      ;             {elem {find $entry track_y_pos_2p} 1}
+      ;          }
+      ;       }
+      ;       {if {== {elem $entry 0} {basename track_z_pos_2p}}
+      ;          {set $track_z_pos_2p
+      ;             {elem {find $entry track_z_pos_2p} 1}
+      ;          }
+      ;       }
+      ;       {if {== {elem $entry 0} {basename track_fade_start_2p}}
+      ;          {set $track_fade_start_2p
+      ;             {elem {find $entry track_fade_start_2p} 1}
+      ;          }
+      ;       }
+      ;       {if {== {elem $entry 0} {basename track_fade_length_2p}}
+      ;          {set $track_fade_length_2p
+      ;             {elem {find $entry track_fade_length_2p} 1}
+      ;          }
+      ;       }
+      ;       {if {== {elem $entry 0} {basename track_cam_offset}}
+      ;          {set $track_cam_offset
+      ;             {elem {find $entry track_cam_offset} 1}
+      ;          }
+      ;       }
+      ;       {if {== {elem $entry 0} {basename track_pitch_3p}}
+      ;          {set $track_pitch_3p
+      ;             {elem {find $entry track_pitch_3p} 1}
+      ;          }
+      ;       }
+      ;       {if {== {elem $entry 0} {basename track_fov_3p}}
+      ;          {set $track_fov_3p
+      ;             {elem {find $entry track_fov_3p} 1}
+      ;          }
+      ;       }
+      ;       {if {== {elem $entry 0} {basename track_y_pos_3p}}
+      ;          {set $track_y_pos_3p
+      ;             {elem {find $entry track_y_pos_3p} 1}
+      ;          }
+      ;       }
+      ;       {if {== {elem $entry 0} {basename track_z_pos_3p}}
+      ;          {set $track_z_pos_3p
+      ;             {elem {find $entry track_z_pos_3p} 1}
+      ;          }
+      ;       }
+      ;       {if {== {elem $entry 0} {basename track_fade_start_3p}}
+      ;          {set $track_fade_start_3p
+      ;             {elem {find $entry track_fade_start_3p} 1}
+      ;          }
+      ;       }
+      ;       {if {== {elem $entry 0} {basename track_fade_length_3p}}
+      ;          {set $track_fade_length_3p
+      ;             {elem {find $entry track_fade_length_3p} 1}
+      ;          }
+      ;       }
       ;       {if {== {elem $entry 0} {basename track_x_offset}}
       ;          {set $track_x_offset
       ;             {elem {find $entry track_x_offset} 1}
@@ -411,11 +518,6 @@
       ;       {if {== {elem $entry 0} {basename track_side_angle}}
       ;          {set $track_side_angle
       ;             {elem {find $entry track_side_angle} 1}
-      ;          }
-      ;       }
-      ;       {if {== {elem $entry 0} {basename track_cam_offset}}
-      ;          {set $track_cam_offset
-      ;             {elem {find $entry track_cam_offset} 1}
       ;          }
       ;       }
       ;    }

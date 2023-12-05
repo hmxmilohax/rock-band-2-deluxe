@@ -7,7 +7,11 @@
 
    {if {== $lanestex rb2} {set $lanestex "none"}}
 
-   {if {== $streak rb2} {set $streak "none"}}
+   {if {== $streakgtr rb2} {set $streakgtr "none"}}
+
+   {if {== $streakbass rb2} {set $streakbass "none"}}
+
+   {if {== $streakdrum rb2} {set $streakdrum "none"}}
 
    {if {== $spotlightgtr rb2_guitar} {set $spotlightgtr "none"}}
 
@@ -52,31 +56,50 @@
    }
 
    {unless $dontrungemdividers
-   {if_else $nogemdividers
-      {beatmatch foreach_active_player $player
-         {switch {$player instrument}
-            (bass {{{get_bass_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})
-            (guitar {{{get_guitar_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})
-            (drum {{{get_drum_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})}}
-      {beatmatch foreach_active_player $player ;handle adding the appropriate callbacks to each player
-         {switch {$player instrument}
-            (bass {{{get_bass_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})
-            (guitar {{{get_guitar_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})
-            (drum {{{get_drum_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})}}
-   }}
+      {if_else $nogemdividers
+         {beatmatch foreach_active_player $player
+            {switch {$player instrument}
+               (bass {{{get_bass_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})
+               (guitar {{{get_guitar_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})
+               (drum {{{get_drum_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})
+            }
+         }
+         {beatmatch foreach_active_player $player
+            {switch {$player instrument}
+               (bass {{{get_bass_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})
+               (guitar {{{get_guitar_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})
+               (drum {{{get_drum_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})
+            }
+         }
+      }
+   }
 
    {if $hwalpha_needs_reset
       {{$this find track_reflect.tex} iterate_refs $ref {$ref set intensify {! $hwalpha}}}
+      {{$this find background.tex} iterate_refs $ref {$ref set intensify {! $hwalpha}}} ; for some reason these affect the transparency of the hw
+      {{$this find black.tex} iterate_refs $ref {$ref set intensify {! $hwalpha}}}      ;
    }
 
    #ifndef HX_EE
-   {if $highwaycustomtexture
-      {{$this find track_reflect_warning.tex} set_bitmap {sprint "track_new/highways/" $highway ".png"}}
-      {set $hwset TRUE}
-   }
+   {unless $dontrungemdividers
+      {if $highwaycustomtexture
+         {{$this find track_reflect_warning.tex} set_bitmap {sprint "track_new/highways/" $highwaygtr ".png"}}
+         {{$this find background.tex} set_bitmap {sprint "track_new/highways/" $highwaybass ".png"}}
+         {{$this find black.tex} set_bitmap {sprint "track_new/highways/" $highwaydrum ".png"}}
+         {beatmatch foreach_active_player $player
+            {switch {$player instrument}
+               (bass {{{get_bass_panel} find surface.mat} set emissive_map {$this find background.tex}})
+               (drum {{{get_drum_panel} find surface.mat} set emissive_map {$this find black.tex}})
+            }
+         }
+         {set $hwset TRUE}
+      }
 
-   {if $hwset
-      {{$this find track_reflect_warning.tex} iterate_refs $ref {$ref set intensify {!= $highway "_1_none"}}}
+      {if $hwset
+         {{$this find track_reflect_warning.tex} iterate_refs $ref {$ref set intensify {!= $highwaygtr "_1_none"}}}
+         ; {{$this find background.tex} iterate_refs $ref {$ref set intensify {!= $highwaybass "_1_none"}}} ; idk why these texes work differently
+         ; {{$this find black.tex} iterate_refs $ref {$ref set intensify {!= $highwaydrum "_1_none"}}}      ;
+      }
    }
    #endif
 
@@ -207,7 +230,37 @@
    }
 
    {if $streakcustomtexture
-      {{$this find bass_superstreak_pattern.tex} set_bitmap {sprint "track_new/streak/" $streak ".png"}}
+      {unless {== $streakbass none}
+         {{$this find bass_superstreak_pattern.tex} set_bitmap {sprint "track_new/streak/" $streakbass ".png"}}
+      }
+      #ifndef HX_EE ; streak is currently unavailable for g/d on ps2
+      {unless $dontrungemdividers
+         {if_else {&& {!= $streakbass none} {== $streakgtr none}}
+            {do
+               {set $streakgtr "rb2"}
+               {{$this find pitch_arrow_effect_old.tex} set_bitmap {sprint "track_new/streak/" $streakgtr ".png"}}
+            }
+            {unless {== $streakgtr none}
+               {{$this find pitch_arrow_effect_old.tex} set_bitmap {sprint "track_new/streak/" $streakgtr ".png"}}
+            }
+         }
+         {if_else {&& {!= $streakbass none} {== $streakdrum none}}
+            {do
+               {set $streakdrum "rb2"}
+               {{$this find smasher_plate_orange_emiss_nomip.tex} set_bitmap {sprint "track_new/streak/" $streakdrum ".png"}}
+            }
+            {unless {== $streakdrum none}
+               {{$this find smasher_plate_orange_emiss_nomip.tex} set_bitmap {sprint "track_new/streak/" $streakdrum ".png"}}
+            }
+         }
+         {beatmatch foreach_active_player $player
+            {switch {$player instrument}
+               (guitar {unless {== $streakgtr none} {{{get_guitar_panel} find bass_superstreak.mat} set diffuse_tex {$this find pitch_arrow_effect_old.tex}}})
+               (drum {unless {== $streakdrum none} {{{get_drum_panel} find bass_superstreak.mat} set diffuse_tex {$this find smasher_plate_orange_emiss_nomip.tex}}})
+            }
+         }
+      }
+      #endif
    }
 
    {if $railscustomtexture
@@ -286,7 +339,7 @@
 ;after all of the queued texture updates are completed, set them to false so they do not run again until a new texture is queued via overshell
 #ifndef HX_EE ; ps2 resets textures once the track is unloaded, so dont do this there
 {set $voxhwcustomtexture FALSE}
-{set $hwalpha_needs_reset FALSE}
+;{set $hwalpha_needs_reset FALSE}
 {set $highwaycustomtexture FALSE}
 {set $brecustomtexture FALSE}
 {set $gemcustomtexture FALSE}
@@ -318,9 +371,17 @@
 
 {unless {== $lanestex none} set $lanescustomtexture TRUE}
 
-{unless {== $highway _1_none} {set $highwaycustomtexture TRUE}}
+{unless {== $highwaygtr _1_none} {set $highwaycustomtexture TRUE}}
 
-{unless {== $streak none} {set $streakcustomtexture TRUE}}
+{unless {== $highwaybass _1_none} {set $highwaycustomtexture TRUE}}
+
+{unless {== $highwaydrum _1_none} {set $highwaycustomtexture TRUE}}
+
+{unless {== $streakgtr none} {set $streakcustomtexture TRUE}}
+
+{unless {== $streakbass none} {set $streakcustomtexture TRUE}}
+
+{unless {== $streakdrum none} {set $streakcustomtexture TRUE}}
 
 {unless {== $spotlightgtr none} {set $spotlightgtrcustomtexture TRUE}}
 

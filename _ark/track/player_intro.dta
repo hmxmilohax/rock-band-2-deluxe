@@ -94,35 +94,52 @@
                   (delay 1.0e-2)
                   (script
                      {intro.trig trigger}
-         {unless {== $highway "_1_none"}
-         {beatmatch foreach_active_player $player {switch {$player instrument}
-         (bass
-            {{{{get_track_panel} find bass} find indv_player_warning_off.trig} trigger}
-            {{{{get_track_panel} find bass} find warning_track_emissive.anim} animate}
-         )
-         (guitar
-            {{{{get_track_panel} find guitar} find indv_player_warning_off.trig} trigger}
-            {{{{get_track_panel} find guitar} find warning_track_emissive.anim} animate}
-         )
-         (vocals)
-         (drum
-            {{{{get_track_panel} find drum} find indv_player_warning_off.trig} trigger}
-            {{{{get_track_panel} find drum} find warning_track_emissive.anim} animate}
-         )}}}
+         {unless $dontrungemdividers
+         {unless {== $highwaygtr "_1_none"}
+            {beatmatch foreach_active_player $player 
+               {switch {$player instrument}
+                  (guitar
+                     {{{{get_track_panel} find guitar} find indv_player_warning_off.trig} trigger}
+                     {{{{get_track_panel} find guitar} find warning_track_emissive.anim} animate}
+                  )
+               }
+            }
+         }
+         {unless {== $highwaybass "_1_none"}
+            {beatmatch foreach_active_player $player 
+               {switch {$player instrument}
+                  (bass
+                     {{{{get_track_panel} find bass} find indv_player_warning_off.trig} trigger}
+                     {{{{get_track_panel} find bass} find warning_track_emissive.anim} animate}
+                  )
+               }
+            }
+         }
+         {unless {== $highwaydrum "_1_none"}
+            {beatmatch foreach_active_player $player 
+               {switch {$player instrument}
+                  (drum
+                     {{{{get_track_panel} find drum} find indv_player_warning_off.trig} trigger}
+                     {{{{get_track_panel} find drum} find warning_track_emissive.anim} animate}
+                  )
+               }
+            }
+         }
          
 			{beatmatch foreach_active_player $player {switch {$player instrument}
 			(bass
 			{{{{get_track_panel} find bass} find streak_meter} star_deploy}
-         {unless {== $highway "_1_none"}
+         {unless {== $highwaybass "_1_none"}
             {{{{get_track_panel} find bass} find indv_player_warning.trig} trigger}
             {{{{get_track_panel} find bass} find warning_track_emissive.anim} stop_animation}
             {{{{get_track_panel} find bass} find warning_track_emissive.anim} set_frame 15.0}
+            {{{get_bass_panel} find surface.mat} set emissive_map {$this find background.tex}}
          }
          {{{{get_track_panel} find bass} find rails.mat} set diffuse_tex {{get_track_panel} find rails.tex}}
 			)
 			(guitar
 			{{{{get_track_panel} find guitar} find streak_meter} star_deploy}
-         {unless {== $highway "_1_none"}
+         {unless {== $highwaygtr "_1_none"}
             {{{{get_track_panel} find guitar} find indv_player_warning.trig} trigger}
             {{{{get_track_panel} find guitar} find warning_track_emissive.anim} stop_animation}
             {{{{get_track_panel} find guitar} find warning_track_emissive.anim} set_frame 15.0}
@@ -133,14 +150,15 @@
 			)
 			(drum
 			{{{{get_track_panel} find drum} find streak_meter} star_deploy}
-         {unless {== $highway "_1_none"}
+         {unless {== $highwaydrum "_1_none"}
             {{{{get_track_panel} find drum} find indv_player_warning.trig} trigger}
             {{{{get_track_panel} find drum} find warning_track_emissive.anim} stop_animation}
             {{{{get_track_panel} find drum} find warning_track_emissive.anim} set_frame 15.0}
+            {{{get_drum_panel} find surface.mat} set emissive_map {$this find black.tex}}
          }
          {{{{get_track_panel} find drum} find rails.mat} set diffuse_tex {{get_track_panel} find rails.tex}}
 			)}}
-
+         }
 			)}})
          (setup_player
             ($icon $name)

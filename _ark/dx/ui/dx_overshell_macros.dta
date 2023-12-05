@@ -26,9 +26,13 @@
 	{set $multiringcustomtexture FALSE}
 	{set $multiring FALSE}
 	{set $streakcustomtexture FALSE}
-	{set $streak FALSE}
+	{set $streakgtr "none"}
+	{set $streakbass "none"}
+	{set $streakdrum "none"}
 	{set $highwaycustomtexture FALSE}
-	{set $highway _1_none}
+	{set $highwaygtr _1_none}
+	{set $highwaybass _1_none}
+	{set $highwaydrum _1_none}
 	{set $spotlightgtrcustomtexture FALSE}
 	{set $spotlightgtr FALSE}
 	{set $spotlightbasscustomtexture FALSE}
@@ -80,7 +84,9 @@
 	{set $multiringcustomtexture TRUE}
 	{set $multiring rb2dx}
 	{set $streakcustomtexture TRUE}
-	{set $streak rb4}
+	{set $streakgtr rb4}
+	{set $streakbass rb4}
+	{set $streakdrum rb4}
 	{set $spotlightgtrcustomtexture TRUE}
 	{set $spotlightgtr rb4}
 	{set $spotlightbasscustomtexture TRUE}
@@ -146,10 +152,17 @@
 	{if_else $texrunonce
 	   {do
 	      {set $streakcustomtexture TRUE}
-	      {set $streak rb2}}
+	      {set $streakgtr rb2}
+	      {set $streakbass rb2}
+	      {set $streakdrum rb2}
+	   }
 	   {do
 	      {set $streakcustomtexture FALSE}
-	      {set $streak FALSE}}}
+      	{set $streakgtr "none"}
+			{set $streakbass "none"}
+			{set $streakdrum "none"}
+	  	}
+	}
 	{set $spotlightgtrcustomtexture TRUE}
 	{set $spotlightgtr rb1_guitar}
 	{set $spotlightbasscustomtexture TRUE}
@@ -188,7 +201,9 @@
 	{set $railscustomtexture TRUE}
 	{set $rails rb2}
 	{set $streakcustomtexture TRUE}
-	{set $streak rb2}
+   {set $streakgtr rb2}
+   {set $streakbass rb2}
+   {set $streakdrum rb2}
 	{set $spotlightgtrcustomtexture TRUE}
 	{set $spotlightgtr rb2_guitar}
 	{set $spotlightbasscustomtexture TRUE}
@@ -224,14 +239,15 @@
 	{set $multiringcustomtexture TRUE}
 	{set $multiring rb3}
 	{set $streakcustomtexture TRUE}
-	{set $streak rb3_guitar}
+	{set $streakgtr rb3_guitar}
+	{set $streakbass rb3_guitar}
+	{set $streakdrum rb3_guitar}
 	{set $spotlightgtrcustomtexture TRUE}
 	{set $spotlightgtr rb3_guitar}
 	{set $spotlightbasscustomtexture TRUE}
 	{set $spotlightbass rb3_bass}
 	{set $spotlightdrumcustomtexture TRUE}
 	{set $spotlightdrum rb3_drums}
-	SET_RB3_TRACK_ANGLE
 )
 
 #define SET_RB4_TEXTURE_PRESET
@@ -266,14 +282,15 @@
 	{set $multiringcustomtexture TRUE}
 	{set $multiring rb4}
 	{set $streakcustomtexture TRUE}
-	{set $streak rb4}
+	{set $streakgtr rb4}
+	{set $streakbass rb4}
+	{set $streakdrum rb4}
 	{set $spotlightgtrcustomtexture TRUE}
 	{set $spotlightgtr rb4}
 	{set $spotlightbasscustomtexture TRUE}
 	{set $spotlightbass rb4}
 	{set $spotlightdrumcustomtexture TRUE}
 	{set $spotlightdrum rb4}
-	SET_RB4_TRACK_ANGLE
 )
 
 #define SET_LRB_TEXTURE_PRESET
@@ -344,7 +361,9 @@
 	{set $multiringcustomtexture TRUE}
 	{set $multiring lrb}
 	{set $streakcustomtexture TRUE}
-	{set $streak lrb}
+	{set $streakgtr lrb}
+	{set $streakbass lrb}
+	{set $streakdrum lrb}
 	{set $spotlightgtrcustomtexture TRUE}
 	{set $spotlightgtr lrb_guitar}
 	{set $spotlightbasscustomtexture TRUE}
@@ -385,14 +404,15 @@
 	{set $multiringcustomtexture TRUE}
 	{set $multiring tbrb}
 	{set $streakcustomtexture TRUE}
-	{set $streak tbrb}
+	{set $streakgtr tbrb}
+	{set $streakbass tbrb}
+	{set $streakdrum tbrb}
 	{set $spotlightgtrcustomtexture TRUE}
 	{set $spotlightgtr tbrb_guitar}
 	{set $spotlightbasscustomtexture TRUE}
 	{set $spotlightbass tbrb_bass}
 	{set $spotlightdrumcustomtexture TRUE}
 	{set $spotlightdrum tbrb_drums}
-	SET_RB3_TRACK_ANGLE
 )
 
 #define SET_RR_TRACK_ANGLE
@@ -451,12 +471,12 @@
 	{set $track_fade_start_2p 90}
 	{set $track_fade_length_2p 50}
 	{set $track_cam_offset 0.439}
-	{set $track_pitch_3p -40.25}
+	{set $track_pitch_3p -39.25}
 	{set $track_fov_3p 19}
 	{set $track_y_pos_3p -135}
 	{set $track_z_pos_3p 31}
-	{set $track_fade_start_3p 115}
-	{set $track_fade_length_3p 50}
-	{set $track_x_offset 24}
-	{set $track_side_angle 7.5}
+	{set $track_fade_start_3p 83}
+	{set $track_fade_length_3p 115}
+	{set $track_x_offset 24.6}
+	{set $track_side_angle 8.75}
 )

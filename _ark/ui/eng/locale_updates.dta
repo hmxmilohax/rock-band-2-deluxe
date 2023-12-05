@@ -1037,8 +1037,14 @@
 (os_smashers "Strikeline")
 (os_rails "Track Rails")
 (os_flames "Flames")
-(os_hw "Highway")
+(os_hw "Highway...")
+(os_hwheader "Highway")
+#ifdef HX_EE
 (os_strk "Streak")
+#else
+(os_strk "Streak...")
+#endif
+(os_strkheader "Streak")
 (os_spotlight "Overdrive...")
 (os_spotlightheader "Overdrive")
 (os_spotlightall "All Instruments")
