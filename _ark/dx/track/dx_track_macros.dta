@@ -55,7 +55,19 @@
       #endif
    }
 
-   {unless $dontrungemdividers
+   {if_else #ifdef HX_EE {gamemode get is_hth_arrangement} #else {gamemode get is_h2h_arrangement} #endif
+      {if {!= {{game get_participant_config 0} get_track_sym} vocals}
+         {if_else $nogemdividers
+            {do
+               {{{{get_track_panel} find track_0} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}}
+               {{{{get_track_panel} find track_1} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}}
+            }
+            {do
+               {{{{get_track_panel} find track_0} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}}
+               {{{{get_track_panel} find track_1} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}}
+            }
+         }
+      }
       {if_else $nogemdividers
          {beatmatch foreach_active_player $player
             {switch {$player instrument}
