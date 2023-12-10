@@ -59,12 +59,12 @@
       {if {!= {{game get_participant_config 0} get_track_sym} vocals}
          {if_else $nogemdividers
             {do
-               {{{{get_track_panel} find track_0} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}}
-               {{{{get_track_panel} find track_1} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}}
+               {{{get_track_0_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}}
+               {{{get_track_1_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}}
             }
             {do
-               {{{{get_track_panel} find track_0} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}}
-               {{{{get_track_panel} find track_1} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}}
+               {{{get_track_0_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}}
+               {{{get_track_1_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}}
             }
          }
       }
@@ -88,29 +88,22 @@
 
    {if $hwalpha_needs_reset
       {{$this find track_reflect.tex} iterate_refs $ref {$ref set intensify {! $hwalpha}}}
-      {{$this find background.tex} iterate_refs $ref {$ref set intensify {! $hwalpha}}} ; for some reason these affect the transparency of the hw
-      {{$this find black.tex} iterate_refs $ref {$ref set intensify {! $hwalpha}}}      ;
+      {{$this find background.tex} iterate_refs $ref {$ref set intensify {! $hwalpha}}}
+      {{$this find black.tex} iterate_refs $ref {$ref set intensify {! $hwalpha}}}      
    }
 
    #ifndef HX_EE
-   {unless $dontrungemdividers
-      {if $highwaycustomtexture
-         {{$this find track_reflect_warning.tex} set_bitmap {sprint "track_new/highways/" $highwaygtr ".png"}}
-         {{$this find background.tex} set_bitmap {sprint "track_new/highways/" $highwaybass ".png"}}
-         {{$this find black.tex} set_bitmap {sprint "track_new/highways/" $highwaydrum ".png"}}
+   {if $highwaycustomtexture
+      {{$this find track_reflect_warning.tex} set_bitmap {sprint "track_new/highways/" $highwaygtr ".png"}}
+      {{$this find background.tex} set_bitmap {sprint "track_new/highways/" $highwaybass ".png"}}
+      {{$this find black.tex} set_bitmap {sprint "track_new/highways/" $highwaydrum ".png"}}
+      {unless {gamemode get is_h2h_arrangement}
          {beatmatch foreach_active_player $player
             {switch {$player instrument}
                (bass {{{get_bass_panel} find surface.mat} set emissive_map {$this find background.tex}})
                (drum {{{get_drum_panel} find surface.mat} set emissive_map {$this find black.tex}})
             }
          }
-         {set $hwset TRUE}
-      }
-
-      {if $hwset
-         {{$this find track_reflect_warning.tex} iterate_refs $ref {$ref set intensify {!= $highwaygtr "_1_none"}}}
-         ; {{$this find background.tex} iterate_refs $ref {$ref set intensify {!= $highwaybass "_1_none"}}} ; idk why these texes work differently
-         ; {{$this find black.tex} iterate_refs $ref {$ref set intensify {!= $highwaydrum "_1_none"}}}      ;
       }
    }
    #endif
@@ -246,23 +239,33 @@
          {{$this find bass_superstreak_pattern.tex} set_bitmap {sprint "track_new/streak/" $streakbass ".png"}}
       }
       #ifndef HX_EE ; streak is currently unavailable for g/d on ps2
-      {unless $dontrungemdividers
-         {if_else {&& {!= $streakbass none} {== $streakgtr none}}
-            {do
-               {set $streakgtr "rb2"}
-               {{$this find pitch_arrow_effect_old.tex} set_bitmap {sprint "track_new/streak/" $streakgtr ".png"}}
-            }
-            {unless {== $streakgtr none}
-               {{$this find pitch_arrow_effect_old.tex} set_bitmap {sprint "track_new/streak/" $streakgtr ".png"}}
-            }
+      {if_else {&& {!= $streakbass none} {== $streakgtr none}}
+         {do
+            {set $streakgtr "rb2"}
+            {{$this find pitch_arrow_effect_old.tex} set_bitmap {sprint "track_new/streak/" $streakgtr ".png"}}
          }
-         {if_else {&& {!= $streakbass none} {== $streakdrum none}}
+         {unless {== $streakgtr none}
+            {{$this find pitch_arrow_effect_old.tex} set_bitmap {sprint "track_new/streak/" $streakgtr ".png"}}
+         }
+      }
+      {if_else {&& {!= $streakbass none} {== $streakdrum none}}
+         {do
+            {set $streakdrum "rb2"}
+            {{$this find smasher_plate_orange_emiss_nomip.tex} set_bitmap {sprint "track_new/streak/" $streakdrum ".png"}}
+         }
+         {unless {== $streakdrum none}
+            {{$this find smasher_plate_orange_emiss_nomip.tex} set_bitmap {sprint "track_new/streak/" $streakdrum ".png"}}
+         }
+      }
+      {if_else {gamemode get is_h2h_arrangement}
+         {if_else {== {{game get_participant_config 0} get_track_sym} guitar}
             {do
-               {set $streakdrum "rb2"}
-               {{$this find smasher_plate_orange_emiss_nomip.tex} set_bitmap {sprint "track_new/streak/" $streakdrum ".png"}}
+               {{{get_track_0_panel} find bass_superstreak.mat} set diffuse_tex {$this find pitch_arrow_effect_old.tex}}
+               {{{get_track_1_panel} find bass_superstreak.mat} set diffuse_tex {$this find pitch_arrow_effect_old.tex}}
             }
-            {unless {== $streakdrum none}
-               {{$this find smasher_plate_orange_emiss_nomip.tex} set_bitmap {sprint "track_new/streak/" $streakdrum ".png"}}
+            {if {== {{game get_participant_config 0} get_track_sym} drum}
+               {{{get_track_0_panel} find bass_superstreak.mat} set diffuse_tex {$this find smasher_plate_orange_emiss_nomip.tex}}
+               {{{get_track_1_panel} find bass_superstreak.mat} set diffuse_tex {$this find smasher_plate_orange_emiss_nomip.tex}}
             }
          }
          {beatmatch foreach_active_player $player
@@ -421,4 +424,151 @@
 
 {unless {== $voxhw none} {set $voxhwcustomtexture TRUE}}
 
+)
+
+#define DX_CALLBACK_SETUP
+(
+{if_else {gamemode get is_h2h_arrangement}
+   {unless {== {{game get_participant_config 0} get_track_sym} vocals}
+      {beatmatch foreach_active_player $player ;handle adding the appropriate callbacks to each player
+         {if_else {== {$player track} track0}
+         {$player add_sink fc_track_0_callback (hit miss pass check_fc check_missed do_customhw do_customhw_warn_off do_customhw_streak do_streak do_groove num_gems_hit num_gems_combo num_gems_miss num_gems_pass)}
+         {$player add_sink fc_track_1_callback (hit miss pass check_fc check_missed do_customhw do_customhw_warn_off do_customhw_streak do_streak do_groove num_gems_hit num_gems_combo num_gems_miss num_gems_pass)}
+         }
+      }
+   }
+   {beatmatch foreach_active_player $player ;handle adding the appropriate callbacks to each player
+      {switch {$player instrument}
+         (bass {$player add_sink fc_bass_callback (hit miss pass check_fc check_missed do_customhw do_customhw_warn_off do_customhw_warn_on do_customhw_streak do_warning do_rail_warning do_streak do_groove num_gems_hit num_gems_combo num_gems_miss num_gems_pass)})
+         (guitar {$player add_sink fc_guitar_callback (hit miss pass check_fc check_missed do_customhw do_customhw_warn_off do_customhw_warn_on do_customhw_streak do_warning do_rail_warning do_streak do_groove num_gems_hit num_gems_combo num_gems_miss num_gems_pass)})
+         (drum {$player add_sink fc_drum_callback (hit miss pass check_fc check_missed do_customhw do_customhw_warn_off do_customhw_warn_on do_customhw_streak do_warning do_rail_warning do_streak do_groove num_gems_hit num_gems_combo num_gems_miss num_gems_pass)})
+      }
+   }
+}
+)
+
+#define DX_FC_SETUP
+(
+{if_else {gamemode get is_h2h_arrangement}
+   {unless {== {{game get_participant_config 0} get_track_sym} vocals}
+      {if_else {== {{game get_participant_config 0} get_track_sym} guitar}
+         {unless {== $highwaygtr "_1_none"}
+            {{{get_track_0_panel} find indv_player_warning_off.trig} trigger}
+            {{{get_track_1_panel} find indv_player_warning_off.trig} trigger}
+         }
+         {if_else {== {{game get_participant_config 0} get_track_sym} bass}
+            {unless {== $highwaybass "_1_none"}
+               {{{get_track_0_panel} find indv_player_warning_off.trig} trigger}
+               {{{get_track_1_panel} find indv_player_warning_off.trig} trigger}
+            }
+            {unless {== $highwaydrum "_1_none"}
+               {{{get_track_0_panel} find indv_player_warning_off.trig} trigger}
+               {{{get_track_1_panel} find indv_player_warning_off.trig} trigger}
+            }
+         }
+      }
+      {{{get_track_0_panel} find streak_meter} star_deploy}
+      {{{get_track_1_panel} find streak_meter} star_deploy}
+      {if_else {== {{game get_participant_config 0} get_track_sym} guitar}
+         {unless {== $highwaygtr "_1_none"}
+            {{{get_track_0_panel} find indv_player_warning.trig} trigger}
+            {{{get_track_0_panel} find warning_track_emissive.anim} stop_animation}
+            {{{get_track_0_panel} find warning_track_emissive.anim} set_frame 15.0}
+            ;{{{get_track_0_panel} find surface.mat} set emissive_map {$this find track_reflect.tex}}
+            {{{get_track_1_panel} find indv_player_warning.trig} trigger}
+            {{{get_track_1_panel} find warning_track_emissive.anim} stop_animation}
+            {{{get_track_1_panel} find warning_track_emissive.anim} set_frame 15.0}
+            ;{{{get_track_1_panel} find surface.mat} set emissive_map {$this find track_reflect.tex}}
+
+         }
+         {if_else {== {{game get_participant_config 0} get_track_sym} bass}
+            {unless {== $highwaybass "_1_none"}
+               {{{get_track_0_panel} find indv_player_warning.trig} trigger}
+               {{{get_track_0_panel} find warning_track_emissive.anim} stop_animation}
+               {{{get_track_0_panel} find warning_track_emissive.anim} set_frame 15.0}
+               {{{get_track_0_panel} find surface.mat} set emissive_map {$this find background.tex}}
+               {{{get_track_1_panel} find indv_player_warning.trig} trigger}
+               {{{get_track_1_panel} find warning_track_emissive.anim} stop_animation}
+               {{{get_track_1_panel} find warning_track_emissive.anim} set_frame 15.0}
+               {{{get_track_1_panel} find surface.mat} set emissive_map {$this find background.tex}}
+            }
+            {unless {== $highwaydrum "_1_none"}
+               {{{get_track_0_panel} find indv_player_warning.trig} trigger}
+               {{{get_track_0_panel} find warning_track_emissive.anim} stop_animation}
+               {{{get_track_0_panel} find warning_track_emissive.anim} set_frame 15.0}
+               {{{get_track_0_panel} find surface.mat} set emissive_map {$this find black.tex}}
+               {{{get_track_1_panel} find indv_player_warning.trig} trigger}
+               {{{get_track_1_panel} find warning_track_emissive.anim} stop_animation}
+               {{{get_track_1_panel} find warning_track_emissive.anim} set_frame 15.0}
+               {{{get_track_1_panel} find surface.mat} set emissive_map {$this find black.tex}}
+            }
+         }
+      }
+   }
+   {do
+      {unless {== $highwaygtr "_1_none"}
+         {beatmatch foreach_active_player $player 
+            {switch {$player instrument}
+               (guitar
+                  {{{{get_track_panel} find guitar} find indv_player_warning_off.trig} trigger}
+                  {{{{get_track_panel} find guitar} find warning_track_emissive.anim} animate}
+               )
+            }
+         }
+      }
+      {unless {== $highwaybass "_1_none"}
+         {beatmatch foreach_active_player $player 
+            {switch {$player instrument}
+               (bass
+                  {{{{get_track_panel} find bass} find indv_player_warning_off.trig} trigger}
+                  {{{{get_track_panel} find bass} find warning_track_emissive.anim} animate}
+               )
+            }
+         }
+      }
+      {unless {== $highwaydrum "_1_none"}
+         {beatmatch foreach_active_player $player 
+            {switch {$player instrument}
+               (drum
+                  {{{{get_track_panel} find drum} find indv_player_warning_off.trig} trigger}
+                  {{{{get_track_panel} find drum} find warning_track_emissive.anim} animate}
+               )
+            }
+         }
+      }
+      {beatmatch foreach_active_player $player 
+         {switch {$player instrument}
+            (bass
+               {{{{get_track_panel} find bass} find streak_meter} star_deploy}
+               {unless {== $highwaybass "_1_none"}
+                  {{{{get_track_panel} find bass} find indv_player_warning.trig} trigger}
+                  {{{{get_track_panel} find bass} find warning_track_emissive.anim} stop_animation}
+                  {{{{get_track_panel} find bass} find warning_track_emissive.anim} set_frame 15.0}
+                  {{{get_bass_panel} find surface.mat} set emissive_map {$this find background.tex}}
+               }
+               {{{{get_track_panel} find bass} find rails.mat} set diffuse_tex {{get_track_panel} find rails.tex}}
+            )
+            (guitar
+               {{{{get_track_panel} find guitar} find streak_meter} star_deploy}
+               {unless {== $highwaygtr "_1_none"}
+                  {{{{get_track_panel} find guitar} find indv_player_warning.trig} trigger}
+                  {{{{get_track_panel} find guitar} find warning_track_emissive.anim} stop_animation}
+                  {{{{get_track_panel} find guitar} find warning_track_emissive.anim} set_frame 15.0}
+               }
+               {{{{get_track_panel} find guitar} find rails.mat} set diffuse_tex {{get_track_panel} find rails.tex}}
+            )
+            (drum
+               {{{{get_track_panel} find drum} find streak_meter} star_deploy}
+               {unless {== $highwaydrum "_1_none"}
+                  {{{{get_track_panel} find drum} find indv_player_warning.trig} trigger}
+                  {{{{get_track_panel} find drum} find warning_track_emissive.anim} stop_animation}
+                  {{{{get_track_panel} find drum} find warning_track_emissive.anim} set_frame 15.0}
+                  {{{get_drum_panel} find surface.mat} set emissive_map {$this find black.tex}}
+               }
+               {{{{get_track_panel} find drum} find rails.mat} set diffuse_tex {{get_track_panel} find rails.tex}}
+            )
+         }
+      }
+   }
+}
 )
