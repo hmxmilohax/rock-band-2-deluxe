@@ -67,29 +67,36 @@
                {{{get_track_1_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}}
             }
          }
+         {{{get_track_0_panel} find track_clipping.mesh} set_showing {!= $hwalpha rb1}}
+         {{{get_track_1_panel} find track_clipping.mesh} set_showing {!= $hwalpha rb1}}
       }
-      {if_else $nogemdividers
-         {beatmatch foreach_active_player $player
-            {switch {$player instrument}
-               (bass {{{get_bass_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})
-               (guitar {{{get_guitar_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})
-               (drum {{{get_drum_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})
+      {do
+         {if_else $nogemdividers
+            {beatmatch foreach_active_player $player
+               {switch {$player instrument}
+                  (bass {{{get_bass_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})
+                  (guitar {{{get_guitar_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})
+                  (drum {{{get_drum_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})
+               }
+            }
+            {beatmatch foreach_active_player $player
+               {switch {$player instrument}
+                  (bass {{{get_bass_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})
+                  (guitar {{{get_guitar_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})
+                  (drum {{{get_drum_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})
+               }
             }
          }
-         {beatmatch foreach_active_player $player
-            {switch {$player instrument}
-               (bass {{{get_bass_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})
-               (guitar {{{get_guitar_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})
-               (drum {{{get_drum_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})
-            }
-         }
+         {{{get_guitar_panel} find track_clipping.mesh} set_showing {!= $hwalpha rb1}}
+         {{{get_bass_panel} find track_clipping.mesh} set_showing {!= $hwalpha rb1}}
+         {{{get_drum_panel} find track_clipping.mesh} set_showing {!= $hwalpha rb1}}
       }
    }
 
    {if $hwalpha_needs_reset
-      {{$this find track_reflect.tex} iterate_refs $ref {$ref set intensify {! $hwalpha}}}
-      {{$this find background.tex} iterate_refs $ref {$ref set intensify {! $hwalpha}}}
-      {{$this find black.tex} iterate_refs $ref {$ref set intensify {! $hwalpha}}}      
+      {{$this find track_reflect.tex} iterate_refs $ref {$ref set intensify {== $hwalpha off}}}
+      {{$this find background.tex} iterate_refs $ref {$ref set intensify {== $hwalpha off}}}
+      {{$this find black.tex} iterate_refs $ref {$ref set intensify {== $hwalpha off}}}      
    }
 
    #ifndef HX_EE

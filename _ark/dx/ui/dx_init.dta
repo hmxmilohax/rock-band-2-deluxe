@@ -106,10 +106,10 @@
 ;sustain style
 {set $sustains "rb2"}
 
-#ifndef HX_EE
-;highway transparency
-{set $hwalpha TRUE}
+;highway transparency (rb2, rb1, off)
+{set $hwalpha rb2}
 
+#ifndef HX_EE
 ;legacy bass groove
 {set $legacybass FALSE}
 

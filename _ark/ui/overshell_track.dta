@@ -164,7 +164,11 @@
 ((
    {if_else $nogemdividers os_gemdiv0 os_gemdiv1}
    #ifndef HX_EE
-   {if_else $hwalpha os_hwalpha1 os_hwalpha0}
+   {switch $hwalpha
+      (off os_hwalpha_off)
+      (rb2 os_hwalpha_rb2)
+      (rb1 os_hwalpha_rb1)
+   }
    os_warn_behavior
    #endif
 ))
@@ -194,8 +198,12 @@
             {set $hwpos {sel_section.lst selected_sym}}
             {$this lst_reset}
          )
-         ((os_hwalpha0 os_hwalpha1)
-            {set $hwalpha {! $hwalpha}}
+         ((os_hwalpha_off os_hwalpha_rb2 os_hwalpha_rb1)
+            {set $hwalpha {switch $hwalpha
+               (off rb2)
+               (rb2 rb1)
+               (rb1 off)
+            }}
             {set $hwalpha_needs_reset TRUE}
             {set $hwpos {sel_section.lst selected_sym}}
             {$this lst_reset}
