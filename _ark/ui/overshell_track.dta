@@ -163,12 +163,12 @@
 #define HW_BEHAVIOR_DATA
 ((
    {if_else $nogemdividers os_gemdiv0 os_gemdiv1}
-   #ifndef HX_EE
    {switch $hwalpha
       (off os_hwalpha_off)
       (rb2 os_hwalpha_rb2)
       (rb1 os_hwalpha_rb1)
    }
+   #ifndef HX_EE
    os_warn_behavior
    #endif
 ))
@@ -202,7 +202,7 @@
             {set $hwalpha {switch $hwalpha
                (off rb2)
                (rb2 rb1)
-               (rb1 off)
+               (rb1 #ifdef HX_EE rb2 #else off #endif)
             }}
             {set $hwalpha_needs_reset TRUE}
             {set $hwpos {sel_section.lst selected_sym}}
