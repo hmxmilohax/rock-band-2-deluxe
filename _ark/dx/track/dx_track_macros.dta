@@ -220,8 +220,11 @@
       {{$this find indv_player_meter_glass.tex} set_bitmap {sprint "track/score/indv_player_meter_glass_" $scoretex ".png"}}
 	   {{$this find indv_player_meter_glow.tex} set_bitmap {sprint "track/score/indv_player_meter_glow_" $scoretex ".png"}}
 	   {{$this find indv_player_meter.png} set_bitmap {sprint "track/score/indv_player_meter_" $scoretex ".png"}}
-	   {{$this find star_sheet.tex} set_bitmap {sprint "track/score/star_power_" $scoretex ".png"}}
-	   {{$this find score_meter_wipe.tex} set_bitmap {sprint "track/score/score_meter_wipe_" $scoretex ".png"}}
+   }
+
+   {if $starscustomtexture
+      {{$this find star_sheet.tex} set_bitmap {sprint "track/stars/star_power_" $stars ".png"}}
+      {{$this find score_meter_wipe.tex} set_bitmap {sprint "track/stars/score_meter_wipe_" $stars ".png"}}
       #ifdef HX_EE
       {{$this find score_meter_wipe.tex} iterate_refs $ref {$ref set color {pack_color 1.0 1.0 1.0}}}
       #endif
@@ -371,6 +374,7 @@
 {set $voxnotescustomtexture FALSE}
 {set $voxodcustomtexture FALSE}
 {set $scorecustomtexture FALSE}
+{set $starscustomtexture FALSE}
 {set $odbarcustomtexture FALSE}
 {set $railscustomtexture FALSE}
 {set $flamescustomtexture FALSE}

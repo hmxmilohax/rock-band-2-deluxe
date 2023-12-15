@@ -8,7 +8,7 @@
     #endif
     (focus sel_section.lst)
     (enter
-        {sel_section.lst set_data (#ifndef HX_EE os_hw #endif os_strk os_spotlight #ifdef HX_EE os_hw_behavior #endif os_gems os_smashers os_flames os_sus #ifndef HX_EE os_lanes #endif os_score os_bre os_rails os_odbar os_multi_ring os_voxtrk)}
+        {sel_section.lst set_data (#ifndef HX_EE os_hw #endif os_strk os_spotlight #ifdef HX_EE os_hw_behavior #endif os_gems os_smashers os_flames os_sus #ifndef HX_EE os_lanes #endif os_score os_stars os_bre os_rails os_odbar os_multi_ring os_voxtrk)}
         {title.lbl set_localized {localize os_tex1}}
         {full_selection.mesh set_showing FALSE})
     (exit)
@@ -34,6 +34,10 @@
          )
          (os_score
             {set $dx_tracked_texture_loader score}
+            {ui push_screen overshell_texload_screen}
+         )
+         (os_stars
+            {set $dx_tracked_texture_loader stars}
             {ui push_screen overshell_texload_screen}
          )
          (os_bre
@@ -262,6 +266,11 @@
             {title.lbl set_localized {localize os_score}}
             {anchor_corner02.tex set_bitmap {sprint "track/score/indv_player_meter_" $scoretex ".png"}}
          )
+         (stars
+            {sel_section.lst set_data (#include ../track/stars/stars.dta)}
+            {title.lbl set_localized {localize os_stars}}
+            {anchor_corner02.tex set_bitmap {sprint "track/stars/star_power_" $stars ".png"}}
+         )
          (lanes
             {sel_section.lst set_data (#include ../track/lanes/lanes.dta)}
             {title.lbl set_localized {localize os_lanes}}
@@ -401,6 +410,10 @@
             {set $scorecustomtexture TRUE}
             {set $scoretex {$component selected_sym}}
          )
+         (stars
+            {set $starscustomtexture TRUE}
+            {set $stars {$component selected_sym}}
+         )
          (lanes
             {set $lanescustomtexture TRUE}
             {set $lanestex {$component selected_sym}}
@@ -522,6 +535,9 @@
          )
          (score
             {anchor_corner02.tex set_bitmap {sprint "track/score/indv_player_meter_" {$component selected_sym} ".png"}}
+         )
+         (stars
+            {anchor_corner02.tex set_bitmap {sprint "track/stars/star_power_" {$component selected_sym} ".png"}}
          )
          (lanes
             {anchor_corner02.tex set_bitmap {sprint "track/lanes/gem_mash_green_" {$component selected_sym} ".png"}}
