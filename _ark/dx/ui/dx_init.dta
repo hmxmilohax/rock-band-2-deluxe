@@ -399,7 +399,7 @@
 ;{unless {file_exists dx.dta} INIT_DTA_WRITER}
 INIT_DTA_READER
 #endif
-DX_TEXTURE_RESET_HANDLER
+DX_TEXTURE_CORRECTOR
 DX_DO_CUSTOM_TEXTURE_HANDLER
 
 #include init_dev.dta

@@ -74,7 +74,10 @@
    TrackPanel
    coop_track_panel
    (file
-   ../track/trackpanel.milo
+      {if_else $dx_queue_stock_track
+         ../track/trackpanel.milo
+         ../track/trackpanelcustom.milo
+      }
    )
    TRACK_PANEL_HANDLERS}
 {new
@@ -87,7 +90,10 @@
                get_track_sym}
             vocals}
          ../track/trackpanel_h2h_vocals.milo
-   ../track/trackpanel_h2h.milo
+   {if_else $dx_queue_stock_track
+      ../track/trackpanel_h2h.milo
+      ../track/trackcustomh2h.milo
+   }
    })
    TRACK_PANEL_HANDLERS}
 {new
