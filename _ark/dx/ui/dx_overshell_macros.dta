@@ -17,6 +17,8 @@
 	{set $voxod FALSE}
 	{set $scorecustomtexture FALSE}
 	{set $scoretex FALSE}
+	{set $starscustomtexture FALSE}
+	{set $stars FALSE}
 	{set $odbarcustomtexture FALSE}
 	{set $odbar FALSE}
 	{set $railscustomtexture FALSE}
@@ -70,6 +72,8 @@
 	      {set $voxod FALSE}}}
 	{set $scorecustomtexture TRUE}
 	{set $scoretex rb4}
+	{set $starscustomtexture TRUE}
+	{set $stars rb4}
 	{set $odbarcustomtexture TRUE}
 	{set $odbar rb2dx}
 	{if_else $texrunonce
@@ -124,6 +128,8 @@
 	{set $voxod rb1}
 	{set $scorecustomtexture TRUE}
 	{set $scoretex rb1}
+	{set $starscustomtexture TRUE}
+	{set $stars rb1}
 	{set $odbarcustomtexture TRUE}
 	{set $odbar rb1}
 	{if_else $texrunonce
@@ -190,6 +196,8 @@
 	{set $voxod rb2}
 	{set $scorecustomtexture TRUE}
 	{set $scoretex rb2}
+	{set $starscustomtexture TRUE}
+	{set $stars rb2}
 	{set $odbarcustomtexture TRUE}
 	{set $odbar rb2}
 	{set $railscustomtexture TRUE}
@@ -230,6 +238,8 @@
 	{set $voxod rb3}
 	{set $scorecustomtexture TRUE}
 	{set $scoretex rb3}
+	{set $starscustomtexture TRUE}
+	{set $stars rb3}
 	{set $odbarcustomtexture TRUE}
 	{set $odbar rb3}
 	{set $railscustomtexture TRUE}
@@ -273,6 +283,8 @@
 	      {set $voxod FALSE}}}
 	{set $scorecustomtexture TRUE}
 	{set $scoretex rb4}
+	{set $starscustomtexture TRUE}
+	{set $stars rb4}
 	{set $odbarcustomtexture TRUE}
 	{set $odbar rb4}
 	{set $railscustomtexture TRUE}
@@ -342,6 +354,13 @@
 	   {do
 	      {set $scorecustomtexture FALSE}
 	      {set $scoretex FALSE}}}
+	{if_else $texrunonce
+	   {do
+	      {set $starscustomtexture TRUE}
+	      {set $stars lrb}}
+	   {do
+	      {set $starscustomtexture FALSE}
+	      {set $stars FALSE}}}
 	{set $odbarcustomtexture TRUE}
 	{set $odbar lrb}
 	{if_else $texrunonce
@@ -395,6 +414,8 @@
 	{set $voxod lrb}
 	{set $scorecustomtexture TRUE}
 	{set $scoretex rb4}
+	{set $starscustomtexture TRUE}
+	{set $stars rb4}
 	{set $odbarcustomtexture TRUE}
 	{set $odbar tbrb}
 	{set $railscustomtexture TRUE}
