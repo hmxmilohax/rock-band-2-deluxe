@@ -29,6 +29,8 @@
 
    {if {== $scoretex rb2} {set $scoretex "none"}}
 
+   {if {== $stars rb2} {set $stars "none"}}
+
    {if {== $bretex rb2} {set $bretex "none"}}
 
    {if {== $voxarrow rb2} {set $voxarrow "none"}}
@@ -424,6 +426,8 @@
 {unless {== $flames none} {set $flamescustomtexture TRUE}}
 
 {unless {== $scoretex none} {set $scorecustomtexture TRUE}}
+
+{unless {== $stars none} {set $starscustomtexture TRUE}}
 
 {unless {== $bretex none} {set $brecustomtexture TRUE}}
 
