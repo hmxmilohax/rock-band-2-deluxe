@@ -9,6 +9,7 @@
    {set $gem rb2}
    {set $smashercustomtexture TRUE}
    {set $smasher rb2}
+   {set $smasherbracket FALSE}
    {set $voxarrowcustomtexture TRUE}
    {set $voxarrow rb2}
    {set $voxnotescustomtexture TRUE}
@@ -27,6 +28,10 @@
    {set $flames rb2}
    {set $multiringcustomtexture TRUE}
    {set $multiring rb2}
+	{set $highwaycustomtexture TRUE}
+	{set $highwaygtr _1_none}
+	{set $highwaybass _1_none}
+	{set $highwaydrum _1_none}
    {set $streakcustomtexture TRUE}
    {set $streakgtr rb2}
    {set $streakbass rb2}
@@ -37,6 +42,11 @@
    {set $spotlightbass rb2_bass}
    {set $spotlightdrumcustomtexture TRUE}
    {set $spotlightdrum rb2_drums}
+	{set $hwalpha_needs_reset TRUE}
+	{set $hwalpha rb2}
+	{set $hwstrk FALSE}
+	{set $nohwwarn FALSE}
+	{set $railwarn FALSE}
 )
 
 #define SET_RB2DX_TEXTURE_PRESET
@@ -50,6 +60,7 @@
 	{set $gem rb2dx}
 	{set $smashercustomtexture TRUE}
 	{set $smasher rb2dx}
+	{set $smasherbracket FALSE}
 	{set $voxarrowcustomtexture TRUE}
 	{set $voxarrow rb2dx}
 	{set $voxnotescustomtexture TRUE}
@@ -68,6 +79,10 @@
 	{set $flames rb2dx}
 	{set $multiringcustomtexture TRUE}
 	{set $multiring rb2dx}
+	{set $highwaycustomtexture TRUE}
+	{set $highwaygtr _1_none}
+	{set $highwaybass _1_none}
+	{set $highwaydrum _1_none}
 	{set $streakcustomtexture TRUE}
 	{set $streakgtr rb4}
 	{set $streakbass rb4}
@@ -78,6 +93,11 @@
 	{set $spotlightbass rb4}
 	{set $spotlightdrumcustomtexture TRUE}
 	{set $spotlightdrum rb4}
+	{set $hwalpha_needs_reset TRUE}
+	{set $hwalpha rb2}
+	{set $hwstrk FALSE}
+	{set $nohwwarn FALSE}
+	{set $railwarn FALSE}
 )
 
 #define SET_RB1_TEXTURE_PRESET
@@ -91,6 +111,7 @@
 	{set $gem rb2}
 	{set $smashercustomtexture TRUE}
 	{set $smasher rb1}
+	{set $smasherbracket FALSE}
 	{set $voxarrowcustomtexture TRUE}
 	{set $voxarrow rb1}
    {set $voxnotescustomtexture TRUE}
@@ -109,6 +130,10 @@
    {set $flames rb2}
 	{set $multiringcustomtexture TRUE}
 	{set $multiring rb1}
+	{set $highwaycustomtexture TRUE}
+	{set $highwaygtr _1_none}
+	{set $highwaybass _1_none}
+	{set $highwaydrum _1_none}
    {set $streakcustomtexture TRUE}
    {set $streakgtr rb2}
    {set $streakbass rb2}
@@ -119,6 +144,11 @@
 	{set $spotlightbass rb1_bass}
 	{set $spotlightdrumcustomtexture TRUE}
 	{set $spotlightdrum rb1_drums}
+	{set $hwalpha_needs_reset TRUE}
+	{set $hwalpha rb1}
+	{set $hwstrk FALSE}
+	{set $nohwwarn FALSE}
+	{set $railwarn FALSE}
 )
 
 #define SET_RB3_TEXTURE_PRESET
@@ -131,6 +161,7 @@
 	{set $gem rb3}
 	{set $smashercustomtexture TRUE}
 	{set $smasher rb3}
+	{set $smasherbracket TRUE}
 	{set $voxarrowcustomtexture TRUE}
 	{set $voxarrow rb2dx}
 	{set $voxnotescustomtexture TRUE}
@@ -149,16 +180,25 @@
 	{set $flames rb3}
 	{set $multiringcustomtexture TRUE}
 	{set $multiring rb3}
+	{set $highwaycustomtexture TRUE}
+	{set $highwaygtr _2_rb3_guitar}
+	{set $highwaybass _rb3_bass}
+	{set $highwaydrum _rb3_drum}
 	{set $streakcustomtexture TRUE}
 	{set $streakgtr rb3_guitar}
-	{set $streakbass rb3_guitar}
-	{set $streakdrum rb3_guitar}
+	{set $streakbass rb3_unused}
+	{set $streakdrum rb3_drum}
 	{set $spotlightgtrcustomtexture TRUE}
 	{set $spotlightgtr rb3_guitar}
 	{set $spotlightbasscustomtexture TRUE}
 	{set $spotlightbass rb3_bass}
 	{set $spotlightdrumcustomtexture TRUE}
 	{set $spotlightdrum rb3_drums}
+	{set $hwalpha_needs_reset TRUE}
+	{set $hwalpha off}
+	{set $hwstrk TRUE}
+	{set $nohwwarn TRUE}
+	{set $railwarn TRUE}
 )
 
 #define SET_RB4_TEXTURE_PRESET
@@ -171,6 +211,7 @@
 	{set $gem rb4}
 	{set $smashercustomtexture TRUE}
 	{set $smasher rb4}
+	{set $smasherbracket TRUE}
 	{set $voxarrowcustomtexture TRUE}
 	{set $voxarrow rb2dx}
 	{set $voxnotescustomtexture TRUE}
@@ -189,6 +230,10 @@
 	{set $flames rb4}
 	{set $multiringcustomtexture TRUE}
 	{set $multiring rb4}
+	{set $highwaycustomtexture TRUE}
+	{set $highwaygtr _rb4z}
+	{set $highwaybass _rb4z}
+	{set $highwaydrum _rb4z}
 	{set $streakcustomtexture TRUE}
 	{set $streakgtr rb4}
 	{set $streakbass rb4}
@@ -199,6 +244,11 @@
 	{set $spotlightbass rb4}
 	{set $spotlightdrumcustomtexture TRUE}
 	{set $spotlightdrum rb4}
+	{set $hwalpha_needs_reset TRUE}
+	{set $hwalpha off}
+	{set $hwstrk TRUE}
+	{set $nohwwarn TRUE}
+	{set $railwarn TRUE}
 )
 
 #define SET_LRB_TEXTURE_PRESET
@@ -212,6 +262,7 @@
    {set $gem rb2}
    {set $smashercustomtexture TRUE}
    {set $smasher rb2}
+   {set $smasherbracket FALSE}
    {set $voxarrowcustomtexture TRUE}
    {set $voxarrow rb2}
    {set $voxnotescustomtexture TRUE}
@@ -230,6 +281,10 @@
    {set $flames rb2}
 	{set $multiringcustomtexture TRUE}
 	{set $multiring lrb}
+	{set $highwaycustomtexture TRUE}
+	{set $highwaygtr _1_none}
+	{set $highwaybass _1_none}
+	{set $highwaydrum _1_none}
 	{set $streakcustomtexture TRUE}
 	{set $streakgtr lrb}
 	{set $streakbass lrb}
@@ -240,6 +295,11 @@
 	{set $spotlightbass lrb_bass}
 	{set $spotlightdrumcustomtexture TRUE}
 	{set $spotlightdrum lrb_drums}
+	{set $hwalpha_needs_reset TRUE}
+	{set $hwalpha rb2}
+	{set $hwstrk FALSE}
+	{set $nohwwarn FALSE}
+	{set $railwarn FALSE}
 )
 
 #define SET_TBRB_TEXTURE_PRESET
@@ -252,6 +312,7 @@
 	{set $gem tbrb}
 	{set $smashercustomtexture TRUE}
 	{set $smasher rb2dx}
+	{set $smasherbracket TRUE}
    {set $voxarrowcustomtexture TRUE}
    {set $voxarrow rb2}
 	{set $voxnotescustomtexture TRUE}
@@ -270,6 +331,10 @@
 	{set $flames rb2dx}
 	{set $multiringcustomtexture TRUE}
 	{set $multiring tbrb}
+	{set $highwaycustomtexture TRUE}
+	{set $highwaygtr _1_none}
+	{set $highwaybass _1_none}
+	{set $highwaydrum _1_none}
 	{set $streakcustomtexture TRUE}
 	{set $streakgtr tbrb}
 	{set $streakbass tbrb}
@@ -280,6 +345,11 @@
 	{set $spotlightbass tbrb_bass}
 	{set $spotlightdrumcustomtexture TRUE}
 	{set $spotlightdrum tbrb_drums}
+	{set $hwalpha_needs_reset TRUE}
+	{set $hwalpha rb2}
+	{set $hwstrk FALSE}
+	{set $nohwwarn FALSE}
+	{set $railwarn FALSE}
 )
 
 #define SET_RR_TRACK_ANGLE
