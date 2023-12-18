@@ -23,11 +23,29 @@
 ;strikeline texture
 {set $smasher "rb2dx"}
 
-;highway texture
-{set $highway "_1_none"}
+;lanes texture
+{set $lanestex "rb2"}
 
-;streak texture
-{set $streak "rb4"}
+;no gem dividers
+{set $nogemdividers FALSE}
+
+;highway texture (guitar)
+{set $highwaygtr "_1_none"}
+
+;highway texture (bass)
+{set $highwaybass "_1_none"}
+
+;highway texture (drums)
+{set $highwaydrum "_1_none"}
+
+;streak texture (guitar)
+{set $streakgtr "rb4"}
+
+;streak texture (bass)
+{set $streakbass "rb4"}
+
+;streak texture (drums)
+{set $streakdrum "rb4"}
 
 ;overdrive texture (guitar)
 {set $spotlightgtr "rb4"}
@@ -52,6 +70,9 @@
 
 ;score texture
 {set $scoretex "rb4"}
+
+;stars texture
+{set $stars "rb4"}
 
 ;bre texture
 {set $bretex "rb2"}
@@ -85,7 +106,35 @@
 {set $track_fade_start 70} ;start point of the fadeout at the end of the track
 {set $track_fade_length 50} ;length of the fadeout at the end of the track
 
-{modifier_mgr activate_modifier mod_hwalpha}
+;sustain style
+{set $sustains "rb2"}
+
+;highway transparency (rb2, rb1, off)
+{set $hwalpha rb2}
+
+#ifndef HX_EE
+;legacy bass groove
+{set $legacybass FALSE}
+
+;streak on highway instead of overlay
+{set $hwstreak FALSE}
+
+;no highway warning
+{set $nohwwarn FALSE}
+
+;rail warning
+{set $railwarn FALSE}
+#endif
+
+;whammy fx
+{set $whammyfx TRUE}
+
+;crowd sfx
+{set $crowdsfx TRUE}
+
+;track muting
+{set $trkmuting TRUE}
+
 ;{modifier_mgr activate_modifier mod_nofail}
 ;{modifier_mgr activate_modifier mod_doublespeed}
 ;{modifier_mgr activate_modifier mod_choose_venue}
@@ -97,6 +146,7 @@
 ;{modifier_mgr activate_modifier mod_selectdeploy}
 ;{modifier_mgr activate_modifier mod_auto_play}
 
+#ifndef HX_EE ; cant read dx.dta on ps2 (yet)
 #define INIT_DTA_READER
 (
    {set $dxsettings {read_file #ifdef HX_XBOX "GAME:/dx.dta" #endif #ifdef HX_PS3 "GD:/dev_hdd0/game/BLUS30147/USRDIR/dx.dta" #endif}}
@@ -295,7 +345,7 @@
       }
       {if {== {elem $entry 0} {basename mod_legacybass}}
          {if {== {elem {find $entry mod_legacybass} 1} 1}
-            {modifier_mgr activate_modifier mod_legacybass}
+            {set $legacybass TRUE}
          }
       }
       {if {== {elem $entry 0} {basename mod_nosustain}}
@@ -310,22 +360,22 @@
       }
       {if {== {elem $entry 0} {basename mod_nowhammyfx}}
          {if {== {elem {find $entry mod_nowhammyfx} 1} 1}
-            {modifier_mgr activate_modifier mod_nowhammyfx}
+            {set $whammyfx FALSE}
          }
       }
       {if {== {elem $entry 0} {basename mod_gemdivider}}
          {if {== {elem {find $entry mod_gemdivider} 1} 1}
-            {modifier_mgr activate_modifier mod_gemdivider}
+            {set $gemdividers TRUE}
          }
       }
       {if {== {elem $entry 0} {basename mod_nocrowd}}
          {if {== {elem {find $entry mod_nocrowd} 1} 1}
-            {modifier_mgr activate_modifier mod_nocrowd}
+            {set $crowdsfx FALSE}
          }
       }
       {if {== {elem $entry 0} {basename mod_nomuting}}
          {if {== {elem {find $entry mod_nomuting} 1} 1}
-            {modifier_mgr activate_modifier mod_nomuting}
+            {set $trkmuting FALSE}
          }
       }
       {if {== {elem $entry 0} {basename mod_noflames}}
@@ -348,7 +398,8 @@
 )
 ;{unless {file_exists dx.dta} INIT_DTA_WRITER}
 INIT_DTA_READER
-DX_TEXTURE_RESET_HANDLER
+#endif
+DX_TEXTURE_CORRECTOR
 DX_DO_CUSTOM_TEXTURE_HANDLER
 
 #include init_dev.dta

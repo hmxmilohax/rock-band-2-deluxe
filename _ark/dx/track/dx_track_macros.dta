@@ -1,0 +1,609 @@
+#define DX_TEXTURE_CORRECTOR
+(
+   {unless $texrunonce
+      {if_else $dx_queue_stock_track
+         {do
+            {if {== $gem "rb2"} {set $gem "none"} {set $gemcustomtexture FALSE}}
+            {if {== $smasher "rb2"} {set $smasher "none"} {set $smashercustomtexture FALSE}}
+            {if {== $lanestex "rb2"} {set $lanestex "none"} {set $lanescustomtexture FALSE}}
+            {if {== $streakgtr "rb2"} {set $streakgtr "none"} {set $streakcustomtexture FALSE}}
+            {if {== $streakbass "rb2"} {set $streakbass "none"} {set $streakcustomtexture FALSE}}
+            {if {== $streakdrum "rb2"} {set $streakdrum "none"} {set $streakcustomtexture FALSE}}
+            {if {== $spotlightgtr "rb2_guitar"} {set $spotlightgtr "none"} {set $spotlightgtrcustomtexture FALSE}}
+            {if {== $spotlightbass "rb2_bass"} {set $spotlightbass "none"} {set $spotlightbasscustomtexture FALSE}}
+            {if {== $spotlightdrum "rb2_drums"} {set $spotlightdrum "none"} {set $spotlightdrumscustomtexture FALSE}}
+            {if {== $multiring "rb2"} {set $multiring "none"} {set $multiringcustomtexture FALSE}}
+            {if {== $odbar "rb2"} {set $odbar "none"} {set $odbarcustomtexture FALSE}}
+            {if {== $rails "rb2"} {set $rails "none"} {set $railscustomtexture FALSE}}
+            {if {== $flames "rb2"} {set $flames "none"} {set $flamescustomtexture FALSE}}
+            {if {== $scoretex "rb2"} {set $scoretex "none"} {set $scorecustomtexture FALSE}}
+            {if {== $stars "rb2"} {set $stars "none"} {set $starscustomtexture FALSE}}
+            {if {== $bretex "rb2"} {set $bretex "none"} {set $brecustomtexture FALSE}}
+            {if {== $voxarrow "rb2"} {set $voxarrow "none"} {set $voxarrowcustomtexture FALSE}}
+            {if {== $voxnotes "rb2"} {set $voxnotes "none"} {set $voxnotescustomtexture FALSE}}
+            {if {== $voxod "rb2"} {set $voxod "none"} {set $voxodcustomtexture FALSE}}
+            {if {== $voxhw "rb2"} {set $voxhw "none"} {set $voxhwcustomtexture FALSE}}
+         }
+         {do
+            {if {== $gem "rb2dx"} {set $gem "none"} {set $gemcustomtexture FALSE}}
+            {if {== $smasher "rb2dx"} {set $smasher "none"} {set $smashercustomtexture FALSE}}
+            {if {== $lanestex "rb2"} {set $lanestex "none"} {set $lanescustomtexture FALSE}}
+            {if {== $streakgtr "rb4"} {set $streakgtr "none"} {set $streakcustomtexture FALSE}}
+            {if {== $streakbass "rb4"} {set $streakbass "none"} {set $streakcustomtexture FALSE}}
+            {if {== $streakdrum "rb4"} {set $streakdrum "none"} {set $streakcustomtexture FALSE}}
+            {if {== $spotlightgtr "rb4"} {set $spotlightgtr "none"} {set $spotlightgtrcustomtexture FALSE}}
+            {if {== $spotlightbass "rb4"} {set $spotlightbass "none"} {set $spotlightbasscustomtexture FALSE}}
+            {if {== $spotlightdrum "rb4"} {set $spotlightdrum "none"} {set $spotlightdrumscustomtexture FALSE}}
+            {if {== $multiring "rb2dx"} {set $multiring "none"} {set $multiringcustomtexture FALSE}}
+            {if {== $odbar "rb2dx"} {set $odbar "none"} {set $odbarcustomtexture FALSE}}
+            {if {== $rails "rb2"} {set $rails "none"} {set $railscustomtexture FALSE}}
+            {if {== $flames "rb2dx"} {set $flames "none"} {set $flamescustomtexture FALSE}}
+            {if {== $scoretex "rb4"} {set $scoretex "none"} {set $scorecustomtexture FALSE}}
+            {if {== $stars "rb4"} {set $stars "none"} {set $starscustomtexture FALSE}}
+            {if {== $bretex "rb2"} {set $bretex "none"} {set $brecustomtexture FALSE}}
+            {if {== $voxarrow "rb2dx"} {set $voxarrow "none"} {set $voxarrowcustomtexture FALSE}}
+            {if {== $voxnotes "rb2dx"} {set $voxnotes "none"} {set $voxnotescustomtexture FALSE}}
+            {if {== $voxod "rb2"} {set $voxod "none"} {set $voxodcustomtexture FALSE}}
+            {if {== $voxhw "rb2"} {set $voxhw "none"} {set $voxhwcustomtexture FALSE}}
+         }
+      }
+   }
+)
+
+#define DX_TRACK_TEXTURE_HANDLER
+(
+{unless {modifier_mgr is_modifier_active mod_nohud}
+
+   {unless $texrunonce
+      ;{new Tex transparent.tex} ;the new tex doesnt save so i changed it to an unused existing tex -LX
+      {{$this find all_icons.tex} set_bitmap "track/custom_track_textures/_no_highway.png"}
+      #ifdef HX_EE
+      {{$this find smasher_wii.tex} set_bitmap "track/rails/rails_warning_rb2.png"}
+      #else
+      {{$this find smasher_plate_orange_nomip.tex} set_bitmap "track/rails/rails_warning_rb2.png"}
+      #endif
+   }
+
+   {if_else #ifdef HX_EE {gamemode get is_hth_arrangement} #else {gamemode get is_h2h_arrangement} #endif
+      {if {!= {{game get_participant_config 0} get_track_sym} vocals}
+         {if_else $nogemdividers
+            {do
+               {{{get_track_0_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}}
+               {{{get_track_1_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}}
+            }
+            {do
+               {{{get_track_0_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}}
+               {{{get_track_1_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}}
+            }
+         }
+         {{{get_track_0_panel} find track_clipping.mesh} set_showing {!= $hwalpha rb1}}
+         {{{get_track_1_panel} find track_clipping.mesh} set_showing {!= $hwalpha rb1}}
+         {if_else {== {{game get_participant_config 0} get_track_sym} drum}
+            {do
+               {{{get_track_0_panel} find smasher_plate_drum} iterate Mesh $m {$m set_showing {! $smasherbracket}}}
+               {{{get_track_1_panel} find smasher_plate_drum} iterate Mesh $m {$m set_showing {! $smasherbracket}}}
+            }
+            {do
+               {{{get_track_0_panel} find smasher_plate_guitar} iterate Mesh $m {$m set_showing {! $smasherbracket}}}
+               {{{get_track_1_panel} find smasher_plate_guitar} iterate Mesh $m {$m set_showing {! $smasherbracket}}}
+            }
+         }
+      }
+      {do
+         {if_else $nogemdividers
+            {beatmatch foreach_active_player $player
+               {switch {$player instrument}
+                  (bass {{{get_bass_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})
+                  (guitar {{{get_guitar_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})
+                  (drum {{{get_drum_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})
+               }
+            }
+            {beatmatch foreach_active_player $player
+               {switch {$player instrument}
+                  (bass {{{get_bass_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})
+                  (guitar {{{get_guitar_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})
+                  (drum {{{get_drum_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}})
+               }
+            }
+         }
+         {{{get_guitar_panel} find track_clipping.mesh} set_showing {!= $hwalpha rb1}}
+         {{{get_bass_panel} find track_clipping.mesh} set_showing {!= $hwalpha rb1}}
+         {{{get_drum_panel} find track_clipping.mesh} set_showing {!= $hwalpha rb1}}
+         {{{get_drum_panel} find smasher_plate_drum} iterate Mesh $m {$m set_showing {! $smasherbracket}}}
+         {{{get_guitar_panel} find smasher_plate_guitar} iterate Mesh $m {$m set_showing {! $smasherbracket}}}
+         {{{get_bass_panel} find smasher_plate_guitar} iterate Mesh $m {$m set_showing {! $smasherbracket}}}
+      }
+   }
+
+   {if $hwalpha_needs_reset
+      {{$this find track_reflect.tex} iterate_refs $ref {$ref set intensify {== $hwalpha off}}}
+      {{$this find background.tex} iterate_refs $ref {$ref set intensify {== $hwalpha off}}}
+      {{$this find black.tex} iterate_refs $ref {$ref set intensify {== $hwalpha off}}}      
+   }
+
+   #ifndef HX_EE
+   {if $highwaycustomtexture
+      {{$this find track_reflect_warning.tex} set_bitmap {sprint "track_new/highways/" $highwaygtr ".png"}}
+      {{$this find background.tex} set_bitmap {sprint "track_new/highways/" $highwaybass ".png"}}
+      {{$this find black.tex} set_bitmap {sprint "track_new/highways/" $highwaydrum ".png"}}
+      {unless {gamemode get is_h2h_arrangement}
+         {beatmatch foreach_active_player $player
+            {switch {$player instrument}
+               (bass {{{get_bass_panel} find surface.mat} set emissive_map {$this find background.tex}})
+               (drum {{{get_drum_panel} find surface.mat} set emissive_map {$this find black.tex}})
+            }
+         }
+      }
+   }
+   #endif
+
+   {if $voxhwcustomtexture 
+      {{$this find vocal_bg.tex} set_bitmap {sprint "track/voxhw/vocal_bg_" $voxhw ".png"}}
+   }
+
+   {if $brecustomtexture
+      {{$this find blossom.tex} set_bitmap {sprint "track_new/bre/blossom_" $bretex ".png"}}
+      {{$this find bre_black_wing.tex} set_bitmap {sprint "track_new/bre/bre_black_wing_" $bretex ".png"}}
+      {{$this find bre_shield.tex} set_bitmap {sprint "track_new/bre/bre_shield_" $bretex ".png"}}
+   }
+
+   {if $gemcustomtexture
+      #ifdef HX_EE
+      {{$this find prism_gems.tex} set_bitmap {sprint "track_ps2/gems/prism_gems_" $gem ".png"}}
+      {{$this find prism_gems_lod.tex} set_bitmap {sprint "track_ps2/gems/prism_gems_lod_" $gem ".png"}}
+      #else
+      {{$this find prism_gems.tex} set_bitmap {sprint "track/gems/prism_gems_" $gem ".png"}}
+	   {{$this find prism_gem_emissive.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_" $gem ".png"}}
+	   {{$this find prism_gem_emissive_3_player.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_3_player_" $gem ".png"}}
+	   {{$this find prism_gem_emissive_dynamic.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_dynamic_" $gem ".png"}}
+	   {{$this find prism_gem_emissive_dynamic_red.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_dynamic_red_" $gem ".png"}}
+	   {{$this find prism_green.tex} set_bitmap {sprint "track/gems/prism_green_" $gem ".png"}}
+	   {{$this find prism_red.tex} set_bitmap {sprint "track/gems/prism_red_" $gem ".png"}}
+      {{$this find prism_spotlight.tex} set_bitmap {sprint "track/gems/prism_spotlight_" $gem ".png"}}
+      #endif
+   }
+
+   {if $smashercustomtexture
+      #ifdef HX_EE
+      {{$this find smasher_color_ps2.tex} set_bitmap {sprint "track_ps2/smashers/smasher_color_" $smasher ".png"}}
+      {{$this find smasher_ps2.tex} set_bitmap {sprint "track_ps2/smashers/smasher_" $smasher ".png"}}
+      {{$this find square_smasher_bright.tex} set_bitmap {sprint "track_ps2/smashers/square_smasher_bright_" $smasher ".png"}}
+      {{$this find smasher_color_ps2.tex} iterate_refs $ref {$ref set alpha_cut true}}
+      {{$this find smasher_ps2.tex} iterate_refs $ref {$ref set alpha_cut true}}
+      {{$this find square_smasher_bright.tex} iterate_refs $ref {$ref set alpha_cut true}}
+      #else
+      {{$this find black_smasher_blue_nomip.tex} set_bitmap {sprint "track_new/smashers/black_smasher_blue_" $smasher ".png"}}
+      {{$this find black_smasher_green_nomip.tex} set_bitmap {sprint "track_new/smashers/black_smasher_green_" $smasher ".png"}}
+      {{$this find black_smasher_norm.tex} set_bitmap {sprint "track_new/smashers/black_smasher_norm_" $smasher ".png"}}
+      {{$this find black_smasher_spec.tex} set_bitmap {sprint "track_new/smashers/black_smasher_spec_" $smasher ".png"}}
+      {{$this find black_smasher_norm_drums.tex} set_bitmap {sprint "track_new/smashers/black_smasher_norm_drums_" $smasher ".png"}}
+      {{$this find black_smasher_orange_nomip.tex} set_bitmap {sprint "track_new/smashers/black_smasher_orange_" $smasher ".png"}}
+      {{$this find black_smasher_red_nomip.tex} set_bitmap {sprint "track_new/smashers/black_smasher_red_" $smasher ".png"}}
+      {{$this find black_smasher_yellow_nomip.tex} set_bitmap {sprint "track_new/smashers/black_smasher_yellow_" $smasher ".png"}}
+      {{$this find square_smasher_bright_blue.tex} set_bitmap {sprint "track_new/smashers/square_smasher_bright_blue_" $smasher ".png"}}
+      {{$this find square_smasher_bright_green.tex} set_bitmap {sprint "track_new/smashers/square_smasher_bright_green_" $smasher ".png"}}
+      {{$this find square_smasher_bright_orange.tex} set_bitmap {sprint "track_new/smashers/square_smasher_bright_orange_" $smasher ".png"}}
+      {{$this find square_smasher_bright_red.tex} set_bitmap {sprint "track_new/smashers/square_smasher_bright_red_" $smasher ".png"}}
+      {{$this find square_smasher_bright_yellow.tex} set_bitmap {sprint "track_new/smashers/square_smasher_bright_yellow_" $smasher ".png"}}
+      {{$this find flare_green.tex} set_bitmap {sprint "track_new/smashers/flare_green_" $smasher ".png"}}
+      {{$this find flare_red.tex} set_bitmap {sprint "track_new/smashers/flare_red_" $smasher ".png"}}
+      {{$this find flare_yellow.tex} set_bitmap {sprint "track_new/smashers/flare_yellow_" $smasher ".png"}}
+      {{$this find flare_blue.tex} set_bitmap {sprint "track_new/smashers/flare_blue_" $smasher ".png"}}
+      {{$this find flare_orange.tex} set_bitmap {sprint "track_new/smashers/flare_orange_" $smasher ".png"}}
+      {{$this find flare_style.tex} set_bitmap {sprint "track_new/smashers/flare_style_" $smasher ".png"}}
+      #endif
+   }
+
+   {if $flamescustomtexture
+      {{$this find radial_shockwave.tex} set_bitmap {sprint "track_new/flames/radial_shockwave_" $flames ".png"}}
+      {{$this find radial_shockwave_subtract.tex} set_bitmap {sprint "track_new/flames/radial_shockwave_subtract_" $flames ".png"}}
+      {{$this find shockwave.tex} set_bitmap {sprint "track_new/flames/shockwave_" $flames ".png"}}
+      #ifndef HX_EE
+      {{$this find flare_orange_kick_smasher.tex} set_bitmap {sprint "track_new/flames/flare_orange_kick_smasher_" $flames ".png"}}
+      #endif
+      {{$this find flare_light_can_star.tex} set_bitmap {sprint "track_new/flames/flare_light_can_star_" $flames ".png"}}
+      {{$this find broken_glass01.tex} set_bitmap {sprint "track_new/flames/broken_glass01_" $flames ".png"}}
+      {{$this find broken_glass02.tex} set_bitmap {sprint "track_new/flames/broken_glass02_" $flames ".png"}}
+      {{$this find gem_cap.tex} set_bitmap {sprint "track_new/flames/gem_cap_" $flames ".png"}}
+      {{$this find spark.tex} set_bitmap {sprint "track_new/flames/sparks_" $flames ".png"}}
+      {{$this find sparks.tex} set_bitmap {sprint "track_new/flames/sparks_" $flames ".png"}}
+   }
+
+   #ifndef HX_EE
+   {if $lanescustomtexture
+      {{$this find gem_mash_green_emmisive.tex} set_bitmap {sprint "track/lanes/gem_mash_green_" $lanestex ".png"}}
+      {{$this find gem_mash_red_emmisive.tex} set_bitmap {sprint "track/lanes/gem_mash_red_" $lanestex ".png"}}
+      {{$this find gem_mash_yellow_emmisive.tex} set_bitmap {sprint "track/lanes/gem_mash_yellow_" $lanestex ".png"}}
+      {{$this find gem_mash_blue_emmisive.tex} set_bitmap {sprint "track/lanes/gem_mash_blue_" $lanestex ".png"}}
+      {{$this find gem_mash_orange_emmisive.tex} set_bitmap {sprint "track/lanes/gem_mash_orange_" $lanestex ".png"}}
+   }
+   #endif
+   
+   {if $voxarrowcustomtexture
+      {{$this find pitch_arrow_split.tex} set_bitmap {sprint "track/voxarrow/pitch_arrow_split_" $voxarrow ".png"}}
+      {{$this find pitch_arrow_effect.tex} set_bitmap {sprint "track/voxarrow/pitch_arrow_effect_" $voxarrow ".png"}}
+   }
+   
+   {if $voxnotescustomtexture
+	   {{$this find 3d_tube_pitched.tex} set_bitmap {sprint "track/voxnotes/3d_tube_pitched_" $voxnotes ".png"}}
+	   {{$this find tube_1.tex} set_bitmap {sprint "track/voxnotes/3d_tube_pitched_star_anim1_" $voxnotes ".png"}}
+	   {{$this find tube_2.tex} set_bitmap {sprint "track/voxnotes/3d_tube_pitched_star_anim2_" $voxnotes ".png"}}
+	   {{$this find tube_3.tex} set_bitmap {sprint "track/voxnotes/3d_tube_pitched_star_anim3_" $voxnotes ".png"}}
+	   {{$this find tube_4.tex} set_bitmap {sprint "track/voxnotes/3d_tube_pitched_star_anim4_" $voxnotes ".png"}}
+   }
+   
+   {if $voxodcustomtexture
+	   {{$this find sunburst.tex} set_bitmap {sprint "track/voxod/sunburst_" $voxod ".png"}}
+	   {{$this find freestyle_nowbar_FX.tex} set_bitmap {sprint "track/voxod/vox_now_bar_effect_" $voxod ".png"}}
+   }
+
+   {if $scorecustomtexture
+      {{$this find indv_player_meter_circle.tex} set_bitmap {sprint "track/score/indv_player_meter_circle_" $scoretex ".png"}}
+      {{$this find indv_player_meter_glass.tex} set_bitmap {sprint "track/score/indv_player_meter_glass_" $scoretex ".png"}}
+	   {{$this find indv_player_meter_glow.tex} set_bitmap {sprint "track/score/indv_player_meter_glow_" $scoretex ".png"}}
+	   {{$this find indv_player_meter.png} set_bitmap {sprint "track/score/indv_player_meter_" $scoretex ".png"}}
+   }
+
+   {if $starscustomtexture
+      {{$this find star_sheet.tex} set_bitmap {sprint "track/stars/star_power_" $stars ".png"}}
+      {{$this find score_meter_wipe.tex} set_bitmap {sprint "track/stars/score_meter_wipe_" $stars ".png"}}
+      #ifdef HX_EE
+      {{$this find score_meter_wipe.tex} iterate_refs $ref {$ref set color {pack_color 1.0 1.0 1.0}}}
+      #endif
+   }
+
+   {if $odbarcustomtexture
+      {{$this find rb2_player_meter_background.tex} set_bitmap {sprint "track/overdrive_bar/player_meter_background_" $odbar ".png"}}
+      {{$this find player_meter_long.tex} set_bitmap {sprint "track/overdrive_bar/player_meter_long_" $odbar ".png"}}
+	   {{$this find rising_sun_fx_small.tex} set_bitmap {sprint "track/overdrive_bar/rising_sun_fx_small_" $odbar ".png"}}
+      {{$this find indv_player_meter_bar.tex} set_bitmap {sprint "track/overdrive_bar/indv_player_meter_bar_" $odbar ".png"}}
+   }
+
+   {if $multiringcustomtexture
+      {{$this find multiplier_cap_glass_vox.tex} set_bitmap {sprint "track/multiplier_ring/multiplier_cap_glass_vox_" $multiring ".png"}}
+      {{$this find multiplier_meter_glow.tex} set_bitmap {sprint "track/multiplier_ring/multiplier_meter_glow_" $multiring ".png"}}
+      {{$this find multiplier_meter.tex} set_bitmap {sprint "track/multiplier_ring/multiplier_meter_" $multiring ".png"}}
+      {{$this find multiplier_meter_solid..tex} set_bitmap {sprint "track/multiplier_ring/multiplier_meter_solid_" $multiring ".png"}}
+   }
+
+   {if $streakcustomtexture
+      {unless {== $streakbass none}
+         {{$this find bass_superstreak_pattern.tex} set_bitmap {sprint "track_new/streak/" $streakbass ".png"}}
+      }
+      #ifndef HX_EE ; streak is currently unavailable for g/d on ps2
+      {if_else {&& {!= $streakbass none} {== $streakgtr none}}
+         {do
+            {set $streakgtr "rb2"}
+            {{$this find pitch_arrow_effect_old.tex} set_bitmap {sprint "track_new/streak/" $streakgtr ".png"}}
+         }
+         {unless {== $streakgtr none}
+            {{$this find pitch_arrow_effect_old.tex} set_bitmap {sprint "track_new/streak/" $streakgtr ".png"}}
+         }
+      }
+      {if_else {&& {!= $streakbass none} {== $streakdrum none}}
+         {do
+            {set $streakdrum "rb2"}
+            {{$this find smasher_plate_orange_emiss_nomip.tex} set_bitmap {sprint "track_new/streak/" $streakdrum ".png"}}
+         }
+         {unless {== $streakdrum none}
+            {{$this find smasher_plate_orange_emiss_nomip.tex} set_bitmap {sprint "track_new/streak/" $streakdrum ".png"}}
+         }
+      }
+      {if_else {gamemode get is_h2h_arrangement}
+         {if_else {== {{game get_participant_config 0} get_track_sym} guitar}
+            {do
+               {{{get_track_0_panel} find bass_superstreak.mat} set diffuse_tex {$this find pitch_arrow_effect_old.tex}}
+               {{{get_track_1_panel} find bass_superstreak.mat} set diffuse_tex {$this find pitch_arrow_effect_old.tex}}
+            }
+            {if {== {{game get_participant_config 0} get_track_sym} drum}
+               {{{get_track_0_panel} find bass_superstreak.mat} set diffuse_tex {$this find smasher_plate_orange_emiss_nomip.tex}}
+               {{{get_track_1_panel} find bass_superstreak.mat} set diffuse_tex {$this find smasher_plate_orange_emiss_nomip.tex}}
+            }
+         }
+         {beatmatch foreach_active_player $player
+            {switch {$player instrument}
+               (guitar {unless {== $streakgtr none} {{{get_guitar_panel} find bass_superstreak.mat} set diffuse_tex {$this find pitch_arrow_effect_old.tex}}})
+               (drum {unless {== $streakdrum none} {{{get_drum_panel} find bass_superstreak.mat} set diffuse_tex {$this find smasher_plate_orange_emiss_nomip.tex}}})
+            }
+         }
+      }
+      #endif
+   }
+
+   {if $railscustomtexture
+      {{$this find rails.tex} set_bitmap {sprint "track/rails/rails_" $rails ".png"}}
+      #ifdef HX_EE
+      {{$this find smasher_wii.tex} set_bitmap {sprint "track/rails/rails_warning_" $rails ".png"}}
+      #else
+      {{$this find smasher_plate_orange_nomip.tex} set_bitmap {sprint "track/rails/rails_warning_" $rails ".png"}}
+      #endif
+      {set $railsset TRUE}
+   }
+   
+   {if $railsset
+      {{$this find rails.tex} iterate_refs $ref {$ref set intensify {!= $rails "rb2"}}}
+      #ifdef HX_EE
+      {{$this find smasher_wii.tex} iterate_refs $ref {$ref set intensify {!= $rails "rb2"}}}
+      #else
+      {{$this find smasher_plate_orange_nomip.tex} iterate_refs $ref {$ref set intensify {!= $rails "rb2"}}}
+      #endif
+      {if {== $rails none}
+         {{$this find rails.tex} iterate_refs $ref {$ref set intensify FALSE}}
+         #ifdef HX_EE
+         {{$this find smasher_wii.tex} iterate_refs $ref {$ref set intensify FALSE}}
+         #else
+         {{$this find smasher_plate_orange_nomip.tex} iterate_refs $ref {$ref set intensify FALSE}}
+         #endif
+      }
+   }
+
+   {if $spotlightgtrcustomtexture
+      #ifdef HX_EE
+      {{$this find spotlight_guitar_track.tex} set_bitmap {sprint "track_ps2/spotlight/" $spotlightgtr ".png"}}
+      #else
+      {{$this find spotlight_guitar_track.tex} set_bitmap {sprint "track_new/spotlight/" $spotlightgtr ".png"}}
+      ;{{$this find spotlight_guitar_track.tex} iterate_refs $ref {$ref set color {pack_color 1 0 0}}}
+      ; will implement when im done being lazy
+      {if_else {exists {sprint "track_new/spotlight/" $spotlightgtr "_emissive.png"}}
+         {do
+            {{$this find spotlight_guitar_track_emmissive.tex} set_bitmap {sprint "track_new/spotlight/" $spotlightgtr "_emissive.png"}}
+         }
+         {do
+            {{$this find spotlight_guitar_track_emmissive.tex} set_bitmap "track/custom_track_textures/_no_highway.png"}
+         }
+      }
+      #endif
+   }
+   
+   {if $spotlightbasscustomtexture
+      #ifdef HX_EE
+      {{$this find spotlight_bass_track.tex} set_bitmap {sprint "track_ps2/spotlight/" $spotlightbass ".png"}}
+      #else
+      {{$this find spotlight_bass_track.tex} set_bitmap {sprint "track_new/spotlight/" $spotlightbass ".png"}}
+      ;{{$this find spotlight_bass_track.tex} iterate_refs $ref {$ref set color {pack_color 1 0 0}}}
+      ; will implement when im done being lazy
+      {if_else {exists {sprint "track_new/spotlight/" $spotlightbass "_emissive.png"}}
+         {do
+            {{$this find spotlight_bass_track_emissive.tex} set_bitmap {sprint "track_new/spotlight/" $spotlightbass "_emissive.png"}}
+         }
+         {do
+            {{$this find spotlight_bass_track_emissive.tex} set_bitmap "track/custom_track_textures/_no_highway.png"}
+         }
+      }
+      #endif
+   }
+   
+   {if $spotlightdrumcustomtexture
+      #ifdef HX_EE
+      {{$this find spotlight_drums_track.tex} set_bitmap {sprint "track_ps2/spotlight/" $spotlightdrum ".png"}}
+      #else
+      {{$this find spotlight_drums_track.tex} set_bitmap {sprint "track_new/spotlight/" $spotlightdrum ".png"}}
+      ;{{$this find spotlight_drums_track.tex} iterate_refs $ref {$ref set color {pack_color 1 0 0}}}
+      ; will implement when im done being lazy
+      #endif
+   }
+
+;after all of the queued texture updates are completed, set them to false so they do not run again until a new texture is queued via overshell
+#ifndef HX_EE ; ps2 resets textures once the track is unloaded, so dont do this there
+{set $voxhwcustomtexture FALSE}
+;{set $hwalpha_needs_reset FALSE}
+{set $highwaycustomtexture FALSE}
+{set $brecustomtexture FALSE}
+{set $gemcustomtexture FALSE}
+{set $smashercustomtexture FALSE}
+{set $lanescustomtexture FALSE}
+{set $voxarrowcustomtexture FALSE}
+{set $voxnotescustomtexture FALSE}
+{set $voxodcustomtexture FALSE}
+{set $scorecustomtexture FALSE}
+{set $starscustomtexture FALSE}
+{set $odbarcustomtexture FALSE}
+{set $railscustomtexture FALSE}
+{set $flamescustomtexture FALSE}
+{set $multiringcustomtexture FALSE}
+{set $streakcustomtexture FALSE}
+{set $spotlightgtrcustomtexture FALSE}
+{set $spotlightbasscustomtexture FALSE}
+{set $spotlightdrumcustomtexture FALSE}
+{set $texrunonce TRUE}
+#endif
+}
+)
+
+#define DX_DO_CUSTOM_TEXTURE_HANDLER
+(
+
+{unless {== $gem none} {set $gemcustomtexture TRUE}}
+
+{unless {== $smasher none} {set $smashercustomtexture TRUE}}
+
+{unless {== $lanestex none} set $lanescustomtexture TRUE}
+
+{unless {== $highwaygtr _1_none} {set $highwaycustomtexture TRUE}}
+
+{unless {== $highwaybass _1_none} {set $highwaycustomtexture TRUE}}
+
+{unless {== $highwaydrum _1_none} {set $highwaycustomtexture TRUE}}
+
+{unless {== $streakgtr none} {set $streakcustomtexture TRUE}}
+
+{unless {== $streakbass none} {set $streakcustomtexture TRUE}}
+
+{unless {== $streakdrum none} {set $streakcustomtexture TRUE}}
+
+{unless {== $spotlightgtr none} {set $spotlightgtrcustomtexture TRUE}}
+
+{unless {== $spotlightbass none} {set $spotlightbasscustomtexture TRUE}}
+
+{unless {== $spotlightdrum none} {set $spotlightdrumcustomtexture TRUE}}
+
+{unless {== $multiring none} {set $multiringcustomtexture TRUE}}
+
+{unless {== $odbar none} {set $odbarcustomtexture TRUE}}
+
+{unless {== $rails none} {set $railscustomtexture TRUE}}
+
+{unless {== $flames none} {set $flamescustomtexture TRUE}}
+
+{unless {== $scoretex none} {set $scorecustomtexture TRUE}}
+
+{unless {== $stars none} {set $starscustomtexture TRUE}}
+
+{unless {== $bretex none} {set $brecustomtexture TRUE}}
+
+{unless {== $voxarrow none} {set $voxarrowcustomtexture TRUE}}
+
+{unless {== $voxnotes none} {set $voxnotescustomtexture TRUE}}
+
+{unless {== $voxod none} {set $voxodcustomtexture TRUE}}
+
+{unless {== $voxhw none} {set $voxhwcustomtexture TRUE}}
+
+)
+
+#define DX_CALLBACK_SETUP
+(
+{if_else {gamemode get is_h2h_arrangement}
+   {unless {== {{game get_participant_config 0} get_track_sym} vocals}
+      {beatmatch foreach_active_player $player ;handle adding the appropriate callbacks to each player
+         {if_else {== {$player track} track0}
+         {$player add_sink fc_track_0_callback (hit miss pass check_fc check_missed do_customhw do_customhw_warn_off do_customhw_streak do_streak do_groove num_gems_hit num_gems_combo num_gems_miss num_gems_pass)}
+         {$player add_sink fc_track_1_callback (hit miss pass check_fc check_missed do_customhw do_customhw_warn_off do_customhw_streak do_streak do_groove num_gems_hit num_gems_combo num_gems_miss num_gems_pass)}
+         }
+      }
+   }
+   {beatmatch foreach_active_player $player ;handle adding the appropriate callbacks to each player
+      {switch {$player instrument}
+         (bass {$player add_sink fc_bass_callback (hit miss pass check_fc check_missed do_customhw do_customhw_warn_off do_customhw_warn_on do_customhw_streak do_warning do_rail_warning do_streak do_groove num_gems_hit num_gems_combo num_gems_miss num_gems_pass)})
+         (guitar {$player add_sink fc_guitar_callback (hit miss pass check_fc check_missed do_customhw do_customhw_warn_off do_customhw_warn_on do_customhw_streak do_warning do_rail_warning do_streak do_groove num_gems_hit num_gems_combo num_gems_miss num_gems_pass)})
+         (drum {$player add_sink fc_drum_callback (hit miss pass check_fc check_missed do_customhw do_customhw_warn_off do_customhw_warn_on do_customhw_streak do_warning do_rail_warning do_streak do_groove num_gems_hit num_gems_combo num_gems_miss num_gems_pass)})
+      }
+   }
+}
+)
+
+#define DX_FC_SETUP
+(
+{if_else {gamemode get is_h2h_arrangement}
+   {unless {== {{game get_participant_config 0} get_track_sym} vocals}
+      {if_else {== {{game get_participant_config 0} get_track_sym} guitar}
+         {unless {== $highwaygtr "_1_none"}
+            {{{get_track_0_panel} find indv_player_warning_off.trig} trigger}
+            {{{get_track_1_panel} find indv_player_warning_off.trig} trigger}
+         }
+         {if_else {== {{game get_participant_config 0} get_track_sym} bass}
+            {unless {== $highwaybass "_1_none"}
+               {{{get_track_0_panel} find indv_player_warning_off.trig} trigger}
+               {{{get_track_1_panel} find indv_player_warning_off.trig} trigger}
+            }
+            {unless {== $highwaydrum "_1_none"}
+               {{{get_track_0_panel} find indv_player_warning_off.trig} trigger}
+               {{{get_track_1_panel} find indv_player_warning_off.trig} trigger}
+            }
+         }
+      }
+      {{{get_track_0_panel} find streak_meter} star_deploy}
+      {{{get_track_1_panel} find streak_meter} star_deploy}
+      {if_else {== {{game get_participant_config 0} get_track_sym} guitar}
+         {unless {== $highwaygtr "_1_none"}
+            {{{get_track_0_panel} find indv_player_warning.trig} trigger}
+            {{{get_track_0_panel} find warning_track_emissive.anim} stop_animation}
+            {{{get_track_0_panel} find warning_track_emissive.anim} set_frame 15.0}
+            ;{{{get_track_0_panel} find surface.mat} set emissive_map {$this find track_reflect.tex}}
+            {{{get_track_1_panel} find indv_player_warning.trig} trigger}
+            {{{get_track_1_panel} find warning_track_emissive.anim} stop_animation}
+            {{{get_track_1_panel} find warning_track_emissive.anim} set_frame 15.0}
+            ;{{{get_track_1_panel} find surface.mat} set emissive_map {$this find track_reflect.tex}}
+
+         }
+         {if_else {== {{game get_participant_config 0} get_track_sym} bass}
+            {unless {== $highwaybass "_1_none"}
+               {{{get_track_0_panel} find indv_player_warning.trig} trigger}
+               {{{get_track_0_panel} find warning_track_emissive.anim} stop_animation}
+               {{{get_track_0_panel} find warning_track_emissive.anim} set_frame 15.0}
+               {{{get_track_0_panel} find surface.mat} set emissive_map {$this find background.tex}}
+               {{{get_track_1_panel} find indv_player_warning.trig} trigger}
+               {{{get_track_1_panel} find warning_track_emissive.anim} stop_animation}
+               {{{get_track_1_panel} find warning_track_emissive.anim} set_frame 15.0}
+               {{{get_track_1_panel} find surface.mat} set emissive_map {$this find background.tex}}
+            }
+            {unless {== $highwaydrum "_1_none"}
+               {{{get_track_0_panel} find indv_player_warning.trig} trigger}
+               {{{get_track_0_panel} find warning_track_emissive.anim} stop_animation}
+               {{{get_track_0_panel} find warning_track_emissive.anim} set_frame 15.0}
+               {{{get_track_0_panel} find surface.mat} set emissive_map {$this find black.tex}}
+               {{{get_track_1_panel} find indv_player_warning.trig} trigger}
+               {{{get_track_1_panel} find warning_track_emissive.anim} stop_animation}
+               {{{get_track_1_panel} find warning_track_emissive.anim} set_frame 15.0}
+               {{{get_track_1_panel} find surface.mat} set emissive_map {$this find black.tex}}
+            }
+         }
+      }
+   }
+   {do
+      {unless {== $highwaygtr "_1_none"}
+         {beatmatch foreach_active_player $player 
+            {switch {$player instrument}
+               (guitar
+                  {{{{get_track_panel} find guitar} find indv_player_warning_off.trig} trigger}
+                  {{{{get_track_panel} find guitar} find warning_track_emissive.anim} animate}
+               )
+            }
+         }
+      }
+      {unless {== $highwaybass "_1_none"}
+         {beatmatch foreach_active_player $player 
+            {switch {$player instrument}
+               (bass
+                  {{{{get_track_panel} find bass} find indv_player_warning_off.trig} trigger}
+                  {{{{get_track_panel} find bass} find warning_track_emissive.anim} animate}
+               )
+            }
+         }
+      }
+      {unless {== $highwaydrum "_1_none"}
+         {beatmatch foreach_active_player $player 
+            {switch {$player instrument}
+               (drum
+                  {{{{get_track_panel} find drum} find indv_player_warning_off.trig} trigger}
+                  {{{{get_track_panel} find drum} find warning_track_emissive.anim} animate}
+               )
+            }
+         }
+      }
+      {beatmatch foreach_active_player $player 
+         {switch {$player instrument}
+            (bass
+               {{{{get_track_panel} find bass} find streak_meter} star_deploy}
+               {unless {== $highwaybass "_1_none"}
+                  {{{{get_track_panel} find bass} find indv_player_warning.trig} trigger}
+                  {{{{get_track_panel} find bass} find warning_track_emissive.anim} stop_animation}
+                  {{{{get_track_panel} find bass} find warning_track_emissive.anim} set_frame 15.0}
+                  {{{get_bass_panel} find surface.mat} set emissive_map {$this find background.tex}}
+               }
+               {{{{get_track_panel} find bass} find rails.mat} set diffuse_tex {{get_track_panel} find rails.tex}}
+            )
+            (guitar
+               {{{{get_track_panel} find guitar} find streak_meter} star_deploy}
+               {unless {== $highwaygtr "_1_none"}
+                  {{{{get_track_panel} find guitar} find indv_player_warning.trig} trigger}
+                  {{{{get_track_panel} find guitar} find warning_track_emissive.anim} stop_animation}
+                  {{{{get_track_panel} find guitar} find warning_track_emissive.anim} set_frame 15.0}
+               }
+               {{{{get_track_panel} find guitar} find rails.mat} set diffuse_tex {{get_track_panel} find rails.tex}}
+            )
+            (drum
+               {{{{get_track_panel} find drum} find streak_meter} star_deploy}
+               {unless {== $highwaydrum "_1_none"}
+                  {{{{get_track_panel} find drum} find indv_player_warning.trig} trigger}
+                  {{{{get_track_panel} find drum} find warning_track_emissive.anim} stop_animation}
+                  {{{{get_track_panel} find drum} find warning_track_emissive.anim} set_frame 15.0}
+                  {{{get_drum_panel} find surface.mat} set emissive_map {$this find black.tex}}
+               }
+               {{{{get_track_panel} find drum} find rails.mat} set diffuse_tex {{get_track_panel} find rails.tex}}
+            )
+         }
+      }
+   }
+}
+)

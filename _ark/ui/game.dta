@@ -71,10 +71,9 @@
             {handle
                ($this intro_start)}}})
    (intro_start
-      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
-      {set $bass_groove_active FALSE} {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
-	  {set $drum_groove_active FALSE}
-	  {set $guitar_groove_active FALSE}
+      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE} {set $track_0_milosong FALSE} {set $track_1_milosong FALSE}
+      {set $bass_groove_active FALSE} {set $drum_groove_active FALSE} {set $guitar_groove_active FALSE} {set $track_0_groove_active FALSE} {set $track_1_groove_active FALSE}
+      {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE} {set $track_0_firstnote FALSE} {set $track_1_firstnote FALSE}
       {script_task
          kTaskSeconds
          (delay
@@ -106,10 +105,9 @@
             {world_panel set_showing FALSE}}
 	 kDataUnhandled)
    (intro_end
-      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
-      {set $bass_groove_active FALSE} {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
-	  {set $drum_groove_active FALSE}
-	  {set $guitar_groove_active FALSE}
+      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE} {set $track_0_milosong FALSE} {set $track_1_milosong FALSE}
+      {set $bass_groove_active FALSE} {set $drum_groove_active FALSE} {set $guitar_groove_active FALSE} {set $track_0_groove_active FALSE} {set $track_1_groove_active FALSE}
+      {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE} {set $track_0_firstnote FALSE} {set $track_1_firstnote FALSE}
      {handle
          ($this on_extend)}
 	  {if {modifier_mgr is_modifier_active mod_blackvenue}
@@ -131,10 +129,9 @@
 	  }
    kDataUnhandled)
    (intro_skip
-      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
-      {set $bass_groove_active FALSE} {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
-	  {set $drum_groove_active FALSE}
-	  {set $guitar_groove_active FALSE}
+      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE} {set $track_0_milosong FALSE} {set $track_1_milosong FALSE}
+      {set $bass_groove_active FALSE} {set $drum_groove_active FALSE} {set $guitar_groove_active FALSE} {set $track_0_groove_active FALSE} {set $track_1_groove_active FALSE}
+      {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE} {set $track_0_firstnote FALSE} {set $track_1_firstnote FALSE}
 	  {if {modifier_mgr is_modifier_active mod_blackvenue}
          {if {! $already_restarted} ;cheap attempt to fix the "notes too quick bug" by restarting once automatically on initial song start, this should work all the time
             {do
@@ -150,10 +147,9 @@
          {beatmatch set_intro_real_time 0}}
       kDataUnhandled)
    (music_start
-      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
-      {set $bass_groove_active FALSE} {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
-	  {set $drum_groove_active FALSE}
-	  {set $guitar_groove_active FALSE}
+      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE} {set $track_0_milosong FALSE} {set $track_1_milosong FALSE}
+      {set $bass_groove_active FALSE} {set $drum_groove_active FALSE} {set $guitar_groove_active FALSE} {set $track_0_groove_active FALSE} {set $track_1_groove_active FALSE}
+      {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE} {set $track_0_firstnote FALSE} {set $track_1_firstnote FALSE}
       {ui music_start}
       kDataUnhandled)
    (beat
@@ -176,10 +172,9 @@
       kDataUnhandled)
    (game_over
       {if $already_restarted {{{{gamemode get track_panel} find mtv_overlay} find fade.anim} set_frame 0}} ;remove MTV overlay when track disappears, but only if it's already been restarted by script
-      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
-      {set $bass_groove_active FALSE} {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
-	  {set $drum_groove_active FALSE}
-	  {set $guitar_groove_active FALSE}
+      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE} {set $track_0_milosong FALSE} {set $track_1_milosong FALSE}
+      {set $bass_groove_active FALSE} {set $drum_groove_active FALSE} {set $guitar_groove_active FALSE} {set $track_0_groove_active FALSE} {set $track_1_groove_active FALSE}
+      {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE} {set $track_0_firstnote FALSE} {set $track_1_firstnote FALSE}
       {stagekit_reset}
       {beatmatch
          foreach_active_player
@@ -233,10 +228,9 @@
                {beatmatch set_paused TRUE}})}
       kDataUnhandled)
    (game_outro
-      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
-      {set $bass_groove_active FALSE} {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
-	  {set $drum_groove_active FALSE}
-	  {set $guitar_groove_active FALSE}
+      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE} {set $track_0_milosong FALSE} {set $track_1_milosong FALSE}
+      {set $bass_groove_active FALSE} {set $drum_groove_active FALSE} {set $guitar_groove_active FALSE} {set $track_0_groove_active FALSE} {set $track_1_groove_active FALSE}
+      {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE} {set $track_0_firstnote FALSE} {set $track_1_firstnote FALSE}
       {beatmatch
          foreach_active_player
          $p
@@ -561,9 +555,9 @@
 	  ;{session send_msg_to_all {` (set $temproygb $leaderroygb) kNetReliable}}
 	  ;{session send_msg_to_all {` (if_else {! $netroygb} {modifier_mgr deactivate_modifier mod_roygb} {modifier_mgr activate_modifier mod_roygb}) kNetReliable}}
 ;set up the FC indicator here
-      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
-	  {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
-	  {set $drum_groove_active FALSE} {set $guitar_groove_active FALSE} {set $bass_groove_active FALSE}
+      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE} {set $track_0_milosong FALSE} {set $track_1_milosong FALSE}
+      {set $bass_groove_active FALSE} {set $drum_groove_active FALSE} {set $guitar_groove_active FALSE} {set $track_0_groove_active FALSE} {set $track_1_groove_active FALSE}
+      {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE} {set $track_0_firstnote FALSE} {set $track_1_firstnote FALSE}
 ;setup for venue fps
 DX_FPS_SETUP
 ;set all players to autoplay if the modifier is active
@@ -619,9 +613,9 @@ DX_FPS_SETUP
          {gamemode get game_input_limit_type}}
       {$this milo_setup})   
    (exit
-      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
-      {set $bass_groove_active FALSE} {set $drum_groove_active FALSE} {set $guitar_groove_active FALSE}
-      {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
+      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE} {set $track_0_milosong FALSE} {set $track_1_groove_active FALSE}
+      {set $bass_groove_active FALSE} {set $drum_groove_active FALSE} {set $guitar_groove_active FALSE} {set $track_0_groove_active FALSE} {set $track_1_groove_active FALSE}
+      {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE} {set $track_0_firstnote FALSE} {set $track_1_firstnote FALSE}
       {platform_mgr remove_sink $this ui_changed}
       {synth stop_playback_all_mics}
       {if

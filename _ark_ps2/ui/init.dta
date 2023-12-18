@@ -1,0 +1,55 @@
+#define TOUR_LOGGING
+(1)
+#include global.dta
+#include cheats_funcs.dta
+#include game.dta
+#include meta.dta
+#include meta_loading.dta
+#include network_connect.dta
+#include main/main.dta
+#include main/main_dialogs.dta
+#include loading.dta
+#include matchmaking.dta
+#include matchmaking_band.dta
+#include matchmaking_hth.dta
+#include pause.dta
+#include endgame/endgame.dta
+#include lose.dta
+#ifndef HX_XBOX
+#include naming_screen.dta
+#include tour_og.dta
+#include tour_solo_og.dta
+#include tour_band_og.dta
+#else
+#include tour.dta
+#include tour_solo.dta
+#include tour_band.dta
+#include shop.dta
+#include invite_friends.dta
+#include net_delegator.dta
+#include stage_kit.dta
+#endif
+#include selsong.dta
+#include seltrack.dta
+#include seldiff.dta
+#include calibration.dta
+#include options.dta
+#include options_audio.dta
+#include options_vocal.dta
+#include options_video.dta
+#include practice/training.dta
+#include charcreator.dta
+#include ../drum_trainer/drum_trainer.dta
+#include saveload.dta
+#include leaderboards.dta
+#include modifiers_screen.dta
+#include tour_challenge/tour_challenge.dta
+#ifndef HX_XBOX
+#include highscore.dta
+#endif
+#ifndef _SHIP
+#include framerate/frame_rate.dta
+#endif
+{mixer_panel load}
+{platform_mgr set_notify_ui_location kOSNotifyBottomCenter}
+#include ../dx/ui/dx_init.dta

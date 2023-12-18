@@ -1,12 +1,16 @@
 #define OVERSHELL_DISALLOWED_SCREENS
 ({'||' 
    {== {ui current_screen} game_screen}
+   {== {ui current_screen} hth_game_screen}
    {== {ui current_screen} h2h_game_screen}
    {== {ui current_screen} practice_game_screen}
    {== {ui current_screen} overshell_main_screen}
    {== {ui current_screen} modifiers_screen}
    {== {ui current_screen} options_milo_screen} 
-   {== {ui current_screen} song_select_screen} 
+   {== {ui current_screen} song_select_screen}
+   {== {ui current_screen} qp_selsong_screen}
+   {== {ui current_screen} tour_selsong_screen}
+   {== {ui current_screen} leaderboards_selsong_screen}
    {== {ui current_screen} endgame_screen} 
    {== {ui current_screen} options_color_screen}
    {== {ui current_screen} save_screen}
@@ -53,9 +57,9 @@
    {== {ui current_screen} autosave_wait_in_meta_screen}
    {== {ui current_screen} transition_screen}})
 #define G_RED
-(kPad_Circle)
+(#ifdef HX_EE kPad_Tri #else kPad_Circle #endif )
 #define G_YELLOW
-(kPad_Tri)
+(#ifdef HX_EE kPad_Circle #else kPad_Tri #endif )
 #define G_BLUE
 (kPad_Square)
 #define G_ORANGE

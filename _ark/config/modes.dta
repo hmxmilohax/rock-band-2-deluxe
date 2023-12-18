@@ -48,7 +48,7 @@
    (max_local_players 4)
    (min_players 2)
    (update_crowd_meter TRUE)
-   (crowd_reacts {if_else {modifier_mgr is_modifier_active mod_nocrowd} FALSE TRUE}) ;I think this is the crowd singalong
+   (crowd_reacts $crowdsfx) ;I think this is the crowd singalong
    (play_star_sfx TRUE)
    (play_track_intro_sfx TRUE)
    (play_streak_sfx TRUE)
@@ -143,7 +143,7 @@
    (intro_category INTRO)
    (win_camera WIN)
    (outro_camera OUTRO)
-   (crowd_audio {if_else {modifier_mgr is_modifier_active mod_nocrowd} FALSE TRUE}) ;crowd audio modifier
+   (crowd_audio $crowdsfx) ;crowd audio modifier
    (game_mode_context CONTEXT_GAME_MODE_TYPE_SOLO_QUICKPLAY)
    (pause_screen pause_screen)
    (song_select_mode song_select_quickplay)

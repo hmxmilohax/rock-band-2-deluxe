@@ -1,0 +1,79 @@
+{new
+   UIPanel
+   mtv_overlay
+   (file mtv_overlay.milo)
+   (enter
+      {$this show_overlay FALSE}
+      {if
+         {exists game}
+         {game add_sinks $this intro_end}})
+   (intro_end
+      {if
+         {&&
+            {exists game}
+            {gamemode get show_mtv_overlay}}
+         {$this setup_text}
+         {$this show_overlay TRUE}
+         {unless {modifier_mgr is_modifier_active mod_songtitle}
+            {if {exists fade.anim}
+               {fade.anim animate}
+            }
+         }
+      })
+   (exit
+      {if
+         {exists game}
+         {game remove_sink $this}})
+   (setup_text
+      {do
+         ($song
+            {game get_song})
+         ($song_text
+            {song_mgr song_name $song})
+         ($artist_text
+            {song_mgr song_artist $song})
+         {if_else
+            {song_mgr is_master $song}
+            {do
+               ($prefix
+                  "mtv_master_line")
+               {mtv_cover_song_id.view set_showing FALSE}
+               {mtv_master_song_id.view set_showing TRUE}
+               {if_else {!= $speedmod 1}
+               {$this set_line $prefix 1 {sprint $song_text " (" {int {'+' 0.5 {'*' $speedmod 100}}} "%)"}}
+               {$this set_line $prefix 1 $song_text}}
+               {$this set_line $prefix 3 $artist_text}}
+            {do
+               ($prefix
+                  "mtv_cover_line")
+               {mtv_cover_song_id.view set_showing TRUE}
+               {mtv_master_song_id.view set_showing FALSE}
+               {if_else {!= $speedmod 1}
+               {$this set_line $prefix 1 {sprint $song_text " (" {int {'+' 0.5 {'*' $speedmod 100}}} "%)"}}
+               {$this set_line $prefix 1 $song_text}}
+               {$this set_line $prefix 3 $artist_text}}}})
+   (set_line
+      ($prefix $i $text)
+      {{sprint
+            $prefix
+            $i
+            ".lbl"}
+         set_localized
+         $text})
+   (show_overlay
+      ($show)
+      {$this set_showing $show}
+      {if_else
+         $show
+         {if_else {modifier_mgr is_modifier_active mod_songtitle}
+            {fade.anim set_frame 50}
+            {fade.anim animate}
+         }
+         {if_else {modifier_mgr is_modifier_active mod_songtitle}
+            {fade.anim set_frame 50}
+            {fade.anim set_frame 0}
+         }
+      }
+      {$this
+         set_paused
+         {! $show}})}

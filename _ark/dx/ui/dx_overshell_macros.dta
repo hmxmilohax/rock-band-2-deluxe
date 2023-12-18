@@ -1,0 +1,431 @@
+#define SET_RB2_TEXTURE_PRESET
+(
+	{set $sustains "rb2"}
+   {set $nogemdividers FALSE}
+   {set $trackangle FALSE}
+   {set $voxhwcustomtexture TRUE}
+   {set $voxhw rb2}
+   {set $gemcustomtexture TRUE}
+   {set $gem rb2}
+   {set $smashercustomtexture TRUE}
+   {set $smasher rb2}
+   {set $smasherbracket FALSE}
+   {set $voxarrowcustomtexture TRUE}
+   {set $voxarrow rb2}
+   {set $voxnotescustomtexture TRUE}
+   {set $voxnotes rb2}
+   {set $voxodcustomtexture TRUE}
+   {set $voxod rb2}
+   {set $scorecustomtexture TRUE}
+   {set $scoretex rb2}
+   {set $starscustomtexture TRUE}
+   {set $stars rb2}
+   {set $odbarcustomtexture TRUE}
+   {set $odbar rb2}
+   {set $railscustomtexture TRUE}
+   {set $rails rb2}
+   {set $flamescustomtexture TRUE}
+   {set $flames rb2}
+   {set $multiringcustomtexture TRUE}
+   {set $multiring rb2}
+	{set $highwaycustomtexture TRUE}
+	{set $highwaygtr _1_none}
+	{set $highwaybass _1_none}
+	{set $highwaydrum _1_none}
+   {set $streakcustomtexture TRUE}
+   {set $streakgtr rb2}
+   {set $streakbass rb2}
+   {set $streakdrum rb2}
+   {set $spotlightgtrcustomtexture TRUE}
+   {set $spotlightgtr rb2_guitar}
+   {set $spotlightbasscustomtexture TRUE}
+   {set $spotlightbass rb2_bass}
+   {set $spotlightdrumcustomtexture TRUE}
+   {set $spotlightdrum rb2_drums}
+	{set $hwalpha_needs_reset TRUE}
+	{set $hwalpha rb2}
+	{set $hwstrk FALSE}
+	{set $nohwwarn FALSE}
+	{set $railwarn FALSE}
+)
+
+#define SET_RB2DX_TEXTURE_PRESET
+(
+	{set $sustains "rb2"}
+	{set $nogemdividers FALSE}
+	{set $trackangle FALSE}
+	{set $voxhwcustomtexture TRUE}
+	{set $voxhw rb2}
+	{set $gemcustomtexture TRUE}
+	{set $gem rb2dx}
+	{set $smashercustomtexture TRUE}
+	{set $smasher rb2dx}
+	{set $smasherbracket FALSE}
+	{set $voxarrowcustomtexture TRUE}
+	{set $voxarrow rb2dx}
+	{set $voxnotescustomtexture TRUE}
+	{set $voxnotes rb2dx}
+	{set $voxodcustomtexture TRUE}
+	{set $voxod rb2}
+	{set $scorecustomtexture TRUE}
+	{set $scoretex rb4}
+	{set $starscustomtexture TRUE}
+	{set $stars rb4}
+	{set $odbarcustomtexture TRUE}
+	{set $odbar rb2dx}
+	{set $railscustomtexture TRUE}
+	{set $rails rb2}
+	{set $flamescustomtexture TRUE}
+	{set $flames rb2dx}
+	{set $multiringcustomtexture TRUE}
+	{set $multiring rb2dx}
+	{set $highwaycustomtexture TRUE}
+	{set $highwaygtr _1_none}
+	{set $highwaybass _1_none}
+	{set $highwaydrum _1_none}
+	{set $streakcustomtexture TRUE}
+	{set $streakgtr rb4}
+	{set $streakbass rb4}
+	{set $streakdrum rb4}
+	{set $spotlightgtrcustomtexture TRUE}
+	{set $spotlightgtr rb4}
+	{set $spotlightbasscustomtexture TRUE}
+	{set $spotlightbass rb4}
+	{set $spotlightdrumcustomtexture TRUE}
+	{set $spotlightdrum rb4}
+	{set $hwalpha_needs_reset TRUE}
+	{set $hwalpha rb2}
+	{set $hwstrk FALSE}
+	{set $nohwwarn FALSE}
+	{set $railwarn FALSE}
+)
+
+#define SET_RB1_TEXTURE_PRESET
+(
+	{set $sustains "rb2"}
+	{set $nogemdividers FALSE}
+	{set $trackangle FALSE}
+	{set $voxhwcustomtexture TRUE}
+	{set $voxhw rb1}
+	{set $gemcustomtexture TRUE}
+	{set $gem rb2}
+	{set $smashercustomtexture TRUE}
+	{set $smasher rb1}
+	{set $smasherbracket FALSE}
+	{set $voxarrowcustomtexture TRUE}
+	{set $voxarrow rb1}
+   {set $voxnotescustomtexture TRUE}
+   {set $voxnotes rb2}
+	{set $voxodcustomtexture TRUE}
+	{set $voxod rb1}
+	{set $scorecustomtexture TRUE}
+	{set $scoretex rb1}
+	{set $starscustomtexture TRUE}
+	{set $stars rb1}
+	{set $odbarcustomtexture TRUE}
+	{set $odbar rb1}
+   {set $railscustomtexture TRUE}
+   {set $rails rb2}
+   {set $flamescustomtexture TRUE}
+   {set $flames rb2}
+	{set $multiringcustomtexture TRUE}
+	{set $multiring rb1}
+	{set $highwaycustomtexture TRUE}
+	{set $highwaygtr _1_none}
+	{set $highwaybass _1_none}
+	{set $highwaydrum _1_none}
+   {set $streakcustomtexture TRUE}
+   {set $streakgtr rb2}
+   {set $streakbass rb2}
+   {set $streakdrum rb2}
+	{set $spotlightgtrcustomtexture TRUE}
+	{set $spotlightgtr rb1_guitar}
+	{set $spotlightbasscustomtexture TRUE}
+	{set $spotlightbass rb1_bass}
+	{set $spotlightdrumcustomtexture TRUE}
+	{set $spotlightdrum rb1_drums}
+	{set $hwalpha_needs_reset TRUE}
+	{set $hwalpha rb1}
+	{set $hwstrk FALSE}
+	{set $nohwwarn FALSE}
+	{set $railwarn FALSE}
+)
+
+#define SET_RB3_TEXTURE_PRESET
+(
+	{set $sustains "rb3"}
+	{set $nogemdividers TRUE}
+	{set $voxhwcustomtexture TRUE}
+	{set $voxhw rb3}
+	{set $gemcustomtexture TRUE}
+	{set $gem rb3}
+	{set $smashercustomtexture TRUE}
+	{set $smasher rb3}
+	{set $smasherbracket TRUE}
+	{set $voxarrowcustomtexture TRUE}
+	{set $voxarrow rb2dx}
+	{set $voxnotescustomtexture TRUE}
+	{set $voxnotes rb2dx}
+	{set $voxodcustomtexture TRUE}
+	{set $voxod rb3}
+	{set $scorecustomtexture TRUE}
+	{set $scoretex rb3}
+	{set $starscustomtexture TRUE}
+	{set $stars rb3}
+	{set $odbarcustomtexture TRUE}
+	{set $odbar rb3}
+	{set $railscustomtexture TRUE}
+	{set $rails rb3}
+	{set $flamescustomtexture TRUE}
+	{set $flames rb3}
+	{set $multiringcustomtexture TRUE}
+	{set $multiring rb3}
+	{set $highwaycustomtexture TRUE}
+	{set $highwaygtr _2_rb3_guitar}
+	{set $highwaybass _rb3_bass}
+	{set $highwaydrum _rb3_drum}
+	{set $streakcustomtexture TRUE}
+	{set $streakgtr rb3_guitar}
+	{set $streakbass rb3_unused}
+	{set $streakdrum rb3_drum}
+	{set $spotlightgtrcustomtexture TRUE}
+	{set $spotlightgtr rb3_guitar}
+	{set $spotlightbasscustomtexture TRUE}
+	{set $spotlightbass rb3_bass}
+	{set $spotlightdrumcustomtexture TRUE}
+	{set $spotlightdrum rb3_drums}
+	{set $hwalpha_needs_reset TRUE}
+	{set $hwalpha off}
+	{set $hwstrk TRUE}
+	{set $nohwwarn TRUE}
+	{set $railwarn TRUE}
+)
+
+#define SET_RB4_TEXTURE_PRESET
+(
+	{set $sustains "rb2"}
+	{set $nogemdividers TRUE}
+	{set $voxhwcustomtexture TRUE}
+	{set $voxhw rb3}
+	{set $gemcustomtexture TRUE}
+	{set $gem rb4}
+	{set $smashercustomtexture TRUE}
+	{set $smasher rb4}
+	{set $smasherbracket TRUE}
+	{set $voxarrowcustomtexture TRUE}
+	{set $voxarrow rb2dx}
+	{set $voxnotescustomtexture TRUE}
+	{set $voxnotes rb2dx}
+   {set $voxodcustomtexture TRUE}
+   {set $voxod rb2}
+	{set $scorecustomtexture TRUE}
+	{set $scoretex rb4}
+	{set $starscustomtexture TRUE}
+	{set $stars rb4}
+	{set $odbarcustomtexture TRUE}
+	{set $odbar rb4}
+	{set $railscustomtexture TRUE}
+	{set $rails rb4}
+	{set $flamescustomtexture TRUE}
+	{set $flames rb4}
+	{set $multiringcustomtexture TRUE}
+	{set $multiring rb4}
+	{set $highwaycustomtexture TRUE}
+	{set $highwaygtr _rb4z}
+	{set $highwaybass _rb4z}
+	{set $highwaydrum _rb4z}
+	{set $streakcustomtexture TRUE}
+	{set $streakgtr rb4}
+	{set $streakbass rb4}
+	{set $streakdrum rb4}
+	{set $spotlightgtrcustomtexture TRUE}
+	{set $spotlightgtr rb4}
+	{set $spotlightbasscustomtexture TRUE}
+	{set $spotlightbass rb4}
+	{set $spotlightdrumcustomtexture TRUE}
+	{set $spotlightdrum rb4}
+	{set $hwalpha_needs_reset TRUE}
+	{set $hwalpha off}
+	{set $hwstrk TRUE}
+	{set $nohwwarn TRUE}
+	{set $railwarn TRUE}
+)
+
+#define SET_LRB_TEXTURE_PRESET
+(
+	{set $sustains "rb2"}
+	{set $nogemdividers FALSE}
+	{set $trackangle FALSE}
+   {set $voxhwcustomtexture TRUE}
+   {set $voxhw rb2}
+   {set $gemcustomtexture TRUE}
+   {set $gem rb2}
+   {set $smashercustomtexture TRUE}
+   {set $smasher rb2}
+   {set $smasherbracket FALSE}
+   {set $voxarrowcustomtexture TRUE}
+   {set $voxarrow rb2}
+   {set $voxnotescustomtexture TRUE}
+   {set $voxnotes rb2}
+	{set $voxodcustomtexture TRUE}
+	{set $voxod lrb}
+   {set $scorecustomtexture TRUE}
+   {set $scoretex rb2}
+   {set $starscustomtexture TRUE}
+   {set $stars lrb}
+	{set $odbarcustomtexture TRUE}
+	{set $odbar lrb}
+   {set $railscustomtexture TRUE}
+   {set $rails rb2}
+   {set $flamescustomtexture TRUE}
+   {set $flames rb2}
+	{set $multiringcustomtexture TRUE}
+	{set $multiring lrb}
+	{set $highwaycustomtexture TRUE}
+	{set $highwaygtr _1_none}
+	{set $highwaybass _1_none}
+	{set $highwaydrum _1_none}
+	{set $streakcustomtexture TRUE}
+	{set $streakgtr lrb}
+	{set $streakbass lrb}
+	{set $streakdrum lrb}
+	{set $spotlightgtrcustomtexture TRUE}
+	{set $spotlightgtr lrb_guitar}
+	{set $spotlightbasscustomtexture TRUE}
+	{set $spotlightbass lrb_bass}
+	{set $spotlightdrumcustomtexture TRUE}
+	{set $spotlightdrum lrb_drums}
+	{set $hwalpha_needs_reset TRUE}
+	{set $hwalpha rb2}
+	{set $hwstrk FALSE}
+	{set $nohwwarn FALSE}
+	{set $railwarn FALSE}
+)
+
+#define SET_TBRB_TEXTURE_PRESET
+(
+	{set $sustains "rb2"}
+	{set $nogemdividers FALSE}
+	{set $voxhwcustomtexture TRUE}
+	{set $voxhw rb3}
+	{set $gemcustomtexture TRUE}
+	{set $gem tbrb}
+	{set $smashercustomtexture TRUE}
+	{set $smasher rb2dx}
+	{set $smasherbracket TRUE}
+   {set $voxarrowcustomtexture TRUE}
+   {set $voxarrow rb2}
+	{set $voxnotescustomtexture TRUE}
+	{set $voxnotes rb2dx}
+	{set $voxodcustomtexture TRUE}
+	{set $voxod lrb}
+	{set $scorecustomtexture TRUE}
+	{set $scoretex rb4}
+	{set $starscustomtexture TRUE}
+	{set $stars rb4}
+	{set $odbarcustomtexture TRUE}
+	{set $odbar tbrb}
+	{set $railscustomtexture TRUE}
+	{set $rails rb4}
+	{set $flamescustomtexture TRUE}
+	{set $flames rb2dx}
+	{set $multiringcustomtexture TRUE}
+	{set $multiring tbrb}
+	{set $highwaycustomtexture TRUE}
+	{set $highwaygtr _1_none}
+	{set $highwaybass _1_none}
+	{set $highwaydrum _1_none}
+	{set $streakcustomtexture TRUE}
+	{set $streakgtr tbrb}
+	{set $streakbass tbrb}
+	{set $streakdrum tbrb}
+	{set $spotlightgtrcustomtexture TRUE}
+	{set $spotlightgtr tbrb_guitar}
+	{set $spotlightbasscustomtexture TRUE}
+	{set $spotlightbass tbrb_bass}
+	{set $spotlightdrumcustomtexture TRUE}
+	{set $spotlightdrum tbrb_drums}
+	{set $hwalpha_needs_reset TRUE}
+	{set $hwalpha rb2}
+	{set $hwstrk FALSE}
+	{set $nohwwarn FALSE}
+	{set $railwarn FALSE}
+)
+
+#define SET_RR_TRACK_ANGLE
+(
+	{set $trackangle TRUE}
+    {set $track_pitch -90}
+    {set $track_fov 19}
+    {set $track_y_pos -165}
+    {set $track_z_pos 36}
+    {set $track_fade_start 15}
+    {set $track_fade_length 45}
+    {set $multioptimized FALSE}
+)
+
+#define SET_RB4_TRACK_ANGLE
+(
+	{set $trackangle TRUE}
+	{set $track_pitch -40.15}
+	{set $track_fov 21}
+	{set $track_y_pos -112}
+	{set $track_z_pos 26.25}
+	{set $track_fade_start 130}
+	{set $track_fade_length 15}
+	{set $multioptimized TRUE}
+	{set $track_pitch_2p -40.15}
+	{set $track_fov_2p 21}
+	{set $track_y_pos_2p -112}
+	{set $track_z_pos_2p 26.25}
+	{set $track_fade_start_2p 136}
+	{set $track_fade_length_2p 15}
+	{set $track_cam_offset 0.5}
+	{set $track_pitch_3p -40.15}
+	{set $track_fov_3p 21}
+	{set $track_y_pos_3p -128}
+	{set $track_z_pos_3p 30.25}
+	{set $track_fade_start_3p 136}
+	{set $track_fade_length_3p 15}
+	{set $track_x_offset 27.75}
+	{set $track_side_angle 9.5}
+)
+
+#define SET_RB3_TRACK_ANGLE
+(
+	{set $trackangle TRUE}
+	{set $track_pitch -40.5}
+	{set $track_fov 19}
+	{set $track_y_pos -100}
+	{set $track_z_pos 22}
+	{set $track_fade_start 70}
+	{set $track_fade_length 50}
+	{set $multioptimized TRUE}
+	{set $track_pitch_2p -40.5}
+	{set $track_fov_2p 19}
+	{set $track_y_pos_2p -115}
+	{set $track_z_pos_2p 25.8}
+	{set $track_fade_start_2p 90}
+	{set $track_fade_length_2p 50}
+	{set $track_cam_offset 0.439}
+	{set $track_pitch_3p -39.25}
+	{set $track_fov_3p 19}
+	{set $track_y_pos_3p -135}
+	{set $track_z_pos_3p 31}
+	{set $track_fade_start_3p 83}
+	{set $track_fade_length_3p 115}
+	{set $track_x_offset 24.6}
+	{set $track_side_angle 8.75}
+)
+
+#define SET_FNFESTIVAL_TRACK_ANGLE
+(
+	{set $trackangle TRUE}
+	{set $track_pitch -43.5}
+	{set $track_fov 19}
+	{set $track_y_pos -87}
+	{set $track_z_pos 19}
+	{set $track_fade_start 74}
+	{set $track_fade_length 15}
+	{set $multioptimized FALSE}
+)

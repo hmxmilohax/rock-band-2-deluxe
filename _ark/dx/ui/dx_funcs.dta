@@ -8,3 +8,9 @@
 {func get_drum_panel
    {{get_track_panel} find drum}
 }
+{func get_track_0_panel
+   {{get_track_panel} find track_0}
+}
+{func get_track_1_panel
+   {{get_track_panel} find track_1}
+}

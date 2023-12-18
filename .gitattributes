@@ -1,3 +1,4 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 *.dta linguist-language=Common-Lisp
+_ark_ps2/songs/afterlife/afterlife.pss filter=lfs diff=lfs merge=lfs -text
