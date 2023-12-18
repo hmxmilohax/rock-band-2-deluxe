@@ -78,6 +78,16 @@
          }
          {{{get_track_0_panel} find track_clipping.mesh} set_showing {!= $hwalpha rb1}}
          {{{get_track_1_panel} find track_clipping.mesh} set_showing {!= $hwalpha rb1}}
+         {if_else {== {{game get_participant_config 0} get_track_sym} drum}
+            {do
+               {{{get_track_0_panel} find smasher_plate_drum} iterate Mesh $m {$m set_showing {! $smasherbracket}}}
+               {{{get_track_1_panel} find smasher_plate_drum} iterate Mesh $m {$m set_showing {! $smasherbracket}}}
+            }
+            {do
+               {{{get_track_0_panel} find smasher_plate_guitar} iterate Mesh $m {$m set_showing {! $smasherbracket}}}
+               {{{get_track_1_panel} find smasher_plate_guitar} iterate Mesh $m {$m set_showing {! $smasherbracket}}}
+            }
+         }
       }
       {do
          {if_else $nogemdividers
@@ -99,6 +109,9 @@
          {{{get_guitar_panel} find track_clipping.mesh} set_showing {!= $hwalpha rb1}}
          {{{get_bass_panel} find track_clipping.mesh} set_showing {!= $hwalpha rb1}}
          {{{get_drum_panel} find track_clipping.mesh} set_showing {!= $hwalpha rb1}}
+         {{{get_drum_panel} find smasher_plate_drum} iterate Mesh $m {$m set_showing {! $smasherbracket}}}
+         {{{get_guitar_panel} find smasher_plate_guitar} iterate Mesh $m {$m set_showing {! $smasherbracket}}}
+         {{{get_bass_panel} find smasher_plate_guitar} iterate Mesh $m {$m set_showing {! $smasherbracket}}}
       }
    }
 

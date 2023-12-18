@@ -347,3 +347,15 @@
 	{set $track_x_offset 24.6}
 	{set $track_side_angle 8.75}
 )
+
+#define SET_FNFESTIVAL_TRACK_ANGLE
+(
+	{set $trackangle TRUE}
+	{set $track_pitch -43.5}
+	{set $track_fov 19}
+	{set $track_y_pos -87}
+	{set $track_z_pos 19}
+	{set $track_fade_start 74}
+	{set $track_fade_length 15}
+	{set $multioptimized FALSE}
+)

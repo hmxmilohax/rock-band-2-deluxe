@@ -219,6 +219,7 @@
       (rb2 os_hwalpha_rb2)
       (rb1 os_hwalpha_rb1)
    }
+   {if_else $smasherbracket os_smasherbracket1 os_smasherbracket0}
    #ifndef HX_EE
    os_warn_behavior
    #endif
@@ -256,6 +257,11 @@
                (rb1 #ifdef HX_EE rb2 #else off #endif)
             }}
             {set $hwalpha_needs_reset TRUE}
+            {set $hwpos {sel_section.lst selected_sym}}
+            {$this lst_reset}
+         )
+         ((os_smasherbracket0 os_smasherbracket1)
+            {set $smasherbracket {! $smasherbracket}}
             {set $hwpos {sel_section.lst selected_sym}}
             {$this lst_reset}
          )
@@ -459,7 +465,7 @@
     (focus sel_section.lst)
     (enter
         {sel_section.lst set_data
-            (rb2 rb3 rb4 rr)}
+            (rb2 rb3 rb4 fnfestival rr)}
         {title.lbl set_localized {localize os_angle}}
         {full_selection.mesh set_showing FALSE})
     (exit)
@@ -589,6 +595,9 @@
       )
       (rb4
       SET_RB4_TRACK_ANGLE
+      )
+      (fnfestival
+      SET_FNFESTIVAL_TRACK_ANGLE
       )
       (rr
       SET_RR_TRACK_ANGLE
