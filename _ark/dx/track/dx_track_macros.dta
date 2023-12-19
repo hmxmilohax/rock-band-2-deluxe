@@ -313,6 +313,7 @@
 
    {if $railscustomtexture
       {{$this find rails.tex} set_bitmap {sprint "track/rails/rails_" $rails ".png"}}
+      {{$this find beat_marker.tex} set_bitmap {sprint "track/rails/beat_marker_" $rails ".png"}}
       #ifdef HX_EE
       {{$this find smasher_wii.tex} set_bitmap {sprint "track/rails/rails_warning_" $rails ".png"}}
       #else

@@ -10,6 +10,7 @@ for %%i in (*.jpg) do @echo "%%~ni">> rails.dta
 move "%~dp0..\custom_textures\rails\rails.dta" "%~dp0..\_ark\track\rails\rails.dta"
 "%~dp0..\dependencies/sed.exe" -i -e "s/rails_//g" "%~dp0..\_ark\track\rails\rails.dta"
 "%~dp0..\dependencies/sed.exe" -i -e "s/warning_//g" "%~dp0..\_ark\track\rails\rails.dta"
+"%~dp0..\dependencies/sed.exe" -i -e "s/beat_marker_//g" "%~dp0..\_ark\track\rails\rails.dta"
 FOR /F "tokens=*" %%G IN ('dir /b *.jpg') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\rails/%%G" "%~dp0..\custom_textures\rails\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.bmp') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\rails/%%G" "%~dp0..\custom_textures\rails\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.png') DO "%~dp0..\dependencies/windows/superfreq.exe" png2tex "%~dp0..\custom_textures\rails/%%G" "%~dp0..\_ark\track\rails\gen\%%~nG.png_xbox" --platform x360 --miloVersion 25
