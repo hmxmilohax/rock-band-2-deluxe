@@ -251,6 +251,56 @@
 	{set $railwarn TRUE}
 )
 
+#define SET_FNFESTIVAL_TEXTURE_PRESET
+(
+	{set $sustains "rb2"}
+	{set $nogemdividers FALSE}
+	{set $voxhwcustomtexture TRUE}
+	{set $voxhw rb3}
+	{set $gemcustomtexture TRUE}
+	{set $gem fnfestival}
+	{set $smashercustomtexture TRUE}
+	{set $smasher fnfestival}
+	{set $smasherbracket TRUE}
+	{set $voxarrowcustomtexture TRUE}
+	{set $voxarrow rb2dx}
+	{set $voxnotescustomtexture TRUE}
+	{set $voxnotes rb2dx}
+   {set $voxodcustomtexture TRUE}
+   {set $voxod rb2}
+	{set $scorecustomtexture TRUE}
+	{set $scoretex fnfestival}
+	{set $starscustomtexture TRUE}
+	{set $stars fnfestival}
+	{set $odbarcustomtexture TRUE}
+	{set $odbar rb2dx}
+	{set $railscustomtexture TRUE}
+	{set $rails fnfestival}
+	{set $flamescustomtexture TRUE}
+	{set $flames fnfestival}
+	{set $multiringcustomtexture TRUE}
+	{set $multiring rb2dx}
+	{set $highwaycustomtexture TRUE}
+	{set $highwaygtr fnfestival}
+	{set $highwaybass fnfestival}
+	{set $highwaydrum fnfestival}
+	{set $streakcustomtexture TRUE}
+	{set $streakgtr fnfestival}
+	{set $streakbass fnfestival}
+	{set $streakdrum fnfestival}
+	{set $spotlightgtrcustomtexture TRUE}
+	{set $spotlightgtr fnfestival}
+	{set $spotlightbasscustomtexture TRUE}
+	{set $spotlightbass fnfestival}
+	{set $spotlightdrumcustomtexture TRUE}
+	{set $spotlightdrum fnfestival}
+	{set $hwalpha_needs_reset TRUE}
+	{set $hwalpha off}
+	{set $hwstrk FALSE}
+	{set $nohwwarn TRUE}
+	{set $railwarn TRUE}
+)
+
 #define SET_LRB_TEXTURE_PRESET
 (
 	{set $sustains "rb2"}

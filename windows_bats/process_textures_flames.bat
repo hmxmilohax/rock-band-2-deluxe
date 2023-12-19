@@ -9,6 +9,8 @@ for %%i in (*.png) do @echo "%%~ni">> flames.dta
 for %%i in (*.jpg) do @echo "%%~ni">> flames.dta
 move "%~dp0..\custom_textures\flames\flames.dta" "%~dp0..\_ark\track_new\flames\flames.dta"
 "%~dp0..\dependencies/sed.exe" -i -e "s/kick_smasher_//g" "%~dp0..\_ark\track_new\flames\flames.dta"
+"%~dp0..\dependencies/sed.exe" -i -e "s/flare_//g" "%~dp0..\_ark\track_new\flames\flames.dta"
+"%~dp0..\dependencies/sed.exe" -i -e "s/orange_//g" "%~dp0..\_ark\track_new\flames\flames.dta"
 "%~dp0..\dependencies/sed.exe" -i -e "s/light_can_star_//g" "%~dp0..\_ark\track_new\flames\flames.dta"
 "%~dp0..\dependencies/sed.exe" -i -e "s/broken_glass//g" "%~dp0..\_ark\track_new\flames\flames.dta"
 "%~dp0..\dependencies/sed.exe" -i -e "s/01_//g" "%~dp0..\_ark\track_new\flames\flames.dta"
@@ -17,6 +19,7 @@ move "%~dp0..\custom_textures\flames\flames.dta" "%~dp0..\_ark\track_new\flames\
 "%~dp0..\dependencies/sed.exe" -i -e "s/radial_shockwave_//g" "%~dp0..\_ark\track_new\flames\flames.dta"
 "%~dp0..\dependencies/sed.exe" -i -e "s/subtract_//g" "%~dp0..\_ark\track_new\flames\flames.dta"
 "%~dp0..\dependencies/sed.exe" -i -e "s/shockwave_//g" "%~dp0..\_ark\track_new\flames\flames.dta"
+"%~dp0..\dependencies/sed.exe" -i -e "s/multiple_//g" "%~dp0..\_ark\track_new\flames\flames.dta"
 "%~dp0..\dependencies/sed.exe" -i -e "s/sparks_//g" "%~dp0..\_ark\track_new\flames\flames.dta"
 FOR /F "tokens=*" %%G IN ('dir /b *.jpg') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\flames/%%G" "%~dp0..\custom_textures\flames\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.bmp') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\flames/%%G" "%~dp0..\custom_textures\flames\%%~nG.png"
