@@ -74,10 +74,14 @@
    TrackPanel
    coop_track_panel
    (file
+      #ifdef HX_EE
+      ../track/trackpanel.milo
+      #else
       {if_else $dx_queue_stock_track
          ../track/trackpanel.milo
          ../track/trackpanelcustom.milo
       }
+      #endif
    )
    TRACK_PANEL_HANDLERS}
 {new
