@@ -197,7 +197,7 @@
    {if $flamescustomtexture
       {{$this find radial_shockwave.tex} set_bitmap {sprint "track_new/flames/radial_shockwave_" $flames ".png"}}
       {{$this find radial_shockwave_subtract.tex} set_bitmap {sprint "track_new/flames/radial_shockwave_subtract_" $flames ".png"}}
-      {{$this find radial_shockwave.tex} iterate_refs $ref {$ref set blend {if_else {== $flames fnfestival} 2 3}}}
+      {{$this find radial_shockwave.tex} iterate_refs $ref {$ref set blend {if_else {|| {== $flames fnfestival} {== $flames fnfestival_beta}} 2 3}}}
       {{$this find shockwave.tex} set_bitmap {sprint "track_new/flames/shockwave_" $flames ".png"}}
       #ifndef HX_EE
       {{$this find flare_orange_kick_smasher.tex} set_bitmap {sprint "track_new/flames/flare_orange_kick_smasher_" $flames ".png"}}
