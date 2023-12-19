@@ -56,7 +56,7 @@
     #endif
     (focus sel_section.lst)
     (enter
-        {sel_section.lst set_data (os_tex os_rb2dxprst os_rb2prst os_rb1prst os_rb3prst os_rb4prst os_lrbprst os_tbrbprst)}
+        {sel_section.lst set_data (os_tex os_rb2dxprst os_rb2prst os_rb1prst os_rb3prst os_rb4prst os_fnfestivalprst os_lrbprst os_tbrbprst)}
         {title.lbl set_localized {localize os_trkpreset}}
         {full_selection.mesh set_showing FALSE})
     (exit
@@ -121,6 +121,18 @@
                }
             }
             SET_RB4_TRACK_ANGLE
+         )
+         (os_fnfestivalprst
+            {if_else $texrunonce
+               {do 
+                  SET_FNFESTIVAL_TEXTURE_PRESET
+               }
+               {do 
+                  {set $dx_queue_stock_track FALSE}
+                  SET_FNFESTIVAL_TEXTURE_PRESET
+               }
+            }
+            SET_FNFESTIVAL_TRACK_ANGLE
          )
          (os_lrbprst
             {if_else $texrunonce
