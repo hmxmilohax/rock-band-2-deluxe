@@ -18,6 +18,7 @@
             {if {== $flames "rb2"} {set $flames "none"} {set $flamescustomtexture FALSE}}
             {if {== $scoretex "rb2"} {set $scoretex "none"} {set $scorecustomtexture FALSE}}
             {if {== $stars "rb2"} {set $stars "none"} {set $starscustomtexture FALSE}}
+            {if {== $font "rb2"} {set $font "none"} {set $fontcustomtexture FALSE}}
             {if {== $bretex "rb2"} {set $bretex "none"} {set $brecustomtexture FALSE}}
             {if {== $voxarrow "rb2"} {set $voxarrow "none"} {set $voxarrowcustomtexture FALSE}}
             {if {== $voxnotes "rb2"} {set $voxnotes "none"} {set $voxnotescustomtexture FALSE}}
@@ -40,6 +41,7 @@
             {if {== $flames "rb2dx"} {set $flames "none"} {set $flamescustomtexture FALSE}}
             {if {== $scoretex "rb4"} {set $scoretex "none"} {set $scorecustomtexture FALSE}}
             {if {== $stars "rb4"} {set $stars "none"} {set $starscustomtexture FALSE}}
+            {if {== $font "rb2"} {set $font "none"} {set $fontcustomtexture FALSE}}
             {if {== $bretex "rb2"} {set $bretex "none"} {set $brecustomtexture FALSE}}
             {if {== $voxarrow "rb2dx"} {set $voxarrow "none"} {set $voxarrowcustomtexture FALSE}}
             {if {== $voxnotes "rb2dx"} {set $voxnotes "none"} {set $voxnotescustomtexture FALSE}}
@@ -253,6 +255,12 @@
       #endif
    }
 
+   #ifndef HX_EE
+   {if $fontcustomtexture
+      {{$this find chalet_numbers_mono.tex} set_bitmap {sprint "track/font/" $font ".png"}}
+   }
+   #endif
+
    {if $odbarcustomtexture
       {{$this find rb2_player_meter_background.tex} set_bitmap {sprint "track/overdrive_bar/player_meter_background_" $odbar ".png"}}
       {{$this find player_meter_long.tex} set_bitmap {sprint "track/overdrive_bar/player_meter_long_" $odbar ".png"}}
@@ -450,6 +458,8 @@
 {unless {== $scoretex none} {set $scorecustomtexture TRUE}}
 
 {unless {== $stars none} {set $starscustomtexture TRUE}}
+
+{unless {== $font none} {set $fontcustomtexture TRUE}}
 
 {unless {== $bretex none} {set $brecustomtexture TRUE}}
 
