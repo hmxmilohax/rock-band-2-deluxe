@@ -163,6 +163,9 @@
                               ((3_player_wide 3_player_regular)
                                  $track_pitch_3p
                               )
+                              ((score_duel score_duel_wide tug_of_war tug_of_war_wide)
+                                 $track_pitch
+                              )
                            }
                            $track_pitch
                         }
@@ -178,6 +181,9 @@
                               )
                               ((3_player_wide 3_player_regular)
                                  $track_fov_3p
+                              )
+                              ((score_duel score_duel_wide tug_of_war tug_of_war_wide)
+                                 $track_fov
                               )
                            }
                            $track_fov
@@ -196,6 +202,9 @@
                               ((3_player_wide 3_player_regular)
                                  $track_y_pos_3p
                               )
+                              ((score_duel score_duel_wide tug_of_war tug_of_war_wide)
+                                 $track_y_pos
+                              )
                            }
                            $track_y_pos
                         }
@@ -209,6 +218,9 @@
                               )
                               ((3_player_wide 3_player_regular)
                                  $track_z_pos_3p
+                              )
+                              ((score_duel score_duel_wide tug_of_war tug_of_war_wide)
+                                 $track_z_pos
                               )
                            }
                            $track_z_pos
@@ -229,6 +241,9 @@
                                     ((3_player_wide 3_player_regular)
                                        $track_y_pos_3p
                                     )
+                                    ((score_duel score_duel_wide tug_of_war tug_of_war_wide)
+                                       $track_y_pos
+                                    )
                                  }
                                  $track_y_pos
                               }
@@ -242,6 +257,9 @@
                                     )
                                     ((3_player_wide 3_player_regular)
                                        $track_z_pos_3p
+                                    )
+                                    ((score_duel score_duel_wide tug_of_war tug_of_war_wide)
+                                       $track_z_pos
                                     )
                                  }
                                  $track_z_pos
@@ -257,6 +275,9 @@
                                     )
                                     ((3_player_wide 3_player_regular)
                                        $track_fade_start_3p
+                                    )
+                                    ((score_duel score_duel_wide tug_of_war tug_of_war_wide)
+                                       $track_fade_start
                                     )
                                  }
                                  $track_fade_start
@@ -276,6 +297,9 @@
                                     ((3_player_wide 3_player_regular)
                                        $track_y_pos_3p
                                     )
+                                    ((score_duel score_duel_wide tug_of_war tug_of_war_wide)
+                                       $track_y_pos
+                                    )
                                  }
                                  $track_y_pos
                               }
@@ -289,6 +313,9 @@
                                     )
                                     ((3_player_wide 3_player_regular)
                                        $track_z_pos_3p
+                                    )
+                                    ((score_duel score_duel_wide tug_of_war tug_of_war_wide)
+                                       $track_z_pos
                                     )
                                  }
                                  $track_z_pos
@@ -306,6 +333,9 @@
                                        ((3_player_wide 3_player_regular)
                                           $track_fade_start_3p
                                        )
+                                       ((score_duel score_duel_wide tug_of_war tug_of_war_wide)
+                                          $track_fade_start
+                                       )
                                     }
                                     $track_fade_start
                                  }
@@ -319,6 +349,9 @@
                                        )
                                        ((3_player_wide 3_player_regular)
                                           $track_fade_length_3p
+                                       )
+                                       ((score_duel score_duel_wide tug_of_war tug_of_war_wide)
+                                          $track_fade_length
                                        )
                                     }
                                     $track_fade_length
@@ -375,6 +408,9 @@
                                     ((3_player_wide 3_player_regular)
                                        $track_fade_start_3p
                                     )
+                                    ((score_duel score_duel_wide tug_of_war tug_of_war_wide)
+                                       $track_fade_start
+                                    )
                                  }
                                  $track_fade_start
                               }
@@ -388,6 +424,9 @@
                                     )
                                     ((3_player_wide 3_player_regular)
                                        $track_fade_length_3p
+                                    )
+                                    ((score_duel score_duel_wide tug_of_war tug_of_war_wide)
+                                       $track_fade_length
                                     )
                                  }
                                  $track_fade_length
