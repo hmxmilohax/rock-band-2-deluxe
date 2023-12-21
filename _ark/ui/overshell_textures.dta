@@ -8,7 +8,7 @@
     #endif
     (focus sel_section.lst)
     (enter
-        {sel_section.lst set_data (#ifndef HX_EE os_hw #endif os_strk os_spotlight #ifdef HX_EE os_hw_behavior #endif os_gems os_smashers os_flames os_sus #ifndef HX_EE os_lanes #endif os_score os_stars os_bre os_rails os_odbar os_multi_ring os_voxtrk)}
+        {sel_section.lst set_data (#ifndef HX_EE os_hw #endif os_strk os_spotlight #ifdef HX_EE os_hw_behavior #endif os_gems os_smashers os_flames os_sus #ifndef HX_EE os_lanes os_font #endif os_score os_stars os_bre os_rails os_odbar os_multi_ring os_voxtrk)}
         {title.lbl set_localized {localize os_tex1}}
         {full_selection.mesh set_showing FALSE})
     (exit)
@@ -30,6 +30,10 @@
          )
          (os_smashers
             {set $dx_tracked_texture_loader smashers}
+            {ui push_screen overshell_texload_screen}
+         )
+         (os_font
+            {set $dx_tracked_texture_loader font}
             {ui push_screen overshell_texload_screen}
          )
          (os_score
@@ -261,6 +265,11 @@
             {title.lbl set_localized {localize os_smashers}}
             {anchor_corner02.tex set_bitmap {sprint "track_new/smashers/black_smasher_yellow_" $smasher ".png"}}
          )
+         (font
+            {sel_section.lst set_data (#include ../track/font/font.dta)}
+            {title.lbl set_localized {localize os_font}}
+            {anchor_corner02.tex set_bitmap {sprint "track/font/" $font ".png"}}
+         )
          (score
             {sel_section.lst set_data (#include ../track/score/score.dta)}
             {title.lbl set_localized {localize os_score}}
@@ -406,6 +415,10 @@
             {set $smashercustomtexture TRUE}
             {set $smasher {$component selected_sym}}
          )
+         (font
+            {set $fontcustomtexture TRUE}
+            {set $font {$component selected_sym}}
+         )
          (score
             {set $scorecustomtexture TRUE}
             {set $scoretex {$component selected_sym}}
@@ -532,6 +545,9 @@
          )
          (smashers
             {anchor_corner02.tex set_bitmap {sprint "track_new/smashers/black_smasher_yellow_" {$component selected_sym} ".png"}}
+         )
+         (font
+            {anchor_corner02.tex set_bitmap {sprint "track/font/" {$component selected_sym} ".png"}}
          )
          (score
             {anchor_corner02.tex set_bitmap {sprint "track/score/indv_player_meter_" {$component selected_sym} ".png"}}
