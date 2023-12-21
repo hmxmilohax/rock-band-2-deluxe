@@ -331,11 +331,11 @@
             {modifier_mgr activate_modifier mod_paddrum}
          }
       }
-      {if {== {elem $entry 0} {basename mod_selectdeploy}}
-         {if {== {elem {find $entry mod_selectdeploy} 1} 1}
-            {modifier_mgr activate_modifier mod_selectdeploy}
-         }
-      }
+      ; {if {== {elem $entry 0} {basename mod_selectdeploy}}
+      ;    {if {== {elem {find $entry mod_selectdeploy} 1} 1}
+      ;       {modifier_mgr activate_modifier mod_selectdeploy}
+      ;    }
+      ; }
       {if {== {elem $entry 0} {basename mod_noquickrestart}}
          {if {== {elem {find $entry mod_noquickrestart} 1} 1}
             {modifier_mgr activate_modifier mod_noquickrestart}
