@@ -10,8 +10,8 @@
       DX_CALLBACK_SETUP
       #endif
 
-      {{{gamemode get track_panel} loaded_dir} set view_time_easy {* {/ 2.4 $trackspeed} $speedmod}} ;implement track speed modifier
-      {{{gamemode get track_panel} loaded_dir} set view_time_expert {* {/ 1.2 $trackspeed} $speedmod}}
+      {{{gamemode get track_panel} loaded_dir} set view_time_easy {* {* {/ 2.4 $trackspeed} $tracklength} $speedmod}} ;implement track speed modifier
+      {{{gamemode get track_panel} loaded_dir} set view_time_expert {* {* {/ 1.2 $trackspeed} $tracklength} $speedmod}}
 
       {$this
          set_showing
