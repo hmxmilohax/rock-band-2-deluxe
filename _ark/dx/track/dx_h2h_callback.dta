@@ -2,38 +2,41 @@
 (new Object fc_track_0_callback ;remove FC groove on track_0 miss/pass
    (hit
       {if {! $track_0_firstnote} {set $track_0_firstnote TRUE}}
-	  {if {! $track_0_milosong} {set $track_0_milosong TRUE} {set [num_gems_hit] 0} {set [num_gems_miss] 0} {set [num_gems_pass] 0} {set [num_gems_combo] 0}}
+      {if {! $track_0_milosong} {set $track_0_milosong TRUE} {set [num_gems_hit] 0} {set [num_gems_miss] 0} {set [num_gems_pass] 0} {set [num_gems_combo] 0}}
       {$this check_fc}
       {set [num_gems_hit] {'+' [num_gems_hit] 1}}
       {set [num_gems_combo] {'+' [num_gems_combo] 1}}
-	  )
+   )
    (miss
       {unless {! $track_0_firstnote}
-	  {set [num_gems_miss] {'+' [num_gems_miss] 1}}
-	  {set [num_gems_combo] 0}
-      {$this check_missed}
-	  {{{get_track_0_panel} find streak_meter} star_deploy_stop}
-      {track_0 stop_deploy}}
-	  )
+         {set [num_gems_miss] {'+' [num_gems_miss] 1}}
+         {set [num_gems_combo] 0}
+         {$this check_missed}
+         {{{get_track_0_panel} find streak_meter} star_deploy_stop}
+         {track_0 stop_deploy}
+      }
+   )
    (pass
       {if {! $track_0_firstnote} {set $track_0_firstnote TRUE}}
-	  {if {! $track_0_milosong} {set $track_0_milosong TRUE} {set [num_gems_hit] 1} {set [num_gems_miss] 1} {set [num_gems_pass] 1} {set [num_gems_combo] 1}}
-	  {set [num_gems_pass] {'+' [num_gems_pass] 1}}
-	  {set [num_gems_combo] 0}
+      {if {! $track_0_milosong} {set $track_0_milosong TRUE} {set [num_gems_hit] 1} {set [num_gems_miss] 1} {set [num_gems_pass] 1} {set [num_gems_combo] 1}}
+      {set [num_gems_pass] {'+' [num_gems_pass] 1}}
+      {set [num_gems_combo] 0}
       {$this check_missed}
-	  {{{get_track_0_panel} find streak_meter} star_deploy_stop}
+      {{{get_track_0_panel} find streak_meter} star_deploy_stop}
       {track_0 stop_deploy}
-	  )
+   )
    (check_fc
       {$this check_missed}
       {if {== {'+' [num_gems_pass] [num_gems_miss]} 0}
         {{{get_track_0_panel} find streak_meter} star_deploy}
-        {track_0 deploy}}
-	  )
+        {track_0 deploy}
+      }
+   )
    (check_missed
-	  {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
-      {{{get_track_0_panel} find streak_meter} star_deploy_stop}
-      {track_0 stop_deploy}}
+      {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
+         {{{get_track_0_panel} find streak_meter} star_deploy_stop}
+         {track_0 stop_deploy}
+      }
       {if_else {== {{game get_participant_config 0} get_track_sym} guitar}
          {if_else {== $highwaygtr "_1_none"}
             {$this do_streak}
@@ -53,7 +56,7 @@
       {unless {|| $hwstrk $legacybass {== {{game get_participant_config 0} get_track_sym} bass}}
          {$this do_groove}
       }
-     )
+   )
    (do_customhw
       {if_else {== {{game get_participant_config 0} get_track_sym} bass}
          {if_else {> [num_gems_combo] 38}
@@ -133,38 +136,41 @@
 (new Object fc_track_1_callback ;remove FC groove on track_1 miss/pass
    (hit
       {if {! $track_1_firstnote} {set $track_1_firstnote TRUE}}
-     {if {! $track_1_milosong} {set $track_1_milosong TRUE} {set [num_gems_hit] 0} {set [num_gems_miss] 0} {set [num_gems_pass] 0} {set [num_gems_combo] 0}}
+      {if {! $track_1_milosong} {set $track_1_milosong TRUE} {set [num_gems_hit] 0} {set [num_gems_miss] 0} {set [num_gems_pass] 0} {set [num_gems_combo] 0}}
       {$this check_fc}
       {set [num_gems_hit] {'+' [num_gems_hit] 1}}
       {set [num_gems_combo] {'+' [num_gems_combo] 1}}
-     )
+   )
    (miss
       {unless {! $track_1_firstnote}
-     {set [num_gems_miss] {'+' [num_gems_miss] 1}}
-     {set [num_gems_combo] 0}
-      {$this check_missed}
-     {{{get_track_1_panel} find streak_meter} star_deploy_stop}
-      {track_1 stop_deploy}}
-     )
+         {set [num_gems_miss] {'+' [num_gems_miss] 1}}
+         {set [num_gems_combo] 0}
+         {$this check_missed}
+         {{{get_track_1_panel} find streak_meter} star_deploy_stop}
+         {track_1 stop_deploy}
+      }
+   )
    (pass
       {if {! $track_1_firstnote} {set $track_1_firstnote TRUE}}
-     {if {! $track_1_milosong} {set $track_1_milosong TRUE} {set [num_gems_hit] 1} {set [num_gems_miss] 1} {set [num_gems_pass] 1} {set [num_gems_combo] 1}}
-     {set [num_gems_pass] {'+' [num_gems_pass] 1}}
-     {set [num_gems_combo] 0}
+      {if {! $track_1_milosong} {set $track_1_milosong TRUE} {set [num_gems_hit] 1} {set [num_gems_miss] 1} {set [num_gems_pass] 1} {set [num_gems_combo] 1}}
+      {set [num_gems_pass] {'+' [num_gems_pass] 1}}
+      {set [num_gems_combo] 0}
       {$this check_missed}
-     {{{get_track_1_panel} find streak_meter} star_deploy_stop}
+      {{{get_track_1_panel} find streak_meter} star_deploy_stop}
       {track_1 stop_deploy}
      )
    (check_fc
       {$this check_missed}
       {if {== {'+' [num_gems_pass] [num_gems_miss]} 0}
         {{{get_track_1_panel} find streak_meter} star_deploy}
-        {track_1 deploy}}
-     )
+        {track_1 deploy}
+      }
+   )
    (check_missed
-     {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
-      {{{get_track_1_panel} find streak_meter} star_deploy_stop}
-      {track_1 stop_deploy}}
+      {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
+         {{{get_track_1_panel} find streak_meter} star_deploy_stop}
+         {track_1 stop_deploy}
+      }
       {if_else {== {{game get_participant_config 0} get_track_sym} guitar}
          {if_else {== $highwaygtr "_1_none"}
             {$this do_streak}
@@ -184,7 +190,7 @@
       {unless {|| $hwstrk $legacybass {== {{game get_participant_config 0} get_track_sym} bass}}
          {$this do_groove}
       }
-     )
+   )
    (do_customhw
       {if_else {== {{game get_participant_config 0} get_track_sym} bass}
          {if_else {> [num_gems_combo] 38}

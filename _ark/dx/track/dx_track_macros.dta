@@ -155,12 +155,12 @@
       {{$this find prism_gems_lod.tex} set_bitmap {sprint "track_ps2/gems/prism_gems_lod_" $gem ".png"}}
       #else
       {{$this find prism_gems.tex} set_bitmap {sprint "track/gems/prism_gems_" $gem ".png"}}
-	   {{$this find prism_gem_emissive.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_" $gem ".png"}}
-	   {{$this find prism_gem_emissive_3_player.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_3_player_" $gem ".png"}}
-	   {{$this find prism_gem_emissive_dynamic.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_dynamic_" $gem ".png"}}
-	   {{$this find prism_gem_emissive_dynamic_red.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_dynamic_red_" $gem ".png"}}
-	   {{$this find prism_green.tex} set_bitmap {sprint "track/gems/prism_green_" $gem ".png"}}
-	   {{$this find prism_red.tex} set_bitmap {sprint "track/gems/prism_red_" $gem ".png"}}
+      {{$this find prism_gem_emissive.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_" $gem ".png"}}
+      {{$this find prism_gem_emissive_3_player.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_3_player_" $gem ".png"}}
+      {{$this find prism_gem_emissive_dynamic.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_dynamic_" $gem ".png"}}
+      {{$this find prism_gem_emissive_dynamic_red.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_dynamic_red_" $gem ".png"}}
+      {{$this find prism_green.tex} set_bitmap {sprint "track/gems/prism_green_" $gem ".png"}}
+      {{$this find prism_red.tex} set_bitmap {sprint "track/gems/prism_red_" $gem ".png"}}
       {{$this find prism_spotlight.tex} set_bitmap {sprint "track/gems/prism_spotlight_" $gem ".png"}}
       #endif
    }
@@ -228,23 +228,23 @@
    }
    
    {if $voxnotescustomtexture
-	   {{$this find 3d_tube_pitched.tex} set_bitmap {sprint "track/voxnotes/3d_tube_pitched_" $voxnotes ".png"}}
-	   {{$this find tube_1.tex} set_bitmap {sprint "track/voxnotes/3d_tube_pitched_star_anim1_" $voxnotes ".png"}}
-	   {{$this find tube_2.tex} set_bitmap {sprint "track/voxnotes/3d_tube_pitched_star_anim2_" $voxnotes ".png"}}
-	   {{$this find tube_3.tex} set_bitmap {sprint "track/voxnotes/3d_tube_pitched_star_anim3_" $voxnotes ".png"}}
-	   {{$this find tube_4.tex} set_bitmap {sprint "track/voxnotes/3d_tube_pitched_star_anim4_" $voxnotes ".png"}}
+      {{$this find 3d_tube_pitched.tex} set_bitmap {sprint "track/voxnotes/3d_tube_pitched_" $voxnotes ".png"}}
+      {{$this find tube_1.tex} set_bitmap {sprint "track/voxnotes/3d_tube_pitched_star_anim1_" $voxnotes ".png"}}
+      {{$this find tube_2.tex} set_bitmap {sprint "track/voxnotes/3d_tube_pitched_star_anim2_" $voxnotes ".png"}}
+      {{$this find tube_3.tex} set_bitmap {sprint "track/voxnotes/3d_tube_pitched_star_anim3_" $voxnotes ".png"}}
+      {{$this find tube_4.tex} set_bitmap {sprint "track/voxnotes/3d_tube_pitched_star_anim4_" $voxnotes ".png"}}
    }
    
    {if $voxodcustomtexture
-	   {{$this find sunburst.tex} set_bitmap {sprint "track/voxod/sunburst_" $voxod ".png"}}
-	   {{$this find freestyle_nowbar_FX.tex} set_bitmap {sprint "track/voxod/vox_now_bar_effect_" $voxod ".png"}}
+      {{$this find sunburst.tex} set_bitmap {sprint "track/voxod/sunburst_" $voxod ".png"}}
+      {{$this find freestyle_nowbar_FX.tex} set_bitmap {sprint "track/voxod/vox_now_bar_effect_" $voxod ".png"}}
    }
 
    {if $scorecustomtexture
       {{$this find indv_player_meter_circle.tex} set_bitmap {sprint "track/score/indv_player_meter_circle_" $scoretex ".png"}}
       {{$this find indv_player_meter_glass.tex} set_bitmap {sprint "track/score/indv_player_meter_glass_" $scoretex ".png"}}
-	   {{$this find indv_player_meter_glow.tex} set_bitmap {sprint "track/score/indv_player_meter_glow_" $scoretex ".png"}}
-	   {{$this find indv_player_meter.png} set_bitmap {sprint "track/score/indv_player_meter_" $scoretex ".png"}}
+      {{$this find indv_player_meter_glow.tex} set_bitmap {sprint "track/score/indv_player_meter_glow_" $scoretex ".png"}}
+      {{$this find indv_player_meter.png} set_bitmap {sprint "track/score/indv_player_meter_" $scoretex ".png"}}
    }
 
    {if $starscustomtexture
@@ -264,7 +264,7 @@
    {if $odbarcustomtexture
       {{$this find rb2_player_meter_background.tex} set_bitmap {sprint "track/overdrive_bar/player_meter_background_" $odbar ".png"}}
       {{$this find player_meter_long.tex} set_bitmap {sprint "track/overdrive_bar/player_meter_long_" $odbar ".png"}}
-	   {{$this find rising_sun_fx_small.tex} set_bitmap {sprint "track/overdrive_bar/rising_sun_fx_small_" $odbar ".png"}}
+      {{$this find rising_sun_fx_small.tex} set_bitmap {sprint "track/overdrive_bar/rising_sun_fx_small_" $odbar ".png"}}
       {{$this find indv_player_meter_bar.tex} set_bitmap {sprint "track/overdrive_bar/indv_player_meter_bar_" $odbar ".png"}}
    }
 
