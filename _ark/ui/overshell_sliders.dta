@@ -20,16 +20,18 @@
       {instruments.sld set_num_steps 41} ;number of steps for note speed slider
       {background.sld set_num_steps 31} ;number of steps for song speed slider
       {vocal_track.sld set_num_steps 60} ;number of steps for venue fps slider
+      {crowd.sld set_num_steps 71} ;number of steps for track length slider
       {instruments.sld set_current {int {+ 0.5 {/ {+ {- $trackspeed 1} 0.5} 0.05}}}} ;set note speed slider based on current value
       {background.sld set_current {int {+ 0.5 {/ {- $speedmod 1} 0.05}}}} ;set song speed slider based on current value
       {vocal_track.sld set_current {int {- $emulatefps 1}}} ;set FPS slider based on current value
+      {crowd.sld set_current {int {+ 0.5 {/ {+ {- $tracklength 1} 0.5} 0.05}}}} ;set track length slider based on current value
       {instruments.btn set_localized {sprintf {localize trackspeed_msg} {int {+ 0.5 {* $trackspeed 100}}}}} ;set note speed msg
       {background_music.btn get_local_pos $labelpos_x $labelpos_y $labelpos_z}
       {background_music.btn set_local_pos {- $labelpos_x 13.2} $labelpos_y $labelpos_z} ;fix the fucking text position so it doesn't look ugly
       {background_music.btn set_localized {sprintf {localize speed_msg} {int {+ 0.5 {* $speedmod 100}}}}} ;set song speed msg
       {vocal_track.btn set_localized {sprintf {localize fps_msg} {int $emulatefps}}} ;set venue fps msg
-      {do {crowd.btn set_showing FALSE} {sfx.btn set_showing FALSE} {$this disable crowd.btn} {$this disable sfx.btn}
-         {crowd.sld set_showing FALSE} {sfx.sld set_showing FALSE}}
+      {crowd.btn set_localized {sprintf {localize tracklength_msg} {int {+ 0.5 {* $tracklength 100}}}}} ;set track length msg
+      {do {sfx.btn set_showing FALSE} {$this disable sfx.btn} {sfx.sld set_showing FALSE}}
       {if $iamingamenow
          {$this disable background_music.btn}
       }
@@ -38,6 +40,9 @@
    (display_trackspeed_msg
       ($tspd)
       {instruments.btn set_localized {sprintf {localize trackspeed_msg} {int {+ 0.5 {* $tspd 100}}}}})
+   (display_tracklength_msg
+      ($tlen)
+      {crowd.btn set_localized {sprintf {localize tracklength_msg} {int {+ 0.5 {* $tlen 100}}}}})
    (display_speed_msg
       ($mspd)
      {background_music.btn set_localized {sprintf {localize speed_msg} {int {+ 0.5 {* $mspd 100}}}}})
@@ -68,6 +73,9 @@
          (vocal_track.btn
             {vocal_track.sld store}
             {$this set_focus vocal_track.sld})
+         (crowd.btn
+            {crowd.sld store}
+            {$this set_focus crowd.sld})
       })
    (BUTTON_DOWN_MSG
       {switch
@@ -102,6 +110,16 @@
                   {vocal_track.sld undo $player}
                   {$this set_focus vocal_track.btn})
                kDataUnhandled})
+         (crowd.sld
+            {switch
+               $action
+               (kAction_Confirm
+                  {crowd.sld confirm}
+                  {$this set_focus crowd.btn})
+               (kAction_Cancel
+                  {crowd.sld undo $player}
+                  {$this set_focus crowd.btn})
+               kDataUnhandled})
 ;         (sfx.sld
 ;            {switch
 ;               $action
@@ -126,9 +144,11 @@
                {+ 1 {* {background.sld current} 0.05}}}
             {set $emulatefps
                {+ 1 {vocal_track.sld current}}}
+            {set $tracklength {- {+ 1 {* {crowd.sld current} 0.05}} 0.5}}
          {set $leaderspeed $speedmod}}
          {set $leaderspeed $speedmod}
          {$this display_trackspeed_msg $trackspeed}
+         {$this display_tracklength_msg $tracklength}
          {$this display_speed_msg $speedmod}
          {$this display_fps_msg $emulatefps})
    (on_slider_change
@@ -144,6 +164,9 @@
 ;           {$this display_fps_msg $emulatefps} ;same
             {$this set_speeds})
          (vocal_track.sld
+               {do {set $component current}}
+               {$this set_speeds})
+         (crowd.sld 
                {do {set $component current}}
                {$this set_speeds})
 ;         (sfx.sld
@@ -187,6 +210,10 @@
             {$component
                set_current
                {int {- $emulatefps 1}}})
+         (crowd.sld
+            {$component
+               set_current
+               {int {+ 0.5 {/ {+ {- $tracklength 1} 0.5} 0.05}}}})
 ;         (sfx.sld
 ;            {$component
 ;               set_current
@@ -240,10 +267,7 @@
       {crowd.btn set_localized {localize {sprintf "gemcolor_%i" $slot4_color}}} ;update text for button 4
       {sfx.btn set_localized {localize {sprintf "gemcolor_%i" $slot5_color}}} ;update text for button 5
    )
-   (exit
-   {set $leaderspeed $speedmod}
-   {do
-      {set $leaderspeed $speedmod}})
+   (exit)
    (TRANSITION_COMPLETE_MSG
       {$this
          update_helpbar

@@ -268,19 +268,19 @@
                               {if_else $multioptimized
                                  {switch {$this name}
                                     ((1_player_wide 1_player_regular)
-                                       $track_fade_start
+                                       {* $track_fade_start $tracklength}
                                     )
                                     ((2_player_wide 2_player_regular)
-                                       $track_fade_start_2p
+                                       {* $track_fade_start_2p $tracklength}
                                     )
                                     ((3_player_wide 3_player_regular)
-                                       $track_fade_start_3p
+                                       {* $track_fade_start_3p $tracklength}
                                     )
                                     ((score_duel score_duel_wide tug_of_war tug_of_war_wide)
-                                       $track_fade_start
+                                       {* $track_fade_start $tracklength}
                                     )
                                  }
-                                 $track_fade_start
+                                 {* $track_fade_start $tracklength}
                               }
                               0})
                         ($fade_end
@@ -325,19 +325,19 @@
                                  {if_else $multioptimized
                                     {switch {$this name}
                                        ((1_player_wide 1_player_regular)
-                                          $track_fade_start
+                                          {* $track_fade_start $tracklength}
                                        )
                                        ((2_player_wide 2_player_regular)
-                                          $track_fade_start_2p
+                                          {* $track_fade_start_2p $tracklength}
                                        )
                                        ((3_player_wide 3_player_regular)
-                                          $track_fade_start_3p
+                                          {* $track_fade_start_3p $tracklength}
                                        )
                                        ((score_duel score_duel_wide tug_of_war tug_of_war_wide)
-                                          $track_fade_start
+                                          {* $track_fade_start $tracklength}
                                        )
                                     }
-                                    $track_fade_start
+                                    {* $track_fade_start $tracklength}
                                  }
                                  {if_else $multioptimized
                                     {switch {$this name}
@@ -400,19 +400,19 @@
                               {if_else $multioptimized
                                  {switch {$this name}
                                     ((1_player_wide 1_player_regular)
-                                       $track_fade_start
+                                       {* $track_fade_start $tracklength}
                                     )
                                     ((2_player_wide 2_player_regular)
-                                       $track_fade_start_2p
+                                       {* $track_fade_start_2p $tracklength}
                                     )
                                     ((3_player_wide 3_player_regular)
-                                       $track_fade_start_3p
+                                       {* $track_fade_start_3p $tracklength}
                                     )
                                     ((score_duel score_duel_wide tug_of_war tug_of_war_wide)
-                                       $track_fade_start
+                                       {* $track_fade_start $tracklength}
                                     )
                                  }
-                                 $track_fade_start
+                                 {* $track_fade_start $tracklength}
                               }
                               {if_else $multioptimized
                                  {switch {$this name}
@@ -470,7 +470,7 @@
                               [y_pos]
                               [z_pos]
                               0
-                              [fade_start]
+                              {* [fade_start] $tracklength}
                               0})
                         ($fade_end
                            {dist
@@ -479,7 +479,7 @@
                               [z_pos]
                               0
                               {'+'
-                                 [fade_start]
+                                 {* [fade_start] $tracklength}
                                  [fade_length]}
                               0})
                         {$obj
@@ -513,7 +513,7 @@
                         top_y
                         {'+'
                            {'+'
-                              [fade_start]
+                              {* [fade_start] $tracklength}
                               [fade_length]}
                            5}}
                      {if
