@@ -14,6 +14,9 @@
 ;set default venue fps.
 {set $emulatefps 24}
 
+;set FC indicator type
+{set $fctype glow}
+
 {set $slot1_color 0} ;0 = green, preset colors to GRYBO
 {set $slot2_color 1} ;1 = red
 {set $slot3_color 2} ;2 = yellow
