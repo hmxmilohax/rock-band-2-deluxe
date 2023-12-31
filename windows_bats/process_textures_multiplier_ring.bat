@@ -8,7 +8,9 @@ for %%i in (*.bmp) do @echo "%%~ni">> multiplier_ring.dta
 for %%i in (*.png) do @echo "%%~ni">> multiplier_ring.dta
 for %%i in (*.jpg) do @echo "%%~ni">> multiplier_ring.dta
 move "%~dp0..\custom_textures\multiplier_ring\multiplier_ring.dta" "%~dp0..\_ark\track\multiplier_ring\multiplier_ring.dta"
-"%~dp0..\dependencies/sed.exe" -i -e "s/multiplier_cap_glass_vox_//g" "%~dp0..\_ark\track\multiplier_ring\multiplier_ring.dta"
+"%~dp0..\dependencies/sed.exe" -i -e "s/multiplier_cap_//g" "%~dp0..\_ark\track\multiplier_ring\multiplier_ring.dta"
+"%~dp0..\dependencies/sed.exe" -i -e "s/glass_vox_//g" "%~dp0..\_ark\track\multiplier_ring\multiplier_ring.dta"
+"%~dp0..\dependencies/sed.exe" -i -e "s/fc_//g" "%~dp0..\_ark\track\multiplier_ring\multiplier_ring.dta"
 "%~dp0..\dependencies/sed.exe" -i -e "s/multiplier_meter_//g" "%~dp0..\_ark\track\multiplier_ring\multiplier_ring.dta"
 "%~dp0..\dependencies/sed.exe" -i -e "s/glow_//g" "%~dp0..\_ark\track\multiplier_ring\multiplier_ring.dta"
 "%~dp0..\dependencies/sed.exe" -i -e "s/solid_//g" "%~dp0..\_ark\track\multiplier_ring\multiplier_ring.dta"

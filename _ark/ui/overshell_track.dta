@@ -15,7 +15,11 @@
     (SELECT_MSG
     {switch {$component selected_sym}
          (os_trkpreset
+            #ifdef HX_EE
+            {ui push_screen overshell_tex_screen}
+            #else
             {ui push_screen overshell_trkpreset_screen}
+            #endif
          )
          (os_angle
             {ui push_screen overshell_angle_screen}
@@ -74,6 +78,25 @@
                }
                {do 
                   {set $dx_queue_stock_track TRUE}
+                  {set $voxhwcustomtexture FALSE}
+                  {set $highwaycustomtexture FALSE}
+                  {set $brecustomtexture FALSE}
+                  {set $gemcustomtexture FALSE}
+                  {set $smashercustomtexture FALSE}
+                  {set $lanescustomtexture FALSE}
+                  {set $voxarrowcustomtexture FALSE}
+                  {set $voxnotescustomtexture FALSE}
+                  {set $voxodcustomtexture FALSE}
+                  {set $scorecustomtexture FALSE}
+                  {set $starscustomtexture FALSE}
+                  {set $odbarcustomtexture FALSE}
+                  {set $railscustomtexture FALSE}
+                  {set $flamescustomtexture FALSE}
+                  {set $multiringcustomtexture FALSE}
+                  {set $streakcustomtexture FALSE}
+                  {set $spotlightgtrcustomtexture FALSE}
+                  {set $spotlightbasscustomtexture FALSE}
+                  {set $spotlightdrumcustomtexture FALSE}
                }
             }
          )
@@ -84,6 +107,25 @@
                }
                {do 
                   {set $dx_queue_stock_track FALSE}
+                  {set $voxhwcustomtexture FALSE}
+                  {set $highwaycustomtexture FALSE}
+                  {set $brecustomtexture FALSE}
+                  {set $gemcustomtexture FALSE}
+                  {set $smashercustomtexture FALSE}
+                  {set $lanescustomtexture FALSE}
+                  {set $voxarrowcustomtexture FALSE}
+                  {set $voxnotescustomtexture FALSE}
+                  {set $voxodcustomtexture FALSE}
+                  {set $scorecustomtexture FALSE}
+                  {set $starscustomtexture FALSE}
+                  {set $odbarcustomtexture FALSE}
+                  {set $railscustomtexture FALSE}
+                  {set $flamescustomtexture FALSE}
+                  {set $multiringcustomtexture FALSE}
+                  {set $streakcustomtexture FALSE}
+                  {set $spotlightgtrcustomtexture FALSE}
+                  {set $spotlightbasscustomtexture FALSE}
+                  {set $spotlightdrumcustomtexture FALSE}
                }
             }
          )
@@ -234,6 +276,11 @@
    {if_else $smasherbracket os_smasherbracket1 os_smasherbracket0}
    #ifndef HX_EE
    os_warn_behavior
+   {switch $fctype
+      (ring os_fc_ring)
+      (glow os_fc_glow)
+      (both os_fc_both)
+   }
    #endif
 ))
 {new
@@ -279,6 +326,15 @@
          )
          (os_warn_behavior
             {ui push_screen overshell_warn_behavior_screen}
+         )
+         ((os_fc_ring os_fc_glow os_fc_both)
+            {set $fctype {switch $fctype
+               (ring glow)
+               (glow both)
+               (both ring)
+            }}
+            {set $hwpos {sel_section.lst selected_sym}}
+            {$this lst_reset}
          )
       })
     (update_helpbar

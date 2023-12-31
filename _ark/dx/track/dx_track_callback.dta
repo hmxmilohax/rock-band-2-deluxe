@@ -15,6 +15,7 @@
          {set [num_gems_combo] 0}
          {$this check_missed}
          {{{get_bass_panel} find streak_meter} star_deploy_stop}
+         {{{{get_bass_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
          {bass stop_deploy}
       }
    )
@@ -25,18 +26,22 @@
       {set [num_gems_combo] 0}
       {$this check_missed}
       {{{get_bass_panel} find streak_meter} star_deploy_stop}
+      {{{{get_bass_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
       {bass stop_deploy}
    )
    (check_fc
       {$this check_missed}
       {if {== {'+' [num_gems_pass] [num_gems_miss]} 0}
-        {{{get_bass_panel} find streak_meter} star_deploy}
-        {bass deploy}
+         {if {|| {== $fctype glow} {== $fctype both}}
+            {{{get_bass_panel} find streak_meter} star_deploy}
+            {bass deploy}
+         }
       }
    )
    (check_missed
       {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
          {{{get_bass_panel} find streak_meter} star_deploy_stop}
+         {{{{get_bass_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
          {bass stop_deploy}
       }
       {if_else {== $highwaybass "_1_none"}
@@ -159,6 +164,7 @@
          {set [num_gems_combo] 0}
          {$this check_missed}
          {{{get_guitar_panel} find streak_meter} star_deploy_stop}
+         {{{{get_guitar_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
          {guitar stop_deploy}
       }
    )
@@ -169,18 +175,22 @@
       {set [num_gems_combo] 0}
       {$this check_missed}
       {{{get_guitar_panel} find streak_meter} star_deploy_stop}
+      {{{{get_guitar_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
       {guitar stop_deploy}
    )
    (check_fc
       {$this check_missed}
       {if {== {'+' [num_gems_pass] [num_gems_miss]} 0}
-        {{{get_guitar_panel} find streak_meter} star_deploy}
-        {guitar deploy}
+         {if {|| {== $fctype glow} {== $fctype both}}
+            {{{get_guitar_panel} find streak_meter} star_deploy}
+            {guitar deploy}
+         }
       }
    )
    (check_missed
       {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
          {{{get_guitar_panel} find streak_meter} star_deploy_stop}
+         {{{{get_guitar_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
          {guitar stop_deploy}
       }
       {if_else {== $highwaygtr "_1_none"}
@@ -303,6 +313,7 @@
          {set [num_gems_combo] 0}
          {$this check_missed}
          {{{get_drum_panel} find streak_meter} star_deploy_stop}
+         {{{{get_drum_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
          {drum stop_deploy}
       }
    )
@@ -313,18 +324,22 @@
       {set [num_gems_combo] 0}
       {$this check_missed}
       {{{get_drum_panel} find streak_meter} star_deploy_stop}
+      {{{{get_drum_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
       {drum stop_deploy}
    )
    (check_fc
       {$this check_missed}
       {if {== {'+' [num_gems_pass] [num_gems_miss]} 0}
-        {{{get_drum_panel} find streak_meter} star_deploy}
-        {drum deploy}
+         {if {|| {== $fctype glow} {== $fctype both}}
+            {{{get_drum_panel} find streak_meter} star_deploy}
+            {drum deploy}
+         }
       }
    )
    (check_missed
       {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
          {{{get_drum_panel} find streak_meter} star_deploy_stop}
+         {{{{get_drum_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
          {drum stop_deploy}
       }
       {if_else {== $highwaydrum "_1_none"}

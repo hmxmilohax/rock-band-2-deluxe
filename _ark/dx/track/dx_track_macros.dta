@@ -55,14 +55,22 @@
 #define DX_TRACK_TEXTURE_HANDLER
 (
 {unless {modifier_mgr is_modifier_active mod_nohud}
+   
+   {unless $texrunevery ;this runs every track load as these textures always reset
+      {new Tex transparent.tex}
+      {{$this find transparent.tex} set_bitmap "track/custom_track_textures/_no_highway.png"}
+   }
 
    {unless $texrunonce
       ;{new Tex transparent.tex} ;the new tex doesnt save so i changed it to an unused existing tex -LX
-      {{$this find all_icons.tex} set_bitmap "track/custom_track_textures/_no_highway.png"}
       #ifdef HX_EE
       {{$this find smasher_wii.tex} set_bitmap "track/rails/rails_warning_rb2.png"}
       #else
       {{$this find smasher_plate_orange_nomip.tex} set_bitmap "track/rails/rails_warning_rb2.png"}
+      {if_else $dx_queue_stock_track
+         {{$this find all_icons.tex} set_bitmap "track/multiplier_ring/multiplier_cap_fc_rb2.png"}
+         {{$this find all_icons.tex} set_bitmap "track/multiplier_ring/multiplier_cap_fc_rb2dx.png"}
+      }
       #endif
    }
 
@@ -70,8 +78,8 @@
       {if {!= {{game get_participant_config 0} get_track_sym} vocals}
          {if_else $nogemdividers
             {do
-               {{{get_track_0_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}}
-               {{{get_track_1_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}}
+               {{{get_track_0_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find transparent.tex}}
+               {{{get_track_1_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find transparent.tex}}
             }
             {do
                {{{get_track_0_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}}
@@ -95,9 +103,9 @@
          {if_else $nogemdividers
             {beatmatch foreach_active_player $player
                {switch {$player instrument}
-                  (bass {{{get_bass_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})
-                  (guitar {{{get_guitar_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})
-                  (drum {{{get_drum_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find all_icons.tex}})
+                  (bass {{{get_bass_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find transparent.tex}})
+                  (guitar {{{get_guitar_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find transparent.tex}})
+                  (drum {{{get_drum_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find transparent.tex}})
                }
             }
             {beatmatch foreach_active_player $player
@@ -270,6 +278,9 @@
 
    {if $multiringcustomtexture
       {{$this find multiplier_cap_glass_vox.tex} set_bitmap {sprint "track/multiplier_ring/multiplier_cap_glass_vox_" $multiring ".png"}}
+      {{$this find all_icons.tex} set_bitmap {sprint "track/multiplier_ring/multiplier_cap_fc_" $multiring ".png"}}
+      {{$this find multiplier_cap_glass_vox.tex} iterate_refs $ref {$ref set intensify {&& {!= $multiring rb2} {!= $multiring rb2dx}}}}
+      {{$this find all_icons.tex} iterate_refs $ref {$ref set intensify {&& {!= $multiring rb2} {!= $multiring rb2dx}}}}
       {{$this find multiplier_meter_glow.tex} set_bitmap {sprint "track/multiplier_ring/multiplier_meter_glow_" $multiring ".png"}}
       {{$this find multiplier_meter.tex} set_bitmap {sprint "track/multiplier_ring/multiplier_meter_" $multiring ".png"}}
       {{$this find multiplier_meter_solid..tex} set_bitmap {sprint "track/multiplier_ring/multiplier_meter_solid_" $multiring ".png"}}
@@ -393,30 +404,31 @@
       #endif
    }
 
-;after all of the queued texture updates are completed, set them to false so they do not run again until a new texture is queued via overshell
-#ifndef HX_EE ; ps2 resets textures once the track is unloaded, so dont do this there
-{set $voxhwcustomtexture FALSE}
-;{set $hwalpha_needs_reset FALSE}
-{set $highwaycustomtexture FALSE}
-{set $brecustomtexture FALSE}
-{set $gemcustomtexture FALSE}
-{set $smashercustomtexture FALSE}
-{set $lanescustomtexture FALSE}
-{set $voxarrowcustomtexture FALSE}
-{set $voxnotescustomtexture FALSE}
-{set $voxodcustomtexture FALSE}
-{set $scorecustomtexture FALSE}
-{set $starscustomtexture FALSE}
-{set $odbarcustomtexture FALSE}
-{set $railscustomtexture FALSE}
-{set $flamescustomtexture FALSE}
-{set $multiringcustomtexture FALSE}
-{set $streakcustomtexture FALSE}
-{set $spotlightgtrcustomtexture FALSE}
-{set $spotlightbasscustomtexture FALSE}
-{set $spotlightdrumcustomtexture FALSE}
-{set $texrunonce TRUE}
-#endif
+   ;after all of the queued texture updates are completed, set them to false so they do not run again until a new texture is queued via overshell
+   #ifndef HX_EE ; ps2 resets textures once the track is unloaded, so dont do this there
+   {if $dx_queue_stock_track ; the custom track milo does the same thing on ps3/360
+      {set $voxhwcustomtexture FALSE}
+      {set $highwaycustomtexture FALSE}
+      {set $brecustomtexture FALSE}
+      {set $gemcustomtexture FALSE}
+      {set $smashercustomtexture FALSE}
+      {set $lanescustomtexture FALSE}
+      {set $voxarrowcustomtexture FALSE}
+      {set $voxnotescustomtexture FALSE}
+      {set $voxodcustomtexture FALSE}
+      {set $scorecustomtexture FALSE}
+      {set $starscustomtexture FALSE}
+      {set $odbarcustomtexture FALSE}
+      {set $railscustomtexture FALSE}
+      {set $flamescustomtexture FALSE}
+      {set $multiringcustomtexture FALSE}
+      {set $streakcustomtexture FALSE}
+      {set $spotlightgtrcustomtexture FALSE}
+      {set $spotlightbasscustomtexture FALSE}
+      {set $spotlightdrumcustomtexture FALSE}
+      {set $texrunonce TRUE}
+   }
+   #endif
 }
 )
 
@@ -514,8 +526,14 @@
             }
          }
       }
-      {{{get_track_0_panel} find streak_meter} star_deploy}
-      {{{get_track_1_panel} find streak_meter} star_deploy}
+      {if {|| {== $fctype glow} {== $fctype both}}
+         {{{get_track_0_panel} find streak_meter} star_deploy}
+         {{{get_track_1_panel} find streak_meter} star_deploy}
+      }
+      {if {|| {== $fctype ring} {== $fctype both}}
+         {{{{get_track_0_panel} find streak_meter} find glass.mat} set diffuse_tex {$this find all_icons.tex}}
+         {{{{get_track_1_panel} find streak_meter} find glass.mat} set diffuse_tex {$this find all_icons.tex}}
+      }
       {if_else {== {{game get_participant_config 0} get_track_sym} guitar}
          {unless {== $highwaygtr "_1_none"}
             {{{get_track_0_panel} find indv_player_warning.trig} trigger}
@@ -586,7 +604,12 @@
       {beatmatch foreach_active_player $player 
          {switch {$player instrument}
             (bass
-               {{{{get_track_panel} find bass} find streak_meter} star_deploy}
+               {if {|| {== $fctype glow} {== $fctype both}}
+                  {{{{get_track_panel} find bass} find streak_meter} star_deploy}
+               }
+               {if {|| {== $fctype ring} {== $fctype both}}
+                  {{{{get_bass_panel} find streak_meter} find glass.mat} set diffuse_tex {$this find all_icons.tex}}
+               }
                {unless {== $highwaybass "_1_none"}
                   {{{{get_track_panel} find bass} find indv_player_warning.trig} trigger}
                   {{{{get_track_panel} find bass} find warning_track_emissive.anim} stop_animation}
@@ -596,7 +619,12 @@
                {{{{get_track_panel} find bass} find rails.mat} set diffuse_tex {{get_track_panel} find rails.tex}}
             )
             (guitar
-               {{{{get_track_panel} find guitar} find streak_meter} star_deploy}
+               {if {|| {== $fctype glow} {== $fctype both}}
+                  {{{{get_track_panel} find guitar} find streak_meter} star_deploy}
+               }
+               {if {|| {== $fctype ring} {== $fctype both}}
+                  {{{{get_guitar_panel} find streak_meter} find glass.mat} set diffuse_tex {$this find all_icons.tex}}
+               }
                {unless {== $highwaygtr "_1_none"}
                   {{{{get_track_panel} find guitar} find indv_player_warning.trig} trigger}
                   {{{{get_track_panel} find guitar} find warning_track_emissive.anim} stop_animation}
@@ -605,7 +633,12 @@
                {{{{get_track_panel} find guitar} find rails.mat} set diffuse_tex {{get_track_panel} find rails.tex}}
             )
             (drum
-               {{{{get_track_panel} find drum} find streak_meter} star_deploy}
+               {if {|| {== $fctype glow} {== $fctype both}}
+                  {{{{get_track_panel} find drum} find streak_meter} star_deploy}
+               }
+               {if {|| {== $fctype ring} {== $fctype both}}
+                  {{{{get_drum_panel} find streak_meter} find glass.mat} set diffuse_tex {$this find all_icons.tex}}
+               }
                {unless {== $highwaydrum "_1_none"}
                   {{{{get_track_panel} find drum} find indv_player_warning.trig} trigger}
                   {{{{get_track_panel} find drum} find warning_track_emissive.anim} stop_animation}
@@ -617,5 +650,25 @@
          }
       }
    }
+}
+)
+
+#define DX_SET_TRACK_SPEED
+(
+{do
+   ($tl ;math for track length compensation (not perfect but is much better than nothing)
+      {if_else {== $tracklength 1.0} 
+         1.0 
+         {if_else {> $tracklength 1.0}
+            {if_else {>= $tracklength 2.0}
+               {/ $tracklength 1.4}
+               {/ $tracklength {+ {* $tracklength 0.4} 0.6}}
+            }
+            {* $tracklength {+ {* $tracklength -1.5} 2.5}}
+         }
+      }
+   )
+   {{{gamemode get track_panel} loaded_dir} set view_time_easy {* {* {/ 2.4 $trackspeed} $tl} $speedmod}} ;implement track speed modifier
+   {{{gamemode get track_panel} loaded_dir} set view_time_expert {* {* {/ 1.2 $trackspeed} $tl} $speedmod}}
 }
 )
