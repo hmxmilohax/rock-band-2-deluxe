@@ -15,7 +15,11 @@
     (SELECT_MSG
     {switch {$component selected_sym}
          (os_trkpreset
+            #ifdef HX_EE
+            {ui push_screen overshell_tex_screen}
+            #else
             {ui push_screen overshell_trkpreset_screen}
+            #endif
          )
          (os_angle
             {ui push_screen overshell_angle_screen}
