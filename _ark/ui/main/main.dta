@@ -134,7 +134,14 @@
                {modifier_mgr is_feature_enabled modifier_online_feature}}
             {motd.lbl set text_token motd_online_disabled}
             {motd.lbl set_showing TRUE})
-		 (&&
+        ({&&
+               {server is_connected}
+               [motd_done]}
+            {motd.lbl
+               set_localized
+               [motd_message]}
+            {motd.lbl set_showing TRUE})
+		 (TRUE
             {motd.lbl set text_token motd_overshell_tip}
             {motd.lbl set_showing TRUE})})
    (load
