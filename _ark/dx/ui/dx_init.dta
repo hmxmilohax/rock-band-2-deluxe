@@ -359,12 +359,12 @@
       }
       {if {== {elem $entry 0} {basename mod_nosustain}}
          {if {== {elem {find $entry mod_nosustain} 1} 1}
-            {modifier_mgr activate_modifier mod_nosustain}
+            {set $sustains "_1_none"}
          }
       }
       {if {== {elem $entry 0} {basename mod_rb3sustain}}
          {if {== {elem {find $entry mod_rb3sustain} 1} 1}
-            {modifier_mgr activate_modifier mod_rb3sustain}
+            {set $sustains "rb3"}
          }
       }
       {if {== {elem $entry 0} {basename mod_nowhammyfx}}
