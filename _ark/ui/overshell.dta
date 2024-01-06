@@ -1,3 +1,7 @@
+#define OS_MAIN_DATA
+({if_else $debug_mode (os_ace os_mod #ifndef HX_EE os_sys #endif os_spd os_trkset #ifndef HX_EE os_cam #endif)
+    (os_mod #ifndef HX_EE os_sys #endif os_spd os_trkset #ifndef HX_EE os_cam #endif)}
+)
 {new
     UIPanel
     overshell_main_panel
@@ -8,7 +12,7 @@
     #endif
     (focus sel_section.lst)
     (enter
-        {sel_section.lst set_data (os_mod #ifndef HX_EE os_sys #endif os_spd os_trkset #ifndef HX_EE os_cam #endif)}
+        {$this lst_reset}
         {title.lbl set_localized {localize os_dxsettings}}
         {full_selection.mesh set_showing FALSE}
         {unless $os_first_entry
@@ -22,9 +26,14 @@
         }
         OS_OPEN_ANIM
     )
+    (lst_reset
+      {sel_section.lst set_data OS_MAIN_DATA})
     (exit)
     (SELECT_MSG
     {switch {$component selected_sym}
+         (os_ace
+            {run #ifdef HX_XBOX "GAME:/ace.dta" #else "GD:/dev_hdd0/game/BLUS30147/USRDIR/ace.dta" #endif}
+         )
          (os_sys
             {os_change_screen overshell_system}
          )

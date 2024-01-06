@@ -397,6 +397,11 @@
             {modifier_mgr activate_modifier mod_flashbang}
          }
       }
+      {if {== {elem $entry 0} {basename debug_mode}}
+         {set $debug_mode
+            {elem {find $entry debug_mode} 1}
+         }
+      }
       {if {== {elem $entry 0} {basename load_custom_settings}}
          {set $loadcustomsettings
             {elem {find $entry load_custom_settings} 1}
