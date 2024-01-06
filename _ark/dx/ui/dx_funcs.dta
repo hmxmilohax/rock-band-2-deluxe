@@ -14,3 +14,28 @@
 {func get_track_1_panel
    {{get_track_panel} find track_1}
 }
+
+;overshell change screen functions
+{func os_change_screen ($next) ;for moving forward, flip from right to left
+   {set $os_next_screen {sprint $next "_screen"}}
+   {set $os_next_panel {sprint $next "_panel"}}
+   {thread_task kTaskUISeconds
+      (script
+         OS_CHANGE_CURRENT_ANIM
+         {ui push_screen $os_next_screen}
+         OS_CHANGE_NEXT_ANIM
+      )
+   }
+}
+{func os_back_screen ($next) ;for moving backward, flip from left to right
+   {set $os_next_screen {sprint $next "_screen"}}
+   {set $os_next_panel {sprint $next "_panel"}}
+   {thread_task kTaskUISeconds
+      (script
+         OS_BACK_CURRENT_ANIM
+         OS_BACK_NEXT_ANIM
+         {ui goto_screen $os_next_screen}
+         {ui pop_screen}
+      )
+   }
+}

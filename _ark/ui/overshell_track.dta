@@ -16,13 +16,13 @@
     {switch {$component selected_sym}
          (os_trkpreset
             #ifdef HX_EE
-            {ui push_screen overshell_tex_screen}
+            {os_change_screen overshell_tex}
             #else
-            {ui push_screen overshell_trkpreset_screen}
+            {os_change_screen overshell_trkpreset}
             #endif
          )
          (os_angle
-            {ui push_screen overshell_angle_screen}
+            {os_change_screen overshell_angle}
          )
          (os_clr
             {ui push_screen options_color_screen}
@@ -39,8 +39,7 @@
          #ifdef HX_EE {== $button kPad_Tri} #else {== $action kAction_Cancel} #endif
          {do
          {synth play button_toggle}
-         {ui goto_screen overshell_main_screen}
-         {ui pop_screen}
+         {os_back_screen overshell_main}
          TRUE}
          kDataUnhandled})
     (TRANSITION_COMPLETE_MSG
@@ -69,7 +68,7 @@
     (SELECT_MSG
     {switch {$component selected_sym}
          (os_tex
-            {ui push_screen overshell_tex_screen}
+            {os_change_screen overshell_tex}
          )
          (os_rb2prst
             {if_else $texrunonce
@@ -211,8 +210,7 @@
          #ifdef HX_EE {== $button kPad_Tri} #else {== $action kAction_Cancel} #endif
          {do
          {synth play button_toggle}
-         {ui goto_screen overshell_track_screen}
-         {ui pop_screen}
+         {os_back_screen overshell_track}
          TRUE}
          kDataUnhandled})
     (TRANSITION_COMPLETE_MSG
@@ -253,8 +251,7 @@
          #ifdef HX_EE {== $button kPad_Tri} #else {== $action kAction_Cancel} #endif
          {do
          {synth play button_toggle}
-         {ui goto_screen overshell_tex_screen}
-         {ui pop_screen}
+         {os_back_screen overshell_tex}
          TRUE}
          kDataUnhandled})
     (TRANSITION_COMPLETE_MSG
@@ -325,7 +322,7 @@
             {$this lst_reset}
          )
          (os_warn_behavior
-            {ui push_screen overshell_warn_behavior_screen}
+            {os_change_screen overshell_warn_behavior}
          )
          ((os_fc_ring os_fc_glow os_fc_both)
             {set $fctype {switch $fctype
@@ -348,8 +345,11 @@
          #ifdef HX_EE {== $button kPad_Tri} #else {== $action kAction_Cancel} #endif
          {do
          {synth play button_toggle}
-         {ui goto_screen overshell_track_screen}
-         {ui pop_screen}
+         #ifdef HX_EE
+         {os_back_screen overshell_tex}
+         #else
+         {os_back_screen overshell_instrument_sel}
+         #endif
          TRUE}
          kDataUnhandled})
     (TRANSITION_COMPLETE_MSG
@@ -407,8 +407,7 @@
         {if
         {== $action kAction_Cancel}
         {synth play button_toggle}
-         {ui goto_screen overshell_hw_behavior_screen}
-         {ui pop_screen}}
+         {os_back_screen overshell_instrument_sel}}
          kDataUnhandled)
     (TRANSITION_COMPLETE_MSG
         {$this update_helpbar})}
@@ -511,8 +510,7 @@
         {if
         {== $action kAction_Cancel}
         {synth play button_toggle}
-         {ui goto_screen overshell_hw_behavior_screen}
-         {ui pop_screen}}
+         {os_back_screen overshell_hw_behavior}}
          kDataUnhandled)
     (TRANSITION_COMPLETE_MSG
         {$this update_helpbar})}
@@ -683,8 +681,7 @@
          #ifdef HX_EE {== $button kPad_Tri} #else {== $action kAction_Cancel} #endif
          {do
          {synth play button_toggle}
-         {ui goto_screen overshell_track_screen}
-         {ui pop_screen}
+         {os_back_screen overshell_track}
          TRUE}
          kDataUnhandled})
     (TRANSITION_COMPLETE_MSG
