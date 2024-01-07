@@ -26,10 +26,14 @@
    (show_prefab_chars TRUE)
    (allow_create_char TRUE)
    (force_player_vocal_gender
-      {if_else
-         {modifier_mgr is_modifier_active mod_vocalgender}
-		 FALSE
-		 TRUE})
+      {if_else $online_enabled
+         FALSE
+         {if_else {modifier_mgr is_modifier_active mod_vocalgender}
+            FALSE
+            TRUE
+         }
+      }
+   )
    (local_network TRUE)
    (ranked FALSE)
    (online_play_required FALSE)
@@ -349,10 +353,14 @@
    (main_mode_screen main_quickplay_screen)
    (allow_create_char FALSE)
    (force_player_vocal_gender
-      {if_else
-         {modifier_mgr is_modifier_active mod_vocalgender}
-		 FALSE
-		 TRUE})
+      {if_else $online_enabled
+         FALSE
+         {if_else {modifier_mgr is_modifier_active mod_vocalgender}
+            FALSE
+            TRUE
+         }
+      }
+   )
    (max_players 1)
    (max_local_players 1)
    (player_arrangement kArrangeBand)
@@ -716,10 +724,14 @@
    (enable_streak FALSE)
    (enable_star_power FALSE)
    (force_player_vocal_gender
-      {if_else
-         {modifier_mgr is_modifier_active mod_vocalgender}
-		 FALSE
-		 TRUE})
+      {if_else $online_enabled
+         FALSE
+         {if_else {modifier_mgr is_modifier_active mod_vocalgender}
+            FALSE
+            TRUE
+         }
+      }
+   )
    (allow_overdrive_phrases FALSE)
    (endgame_screen
       {if_else
