@@ -95,25 +95,28 @@
             {$this enable lb_scoreduel.btn}}}
       #endif)
    (update_button_status
-   ;   {if_else
-   ;      {server is_connected}
-   ;      {do
-   ;         {if_else
-   ;            {community_panel is_webcode_done}
-   ;            {$this enable webcode_ps3.btn}
-   ;            {$this disable webcode_ps3.btn}}
-   ;         {$this enable checkinvites.btn}
-   ;         {$this enable managefriends.btn}}
-   ;      {do
-   ;         {$this disable webcode_ps3.btn}
-   ;         {$this disable checkinvites.btn}
-   ;         {$this disable managefriends.btn}}}
+      #ifdef HX_PS3
+      {if_else
+         {server is_connected}
+         {do
+            {if_else
+               {community_panel is_webcode_done}
+               {$this enable webcode_ps3.btn}
+               {$this disable webcode_ps3.btn}}
+            {$this enable checkinvites.btn}
+            {$this enable managefriends.btn}}
+         {do
+            {$this disable webcode_ps3.btn}
+            {$this disable checkinvites.btn}
+            {$this disable managefriends.btn}}}
+      #else
       {$this disable webcode_ps3.btn}
       {webcode_ps3.btn set_showing FALSE}
       {$this disable checkinvites.btn}
       {checkinvites.btn set_showing FALSE}
       {$this disable managefriends.btn}
-      {managefriends.btn set_showing FALSE})
+      {managefriends.btn set_showing FALSE}
+      #endif)
    (set_gameplay_button
       #ifdef HX_PS3
       {$this disable gameplay.btn}
@@ -186,8 +189,10 @@
          {game reset_config}}
       {meta music_start}
       {BandHighlight.hlit register_focus}
+      #ifndef STORE_ENABLED
       {store.btn set_state kComponentDisabled} ;disable music store button, we don't need it rn
       {store.btn set_showing FALSE} ;hide it too
+      #endif
    )
    (exit
       {if {exists logo_task_populate} ;check if the above task is running
@@ -236,47 +241,49 @@
             #ifdef HX_PS3
             {community.btn set_state kComponentNormal}
             #endif
-            {goto_and_push_focus_after_network_connect main_community_screen FALSE}
-         )
+            {goto_and_push_focus_after_network_connect main_community_screen FALSE})
          (store.btn
-            {main_panel push_focus}
-            {ui goto_screen main_tweaks_screen} ;redirect store button to tweaks instead
-;            #ifdef HX_XBOX
-;            {if_else
-;               [show_rbn_store]
-;               {do
-;                  {main_panel push_focus}
-;                  {ui goto_screen main_store_screen}}
-;               {do
-;                  {if_else
-;                     {'||'
-;                        {!
-;                           {platform_mgr is_player_signed_into_live $player_num}}
-;                        {platform_mgr is_player_a_guest $player_num}}
-;                     {ui push_screen main_store_signin_screen}
-;                     {ui push_screen main_store_find_cache_screen}}
-;                  {input_mgr
-;                     set_user
-;                     {user_mgr get_band_user $player_num}}}}
-;            #endif
-;            #ifdef HX_PS3
-;            {if_else
-;               [show_rbn_store]
-;               {do
-;                  {main_panel push_focus}
-;                  {ui goto_screen main_store_screen}}
-;               {ui goto_screen pre_store_enter_network_screen}}
-;            #endif
-;            #ifdef HX_PC
-;            {main_panel push_focus}
-;            {ui goto_screen main_store_screen}
-;            #endif
-         )})}
+            {if_else
+               [show_rbn_store]
+               {do
+                  #ifdef HX_XBOX
+                  {main_panel push_focus}
+                  {ui goto_screen main_store_screen}
+                  #else
+                  {gamemode set_mode store}
+                  #ifdef HX_PS3
+                  {ui goto_screen store_enter_network_screen}
+                  #else
+                  {main_panel push_focus}
+                  {ui goto_screen main_store_screen}
+                  #endif
+                  #endif}
+               {do
+                  #ifdef HX_XBOX
+                  {if_else
+                     {'||'
+                        {!
+                           {platform_mgr is_player_signed_into_live $player_num}}
+                        {platform_mgr is_player_a_guest $player_num}}
+                     {ui push_screen main_store_signin_screen}
+                     {ui push_screen main_store_find_cache_screen}}
+                  #else
+                  {gamemode set_mode store}
+                  #ifdef HX_PS3
+                  {ui goto_screen store_enter_network_screen}
+                  #else
+                  {ui goto_screen store_loading_screen}
+                  #endif
+                  #endif
+                  {input_mgr
+                     set_user
+                     {user_mgr get_band_user $player_num}}}})})}
 {new
    AutoloadScreen
    main_screen
    (panels meta main_panel)
    (focus main_panel)
+   (back splash_screen)
    (access_all
       {$this
          enable
