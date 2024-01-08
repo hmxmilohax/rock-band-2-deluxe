@@ -2000,7 +2000,7 @@
 (loading_trivia1105 "\qCrazy\q is about a guy whose girlfriend packs up her stuff and leaves, and just how much he misses her.")
 (loading_trivia1106 "Tyler's impressive 6 octave high 'whistle' note near the end of this song is said to be heavily inspired by the ending of \qSince I Don't Have You\q by The Skyliners.")
 
-
+#include ../../dx/locale/dx_locale_updates.dta
 ;ALWAYS KEEP THIS LAST SO IT LOADS ON TOP OF EVERYTHING ELSE
 ;user added locale strings
 #include locale_extras.dta
