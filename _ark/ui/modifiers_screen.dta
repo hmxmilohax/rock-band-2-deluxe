@@ -70,15 +70,26 @@
                                             {$this set is_autoloading TRUE}
                                             {autoload}}
                                         {modifiers.lst set_dirty}}}
-                                {do
-                                    {if_else
-                                        {modifier_mgr does_disable_features $modifier}
-                                        {do
-                                            {modifier_confirm_screen set modifier $modifier}
-                                            {ui push_screen modifier_confirm_screen}}
-                                        {do
-                                            {modifier_mgr activate_modifier $modifier}
-                                            {modifiers.lst set_dirty}}}}}}}}}})
+                                 {do
+                                    {if_else {modifier_mgr does_disable_features $modifier}
+                                       {do
+                                          {if_else $iamingamenow
+                                             {do
+                                                kDataUnhandled
+                                             }
+                                             {do
+                                                {modifier_confirm_screen set modifier $modifier}
+                                                {ui push_screen modifier_confirm_screen}
+                                             }
+                                          }
+                                       }
+                                       {do
+                                          {modifier_mgr activate_modifier $modifier}
+                                          {modifiers.lst set_dirty}
+                                       }
+                                    }
+                                 }
+                              }}}}}})
     (update_helpbar
         {if_else
             {==
