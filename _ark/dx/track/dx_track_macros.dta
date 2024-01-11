@@ -17,6 +17,7 @@
             {if {== $rails "rb2"} {set $rails "none"} {set $railscustomtexture FALSE}}
             {if {== $flames "rb2"} {set $flames "none"} {set $flamescustomtexture FALSE}}
             {if {== $scoretex "rb2"} {set $scoretex "none"} {set $scorecustomtexture FALSE}}
+            {if {== $solobox "rb2"} {set $solobox "none"} {set $soloboxcustomtexture FALSE}}
             {if {== $stars "rb2"} {set $stars "none"} {set $starscustomtexture FALSE}}
             {if {== $font "rb2"} {set $font "none"} {set $fontcustomtexture FALSE}}
             {if {== $bretex "rb2"} {set $bretex "none"} {set $brecustomtexture FALSE}}
@@ -25,28 +26,31 @@
             {if {== $voxod "rb2"} {set $voxod "none"} {set $voxodcustomtexture FALSE}}
             {if {== $voxhw "rb2"} {set $voxhw "none"} {set $voxhwcustomtexture FALSE}}
          }
-         {do
-            {if {== $gem "rb2dx"} {set $gem "none"} {set $gemcustomtexture FALSE}}
-            {if {== $smasher "rb2dx"} {set $smasher "none"} {set $smashercustomtexture FALSE}}
-            {if {== $lanestex "rb2"} {set $lanestex "none"} {set $lanescustomtexture FALSE}}
-            {if {== $streakgtr "rb4"} {set $streakgtr "none"} {set $streakcustomtexture FALSE}}
-            {if {== $streakbass "rb4"} {set $streakbass "none"} {set $streakcustomtexture FALSE}}
-            {if {== $streakdrum "rb4"} {set $streakdrum "none"} {set $streakcustomtexture FALSE}}
-            {if {== $spotlightgtr "rb4"} {set $spotlightgtr "none"} {set $spotlightgtrcustomtexture FALSE}}
-            {if {== $spotlightbass "rb4"} {set $spotlightbass "none"} {set $spotlightbasscustomtexture FALSE}}
-            {if {== $spotlightdrum "rb4"} {set $spotlightdrum "none"} {set $spotlightdrumscustomtexture FALSE}}
-            {if {== $multiring "rb2dx"} {set $multiring "none"} {set $multiringcustomtexture FALSE}}
-            {if {== $odbar "rb2dx"} {set $odbar "none"} {set $odbarcustomtexture FALSE}}
-            {if {== $rails "rb2"} {set $rails "none"} {set $railscustomtexture FALSE}}
-            {if {== $flames "rb2dx"} {set $flames "none"} {set $flamescustomtexture FALSE}}
-            {if {== $scoretex "rb4"} {set $scoretex "none"} {set $scorecustomtexture FALSE}}
-            {if {== $stars "rb4"} {set $stars "none"} {set $starscustomtexture FALSE}}
-            {if {== $font "rb2"} {set $font "none"} {set $fontcustomtexture FALSE}}
-            {if {== $bretex "rb2"} {set $bretex "none"} {set $brecustomtexture FALSE}}
-            {if {== $voxarrow "rb2dx"} {set $voxarrow "none"} {set $voxarrowcustomtexture FALSE}}
-            {if {== $voxnotes "rb2dx"} {set $voxnotes "none"} {set $voxnotescustomtexture FALSE}}
-            {if {== $voxod "rb2"} {set $voxod "none"} {set $voxodcustomtexture FALSE}}
-            {if {== $voxhw "rb2"} {set $voxhw "none"} {set $voxhwcustomtexture FALSE}}
+         {unless $iamingamenow
+            {do
+               {if {== $gem "rb2dx"} {set $gem "none"} {set $gemcustomtexture FALSE}}
+               {if {== $smasher "rb2dx"} {set $smasher "none"} {set $smashercustomtexture FALSE}}
+               {if {== $lanestex "rb2"} {set $lanestex "none"} {set $lanescustomtexture FALSE}}
+               {if {== $streakgtr "rb4"} {set $streakgtr "none"} {set $streakcustomtexture FALSE}}
+               {if {== $streakbass "rb4"} {set $streakbass "none"} {set $streakcustomtexture FALSE}}
+               {if {== $streakdrum "rb4"} {set $streakdrum "none"} {set $streakcustomtexture FALSE}}
+               {if {== $spotlightgtr "rb4"} {set $spotlightgtr "none"} {set $spotlightgtrcustomtexture FALSE}}
+               {if {== $spotlightbass "rb4"} {set $spotlightbass "none"} {set $spotlightbasscustomtexture FALSE}}
+               {if {== $spotlightdrum "rb4"} {set $spotlightdrum "none"} {set $spotlightdrumscustomtexture FALSE}}
+               {if {== $multiring "rb2dx"} {set $multiring "none"} {set $multiringcustomtexture FALSE}}
+               {if {== $odbar "rb2dx"} {set $odbar "none"} {set $odbarcustomtexture FALSE}}
+               {if {== $rails "rb2"} {set $rails "none"} {set $railscustomtexture FALSE}}
+               {if {== $flames "rb2dx"} {set $flames "none"} {set $flamescustomtexture FALSE}}
+               {if {== $scoretex "rb4"} {set $scoretex "none"} {set $scorecustomtexture FALSE}}
+               {if {== $solobox "rb2"} {set $solobox "none"} {set $soloboxcustomtexture FALSE}}
+               {if {== $stars "rb4"} {set $stars "none"} {set $starscustomtexture FALSE}}
+               {if {== $font "rb2"} {set $font "none"} {set $fontcustomtexture FALSE}}
+               {if {== $bretex "rb2"} {set $bretex "none"} {set $brecustomtexture FALSE}}
+               {if {== $voxarrow "rb2dx"} {set $voxarrow "none"} {set $voxarrowcustomtexture FALSE}}
+               {if {== $voxnotes "rb2dx"} {set $voxnotes "none"} {set $voxnotescustomtexture FALSE}}
+               {if {== $voxod "rb2"} {set $voxod "none"} {set $voxodcustomtexture FALSE}}
+               {if {== $voxhw "rb2"} {set $voxhw "none"} {set $voxhwcustomtexture FALSE}}
+            }
          }
       }
    }
@@ -253,6 +257,10 @@
       {{$this find indv_player_meter_glass.tex} set_bitmap {sprint "track/score/indv_player_meter_glass_" $scoretex ".png"}}
       {{$this find indv_player_meter_glow.tex} set_bitmap {sprint "track/score/indv_player_meter_glow_" $scoretex ".png"}}
       {{$this find indv_player_meter.png} set_bitmap {sprint "track/score/indv_player_meter_" $scoretex ".png"}}
+   }
+
+   {if $soloboxcustomtexture
+      {{$this find vox_slider_bkgrnd.tex} set_bitmap {sprint "track/solo_box/" $solobox ".png"}}
    }
 
    {if $starscustomtexture
@@ -468,6 +476,8 @@
 {unless {== $flames none} {set $flamescustomtexture TRUE}}
 
 {unless {== $scoretex none} {set $scorecustomtexture TRUE}}
+
+{unless {== $solobox none} {set $soloboxcustomtexture TRUE}}
 
 {unless {== $stars none} {set $starscustomtexture TRUE}}
 
