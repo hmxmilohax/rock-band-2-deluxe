@@ -217,6 +217,48 @@
 (leader_hb_choosesong240 "Choose Song at 240%")
 (leader_hb_choosesong245 "Choose Song at 245%")
 (leader_hb_choosesong250 "Choose Song at 250%")
+
+;server stuff
+;none
+(shell_network_busy "Communicating with the game servers...")
+(upload_uploading "Communicating with the game servers...")
+(upload_error_start_single "There was an error during the upload to the game servers.")
+(upload_error_start_fmt "There were %d errors during the upload to the game servers.")
+(upload_error_server_down "The game servers appear to be unavailable.  Rock Band 2 will attempt to upload again automatically during a later autosave.")
+(error_lost_server "You have lost contact with the game servers.")
+(leaderboards_not_available_rock_central "You will only be able to see local leaderboards while logged out of the game servers.")
+(connecting_server "Connecting to the game servers...")
+(solo_no_server_warning "Couldn't connect to the game servers.\n\nYou won't be able to send your scores to the leaderboards.  Continue anyway?")
+(tour_no_server_warning "Couldn't connect to the game servers.\n\nYou won't be able to send your scores to the leaderboards or update your band to the website.  Continue anyway?")
+#ifdef HX_PS3
+(community_no_server_warning "Couldn't connect to the game servers.\n\nYou won't be able to access the online leaderboards.  Continue anyway?")
+#else
+(community_no_server_warning "Couldn't connect to the game servers.\n\nYou won't be able to access the Xbox LIVE leaderboards.  Continue anyway?")
+#endif
+(motd_no_rock_central "Attempting to connect to the game servers...")
+(motd_online_disabled "Cannot connect to the game servers while modifiers are enabled.")
+(privileges_restricted_strict "Connecting to the game server is disabled on your PLAYSTATION<sup>Â®</sup>Network account due to parental control restrictions.\n\nYou are not allowed to access this mode.")
+(privileges_restricted_lenient "Connecting to the game server is disabled on your PLAYSTATION<sup>Â®</sup>Network account due to parental control restrictions.\n\nYou will be unable to view leaderboards or post your scores.")
+(leaderboard_connection_error "Failed to connect to the game servers.")
+(botb_net_failed "The game servers are unable to send battle information at this time. Please try again in a few minutes.")
+(tour_no_botb_connecting "Sorry, but you're unable to play Battle of the Bands at the moment.  You are currently attempting to connect to the game servers.")
+;ashcentral
+(ash_qp_online "AshCentral Quickplay")
+(ash_tour_online "AshCentral Tour")
+(ash_player_match "AshCentral Match")
+(ash_shell_network_busy "Communicating with the AshCentral server...")
+(ash_upload_uploading "Uploading data to the AshCentral server...")
+(ash_upload_error_start_single "There was an error during the upload to the AshCentral server.")
+(ash_upload_error_start_fmt "There were %d errors during the upload to the AshCentral server.")
+(ash_error_lost_server "You have lost contact with the AshCentral server.")
+(ash_leaderboards_not_available_rock_central "You will only be able to see local leaderboards while logged out of AshCentral.")
+(ash_connecting_server "Connecting to the AshCentral server...")
+(ash_solo_no_server_warning "Couldn't connect to the AshCentral server.\n\nYou won't be able to send your scores to the leaderboards.  Continue anyway?")
+(ash_tour_no_server_warning "Couldn't connect to the AshCentral server.\n\nYou won't be able to send your scores to the leaderboards or update your band to the website.  Continue anyway?")
+(ash_community_no_server_warning "Couldn't connect to the AshCentral server.\n\nYou won't be able to access the online leaderboards.  Continue anyway?")
+(ash_privileges_restricted_strict "Connecting to the AshCentral server is disabled on your PLAYSTATION<sup>Â®</sup>Network account due to parental control restrictions.\n\nYou are not allowed to access this mode.")
+(ash_privileges_restricted_lenient "Connecting to the AshCentral server is disabled on your PLAYSTATION<sup>Â®</sup>Network account due to parental control restrictions.\n\nYou will be unable to view leaderboards or post your scores.")
+
 #ifdef HX_PS3
 (error_cheating
    "Sorry, you have a modifier activated that disables online play. You cannot access any online features until the modifier is disabled.")
@@ -289,8 +331,6 @@
 #endif
 (charcreator_full_profile_fmt
    "You already own the maximum of %d characters.  If you want to make a new character, you'll have to delete an old one first.")
-(tour_no_botb_connecting
-   "Sorry, but you're unable to play Battle of the Bands at the moment.  You are currently attempting to connect to Rock Central.")
 #ifdef HX_PS3
 (cal_video_desc_pad_swapped
    "This test determines the amount of Video Latency in your system. When you see the needle hit either side of the meter, press the circle button.")
@@ -1477,9 +1517,6 @@
    "The Duke of Gravity")
 (prefab_guitar33 "Raquelle Jihiman")
 (prefab_guitar34 "Dan LaMona")
-(prefab_guitar37 "Kimberley Monroe")
-(prefab_guitar38 "Dawson Blake")
-(prefab_guitar39 "Luna")
    
    
 (prefab_vocals0 "Jeremy Kitty")
@@ -1511,7 +1548,36 @@
 (prefab_vocals20
    "Penelope McQueen")
 (prefab_vocals21 "Josh Price")
-(prefab_vocals22 "Penelope")
+
+;dx prefabs
+(prefab_kimberley_monroe "Kimberley Monroe")
+(prefab_dawson_blake "Dawson Blake")
+(prefab_luna "Luna")
+(prefab_penelope "Penelope")
+(prefab_u628 "U628")
+(prefab_chill "Chill2Music")
+(prefab_anth "Anth")
+(prefab_annai_renae "Annai Renae")
+
+;rb1 patches
+(patch_talbot
+   "Eric Talbot")
+(patch_reusch
+   "Mister Reusch")
+(patch_lyons
+   "Paul Lyons")
+(patch_painterly
+   "Painterly")
+(patch_thinlines
+   "Thin Lines")
+(patch_thicklines
+   "Thick Lines")
+(patch_sketchy
+   "Sketchy")
+(patch_chalet
+   "Chalet Typeface")
+(patch_fakir
+   "Fakir Typeface")
 
 ;; Lego Trivia
 ;; (Tokens 900-1044)
@@ -1792,7 +1858,7 @@
 (loading_trivia1037
 	"Korn Guitarist James 'Munky' Schaffer acquired his nickname from his feet, which his bandmates say look like monkey hands.")
 (loading_trivia1038
-	"\qWord Up\q was originally a hit for funk/hip-hop band Cameo, and was their first U.S. Top 40 hit. The song has since been covered many times, most notably by Finnish humppa band Eläkeläiset, but was also a modest hit for Melanie B of The Spice Girls.")
+	"\qWord Up\q was originally a hit for funk/hip-hop band Cameo, and was their first U.S. Top 40 hit. The song has since been covered many times, most notably by Finnish humppa band Elï¿½kelï¿½iset, but was also a modest hit for Melanie B of The Spice Girls.")
 (loading_trivia1039
 	"Before joining Bon Jovi, guitarist Richie Sambora was slated to audition for KISS.")
 (loading_trivia1040
@@ -2001,7 +2067,7 @@
 (loading_trivia1106 "Tyler's impressive 6 octave high 'whistle' note near the end of this song is said to be heavily inspired by the ending of \qSince I Don't Have You\q by The Skyliners.")
 
 ;;ACDC Track Pack Trivia
-(loading_trivia1200 "There are streets named for AC/DC in both Melbourne, Australia and Leganés, Spain.")
+(loading_trivia1200 "There are streets named for AC/DC in both Melbourne, Australia and Leganï¿½s, Spain.")
 (loading_trivia1201 "Though known throughout the world as Australia's foremost rock & roll band, the roots of AC/DC lie in post-war Scotland: guitar-playing brothers Angus and Malcolm Young were born in Glasgow (in 1958 & 1953, respectively) while the band's iconic first frontman Bon Scott was born in the highland town of Kirriemuir in 1946.")
 (loading_trivia1202 "The Youngs moved from Scotland to Australia in 1963, when Angus was 6.")
 (loading_trivia1203 "As a member of the Easybeats, Angus and Malcolm's older sibling, George Young, created one of Australia's first international hits, \qFriday On My Mind,\q in 1966.")
@@ -2015,7 +2081,7 @@
 (loading_trivia1211 "The beloved AC/DC trademark logo -- raised metallic Gothic lettering separated by Zeus's lightning bolt -- made its first appearance on the cover of the \qLet There Be Rock\q album in 1977.")
 (loading_trivia1212 "Produced by Mutt Lange, \qBack In Black,\q Brian Johnson's first album with AC/DC, is a deeply felt tribute to Bon Scott.")
 (loading_trivia1213 "AC/DC's top-selling album ever, \qBack In Black\q is one of the world's best-selling albums of all-time, selling over 45 million since its release.")
-(loading_trivia1214 "There are streets named for AC/DC in both Melbourne, Australia and Leganés, Spain.")
+(loading_trivia1214 "There are streets named for AC/DC in both Melbourne, Australia and Leganï¿½s, Spain.")
 (loading_trivia1215 "Though known throughout the world as Australia's foremost rock & roll band, the roots of AC/DC lie in post-war Scotland: guitar-playing brothers Angus and Malcolm Young were born in Glasgow (in 1958 & 1953, respectively) while the band's iconic first frontman Bon Scott was born in the highland town of Kirriemuir in 1946.")
 (loading_trivia1216 "The Youngs moved from Scotland to Australia in 1963, when Angus was 6.")
 (loading_trivia1217 "As a member of the Easybeats, Angus and Malcolm's older sibling, George Young, created one of Australia's first international hits, \qFriday On My Mind,\q in 1966.")
@@ -2029,7 +2095,7 @@
 (loading_trivia1225 "The beloved AC/DC trademark logo -- raised metallic Gothic lettering separated by Zeus's lightning bolt -- made its first appearance on the cover of the \qLet There Be Rock\q album in 1977.")
 (loading_trivia1226 "Produced by Mutt Lange, \qBack In Black,\q Brian Johnson's first album with AC/DC, is a deeply felt tribute to Bon Scott.")
 (loading_trivia1227 "AC/DC's top-selling album ever, \qBack In Black\q is one of the world's best-selling albums of all-time, selling over 45 million since its release.")
-(loading_trivia1228 "There are streets named for AC/DC in both Melbourne, Australia and Leganés, Spain.")
+(loading_trivia1228 "There are streets named for AC/DC in both Melbourne, Australia and Leganï¿½s, Spain.")
 (loading_trivia1229 "Though known throughout the world as Australia's foremost rock & roll band, the roots of AC/DC lie in post-war Scotland: guitar-playing brothers Angus and Malcolm Young were born in Glasgow (in 1958 & 1953, respectively) while the band's iconic first frontman Bon Scott was born in the highland town of Kirriemuir in 1946.")
 (loading_trivia1230 "The Youngs moved from Scotland to Australia in 1963, when Angus was 6.")
 (loading_trivia1231 "As a member of the Easybeats, Angus and Malcolm's older sibling, George Young, created one of Australia's first international hits, \qFriday On My Mind,\q in 1966.")
@@ -2043,7 +2109,7 @@
 (loading_trivia1239 "The beloved AC/DC trademark logo -- raised metallic Gothic lettering separated by Zeus's lightning bolt -- made its first appearance on the cover of the \qLet There Be Rock\q album in 1977.")
 (loading_trivia1240 "Produced by Mutt Lange, \qBack In Black,\q Brian Johnson's first album with AC/DC, is a deeply felt tribute to Bon Scott.")
 (loading_trivia1241 "AC/DC's top-selling album ever, \qBack In Black\q is one of the world's best-selling albums of all-time, selling over 45 million since its release.")
-(loading_trivia1242 "There are streets named for AC/DC in both Melbourne, Australia and Leganés, Spain.")
+(loading_trivia1242 "There are streets named for AC/DC in both Melbourne, Australia and Leganï¿½s, Spain.")
 (loading_trivia1243 "Though known throughout the world as Australia's foremost rock & roll band, the roots of AC/DC lie in post-war Scotland: guitar-playing brothers Angus and Malcolm Young were born in Glasgow (in 1958 & 1953, respectively) while the band's iconic first frontman Bon Scott was born in the highland town of Kirriemuir in 1946.")
 (loading_trivia1244 "The Youngs moved from Scotland to Australia in 1963, when Angus was 6.")
 (loading_trivia1245 "As a member of the Easybeats, Angus and Malcolm's older sibling, George Young, created one of Australia's first international hits, \qFriday On My Mind,\q in 1966.")
@@ -2112,15 +2178,15 @@
 ;Metal Track Pack
 (loading_phrase1305 "Lacuna Coil frontwoman Cristina Scabbia says she enjoys being miserable and writes her best songs when she's not happy.")
 (loading_phrase1306 "Lacuna Coil's name is a half-Italian, half-English phrase meaning \qempty spiral.\q This has something to do with their outlook on life.")
-(loading_phrase1307 "Who coined the unforgettable phrase \qKilled By Death\q?  According to Motörhead's Lemmy, the credit goes to English comedian Spike Milligan.")
-(loading_phrase1308 "Singer/bassist Lemmy has claimed that if Motörhead moved next door to you, your lawn would die. ")
-(loading_phrase1309 "\qKilled By Death\q marked the debut of Motörhead's short-lived two-guitar lineup. Singer/bassist Lemmy was still louder than both combined.")
+(loading_phrase1307 "Who coined the unforgettable phrase \qKilled By Death\q?  According to Motï¿½rhead's Lemmy, the credit goes to English comedian Spike Milligan.")
+(loading_phrase1308 "Singer/bassist Lemmy has claimed that if Motï¿½rhead moved next door to you, your lawn would die. ")
+(loading_phrase1309 "\qKilled By Death\q marked the debut of Motï¿½rhead's short-lived two-guitar lineup. Singer/bassist Lemmy was still louder than both combined.")
 (loading_phrase1310 "\qRed Devil\q is about three of Yngwie Malmsteen's most prized possessions: his three Ferraris.")
 (loading_phrase1311 "Singer Tim \qRipper\q Owens is the guy who temporarily replaced Rob Halford in Judas Priest, before hooking up with Yngwie Malmsteen and singing on \qRed Devil.\q ")
-(loading_phrase1312 "Hawkwind were on their third bassist when they recorded \qMaster of the Universe.\q Future Motörhead leader Lemmy would be the fourth.")
+(loading_phrase1312 "Hawkwind were on their third bassist when they recorded \qMaster of the Universe.\q Future Motï¿½rhead leader Lemmy would be the fourth.")
 (loading_phrase1313 "The sci-fi novelist Michael Moorcock has not only written lyrics for Hawkwind, he has also toured as one of their singers. ")
-(loading_phrase1314 "Record producer Sandy Pearlman dreamed up the name Blue Öyster Cult, but it was guitarist Allen Lanier who added the all-important umlaut.")
-(loading_phrase1315 "If Blue Öyster Cult sounds like a weird name, how about Soft White Underbelly? That was the psychedelic band that included some future Cult members in 1967.")
+(loading_phrase1314 "Record producer Sandy Pearlman dreamed up the name Blue ï¿½yster Cult, but it was guitarist Allen Lanier who added the all-important umlaut.")
+(loading_phrase1315 "If Blue ï¿½yster Cult sounds like a weird name, how about Soft White Underbelly? That was the psychedelic band that included some future Cult members in 1967.")
 (loading_phrase1316 "As a teenager, Children of Bodom guitarist Alexi Laiho was told by his music teacher that you couldn't make a living playing heavy metal. ")
 (loading_phrase1317 "Children of Bodom's name refers to an unsolved murder in their hometown of Espoo, Finland.")
 (loading_phrase1318 "Children of Bodom's bandmembers, its road crew and its fans are collectively known as the \qHate Crew.\q  ")
@@ -2157,14 +2223,16 @@
 (loading_phrase1349 "Rage Against the Machine's first performance was in a friend's living room in Orange County, California.")
 (loading_phrase1350 "How does Rob Halford recommend getting into the mindset for this song? Three words: chains and leather.")
 (loading_phrase1351 "Lacuna Coil originally went by the band name Ethereal, before finding that a Greek band had already claimed it.")
-(loading_phrase1352 "Long before forming Motörhead, singer/bassist Lemmy was a guitar roadie for Jimi Hendrix.")
-(loading_phrase1353 "Singer/bassist Lemmy formed Motörhead shortly after getting kicked out of the band Hawkwind.")
-(loading_phrase1354 "Motörhead frontman Lemmy is an avid collector of World War II memorabilia.")
+(loading_phrase1352 "Long before forming Motï¿½rhead, singer/bassist Lemmy was a guitar roadie for Jimi Hendrix.")
+(loading_phrase1353 "Singer/bassist Lemmy formed Motï¿½rhead shortly after getting kicked out of the band Hawkwind.")
+(loading_phrase1354 "Motï¿½rhead frontman Lemmy is an avid collector of World War II memorabilia.")
 (loading_phrase1355 "At last count, over twenty-five different musicians have performed in Queens of the Stone Age.")
 (loading_phrase1356 "In 2001, former Queens of the Stone Age member Nick Oliveri was arrested in Rio for performing onstage wearing only his bass.")
 (loading_phrase1357 "Queens of the Stone Age were originally called \qGamma Ray\q but another band had already claimed the name.")
 (loading_phrase1358 "Queens of the Stone Age reportedly opted not to be called \qKings of the Stone Age\q because they thought it would sound overly masculine.")
-
+(os_blnk
+   " ")
+#include ../../dx/locale/dx_locale_updates.dta
 ;ALWAYS KEEP THIS LAST SO IT LOADS ON TOP OF EVERYTHING ELSE
 ;user added locale strings
 #include locale_extras.dta

@@ -11,7 +11,18 @@
          add_sink
          $this
          (signin_changed)}
-      {$this update_lefty_check})
+      {$this update_lefty_check}
+      {unless $gp_first_entry
+         {{options_background_panel find tour_solo_lower3rd.grp} get_local_pos $opl3x $opl3y $opl3z}
+         {{options_background_panel find genre_corners.grp} get_local_pos $opgcx $opgcy $opgcz}
+         {{options_background_panel find bubble13.grp} get_local_pos $opbgx $opbgy $opbgz}
+         {options_gameplay_panel get_local_pos $gpx $gpy $gpz}
+         {set $gp_first_entry TRUE}
+      }
+      {if $mod_os_entered
+         OS_GP_OPEN_ANIM
+      }
+      )
    (exit
       {platform_mgr remove_sink $this signin_changed})
    (SIGNIN_CHANGED_MSG

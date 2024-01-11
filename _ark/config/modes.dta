@@ -168,7 +168,16 @@
    (unlock_song_initial_num 20)
    (enable_streak TRUE)
    (enable_star_power TRUE)
-   (cannot_connect_warning community_no_server_warning)
+   (cannot_connect_warning
+      {switch $dx_connected_server
+         (none
+            community_no_server_warning
+         )
+         (ashcentral
+            ash_community_no_server_warning
+         )
+      }
+   )
    (missing_part_type kMissingSelectCoop)
    (has_track TRUE)
    (update_leaderboards TRUE)
@@ -190,7 +199,17 @@
    (lb_song_select_screen lb_song_select_screen)
    (leaderboards_screen leaderboards_screen)
    (leaderboards_band_profile_screen leaderboards_band_profile_screen)
-   (cannot_connect_warning community_no_server_warning))
+   (cannot_connect_warning
+      {switch $dx_connected_server
+         (none
+            community_no_server_warning
+         )
+         (ashcentral
+            ash_community_no_server_warning
+         )
+      }
+   )
+)
 #define H2H_PROPERTIES
 ((game_screen h2h_game_screen)
    (track_panel h2h_track_panel)
@@ -489,7 +508,16 @@
 (tour_local
    TOUR_MODE_PROPERTIES
    (show_pause_quit FALSE)
-   (cannot_connect_warning tour_no_server_warning)
+   (cannot_connect_warning
+      {switch $dx_connected_server
+         (none
+            tour_no_server_warning
+         )
+         (ashcentral
+            ash_tour_no_server_warning
+         )
+      }
+   )
    #ifdef HX_EE
    (main_mode_screen tour_band_sel_screen)
    #endif)
@@ -679,7 +707,16 @@
    (lb_song_select_screen lb_song_select_screen)
    (leaderboards_screen leaderboards_screen)
    (leaderboards_band_profile_screen leaderboards_band_profile_screen)
-   (cannot_connect_warning community_no_server_warning)
+   (cannot_connect_warning
+      {switch $dx_connected_server
+         (none
+            community_no_server_warning
+         )
+         (ashcentral
+            ash_community_no_server_warning
+         )
+      }
+   )
    (uisink_lost_connection_screen main_community_screen)
    (uisink_default_screen main_community_screen)
    (uisink_signout_screen main_community_screen)
@@ -688,7 +725,16 @@
    #ifndef HX_PC
    (local_network FALSE)
    #endif
-   (cannot_connect_warning community_no_server_warning)
+   (cannot_connect_warning
+      {switch $dx_connected_server
+         (none
+            community_no_server_warning
+         )
+         (ashcentral
+            ash_community_no_server_warning
+         )
+      }
+   )
    (login_status kProhibited)
    (uisink_lost_connection_screen store_unload_screen)
    (uisink_default_screen store_unload_screen)
@@ -704,7 +750,16 @@
    (player_arrangement kArrangeBand)
    (intro_category INTRO_VENUE)
    (game_mode_context CONTEXT_GAME_MODE_TYPE_JUKEBOX)
-   (cannot_connect_warning solo_no_server_warning)
+   (cannot_connect_warning
+      {switch $dx_connected_server
+         (none
+            solo_no_server_warning
+         )
+         (ashcentral
+            ash_solo_no_server_warning
+         )
+      }
+   )
    (game_screen jukebox_screen)
    (is_jukebox TRUE)
    (has_track FALSE)

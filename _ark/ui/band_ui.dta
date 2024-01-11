@@ -116,12 +116,25 @@
          ($reason)
          {$this
             set_ok
-            {localize
-               {switch
-                  $reason
-                  (kLostConnection error_lost_connection)
-                  (kLostServer error_lost_server)
-                  (kEthernetUnplugged error_ethernet_unplugged)}}}
+            {switch $dx_connected_server
+               (none
+                  {localize
+                     {switch
+                        $reason
+                        (kLostConnection error_lost_connection)
+                        (kLostServer error_lost_server)
+                        (kEthernetUnplugged error_ethernet_unplugged)}}
+               )
+               (ashcentral
+                  {localize
+                     {switch
+                        $reason
+                        (kLostConnection error_lost_connection)
+                        (kLostServer ash_error_lost_server)
+                        (kEthernetUnplugged error_ethernet_unplugged)}}
+               )
+            }
+         }
          {net_sync disable_and_goto meta_loading_uisink_lost_connection_screen})
       (SELECT_DONE_MSG
          {band_ui dismiss_event}))
@@ -131,7 +144,15 @@
       (init
          {$this
             set_ok
-            {localize error_lost_server}}
+            {switch $dx_connected_server
+               (none
+                  {localize error_lost_server}
+               )
+               (ashcentral
+                  {localize ash_error_lost_server}
+               )
+            }
+         }
          {if_else
             {session is_local}
             {net_sync disable_and_goto meta_loading_return_to_tour_hub_screen}

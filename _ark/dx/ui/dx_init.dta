@@ -1,6 +1,9 @@
 #include ../../ui/overshell.dta ; having overshell.dta in ./dx crashes the game for some reason
 #include ../track/dx_track_callback.dta
 #include dx_funcs.dta
+#include ../countdown/dx_countdown_ui_init.dta
+
+{set $dx_connected_server none}
 
 ;sets default track speed. 1.15 is 115%, 1.30 is 130% and so on.
 {set $trackspeed 1.0}

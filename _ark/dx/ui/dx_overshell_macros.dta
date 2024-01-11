@@ -730,3 +730,545 @@
    {$task sleep 0.005}
    {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot $oszrot}
 )
+
+#define OS_MOD_OPEN_ANIM
+(
+   {set $modpos_add 450}
+   {thread_task kTaskUISeconds
+      (script
+         {{options_background_panel find cornertrim_01.mesh} set_showing FALSE}
+         {{options_background_panel find cornertrim_05.mesh} set_showing FALSE}
+         {modifiers_panel set_local_pos $modx $mody {+ $modz $modpos_add}}
+         {{options_background_panel find tour_solo_lower3rd.grp} set_local_pos $opl3x $opl3y {+ $opl3z $modpos_add}}
+         {{options_background_panel find genre_corners.grp} set_local_pos $opgcx $opgcy {+ $opgcz $modpos_add}}
+         {{options_background_panel find bubble13.grp} set_local_pos $opbgx $opbgy {+ $opbgz $modpos_add}}
+         {$task sleep 0.005}
+         {cond
+            ({== $modpos_add 450}
+               {set $modpos_add 404}
+               {$task loop}
+            )
+            ({== $modpos_add 404}
+               {set $modpos_add 360}
+               {$task loop}
+            )
+            ({== $modpos_add 360}
+               {set $modpos_add 319}
+               {$task loop}
+            )
+            ({== $modpos_add 319}
+               {set $modpos_add 280}
+               {$task loop}
+            )
+            ({== $modpos_add 280}
+               {set $modpos_add 244}
+               {$task loop}
+            )
+            ({== $modpos_add 244}
+               {set $modpos_add 211}
+               {$task loop}
+            )
+            ({== $modpos_add 211}
+               {set $modpos_add 180}
+               {$task loop}
+            )
+            ({== $modpos_add 180}
+               {set $modpos_add 151}
+               {$task loop}
+            )
+            ({== $modpos_add 151}
+               {set $modpos_add 125}
+               {$task loop}
+            )
+            ({== $modpos_add 125}
+               {set $modpos_add 101}
+               {$task loop}
+            )
+            ({== $modpos_add 101}
+               {set $modpos_add 80}
+               {$task loop}
+            )
+            ({== $modpos_add 80}
+               {set $modpos_add 61}
+               {$task loop}
+            )
+            ({== $modpos_add 61}
+               {set $modpos_add 45}
+               {$task loop}
+            )
+            ({== $modpos_add 45}
+               {set $modpos_add 31}
+               {$task loop}
+            )
+            ({== $modpos_add 31}
+               {set $modpos_add 20}
+               {$task loop}
+            )
+            ({== $modpos_add 20}
+               {set $modpos_add 11}
+               {$task loop}
+            )
+            ({== $modpos_add 11}
+               {set $modpos_add 5}
+               {$task loop}
+            )
+            ({== $modpos_add 5}
+               {set $modpos_add 0}
+               {$task loop}
+            )
+         }
+      )
+   }
+) ; close anim doesnt work for system menus
+
+#define OS_CONSOLE_OPEN_ANIM
+(
+   {set $modpos_add 450}
+   {thread_task kTaskUISeconds
+      (script
+         {{options_background_panel find cornertrim_01.mesh} set_showing FALSE}
+         {{options_background_panel find cornertrim_05.mesh} set_showing FALSE}
+         {options_console_panel set_local_pos $conx $cony {+ $conz $modpos_add}}
+         {{options_background_panel find tour_solo_lower3rd.grp} set_local_pos $opl3x $opl3y {+ $opl3z $modpos_add}}
+         {{options_background_panel find genre_corners.grp} set_local_pos $opgcx $opgcy {+ $opgcz $modpos_add}}
+         {{options_background_panel find bubble13.grp} set_local_pos $opbgx $opbgy {+ $opbgz $modpos_add}}
+         {$task sleep 0.005}
+         {cond
+            ({== $modpos_add 450}
+               {set $modpos_add 404}
+               {$task loop}
+            )
+            ({== $modpos_add 404}
+               {set $modpos_add 360}
+               {$task loop}
+            )
+            ({== $modpos_add 360}
+               {set $modpos_add 319}
+               {$task loop}
+            )
+            ({== $modpos_add 319}
+               {set $modpos_add 280}
+               {$task loop}
+            )
+            ({== $modpos_add 280}
+               {set $modpos_add 244}
+               {$task loop}
+            )
+            ({== $modpos_add 244}
+               {set $modpos_add 211}
+               {$task loop}
+            )
+            ({== $modpos_add 211}
+               {set $modpos_add 180}
+               {$task loop}
+            )
+            ({== $modpos_add 180}
+               {set $modpos_add 151}
+               {$task loop}
+            )
+            ({== $modpos_add 151}
+               {set $modpos_add 125}
+               {$task loop}
+            )
+            ({== $modpos_add 125}
+               {set $modpos_add 101}
+               {$task loop}
+            )
+            ({== $modpos_add 101}
+               {set $modpos_add 80}
+               {$task loop}
+            )
+            ({== $modpos_add 80}
+               {set $modpos_add 61}
+               {$task loop}
+            )
+            ({== $modpos_add 61}
+               {set $modpos_add 45}
+               {$task loop}
+            )
+            ({== $modpos_add 45}
+               {set $modpos_add 31}
+               {$task loop}
+            )
+            ({== $modpos_add 31}
+               {set $modpos_add 20}
+               {$task loop}
+            )
+            ({== $modpos_add 20}
+               {set $modpos_add 11}
+               {$task loop}
+            )
+            ({== $modpos_add 11}
+               {set $modpos_add 5}
+               {$task loop}
+            )
+            ({== $modpos_add 5}
+               {set $modpos_add 0}
+               {$task loop}
+            )
+         }
+      )
+   }
+) ; close anim doesnt work for system menus
+
+#define OS_SD_OPEN_ANIM
+(
+   {set $modpos_add 450}
+   {thread_task kTaskUISeconds
+      (script
+         {{options_background_panel find cornertrim_01.mesh} set_showing FALSE}
+         {{options_background_panel find cornertrim_05.mesh} set_showing FALSE}
+         {options_savedata_panel set_local_pos $sdx $sdy {+ $sdz $modpos_add}}
+         {{options_background_panel find tour_solo_lower3rd.grp} set_local_pos $opl3x $opl3y {+ $opl3z $modpos_add}}
+         {{options_background_panel find genre_corners.grp} set_local_pos $opgcx $opgcy {+ $opgcz $modpos_add}}
+         {{options_background_panel find bubble13.grp} set_local_pos $opbgx $opbgy {+ $opbgz $modpos_add}}
+         {$task sleep 0.005}
+         {cond
+            ({== $modpos_add 450}
+               {set $modpos_add 404}
+               {$task loop}
+            )
+            ({== $modpos_add 404}
+               {set $modpos_add 360}
+               {$task loop}
+            )
+            ({== $modpos_add 360}
+               {set $modpos_add 319}
+               {$task loop}
+            )
+            ({== $modpos_add 319}
+               {set $modpos_add 280}
+               {$task loop}
+            )
+            ({== $modpos_add 280}
+               {set $modpos_add 244}
+               {$task loop}
+            )
+            ({== $modpos_add 244}
+               {set $modpos_add 211}
+               {$task loop}
+            )
+            ({== $modpos_add 211}
+               {set $modpos_add 180}
+               {$task loop}
+            )
+            ({== $modpos_add 180}
+               {set $modpos_add 151}
+               {$task loop}
+            )
+            ({== $modpos_add 151}
+               {set $modpos_add 125}
+               {$task loop}
+            )
+            ({== $modpos_add 125}
+               {set $modpos_add 101}
+               {$task loop}
+            )
+            ({== $modpos_add 101}
+               {set $modpos_add 80}
+               {$task loop}
+            )
+            ({== $modpos_add 80}
+               {set $modpos_add 61}
+               {$task loop}
+            )
+            ({== $modpos_add 61}
+               {set $modpos_add 45}
+               {$task loop}
+            )
+            ({== $modpos_add 45}
+               {set $modpos_add 31}
+               {$task loop}
+            )
+            ({== $modpos_add 31}
+               {set $modpos_add 20}
+               {$task loop}
+            )
+            ({== $modpos_add 20}
+               {set $modpos_add 11}
+               {$task loop}
+            )
+            ({== $modpos_add 11}
+               {set $modpos_add 5}
+               {$task loop}
+            )
+            ({== $modpos_add 5}
+               {set $modpos_add 0}
+               {$task loop}
+            )
+         }
+      )
+   }
+) ; close anim doesnt work for system menus
+
+#define OS_GP_OPEN_ANIM
+(
+   {set $modpos_add 450}
+   {thread_task kTaskUISeconds
+      (script
+         {{options_background_panel find cornertrim_01.mesh} set_showing FALSE}
+         {{options_background_panel find cornertrim_05.mesh} set_showing FALSE}
+         {options_gameplay_panel set_local_pos $gpx $gpy {+ $gpz $modpos_add}}
+         {{options_background_panel find tour_solo_lower3rd.grp} set_local_pos $opl3x $opl3y {+ $opl3z $modpos_add}}
+         {{options_background_panel find genre_corners.grp} set_local_pos $opgcx $opgcy {+ $opgcz $modpos_add}}
+         {{options_background_panel find bubble13.grp} set_local_pos $opbgx $opbgy {+ $opbgz $modpos_add}}
+         {$task sleep 0.005}
+         {cond
+            ({== $modpos_add 450}
+               {set $modpos_add 404}
+               {$task loop}
+            )
+            ({== $modpos_add 404}
+               {set $modpos_add 360}
+               {$task loop}
+            )
+            ({== $modpos_add 360}
+               {set $modpos_add 319}
+               {$task loop}
+            )
+            ({== $modpos_add 319}
+               {set $modpos_add 280}
+               {$task loop}
+            )
+            ({== $modpos_add 280}
+               {set $modpos_add 244}
+               {$task loop}
+            )
+            ({== $modpos_add 244}
+               {set $modpos_add 211}
+               {$task loop}
+            )
+            ({== $modpos_add 211}
+               {set $modpos_add 180}
+               {$task loop}
+            )
+            ({== $modpos_add 180}
+               {set $modpos_add 151}
+               {$task loop}
+            )
+            ({== $modpos_add 151}
+               {set $modpos_add 125}
+               {$task loop}
+            )
+            ({== $modpos_add 125}
+               {set $modpos_add 101}
+               {$task loop}
+            )
+            ({== $modpos_add 101}
+               {set $modpos_add 80}
+               {$task loop}
+            )
+            ({== $modpos_add 80}
+               {set $modpos_add 61}
+               {$task loop}
+            )
+            ({== $modpos_add 61}
+               {set $modpos_add 45}
+               {$task loop}
+            )
+            ({== $modpos_add 45}
+               {set $modpos_add 31}
+               {$task loop}
+            )
+            ({== $modpos_add 31}
+               {set $modpos_add 20}
+               {$task loop}
+            )
+            ({== $modpos_add 20}
+               {set $modpos_add 11}
+               {$task loop}
+            )
+            ({== $modpos_add 11}
+               {set $modpos_add 5}
+               {$task loop}
+            )
+            ({== $modpos_add 5}
+               {set $modpos_add 0}
+               {$task loop}
+            )
+         }
+      )
+   }
+) ; close anim doesnt work for system menus
+
+#define OS_SLD_OPEN_ANIM
+(
+   {set $modpos_add 450}
+   {thread_task kTaskUISeconds
+      (script
+         {{options_background_panel find cornertrim_01.mesh} set_showing FALSE}
+         {{options_background_panel find cornertrim_05.mesh} set_showing FALSE}
+         {options_milo_panel set_local_pos $sldx $sldy {+ $sldz $modpos_add}}
+         {options_color_panel set_local_pos $sldx $sldy {+ $sldz $modpos_add}}
+         {{options_background_panel find tour_solo_lower3rd.grp} set_local_pos $opl3x $opl3y {+ $opl3z $modpos_add}}
+         {{options_background_panel find genre_corners.grp} set_local_pos $opgcx $opgcy {+ $opgcz $modpos_add}}
+         {{options_background_panel find bubble13.grp} set_local_pos $opbgx $opbgy {+ $opbgz $modpos_add}}
+         {$task sleep 0.005}
+         {cond
+            ({== $modpos_add 450}
+               {set $modpos_add 404}
+               {$task loop}
+            )
+            ({== $modpos_add 404}
+               {set $modpos_add 360}
+               {$task loop}
+            )
+            ({== $modpos_add 360}
+               {set $modpos_add 319}
+               {$task loop}
+            )
+            ({== $modpos_add 319}
+               {set $modpos_add 280}
+               {$task loop}
+            )
+            ({== $modpos_add 280}
+               {set $modpos_add 244}
+               {$task loop}
+            )
+            ({== $modpos_add 244}
+               {set $modpos_add 211}
+               {$task loop}
+            )
+            ({== $modpos_add 211}
+               {set $modpos_add 180}
+               {$task loop}
+            )
+            ({== $modpos_add 180}
+               {set $modpos_add 151}
+               {$task loop}
+            )
+            ({== $modpos_add 151}
+               {set $modpos_add 125}
+               {$task loop}
+            )
+            ({== $modpos_add 125}
+               {set $modpos_add 101}
+               {$task loop}
+            )
+            ({== $modpos_add 101}
+               {set $modpos_add 80}
+               {$task loop}
+            )
+            ({== $modpos_add 80}
+               {set $modpos_add 61}
+               {$task loop}
+            )
+            ({== $modpos_add 61}
+               {set $modpos_add 45}
+               {$task loop}
+            )
+            ({== $modpos_add 45}
+               {set $modpos_add 31}
+               {$task loop}
+            )
+            ({== $modpos_add 31}
+               {set $modpos_add 20}
+               {$task loop}
+            )
+            ({== $modpos_add 20}
+               {set $modpos_add 11}
+               {$task loop}
+            )
+            ({== $modpos_add 11}
+               {set $modpos_add 5}
+               {$task loop}
+            )
+            ({== $modpos_add 5}
+               {set $modpos_add 0}
+               {$task loop}
+            )
+         }
+      )
+   }
+)
+
+#define OS_SLD_CLOSE_ANIM
+(
+   {set $modpos_add 5}
+   {thread_task kTaskUISeconds
+      (script
+         {{options_background_panel find cornertrim_01.mesh} set_showing FALSE}
+         {{options_background_panel find cornertrim_05.mesh} set_showing FALSE}
+         {options_milo_panel set_local_pos $sldx $sldy {+ $sldz $modpos_add}}
+         {options_color_panel set_local_pos $sldx $sldy {+ $sldz $modpos_add}}
+         {{options_background_panel find tour_solo_lower3rd.grp} set_local_pos $opl3x $opl3y {+ $opl3z $modpos_add}}
+         {{options_background_panel find genre_corners.grp} set_local_pos $opgcx $opgcy {+ $opgcz $modpos_add}}
+         {{options_background_panel find bubble13.grp} set_local_pos $opbgx $opbgy {+ $opbgz $modpos_add}}
+         {$task sleep 0.005}
+         {cond
+            ({== $modpos_add 450}
+               {synth play button_toggle}
+               {ui pop_screen}
+            )
+            ({== $modpos_add 404}
+               {set $modpos_add 450}
+               {$task loop}
+            )
+            ({== $modpos_add 360}
+               {set $modpos_add 404}
+               {$task loop}
+            )
+            ({== $modpos_add 319}
+               {set $modpos_add 360}
+               {$task loop}
+            )
+            ({== $modpos_add 280}
+               {set $modpos_add 319}
+               {$task loop}
+            )
+            ({== $modpos_add 244}
+               {set $modpos_add 280}
+               {$task loop}
+            )
+            ({== $modpos_add 211}
+               {set $modpos_add 244}
+               {$task loop}
+            )
+            ({== $modpos_add 180}
+               {set $modpos_add 211}
+               {$task loop}
+            )
+            ({== $modpos_add 151}
+               {set $modpos_add 180}
+               {$task loop}
+            )
+            ({== $modpos_add 125}
+               {set $modpos_add 151}
+               {$task loop}
+            )
+            ({== $modpos_add 101}
+               {set $modpos_add 125}
+               {$task loop}
+            )
+            ({== $modpos_add 80}
+               {set $modpos_add 101}
+               {$task loop}
+            )
+            ({== $modpos_add 61}
+               {set $modpos_add 80}
+               {$task loop}
+            )
+            ({== $modpos_add 45}
+               {set $modpos_add 61}
+               {$task loop}
+            )
+            ({== $modpos_add 31}
+               {set $modpos_add 45}
+               {$task loop}
+            )
+            ({== $modpos_add 20}
+               {set $modpos_add 31}
+               {$task loop}
+            )
+            ({== $modpos_add 11}
+               {set $modpos_add 20}
+               {$task loop}
+            )
+            ({== $modpos_add 5}
+               {set $modpos_add 11}
+               {$task loop}
+            )
+         }
+      )
+   }
+)

@@ -14,7 +14,18 @@
          add_sink
          $this
          (save_load_all_complete_msg)}
-      {$this update_all})
+      {$this update_all}
+      {unless $console_first_entry
+         {{options_background_panel find tour_solo_lower3rd.grp} get_local_pos $opl3x $opl3y $opl3z}
+         {{options_background_panel find genre_corners.grp} get_local_pos $opgcx $opgcy $opgcz}
+         {{options_background_panel find bubble13.grp} get_local_pos $opbgx $opbgy $opbgz}
+         {options_console_panel get_local_pos $conx $cony $conz}
+         {set $console_first_entry TRUE}
+      }
+      {if $mod_os_entered
+            OS_CONSOLE_OPEN_ANIM
+      }
+      )
    (exit
       {memcardmgr remove_sink $this save_load_all_complete_msg})
    (save_load_all_complete_msg

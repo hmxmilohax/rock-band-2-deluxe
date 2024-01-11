@@ -377,16 +377,40 @@
    (update_autosave_disabled
       {saveload_dialog_panel setup_continue mc_autosave_disabled})
    (update_upload
-      {saveload_dialog_panel setup_msg_waiting upload_uploading})
+      {saveload_dialog_panel setup_msg_waiting
+         {switch $dx_connected_server
+            (none
+               upload_uploading
+            )
+            (ashcentral
+               ash_upload_uploading
+            )
+         }
+      }
+   )
    (update_upload_error_start
       ($count)
       {saveload_dialog_panel
          setup_2btn_localized
          {if_else
             {== $count 1}
-            {localize upload_error_start_single}
+            {switch $dx_connected_server
+               (none
+                  {localize upload_error_start_single}
+               )
+               (ashcentral
+                  {localize ash_upload_error_start_single}
+               )
+            }
             {sprintf
-               {localize upload_error_start_fmt}
+               {switch $dx_connected_server
+                  (none
+                     {localize upload_error_start_fmt}
+                  )
+                  (ashcentral
+                     {localize ash_upload_error_start_fmt}
+                  )
+               }
                $count}}
          upload_button_view_first
          upload_button_return

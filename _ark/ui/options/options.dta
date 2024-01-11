@@ -1168,7 +1168,18 @@
                {modifier_mgr is_feature_enabled modifier_saving_feature}}
             {profile_mgr get_all_unlocked}}
          {$this disable save.btn}
-         {$this enable save.btn}})
+         {$this enable save.btn}}
+         {unless $sd_first_entry
+            {{options_background_panel find tour_solo_lower3rd.grp} get_local_pos $opl3x $opl3y $opl3z}
+            {{options_background_panel find genre_corners.grp} get_local_pos $opgcx $opgcy $opgcz}
+            {{options_background_panel find bubble13.grp} get_local_pos $opbgx $opbgy $opbgz}
+            {options_savedata_panel get_local_pos $sdx $sdy $sdz}
+            {set $sd_first_entry TRUE}
+         }
+         {if $mod_os_entered
+            OS_SD_OPEN_ANIM
+         }
+         )
    (SELECT_MSG
       {switch
          $component

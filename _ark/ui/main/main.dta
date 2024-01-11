@@ -193,6 +193,21 @@
       {store.btn set_state kComponentDisabled} ;disable music store button, we don't need it rn
       {store.btn set_showing FALSE} ;hide it too
       #endif
+      #ifndef HX_EE
+      {switch $dx_connected_server
+         (ashcentral 
+            {do
+               {online_bandcoop.btn set_localized {localize ash_qp_online}}
+               {online.btn set_localized {localize ash_tour_online}}
+               #ifndef HX_XBOX
+               {player_match_scoreduel.btn set_localized {localize ash_player_match}}
+               {player_match_tow.btn set_localized {localize ash_player_match}}
+               #endif
+            }
+         )
+         kDataUnhandled
+      }
+      #endif
    )
    (exit
       {if {exists logo_task_populate} ;check if the above task is running
@@ -952,7 +967,15 @@
                   {!
                      {platform_mgr has_online_privilege 0}}
                   {platform_mgr is_connected}}
-               {localize leaderboards_not_available_rock_central})
+               {switch $dx_connected_server
+                  (none
+                     {localize leaderboards_not_available_rock_central}
+                  )
+                  (ashcentral
+                     {localize ash_leaderboards_not_available_rock_central}
+                  )
+               }
+            )
             (TRUE
                {localize leaderboards_not_available_connection})}})
    (SELECT_MSG

@@ -36,6 +36,14 @@
          {$this disable background_music.btn}
       }
      {$this update_all_from_profile}
+     {unless $sld_first_entry
+         {{options_background_panel find tour_solo_lower3rd.grp} get_local_pos $opl3x $opl3y $opl3z}
+         {{options_background_panel find genre_corners.grp} get_local_pos $opgcx $opgcy $opgcz}
+         {{options_background_panel find bubble13.grp} get_local_pos $opbgx $opbgy $opbgz}
+         {options_milo_panel get_local_pos $sldx $sldy $sldz}
+         {set $sld_first_entry TRUE}
+     }
+     OS_SLD_OPEN_ANIM
      )
    (display_trackspeed_msg
       ($tspd)
@@ -133,9 +141,8 @@
          {if_else
             {== $action kAction_Cancel}
             {do
-            {ui goto_screen overshell_main_screen}
-            {synth play button_toggle}
-            {ui pop_screen}}
+               OS_SLD_CLOSE_ANIM
+            }
          kDataUnhandled}})
    (set_speeds
          {do
@@ -224,7 +231,7 @@
 ;               {profile_mgr get_vocal_cue_volume}})
       })}
 {new
-   AutoloadScreen
+   BandScreen
    options_milo_screen
    (panels options_background_panel options_milo_panel)
    (focus options_milo_panel)
@@ -266,6 +273,14 @@
       {vocal_track.btn set_localized {localize {sprintf "gemcolor_%i" $slot3_color}}} ;update text for button 3
       {crowd.btn set_localized {localize {sprintf "gemcolor_%i" $slot4_color}}} ;update text for button 4
       {sfx.btn set_localized {localize {sprintf "gemcolor_%i" $slot5_color}}} ;update text for button 5
+      {unless $sld_first_entry
+         {{options_background_panel find tour_solo_lower3rd.grp} get_local_pos $opl3x $opl3y $opl3z}
+         {{options_background_panel find genre_corners.grp} get_local_pos $opgcx $opgcy $opgcz}
+         {{options_background_panel find bubble13.grp} get_local_pos $opbgx $opbgy $opbgz}
+         {options_color_panel get_local_pos $sldx $sldy $sldz}
+         {set $sld_first_entry TRUE}
+     }
+      OS_SLD_OPEN_ANIM
    )
    (exit)
    (TRANSITION_COMPLETE_MSG
@@ -354,9 +369,8 @@
          {if_else
             {== $action kAction_Cancel}
             {do
-            {ui goto_screen overshell_track_screen}
-            {synth play button_toggle}
-            {ui pop_screen}}
+               OS_SLD_CLOSE_ANIM
+            }
          kDataUnhandled}})
    (on_slider_change
       ($component)
@@ -416,7 +430,7 @@
    )
 }
 {new
-   AutoloadScreen
+   BandScreen
    options_color_screen
    (panels options_background_panel options_color_panel)
    (focus options_color_panel)
