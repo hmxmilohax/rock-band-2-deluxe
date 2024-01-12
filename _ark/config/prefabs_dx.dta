@@ -360,31 +360,31 @@
       (eyes none)
       (lips none)
       (facehair
-         head_6_bandana_cotton
+         head_6_goatee
          (colors 0 0))
       (glasses
          maleglasses_circles
-         (colors 3 0))
+         (colors 0 0))
       (torso
-         modjacketturtleneck_woolen
-         (colors 0 3))
+         blankhoodie_solid
+         (colors 4 0))
       (hands
-         malegloves_fullleather
+         malegloves_fingerlessdriving
          (colors 0 0))
       (legs
-         leatherpants_basicleather
-         (colors 0))
+         wornleatherpants_worn
+         (colors 0 0))
       (feet
-         dressshoes_leather
-         (colors 0 3))
+         lowchucks_striped
+         (colors 0 0))
       (wrist naked)
       (rings none)
       (earrings
          maleearrings_plug
          (colors 0 0))
       (guitar
-         hbomb_resource
-         (colors 0 0))
+         dinky01_sunburst
+         (colors 1 0))
       (bass
          gravebass_resource
          (colors 0 0))
@@ -451,14 +451,14 @@
    (instrument vocals)
    (attitude kGenreSpazz)
    (skin_color_index 0)
-   (eye_color_index 6)
+   (eye_color_index 1)
    (eyebrow_color_index 30)
    (height 0.25)
    (weight 0.75)
    (outfit
       (hair
-         chunli_resource
-         (colors 31 0))
+         pigtails_resource
+         (colors 1 30))
       (heads
          head_1
          (colors 30 0))
@@ -469,22 +469,21 @@
          head_1_lips_4
          (colors 0 0))
       (facehair none)
-      (glasses none)
+      (glasses
+         femaleglasses_business
+    (colors 0 1))
       (torso
-         thermalundertee_thermal
-         (colors 0 4))
-      (hands
-         femalegloves_materialgirl
-         (colors 0 0))
+         dishevelledshirt_southern
+         (colors 27 0))
+      (hands femalegloves_skeleton
+    (colors 0 1))
       (legs
          shortskirt_plaidpunky
          (colors 20 50))
       (feet
-         thighhighheel_pvc
-         (colors 0 20))
-      (wrist
-         wrist_laceduparm
-         (colors 0 20))
+         kneehighheel_leather
+         (colors 0 0))
+      (wrist none)
       (rings
          femalerings_demonclaw
          (colors 1 0))
