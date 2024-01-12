@@ -486,11 +486,11 @@
          wrist_laceduparm
          (colors 0 20))
       (rings
-     femalerings_demonclaw
+         femalerings_demonclaw
          (colors 1 0))
       (earrings none)
       (piercings
-     femalepiercings_combo10
+         femalepiercings_combo10
          (colors 0 0))
       (drum
          ludclassic_fade
@@ -504,3 +504,55 @@
       (mic
          e935_resource
          (colors 8 0))))
+(galaxis
+   (gender female)
+   (selectable TRUE)
+   (instrument drum)
+   (attitude kGenreBanger)
+   (skin_color_index 1)
+   (eye_color_index 9)
+   (eyebrow_color_index 28)
+   (height 0)
+   (weight 0.25)
+   (outfit
+      (hair
+         chunli_resource
+         (colors 28 0))
+      (heads
+         head_1)
+      (eyes none)
+      (lips
+         head_1_lips_3
+         (colors 0 0))
+      (facehair none)
+      (glasses
+         femalemask_masque
+         (colors 41 40))
+      (torso
+         corsetandsleeves_plastic
+         (colors 34 21))
+      (hands
+         femalegloves_skeleton
+         (colors 18 3))
+      (legs
+         puffyskirt_skull
+         (colors 4 18))
+      (feet
+         femaleroadwarriorboots_leather
+         (colors 1 21))
+      (wrist none)
+      (rings none)
+      (earrings none)
+      (piercings none)
+      (drum
+         goth_iron
+         (colors 18 0))
+      (bass
+         wingsbass_resource
+         (colors 32 16))
+      (guitar
+         skeletar_resource
+         (colors 32 0))
+      (mic
+         sm58_resource
+         (colors 0 0))))
