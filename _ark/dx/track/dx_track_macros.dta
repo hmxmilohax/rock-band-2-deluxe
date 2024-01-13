@@ -63,6 +63,8 @@
    {unless $texrunevery ;this runs every track load as these textures always reset
       {new Tex transparent.tex}
       {{$this find transparent.tex} set_bitmap "track/custom_track_textures/_no_highway.png"}
+      {new Tex rb3clip.tex}
+      {{$this find rb3clip.tex} set_bitmap "track/custom_track_textures/track_clipping_rb3.png"}
    }
 
    {unless $texrunonce
@@ -90,6 +92,26 @@
                {{{get_track_1_panel} find drum_slots_narrow.mat} set diffuse_tex {$this find beat_marker.tex}}
             }
          }
+         {unless $h2hclipscale
+            {{{get_track_0_panel} find track_clipping.mesh} get_local_scale $clipx $clipy $clipz}
+            {set $h2hclipscale TRUE}
+         }
+         {if_else {== $hwalpha rb3}
+            {do
+               {{{get_track_0_panel} find track_clipping.mat} set diffuse_tex {$this find rb3clip.tex}}
+               {{{get_track_1_panel} find track_clipping.mat} set diffuse_tex {$this find rb3clip.tex}}
+               {{{get_track_0_panel} find track_clipping.mesh} set_local_scale {+ $clipx 0.05} {+ $clipy 500} $clipz}
+               {{{get_track_1_panel} find track_clipping.mesh} set_local_scale {+ $clipx 0.05} {+ $clipy 500} $clipz}
+            }
+            {do
+               {{{get_track_0_panel} find track_clipping.mat} set diffuse_tex {$this find track_clipping.tex}}
+               {{{get_track_1_panel} find track_clipping.mat} set diffuse_tex {$this find track_clipping.tex}}
+               {{{get_track_0_panel} find track_clipping.mesh} set_local_scale $clipx $clipy $clipz}
+               {{{get_track_1_panel} find track_clipping.mesh} set_local_scale $clipx $clipy $clipz}
+            }
+         }
+         {{{get_track_0_panel} find track_clipping.mat} set intensify {== $hwalpha rb3}}
+         {{{get_track_1_panel} find track_clipping.mat} set intensify {== $hwalpha rb3}}
          {{{get_track_0_panel} find track_clipping.mesh} set_showing {!= $hwalpha rb1}}
          {{{get_track_1_panel} find track_clipping.mesh} set_showing {!= $hwalpha rb1}}
          {if_else {== {{game get_participant_config 0} get_track_sym} drum}
@@ -120,6 +142,43 @@
                }
             }
          }
+         {if_else {== $hwalpha rb3}
+            {beatmatch foreach_active_player $player
+               {switch {$player instrument}
+                  (bass {{{get_bass_panel} find track_clipping.mat} set diffuse_tex {$this find rb3clip.tex}})
+                  (guitar {{{get_guitar_panel} find track_clipping.mat} set diffuse_tex {$this find rb3clip.tex}})
+                  (drum {{{get_drum_panel} find track_clipping.mat} set diffuse_tex {$this find rb3clip.tex}})
+               }
+            }
+            {beatmatch foreach_active_player $player
+               {switch {$player instrument}
+                  (bass {{{get_bass_panel} find track_clipping.mat} set diffuse_tex {$this find track_clipping.tex}})
+                  (guitar {{{get_guitar_panel} find track_clipping.mat} set diffuse_tex {$this find track_clipping.tex}})
+                  (drum {{{get_drum_panel} find track_clipping.mat} set diffuse_tex {$this find track_clipping.tex}})
+               }
+            }
+         }
+         {{{get_guitar_panel} find track_clipping.mat} set intensify {== $hwalpha rb3}}
+         {{{get_bass_panel} find track_clipping.mat} set intensify {== $hwalpha rb3}}
+         {{{get_drum_panel} find track_clipping.mat} set intensify {== $hwalpha rb3}}
+         {unless $clipscale
+            {{{get_guitar_panel} find track_clipping.mesh} get_local_scale $clipx $clipy $clipz}
+            {{{get_bass_panel} find track_clipping.mesh} get_local_scale $clipx $clipy $clipz}
+            {{{get_drum_panel} find track_clipping.mesh} get_local_scale $clipx $clipy $clipz}
+            {set $clipscale TRUE}
+         }
+         {if_else {== $hwalpha rb3}
+            {do
+               {{{get_guitar_panel} find track_clipping.mesh} set_local_scale {+ $clipx 0.05} {+ $clipy 500} $clipz}
+               {{{get_bass_panel} find track_clipping.mesh} set_local_scale {+ $clipx 0.05} {+ $clipy 500} $clipz}
+               {{{get_drum_panel} find track_clipping.mesh} set_local_scale {+ $clipx 0.05} {+ $clipy 500} $clipz}
+            }
+            {do
+               {{{get_guitar_panel} find track_clipping.mesh} set_local_scale $clipx $clipy $clipz}
+               {{{get_bass_panel} find track_clipping.mesh} set_local_scale $clipx $clipy $clipz}
+               {{{get_drum_panel} find track_clipping.mesh} set_local_scale $clipx $clipy $clipz}
+            }
+         }
          {{{get_guitar_panel} find track_clipping.mesh} set_showing {!= $hwalpha rb1}}
          {{{get_bass_panel} find track_clipping.mesh} set_showing {!= $hwalpha rb1}}
          {{{get_drum_panel} find track_clipping.mesh} set_showing {!= $hwalpha rb1}}
@@ -130,6 +189,7 @@
    }
 
    {if $hwalpha_needs_reset
+      {{$this find rb3clip.tex} iterate_refs $ref {$ref set color {pack_color 1 1 1}}}
       {{$this find track_reflect.tex} iterate_refs $ref {$ref set intensify {== $hwalpha off}}}
       {{$this find background.tex} iterate_refs $ref {$ref set intensify {== $hwalpha off}}}
       {{$this find black.tex} iterate_refs $ref {$ref set intensify {== $hwalpha off}}}      

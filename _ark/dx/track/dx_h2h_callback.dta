@@ -14,6 +14,9 @@
          {$this check_missed}
          {{{get_track_0_panel} find streak_meter} star_deploy_stop}
          {{{{get_track_0_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
+         {if {== $hwalpha rb3}
+            {{{get_track_0_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
+         }
          {track_0 stop_deploy}
       }
    )
@@ -25,6 +28,9 @@
       {$this check_missed}
       {{{get_track_0_panel} find streak_meter} star_deploy_stop}
       {{{{get_track_0_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
+      {if {== $hwalpha rb3}
+         {{{get_track_0_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
+      }
       {track_0 stop_deploy}
    )
    (check_fc
@@ -40,6 +46,9 @@
       {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
          {{{get_track_0_panel} find streak_meter} star_deploy_stop}
          {{{{get_track_0_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
+         {if {== $hwalpha rb3}
+            {{{get_track_0_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
+         }
          {track_0 stop_deploy}
       }
       {if_else {== {{game get_participant_config 0} get_track_sym} guitar}
@@ -101,6 +110,9 @@
                }
             }
          }
+         {if {== $hwalpha rb3}
+            {{{get_track_0_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find track_clipping.tex}}
+         }
       }
    )
    (do_streak
@@ -153,6 +165,9 @@
          {$this check_missed}
          {{{get_track_1_panel} find streak_meter} star_deploy_stop}
          {{{{get_track_1_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
+         {if {== $hwalpha rb3}
+            {{{get_track_1_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
+         }
          {track_1 stop_deploy}
       }
    )
@@ -164,6 +179,9 @@
       {$this check_missed}
       {{{get_track_1_panel} find streak_meter} star_deploy_stop}
       {{{{get_track_1_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
+      {if {== $hwalpha rb3}
+         {{{get_track_1_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
+      }
       {track_1 stop_deploy}
      )
    (check_fc
@@ -179,6 +197,9 @@
       {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
          {{{get_track_1_panel} find streak_meter} star_deploy_stop}
          {{{{get_track_1_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
+         {if {== $hwalpha rb3}
+            {{{get_track_1_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
+         }
          {track_1 stop_deploy}
       }
       {if_else {== {{game get_participant_config 0} get_track_sym} guitar}
@@ -239,6 +260,9 @@
                   {{{get_track_1_panel} find surface.mat} set emissive_map {{get_track_panel} find smasher_plate_orange_emiss_nomip.tex}}
                }
             }
+         }
+         {if {== $hwalpha rb3}
+            {{{get_track_1_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find track_clipping.tex}}
          }
       }
    )
