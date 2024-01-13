@@ -13,7 +13,7 @@
          {set [num_gems_combo] 0}
          {$this check_missed}
          {{{get_track_0_panel} find streak_meter} star_deploy_stop}
-         {{{{get_track_0_panel} find streak_meter} find glass.mat} set diffuse_tex {$this find multiplier_cap_glass_vox.tex}}
+         {{{{get_track_0_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
          {track_0 stop_deploy}
       }
    )
@@ -24,7 +24,7 @@
       {set [num_gems_combo] 0}
       {$this check_missed}
       {{{get_track_0_panel} find streak_meter} star_deploy_stop}
-      {{{{get_track_0_panel} find streak_meter} find glass.mat} set diffuse_tex {$this find multiplier_cap_glass_vox.tex}}
+      {{{{get_track_0_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
       {track_0 stop_deploy}
    )
    (check_fc
@@ -39,7 +39,7 @@
    (check_missed
       {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
          {{{get_track_0_panel} find streak_meter} star_deploy_stop}
-         {{{{get_track_0_panel} find streak_meter} find glass.mat} set diffuse_tex {$this find multiplier_cap_glass_vox.tex}}
+         {{{{get_track_0_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
          {track_0 stop_deploy}
       }
       {if_else {== {{game get_participant_config 0} get_track_sym} guitar}
@@ -152,7 +152,7 @@
          {set [num_gems_combo] 0}
          {$this check_missed}
          {{{get_track_1_panel} find streak_meter} star_deploy_stop}
-         {{{{get_track_1_panel} find streak_meter} find glass.mat} set diffuse_tex {$this find multiplier_cap_glass_vox.tex}}
+         {{{{get_track_1_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
          {track_1 stop_deploy}
       }
    )
@@ -163,7 +163,7 @@
       {set [num_gems_combo] 0}
       {$this check_missed}
       {{{get_track_1_panel} find streak_meter} star_deploy_stop}
-      {{{{get_track_1_panel} find streak_meter} find glass.mat} set diffuse_tex {$this find multiplier_cap_glass_vox.tex}}
+      {{{{get_track_1_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
       {track_1 stop_deploy}
      )
    (check_fc
@@ -178,7 +178,7 @@
    (check_missed
       {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
          {{{get_track_1_panel} find streak_meter} star_deploy_stop}
-         {{{{get_track_1_panel} find streak_meter} find glass.mat} set diffuse_tex {$this find multiplier_cap_glass_vox.tex}}
+         {{{{get_track_1_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
          {track_1 stop_deploy}
       }
       {if_else {== {{game get_participant_config 0} get_track_sym} guitar}
