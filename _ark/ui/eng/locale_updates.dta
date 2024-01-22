@@ -237,8 +237,8 @@
 #endif
 (motd_no_rock_central "Attempting to connect to the game servers...")
 (motd_online_disabled "Cannot connect to the game servers while modifiers are enabled.")
-(privileges_restricted_strict "Connecting to the game server is disabled on your PLAYSTATION<sup>®</sup>Network account due to parental control restrictions.\n\nYou are not allowed to access this mode.")
-(privileges_restricted_lenient "Connecting to the game server is disabled on your PLAYSTATION<sup>®</sup>Network account due to parental control restrictions.\n\nYou will be unable to view leaderboards or post your scores.")
+(privileges_restricted_strict "Connecting to the game server is disabled on your PLAYSTATION<sup> </sup>Network account due to parental control restrictions.\n\nYou are not allowed to access this mode.")
+(privileges_restricted_lenient "Connecting to the game server is disabled on your PLAYSTATION<sup> </sup>Network account due to parental control restrictions.\n\nYou will be unable to view leaderboards or post your scores.")
 (leaderboard_connection_error "Failed to connect to the game servers.")
 (botb_net_failed "The game servers are unable to send battle information at this time. Please try again in a few minutes.")
 (tour_no_botb_connecting "Sorry, but you're unable to play Battle of the Bands at the moment.  You are currently attempting to connect to the game servers.")
@@ -256,8 +256,8 @@
 (ash_solo_no_server_warning "Couldn't connect to the AshCentral server.\n\nYou won't be able to send your scores to the leaderboards.  Continue anyway?")
 (ash_tour_no_server_warning "Couldn't connect to the AshCentral server.\n\nYou won't be able to send your scores to the leaderboards or update your band to the website.  Continue anyway?")
 (ash_community_no_server_warning "Couldn't connect to the AshCentral server.\n\nYou won't be able to access the online leaderboards.  Continue anyway?")
-(ash_privileges_restricted_strict "Connecting to the AshCentral server is disabled on your PLAYSTATION<sup>®</sup>Network account due to parental control restrictions.\n\nYou are not allowed to access this mode.")
-(ash_privileges_restricted_lenient "Connecting to the AshCentral server is disabled on your PLAYSTATION<sup>®</sup>Network account due to parental control restrictions.\n\nYou will be unable to view leaderboards or post your scores.")
+(ash_privileges_restricted_strict "Connecting to the AshCentral server is disabled on your PLAYSTATION<sup> </sup>Network account due to parental control restrictions.\n\nYou are not allowed to access this mode.")
+(ash_privileges_restricted_lenient "Connecting to the AshCentral server is disabled on your PLAYSTATION<sup> </sup>Network account due to parental control restrictions.\n\nYou will be unable to view leaderboards or post your scores.")
 
 #ifdef HX_PS3
 (error_cheating
@@ -1565,6 +1565,7 @@
 (prefab_taylor_grace "Taylor Grace")
 (prefab_cameron "Cameron")
 (prefab_chimarky "ChiMarky")
+(prefab_corn "CornRGH")
 
 ;rb1 patches
 (patch_talbot
