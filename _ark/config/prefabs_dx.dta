@@ -860,3 +860,127 @@
  
    )
 )
+(chimarky ; Change this to what you want your character's "internal" name to be (e.g. "kimberley_monroe")
+   (selectable TRUE)
+
+   ; Body Type
+   ; OPTIONS - Masculine: "male", Feminine: "female"
+   (gender 
+      male)
+
+   ; Instrument
+   ; OPTIONS - "guitar", "drum", "vocals"
+   (instrument 
+      drum)
+
+   ; Attitude
+   ; OPTIONS - Metal: "kGenreBanger", Goth: "kGenreDramatic", Rock: "kGenreRocker", Punk: "kGenreSpazz"
+   (attitude 
+      kGenreBanger)
+
+   ; Height/Weight
+   ; the sliders each have 5 positions, they translate to (0, 0.25, 0.5, 0.75, 1)
+   (weight 0.5)
+   (height 1)
+
+   ; HOW TO SET COLORS:
+   ; Select your desired color ingame and count how many times you have to scroll LEFT to get to the DARKEST color
+   ; The amount of times you scroll will be the color number
+   ; The first number will be the primary color, the second one will be the secondary color
+   ; If there is no secondary color to choose from, set it to 0
+   ; This applies to all colors EXCEPT skin tone, where you have to scroll to the LIGHTEST color
+
+   ; Skin Tone
+   (skin_color_index 0) ; see above, scroll to the LIGHTEST color
+
+   ; Eye Color
+   (eye_color_index 4) ; see above, scroll to the DARKEST color from here on out
+
+   ; Eyebrow Color
+   ; Typically matches the primary hair color unless changed in the Rock Shop
+   (eyebrow_color_index 0)
+
+   (outfit
+
+      ; Face Type
+
+      ; MALE OPTIONS:
+      ; Rocker: "head_1", Stone Jaw: "head_2", Tourer: "head_3", Meat Head: "head_4", Baby Face: "head_5", Iron Man: "head_6",
+      ; Wingman: "head_9", Scrapper: "head_10", Gentleman: "head_11", Cool Hand: "head_12", Hero: "head_13", Veteran: "head_14"
+
+      ; FEMALE OPTIONS:
+      ; Artsy: "head_1", Diva: "head_2", Sprite: "head_3", Runway: "head_4", Belladonna: "head_5", Amazon: "head_6", Doe: "head_7",
+      ; Muse: "head_8", Rebel: "head_10", Vamp: "head_11", Rascal: "head_12", Twee: "head_13", Tomboy: "head_14"
+
+      (heads
+         head_5)
+
+      ; Hair
+      (hair
+         lazyhawk_resource
+         (colors 4 36))
+
+      ; Clothing
+      (torso
+         twotonednbraces_blackandgrey
+         (colors 0 4))
+      (legs
+         bootcutpants_distressedjeans
+         (colors 4 0))
+      (feet
+         highchucks_solid ; May require "male/female" to be added before the name
+         (colors 0 0))
+
+      ; Accessories
+      ; These all require "male/female" to be added before their names unless specified otherwise (e.g. "femaleearrings_hoops")
+      (glasses
+         maleglasses_smashed
+         (colors 0 0))
+      (earrings 
+         none
+         (colors 0 0))
+      (piercings 
+         none
+         (colors 0 0))
+      (facehair ; Facial Hair / Bandana
+         none ; Requires the face type to be added before the name (e.g. "head_6_bandana_cotton"), does not require "male/female"
+         (colors 0 0))
+      (wrist
+         none
+         (colors 0 0))
+      (rings 
+         none
+         (colors 0 0))
+      (hands ; Gloves
+         naked ; If you want no gloves, set this to "naked"
+         (colors 0 0))
+
+      ; Makeup
+      ; Each of these require the face type to be added before the name (e.g. "head_1_eyes_0")
+      (eyes
+         head_1_eyes_0)
+      (lips
+         head_1_lips_0)
+
+      ; Instruments
+      ; Add the finish type after the name (e.g. "_paint"). If there are no finishes, add "_resource"
+      ; If it asks you to select a tertiary color, add another color number
+      (guitar
+         dinky01_paint
+         (colors 0 0))
+      (bass
+         c20bass_paint
+         (colors 16 0))
+      (drum
+         ludclassic_cortex
+         (colors 49 0))
+      (mic
+         sm58_resource
+         (colors 0 0))
+
+      ; Once you're done, please return to the written guide
+      ; FYI, custom art, tatoos, and face paint are pain in the ass. don't bother.
+
+   )
+)
+
