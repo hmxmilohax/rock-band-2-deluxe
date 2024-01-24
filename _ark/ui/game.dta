@@ -111,7 +111,7 @@
      {handle
          ($this on_extend)}
 	  {if {modifier_mgr is_modifier_active mod_blackvenue}
-         {if {! $already_restarted} ;cheap attempt to fix the "notes too quick bug" by restarting once automatically on initial song start, this should work all the time
+         {if {&& {! {gamemode get is_online}} {! $already_restarted}} ;cheap attempt to fix the "notes too quick bug" by restarting once automatically on initial song start, this should work all the time
             {do
                {set $already_restarted TRUE}
                {game_restart}
@@ -133,7 +133,7 @@
       {set $bass_groove_active FALSE} {set $drum_groove_active FALSE} {set $guitar_groove_active FALSE} {set $track_0_groove_active FALSE} {set $track_1_groove_active FALSE}
       {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE} {set $track_0_firstnote FALSE} {set $track_1_firstnote FALSE}
 	  {if {modifier_mgr is_modifier_active mod_blackvenue}
-         {if {! $already_restarted} ;cheap attempt to fix the "notes too quick bug" by restarting once automatically on initial song start, this should work all the time
+         {if {&& {! {gamemode get is_online}} {! $already_restarted}} ;cheap attempt to fix the "notes too quick bug" by restarting once automatically on initial song start, this should work all the time
             {do
                {set $already_restarted TRUE}
                {game_restart}
