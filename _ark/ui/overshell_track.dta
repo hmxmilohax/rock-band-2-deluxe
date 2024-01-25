@@ -77,25 +77,32 @@
                }
                {do 
                   {set $dx_queue_stock_track TRUE}
-                  {set $voxhwcustomtexture FALSE}
-                  {set $highwaycustomtexture FALSE}
-                  {set $brecustomtexture FALSE}
-                  {set $gemcustomtexture FALSE}
-                  {set $smashercustomtexture FALSE}
-                  {set $lanescustomtexture FALSE}
-                  {set $voxarrowcustomtexture FALSE}
-                  {set $voxnotescustomtexture FALSE}
-                  {set $voxodcustomtexture FALSE}
-                  {set $scorecustomtexture FALSE}
-                  {set $starscustomtexture FALSE}
-                  {set $odbarcustomtexture FALSE}
-                  {set $railscustomtexture FALSE}
-                  {set $flamescustomtexture FALSE}
-                  {set $multiringcustomtexture FALSE}
-                  {set $streakcustomtexture FALSE}
-                  {set $spotlightgtrcustomtexture FALSE}
-                  {set $spotlightbasscustomtexture FALSE}
-                  {set $spotlightdrumcustomtexture FALSE}
+                  {if_else $iamingamenow
+                     {do
+                        SET_RB2_TEXTURE_PRESET
+                     }
+                     {do
+                        {set $voxhwcustomtexture FALSE}
+                        {set $highwaycustomtexture FALSE}
+                        {set $brecustomtexture FALSE}
+                        {set $gemcustomtexture FALSE}
+                        {set $smashercustomtexture FALSE}
+                        {set $lanescustomtexture FALSE}
+                        {set $voxarrowcustomtexture FALSE}
+                        {set $voxnotescustomtexture FALSE}
+                        {set $voxodcustomtexture FALSE}
+                        {set $scorecustomtexture FALSE}
+                        {set $starscustomtexture FALSE}
+                        {set $odbarcustomtexture FALSE}
+                        {set $railscustomtexture FALSE}
+                        {set $flamescustomtexture FALSE}
+                        {set $multiringcustomtexture FALSE}
+                        {set $streakcustomtexture FALSE}
+                        {set $spotlightgtrcustomtexture FALSE}
+                        {set $spotlightbasscustomtexture FALSE}
+                        {set $spotlightdrumcustomtexture FALSE}
+                     }
+                  }
                }
             }
          )
@@ -106,25 +113,32 @@
                }
                {do 
                   {set $dx_queue_stock_track FALSE}
-                  {set $voxhwcustomtexture FALSE}
-                  {set $highwaycustomtexture FALSE}
-                  {set $brecustomtexture FALSE}
-                  {set $gemcustomtexture FALSE}
-                  {set $smashercustomtexture FALSE}
-                  {set $lanescustomtexture FALSE}
-                  {set $voxarrowcustomtexture FALSE}
-                  {set $voxnotescustomtexture FALSE}
-                  {set $voxodcustomtexture FALSE}
-                  {set $scorecustomtexture FALSE}
-                  {set $starscustomtexture FALSE}
-                  {set $odbarcustomtexture FALSE}
-                  {set $railscustomtexture FALSE}
-                  {set $flamescustomtexture FALSE}
-                  {set $multiringcustomtexture FALSE}
-                  {set $streakcustomtexture FALSE}
-                  {set $spotlightgtrcustomtexture FALSE}
-                  {set $spotlightbasscustomtexture FALSE}
-                  {set $spotlightdrumcustomtexture FALSE}
+                  {if_else $iamingamenow
+                     {do 
+                        SET_RB2DX_TEXTURE_PRESET
+                     }
+                     {do
+                        {set $voxhwcustomtexture FALSE}
+                        {set $highwaycustomtexture FALSE}
+                        {set $brecustomtexture FALSE}
+                        {set $gemcustomtexture FALSE}
+                        {set $smashercustomtexture FALSE}
+                        {set $lanescustomtexture FALSE}
+                        {set $voxarrowcustomtexture FALSE}
+                        {set $voxnotescustomtexture FALSE}
+                        {set $voxodcustomtexture FALSE}
+                        {set $scorecustomtexture FALSE}
+                        {set $starscustomtexture FALSE}
+                        {set $odbarcustomtexture FALSE}
+                        {set $railscustomtexture FALSE}
+                        {set $flamescustomtexture FALSE}
+                        {set $multiringcustomtexture FALSE}
+                        {set $streakcustomtexture FALSE}
+                        {set $spotlightgtrcustomtexture FALSE}
+                        {set $spotlightbasscustomtexture FALSE}
+                        {set $spotlightdrumcustomtexture FALSE}
+                     }
+                  }
                }
             }
          )
