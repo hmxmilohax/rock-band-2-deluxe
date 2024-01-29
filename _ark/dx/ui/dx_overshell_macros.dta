@@ -51,6 +51,7 @@
    {set $hwstrk FALSE}
    {set $nohwwarn FALSE}
    {set $railwarn FALSE}
+   {set $fctype glow}
 )
 
 #define SET_RB2DX_TEXTURE_PRESET
@@ -106,6 +107,7 @@
    {set $hwstrk FALSE}
    {set $nohwwarn FALSE}
    {set $railwarn FALSE}
+   {set $fctype glow}
 )
 
 #define SET_RB1_TEXTURE_PRESET
@@ -161,6 +163,7 @@
    {set $hwstrk FALSE}
    {set $nohwwarn FALSE}
    {set $railwarn FALSE}
+   {set $fctype glow}
 )
 
 #define SET_RB3_TEXTURE_PRESET
@@ -215,6 +218,7 @@
    {set $hwstrk TRUE}
    {set $nohwwarn TRUE}
    {set $railwarn TRUE}
+   {set $fctype both}
 )
 
 #define SET_RB4_TEXTURE_PRESET
@@ -269,6 +273,7 @@
    {set $hwstrk TRUE}
    {set $nohwwarn TRUE}
    {set $railwarn TRUE}
+   {set $fctype ring}
 )
 
 #define SET_FNFESTIVAL_TEXTURE_PRESET
@@ -323,6 +328,7 @@
    {set $hwstrk FALSE}
    {set $nohwwarn TRUE}
    {set $railwarn TRUE}
+   {set $fctype ring}
 )
 
 #define SET_LRB_TEXTURE_PRESET
@@ -378,6 +384,7 @@
    {set $hwstrk FALSE}
    {set $nohwwarn FALSE}
    {set $railwarn FALSE}
+   {set $fctype glow}
 )
 
 #define SET_TBRB_TEXTURE_PRESET
@@ -432,6 +439,7 @@
    {set $hwstrk FALSE}
    {set $nohwwarn FALSE}
    {set $railwarn FALSE}
+   {set $fctype glow}
 )
 
 #define SET_RR_TRACK_ANGLE
