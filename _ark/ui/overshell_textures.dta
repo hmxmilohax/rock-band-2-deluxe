@@ -8,15 +8,12 @@
     #endif
     (focus sel_section.lst)
     (enter
-        {sel_section.lst set_data (#ifndef HX_EE os_hw #endif os_strk os_spotlight #ifdef HX_EE os_hw_behavior #endif os_gems os_smashers os_flames os_sus #ifndef HX_EE os_lanes os_font #endif os_score os_solobox os_stars os_bre os_rails os_odbar os_multi_ring os_voxtrk)}
+        {sel_section.lst set_data (#ifndef HX_EE os_hw #endif os_strk os_spotlight os_gems os_smashers os_flames os_sus #ifndef HX_EE os_lanes os_font #endif os_score os_solobox os_stars os_bre os_rails os_odbar os_multi_ring os_voxtrk)}
         {title.lbl set_localized {localize os_tex1}}
         {full_selection.mesh set_showing FALSE})
     (exit)
     (SELECT_MSG
     {switch {$component selected_sym}
-         (os_hw_behavior
-            {os_change_screen overshell_hw_behavior}
-         )
          (os_sus
             {os_change_screen overshell_sustains}
          )
@@ -125,13 +122,7 @@
     #endif
     (focus sel_section.lst)
     (enter
-        {if_else {== $dx_tracked_texture_loader "highway"}
-         {sel_section.lst set_data (os_spotlightall os_spotlightgtr os_spotlightbass os_spotlightdrum os_hw_behavior)}
-         {if_else {== $dx_tracked_texture_loader "streak"}
-            {sel_section.lst set_data (os_spotlightall os_spotlightgtr os_spotlightbass os_spotlightdrum os_strk_behavior)}
-            {sel_section.lst set_data (os_spotlightall os_spotlightgtr os_spotlightbass os_spotlightdrum)}
-         }
-        }
+      {sel_section.lst set_data (os_spotlightall os_spotlightgtr os_spotlightbass os_spotlightdrum)}
         {switch $dx_tracked_texture_loader
          (highway
             {title.lbl set_localized {localize os_hwheader}}
@@ -143,7 +134,8 @@
             {title.lbl set_localized {localize os_strkheader}}
          )
         }
-        {full_selection.mesh set_showing FALSE})
+        {full_selection.mesh set_showing FALSE}
+    )
     (exit)
     (SELECT_MSG
     {switch {$component selected_sym}
@@ -162,12 +154,6 @@
          (os_spotlightdrum
             {set $dx_tracked_instrument drum}
             {os_change_screen overshell_texload}
-         )
-         (os_hw_behavior
-            {os_change_screen overshell_hw_behavior}
-         )
-         (os_strk_behavior
-            {os_change_screen overshell_strk_behavior}
          )
       })
     (update_helpbar
