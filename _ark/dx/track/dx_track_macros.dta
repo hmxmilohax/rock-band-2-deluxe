@@ -16,6 +16,7 @@
             {if {== $odbar "rb2"} {set $odbar "none"} {set $odbarcustomtexture FALSE}}
             {if {== $rails "rb2"} {set $rails "none"} {set $railscustomtexture FALSE}}
             {if {== $flames "rb2"} {set $flames "none"} {set $flamescustomtexture FALSE}}
+            {if {== $crowdmetertex "rb2"} {set $crowdmetertex "none"} {set $crowdmetercustomtexture FALSE}}
             {if {== $scoretex "rb2"} {set $scoretex "none"} {set $scorecustomtexture FALSE}}
             {if {== $solobox "rb2"} {set $solobox "none"} {set $soloboxcustomtexture FALSE}}
             {if {== $stars "rb2"} {set $stars "none"} {set $starscustomtexture FALSE}}
@@ -41,6 +42,7 @@
                {if {== $odbar "rb2dx"} {set $odbar "none"} {set $odbarcustomtexture FALSE}}
                {if {== $rails "rb2"} {set $rails "none"} {set $railscustomtexture FALSE}}
                {if {== $flames "rb2dx"} {set $flames "none"} {set $flamescustomtexture FALSE}}
+               {if {== $crowdmetertex "rb2"} {set $crowdmetertex "none"} {set $crowdmetercustomtexture FALSE}}
                {if {== $scoretex "rb4"} {set $scoretex "none"} {set $scorecustomtexture FALSE}}
                {if {== $solobox "rb2"} {set $solobox "none"} {set $soloboxcustomtexture FALSE}}
                {if {== $stars "rb4"} {set $stars "none"} {set $starscustomtexture FALSE}}
@@ -310,6 +312,11 @@
    {if $voxodcustomtexture
       {{$this find sunburst.tex} set_bitmap {sprint "track/voxod/sunburst_" $voxod ".png"}}
       {{$this find freestyle_nowbar_FX.tex} set_bitmap {sprint "track/voxod/vox_now_bar_effect_" $voxod ".png"}}
+   }
+
+   {if $crowdmetercustomtexture
+      {{$this find meter_star.tex} set_bitmap {sprint "track/crowd_meter/meter_star_" $crowdmetertex ".png"}}
+      {{$this find new_tube.tex} set_bitmap {sprint "track/crowd_meter/new_tube_" $crowdmetertex ".png"}}
    }
 
    {if $scorecustomtexture

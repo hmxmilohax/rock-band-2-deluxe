@@ -8,7 +8,7 @@
     #endif
     (focus sel_section.lst)
     (enter
-        {sel_section.lst set_data (#ifndef HX_EE os_hw #endif os_strk os_spotlight os_gems os_smashers os_flames os_sus #ifndef HX_EE os_lanes os_font #endif os_score os_solobox os_stars os_bre os_rails os_odbar os_multi_ring os_voxtrk)}
+        {sel_section.lst set_data (#ifndef HX_EE os_hw #endif os_strk os_spotlight os_gems os_smashers os_flames os_sus #ifndef HX_EE os_lanes os_font #endif os_score os_solobox os_stars os_crowd_meter os_bre os_rails os_odbar os_multi_ring os_voxtrk)}
         {title.lbl set_localized {localize os_tex1}}
         {full_selection.mesh set_showing FALSE})
     (exit)
@@ -27,6 +27,10 @@
          )
          (os_smashers
             {set $dx_tracked_texture_loader smashers}
+            {os_change_screen overshell_texload}
+         )
+         (os_crowd_meter
+            {set $dx_tracked_texture_loader crowd_meter}
             {os_change_screen overshell_texload}
          )
          (os_font
@@ -256,6 +260,11 @@
             {title.lbl set_localized {localize os_smashers}}
             {anchor_corner02.tex set_bitmap {sprint "track_new/smashers/black_smasher_yellow_" $smasher ".png"}}
          )
+         (crowd_meter
+            {sel_section.lst set_data (#include ../track/crowd_meter/crowd_meter.dta)}
+            {title.lbl set_localized {localize os_crowd_meter}}
+            {anchor_corner02.tex set_bitmap {sprint "track/crowd_meter/new_tube_" $crowdmetertex ".png"}}
+         )
          (font
             {sel_section.lst set_data (#include ../track/font/font.dta)}
             {title.lbl set_localized {localize os_font}}
@@ -396,6 +405,8 @@
       }
         #ifndef HX_EE
         {sit_gargoyle.mat set color {pack_color 1 1 1}}
+        {sit_gargoyle.mat set prelit TRUE}
+        {sit_gargoyle.mat set intensify FALSE}
         {sit_gargoyle.mat set diffuse_tex anchor_corner02.tex}
         {sit_gargoyle.mat set specular_map anchor_corner02.tex}
         {sit_gargoyle02.mesh set_local_pos_index 2 -140}
@@ -410,6 +421,10 @@
          (smashers
             {set $smashercustomtexture TRUE}
             {set $smasher {$component selected_sym}}
+         )
+         (crowd_meter
+            {set $crowdmetercustomtexture TRUE}
+            {set $crowdmetertex {$component selected_sym}}
          )
          (font
             {set $fontcustomtexture TRUE}
@@ -550,6 +565,9 @@
          )
          (smashers
             {anchor_corner02.tex set_bitmap {sprint "track_new/smashers/black_smasher_yellow_" {$component selected_sym} ".png"}}
+         )
+         (crowd_meter
+            {anchor_corner02.tex set_bitmap {sprint "track/crowd_meter/new_tube_" {$component selected_sym} ".png"}}
          )
          (font
             {anchor_corner02.tex set_bitmap {sprint "track/font/" {$component selected_sym} ".png"}}
