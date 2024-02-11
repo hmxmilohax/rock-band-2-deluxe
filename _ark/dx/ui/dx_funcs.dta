@@ -29,9 +29,9 @@
    {set $os_next_panel {sprint $next "_panel"}}
    {thread_task kTaskUISeconds
       (script
-         OS_CHANGE_CURRENT_ANIM
+         ;OS_CHANGE_CURRENT_ANIM
          {ui push_screen $os_next_screen}
-         OS_CHANGE_NEXT_ANIM
+         ;OS_CHANGE_NEXT_ANIM
       )
    }
 }
@@ -40,8 +40,8 @@
    {set $os_next_panel {sprint $next "_panel"}}
    {thread_task kTaskUISeconds
       (script
-         OS_BACK_CURRENT_ANIM
-         OS_BACK_NEXT_ANIM
+         ;OS_BACK_CURRENT_ANIM
+         ;OS_BACK_NEXT_ANIM
          {ui goto_screen $os_next_screen}
          {ui pop_screen}
       )
