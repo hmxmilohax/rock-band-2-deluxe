@@ -6,11 +6,14 @@
    {== {ui current_screen} practice_game_screen}
    {== {ui current_screen} overshell_main_screen}
    {== {ui current_screen} modifiers_screen}
-   {== {ui current_screen} options_milo_screen} 
-   {== {ui current_screen} song_select_screen}
-   {== {ui current_screen} qp_selsong_screen}
-   {== {ui current_screen} tour_selsong_screen}
-   {== {ui current_screen} leaderboards_selsong_screen}
+   {== {ui current_screen} options_milo_screen}
+   {song_select_panel is_up}
+   {== {ui current_screen} nextsong_screen}
+   {== {ui current_screen} nextstats_screen}
+   {== {ui current_screen} jukebox_nextstats_screen}
+   {== {ui current_screen} preload_nextsong_screen}
+   {== {ui current_screen} load_nextsong_screen}
+   {== {ui current_screen} jukebox_load_nextsong_screen}
    {== {ui current_screen} endgame_screen} 
    {== {ui current_screen} options_color_screen}
    {== {ui current_screen} save_screen}
