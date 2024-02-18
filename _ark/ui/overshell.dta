@@ -1,3 +1,7 @@
+#define OS_MAIN_DATA
+({if_else $debug_mode (os_ace os_mod #ifndef HX_EE os_sys #endif os_spd os_trkset #ifndef HX_EE os_cam #endif)
+    (os_mod #ifndef HX_EE os_sys #endif os_spd os_trkset #ifndef HX_EE os_cam #endif)}
+)
 {new
     UIPanel
     overshell_main_panel
@@ -8,14 +12,30 @@
     #endif
     (focus sel_section.lst)
     (enter
-        {sel_section.lst set_data (os_mod #ifndef HX_EE os_sys #endif os_spd os_trkset #ifndef HX_EE os_cam #endif)}
+        {$this lst_reset}
         {title.lbl set_localized {localize os_dxsettings}}
-        {full_selection.mesh set_showing FALSE})
+        {full_selection.mesh set_showing FALSE}
+        {unless $os_first_entry
+            {all.grp get_local_pos $osxpos $osypos $oszpos}
+            {all.grp get_local_rot $osxrot $osyrot $oszrot}
+            ;{all.grp get_local_scale $osxscl $osyscl $oszscl}
+            ;{title.lbl get_local_scale $oslblx $oslbly $oslblz}
+            ;{sel_section.lst get_local_scale $oslsx $oslsy $oslsz}
+            {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} get_local_pos $osl3x $osl3y $osl3z}
+            {set $os_first_entry TRUE}
+        }
+        OS_OPEN_ANIM
+    )
+    (lst_reset
+      {sel_section.lst set_data OS_MAIN_DATA})
     (exit)
     (SELECT_MSG
     {switch {$component selected_sym}
+         (os_ace
+            {run #ifdef HX_XBOX "GAME:/ace.dta" #else "GD:/dev_hdd0/game/BLUS30147/USRDIR/ace.dta" #endif}
+         )
          (os_sys
-            {ui push_screen overshell_system_screen}
+            {os_change_screen overshell_system}
          )
          (os_spd
             {ui push_screen options_milo_screen}
@@ -25,10 +45,10 @@
             {ui push_screen modifiers_screen}
          )
          (os_trkset
-            {ui push_screen overshell_track_screen}
+            {os_change_screen overshell_track}
          )
          (os_cam
-            {ui push_screen overshell_cam_sfx_screen}
+            {os_change_screen overshell_cam_sfx}
          )
       })
     (update_helpbar
@@ -42,10 +62,7 @@
             #ifdef HX_EE {== $button kPad_Tri} #else {== $action kAction_Cancel} #endif
             {do
             {synth play button_toggle}
-            {if_else {exists $modifier_exit}
-            {ui goto_screen $modifier_exit}
-            {ui goto_screen splash_screen}}
-            {ui pop_screen}
+            OS_CLOSE_ANIM
             TRUE}
          kDataUnhandled})
     (TRANSITION_COMPLETE_MSG
@@ -114,10 +131,9 @@
         {if
         {== $action kAction_Cancel}
         {synth play button_toggle}
-         {ui goto_screen overshell_main_screen}
-         {set $mod_os_entered FALSE}
-         {ui pop_screen}}
-         kDataUnhandled)
+        {set $mod_os_entered FALSE}
+         {os_back_screen overshell_main}}
+        kDataUnhandled)
     (TRANSITION_COMPLETE_MSG
         {$this update_helpbar})}
 {new
@@ -187,8 +203,7 @@
         {if
         {== $action kAction_Cancel}
         {synth play button_toggle}
-         {ui goto_screen overshell_main_screen}
-         {ui pop_screen}}
+         {os_back_screen overshell_main}}
          kDataUnhandled)
     (TRANSITION_COMPLETE_MSG
         {$this update_helpbar})}

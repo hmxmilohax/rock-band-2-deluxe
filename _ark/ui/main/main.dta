@@ -95,25 +95,28 @@
             {$this enable lb_scoreduel.btn}}}
       #endif)
    (update_button_status
-   ;   {if_else
-   ;      {server is_connected}
-   ;      {do
-   ;         {if_else
-   ;            {community_panel is_webcode_done}
-   ;            {$this enable webcode_ps3.btn}
-   ;            {$this disable webcode_ps3.btn}}
-   ;         {$this enable checkinvites.btn}
-   ;         {$this enable managefriends.btn}}
-   ;      {do
-   ;         {$this disable webcode_ps3.btn}
-   ;         {$this disable checkinvites.btn}
-   ;         {$this disable managefriends.btn}}}
+      #ifdef HX_PS3
+      {if_else
+         {server is_connected}
+         {do
+            {if_else
+               {community_panel is_webcode_done}
+               {$this enable webcode_ps3.btn}
+               {$this disable webcode_ps3.btn}}
+            {$this enable checkinvites.btn}
+            {$this enable managefriends.btn}}
+         {do
+            {$this disable webcode_ps3.btn}
+            {$this disable checkinvites.btn}
+            {$this disable managefriends.btn}}}
+      #else
       {$this disable webcode_ps3.btn}
       {webcode_ps3.btn set_showing FALSE}
       {$this disable checkinvites.btn}
       {checkinvites.btn set_showing FALSE}
       {$this disable managefriends.btn}
-      {managefriends.btn set_showing FALSE})
+      {managefriends.btn set_showing FALSE}
+      #endif)
    (set_gameplay_button
       #ifdef HX_PS3
       {$this disable gameplay.btn}
@@ -134,7 +137,14 @@
                {modifier_mgr is_feature_enabled modifier_online_feature}}
             {motd.lbl set text_token motd_online_disabled}
             {motd.lbl set_showing TRUE})
-		 (&&
+        ({&&
+               {server is_connected}
+               [motd_done]}
+            {motd.lbl
+               set_localized
+               [motd_message]}
+            {motd.lbl set_showing TRUE})
+		 (TRUE
             {motd.lbl set text_token motd_overshell_tip}
             {motd.lbl set_showing TRUE})})
    (load
@@ -179,8 +189,25 @@
          {game reset_config}}
       {meta music_start}
       {BandHighlight.hlit register_focus}
+      #ifndef STORE_ENABLED
       {store.btn set_state kComponentDisabled} ;disable music store button, we don't need it rn
       {store.btn set_showing FALSE} ;hide it too
+      #endif
+      #ifndef HX_EE
+      {switch $dx_connected_server
+         (ashcentral 
+            {do
+               {online_bandcoop.btn set_localized {localize ash_qp_online}}
+               {online.btn set_localized {localize ash_tour_online}}
+               #ifndef HX_XBOX
+               {player_match_scoreduel.btn set_localized {localize ash_player_match}}
+               {player_match_tow.btn set_localized {localize ash_player_match}}
+               #endif
+            }
+         )
+         kDataUnhandled
+      }
+      #endif
    )
    (exit
       {if {exists logo_task_populate} ;check if the above task is running
@@ -229,47 +256,49 @@
             #ifdef HX_PS3
             {community.btn set_state kComponentNormal}
             #endif
-            {goto_and_push_focus_after_network_connect main_community_screen FALSE}
-         )
+            {goto_and_push_focus_after_network_connect main_community_screen FALSE})
          (store.btn
-            {main_panel push_focus}
-            {ui goto_screen main_tweaks_screen} ;redirect store button to tweaks instead
-;            #ifdef HX_XBOX
-;            {if_else
-;               [show_rbn_store]
-;               {do
-;                  {main_panel push_focus}
-;                  {ui goto_screen main_store_screen}}
-;               {do
-;                  {if_else
-;                     {'||'
-;                        {!
-;                           {platform_mgr is_player_signed_into_live $player_num}}
-;                        {platform_mgr is_player_a_guest $player_num}}
-;                     {ui push_screen main_store_signin_screen}
-;                     {ui push_screen main_store_find_cache_screen}}
-;                  {input_mgr
-;                     set_user
-;                     {user_mgr get_band_user $player_num}}}}
-;            #endif
-;            #ifdef HX_PS3
-;            {if_else
-;               [show_rbn_store]
-;               {do
-;                  {main_panel push_focus}
-;                  {ui goto_screen main_store_screen}}
-;               {ui goto_screen pre_store_enter_network_screen}}
-;            #endif
-;            #ifdef HX_PC
-;            {main_panel push_focus}
-;            {ui goto_screen main_store_screen}
-;            #endif
-         )})}
+            {if_else
+               [show_rbn_store]
+               {do
+                  #ifdef HX_XBOX
+                  {main_panel push_focus}
+                  {ui goto_screen main_store_screen}
+                  #else
+                  {gamemode set_mode store}
+                  #ifdef HX_PS3
+                  {ui goto_screen store_enter_network_screen}
+                  #else
+                  {main_panel push_focus}
+                  {ui goto_screen main_store_screen}
+                  #endif
+                  #endif}
+               {do
+                  #ifdef HX_XBOX
+                  {if_else
+                     {'||'
+                        {!
+                           {platform_mgr is_player_signed_into_live $player_num}}
+                        {platform_mgr is_player_a_guest $player_num}}
+                     {ui push_screen main_store_signin_screen}
+                     {ui push_screen main_store_find_cache_screen}}
+                  #else
+                  {gamemode set_mode store}
+                  #ifdef HX_PS3
+                  {ui goto_screen store_enter_network_screen}
+                  #else
+                  {ui goto_screen store_loading_screen}
+                  #endif
+                  #endif
+                  {input_mgr
+                     set_user
+                     {user_mgr get_band_user $player_num}}}})})}
 {new
    AutoloadScreen
    main_screen
    (panels meta main_panel)
    (focus main_panel)
+   (back splash_screen)
    (access_all
       {$this
          enable
@@ -404,11 +433,6 @@
    (back main_quickplay_screen)
    MAIN_SCREEN_H2H_HANDLERS
    (SELECT_MSG
-      {switch $component
-         (player_match_scoreduel.btn
-            {modifier_mgr activate_modifier mod_vocalgender})
-         (ranked_match_scoreduel.btn
-            {modifier_mgr activate_modifier mod_vocalgender})}
       {gamemode
          set_mode
          {switch
@@ -446,11 +470,6 @@
    (back main_quickplay_screen)
    MAIN_SCREEN_H2H_HANDLERS
    (SELECT_MSG
-      {switch $component
-         (player_match_tow.btn
-            {modifier_mgr activate_modifier mod_vocalgender})
-         (ranked_match_tow.btn
-            {modifier_mgr activate_modifier mod_vocalgender})}
       {gamemode
          set_mode
          {switch
@@ -515,9 +534,6 @@
          {profile_mgr get_all_unlocked}
          {online.btn set_state kComponentDisabled}})
    (SELECT_MSG
-      {switch $component
-         (online_bandcoop.btn
-            {modifier_mgr activate_modifier mod_vocalgender})}
       {gamemode
          set_mode
          {switch
@@ -548,9 +564,6 @@
    main_worldtour_panel
    MAIN_SUBSCREEN_PANEL_HANDLER
    (SELECT_MSG
-      {switch $component
-         (online.btn
-            {modifier_mgr activate_modifier mod_vocalgender})}
       {if_else
          {'||'
             {!= $component online.btn}
@@ -954,7 +967,15 @@
                   {!
                      {platform_mgr has_online_privilege 0}}
                   {platform_mgr is_connected}}
-               {localize leaderboards_not_available_rock_central})
+               {switch $dx_connected_server
+                  (none
+                     {localize leaderboards_not_available_rock_central}
+                  )
+                  (ashcentral
+                     {localize ash_leaderboards_not_available_rock_central}
+                  )
+               }
+            )
             (TRUE
                {localize leaderboards_not_available_connection})}})
    (SELECT_MSG

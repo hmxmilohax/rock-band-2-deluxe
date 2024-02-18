@@ -80,6 +80,7 @@
          {game get_venue}
          "video"}
       FALSE}}
+#include ../dx/countdown/dx_countdown_midi_parsers.dta
 {new
    MidiParser
    events_parser

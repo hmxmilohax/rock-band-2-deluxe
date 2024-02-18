@@ -1,3 +1,4 @@
+#include ../countdown/dx_countdown_funcs.dta
 ; funcs for finding instrument objects in track panel
 {func get_guitar_panel
    {{get_track_panel} find guitar}
@@ -13,4 +14,36 @@
 }
 {func get_track_1_panel
    {{get_track_panel} find track_1}
+}
+;fake log writer so rb3 ported script doesnt crash
+{func
+   dx_log_writer
+   ($loglevel $dx_log_writer)
+   {if {|| $dx_logging_essential $dx_logging_default $dx_logging_info $dx_logging_insane $dx_logging_beatmatch $dx_logging_countdown}
+      {set $dx_log_counter 0}
+   }
+}
+;overshell change screen functions
+{func os_change_screen ($next) ;for moving forward, flip from right to left
+   {set $os_next_screen {sprint $next "_screen"}}
+   {set $os_next_panel {sprint $next "_panel"}}
+   {thread_task kTaskUISeconds
+      (script
+         ;OS_CHANGE_CURRENT_ANIM
+         {ui push_screen $os_next_screen}
+         ;OS_CHANGE_NEXT_ANIM
+      )
+   }
+}
+{func os_back_screen ($next) ;for moving backward, flip from left to right
+   {set $os_next_screen {sprint $next "_screen"}}
+   {set $os_next_panel {sprint $next "_panel"}}
+   {thread_task kTaskUISeconds
+      (script
+         ;OS_BACK_CURRENT_ANIM
+         ;OS_BACK_NEXT_ANIM
+         {ui goto_screen $os_next_screen}
+         {ui pop_screen}
+      )
+   }
 }

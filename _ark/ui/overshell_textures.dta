@@ -8,81 +8,86 @@
     #endif
     (focus sel_section.lst)
     (enter
-        {sel_section.lst set_data (#ifndef HX_EE os_hw #endif os_strk os_spotlight #ifdef HX_EE os_hw_behavior #endif os_gems os_smashers os_flames os_sus #ifndef HX_EE os_lanes os_font #endif os_score os_stars os_bre os_rails os_odbar os_multi_ring os_voxtrk)}
+        {sel_section.lst set_data (#ifndef HX_EE os_hw #endif os_strk os_spotlight os_gems os_smashers os_flames os_sus #ifndef HX_EE os_lanes os_font #endif os_score os_solobox os_stars os_crowd_meter os_bre os_rails os_odbar os_multi_ring os_voxtrk)}
         {title.lbl set_localized {localize os_tex1}}
         {full_selection.mesh set_showing FALSE})
     (exit)
     (SELECT_MSG
     {switch {$component selected_sym}
-         (os_hw_behavior
-            {ui push_screen overshell_hw_behavior_screen}
-         )
          (os_sus
-            {ui push_screen overshell_sustains_screen}
+            {os_change_screen overshell_sustains}
          )
          (os_lanes
             {set $dx_tracked_texture_loader lanes}
-            {ui push_screen overshell_texload_screen}
+            {os_change_screen overshell_texload}
          )
          (os_gems
             {set $dx_tracked_texture_loader gems}
-            {ui push_screen overshell_texload_screen}
+            {os_change_screen overshell_texload}
          )
          (os_smashers
             {set $dx_tracked_texture_loader smashers}
-            {ui push_screen overshell_texload_screen}
+            {os_change_screen overshell_texload}
+         )
+         (os_crowd_meter
+            {set $dx_tracked_texture_loader crowd_meter}
+            {os_change_screen overshell_texload}
          )
          (os_font
             {set $dx_tracked_texture_loader font}
-            {ui push_screen overshell_texload_screen}
+            {os_change_screen overshell_texload}
          )
          (os_score
             {set $dx_tracked_texture_loader score}
-            {ui push_screen overshell_texload_screen}
+            {os_change_screen overshell_texload}
+         )
+         (os_solobox
+            {set $dx_tracked_texture_loader solobox}
+            {os_change_screen overshell_texload}
          )
          (os_stars
             {set $dx_tracked_texture_loader stars}
-            {ui push_screen overshell_texload_screen}
+            {os_change_screen overshell_texload}
          )
          (os_bre
             {set $dx_tracked_texture_loader bre}
-            {ui push_screen overshell_texload_screen}
+            {os_change_screen overshell_texload}
          )
          (os_flames
             {set $dx_tracked_texture_loader flames}
-            {ui push_screen overshell_texload_screen}
+            {os_change_screen overshell_texload}
          )
          (os_rails
             {set $dx_tracked_texture_loader rails}
-            {ui push_screen overshell_texload_screen}
+            {os_change_screen overshell_texload}
          )
          (os_hw
             {set $dx_tracked_texture_loader highway}
-            {ui push_screen overshell_instrument_sel_screen}
+            {os_change_screen overshell_instrument_sel}
          )
          (os_strk
             {set $dx_tracked_texture_loader streak}
             #ifdef HX_EE
             {set $dx_tracked_instrument bass}
-            {ui push_screen overshell_texload_screen}
+            {os_change_screen overshell_texload}
             #else
-            {ui push_screen overshell_instrument_sel_screen}
+            {os_change_screen overshell_instrument_sel}
             #endif
          )
          (os_spotlight
             {set $dx_tracked_texture_loader spotlight}
-            {ui push_screen overshell_instrument_sel_screen}
+            {os_change_screen overshell_instrument_sel}
          )
          (os_odbar
             {set $dx_tracked_texture_loader odbar}
-            {ui push_screen overshell_texload_screen}
+            {os_change_screen overshell_texload}
          )
          (os_multi_ring
             {set $dx_tracked_texture_loader multiring}
-            {ui push_screen overshell_texload_screen}
+            {os_change_screen overshell_texload}
          )
         (os_voxtrk
-            {ui push_screen overshell_voxtrk_screen}
+            {os_change_screen overshell_voxtrk}
          )
       })
     (update_helpbar
@@ -96,8 +101,11 @@
          #ifdef HX_EE {== $button kPad_Tri} #else {== $action kAction_Cancel} #endif
          {do
          {synth play button_toggle}
-         {ui goto_screen overshell_trkpreset_screen}
-         {ui pop_screen}
+         #ifdef HX_EE
+         {os_back_screen overshell_track}
+         #else
+         {os_back_screen overshell_trkpreset}
+         #endif
          TRUE}
          kDataUnhandled})
     (TRANSITION_COMPLETE_MSG
@@ -118,13 +126,7 @@
     #endif
     (focus sel_section.lst)
     (enter
-        {if_else {== $dx_tracked_texture_loader "highway"}
-         {sel_section.lst set_data (os_spotlightall os_spotlightgtr os_spotlightbass os_spotlightdrum os_hw_behavior)}
-         {if_else {== $dx_tracked_texture_loader "streak"}
-            {sel_section.lst set_data (os_spotlightall os_spotlightgtr os_spotlightbass os_spotlightdrum os_strk_behavior)}
-            {sel_section.lst set_data (os_spotlightall os_spotlightgtr os_spotlightbass os_spotlightdrum)}
-         }
-        }
+      {sel_section.lst set_data (os_spotlightall os_spotlightgtr os_spotlightbass os_spotlightdrum)}
         {switch $dx_tracked_texture_loader
          (highway
             {title.lbl set_localized {localize os_hwheader}}
@@ -136,31 +138,26 @@
             {title.lbl set_localized {localize os_strkheader}}
          )
         }
-        {full_selection.mesh set_showing FALSE})
+        {full_selection.mesh set_showing FALSE}
+    )
     (exit)
     (SELECT_MSG
     {switch {$component selected_sym}
          (os_spotlightall
             {set $dx_tracked_instrument all}
-            {ui push_screen overshell_texload_screen}
+            {os_change_screen overshell_texload}
          )
          (os_spotlightgtr
             {set $dx_tracked_instrument guitar}
-            {ui push_screen overshell_texload_screen}
+            {os_change_screen overshell_texload}
          )
          (os_spotlightbass
             {set $dx_tracked_instrument bass}
-            {ui push_screen overshell_texload_screen}
+            {os_change_screen overshell_texload}
          )
          (os_spotlightdrum
             {set $dx_tracked_instrument drum}
-            {ui push_screen overshell_texload_screen}
-         )
-         (os_hw_behavior
-            {ui push_screen overshell_hw_behavior_screen}
-         )
-         (os_strk_behavior
-            {ui push_screen overshell_strk_behavior_screen}
+            {os_change_screen overshell_texload}
          )
       })
     (update_helpbar
@@ -174,8 +171,7 @@
          #ifdef HX_EE {== $button kPad_Tri} #else {== $action kAction_Cancel} #endif
          {do
          {synth play button_toggle}
-         {ui goto_screen overshell_trkpreset_screen}
-         {ui pop_screen}
+         {os_back_screen overshell_tex}
          TRUE}
          kDataUnhandled})
     (TRANSITION_COMPLETE_MSG
@@ -204,19 +200,19 @@
       {switch {$component selected_sym}
          (os_voxarrow
             {set $dx_tracked_texture_loader voxarrow}
-            {ui push_screen overshell_texload_screen}
+            {os_change_screen overshell_texload}
          )
          (os_voxhw
             {set $dx_tracked_texture_loader voxhw}
-            {ui push_screen overshell_texload_screen}
+            {os_change_screen overshell_texload}
          )
          (os_voxnotes
             {set $dx_tracked_texture_loader voxnotes}
-            {ui push_screen overshell_texload_screen}
+            {os_change_screen overshell_texload}
          )
          (os_voxod
             {set $dx_tracked_texture_loader voxod}
-            {ui push_screen overshell_texload_screen}
+            {os_change_screen overshell_texload}
          )
       }
     )
@@ -231,8 +227,7 @@
          #ifdef HX_EE {== $button kPad_Tri} #else {== $action kAction_Cancel} #endif
          {do
          {synth play button_toggle}
-         {ui goto_screen overshell_tex_screen}
-         {ui pop_screen}
+         {os_back_screen overshell_tex}
          TRUE}
          kDataUnhandled})
     (TRANSITION_COMPLETE_MSG
@@ -265,6 +260,11 @@
             {title.lbl set_localized {localize os_smashers}}
             {anchor_corner02.tex set_bitmap {sprint "track_new/smashers/black_smasher_yellow_" $smasher ".png"}}
          )
+         (crowd_meter
+            {sel_section.lst set_data (#include ../track/crowd_meter/crowd_meter.dta)}
+            {title.lbl set_localized {localize os_crowd_meter}}
+            {anchor_corner02.tex set_bitmap {sprint "track/crowd_meter/new_tube_" $crowdmetertex ".png"}}
+         )
          (font
             {sel_section.lst set_data (#include ../track/font/font.dta)}
             {title.lbl set_localized {localize os_font}}
@@ -274,6 +274,11 @@
             {sel_section.lst set_data (#include ../track/score/score.dta)}
             {title.lbl set_localized {localize os_score}}
             {anchor_corner02.tex set_bitmap {sprint "track/score/indv_player_meter_" $scoretex ".png"}}
+         )
+         (solobox
+            {sel_section.lst set_data (#include ../track/solo_box/solo_box.dta)}
+            {title.lbl set_localized {localize os_solobox}}
+            {anchor_corner02.tex set_bitmap {sprint "track/solo_box/" $solobox ".png"}}
          )
          (stars
             {sel_section.lst set_data (#include ../track/stars/stars.dta)}
@@ -400,6 +405,8 @@
       }
         #ifndef HX_EE
         {sit_gargoyle.mat set color {pack_color 1 1 1}}
+        {sit_gargoyle.mat set prelit TRUE}
+        {sit_gargoyle.mat set intensify FALSE}
         {sit_gargoyle.mat set diffuse_tex anchor_corner02.tex}
         {sit_gargoyle.mat set specular_map anchor_corner02.tex}
         {sit_gargoyle02.mesh set_local_pos_index 2 -140}
@@ -415,6 +422,10 @@
             {set $smashercustomtexture TRUE}
             {set $smasher {$component selected_sym}}
          )
+         (crowd_meter
+            {set $crowdmetercustomtexture TRUE}
+            {set $crowdmetertex {$component selected_sym}}
+         )
          (font
             {set $fontcustomtexture TRUE}
             {set $font {$component selected_sym}}
@@ -422,6 +433,10 @@
          (score
             {set $scorecustomtexture TRUE}
             {set $scoretex {$component selected_sym}}
+         )
+         (solobox
+            {set $soloboxcustomtexture TRUE}
+            {set $solobox {$component selected_sym}}
          )
          (stars
             {set $starscustomtexture TRUE}
@@ -530,8 +545,13 @@
             {set $voxnotes {$component selected_sym}}
          )
       }
-      {ui goto_screen overshell_track_screen}
-      {ui pop_screen}
+      {if_else {|| {== $dx_tracked_texture_loader voxarrow} {== $dx_tracked_texture_loader voxhw} {== $dx_tracked_texture_loader voxnotes} {== $dx_tracked_texture_loader voxod}}
+         {os_back_screen overshell_voxtrk}
+         {if_else {|| {== $dx_tracked_texture_loader highway} {== $dx_tracked_texture_loader spotlight} #ifndef HX_EE {== $dx_tracked_texture_loader streak} #endif}
+            {os_back_screen overshell_instrument_sel}
+            {os_back_screen overshell_tex}
+         }
+      }
     )
     (update_helpbar
             {helpbar
@@ -546,11 +566,17 @@
          (smashers
             {anchor_corner02.tex set_bitmap {sprint "track_new/smashers/black_smasher_yellow_" {$component selected_sym} ".png"}}
          )
+         (crowd_meter
+            {anchor_corner02.tex set_bitmap {sprint "track/crowd_meter/new_tube_" {$component selected_sym} ".png"}}
+         )
          (font
             {anchor_corner02.tex set_bitmap {sprint "track/font/" {$component selected_sym} ".png"}}
          )
          (score
             {anchor_corner02.tex set_bitmap {sprint "track/score/indv_player_meter_" {$component selected_sym} ".png"}}
+         )
+         (solobox
+            {anchor_corner02.tex set_bitmap {sprint "track/solo_box/" {$component selected_sym} ".png"}}
          )
          (stars
             {anchor_corner02.tex set_bitmap {sprint "track/stars/star_power_" {$component selected_sym} ".png"}}
@@ -601,8 +627,13 @@
          #ifdef HX_EE {== $button kPad_Tri} #else {== $action kAction_Cancel} #endif
          {do
          {synth play button_toggle}
-         {ui goto_screen overshell_track_screen}
-         {ui pop_screen}
+         {if_else {|| {== $dx_tracked_texture_loader voxarrow} {== $dx_tracked_texture_loader voxhw} {== $dx_tracked_texture_loader voxnotes} {== $dx_tracked_texture_loader voxod}}
+            {os_back_screen overshell_voxtrk}
+            {if_else {|| {== $dx_tracked_texture_loader highway} {== $dx_tracked_texture_loader spotlight} #ifndef HX_EE {== $dx_tracked_texture_loader streak} #endif}
+               {os_back_screen overshell_instrument_sel}
+               {os_back_screen overshell_tex}
+            }
+         }
          TRUE}
          kDataUnhandled})
     (TRANSITION_COMPLETE_MSG

@@ -17,7 +17,18 @@
         {memcardmgr
             add_sink
             $this
-            (save_load_all_complete_msg)})
+            (save_load_all_complete_msg)}
+        {unless $mod_first_entry
+            {{options_background_panel find tour_solo_lower3rd.grp} get_local_pos $opl3x $opl3y $opl3z}
+            {{options_background_panel find genre_corners.grp} get_local_pos $opgcx $opgcy $opgcz}
+            {{options_background_panel find bubble13.grp} get_local_pos $opbgx $opbgy $opbgz}
+            {modifiers_panel get_local_pos $modx $mody $modz}
+            {set $mod_first_entry TRUE}
+        }
+        {if $mod_os_entered
+            OS_MOD_OPEN_ANIM
+        }
+        )
     (exit
         {profile_mgr remove_sink $this profile_changed_msg}
         {memcardmgr remove_sink $this save_load_all_complete_msg})
@@ -59,15 +70,26 @@
                                             {$this set is_autoloading TRUE}
                                             {autoload}}
                                         {modifiers.lst set_dirty}}}
-                                {do
-                                    {if_else
-                                        {modifier_mgr does_disable_features $modifier}
-                                        {do
-                                            {modifier_confirm_screen set modifier $modifier}
-                                            {ui push_screen modifier_confirm_screen}}
-                                        {do
-                                            {modifier_mgr activate_modifier $modifier}
-                                            {modifiers.lst set_dirty}}}}}}}}}})
+                                 {do
+                                    {if_else {modifier_mgr does_disable_features $modifier}
+                                       {do
+                                          {if_else $iamingamenow
+                                             {do
+                                                kDataUnhandled
+                                             }
+                                             {do
+                                                {modifier_confirm_screen set modifier $modifier}
+                                                {ui push_screen modifier_confirm_screen}
+                                             }
+                                          }
+                                       }
+                                       {do
+                                          {modifier_mgr activate_modifier $modifier}
+                                          {modifiers.lst set_dirty}
+                                       }
+                                    }
+                                 }
+                              }}}}}})
     (update_helpbar
         {if_else
             {==

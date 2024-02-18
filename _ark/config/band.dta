@@ -4,6 +4,7 @@
 #include xlast_macros_update.dta
 #endif
 #include ../dx/config/dx_macros.dta
+#include ../dx/countdown/dx_countdown.dta
 #ifdef HX_WII
 #define PATCH_NO_STICKERS
 (1)

@@ -17,6 +17,9 @@
          {{{get_bass_panel} find streak_meter} star_deploy_stop}
          {{{{get_bass_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
          {bass stop_deploy}
+         {if {== $hwalpha rb3}
+            {{{get_bass_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
+         }
       }
    )
    (pass
@@ -27,6 +30,9 @@
       {$this check_missed}
       {{{get_bass_panel} find streak_meter} star_deploy_stop}
       {{{{get_bass_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
+      {if {== $hwalpha rb3}
+         {{{get_bass_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
+      }
       {bass stop_deploy}
    )
    (check_fc
@@ -42,6 +48,9 @@
       {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
          {{{get_bass_panel} find streak_meter} star_deploy_stop}
          {{{{get_bass_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
+         {if {== $hwalpha rb3}
+            {{{get_bass_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
+         }
          {bass stop_deploy}
       }
       {if_else {== $highwaybass "_1_none"}
@@ -91,6 +100,9 @@
    (do_customhw_streak
       {if $hwstrk 
          {{{get_bass_panel} find surface.mat} set emissive_map {{get_track_panel} find bass_superstreak_pattern.tex}}
+         {if {== $hwalpha rb3}
+            {{{get_bass_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find track_clipping.tex}}
+         }
       }
    )
    (do_warning
@@ -165,6 +177,9 @@
          {$this check_missed}
          {{{get_guitar_panel} find streak_meter} star_deploy_stop}
          {{{{get_guitar_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
+         {if {== $hwalpha rb3}
+            {{{get_guitar_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
+         }
          {guitar stop_deploy}
       }
    )
@@ -176,6 +191,9 @@
       {$this check_missed}
       {{{get_guitar_panel} find streak_meter} star_deploy_stop}
       {{{{get_guitar_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
+      {if {== $hwalpha rb3}
+         {{{get_guitar_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
+      }
       {guitar stop_deploy}
    )
    (check_fc
@@ -192,6 +210,9 @@
          {{{get_guitar_panel} find streak_meter} star_deploy_stop}
          {{{{get_guitar_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
          {guitar stop_deploy}
+         {if {== $hwalpha rb3}
+            {{{get_guitar_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
+         }
       }
       {if_else {== $highwaygtr "_1_none"}
          {do
@@ -239,6 +260,9 @@
          {if_else {== $streakgtr none}
             {{{get_guitar_panel} find surface.mat} set emissive_map {{get_track_panel} find bass_superstreak_pattern.tex}}
             {{{get_guitar_panel} find surface.mat} set emissive_map {{get_track_panel} find pitch_arrow_effect_old.tex}}
+         }
+         {if {== $hwalpha rb3}
+            {{{get_guitar_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find track_clipping.tex}}
          }
       }
    )
@@ -314,6 +338,9 @@
          {$this check_missed}
          {{{get_drum_panel} find streak_meter} star_deploy_stop}
          {{{{get_drum_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
+         {if {== $hwalpha rb3}
+            {{{get_drum_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
+         }
          {drum stop_deploy}
       }
    )
@@ -325,6 +352,9 @@
       {$this check_missed}
       {{{get_drum_panel} find streak_meter} star_deploy_stop}
       {{{{get_drum_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
+      {if {== $hwalpha rb3}
+         {{{get_drum_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
+      }
       {drum stop_deploy}
    )
    (check_fc
@@ -340,6 +370,9 @@
       {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
          {{{get_drum_panel} find streak_meter} star_deploy_stop}
          {{{{get_drum_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
+         {if {== $hwalpha rb3}
+            {{{get_drum_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
+         }
          {drum stop_deploy}
       }
       {if_else {== $highwaydrum "_1_none"}
@@ -391,6 +424,9 @@
          {if_else {== $streakdrum none}
             {{{get_drum_panel} find surface.mat} set emissive_map {{get_track_panel} find bass_superstreak_pattern.tex}}
             {{{get_drum_panel} find surface.mat} set emissive_map {{get_track_panel} find smasher_plate_orange_emiss_nomip.tex}}
+         }
+         {if {== $hwalpha rb3}
+            {{{get_drum_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find track_clipping.tex}}
          }
       }
    )

@@ -884,18 +884,19 @@
                (synth play button_select)
                kNetReliable}
             {$this component_select song.lst $player $player_num})
-         ({&&
-               {== $action kAction_Right}
-               {!
-                  {song.lst is_scrolling}}}
-               {song.lst set_scroll_user $user}
-               {song.lst scroll 10}) ; dx scroll the list down by 10 slots when pressing right dpad
-         ({&&
-               {== $action kAction_Left}
-               {!
-                  {song.lst is_scrolling}}}
-               {song.lst set_scroll_user $user}
-               {song.lst scroll -10}) ; dx scroll the list up by 10 slots when pressing left dpad
+         ;({&&
+         ;      {== $action kAction_Right}
+         ;      {!
+         ;         {song.lst is_scrolling}}}
+         ;      {song.lst set_scroll_user $user}
+         ;      {song.lst scroll 10}) ; dx scroll the list down by 10 slots when pressing right dpad
+         ;({&&
+         ;      {== $action kAction_Left}
+         ;      {!
+         ;         {song.lst is_scrolling}}}
+         ;      {song.lst set_scroll_user $user}
+         ;      {song.lst scroll -10}) ; dx scroll the list up by 10 slots when pressing left dpad
+         ;removed due to crashing
          (TRUE kDataUnhandled)})
    (on_button_held
       ($user_num $user $raw_button $action $pad_num)

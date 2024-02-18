@@ -1,0 +1,986 @@
+(vocals16 ;Emily of Byron, rb1 character cut from rb2
+   (gender female)
+   (instrument vocals)
+   (selectable TRUE)
+   (attitude kGenreDramatic)
+   (skin_color_index 0)
+   (eye_color_index 2)
+   (eyebrow_color_index 11)
+   (height 0.8)
+   (weight 0.5)
+   (outfit
+      (hair
+         70sbisset_resource
+         (colors 11 0))
+      (heads
+         head_5
+         (colors 4 0))
+      (eyes
+         head_5_eyes_22
+         (colors 0 0))
+      (lips
+         head_5_lips_14
+         (colors 0 0))
+      (torso
+         ironmaidenarmor_metal
+         (colors 2 0))
+      (hands
+         naked
+         (colors 0 0))
+      (legs
+         ironmaidenleggings_metal
+         (colors 2 0))
+      (feet
+         ironmaidenboots_metal
+         (colors 2 0))
+      (glasses
+         none
+         (colors 0 0))
+      (wrist
+         none
+         (colors 0 0))
+      (rings
+         none
+         (colors 0 0))
+      (earrings
+         none
+         (colors 0 0))
+      (mic
+         mic1_silver
+         (colors 0 0)
+         (patch
+            ((patch_dee 0 0 0.0 0.0 0.0 0.0 1.26 0.81 0.0))))
+      (bass
+         precision05_sparkle
+         (colors 25 0))
+      (drum
+         ludclassic_diamond
+         (colors 0 0))
+      (guitar
+         stratocaster02_paint
+         (colors 0 4)))
+   (tattoo
+      (patch_facepaint
+         ((patch_solids 2 0 0.0 0.0 -67.0 309.98 5.0 5.0 0.0)
+            (patch_roan 2 0 -74.0 0.0 1.0 357.18 3.15 0.3 0.0)))))
+(kimberley_monroe
+   (gender female)
+   (instrument guitar)
+   (selectable TRUE)
+   (attitude kGenreRocker)
+   (weight 0.75)
+   (height 0.25)
+   (skin_color_index 0)
+   (eye_color_index 3)
+   (eyebrow_color_index 0)
+   (outfit
+      (hair
+         ladylayered_cowboyhat
+         (colors 1 0))
+      (heads
+         head_1)
+      (eyes
+         head_1_eyes_0
+         (colors 0 0))
+      (lips
+         head_1_lips_0
+         (colors 0 0))
+      (facehair none)
+      (glasses
+         femaleglasses_aviators
+         (colors 0 4))
+      (torso
+         openshirtbandana_print
+         (colors 0 20))
+      (hands
+         femalegloves_fingerlessdriving
+         (colors 0 0))
+      (legs
+         wreckedjeans_worn
+         (colors 27 43))
+      (feet
+         femalecowboyboots_embroidered
+         (colors 0 1))
+      (wrist
+         femalewrist_sweatband
+         (colors 26 0))
+      (rings none)
+      (earrings 
+         femaleearrings_hoops
+         (colors 0 0))
+      (piercings 
+         femalepiercings_combo5
+         (colors 1 0))
+      (bass
+         falconbass_paint
+         (colors 1 0))
+      (drum
+         ludclassic_fade
+         (colors 0 0))
+      (guitar
+         penguin_paint
+         (colors 1 0))
+      (mic
+         sm58_resource
+         (colors 0 0))))
+(dawson_blake
+   (gender male)
+   (selectable TRUE)
+   (instrument guitar)
+   (attitude kGenreSpazz)
+   (skin_color_index 2)
+   (eye_color_index 9)
+   (eyebrow_color_index 4)
+   (height 1.0)
+   (weight 0.25)
+   (outfit
+      (hair
+         longlayered_resource
+         (colors 4 0))
+      (heads
+         head_12
+         (colors 4 0))
+      (eyes none)
+      (lips none)
+      (facehair
+         head_12_flavorsaver
+         (colors 4 0))
+      (glasses naked)
+      (torso
+         flannelcoat_checked
+         (colors 14 5))
+      (hands naked)
+      (legs
+         flaredistressedjeans_bleachedjeans
+         (colors 5))
+      (feet
+         highchucks_solid
+         (colors 15 4))
+      (wrist naked)
+      (rings
+         malerings_rubberbands
+         (colors 3 0))
+      (earrings none)
+      (piercings none)
+      (guitar
+         corvette_sunbursttortoise
+         (colors 20 20))
+      (bass
+         jazz03_paint
+         (colors 36 0))
+      (drum
+         ludvista_clear
+         (colors 14 0))
+      (mic sm58_resource)))
+(luna
+   (gender female)
+   (instrument vocals)
+   (selectable TRUE)
+   (attitude kGenreDramatic)
+   (weight 0.50)
+   (height 0.50)
+   (skin_color_index 2)
+   (eye_color_index 9)
+   (eyebrow_color_index 2)
+   (outfit
+      (hair
+         femalehair_long
+         (colors 2 0))
+      (heads
+         head_1)
+      (eyes
+         head_1_eyes_3
+         (colors 0 0))
+      (lips
+         head_1_lips_3
+         (colors 0 0))
+      (facehair none)
+      (glasses
+         none)
+      (torso
+         spikedleatherjacket_spiked
+         (colors 36 0))
+      (hands
+         femalegloves_fingerlessdriving
+         (colors 14 0))
+      (legs
+         cargopants_camo
+         (colors 26 14))
+      (feet
+         femalemotorcycleboots_solid
+         (colors 0 0))
+      (wrist
+         wrist_barbedwire
+         (colors 1 0))
+      (rings none)
+      (earrings 
+         earrings_hoops
+         (colors 2 0))
+      (piercings 
+         none)
+      (bass
+         neonbass_resource
+         (colors 18 7))
+      (drum
+         electronic
+         (colors 0 0))
+      (guitar
+         neon_resource
+         (colors 18 7))
+      (mic
+         knife_resource
+         (colors 3 0))))
+(penelope
+   (gender female)
+   (selectable TRUE)
+   (instrument vocals)
+   (attitude kGenreRocker)
+   (skin_color_index 0)
+   (eye_color_index 9)
+   (eyebrow_color_index 50)
+   (height 0.50)
+   (weight 0.50)
+   (outfit
+      (hair
+         femalehair_long
+         (colors 50 0))
+      (heads
+         head_1
+         (colors 4 0))
+      (eyes
+         head_1_eyes_7)
+      (lips
+         head_1_lips_3)
+      (facehair none)
+      (glasses none)
+      (torso
+         thermalundertee_moped
+         (colors 0 3))
+      (hands
+         femalegloves_fingerlessdriving
+         (colors 0 0))
+      (legs
+         cargopants_camo
+         (colors 31 14))
+      (feet
+         lowtopsneaks_skater
+         (colors 0 31))
+      (wrist
+         femalewrist_studdedgauntlet_right
+         (colors 0 0))
+      (rings
+         femalerings_chief
+         (colors 11 0))
+      (earrings none)
+      (piercings none)
+      (drum
+         ludclassic_diamond
+         (colors 23 0))
+      (bass
+         precision01_paint
+         (colors 0 0))
+      (guitar
+         stratocaster02_paint
+         (colors 0 0))
+      (mic
+         sm58_resource
+         (colors 0 0))))
+(u628
+   (gender male)
+   (instrument drum)
+   (selectable TRUE)
+   (attitude kGenreRocker)
+   (skin_color_index 3)
+   (eye_color_index 0)
+   (eyebrow_color_index 0)
+   (height 0.25)
+   (weight 0.25)
+   (outfit
+      (hair
+         emover_resource
+         (colors 15 15))
+      (heads
+         head_5
+         (colors 4 0))
+      (eyes none)
+      (lips none)
+      (facehair none)
+      (glasses
+         maleglasses_wayfarers
+         (colors 0 0))
+      (torso
+         wornlongsleeveshirt_striped
+         (colors 0 0))
+      (hands
+         malegloves_materialgirl
+         (colors 0 0))
+      (legs
+         relaxedpants_skatepunx
+         (colors 0 20))
+      (feet
+         highchucks_solid
+         (colors 0 4))
+      (wrist
+         malewrist_sweatbandstuddedcombo
+         (colors 0 0))
+      (rings none)
+      (earrings
+         maleearrings_plug
+         (colors 0 0))
+      (piercings none)
+      (drum
+         pearl_pearl
+         (colors 34 0))
+      (bass
+         precision01_paint
+         (colors 1 0))
+      (guitar
+         chainsaw_resource
+         (colors 4 0))
+      (mic
+         sm58_resource
+         (colors 1 0))))
+(chill
+   (gender male)
+   (selectable TRUE)
+   (instrument guitar)
+   (attitude kGenreSpazz)
+   (skin_color_index 3)
+   (eye_color_index 9)
+   (eyebrow_color_index 0)
+   (height 0.50)
+   (weight 0.75)
+   (outfit
+      (hair
+         gentleman_resource
+         (colors 0 0))
+      (heads
+         head_6
+         (colors 4 0))
+      (eyes none)
+      (lips none)
+      (facehair
+         head_6_goatee
+         (colors 0 0))
+      (glasses
+         maleglasses_circles
+         (colors 0 0))
+      (torso
+         blankhoodie_solid
+         (colors 4 0))
+      (hands
+         malegloves_fingerlessdriving
+         (colors 0 0))
+      (legs
+         wornleatherpants_worn
+         (colors 0 0))
+      (feet
+         lowchucks_striped
+         (colors 0 0))
+      (wrist naked)
+      (rings none)
+      (earrings
+         maleearrings_plug
+         (colors 0 0))
+      (guitar
+         dinky01_sunburst
+         (colors 1 0))
+      (bass
+         gravebass_resource
+         (colors 0 0))
+      (drum
+         generic_zebra
+         (colors 0 0))
+      (mic sm58_resource)))
+(anth
+   (gender male)
+   (selectable TRUE)
+   (instrument vocals)
+   (attitude kGenreBanger)
+   (skin_color_index 3)
+   (eye_color_index 1)
+   (eyebrow_color_index 1)
+   (height 0.5)
+   (weight 0.25)
+   (outfit
+      (hair
+         ramones_resource
+         (colors 1 0))
+      (heads
+         head_13
+         (colors 1 0))
+      (eyes none)
+      (lips none)
+      (facehair
+     head_13_dirtstaches
+         (colors 1 0))
+      (glasses none)
+      (torso
+         blankhoodie_solid
+         (colors 1 0))
+      (hands
+         malegloves_fingerlessdriving
+         (colors 0 0))
+      (legs
+         loosepants_stripe
+         (colors 0 20))
+      (feet
+         highchucks_solid
+         (colors 13 3))
+      (wrist none)
+      (rings
+         rings_rubberbands
+         (colors 7 0))
+      (earrings none)
+      (piercings none)
+      (drum
+         ludclassic_diamond
+         (colors 0 0))
+      (bass
+         c20bass_paint
+         (colors 0 0))
+      (guitar
+         stratocaster03_paint
+         (colors 31 0))
+      (mic
+         sm58_resource
+         (colors 0 0))))
+(annai_renae
+   (gender female)
+   (selectable TRUE)
+   (instrument vocals)
+   (attitude kGenreSpazz)
+   (skin_color_index 0)
+   (eye_color_index 1)
+   (eyebrow_color_index 30)
+   (height 0.25)
+   (weight 0.75)
+   (outfit
+      (hair
+         pigtails_resource
+         (colors 1 30))
+      (heads
+         head_1
+         (colors 30 0))
+      (eyes
+         head_1_eyes_19
+         (colors 0 0))
+      (lips
+         head_1_lips_4
+         (colors 0 0))
+      (facehair none)
+      (glasses
+         femaleglasses_business
+    (colors 0 1))
+      (torso
+         dishevelledshirt_southern
+         (colors 27 0))
+      (hands femalegloves_skeleton
+    (colors 0 1))
+      (legs
+         shortskirt_plaidpunky
+         (colors 20 50))
+      (feet
+         kneehighheel_leather
+         (colors 0 0))
+      (wrist none)
+      (rings
+         femalerings_demonclaw
+         (colors 1 0))
+      (earrings none)
+      (piercings
+         femalepiercings_combo10
+         (colors 0 0))
+      (drum
+         ludclassic_fade
+         (colors 16 0))
+      (bass
+         kelly04_paint
+         (colors 16 0))
+      (guitar
+         dinky01_paint
+         (colors 16 0))
+      (mic
+         e935_resource
+         (colors 8 0))))
+(galaxis
+   (gender female)
+   (selectable TRUE)
+   (instrument drum)
+   (attitude kGenreBanger)
+   (skin_color_index 1)
+   (eye_color_index 9)
+   (eyebrow_color_index 28)
+   (height 0)
+   (weight 0.25)
+   (outfit
+      (hair
+         chunli_resource
+         (colors 28 0))
+      (heads
+         head_1)
+      (eyes none)
+      (lips
+         head_1_lips_3
+         (colors 0 0))
+      (facehair none)
+      (glasses
+         femalemask_masque
+         (colors 41 40))
+      (torso
+         corsetandsleeves_plastic
+         (colors 34 21))
+      (hands
+         femalegloves_skeleton
+         (colors 18 3))
+      (legs
+         puffyskirt_skull
+         (colors 4 18))
+      (feet
+         femaleroadwarriorboots_leather
+         (colors 1 21))
+      (wrist none)
+      (rings none)
+      (earrings none)
+      (piercings none)
+      (drum
+         goth_iron
+         (colors 18 0))
+      (bass
+         wingsbass_resource
+         (colors 32 16))
+      (guitar
+         skeletar_resource
+         (colors 32 0))
+      (mic
+         sm58_resource
+         (colors 0 0))))
+(chelsea_carelli
+   (gender female)
+   (instrument guitar)
+   (selectable TRUE)
+   (attitude kGenreDramatic)
+   (weight 0.50)
+   (height 0.75)
+   (skin_color_index 0)
+   (eye_color_index 6)
+   (eyebrow_color_index 2)
+   (outfit
+      (hair
+         chunli_resource
+         (colors 2 0))
+      (heads
+         head_10)
+      (eyes
+         head_10_eyes_21
+         (colors 0 0))
+      (lips
+         head_10_lips_3
+         (colors 0 0))
+      (facehair none)
+      (glasses
+         none)
+      (torso
+         jacketandbra_solid
+         (colors 0 3))
+      (hands
+         naked)
+      (legs
+         hotpants_camo
+         (colors 24 3))
+      (feet
+         thighhighheel_pvc
+         (colors 0 0))
+      (wrist
+         none)
+      (rings
+         femalerings_batwing
+         (colors 0 0))
+      (earrings 
+         femaleearrings_skullandcrossbones
+         (colors 0 0))
+      (piercings 
+         femalepiercings_combo7
+         (colors 0 0))
+      (bass
+         c20bass_sparkle
+         (colors 43 0))
+      (drum
+         ludvista_chrome
+         (colors 0 0))
+      (guitar
+         kelly02_sparkle
+         (colors 43 0))
+      (mic
+         e935_resource
+         (colors 0 0))))
+(taylor_grace ; Change this to what you want your character's "internal" name to be (e.g. "kimberley_monroe")
+   (selectable TRUE)
+
+   ; Body Type
+   ; OPTIONS - Masculine: "male", Feminine: "female"
+   (gender 
+      female)
+
+   ; Instrument
+   ; OPTIONS - "guitar", "drum", "vocals"
+   (instrument 
+      drum)
+
+   ; Attitude
+   ; OPTIONS - Metal: "kGenreBanger", Goth: "kGenreDramatic", Rock: "kGenreRocker", Punk: "kGenreSpazz"
+   (attitude 
+      kGenreSpazz)
+
+   ; Height/Weight
+   ; the sliders each have 5 positions, they translate to (0, 0.25, 0.5, 0.75, 1)
+   (weight 0.75)
+   (height 0.25)
+
+   ; HOW TO SET COLORS:
+   ; Select your desired color ingame and count how many times you have to scroll LEFT to get to the DARKEST color
+   ; The amount of times you scroll will be the color number
+   ; The first number will be the primary color, the second one will be the secondary color
+   ; If there is no secondary color to choose from, set it to 0
+   ; This applies to all colors EXCEPT skin tone, where you have to scroll to the LIGHTEST color
+
+   ; Skin Tone
+   (skin_color_index 4) ; see above, scroll to the LIGHTEST color
+
+   ; Eye Color
+   (eye_color_index 1) ; see above, scroll to the DARKEST color from here on out
+
+   ; Eyebrow Color
+   ; Typically matches the primary hair color unless changed in the Rock Shop
+   (eyebrow_color_index 0)
+
+   (outfit
+
+      ; Face Type
+
+      ; MALE OPTIONS:
+      ; Rocker: "head_1", Stone Jaw: "head_2", Tourer: "head_3", Meat Head: "head_4", Baby Face: "head_5", Iron Man: "head_6",
+      ; Wingman: "head_9", Scrapper: "head_10", Gentleman: "head_11", Cool Hand: "head_12", Hero: "head_13", Veteran: "head_14"
+
+      ; FEMALE OPTIONS:
+      ; Artsy: "head_1", Diva: "head_2", Sprite: "head_3", Runway: "head_4", Belladonna: "head_5", Amazon: "head_6", Doe: "head_7",
+      ; Muse: "head_8", Rebel: "head_10", Vamp: "head_11", Rascal: "head_12", Twee: "head_13", Tomboy: "head_14"
+
+      (heads
+         head_1)
+
+      ; Hair
+      (hair
+         ladylayered_duckbill
+         (colors 24 0))
+
+      ; Clothing
+      (torso
+         parkajacket_parka
+         (colors 1 14))
+      (legs
+         batbeltkneepadpants_denim
+         (colors 0 0))
+      (feet
+         untiedankleboots_leather ; May require "male/female" to be added before the name
+         (colors 0 0))
+
+      ; Accessories
+      ; These all require "male/female" to be added before their names unless specified otherwise (e.g. "femaleearrings_hoops")
+      (glasses
+         femaleglasses_costellos
+         (colors 0 0))
+      (earrings 
+         femaleearrings_multiloops
+         (colors 0 0))
+      (piercings 
+         femalepiercings_combo2
+         (colors 1 0))
+      (facehair ; Facial Hair / Bandana
+         none ; Requires the face type to be added before the name (e.g. "head_6_bandana_cotton"), does not require "male/female"
+         (colors 0 0))
+      (wrist
+         femalewrist_pyramids
+         (colors 0 0))
+      (rings 
+         none
+         (colors 26 0))
+      (hands ; Gloves
+         femalegloves_bandaged
+         (colors 0 0))
+
+      ; Makeup
+      ; Each of these require the face type to be added before the name (e.g. "head_1_eyes_0")
+      (eyes
+         head_1_eyes_9)
+      (lips
+         head_1_lips_3)
+
+      ; Instruments
+      ; Add the finish type after the name (e.g. "_paint"). If there are no finishes, add "_resource"
+      ; If it asks you to select a tertiary color, add another color number
+      (guitar
+         axe_resource
+         (colors 0 0))
+      (bass
+         axebass_resource
+         (colors 1 0))
+      (drum
+         trash
+         (colors 0 3))
+      (mic
+         knife_resource
+         (colors 0 0))
+
+      ; Once you're done, please return to the written guide
+      ; FYI, custom art, tatoos, and face paint are pain in the ass. don't bother.
+
+   )
+)
+(cameron ; Change this to what you want your character's "internal" name to be (e.g. "kimberley_monroe")
+   (selectable TRUE)
+ 
+   ; Body Type
+   ; OPTIONS - Masculine: "male", Feminine: "female"
+   (gender 
+      male)
+ 
+   ; Instrument
+   ; OPTIONS - "guitar", "drum", "vocals"
+   (instrument 
+      guitar)
+ 
+   ; Attitude
+   ; OPTIONS - Metal: "kGenreBanger", Goth: "kGenreDramatic", Rock: "kGenreRocker", Punk: "kGenreSpazz"
+   (attitude 
+      kGenreBanger)
+ 
+   ; Height/Weight
+   ; the sliders each have 5 positions, they translate to (0, 0.25, 0.5, 0.75, 1)
+   (weight 0.5)
+   (height 0.5)
+ 
+   ; HOW TO SET COLORS:
+   ; Select your desired color ingame and count how many times you have to scroll LEFT to get to the DARKEST color
+   ; The amount of times you scroll will be the color number
+   ; The first number will be the primary color, the second one will be the secondary color
+   ; If there is no secondary color to choose from, set it to 0
+   ; This applies to all colors EXCEPT skin tone, where you have to scroll to the LIGHTEST color
+ 
+   ; Skin Tone
+   (skin_color_index 0) ; see above, scroll to the LIGHTEST color
+ 
+   ; Eye Color
+   (eye_color_index 3) ; see above, scroll to the DARKEST color from here on out
+ 
+   ; Eyebrow Color
+   ; Typically matches the primary hair color unless changed in the Rock Shop
+   (eyebrow_color_index 0)
+ 
+   (outfit
+ 
+      ; Face Type
+ 
+      ; MALE OPTIONS:
+      ; Rocker: "head_1", Stone Jaw: "head_2", Tourer: "head_3", Meat Head: "head_4", Baby Face: "head_5", Iron Man: "head_6",
+      ; Wingman: "head_9", Scrapper: "head_10", Gentleman: "head_11", Cool Hand: "head_12", Hero: "head_13", Veteran: "head_14"
+ 
+      ; FEMALE OPTIONS:
+      ; Artsy: "head_1", Diva: "head_2", Sprite: "head_3", Runway: "head_4", Belladonna: "head_5", Amazon: "head_6", Doe: "head_7",
+      ; Muse: "head_8", Rebel: "head_10", Vamp: "head_11", Rascal: "head_12", Twee: "head_13", Tomboy: "head_14"
+ 
+      (heads
+         head_1)
+ 
+      ; Hair
+      (hair
+         lazyhawk_resource
+         (colors 0 44))
+ 
+      ; Clothing
+      (torso
+         gothtrench_cotton
+         (colors 0 0))
+      (legs
+         draculaflairs_silk
+         (colors 0 0))
+      (feet
+         gothstompers_leather ; May require "male/female" to be added before the name
+         (colors 0 21))
+ 
+      ; Accessories
+      ; These all require "male/female" to be added before their names unless specified otherwise (e.g. "femaleearrings_hoops")
+      (glasses
+         maleglasses_badass
+         (colors 0 0))
+      (earrings 
+         none
+         (colors 0 0))
+      (piercings 
+         none
+         (colors 0 0))
+      (facehair ; Facial Hair / Bandana
+         none ; Requires the face type to be added before the name (e.g. "head_6_bandana_cotton"), does not require "male/female"
+         (colors 0 0))
+      (wrist
+         none
+         (colors 26 0))
+      (rings 
+         none
+         (colors 26 0))
+      (hands ; Gloves
+         naked
+         (colors 0 0))
+ 
+      ; Makeup
+      ; Each of these require the face type to be added before the name (e.g. "head_1_eyes_0")
+      (eyes
+         head_1_eyes_0)
+      (lips
+         head_1_lips_0)
+ 
+      ; Instruments
+      ; Add the finish type after the name (e.g. "_paint"). If there are no finishes, add "_resource"
+      ; If it asks you to select a tertiary color, add another color number
+      (guitar
+         axe_resource
+         (colors 50 0))
+      (bass
+         axebass_resource
+         (colors 26 0))
+      (drum
+         ludclassic_fade
+         (colors 0 0))
+      (mic
+         sm58_resource
+         (colors 0 0))
+ 
+      ; Once you're done, please return to the written guide
+      ; FYI, custom art, tatoos, and face paint are pain in the ass. don't bother.
+ 
+   )
+)
+(chimarky ; Change this to what you want your character's "internal" name to be (e.g. "kimberley_monroe")
+   (selectable TRUE)
+
+   ; Body Type
+   ; OPTIONS - Masculine: "male", Feminine: "female"
+   (gender 
+      male)
+
+   ; Instrument
+   ; OPTIONS - "guitar", "drum", "vocals"
+   (instrument 
+      drum)
+
+   ; Attitude
+   ; OPTIONS - Metal: "kGenreBanger", Goth: "kGenreDramatic", Rock: "kGenreRocker", Punk: "kGenreSpazz"
+   (attitude 
+      kGenreBanger)
+
+   ; Height/Weight
+   ; the sliders each have 5 positions, they translate to (0, 0.25, 0.5, 0.75, 1)
+   (weight 0.5)
+   (height 1)
+
+   ; HOW TO SET COLORS:
+   ; Select your desired color ingame and count how many times you have to scroll LEFT to get to the DARKEST color
+   ; The amount of times you scroll will be the color number
+   ; The first number will be the primary color, the second one will be the secondary color
+   ; If there is no secondary color to choose from, set it to 0
+   ; This applies to all colors EXCEPT skin tone, where you have to scroll to the LIGHTEST color
+
+   ; Skin Tone
+   (skin_color_index 0) ; see above, scroll to the LIGHTEST color
+
+   ; Eye Color
+   (eye_color_index 4) ; see above, scroll to the DARKEST color from here on out
+
+   ; Eyebrow Color
+   ; Typically matches the primary hair color unless changed in the Rock Shop
+   (eyebrow_color_index 0)
+
+   (outfit
+
+      ; Face Type
+
+      ; MALE OPTIONS:
+      ; Rocker: "head_1", Stone Jaw: "head_2", Tourer: "head_3", Meat Head: "head_4", Baby Face: "head_5", Iron Man: "head_6",
+      ; Wingman: "head_9", Scrapper: "head_10", Gentleman: "head_11", Cool Hand: "head_12", Hero: "head_13", Veteran: "head_14"
+
+      ; FEMALE OPTIONS:
+      ; Artsy: "head_1", Diva: "head_2", Sprite: "head_3", Runway: "head_4", Belladonna: "head_5", Amazon: "head_6", Doe: "head_7",
+      ; Muse: "head_8", Rebel: "head_10", Vamp: "head_11", Rascal: "head_12", Twee: "head_13", Tomboy: "head_14"
+
+      (heads
+         head_5)
+
+      ; Hair
+      (hair
+         lazyhawk_resource
+         (colors 4 36))
+
+      ; Clothing
+      (torso
+         twotonednbraces_blackandgrey
+         (colors 0 4))
+      (legs
+         bootcutpants_distressedjeans
+         (colors 4 0))
+      (feet
+         highchucks_solid ; May require "male/female" to be added before the name
+         (colors 0 0))
+
+      ; Accessories
+      ; These all require "male/female" to be added before their names unless specified otherwise (e.g. "femaleearrings_hoops")
+      (glasses
+         maleglasses_smashed
+         (colors 0 0))
+      (earrings 
+         none
+         (colors 0 0))
+      (piercings 
+         none
+         (colors 0 0))
+      (facehair ; Facial Hair / Bandana
+         none ; Requires the face type to be added before the name (e.g. "head_6_bandana_cotton"), does not require "male/female"
+         (colors 0 0))
+      (wrist
+         none
+         (colors 0 0))
+      (rings 
+         none
+         (colors 0 0))
+      (hands ; Gloves
+         naked ; If you want no gloves, set this to "naked"
+         (colors 0 0))
+
+      ; Makeup
+      ; Each of these require the face type to be added before the name (e.g. "head_1_eyes_0")
+      (eyes
+         head_1_eyes_0)
+      (lips
+         head_1_lips_0)
+
+      ; Instruments
+      ; Add the finish type after the name (e.g. "_paint"). If there are no finishes, add "_resource"
+      ; If it asks you to select a tertiary color, add another color number
+      (guitar
+         dinky01_paint
+         (colors 0 0))
+      (bass
+         c20bass_paint
+         (colors 16 0))
+      (drum
+         ludclassic_cortex
+         (colors 49 0))
+      (mic
+         sm58_resource
+         (colors 0 0))
+
+      ; Once you're done, please return to the written guide
+      ; FYI, custom art, tatoos, and face paint are pain in the ass. don't bother.
+
+   )
+)
+

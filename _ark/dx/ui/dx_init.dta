@@ -1,6 +1,11 @@
 #include ../../ui/overshell.dta ; having overshell.dta in ./dx crashes the game for some reason
 #include ../track/dx_track_callback.dta
 #include dx_funcs.dta
+#ifndef HX_EE
+#include ../countdown/dx_countdown_ui_init.dta
+#endif
+
+{set $dx_connected_server none}
 
 ;sets default track speed. 1.15 is 115%, 1.30 is 130% and so on.
 {set $trackspeed 1.0}
@@ -74,8 +79,14 @@
 ;flames texture
 {set $flames "rb2dx"}
 
+;crowd meter texture
+{set $crowdmetertex "rb2"}
+
 ;score texture
 {set $scoretex "rb4"}
+
+;solo box texture
+{set $solobox "rb2"}
 
 ;stars texture
 {set $stars "rb4"}
@@ -359,12 +370,12 @@
       }
       {if {== {elem $entry 0} {basename mod_nosustain}}
          {if {== {elem {find $entry mod_nosustain} 1} 1}
-            {modifier_mgr activate_modifier mod_nosustain}
+            {set $sustains "_1_none"}
          }
       }
       {if {== {elem $entry 0} {basename mod_rb3sustain}}
          {if {== {elem {find $entry mod_rb3sustain} 1} 1}
-            {modifier_mgr activate_modifier mod_rb3sustain}
+            {set $sustains "rb3"}
          }
       }
       {if {== {elem $entry 0} {basename mod_nowhammyfx}}
@@ -395,6 +406,11 @@
       {if {== {elem $entry 0} {basename mod_flashbang}}
          {if {== {elem {find $entry mod_flashbang} 1} 1}
             {modifier_mgr activate_modifier mod_flashbang}
+         }
+      }
+      {if {== {elem $entry 0} {basename debug_mode}}
+         {set $debug_mode
+            {elem {find $entry debug_mode} 1}
          }
       }
       {if {== {elem $entry 0} {basename load_custom_settings}}
