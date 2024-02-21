@@ -1,0 +1,46 @@
+(arena
+   arena_04
+   (song78
+      (songs
+         (band 78))
+      (display_song TRUE)
+      (item tour_staff_worldblock)
+      (fame
+         (world 100))
+      (money_per_star 120)
+      BWT_BUZZ_MEDIUMBLOCKMEGAPLUS)
+   (song81
+      (songs
+         (band 81))
+      (display_song TRUE)
+      (item tour_staff_worldblock)
+      (fame
+         (world 100))
+      (money_per_star 120)
+      BWT_BUZZ_MEDIUMBLOCKMEGAPLUS)
+   (60smara
+      (songs spiritinthesky pinballwizard)
+      (fame
+         (world 200))
+      (item tour_staff_worldblock)
+      (money_per_star 120)
+      BWT_BUZZ_MEDIUMBLOCKMINORPLUS
+      (char_unlock
+         (token char_unlock_cityshirts_rockband1)
+         (outfits
+            (male torso worntshirt_moscowfist)
+            (female torso choppedtee_moscowfist)
+            (male torso tshirtdeath_moscowrasputin)
+            (female torso basictee_moscowrasputin))))
+   (drumlegend
+      (songs
+         (drum -5)
+         (drum -4)
+         (drum -3)
+         (drum -2)
+         (drum -1))
+      (fame
+         (world 300))
+      (money_per_star 120)
+      (item tour_staff_worldblock)
+      BWT_BUZZ_MEDIUMBLOCKPLUS))

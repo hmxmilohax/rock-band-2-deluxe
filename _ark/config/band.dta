@@ -742,9 +742,7 @@
    #endif)
 (tips
    (#include tips.dta
-   #ifndef HX_WII
-      #include tips_updates.dta
-      #endif))
+      #include tips_updates.dta))
 (loading_screens
    (#include loading_screens.dta))
 (videos

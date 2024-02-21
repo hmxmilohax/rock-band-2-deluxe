@@ -1,0 +1,40 @@
+(small_club
+   small_club_11
+   (any
+      (songs any any)
+      (fame
+         (world 3))
+      (money_per_star 5)))
+(big_club
+   big_club_04
+   (any
+      (songs any any any)
+      (fame
+         (town 10))
+      (money_per_star 25))
+   (localartists
+      (songs newkidinschool girlsnotgrey rocknme anywayyouwantit alabamagetaway)
+      (fame
+         (town 12))
+      (money_per_star 25)))
+(theater
+   theater_07
+   (any
+      (songs any any any any)
+      (fame
+         (town 30)
+         (world 100))
+      (money_per_star 80))
+   (classicrockmara
+      (songs shootingstar americanwoman goyourownway tangledupinblue pinballwizard rocknme anywayyouwantit)
+      (fame
+         (town 30)
+         (world 200))
+      (money_per_star 80)
+      (char_unlock
+         (token char_unlock_cityshirts_rockband1)
+         (outfits
+            (male torso worntshirt_sanfranbigone)
+            (female torso thermalundertee_sanfranciscobigone)
+            (male torso tshirtdeath_sanfranbridge)
+            (female torso basictee_sanfranciscobridge)))))

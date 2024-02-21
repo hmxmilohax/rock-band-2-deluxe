@@ -1,0 +1,34 @@
+(small_club
+   small_club_13
+   (any
+      (songs any any)
+      (fame
+         (world 3))
+      (money_per_star 5)))
+(big_club
+   big_club_15
+   (any
+      (songs any any any)
+      (fame
+         (town 10))
+      (money_per_star 25))
+   (localartists
+      (songs americanwoman yououghtaknow thetrees)
+      (fame
+         (town 12))
+      (money_per_star 25)))
+(theater
+   theater_11
+   (any
+      (songs any any any any)
+      (fame
+         (town 30)
+         (world 100))
+      (money_per_star 120))
+   (00smara
+      (songs themiddle girlsnotgrey lazyeye ourtruth chopsuey giveitall colonyofbirchmen)
+      (fame
+         (town 30)
+         (world 200))
+      (money_per_star 80)
+      BWT_BUZZ_MEDIUMBLOCKPLUS))

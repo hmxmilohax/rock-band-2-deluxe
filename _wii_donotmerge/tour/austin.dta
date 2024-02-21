@@ -1,0 +1,28 @@
+(small_club
+   small_club_14
+   (any
+      (songs any any)
+      (fame
+         (world 3))
+      (money_per_star 5)))
+(big_club
+   big_club_17
+   (any
+      (songs any any)
+      (fame
+         (town 10))
+      (money_per_star 25)))
+(arena
+   arena_10
+   (any
+      (songs any any any)
+      (fame
+         (town 30)
+         (world 100))
+      (money_per_star 120))
+   (indiemara
+      (songs floaton pda lazyeye)
+      (fame
+         (town 30)
+         (world 200))
+      (money_per_star 80)))

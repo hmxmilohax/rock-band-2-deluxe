@@ -4,6 +4,9 @@
    (file
       "drum_trainer_menu.milo")
    (focus beats.btn)
+   #ifdef HX_WII
+   (allow_home_menu TRUE)
+   #endif
    (enter
       {set $iamingamenow FALSE})
    (SELECT_MSG
@@ -110,9 +113,17 @@
    drum_trainer_content_loading_panel
    (load
       {content_mgr start_refresh}
-      {content_loading_panel allowed_to_show TRUE})
+      #ifndef NOWIINETWORKING
+      #ifndef HX_EE
+      {content_loading_panel allowed_to_show TRUE}
+      #endif
+      #endif)
+   #ifndef NOWIINETWORKING
+   #ifndef HX_EE
    (finish_load
       {content_loading_panel allowed_to_show FALSE})
+   #endif
+   #endif
    (is_loaded
       {content_mgr refresh_done})}
 {new
