@@ -1,0 +1,381 @@
+{func
+   get_char_name_length
+   {elem
+      {find $syscfg profile_mgr char_name_length}
+      1}}
+{func
+   get_band_name_length
+   {elem
+      {find $syscfg profile_mgr band_name_length}
+      1}}
+{func
+   get_motto_length
+   {elem
+      {find $syscfg profile_mgr motto_length}
+      1}}
+{func
+   band_leader_char
+   {{session_mgr get_leader_user}
+      get_char}}
+{func
+   setup_game
+   ($song $venue $player_list)
+   {do
+      ($i 0)
+      ($slot_index 0)
+      {foreach
+         $player
+         $player_list
+         {if_else
+            {== 0 $i}
+            {session reset 0 FALSE}
+            {session add_local $i}}
+         {do
+            ($pcfg
+               {game get_player_config $i})
+            ($track
+               {elem $player 0})
+            {$pcfg set_track_type $track}
+            {$pcfg
+               set_controller_type
+               {switch
+                  {$pcfg get_track_type}
+                  (kTrackDrum kControllerDrum)
+                  ((kTrackGuitar kTrackBass)
+                     kControllerGuitar)
+                  (kTrackVocals kControllerVocals)
+                  kControllerNone}}
+            {$pcfg
+               set_difficulty
+               {elem $player 1}}}
+         {'++' $i}}
+      {game set_venue $venue}
+      {meta_performer set_song $song}
+      {session_mgr set_leader_num 0}
+      {gamecfg auto_assign_missing_slots}
+      {set $i 0}
+      {foreach
+         $player
+         $player_list
+         {do
+            ($pcfg
+               {game get_player_config $i})
+            ($track
+               {elem $player 0})
+            ($prefab
+               {if_else
+                  {==
+                     {size $player}
+                     3}
+                  {elem $player 2}
+                  0})
+            {$pcfg
+               set_char
+               {if_else
+                  $prefab
+                  {find_prefab
+                     {eval $prefab}}
+                  {available_prefab $i}}}}
+         {'++' $i}}}}
+{func
+   are_all_mics_connected
+   {do
+      ($enable_resume TRUE)
+      ($existing_mic FALSE)
+      {game
+         foreach_local_player
+         $p
+         {do
+            ($player_num
+               {$p player_num})
+            {if
+               {&&
+                  {!= $player_num -1}
+                  {game is_player_participating $player_num}
+                  {==
+                     {{gamecfg get_player_config $player_num}
+                        get_track_sym}
+                     vocals}}
+               #ifdef HX_EE
+               {do
+                  {if_else
+                     {! $existing_mic}
+                     {do
+                        {set $existing_mic TRUE}
+                        ($mic_num 0)}
+                     ($mic_num 1)}
+                  {if
+                     {&&
+                        {!= $mic_num -1}
+                        {!
+                           {synth is_mic_connected $mic_num}}}
+                     {set $enable_resume FALSE}}}
+               #else
+               {do
+                  ($mic_num
+                     {joypad_get_players_padnum $player_num})
+                  {if
+                     {&&
+                        {!= $mic_num -1}
+                        {!
+                           {synth is_mic_connected $mic_num}}}
+                     {set $enable_resume FALSE}}}
+               #endif}}}
+      $enable_resume}}
+{func
+   game_restart
+   {net_sync disable}
+   {if_else
+      {&&
+         {ui current_screen}
+         {!=
+            {ui current_screen}
+            {gamemode get game_screen}}}
+      {ui goto_screen sync_audio_net_screen}
+      {ui push_screen sync_audio_net_screen}}}
+{func
+   set_all_hud_showing
+   ($show)
+   {{get_track_panel}
+      set_showing
+      $show}}
+{func
+   reset_all_callbacks
+   {func hopo_callback}
+   {func swingAtHopo_callback}
+   {func whammy_start_callback}
+   {func whammy_end_callback}
+   {func star_phrase_miss_callback}
+   {func star_phrase_captured_callback}
+   {func star_use_begin_callback}
+   {func star_use_end_callback}
+   {func hopo_hit}}
+{reset_all_callbacks}
+{func
+   player_pan
+   ($player)
+   {if_else
+      {game multiplayer}
+      {elem
+         (-1 1 -1 1)
+         $player}
+      0}}
+{func
+   play_game_seq
+   ($sfx)
+   {synth play $sfx}}
+{func
+   play_game_seq_player
+   ($sfx_single $sfx_multi $player)
+   {do
+      ($sfx
+         {if_else
+            {game multiplayer}
+            $sfx_multi
+            $sfx_single})
+      {synth
+         play
+         $sfx
+         (pan 0)}}}
+{func
+   fmt_score
+   ($score)
+   {localize_separated_int
+      {int $score}}}
+{func
+   fmt_score_or_stars
+   ($score)
+   {if_else
+      {==
+         {meta_performer win_metric}
+         kMetricStars}
+      {sprintf
+         "%.2f"
+         {/
+            {int
+               {'*' $score 100}}
+            100}}
+      {sprintf
+         "%s"
+         {fmt_score $score}}}}
+{func
+   update_tour_display
+   {ui
+      foreach_screen
+      $s
+      {$s
+         foreach_panel
+         $p
+         {if
+            {$p is_up}
+            {handle
+               ($p refresh)}}}}}
+{func
+   update_meta_performer
+   {ui
+      foreach_screen
+      $s
+      {$s
+         foreach_panel
+         $p
+         {if
+            {$p is_up}
+            {handle
+               ($p update_meta_performer)}}}}}
+{func
+   missing_slot_to_track_icon
+   ($slot)
+   {cnv_instrumenttoicon
+      {if_else
+         {== kGameCoopSlotGuitar1 $slot}
+         {do
+            ($user
+               {user_mgr get_user_from_slot kGameCoopSlotGuitar0})
+            {if_else
+               {&&
+                  $user
+                  {$user is_participating}
+                  {==
+                     bass
+                     {$user get_track_sym}}}
+               guitar
+               bass}}
+         {elem
+            (COOP_SLOTS_ORDER)
+            $slot}}}}
+{func
+   get_player_icon
+   ($player)
+   {if_else
+      {!=
+         $player
+         ""}
+      {do
+         ($pcfg
+            {$player config})
+         ($player_char
+            {$pcfg get_char})
+         {if_else
+            $player_char
+            {$player_char
+               track_icon
+               {$pcfg get_track_sym}}
+            ''}}
+      ''}}
+{func
+   get_user_name_from_player
+   ($player)
+   {if_else
+      $player
+      {do
+         ($user
+            {$player config})
+         {$user get_user_name}}
+      ""}}
+{func
+   get_character_name
+   ($player)
+   {if_else
+      $player
+      {do
+         ($pcfg
+            {$player config})
+         {$pcfg char_name}}
+      ""}}
+{func
+   get_player_name
+   ($player)
+   {if_else
+      $player
+      {do
+         ($pcfg
+            {$player config})
+         {$pcfg intro_name}}
+      ""}}
+{func
+   get_player_name_from_slot
+   ($slot)
+   {do
+      ($player_num
+         {game get_player_num_from_slot_num $slot})
+      {get_user_name_from_player
+         {game get_player $player_num}}}}
+{func
+   get_char_name_from_slot
+   ($slot)
+   {do
+      ($player_num
+         {game get_player_num_from_slot_num $slot})
+      {get_character_name
+         {game get_player $player_num}}}}
+{func
+   get_track_icon_from_slot
+   ($slot $track)
+   {do
+      ($player_num
+         {game get_player_num_from_slot_num $slot})
+      ($player_config
+         {game get_player_config $player_num})
+      {{$player_config get_char}
+         track_icon
+         $track}}}
+{func
+   frac
+   ($x)
+   {int
+      {'*' $x 256}}}
+{func
+   defrac
+   ($x)
+   {/ $x 256.0}}
+{func
+   process_comeback_achievement
+   ($win)
+   #ifndef HX_WII
+   #ifndef _SHIP
+   {unless
+      {gamemode is_h2h_arrangement}
+      {fail
+         "Can't process comeback achievement unless we're playing h2h"}}
+   {if
+      {>
+         {user_mgr get_num_participants}
+         2}
+      {fail
+         "Shouln't be more than 2 participants in h2h"}}
+   #endif
+   {if
+      {==
+         {user_mgr get_num_participants}
+         2}
+      {do
+         ($local -1)
+         ($opponent -1)
+         {gamecfg
+            foreach_user
+            $user
+            {if_else
+               {$user is_local_player}
+               {set $local $user}
+               {set $opponent $user}}}
+         {if_else
+            $win
+            {do
+               ($profile
+                  {profile_mgr get_save_data $local})
+               {if
+                  {$profile is_comeback_target $opponent}
+                  #ifndef HX_WII
+                  {achievements
+                     submit
+                     {$local get player_num}
+                     ach_skill_versus_revenge}
+                  #else
+                  {set $dummyachievement 0}
+                  #endif}}
+            {if
+               {profile_mgr get_save_data $local}
+               {{profile_mgr get_save_data $local}
+                  set_comeback_target
+                  $opponent}}}}}
+   #endif}
