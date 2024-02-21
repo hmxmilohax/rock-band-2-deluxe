@@ -388,9 +388,7 @@
                      TRUE}
                   {{gamemode get main_panel}
                      pause}
-                  #ifndef HX_OG
-                  {stagekit_pause TRUE}
-                  #endif}}
+                  {stagekit_pause TRUE}}}
             {set
                [is_paused]
                TRUE}}})
@@ -441,9 +439,7 @@
                      FALSE}
                   {{gamemode get main_panel}
                      unpause}
-                  #ifndef HX_OG
-                  {stagekit_pause FALSE}
-                  #endif}
+                  {stagekit_pause FALSE}}
                {do
                   {synth pause_all_sfx FALSE}
                   {{gamemode get main_panel}
