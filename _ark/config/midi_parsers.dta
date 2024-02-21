@@ -2206,6 +2206,7 @@
       {if
          {== $mp.val $mp.note}
          {$this add_message pick_new_shot}})}
+#ifndef HX_OG
 {if
    {stagekit_present}
    {new
@@ -2335,6 +2336,7 @@
          {$this add_message start_vocal}
          {set $mp.start $mp.end}
          {$this add_message end_vocal})}}
+#endif
 {new
    MidiParser
    bass_singalong_parser
