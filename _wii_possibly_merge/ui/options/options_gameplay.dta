@@ -1,0 +1,109 @@
+{new
+   UIPanel
+   options_gameplay_panel
+   (file
+      "options_gameplay.milo")
+   (focus leftymode.btn)
+   (signin_change_waiting FALSE)
+   #ifdef HX_WII
+   (allow_home_menu TRUE)
+   #endif
+   (enter
+      SET_UP_GAMERTAG
+      {platform_mgr
+         add_sink
+         $this
+         (signin_changed)}
+      {$this update_lefty_check})
+   (exit
+      {platform_mgr remove_sink $this signin_changed})
+   (SIGNIN_CHANGED_MSG
+      {if
+         {platform_mgr
+            has_user_signin_changed
+            {input_mgr get_user}}
+         {if_else
+            {==
+               {ui current_screen}
+               options_gameplay_screen}
+            {$this process_signin_change}
+            {if
+               {!
+                  {option_profile_change_warning_screen is_up}}
+               {$this set signin_change_waiting TRUE}}}})
+   (TRANSITION_COMPLETE_MSG
+      COMMON_TRANSITION_HANDLERS_FOR_SIGN_OUT
+      {$this
+         update_helpbar
+         {$this focus_name}})
+   (process_signin_change
+      {if
+         {==
+            {ui current_screen}
+            options_gameplay_screen}
+         {ui push_screen option_profile_change_warning_screen}})
+   (FOCUS_MSG
+      {$this
+         update_helpbar
+         {$new_focus name}})
+   (update_helpbar
+      ($component)
+      {switch
+         $component
+         (leftymode.btn
+            {helpbar
+               set_config
+               ((cancel helpbar_back)
+                  (confirm helpbar_toggleoption))})
+         (vocal_options.btn
+            {helpbar
+               set_config
+               ((cancel helpbar_back)
+                  (confirm helpbar_select))})
+         FAIL})
+   (SELECT_MSG
+      {switch
+         $component
+         (leftymode.btn
+            {do
+               ($options
+                  {{input_mgr get_user}
+                     get_gameplay_options})
+               ($lefty_flipped
+                  {$options get_lefty})
+               {$options
+                  set_lefty
+                  {! $lefty_flipped}}
+               {$this update_lefty_check}})
+         (vocal_options.btn
+            {ui goto_screen vocal_options_screen})})
+   (BUTTON_DOWN_MSG
+      {if_else
+         {== $action kAction_Cancel}
+         {do
+            {if
+               {&&
+                  {!
+                     {ui in_transition}}
+                  {==
+                     {ui current_screen}
+                     options_gameplay_screen}
+                  {!
+                     {net_sync has_destination_screen}}}
+               {autosave_push options_screen}}
+            0}
+         kDataUnhandled})
+   (update_lefty_check
+      {{options_gameplay_panel find check_lefty.mesh}
+         set_showing
+         {{{input_mgr get_user}
+               get_gameplay_options}
+            get_lefty}})}
+{new
+   BandScreen
+   options_gameplay_screen
+   (panels meta movie_panel options_background_panel options_gameplay_panel)
+   (focus options_gameplay_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_toggleoption)))}

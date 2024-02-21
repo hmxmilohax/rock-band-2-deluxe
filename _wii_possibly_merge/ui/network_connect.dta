@@ -1,0 +1,522 @@
+{func
+   goto_after_network_connect
+   ($dest $strict)
+   {set $g_failure_dest ''}
+   {set $g_push_focus FALSE}
+   {_goto_after_network_connect_imp $dest $strict}}
+{func
+   goto_and_push_focus_after_network_connect
+   ($dest $strict)
+   {set $g_failure_dest ''}
+   {set $g_push_focus TRUE}
+   {_goto_after_network_connect_imp $dest $strict}}
+{func
+   goto_else_after_network_connect
+   ($dest $failure_dest $strict)
+   {set $g_failure_dest $failure_dest}
+   {set $g_push_focus FALSE}
+   #ifdef HX_WII
+   {network_start_panel set force FALSE}
+   #endif
+   {_goto_after_network_connect_imp $dest $strict}}
+#ifdef HX_WII
+{func
+   force_goto_else_after_network_connect
+   ($dest $failure_dest $strict)
+   {set $g_failure_dest $failure_dest}
+   {set $g_push_focus FALSE}
+   {network_start_panel set force TRUE}
+   {_goto_after_network_connect_imp $dest $strict}}
+#endif
+{func
+   _goto_after_network_connect_imp
+   ($dest $strict)
+   {if_else
+      {&&
+         $strict
+         {gamemode get rock_central}
+         {!
+            {modifier_mgr is_feature_enabled modifier_online_feature}}}
+      {ui push_screen online_feature_disabled_screen}
+      #ifdef HX_PS3
+      {if_else
+         {&&
+            {!
+               {platform_mgr is_ethernet_cable_connected}}
+            {! $strict}}
+         {finish_network_goto $dest FALSE}
+         {do
+            {network_start_panel set destination $dest}
+            {network_start_panel set strict $strict}
+            {ui push_screen network_start_screen}}}
+      #else
+      #ifdef HX_WII
+      {if_else
+         {&&
+            {!
+               {platform_mgr is_ethernet_cable_connected}}
+            {! $strict}}
+         {finish_network_goto $dest FALSE}
+         {do
+            {network_start_panel set destination $dest}
+            {network_start_panel set strict $strict}
+            {ui push_screen network_start_screen}}}
+      #else
+      {finish_network_goto $dest FALSE}
+      #endif
+      #endif}}
+{func
+   cancel_network_goto
+   {gamemode set_mode init}
+   {session clear}
+   {if_else
+      {!= $g_failure_dest ''}
+      {do
+         {ui pop_screen $g_failure_dest}
+         {set $g_failure_dest ''}}
+      {ui pop_screen}}}
+{func
+   finish_network_goto
+   ($destination $pop)
+   {if
+      $g_push_focus
+      {main_panel push_focus}}
+   {if_else
+      $pop
+      {ui pop_screen $destination}
+      {ui goto_screen $destination}}}
+{func
+   finish_network_goto_with_autosave
+   ($destination $pop)
+   {if
+      $g_push_focus
+      {main_panel push_focus}}
+   {if_else
+      $pop
+      {autosave_goto $destination}
+      {autosave_push $destination}}}
+#ifdef HX_WII
+{func
+   get_dwc_error_string
+   ($result)
+   {do
+      ($token wii_dwc_error1)
+      {if
+         {'||'
+            {&&
+               {> $result 20102}
+               {< $result 20109}}
+            {&&
+               {> $result 20111}
+               {< $result 20999}}}
+         {set $token wii_dwc_error1}}
+      {if
+         {'||'
+            {== $result 20101}
+            {&&
+               {> $result 23000}
+               {< $result 23999}}}
+         {set $token wii_dwc_error2}}
+      {if
+         {== $result 20110}
+         {set $token wii_dwc_error3}}
+      {if
+         {== $result 29000}
+         {set $token wii_dwc_error4}}
+      {if
+         {== $result 29001}
+         {set $token wii_dwc_error5}}
+      {if
+         {'||'
+            {== $result 20100}
+            {&&
+               {> $result 50000}
+               {< $result 59999}}}
+         {set $token wii_dwc_error6}}
+      {if
+         {== $result 80430}
+         {set $token wii_dwc_error7}}
+      {if
+         {'||'
+            {&&
+               {> $result 24000}
+               {< $result 25999}}
+            {&&
+               {> $result 31000}
+               {< $result 31999}}
+            {&&
+               {> $result 60000}
+               {< $result 99999}
+               {!= $result 80430}}}
+         {set $token wii_dwc_error8}}
+      {sprintf
+         "Error Code %d - %s"
+         $result
+         {localize $token}}}}
+{new
+   BandScreen
+   wii_dwc_error_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (block_event
+      ($event)
+      TRUE)
+   (destination '')
+   (strict FALSE)
+   (enter
+      {do
+         ($result
+            {'*'
+               {platform_mgr last_net_result}
+               -1})
+         {dialog_panel
+            set_ok
+            {get_dwc_error_string $result}}})
+   (SELECT_MSG
+      {if_else
+         {platform_mgr has_online_privilege -1}
+         {if_else
+            [strict]
+            {cancel_network_goto}
+            {do
+               {network_warning_screen
+                  set
+                  destination
+                  [destination]}
+               {ui goto_screen network_warning_screen}}}
+         {do
+            {no_online_privilege_screen
+               set
+               destination
+               [destination]}
+            {no_online_privilege_screen
+               set
+               strict
+               [strict]}
+            {ui goto_screen no_online_privilege_screen}}})}
+#endif
+#ifndef HX_WII
+{new
+   UIPanel
+   network_start_panel
+   (destination '')
+   (strict FALSE)
+   (block_event
+      ($event)
+      TRUE)
+   (TRANSITION_COMPLETE_MSG
+      {platform_mgr add_sink $this}
+      {platform_mgr run_net_start_utility})
+   (net_start_utility_finished
+      ($connected)
+      {platform_mgr remove_sink $this}
+      {if_else
+         $connected
+         {if_else
+            {&&
+               [strict]
+               {!
+                  {server is_connected}}
+               {gamemode get rock_central}}
+            {do
+               {server_connect_panel
+                  set
+                  destination
+                  [destination]}
+               {ui goto_screen server_connect_screen}}
+            {finish_network_goto
+               [destination]
+               TRUE}}
+         {if_else
+            {platform_mgr has_online_privilege -1}
+            {if_else
+               [strict]
+               {cancel_network_goto}
+               {do
+                  {network_warning_screen
+                     set
+                     destination
+                     [destination]}
+                  {ui goto_screen network_warning_screen}}}
+            {do
+               {no_online_privilege_screen
+                  set
+                  destination
+                  [destination]}
+               {no_online_privilege_screen
+                  set
+                  strict
+                  [strict]}
+               {ui goto_screen no_online_privilege_screen}}}})}
+{new
+   BandScreen
+   network_start_screen
+   (panels network_start_panel)
+   (focus network_start_panel)
+   (helpbar
+      ((min_height 0)))}
+#else
+{new
+   UIPanel
+   network_start_panel
+   (destination '')
+   (strict FALSE)
+   (force FALSE)
+   (TRANSITION_COMPLETE_MSG
+      {if_else
+         {platform_mgr is_connected}
+         {do
+            {if_else
+               {&&
+                  [strict]
+                  {!
+                     {server is_connected}}
+                  {gamemode get rock_central}}
+               {do
+                  {server_connect_panel
+                     set
+                     destination
+                     [destination]}
+                  {ui goto_screen server_connect_screen}}
+               {finish_network_goto
+                  [destination]
+                  TRUE}}}
+         {if_else
+            {'||'
+               [force]
+               {modifier_mgr is_feature_enabled modifier_online_feature}}
+            {do
+               {network_start_continue_panel
+                  set
+                  destination
+                  [destination]}
+               {network_start_continue_panel
+                  set
+                  strict
+                  [strict]}
+               {ui goto_screen network_start_continue_screen}}
+            {do
+               {if_else
+                  [strict]
+                  {cancel_network_goto}
+                  {finish_network_goto
+                     [destination]
+                     TRUE}}}}})}
+{new
+   BandScreen
+   network_start_screen
+   (panels network_start_panel)
+   (focus network_start_panel)
+   (helpbar
+      ((min_height 0)))}
+{new
+   UIPanel
+   network_start_continue_panel
+   (file
+      "server_message.milo")
+   (destination '')
+   (strict FALSE)
+   (block_event
+      ($event)
+      TRUE)
+   (enter
+      {message.lbl set text_token wii_dwc_connecting})
+   (TRANSITION_COMPLETE_MSG
+      {platform_mgr add_sink $this}
+      {if_else
+         {platform_mgr is_connected}
+         {$this net_start_utility_finished TRUE}
+         {platform_mgr init_nintendo_connection}})
+   (exit
+      {platform_mgr remove_sink $this})
+   (net_start_utility_finished
+      ($connected)
+      {platform_mgr remove_sink $this}
+      {if_else
+         $connected
+         {do
+            {if_else
+               {!
+                  {profile_mgr check_username}}
+               {do
+                  {if
+                     {!
+                        [strict]}
+                     {network_warning_screen
+                        set
+                        destination
+                        [destination]}}
+                  {ui goto_screen username_info_screen}}
+               {if_else
+                  {&&
+                     [strict]
+                     {!
+                        {server is_connected}}
+                     {gamemode get rock_central}}
+                  {do
+                     {platform_mgr set_connected $connected}
+                     {server_connect_panel
+                        set
+                        destination
+                        [destination]}
+                     {ui goto_screen server_connect_screen}}
+                  {do
+                     {platform_mgr set_connected $connected}
+                     {finish_network_goto
+                        [destination]
+                        TRUE}}}}}
+         {do
+            #ifndef NOWIINETWORKING
+            {platform_mgr set_connected $connected}
+            #endif
+            {wii_dwc_error_screen
+               set
+               strict
+               [strict]}
+            {wii_dwc_error_screen
+               set
+               destination
+               [destination]}
+            {ui goto_screen wii_dwc_error_screen}}})}
+{new
+   BandScreen
+   network_start_continue_screen
+   (panels network_start_continue_panel)
+   (focus network_start_continue_panel)
+   (helpbar
+      ((min_height 0)))}
+#endif
+{new
+   UIPanel
+   server_connect_panel
+   (file
+      "server_message.milo")
+   (block_event
+      ($event)
+      TRUE)
+   (destination '')
+   #ifdef HX_WII
+   (enter
+      {message.lbl set text_token connecting_server})
+   #endif
+   (TRANSITION_COMPLETE_MSG
+      {server
+         add_sink
+         $this
+         (server_status_changed)}
+      {set $waiting_for_server TRUE})
+   (exit
+      {server remove_sink $this server_status_changed})
+   (server_status_changed
+      ($connected)
+      {if
+         {&&
+            {! $connected}
+            $waiting_for_server}
+         {$this cancel_goto}})
+   (cancel_goto
+      {set $waiting_for_server FALSE}
+      {cancel_network_goto})
+   (poll
+      {if
+         $waiting_for_server
+         {unless
+            {platform_mgr is_connected}
+            {$this cancel_goto}}
+         {switch
+            {rock_central state}
+            (kRCOnline
+               {set $waiting_for_server FALSE}
+               {finish_network_goto
+                  [destination]
+                  TRUE})}})}
+{new
+   BandScreen
+   server_connect_screen
+   (panels server_connect_panel)
+   (focus server_connect_panel)
+   (helpbar
+      ((min_height 0)))}
+{new
+   BandScreen
+   network_warning_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (block_event
+      ($event)
+      TRUE)
+   (destination '')
+   (enter
+      {if_else
+         {==
+            {set_username_panel get no_username_msg}
+            TRUE}
+         {do
+            {dialog_panel
+               set_yesno
+               {localize community_no_username_warning}
+               no.btn}
+            {set_username_panel set no_username_msg FALSE}}
+         {dialog_panel
+            set_yesno
+            {localize
+               {gamemode get cannot_connect_warning}}
+            no.btn}})
+   (SELECT_MSG
+      {switch
+         $component
+         (yes.btn
+            {finish_network_goto
+               [destination]
+               TRUE})
+         (no.btn
+            #ifdef HX_PS3
+            {if
+               {==
+                  [destination]
+                  main_community_screen}
+               {{main_panel find community.btn}
+                  set_state
+                  kComponentFocused}}
+            #endif
+            {cancel_network_goto})})}
+{new
+   BandScreen
+   no_online_privilege_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (block_event
+      ($event)
+      TRUE)
+   (destination '')
+   (strict FALSE)
+   (enter
+      {if_else
+         [strict]
+         {dialog_panel
+            set_ok
+            {localize privileges_restricted_strict}}
+         {dialog_panel
+            set_ok
+            {localize privileges_restricted_lenient}}})
+   (SELECT_MSG
+      {if_else
+         [strict]
+         {cancel_network_goto}
+         {finish_network_goto
+            [destination]
+            TRUE}})}
+{new
+   BandScreen
+   online_feature_disabled_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (block_event
+      ($event)
+      TRUE)
+   (enter
+      {dialog_panel
+         set_ok
+         {localize modifer_mode_denied}})
+   (SELECT_MSG
+      {cancel_network_goto})}

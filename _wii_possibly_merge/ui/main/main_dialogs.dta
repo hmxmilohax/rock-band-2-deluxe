@@ -1,0 +1,404 @@
+{new
+   SigninScreen
+   main_solo_qp_signin_guest_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (must_not_be_a_guest TRUE)
+   (must_be_online FALSE)
+   (must_be_multiplayer_capable FALSE)
+   (handle_sign_outs TRUE)
+   (limit_user_signin TRUE)
+   (enter
+      {do
+         {dialog_panel
+            set_custom
+            {localize main_solo_qp_signin_not_guest}
+            {localize main_tour_signin_button}
+            {localize main_tour_cancel_button}
+            opt1.btn}})
+   (exit
+      {input_mgr clear_user})
+   (SELECT_MSG
+      {switch
+         $component
+         (opt1.btn
+            {platform_mgr signin 1})
+         (opt2.btn
+            {main_quickplay_screen clear_button_press}
+            {ui pop_screen})})
+   (on_signed_into_guest)
+   (on_signed_in
+      {ui pop_screen})
+   (on_signed_out
+      {ui pop_screen})}
+{new
+   BandScreen
+   vocalist_must_have_mic_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (message band_vocalist_needs_mic)
+   (helpbar
+      ((confirm helpbar_select)))
+   (enter
+      {dialog_panel
+         set_custom
+         {localize
+            [message]}
+         ""
+         {localize RETURN}
+         opt2.btn}
+      {dialog_panel
+         disable
+         {dialog_panel find opt1.btn}}
+      {platform_mgr
+         add_sink
+         $this
+         (signin_changed)})
+   (exit
+      {platform_mgr remove_sink $this signin_changed}
+      {dialog_panel
+         enable
+         {dialog_panel find opt1.btn}})
+   (SIGNIN_CHANGED_MSG
+      {ui pop_screen})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   SigninScreen
+   main_local_tour_signin_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (must_not_be_a_guest FALSE)
+   (must_be_online FALSE)
+   (must_be_multiplayer_capable FALSE)
+   (handle_sign_outs FALSE)
+   (limit_user_signin FALSE)
+   (enter
+      {dialog_panel
+         set_custom
+         {localize main_local_tour_need_to_signin}
+         {localize main_local_tour_signin_button}
+         {localize main_local_tour_cancel_button}
+         opt1.btn})
+   (exit)
+   (SELECT_MSG
+      {switch
+         $component
+         (opt1.btn
+            {platform_mgr signin 1})
+         (opt2.btn
+            {main_tour_screen clear_button_press}
+            {ui pop_screen})})
+   (on_signed_in
+      {ui pop_screen})}
+{new
+   SigninScreen
+   main_online_tour_signin_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (must_not_be_a_guest FALSE)
+   (must_be_online TRUE)
+   (must_be_multiplayer_capable TRUE)
+   (handle_sign_outs FALSE)
+   (limit_user_signin FALSE)
+   (enter
+      {dialog_panel
+         set_custom
+         {localize main_online_tour_need_to_signin}
+         {localize main_online_tour_signin_button}
+         {localize main_online_tour_cancel_button}
+         opt1.btn})
+   (exit)
+   (SELECT_MSG
+      {switch
+         $component
+         (opt1.btn
+            {platform_mgr
+               signin
+               1
+               {gamemode get online_play_required}})
+         (opt2.btn
+            {main_tour_screen clear_button_press}
+            {ui pop_screen})})
+   (on_not_online)
+   (on_not_multiplayer_capable)
+   (on_signed_in
+      {ui pop_screen})}
+{new
+   SigninScreen
+   main_store_signin_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (must_not_be_a_guest TRUE)
+   (must_be_online TRUE)
+   (must_be_multiplayer_capable FALSE)
+   (handle_sign_outs FALSE)
+   (limit_user_signin TRUE)
+   (update_display
+      {do
+         ($user
+            {input_mgr get_user})
+         {dialog_panel
+            set_custom
+            {localize
+               {if_else
+                  {&&
+                     {platform_mgr is_user_signed_in $user}
+                     {platform_mgr is_user_a_guest $user}}
+                  store_need_to_signin_not_guest
+                  store_need_to_signin}}
+            {localize main_tour_signin_button}
+            {localize main_tour_cancel_button}
+            opt1.btn}})
+   (enter
+      {$this update_display})
+   (SELECT_MSG
+      {switch
+         $component
+         (opt1.btn
+            {platform_mgr signin 1 TRUE})
+         (opt2.btn
+            {input_mgr clear_user}
+            {ui pop_screen})})
+   (on_signed_into_guest
+      {$this update_display})
+   (on_not_online
+      {$this update_display})
+   (on_signed_in
+      {ui goto_screen main_store_find_cache_screen})}
+{new
+   BandScreen
+   main_store_find_cache_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (time_done FALSE)
+   (enter_time 0.0)
+   (search_done FALSE)
+   (search_result kNCSR_CacheNotFound)
+   (enter
+      {set
+         [time_done]
+         FALSE}
+      {set
+         [enter_time]
+         {taskmgr ui_seconds}}
+      {set
+         [search_done]
+         FALSE}
+      {set
+         [search_result]
+         kNCSR_CacheNotFound}
+      {dialog_panel
+         set_msg
+         {localize store_cache_search}}
+      {dialog_panel
+         set
+         helpbar_state
+         ((min_height 0))}
+      {platform_mgr
+         add_sink
+         $this
+         (signin_changed)}
+      {net_cache_mgr search_for_cache $this})
+   (poll
+      {if
+         {&&
+            {!
+               {ui in_transition}}
+            {==
+               {ui current_screen}
+               $this}}
+         {if
+            {&&
+               {!
+                  [time_done]}
+               {>=
+                  {-
+                     {taskmgr ui_seconds}
+                     [enter_time]}
+                  1.0}}
+            {set
+               [time_done]
+               TRUE}}
+         {if
+            {&&
+               [time_done]
+               [search_done]}
+            {switch
+               [search_result]
+               (kNCSR_CacheFound
+                  {gamemode set_mode store}
+                  {ui pop_screen store_loading_screen})
+               (kNCSR_CacheNotFound
+                  {ui goto_screen main_store_create_cache_screen})
+               {notify
+                  "find_cache: Bad cache_search_result "
+                  [search_result]
+                  "\n"}}}})
+   (exit
+      {platform_mgr remove_sink $this signin_changed})
+   (signin_changed
+      {ui pop_screen})
+   (cache_search_result
+      ($result)
+      {if
+         {&&
+            {!
+               {ui in_transition}}
+            {==
+               {ui current_screen}
+               $this}}
+         {set
+            [search_result]
+            $result}
+         {set
+            [search_done]
+            TRUE}})}
+{new
+   BandScreen
+   main_store_create_cache_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (enter
+      {dialog_panel
+         set_custom
+         {localize store_cache_create}
+         {localize store_cache_button_create}
+         {localize store_cache_button_cancel}
+         opt1.btn}
+      {platform_mgr
+         add_sink
+         $this
+         (signin_changed)})
+   (exit
+      {platform_mgr remove_sink $this signin_changed})
+   (SELECT_MSG
+      {switch
+         $component
+         (opt1.btn
+            {net_cache_mgr
+               choose_cache
+               {{input_mgr get_user}
+                  get_user_num}
+               $this})
+         (opt2.btn
+            {input_mgr clear_user}
+            {ui pop_screen})})
+   (signin_changed
+      {ui pop_screen})
+   (cache_search_result
+      ($result)
+      {if
+         {&&
+            {!
+               {ui in_transition}}
+            {==
+               {ui current_screen}
+               $this}}
+         {switch
+            $result
+            (kNCSR_CacheChosen
+               {helpbar
+                  set_config
+                  ((min_height 0))}
+               {gamemode set_mode store}
+               {ui pop_screen store_loading_screen})
+            (kNCSR_CacheNotChosen)
+            {notify
+               "create_cache: Bad cache_search_result message.\n"}}})}
+#ifndef HX_EE
+{new
+   BandScreen
+   store_enter_network_screen
+   (panels meta)
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {goto_else_after_network_connect store_loading_screen main_screen TRUE})}
+#endif
+#ifdef HX_WII
+#define STORE_OK
+(0)
+#define STORE_NEEDACCOUNT
+(1)
+#define STORE_NEEDSYNC
+(2)
+#define STORE_NEEDSAVE
+(3)
+#define STORE_NEEDAUTOSAVE
+(4)
+#define STORE_SAVEDISABLED
+(5)
+{new
+   BandScreen
+   store_wii_enter_screen
+   (panels meta dialog_panel)
+   (focus dialog_panel)
+   (state STORE_OK)
+   (enter
+      {autosave}
+      {if_else
+         {content_mgr needs_shop_account}
+         {set
+            [state]
+            STORE_NEEDACCOUNT}
+         {if_else
+            {platform_mgr need_sync}
+            {set
+               [state]
+               STORE_NEEDSYNC}
+            {set
+               [state]
+               STORE_OK}}}
+      {if_else
+         {memcardmgr does_save_exist}
+         {if
+            {!
+               {save_screen autosave_is_enabled}}
+            {if_else
+               {modifier_mgr is_feature_enabled modifier_saving_feature}
+               {set
+                  [state]
+                  STORE_NEEDAUTOSAVE}
+               {set
+                  [state]
+                  STORE_SAVEDISABLED}}}
+         {set
+            [state]
+            STORE_NEEDSAVE}}
+      {switch
+         [state]
+         (STORE_NEEDACCOUNT
+            {dialog_panel
+               set_ok
+               {localize store_noaccount}})
+         (STORE_NEEDSYNC
+            {dialog_panel
+               set_ok
+               {localize store_syncneeded}})
+         (STORE_OK
+            {dialog_panel
+               set_ok
+               {localize store_licensed}})
+         (STORE_NEEDSAVE
+            {dialog_panel
+               set_ok
+               {localize store_needsave}})
+         (STORE_NEEDAUTOSAVE
+            {dialog_panel
+               set_ok
+               {localize store_needautosave}})
+         (STORE_SAVEDISABLED
+            {dialog_panel
+               set_ok
+               {localize store_savedisabled}})})
+   (SELECT_MSG
+      {switch
+         [state]
+         (STORE_OK
+            {helpbar
+               set_config
+               ((min_height 0))}
+            {ui goto_screen store_loading_screen})
+         {ui goto_screen main_screen}})}
+#endif

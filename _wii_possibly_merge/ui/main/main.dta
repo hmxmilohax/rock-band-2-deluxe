@@ -1,0 +1,1172 @@
+#define MAIN_SCREEN_DATA_UNHANDLED
+({if_else
+      {main_panel is_focused_component $component}
+      kDataUnhandled
+      TRUE})
+#define MAIN_SCREEN_H2H_HANDLERS
+((BUTTON_DOWN_MSG
+      {if_else
+         {== $action kAction_Cancel}
+         {do
+            {main_panel pop_focus}
+            kDataUnhandled}
+         {if_else
+            {main_panel is_playing_anim}
+            {if_else
+               {<
+                  {main_panel anim_frames_left}
+                  15.0}
+               kDataUnhandled
+               TRUE}
+            kDataUnhandled}})
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_confirm))))
+#define MAIN_SCREEN_HANDLERS
+(MAIN_SCREEN_H2H_HANDLERS
+   (SELECT_MSG MAIN_SCREEN_DATA_UNHANDLED))
+#define MAIN_SUBSCREEN_PANEL_HANDLER
+((finish_load
+      {$this
+         set_loaded_dir_shared
+         {main_panel loaded_dir}})
+   (unload
+      {$this unset_loaded_dir})
+   (is_loaded
+      {main_panel is_loaded})
+   (reset_focus TRUE)
+   (TRANSITION_COMPLETE_MSG
+      {helpbar
+         set_config
+         ((cancel helpbar_back)
+            (confirm helpbar_confirm))}
+      {if
+         {&&
+            {!
+               {net_sync has_destination_screen}}
+            {!
+               {ui in_transition}}
+            {'||'
+               {==
+                  {ui current_screen}
+                  main_community_screen}
+               {==
+                  {ui current_screen}
+                  options_screen}}}
+         {autosave}}
+      kDataUnhandled))
+{new
+   MainPanel
+   main_panel
+   #ifdef HX_EE
+   (file
+      "main_ps2.milo")
+   #else
+   (file
+      "main.milo")
+   #endif
+   (motd_done FALSE)
+   (motd_message
+      "")
+   (reset_focus TRUE)
+   (start_meta_music FALSE)
+   #ifdef HX_WII
+   (allow_home_menu TRUE)
+   #endif
+   (set_motd
+      ($message)
+      {set
+         [motd_message]
+         $message}
+      {set
+         [motd_done]
+         TRUE}
+      {if
+         {$this is_up}
+         {$this update_motd}})
+   (update_leaderboard_buttons
+      #ifdef HX_PS3
+      {$this disable lb_tow.btn}
+      {$this disable lb_scoreduel.btn}
+      {lb_tow.btn set_showing FALSE}
+      {lb_scoreduel.btn set_showing FALSE}
+      #endif
+      #ifdef HX_WII
+      {$this disable lb_tow.btn}
+      {$this disable lb_scoreduel.btn}
+      {lb_tow.btn set_showing FALSE}
+      {lb_scoreduel.btn set_showing FALSE}
+      #else
+      {if_else
+         {leaderboards get_offline}
+         {do
+            {$this disable lb_tow.btn}
+            {$this disable lb_scoreduel.btn}}
+         {do
+            {$this enable lb_tow.btn}
+            {$this enable lb_scoreduel.btn}}}
+      #endif)
+   (update_button_status
+      #ifndef HX_EE
+      {if_else
+         {server is_connected}
+         {do
+            {if_else
+               {community_panel is_webcode_done}
+               {$this enable webcode_ps3.btn}
+               {$this disable webcode_ps3.btn}}
+            {$this enable checkinvites.btn}
+            {$this enable managefriends.btn}}
+         {do
+            {$this disable webcode_ps3.btn}
+            {$this disable checkinvites.btn}
+            {$this disable managefriends.btn}}}
+      #else
+      {$this disable webcode_ps3.btn}
+      {webcode_ps3.btn set_showing FALSE}
+      {$this disable checkinvites.btn}
+      {checkinvites.btn set_showing FALSE}
+      {$this disable managefriends.btn}
+      {managefriends.btn set_showing FALSE}
+      #endif)
+   (set_gameplay_button
+      #ifdef HX_PS3
+      {$this disable gameplay.btn}
+      {gameplay.btn set_showing FALSE}
+      {options.anim set_frame 1}
+      #endif
+      #ifdef HX_WII
+      {$this disable gameplay.btn}
+      {gameplay.btn set_showing FALSE}
+      {options.anim set_frame 1}
+      #endif
+      #ifdef HX_XBOX
+      {options.anim set_frame 0}
+      #endif)
+   (update_motd
+      #ifdef HX_XBOX
+      {motd.grp set_showing TRUE}
+      {cond
+         ({!
+               {platform_mgr is_ethernet_cable_connected}}
+            {motd.lbl set_showing FALSE})
+         ({!
+               {modifier_mgr is_feature_enabled modifier_online_feature}}
+            {motd.lbl set text_token motd_online_disabled}
+            {motd.lbl set_showing TRUE})
+         ({!
+               {platform_mgr is_connected}}
+            {motd.lbl set text_token motd_not_signed_in}
+            {motd.lbl set_showing TRUE})
+         ({!=
+               {rock_central state}
+               kRCOnline}
+            {motd.lbl set text_token motd_no_rock_central}
+            {motd.lbl set_showing TRUE})
+         ({&&
+               {server is_connected}
+               [motd_done]}
+            {motd.lbl
+               set_localized
+               [motd_message]}
+            {motd.lbl set_showing TRUE})
+         (TRUE
+            {motd.lbl set_showing FALSE})}
+      #else
+      #ifdef HX_WII
+      {motd.grp set_showing TRUE}
+      {motd.lbl
+         set_localized
+         [motd_message]}
+      {if_else
+         {&&
+            {server is_connected}
+            [motd_done]}
+         {motd.lbl set_showing TRUE}
+         {motd.lbl set_showing FALSE}}
+      #else
+      {motd.grp set_showing FALSE}
+      #endif
+      #endif)
+   (load
+      {content_mgr start_refresh})
+   (enter
+      #ifdef HX_EE
+      {synth resume_mics}
+      #endif
+      #ifdef HX_WII
+      {rock_central set_login_blocked FALSE}
+      #endif
+      {$this update_motd}
+      {community_panel update_button_status}
+      {platform_mgr
+         add_sink
+         $this
+         (connection_status_changed)}
+      {server
+         add_sink
+         $this
+         (server_status_changed)}
+      {if
+         {!=
+            {ui current_screen}
+            main_leaderboard_screen}
+         {session clear}}
+      {song_offer_provider set_highlighted_ix -1}
+      {song_offer_provider set_setlist_mode FALSE}
+      {tour clear_band}
+      {gamemode set_mode init}
+      {if
+         {!=
+            {ui current_screen}
+            main_leaderboard_screen}
+         {input_mgr clear_user}
+         {game reset_config}}
+      {meta reload_meta_music}
+      {if_else
+         {meta is_loaded}
+         {meta music_start}
+         {set
+            [start_meta_music]
+            TRUE}}
+      {BandHighlight.hlit register_focus})
+   (exit
+      {fx fade_out}
+      {platform_mgr remove_sink $this connection_status_changed}
+      {server remove_sink $this server_status_changed}
+      {BandHighlight.hlit unregister_focus})
+   (poll
+      {if
+         [start_meta_music]
+         {if
+            {meta is_loaded}
+            {do
+               {meta music_start}
+               {set
+                  [start_meta_music]
+                  FALSE}}}})
+   (connection_status_changed
+      ($connected)
+      {$this update_motd})
+   (server_status_changed
+      ($connected)
+      {$this update_motd})
+   (BUTTON_DOWN_MSG
+      {if
+         {== $action kAction_Cancel}
+         {main_panel pop_focus}}
+      kDataUnhandled)
+   (SELECT_MSG
+      {switch
+         $component
+         (quickplay.btn
+            {main_panel push_focus}
+            {ui goto_screen main_quickplay_screen})
+         (tour.btn
+            #ifdef HX_EE
+            {gamemode set_mode tour_local $player_num}
+            {char_cache cache_update}
+            {goto_after_network_connect
+               tour_band_sel_screen
+               {!
+                  {gamemode get local_network}}}
+            #else
+            {main_panel push_focus}
+            {ui goto_screen main_tour_screen}
+            #endif)
+         (tutorial.btn
+            {synth reset_mics_changed}
+            {main_panel push_focus}
+            {if_else
+               {gamecfg is_instrument_connected drum}
+               {drum_freestyle.btn set_state kComponentNormal}
+               {drum_freestyle.btn set_state kComponentDisabled}}
+            {ui goto_screen training_menu_screen})
+         (options.btn
+            {$this set_gameplay_button}
+            {main_panel push_focus}
+            {ui goto_screen options_screen})
+         (community.btn
+            #ifdef HX_PS3
+            {community.btn set_state kComponentNormal}
+            #endif
+            #ifdef HX_WII
+            #ifdef NOWIINETWORKING
+            #endif
+            #endif
+            #ifdef HX_WII
+            #ifndef NOWIINETWORKING
+            {goto_and_push_focus_after_network_connect main_community_screen FALSE}
+            #else
+            {main_panel push_focus}
+            {goto_after_network_connect main_community_screen FALSE}
+            #endif
+            #endif
+            #ifdef HX_EE
+            {main_panel push_focus}
+            {goto_after_network_connect main_community_screen FALSE}
+            #endif)
+         #ifndef HX_EE
+         (store.btn
+            #ifdef HX_WII
+            {rock_central set_login_blocked TRUE}
+            #endif
+            #ifdef HX_XBOX
+            {if_else
+               {'||'
+                  {!
+                     {platform_mgr is_player_signed_into_live $player_num}}
+                  {platform_mgr is_player_a_guest $player_num}}
+               {ui push_screen main_store_signin_screen}
+               {ui push_screen main_store_find_cache_screen}}
+            #else
+            {gamemode set_mode store}
+            #ifdef HX_PS3
+            {ui goto_screen store_enter_network_screen}
+            #else
+            #ifdef HX_WII
+            {force_goto_else_after_network_connect store_wii_enter_screen main_screen TRUE}
+            #else
+            {ui goto_screen store_loading_screen}
+            #endif
+            #endif
+            #endif
+            #ifndef HX_WII
+            {input_mgr
+               set_user
+               {user_mgr get_band_user $player_num}}
+            #else
+            {input_mgr set_limit kLimitNone}
+            #endif)
+         #endif})
+   (TRANSITION_COMPLETE_MSG
+      #ifdef HX_WII
+      {rock_central set_login_blocked FALSE}
+      #endif)}
+{new
+   AutoloadScreen
+   main_screen
+   (panels meta main_panel)
+   (focus main_panel)
+   (back splash_screen)
+   (access_all
+      {$this
+         enable
+         {main_panel find solo.btn}}
+      {$this
+         enable
+         {main_panel find multi.btn}}
+      {$this
+         enable
+         {main_panel find tutorial.btn}})
+   MAIN_SCREEN_HANDLERS
+   (enter
+      {gamemode set_mode init}
+      {char_cache cache_update})
+   (TRANSITION_COMPLETE_MSG
+      {profile_mgr purge_old_data}
+      {if
+         {&&
+            {!
+               {net_sync has_destination_screen}}
+            {!
+               {ui in_transition}}
+            {==
+               {ui current_screen}
+               $this}}
+         {autosave}}
+      kDataUnhandled)}
+{new
+   SessionPanel
+   main_quickplay_panel
+   MAIN_SUBSCREEN_PANEL_HANDLER
+   #ifdef HX_WII
+   (allow_home_menu TRUE)
+   #endif
+   (exit
+      {synth reset_mics_changed})
+   (SELECT_MSG
+      {if_else
+         {gamecfg is_missing_mic $player_num FALSE}
+         {do
+            {vocalist_must_have_mic_screen set message solo_vocalist_needs_mic}
+            {ui push_screen vocalist_must_have_mic_screen}}
+         {do
+            {switch
+               $component
+               (solo.btn
+                  {cond
+                     ({&&
+                           {platform_mgr is_player_signed_in $player_num}
+                           {platform_mgr is_player_a_guest $player_num}}
+                        {main_quickplay_screen register_user_confirm $player}
+                        {ui push_screen main_solo_qp_signin_guest_screen}
+                        {input_mgr
+                           set_user
+                           {user_mgr get_band_user $player_num}})
+                     (TRUE
+                        {gamemode set_mode qp_solo $player_num}
+                        {$this wait_for_session_ready}
+                        {session_mgr add_local_user $player})})
+               (band_coop.btn
+                  #ifdef HX_EE
+                  {char_cache cache_update}
+                  {gamemode set_mode qp_coop_local $player_num}
+                  {ui
+                     goto_screen
+                     {gamemode get matchmaking_screen}}
+                  #else
+                  #ifndef NOWIINETWORKING
+                  {main_panel push_focus}
+                  {ui goto_screen main_bandcoop_screen}
+                  #else
+                  {char_cache cache_update}
+                  {gamemode set_mode qp_coop_local $player_num}
+                  {ui
+                     goto_screen
+                     {gamemode get matchmaking_screen}}
+                  #endif
+                  #endif)
+               (score_duel.btn
+                  #ifdef HX_EE
+                  {gamemode set_mode h2h_score_duel_local $player_num}
+                  {ui
+                     goto_screen
+                     {gamemode get matchmaking_screen}}
+                  #else
+                  {main_panel push_focus}
+                  {ui goto_screen main_score_duel_screen}
+                  #endif)
+               (tug_of_war.btn
+                  #ifdef HX_EE
+                  {gamemode set_mode h2h_tug_of_war_local $player_num}
+                  {ui
+                     goto_screen
+                     {gamemode get matchmaking_screen}}
+                  #else
+                  {main_panel push_focus}
+                  {ui goto_screen main_tug_of_war_screen}
+                  #endif)}}})
+   (session_ready_complete_msg
+      {gamecfg auto_assign_missing_slots}
+      {do
+         ($player_num
+            {gamemode get player_num})
+         {if
+            {==
+               1
+               {gamemode get min_players}}
+            {do
+               ($pcfg
+                  {game get_player_config $player_num})
+               {$pcfg
+                  set_char
+                  {available_prefab $player_num '' TRUE}}
+               {goto_after_network_connect song_select_screen FALSE}}}})}
+{new
+   AutoloadScreen
+   main_quickplay_screen
+   (panels meta main_panel main_quickplay_panel)
+   (focus main_quickplay_panel)
+   (back main_screen)
+   MAIN_SCREEN_HANDLERS
+   (enter
+      {char_cache cache_update})}
+#define MAIN_H2H_PANEL_HANDLERS
+(MAIN_SUBSCREEN_PANEL_HANDLER
+   (SELECT_MSG
+      {do
+         ($dest_screen
+            {if_else
+               {gamemode get ranked}
+               {gamemode get main_mode_screen}
+               {gamemode get matchmaking_screen}})
+         #ifdef HX_EE
+         {do
+            {main_panel push_focus}
+            {if_else
+               {!
+                  {gamemode get local_network}}
+               {goto_after_network_connect $dest_screen TRUE}
+               {ui goto_screen $dest_screen}}}
+         #else
+         {if_else
+            {!
+               {gamemode get local_network}}
+            {goto_and_push_focus_after_network_connect $dest_screen TRUE}
+            {do
+               {main_panel push_focus}
+               {ui goto_screen $dest_screen}}}
+         #endif}))
+{new
+   UIPanel
+   main_score_duel_panel
+   MAIN_H2H_PANEL_HANDLERS
+   #ifdef HX_WII
+   (allow_home_menu TRUE)
+   #endif
+   (enter
+      #ifdef HX_XBOX
+      {if
+         {profile_mgr get_all_unlocked}
+         {player_match_scoreduel.btn set_state kComponentDisabled}
+         {ranked_match_scoreduel.btn set_state kComponentDisabled}
+         {ranked_match_scoreduel.btn set_showing FALSE}}
+      #endif)}
+#ifndef HX_EE
+{new
+   AutoloadScreen
+   main_score_duel_screen
+   (panels meta main_panel main_score_duel_panel)
+   (focus main_score_duel_panel)
+   (back main_quickplay_screen)
+   MAIN_SCREEN_H2H_HANDLERS
+   (SELECT_MSG
+      {gamemode
+         set_mode
+         {switch
+            $component
+            (local_multi_scoreduel.btn h2h_score_duel_local)
+            (player_match_scoreduel.btn h2h_score_duel_unranked)
+            #ifndef HX_OG
+            (ranked_match_scoreduel.btn h2h_score_duel_ranked)
+            #endif}
+         $player_num}
+      MAIN_SCREEN_DATA_UNHANDLED)}
+#endif
+{new
+   UIPanel
+   main_tug_of_war_panel
+   MAIN_H2H_PANEL_HANDLERS
+   #ifdef HX_WII
+   (allow_home_menu TRUE)
+   #endif
+   (enter
+      #ifdef HX_XBOX
+      {if
+         {profile_mgr get_all_unlocked}
+         {player_match_tow.btn set_state kComponentDisabled}
+         {ranked_match_tow.btn set_state kComponentDisabled}
+         {ranked_match_tow.btn set_showing FALSE}}
+      #endif)}
+#ifndef HX_EE
+{new
+   AutoloadScreen
+   main_tug_of_war_screen
+   (panels meta main_panel main_tug_of_war_panel)
+   (focus main_tug_of_war_panel)
+   (back main_quickplay_screen)
+   MAIN_SCREEN_H2H_HANDLERS
+   (SELECT_MSG
+      {gamemode
+         set_mode
+         {switch
+            $component
+            (local_multi_tow.btn h2h_tug_of_war_local)
+            (player_match_tow.btn h2h_tug_of_war_unranked)
+            #ifndef HX_OG
+            (ranked_match_tow.btn h2h_tug_of_war_ranked)
+            #endif}
+         $player_num}
+      MAIN_SCREEN_DATA_UNHANDLED)}
+#endif
+{new
+   UIPanel
+   main_h2h_seldiff_panel
+   MAIN_SUBSCREEN_PANEL_HANDLER
+   (difficulty
+      {elem
+         (DIFF_SYMBOLS)
+         {elem
+            {find $syscfg tour default_difficulty}
+            1}})
+   (enter
+      {print
+         "in seldiff screen"}
+      {$this
+         set_focus
+         {sprint
+            [difficulty]
+            ".btn"}})
+   (SELECT_MSG
+      {set
+         [difficulty]
+         {basename
+            {$component name}}}
+      {ui
+         goto_screen
+         {gamemode get matchmaking_screen}})}
+#ifndef HX_EE
+#ifndef NOWIINETWORKING
+{new
+   AutoloadScreen
+   main_h2h_tug_of_war_ranked_seldiff_screen
+   (panels meta main_panel main_h2h_seldiff_panel)
+   (focus main_h2h_seldiff_panel)
+   (back main_tug_of_war_screen)
+   MAIN_SCREEN_H2H_HANDLERS
+   (SELECT_MSG
+      {gamemode set_mode h2h_tug_of_war_ranked $player_num}
+      MAIN_SCREEN_DATA_UNHANDLED)}
+{new
+   AutoloadScreen
+   main_h2h_score_duel_ranked_seldiff_screen
+   (panels meta main_panel main_h2h_seldiff_panel)
+   (focus main_h2h_seldiff_panel)
+   (back main_score_duel_screen)
+   MAIN_SCREEN_H2H_HANDLERS
+   (SELECT_MSG
+      {gamemode set_mode h2h_score_duel_ranked $player_num}
+      MAIN_SCREEN_DATA_UNHANDLED)}
+{new
+   UIPanel
+   main_bandcoop_panel
+   #ifdef HX_WII
+   (allow_home_menu TRUE)
+   #endif
+   MAIN_SUBSCREEN_PANEL_HANDLER
+   (enter
+      {if
+         {profile_mgr get_all_unlocked}
+         {online.btn set_state kComponentDisabled}})
+   (SELECT_MSG
+      {gamemode
+         set_mode
+         {switch
+            $component
+            (local_bandcoop.btn qp_coop_local)
+            (online_bandcoop.btn qp_coop_online)}
+         $player_num}
+      {if_else
+         {!
+            {gamemode get local_network}}
+         {goto_after_network_connect
+            {gamemode get matchmaking_screen}
+            TRUE}
+         {ui
+            goto_screen
+            {gamemode get matchmaking_screen}}})}
+{new
+   AutoloadScreen
+   main_bandcoop_screen
+   (panels meta main_panel main_bandcoop_panel)
+   (focus main_bandcoop_panel)
+   (back main_quickplay_screen)
+   MAIN_SCREEN_HANDLERS
+   (enter
+      {char_cache cache_update})}
+#endif
+#endif
+{new
+   UIPanel
+   main_worldtour_panel
+   MAIN_SUBSCREEN_PANEL_HANDLER
+   #ifdef HX_WII
+   (allow_home_menu TRUE)
+   #endif
+   (SELECT_MSG
+      #ifndef HX_EE
+      {if_else
+         {'||'
+            {!= $component online.btn}
+            {user_mgr does_any_user_have_online_privilege}}
+         {if_else
+            {user_mgr is_any_user_signed_in}
+            {do
+               {gamemode
+                  set_mode
+                  {switch
+                     $component
+                     (local.btn tour_local)
+                     (online.btn tour_online)}
+                  $player_num}
+               {char_cache cache_update}
+               {goto_after_network_connect
+                  tour_band_sel_screen
+                  {!
+                     {gamemode get local_network}}}}
+            {do
+               {main_tour_screen register_user_confirm $player}
+               {ui push_screen main_local_tour_signin_screen}}}
+         {do
+            {main_tour_screen register_user_confirm $player}
+            {ui push_screen main_online_tour_signin_screen}}}
+      #else
+      {gamemode set_mode tour_local $player_num}
+      {char_cache cache_update}
+      {goto_after_network_connect
+         tour_band_sel_screen
+         {!
+            {gamemode get local_network}}}
+      #endif)}
+{new
+   AutoloadScreen
+   main_tour_screen
+   (panels meta main_panel main_worldtour_panel)
+   (focus main_worldtour_panel)
+   (back main_screen)
+   MAIN_SCREEN_HANDLERS}
+{new
+   MoviePanel
+   credits_movie_panel
+   (preload FALSE)
+   (audio TRUE)
+   (loop FALSE)
+   (update_presence TRUE)
+   (videos win_credits)
+   (load
+      {movie_panel load})
+   (unload
+      {movie_panel unload})
+   (is_loaded
+      {fx is_faded_out})
+   (enter
+      {meta music_stop}
+      {platform_mgr disable_xmp})
+   (movie_done
+      #ifndef HX_OG
+      {ui goto_screen credits_screen}
+      #else
+      {ui goto_screen credits_movie_screen_pi}
+      #endif)
+   (BUTTON_DOWN_MSG
+      {if
+         {'||'
+            {== $action kAction_Start}
+            {== $action kAction_Cancel}}
+         {ui goto_screen main_community_screen}}
+      #ifdef HX_OG
+      {if
+         {== $action kAction_Confirm}
+         {ui goto_screen credits_movie_screen_pi}}
+      #endif)}
+{new
+   BandScreen
+   credits_movie_screen
+   (panels meta credits_movie_panel)
+   (focus credits_movie_panel)
+   (helpbar
+      ((min_height 0)))}
+#ifdef HX_OG
+{new
+   MoviePanel
+   credits_movie_panel_pi
+   (preload FALSE)
+   (audio TRUE)
+   (loop FALSE)
+   (update_presence TRUE)
+   (videos win_credits_pi)
+   (load
+      {movie_panel load})
+   (unload
+      {movie_panel unload})
+   (enter
+      {meta music_stop}
+      {platform_mgr disable_xmp})
+   (movie_done
+      {ui goto_screen credits_screen})
+   (BUTTON_DOWN_MSG
+      {if
+         {'||'
+            {== $action kAction_Start}
+            {== $action kAction_Cancel}}
+         {ui goto_screen main_community_screen}}
+      {if
+         {== $action kAction_Confirm}
+         {ui goto_screen credits_screen}})}
+{new
+   BandScreen
+   credits_movie_screen_pi
+   (panels meta credits_movie_panel_pi)
+   (focus credits_movie_panel_pi)
+   (helpbar
+      ((min_height 0)))}
+#endif
+{new
+   CreditsPanel
+   credits_panel
+   (file
+      "credits.milo")
+   (load
+      {movie_panel load})
+   (unload
+      {movie_panel unload})
+   (poll
+      {if
+         {!
+            {credits.lst is_scrolling}}
+         {if
+            {!
+               {ui in_transition}}
+            {handle
+               (ui credits_done)}}})
+   #ifdef HX_OG
+   (BUTTON_DOWN_MSG
+      {if
+         {'||'
+            {== $action kAction_Start}
+            {== $action kAction_Confirm}
+            {== $action kAction_Cancel}}
+         {handle
+            (ui credits_done)}})
+   #endif}
+{new
+   BandScreen
+   credits_screen
+   (panels meta credits_panel)
+   (focus credits_panel)
+   (back main_community_screen)
+   (scroll_sfx FALSE)
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {meta music_stop}
+      {platform_mgr disable_xmp})
+   (credits_done
+      {ui goto_screen main_community_screen})}
+{new
+   MoviePanel
+   attract_movie_panel
+   (preload FALSE)
+   (loop FALSE)
+   (audio TRUE)
+   (update_presence TRUE)
+   (videos attract)
+   #ifdef HX_EE
+   (standalone FALSE)
+   #endif
+   (movie_done
+      {if
+         {==
+            {ui current_screen}
+            attract_screen}
+         {ui goto_screen splash_screen}})
+   (BUTTON_DOWN_MSG
+      {if
+         {==
+            {ui current_screen}
+            attract_screen}
+         {if
+            {'||'
+               {== $action kAction_Start}
+               {== $action kAction_Confirm}
+               {== $action kAction_Cancel}}
+            {ui goto_screen splash_screen}}})}
+{new
+   UIPanel
+   attract_overlay_panel
+   (file
+      "attract_overlay.milo")}
+{new
+   BandScreen
+   attract_screen
+   (panels meta attract_movie_panel attract_overlay_panel)
+   (focus attract_movie_panel)
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {char_cache cache_clear})
+   #ifdef HX_EE
+   (poll
+      {if
+         {&&
+            {movie_finished}
+            {attract_overlay_panel is_loaded}}
+         {attract_overlay_panel unload}})
+   #endif}
+{new
+   SessionPanel
+   community_panel
+   MAIN_SUBSCREEN_PANEL_HANDLER
+   (webcode_done FALSE)
+   (webcode
+      "")
+   (ok_with_leaderboards_offline FALSE)
+   (set_state_normal FALSE)
+   (invited_user_pad -1)
+   (set_webcode
+      ($message)
+      {set
+         [webcode]
+         $message}
+      {set
+         [webcode_done]
+         TRUE}
+      {if
+         {$this is_up}
+         {$this update_button_status}})
+   (enter
+      {set
+         [set_state_normal]
+         FALSE}
+      {set $autosaved FALSE}
+      #ifndef HX_EE
+      #ifndef NOWIINETWORKING
+      {leaderboards clear_type}
+      {leaderboards set_offline FALSE}
+      #endif
+      #endif
+      {session clear}
+      {platform_mgr
+         add_sink
+         $this
+         (connection_status_changed)}
+      {server
+         add_sink
+         $this
+         (server_status_changed)}
+      {$this update_button_status}
+      {set
+         [ok_with_leaderboards_offline]
+         FALSE}
+      #ifndef HX_PS3
+      #ifndef HX_WII
+      {$this disable webcode_ps3.btn}
+      {webcode_ps3.btn set_showing FALSE}
+      {$this disable checkinvites.btn}
+      {checkinvites.btn set_showing FALSE}
+      {$this disable managefriends.btn}
+      {managefriends.btn set_showing FALSE}
+      #endif
+      #endif
+      {if
+         {!
+            {2bone_eaglehead.tnm is_animating}}
+         {griffer.trg trigger}})
+   (exit
+      {platform_mgr remove_sink $this connection_status_changed}
+      {server remove_sink $this server_status_changed}
+      {set
+         [set_state_normal]
+         TRUE})
+   (connection_status_changed
+      ($connected)
+      {$this update_button_status})
+   (server_status_changed
+      ($connected)
+      {$this update_button_status})
+   (is_webcode_done
+      {if_else
+         [webcode_done]
+         TRUE
+         FALSE})
+   (update_button_status
+      {main_panel update_button_status})
+   (SELECT_MSG
+      {switch
+         $component
+         (credits.btn
+            {helpbar
+               set_config
+               ((min_height 0))}
+            {ui goto_screen credits_movie_screen})
+         (modifygame.btn
+            {ui goto_screen modifiers_screen})
+         (leaderboards.btn
+            #ifndef HX_EE
+            {cond
+               ([ok_with_leaderboards_offline]
+                  {$this goto_leaderboards $player $player_num})
+               ({!
+                     {platform_mgr is_connected}}
+                  {leaderboards set_offline TRUE}
+                  {main_community_screen register_user_confirm $player}
+                  {ui push_screen main_leaderboard_offline_screen})
+               ({!=
+                     {rock_central state}
+                     kRCOnline}
+                  {leaderboards set_offline TRUE}
+                  {main_community_screen register_user_confirm $player}
+                  {ui push_screen main_leaderboard_offline_screen})
+               (TRUE
+                  {$this goto_leaderboards $player $player_num})}
+            #else
+            {highscores set_song_sym ''}
+            {$this goto_leaderboards $player $player_num}
+            #endif)
+         (webcode_ps3.btn
+            #ifndef HX_EE
+            {if
+               [webcode_done]
+               {ui push_screen main_webcode_screen}}
+            #endif)
+         #ifdef HX_PS3
+         (managefriends.btn
+            {platform_mgr show_friends -1})
+         (checkinvites.btn
+            {set
+               [invited_user_pad]
+               {$player get_pad_num}}
+            {platform_mgr check_mailbox})
+         #endif
+         #ifdef HX_WII
+         #ifndef NOWIINETWORKING
+         (managefriends.btn
+            {gamemode set_mode wii_online_extra $player_num}
+            {ui goto_screen friendlist_screen})
+         (checkinvites.btn
+            {set
+               [invited_user_pad]
+               {$player get_pad_num}}
+            {gamemode set_mode wii_online_extra $player_num}
+            {ui goto_screen mailbox_screen})
+         #endif
+         #endif})
+   (goto_leaderboards
+      ($player $player_num)
+      {gamemode set_mode community_leaderboards $player_num}
+      {gamemode set player_num $player_num}
+      {$this wait_for_session_ready}
+      {session_mgr add_local_user $player})
+   (session_ready_complete_msg
+      ($player_num)
+      {if_else
+         {gamemode is_jukebox}
+         {do
+            {gamecfg auto_assign_missing_slots}
+            {do
+               ($pcfg
+                  {game get_player_config $player_num})
+               ($num_bands
+                  {{profile_mgr get_profile $player_num}
+                     num_bands})
+               {$pcfg
+                  set_char
+                  {available_prefab $player_num}}
+               {if_else
+                  {> $num_bands 0}
+                  {do
+                     {ui goto_screen jukebox_band_sel_screen}}
+                  {do
+                     {jukebox_panel set_band -1}
+                     {ui goto_screen song_select_screen}}}}}
+         {do
+            #ifndef HX_EE
+            {if
+               {==
+                  {gamemode get player_num}
+                  $player_num}
+               {input_mgr
+                  set_user
+                  {user_mgr get_band_user $player_num}}
+               {gamecfg auto_assign_missing_slots}
+               {if_else
+                  {leaderboards get_offline}
+                  {do
+                     {leaderboards_netwatcher_panel set return_screen main_community_screen}
+                     {main_panel update_leaderboard_buttons}
+                     {main_panel push_focus}
+                     {ui reset_screen main_leaderboard_screen}}
+                  {do
+                     {leaderboards_netwatcher_panel set return_screen main_community_screen}
+                     {main_panel update_leaderboard_buttons}
+                     {main_panel push_focus}
+                     {goto_and_push_focus_after_network_connect main_leaderboard_screen FALSE}}}}
+            #else
+            {goto_after_network_connect highscore_seltrack_screen FALSE}
+            #endif}})
+   (poll
+      {if
+         {&&
+            {==
+               kComponentFocused
+               {community.btn get_state}}
+            {!
+               [set_state_normal]}}
+         {community.btn set_state kComponentNormal}
+         {set
+            [set_state_normal]
+            TRUE}})}
+{new
+   AutoloadScreen
+   main_community_screen
+   (panels meta main_panel community_panel)
+   (focus community_panel)
+   (back main_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_confirm)))
+   (BUTTON_DOWN_MSG
+      {if
+         {== $action kAction_Cancel}
+         {main_panel pop_focus}}
+      kDataUnhandled)
+   (TRANSITION_COMPLETE_MSG
+      {if
+         {== main_leaderboard_screen $old_screen}
+         {session clear}
+         {game reset_config}}
+      kDataUnhandled)}
+{new
+   SigninScreen
+   main_leaderboard_signin_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (helpbar
+      ((confirm helpbar_confirm)))
+   (must_not_be_a_guest TRUE)
+   (must_be_online TRUE)
+   (must_be_multiplayer_capable FALSE)
+   (handle_sign_outs FALSE)
+   (limit_user_signin TRUE)
+   (on_signed_into_guest)
+   (on_not_online
+      {ui pop_screen})
+   (on_signed_in
+      {leaderboards set_offline FALSE}
+      {ui pop_screen})
+   (enter
+      {dialog_panel
+         set_custom
+         {localize main_leaderboard_need_to_signin}
+         {localize main_leaderboard_signin_button}
+         {localize main_leaderboard_cancel_button}
+         opt1.btn})
+   (exit
+      {input_mgr clear_user})
+   (SELECT_MSG
+      {switch
+         $component
+         (opt1.btn
+            {platform_mgr signin 1})
+         (opt2.btn
+            {community_panel set ok_with_leaderboards_offline TRUE}
+            {ui pop_screen})})}
+{new
+   BandScreen
+   main_webcode_screen
+   (panels dialog_panel)
+   (helpbar
+      ((confirm helpbar_confirm)))
+   (enter
+      {dialog_panel
+         set_ok
+         {sprintf
+            {localize webcode_local}
+            {community_panel get webcode}}})
+   (SELECT_MSG
+      {ui pop_screen main_community_screen})}
+{new
+   BandScreen
+   main_leaderboard_offline_screen
+   (panels dialog_panel)
+   (helpbar
+      ((confirm helpbar_confirm)))
+   (enter
+      {dialog_panel
+         set_ok
+         {cond
+            ({'||'
+                  {!
+                     {platform_mgr has_online_privilege 0}}
+                  {platform_mgr is_connected}}
+               {localize leaderboards_not_available_rock_central})
+            (TRUE
+               {localize leaderboards_not_available_connection})}})
+   (BUTTON_DOWN_MSG
+      {if_else
+         {== $action kAction_Confirm}
+         {do
+            {community_panel set ok_with_leaderboards_offline TRUE}
+            {ui pop_screen}}
+         TRUE})}

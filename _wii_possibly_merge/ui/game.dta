@@ -1,0 +1,925 @@
+#include track_panel.dta
+#define LOSE_MUSIC_SLOW_SEC
+(2)
+{new
+   GamePanel
+   game
+   (file
+      "")
+   (held_buttons
+      (kAction_Start
+         {if_else
+            {modifier_mgr is_modifier_active mod_demomode}
+            1.0
+            0.1}))
+   (load
+      {set_loader_period 14})
+   (unload
+      {if
+         $world
+         {$world
+            iterate_shot
+            $shot
+            {with
+               $shot
+               {if
+                  {&
+                     [flags]
+                     kBCSBBreakNextShot}
+                  {set
+                     [next_shot]
+                     ''}
+                  {mask_eq
+                     [flags]
+                     kBCSBBreakNextShot}}}}})
+   (finish_load
+      {set_loader_period 10})
+   (reset
+      {active_events_parser
+         add_sink
+         $this
+         ()
+         kSinkModeExportType})
+   (coda
+      {if_else
+         {&&
+            {game want_coda}
+            {game is_playing}}
+         {do
+            {beatmatch
+               foreach_active_player
+               $p
+               {handle
+                  ($p enter_coda)}}
+            kDataUnhandled}
+         0})
+   (pick_intro
+      {if_else
+         {'||'
+            $skip_intro
+            {gamemode get is_drum_trainer}
+            {gamemode get is_framerate_test}}
+         {handle
+            ($this intro_skip)}
+         {do
+            {beatmatch
+               set_intro_real_time
+               {if_else
+                  [intro_shot]
+                  {-
+                     {[intro_shot]
+                        duration_seconds}}
+                  0}}
+            {handle
+               ($this intro_start)}}})
+   (intro_start
+      {script_task
+         kTaskSeconds
+         (delay
+            {-
+               0
+               {taskmgr seconds}})
+         (script
+            {handle
+               ($this on_extend)})}
+      {script_task
+         kTaskBeats
+         (delay
+            {-
+               {taskmgr beat}})
+         (script
+            {handle
+               ($this intro_end)})}
+      kDataUnhandled)
+   (intro_skip
+      {if
+         {'||'
+            $skip_intro
+            {gamemode get is_framerate_test}}
+         {beatmatch set_intro_real_time 0}}
+      kDataUnhandled)
+   (music_start
+      {ui music_start}
+      kDataUnhandled)
+   (beat
+      {if
+         $debug.beep
+         {synth play click}}
+      kDataUnhandled)
+   (excitement
+      ($ex)
+      {if
+         {gamemode get crowd_reacts}
+         {do
+            ($levels
+               (excitement_boot excitement_bad excitement_okay excitement_great excitement_peak))
+            {if
+               {< $ex kNumExcitements}
+               {handle
+                  ($this
+                     {elem $levels $ex})}}}}
+      kDataUnhandled)
+   (game_over
+      #ifndef HX_OG
+      {stagekit_reset}
+      #endif
+      {beatmatch
+         foreach_active_player
+         $p
+         {$p on_game_over}}
+      {if
+         {&&
+            {==
+               {ui current_screen}
+               pause_controller_screen}
+            {!
+               {ui in_transition}}}
+         {pause_controller_screen on_controllers_ok}}
+      kDataUnhandled)
+   (game_won_common
+      {beatmatch set_realtime TRUE}
+      {beatmatch set_paused TRUE}
+      {if
+         {!
+            {gamemode get is_jukebox}}
+         {synth play track_end.cue}})
+   (game_won
+      {$this game_won_common}
+      kDataUnhandled)
+   (game_won_band0
+      {$this game_won_common}
+      kDataUnhandled)
+   (game_won_band1
+      {$this game_won_common}
+      kDataUnhandled)
+   (game_won_tie
+      {$this game_won_common}
+      kDataUnhandled)
+   (game_lost
+      {beatmatch set_realtime TRUE}
+      {beatmatch
+         foreach_active_player
+         $p
+         {$p on_game_lost}}
+      {if
+         {gamecfg multiplayer}
+         {{beatmatch main_performer}
+            on_game_lost}}
+      {script_task
+         kTaskBeats
+         (delay LOSE_MUSIC_SLOW_SEC)
+         (script
+            {do
+               {beatmatch set_paused TRUE}})}
+      kDataUnhandled)
+   (game_outro
+      {beatmatch
+         foreach_active_player
+         $p
+         {$p disable_controller}}
+      {synth stop_all_sfx}
+      {ui
+         sync_screen
+         {gamemode
+            get
+            {if_else
+               {$this lost}
+               lose_screen
+               win_screen}}
+         1}
+      kDataUnhandled)
+   (disable_all_controllers
+      {beatmatch
+         foreach_active_player
+         $p
+         {$p disable_controller}})
+   (on_button_held
+      ($user_num $user $raw_button $action $pad_num)
+      {do
+         {if
+            {&&
+               {!
+                  {ui in_transition}}
+               {!=
+                  pause_screen
+                  {ui current_screen}}
+               {'||'
+                  {gamemode get is_jukebox}
+                  {&&
+                     {gamecfg is_player_participating $user_num}
+                     {beatmatch player $user_num}
+                     {{beatmatch player $user_num}
+                        can_pause}}}
+               {!
+                  {game is_game_over}}
+               {==
+                  {session state}
+                  kNetInGame}
+               {!=
+                  {gamemode get pause_screen}
+                  ''}}
+            {input_mgr
+               set_user
+               {user_mgr get_band_user $user_num}}
+            {net_sync set_ui_state kNetUI_Pause}
+            {ui
+               push_screen
+               {gamemode get pause_screen}}}})}
+{new
+   UIPanel
+   sync_audio_net_panel
+   (net_notified FALSE)
+   (net_ready FALSE)
+   (my_load
+      {set
+         [net_notified]
+         FALSE}
+      {set
+         [net_ready]
+         FALSE})
+   (my_is_loaded
+      {do
+         ($audio_ready
+            {&&
+               {exists beatmatch}
+               {!
+                  {beatmatch is_waiting}}})
+         {if
+            {&&
+               $audio_ready
+               {!
+                  [net_notified]}
+               {!
+                  [net_ready]}}
+            {set
+               [net_notified]
+               TRUE}
+            {$this signal_net_done_loading}}
+         {if
+            {&&
+               {band_ui has_event}
+               {net_sync get ui_disabled}}
+            {set
+               [net_ready]
+               TRUE}}
+         {&&
+            $audio_ready
+            [net_ready]}})
+   (signal_net_done_loading
+      {switch
+         {session state}
+         (kNetInLobby
+            {session set_all_local_ready_status TRUE})
+         (kNetLoading
+            {session done_loading})
+         (kNetInGame
+            {set
+               [net_ready]
+               TRUE})})
+   (start_loading
+      {if
+         [net_notified]
+         {session done_loading}})
+   (sync_start_game
+      {if
+         [net_notified]
+         {set
+            [net_ready]
+            TRUE}})
+   (load
+      {session
+         add_sink
+         $this
+         (sync_start_game start_loading)}
+      {$this my_load})
+   (is_loaded
+      {$this my_is_loaded})
+   (finish_load
+      {set
+         [net_notified]
+         FALSE})
+   (unload
+      {session remove_sink $this sync_start_game}
+      {session remove_sink $this start_loading})}
+{new
+   UIPanel
+   world_panel
+   (file
+      {sprint
+         "../world/"
+         {game get_venue_dir}
+         "/"
+         {game get_venue}
+         "/"
+         {game get_venue}
+         ".milo"})
+   (load
+      {char_cache world_configure_characters}
+      {game load_crowd_audio})
+   (is_loaded
+      {char_cache compression_done})
+   (finish_load
+      {char_cache
+         light_characters
+         {$this loaded_dir}}
+      {crowd_audio post_load})
+   (hide_frames 0)
+   (exit
+      {set
+         [hide_frames]
+         2}
+      {$this set_showing FALSE})
+   (poll
+      {if
+         [hide_frames]
+         {--
+            [hide_frames]}
+         {unless
+            [hide_frames]
+            {$this set_showing TRUE}}})
+   (unload
+      #ifndef HX_PC
+      #ifndef HX_OG
+      {rnd suspend}
+      #endif
+      #endif
+      {preload_panel clear_cache}
+      {char_cache reclaim_characters}
+      {game unload_crowd_audio}
+      {set
+         [hide_frames]
+         0}
+      {$this set_showing TRUE})}
+#define GAME_SCREEN_HANDLERS
+((disable_screen_saver TRUE)
+   (delayed_mic_check FALSE)
+   (helpbar
+      ((min_height 0)))
+   (show_event FALSE)
+   (JOYPAD_CONNECT_MSG
+      {$this check_lost_controller})
+   (check_lost_controller
+      {if_else
+         {&&
+            {==
+               {ui current_screen}
+               {gamemode get game_screen}}
+            {!
+               {ui in_transition}}
+            {!
+               {game is_game_over}}
+            {!
+               {gamemode get is_jukebox}}
+            {==
+               {session state}
+               kNetInGame}
+            {!
+               {input_mgr check_controllers}}}
+         {do
+            {net_sync set_ui_state kNetUI_Pause}
+            {ui push_screen pause_controller_screen}
+            TRUE}
+         {do
+            {if
+               {gamemode get is_jukebox}
+               {band_ui dismiss_event}}
+            FALSE}})
+   (microphones_changed
+      ($vocalists_mic_changed)
+      {if
+         $vocalists_mic_changed
+         {$this pause_for_mic_check_mid_game}})
+   (pause_for_mic
+      {set
+         [delayed_mic_check]
+         FALSE}
+      {net_sync set_ui_state kNetUI_Pause}
+      {ui push_screen pause_mics_screen}
+      #ifdef HX_OG
+      {band_ui trigger_event mic_lost}
+      #endif)
+   (pause_for_mic_check
+      {$this pause_for_mic_check_helper FALSE})
+   (pause_for_mic_check_mid_game
+      {$this pause_for_mic_check_helper TRUE})
+   (pause_for_mic_check_helper
+      ($mid_game)
+      {if_else
+         {&&
+            {==
+               {ui current_screen}
+               {gamemode get game_screen}}
+            {!
+               {ui in_transition}}
+            {!
+               {game is_game_over}}
+            {!
+               {gamemode get is_jukebox}}
+            {==
+               {session state}
+               kNetInGame}
+            {'||'
+               $mid_game
+               {!
+                  {are_all_mics_connected}}}}
+         {if_else
+            {game paused}
+            {do
+               {set
+                  [delayed_mic_check]
+                  TRUE}
+               FALSE}
+            {do
+               {$this pause_for_mic}
+               TRUE}}
+         FALSE})
+   (enter
+      {fx set_showing FALSE}
+      {set
+         [delayed_mic_check]
+         FALSE}
+      {rnd set_in_game TRUE}
+      {platform_mgr
+         add_sink
+         $this
+         (ui_changed)}
+      #ifdef HX_WII
+      {platform_mgr
+         add_sink
+         $this
+         (wii_disc_error)}
+      {platform_mgr
+         add_sink
+         $this
+         (wii_controller_overflow)}
+      #endif
+      {if
+         {game get multi_event}
+         {if
+            {gamemode get has_track}
+            {coop_track_panel set_paused FALSE}
+            {coop_track_panel reload}}
+         {$world enter}
+         {game set multi_event FALSE}}
+      {game
+         foreach_local_user
+         $pcfg
+         {do
+            ($player_num
+               {$pcfg get player_num})
+            {profile_mgr update_vocal_volume $player_num}
+            {profile_mgr update_mic_gain $player_num}}}
+      {handle
+         ($this my_enter)}
+      {if_else
+         {gamemode get is_jukebox}
+         {input_mgr set_limit kLimitNone}
+         {input_mgr set_limit kLimitSession}})
+   (exit
+      {platform_mgr remove_sink $this ui_changed}
+      #ifdef HX_WII
+      {platform_mgr remove_sink $this wii_disc_error}
+      {platform_mgr remove_sink $this wii_controller_overflow}
+      #endif
+      {synth stop_playback_all_mics}
+      #ifndef HX_OG
+      {if
+         {'||'
+            {==
+               {band_ui current_event}
+               pad_lost}}
+         {band_ui dismiss_event}}
+      #else
+      {if
+         {'||'
+            {==
+               {band_ui current_event}
+               pad_lost}
+            {==
+               {band_ui current_event}
+               mic_lost}}
+         {band_ui dismiss_event}}
+      #endif
+      {input_mgr check_controllers})
+   (UI_CHANGED_MSG
+      {$this on_guide_change})
+   #ifdef HX_WII
+   (wii_disc_error
+      {do
+         ($pausing_user_num -1)
+         {game
+            foreach_local_player
+            $p
+            {set
+               $user_num
+               {$p player_num}}
+            {if
+               {&&
+                  {gamecfg is_player_participating $user_num}
+                  {beatmatch player $user_num}
+                  {{beatmatch player $user_num}
+                     can_pause}
+                  {== $pausing_user_num -1}}
+               {set $pausing_user_num $user_num}}}
+         {if
+            {&&
+               {!
+                  {ui in_transition}}
+               {!=
+                  pause_screen
+                  {ui current_screen}}
+               {!
+                  {game is_game_over}}
+               {==
+                  {session state}
+                  kNetInGame}
+               {!=
+                  {gamemode get pause_screen}
+                  ''}
+               {!
+                  {{pause_screen focus_panel}
+                     is_up}}
+               {!= $pausing_user_num -1}
+               {!=
+                  {band_ui current_event}
+                  pad_lost}
+               {!=
+                  {band_ui current_event}
+                  mic_lost}}
+            {input_mgr
+               set_user
+               {user_mgr get_band_user $pausing_user_num}}
+            {net_sync set_ui_state kNetUI_Pause}
+            {ui
+               push_screen
+               {gamemode get pause_screen}}
+            {game set_paused TRUE}}})
+   (wii_controller_overflow
+      {do
+         ($pausing_user_num -1)
+         {game
+            foreach_local_player
+            $p
+            {set
+               $user_num
+               {$p player_num}}
+            {if
+               {&&
+                  {gamecfg is_player_participating $user_num}
+                  {beatmatch player $user_num}
+                  {{beatmatch player $user_num}
+                     can_pause}
+                  {== $pausing_user_num -1}}
+               {set $pausing_user_num $user_num}}}
+         {if
+            {&&
+               {!
+                  {ui in_transition}}
+               {!=
+                  pause_screen
+                  {ui current_screen}}
+               {!
+                  {game is_game_over}}
+               {==
+                  {session state}
+                  kNetInGame}
+               {!=
+                  {gamemode get pause_screen}
+                  ''}
+               {!
+                  {{pause_screen focus_panel}
+                     is_up}}
+               {!= $pausing_user_num -1}
+               {!=
+                  {band_ui current_event}
+                  pad_lost}
+               {!=
+                  {band_ui current_event}
+                  mic_lost}}
+            {input_mgr
+               set_user
+               {user_mgr get_band_user $pausing_user_num}}
+            {net_sync set_ui_state kNetUI_Pause}
+            {ui
+               push_screen
+               {gamemode get pause_screen}}
+            {game set_paused TRUE}}})
+   #endif
+   (player_missing_mic
+      {do
+         ($ret FALSE)
+         ($player_num)
+         ($user)
+         ($existing_mic FALSE)
+         ($mic_num 0)
+         {game
+            foreach_local_player
+            $p
+            {set
+               $player_num
+               {$p player_num}}
+            {set
+               $user
+               {user_mgr get_band_user $player_num}}
+            {if
+               {&&
+                  {!= $player_num -1}
+                  {$user is_participating}
+                  {==
+                     {$user get_track_sym}
+                     vocals}
+                  #ifndef _SHIP
+                  {==
+                     {user_mgr
+                        debug_get_controller_type_override
+                        {$user get_pad_num}}
+                     kControllerNone}
+                  #endif
+                  {!
+                     {synth
+                        is_mic_connected
+                        #ifndef HX_EE
+                        {joypad_get_players_padnum $player_num}
+                        #else
+                        {if_else
+                           {! $existing_mic}
+                           {do
+                              {set $existing_mic TRUE}
+                              $mic_num}
+                           {do
+                              {set $mic_num 1}
+                              $mic_num}}
+                        #endif}}}
+               {set $ret TRUE}}}
+         $ret})
+   (TRANSITION_COMPLETE_MSG
+      #ifndef HX_OG
+      {if
+         {'||'
+            {==
+               {band_ui current_event}
+               pad_lost}}
+         {band_ui dismiss_event}}
+      #else
+      {if
+         {'||'
+            {==
+               {band_ui current_event}
+               pad_lost}
+            {==
+               {band_ui current_event}
+               mic_lost}}
+         {band_ui dismiss_event}}
+      #endif
+      {if
+         $game_unpause_on_enter
+         {game set_paused FALSE}
+         {set $game_unpause_on_enter FALSE}}
+      {if
+         {!
+            {$this check_lost_controller}}
+         {$this on_guide_change}
+         {unless
+            $fake_controllers
+            {if
+               {'||'
+                  {synth did_mics_change}
+                  {$this player_missing_mic}
+                  {!
+                     {are_all_mics_connected}}}
+               {if
+                  {!
+                     {gamemode is_jukebox}}
+                  {$this pause_for_mic_check}}}}})
+   (on_guide_change
+      {if
+         {&&
+            {ui current_screen}
+            {==
+               {ui current_screen}
+               $this}
+            {session is_local}}
+         {if
+            {&&
+               {tour band}
+               {platform_mgr guide_showing}}
+            {{tour band}
+               fail_iron_bladder}}
+         {game
+            set_paused
+            {platform_mgr guide_showing}}}
+      {if
+         {&&
+            {!
+               {platform_mgr guide_showing}}
+            [delayed_mic_check]}
+         {if_else
+            {are_all_mics_connected}
+            {set
+               [delayed_mic_check]
+               FALSE}
+            {$this pause_for_mic}}}))
+{new
+   BandScreen
+   game_screen
+   (panels game world_panel coop_track_panel sync_audio_net_panel)
+   GAME_SCREEN_HANDLERS}
+{new
+   BandScreen
+   h2h_game_screen
+   (panels game world_panel h2h_track_panel sync_audio_net_panel)
+   GAME_SCREEN_HANDLERS}
+{new
+   UIPanel
+   sync_audio_net_screen_panel
+   (my_is_loaded FALSE)
+   (load
+      {sync_audio_net_panel my_load}
+      {set
+         [my_is_loaded]
+         FALSE}
+      {if_else
+         {exists beatmatch}
+         {beatmatch reset_audio}
+         {notify
+            "no beatmatch!"}})
+   (is_loaded
+      {unless
+         [my_is_loaded]
+         {do
+            ($cur
+               {ui current_screen})
+            {if
+               {'||'
+                  {! $cur}
+                  {!
+                     {$cur exiting}}}
+               {if
+                  {sync_audio_net_panel my_is_loaded}
+                  {set
+                     [my_is_loaded]
+                     TRUE}}}}}
+      [my_is_loaded])}
+{new
+   BandScreen
+   sync_audio_net_screen
+   (panels sync_audio_net_screen_panel)
+   (show_event FALSE)
+   (TRANSITION_COMPLETE_MSG
+      {{gamemode get game_screen}
+         reenter_screen}
+      {ui pop_screen})}
+{new
+   BandScreen
+   vocal_test_screen
+   (panels)
+   (enter
+      {content_mgr start_refresh}
+      {set
+         [waiting]
+         TRUE})
+   (poll
+      {if
+         {&&
+            [waiting]
+            {content_mgr refresh_done}}
+         {set
+            [waiting]
+            FALSE}
+         {ui goto_screen vocal_test_game_screen}})
+   (waiting TRUE)}
+{new
+   BandScreen
+   vocal_test_game_screen
+   (panels game coop_track_panel)
+   GAME_SCREEN_HANDLERS}
+{func
+   set_wavdata_song
+   ($sym)
+   {if_else
+      {has_substr
+         $sym
+         "_short"}
+      {do
+         ($song)
+         {search_replace
+            $sym
+            "_short"
+            ""
+            $song}
+         {set
+            $song
+            {symbol $song}}
+         {set $force_song_block song_vocals}
+         {meta_performer set_song $song}}
+      {do
+         {set $force_song_block song}
+         {meta_performer set_song $sym}}}}
+{new
+   BandScreen
+   gen_wavdata_start_screen
+   (panels)
+   (enter
+      {content_mgr start_refresh}
+      {set
+         [waiting]
+         TRUE})
+   (poll
+      {if
+         {&&
+            [waiting]
+            {content_mgr refresh_done}}
+         {set
+            [waiting]
+            FALSE}
+         {set $gen_wavdata_idx 0}
+         {set_wavdata_song
+            {elem
+               (GEN_WAVDATA_SONGS)
+               $gen_wavdata_idx}}
+         {print
+            "GENERATING WAV DATA FOR "
+            {elem
+               (GEN_WAVDATA_SONGS)
+               $gen_wavdata_idx}
+            "\n"}
+         {ui goto_screen gen_wavdata_game_screen}})
+   (waiting TRUE)}
+{new
+   BandScreen
+   gen_wavdata_advance_screen
+   (panels coop_track_panel)
+   (enter
+      {coop_track_panel exit}
+      {coop_track_panel set_paused TRUE}
+      {set_wavdata_song
+         {elem
+            (GEN_WAVDATA_SONGS)
+            $gen_wavdata_idx}}
+      {print
+         "GENERATING WAV DATA FOR "
+         {elem
+            (GEN_WAVDATA_SONGS)
+            $gen_wavdata_idx}
+         "\n"}
+      {ui goto_screen gen_wavdata_game_screen})}
+{new
+   BandScreen
+   gen_wavdata_game_screen
+   (panels game coop_track_panel)
+   GAME_SCREEN_HANDLERS
+   (gen_wavdata_done
+      {'++' $gen_wavdata_idx}
+      {if_else
+         {==
+            $gen_wavdata_idx
+            {size
+               (GEN_WAVDATA_SONGS)}}
+         {ui goto_screen gen_wavdata_done_screen}
+         {ui goto_screen gen_wavdata_advance_screen}})}
+{new
+   BandScreen
+   gen_wavdata_done_screen
+   (panels)
+   (enter
+      {print
+         "\n\nWAV DATA GENERATION DONE!\n"}
+      {exit})}
+{new
+   BandScreen
+   vocal_score_song_start_screen
+   (panels)
+   (enter
+      {content_mgr start_refresh}
+      {set
+         [waiting]
+         TRUE})
+   (poll
+      {if
+         {&&
+            [waiting]
+            {content_mgr refresh_done}}
+         {set
+            [waiting]
+            FALSE}
+         {print
+            "VOCAL SCORE SONG FOR "
+            {meta_performer song}
+            "\n"}
+         {ui goto_screen vocal_score_song_game_screen}})
+   (waiting TRUE)}
+{new
+   BandScreen
+   vocal_score_song_game_screen
+   (panels game coop_track_panel)
+   GAME_SCREEN_HANDLERS
+   (vocal_score_song_done
+      {ui goto_screen vocal_score_song_done_screen})}
+{new
+   BandScreen
+   vocal_score_song_done_screen
+   (panels)
+   (enter
+      {print
+         "\n\nVOCAL SCORE SONG DONE!\n"}
+      {exit})}

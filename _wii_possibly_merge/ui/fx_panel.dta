@@ -1,0 +1,123 @@
+#ifndef HX_OG
+{new
+   UIPanel
+   fx
+   (file
+      {if_else
+         {==
+            {rnd aspect}
+            kRegularAspect}
+         "splash/fx_standard.milo"
+         "splash/fx_widescreen.milo"})
+   (in_transition FALSE)
+   (fade_in
+      {$this choose_movie}
+      {set
+         [in_transition]
+         FALSE}
+      {fade.mnm stop_animation}
+      {fade.mnm
+         animate
+         (range 0 25)})
+   (fade_out
+      {$this set_showing TRUE}
+      {$this choose_movie}
+      {set
+         [in_transition]
+         TRUE}
+      {fade.mnm
+         animate
+         (range 25 0)})
+   (is_faded_out
+      {==
+         {fade.mnm frame}
+         0})
+   (is_faded_in
+      {&&
+         {!
+            [in_transition]}
+         {==
+            {fade.mnm frame}
+            25}})
+   (choose_movie
+      {do
+         ($num 0)
+         ($rand_idx 0)
+         ($movie_idx)
+         ($movie)
+         {$this
+            iterate
+            EventTrigger
+            $m
+            {'++' $num}}
+         {if_else
+            $num
+            {do
+               {set
+                  $rand_idx
+                  {random_int 0 $num}}
+               {$this
+                  iterate
+                  EventTrigger
+                  $m
+                  {if
+                     {== $movie_idx $rand_idx}
+                     {set $movie $m}}
+                  {'++' $movie_idx}}
+               {$movie trigger}}
+            {notify
+               "no fx movies found"}}})}
+#else
+{new
+   UIPanel
+   fx
+   (file
+      {if_else
+         {==
+            {rnd aspect}
+            kRegularAspect}
+         "splash/fx_standard_og.milo"
+         "splash/fx_widescreen_og.milo"})
+   (in_transition FALSE)
+   (fade_in
+      {set
+         [in_transition]
+         FALSE}
+      {fade.mnm stop_animation}
+      {fade.mnm
+         animate
+         (range 0 25)}
+      {movie_09.mnm stop_animation}
+      {movie_15.mnm stop_animation}
+      {movie_09.mnm
+         animate
+         (range 0 16)}
+      {movie_15.mnm
+         animate
+         (range 0 20)})
+   (fade_out
+      {$this set_showing TRUE}
+      {set
+         [in_transition]
+         TRUE}
+      {fade.mnm
+         animate
+         (range 25 0)}
+      {movie_17.mnm
+         animate
+         (range 20 0)}
+      {movie_09.mnm
+         animate
+         (range 16 0)})
+   (is_faded_out
+      {==
+         {fade.mnm frame}
+         0})
+   (is_faded_in
+      {&&
+         {!
+            [in_transition]}
+         {==
+            {fade.mnm frame}
+            25}})}
+#endif
