@@ -412,9 +412,9 @@
       #ifndef HX_PC
       #ifndef HX_OG
       {rnd suspend}
+      {{{{gamemode get track_panel} find mtv_overlay} find fade.anim} set_frame 0}
       #endif
       #endif
-	  {{{{gamemode get track_panel} find mtv_overlay} find fade.anim} set_frame 0}
       {preload_panel clear_cache}
       {char_cache reclaim_characters}
       {game unload_crowd_audio}
