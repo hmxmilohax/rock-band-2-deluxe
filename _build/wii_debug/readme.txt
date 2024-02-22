@@ -1,1 +1,0 @@
-extract debug here with dolphin, and remove the .ark and .hdr files
