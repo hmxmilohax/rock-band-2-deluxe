@@ -1,5 +1,5 @@
 ; Track 0
-(new Object fc_track_0_callback ;remove FC groove on track_0 miss/pass
+{new Object fc_track_0_callback ;remove FC groove on track_0 miss/pass
    (hit
       {if {! $track_0_firstnote} {set $track_0_firstnote TRUE}}
       {if {! $track_0_milosong} {set $track_0_milosong TRUE} {set [num_gems_hit] 0} {set [num_gems_miss] 0} {set [num_gems_pass] 0} {set [num_gems_combo] 0}}
@@ -17,7 +17,9 @@
          {if {== $hwalpha rb3}
             {{{get_track_0_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
          }
+         #ifndef HX_WII
          {track_0 stop_deploy}
+         #endif
       }
    )
    (pass
@@ -31,14 +33,18 @@
       {if {== $hwalpha rb3}
          {{{get_track_0_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
       }
+      #ifndef HX_WII
       {track_0 stop_deploy}
+      #endif
    )
    (check_fc
       {$this check_missed}
       {if {== {'+' [num_gems_pass] [num_gems_miss]} 0}
          {if {|| {== $fctype glow} {== $fctype both}}
             {{{get_track_0_panel} find streak_meter} star_deploy}
+            #ifndef HX_WII
             {track_0 deploy}
+            #endif
          }
       }
    )
@@ -49,7 +55,9 @@
          {if {== $hwalpha rb3}
             {{{get_track_0_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
          }
+         #ifndef HX_WII
          {track_0 stop_deploy}
+         #endif
       }
       {if_else {== {{game get_participant_config 0} get_track_sym} guitar}
          {if_else {== $highwaygtr "_1_none"}
@@ -147,10 +155,10 @@
    (num_gems_combo 0)
    (num_gems_miss 0)
    (num_gems_pass 0)
-)
+}
 
 ; Track 1
-(new Object fc_track_1_callback ;remove FC groove on track_1 miss/pass
+{new Object fc_track_1_callback ;remove FC groove on track_1 miss/pass
    (hit
       {if {! $track_1_firstnote} {set $track_1_firstnote TRUE}}
       {if {! $track_1_milosong} {set $track_1_milosong TRUE} {set [num_gems_hit] 0} {set [num_gems_miss] 0} {set [num_gems_pass] 0} {set [num_gems_combo] 0}}
@@ -168,7 +176,9 @@
          {if {== $hwalpha rb3}
             {{{get_track_1_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
          }
+         #ifndef HX_WII
          {track_1 stop_deploy}
+         #endif
       }
    )
    (pass
@@ -182,14 +192,18 @@
       {if {== $hwalpha rb3}
          {{{get_track_1_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
       }
+      #ifndef HX_WII
       {track_1 stop_deploy}
+      #endif
      )
    (check_fc
       {$this check_missed}
       {if {== {'+' [num_gems_pass] [num_gems_miss]} 0}
          {if {|| {== $fctype glow} {== $fctype both}}
             {{{get_track_1_panel} find streak_meter} star_deploy}
+            #ifndef HX_WII
             {track_1 deploy}
+            #endif
          }
       }
    )
@@ -200,7 +214,9 @@
          {if {== $hwalpha rb3}
             {{{get_track_1_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
          }
+         #ifndef HX_WII
          {track_1 stop_deploy}
+         #endif
       }
       {if_else {== {{game get_participant_config 0} get_track_sym} guitar}
          {if_else {== $highwaygtr "_1_none"}
@@ -298,6 +314,6 @@
    (num_gems_combo 0)
    (num_gems_miss 0)
    (num_gems_pass 0)
-)
+}
 
 ; Vocals wen
