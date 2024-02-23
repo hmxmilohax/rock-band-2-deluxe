@@ -961,7 +961,7 @@
                ((min_height 0))}
             {ui goto_screen credits_movie_screen})
          (modifygame.btn
-            {ui goto_screen modifiers_screen})
+            {ui goto_screen modifiers_screen_with_bg})
          (leaderboards.btn
             #ifndef HX_EE
             {cond

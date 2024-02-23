@@ -5,6 +5,9 @@
         "modifiers.milo")
     (focus modifiers.lst)
     (is_autoloading FALSE)
+    #ifdef HX_WII
+    (allow_home_menu TRUE)
+    #endif
     (enter
         {modifiers.lst set circular 1}
         {modifiers.lst set scroll_time 0}
@@ -114,12 +117,8 @@
     (SCROLL_MSG
         {$this update_helpbar})
     (BUTTON_DOWN_MSG
-        {if_else
-            {== $action kAction_Confirm}
-            {if_else
-                {==
-                    {modifiers.lst selected_pos}
-                    0}
+        {if_else {== $action kAction_Confirm}
+            {if_else {== {modifiers.lst selected_pos} 0}
                 kDataUnhandled
                 {do
                     ($modifier
@@ -129,17 +128,24 @@
                         kDataUnhandled
                         {do
                             {synth play button_error}
-                            0}}}}
+                            0
+                        }
+                    }
+                }
+            }
             {if_else $mod_os_entered
                 {if_else {== $action kAction_Cancel}
                     {do
-                    {ui goto_screen overshell_main_screen}
-                    {synth play button_toggle}
-                    {ui pop_screen}
-                    {set $mod_os_entered FALSE}}
-                kDataUnhandled}
-            kDataUnhandled}
-        kDataUnhandled})
+                        {ui goto_screen overshell_main_screen}
+                        {synth play button_toggle}
+                        {ui pop_screen}
+                        {set $mod_os_entered FALSE}
+                    }
+                    kDataUnhandled
+                }
+                kDataUnhandled
+            }
+        })
     (profile_changed_msg
         ($profile)
         {if
