@@ -7,8 +7,6 @@
    #ifdef HX_WII
    (allow_home_menu TRUE)
    #endif
-   (enter
-      {set $iamingamenow FALSE})
    (SELECT_MSG
       {if_else
          {player_on_instrument $player_num kControllerDrum}
@@ -86,6 +84,7 @@
             [player_num]}}
       {ui goto_screen drum_trainer_loading_screen})
    (enter
+      {set $iamingamenow FALSE}
       {session clear})
    (TRANSITION_COMPLETE_MSG
       {if
