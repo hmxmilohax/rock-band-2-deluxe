@@ -19,7 +19,9 @@
    (mod_awesome unlocked)
    (mod_blackvenue (activate {set $blackvenue TRUE} {modifier_mgr deactivate_modifier mod_nohud} #ifndef HX_EE {modifier_mgr deactivate_modifier mod_choose_venue} #endif {set $crowdsfx FALSE}) (deactivate {set $blackvenue FALSE} {set $crowdsfx TRUE}) unlocked)
    (mod_songtitle unlocked)
+   #ifndef HX_OG
    (mod_songtitlestats unlocked)
+   #endif
    (mod_staticfills (activate {modifier_mgr deactivate_modifier mod_freestyledrums}) unlocked)
    (mod_freestyledrums (activate {modifier_mgr deactivate_modifier mod_staticfills}) (disables (modifier_achievements_feature modifier_online_feature)) unlocked)
    (mod_mididrum unlocked)

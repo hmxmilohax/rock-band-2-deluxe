@@ -1,0 +1,42 @@
+(small_club
+   small_club_12
+   (any
+      (songs any any)
+      (fame
+         (world 3))
+      (money_per_star 5)))
+(big_club
+   big_club_12
+   (fendermara
+      (songs hellothere thatswhatyouget pumpitup thetrees)
+      (fame
+         (town 30)
+         (world 100))
+      (sellout TRUE)
+      (money_per_star 25)
+      BWT_CHAR_UNLOCK_FENDER)
+   (any
+      (songs any any any)
+      (fame
+         (town 10))
+      (money_per_star 25)))
+(theater
+   theater_06
+   (mediacommara
+      (songs wheredyougo onewayoranother roundandround whitewedding ajaggedgorgeouswinter)
+      (fame
+         (town 10))
+      (money_per_star 25)
+      (char_unlock
+         (token char_unlock_cityshirts_rockband1)
+         (outfits
+            (male torso tshirtdeath_rometower)
+            (female torso choppedtee_rometower)
+            (male torso camotanktop_romestatue)
+            (female torso thermalundertee_romestatue))))
+   (any
+      (songs any any any any)
+      (fame
+         (town 30)
+         (world 100))
+      (money_per_star 80)))

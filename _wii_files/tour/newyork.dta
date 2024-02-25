@@ -1,0 +1,48 @@
+(small_club
+   small_club_03
+   (any
+      (songs any any)
+      (fame
+         (world 3))
+      (money_per_star 5)))
+(big_club
+   big_club_01
+   (any
+      (songs any any any)
+      (money_per_star 25)
+      (fame
+         (town 9)))
+   (localartists
+      (songs sowhatchawant pda onewayoranother psychokiller)
+      (fame
+         (town 12))
+      (money_per_star 25)))
+(arena
+   arena_08
+   (zildjianshowcase
+      (songs hungrylikethewolf onewayoranother onestepcloser everlong)
+      (fame
+         (town 30)
+         (world 100))
+      (money_per_star 120)
+      BWT_CHAR_UNLOCK_ZILDJIAN)
+   (mtvmara
+      (songs nineintheafternoon thatswhatyouget girlsnotgrey downwiththesickness almosteasy)
+      (fame
+         (town 30)
+         (world 200))
+      (money_per_star 120)
+      (char_unlock
+         (token char_unlock_cityshirts_rockband1)
+         (outfits
+            (male torso camotanktop_nyliberty)
+            (female torso thermalundertee_nyliberty)
+            (male torso wifebeater_nyhc)
+            (female torso tanktop_nyhc))))
+   (eastcoastmara
+      (songs wheredyougo alexchilton badreputation teenageriot giveitall ramblinman colonyofbirchmen bodhisattva)
+      (fame
+         (town 30)
+         (world 450))
+      (money_per_star 120)
+      BWT_BUZZ_MEDIUMBLOCKMEGAPLUS))

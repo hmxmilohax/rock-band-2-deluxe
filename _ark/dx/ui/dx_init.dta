@@ -15,6 +15,7 @@
 
 ;sets default song speed 1.15 is 115%, 1.30 is 130% and so on.
 {set $speedmod 1.0}
+{set $leaderspeed $speedmod}
 
 ;set default venue fps.
 {set $emulatefps 24}
@@ -167,6 +168,7 @@
 ;{modifier_mgr activate_modifier mod_auto_play}
 
 #ifndef HX_EE ; cant read dx.dta on ps2 (yet)
+#ifndef HX_WII ; also wii
 #define INIT_DTA_READER
 (
    {set $dxsettings {read_file #ifdef HX_XBOX "GAME:/dx.dta" #endif #ifdef HX_PS3 "GD:/dev_hdd0/game/BLUS30147/USRDIR/dx.dta" #endif}}
@@ -423,6 +425,7 @@
 )
 ;{unless {file_exists dx.dta} INIT_DTA_WRITER}
 INIT_DTA_READER
+#endif
 #endif
 DX_TEXTURE_CORRECTOR
 DX_DO_CUSTOM_TEXTURE_HANDLER

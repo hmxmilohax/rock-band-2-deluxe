@@ -1,0 +1,225 @@
+#define LOSE_PANEL_HANDLERS
+((quit_button '')
+   (enter
+      {input_mgr set_limit kLimitSessionLeader}
+      {$this set_focus lose_restart.btn}
+      {lose_song_data.lbl
+         set_localized
+         {song_mgr
+            song_name
+            {meta_performer song}}}
+      {do
+         ($mp
+            {beatmatch main_performer})
+         {lose_progress_data.lbl
+            set_localized
+            {sprintf
+               {localize percent_complete_format}
+               {$mp percent_complete}}}
+         {song_section.lbl
+            set
+            text_token
+            {beatmatch
+               get_section_at_ms
+               {$mp progress_ms}}}}
+      {if_else
+         {gamemode get show_practice_on_lose}
+         {do
+            {set
+               [quit_button]
+               lose_quit.btn}
+            {$this
+               enable
+               [quit_button]}
+            {[quit_button]
+               set_showing
+               TRUE}
+            {[quit_button]
+               set
+               text_token
+               QUIT}
+            {menu_item_3.btn set text_token practice}}
+         {do
+            {lose_quit.btn set_showing FALSE}
+            {$this disable lose_quit.btn}
+            {set
+               [quit_button]
+               menu_item_3.btn}
+            {[quit_button]
+               set
+               text_token
+               QUIT}}}
+      #ifndef HX_EE
+      #ifndef NOWIINETWORKING
+      {session
+         add_sink
+         $this
+         (remote_player_left)}
+      #endif
+      #endif
+      {$this set_up_buttons})
+   (exit
+      #ifndef HX_EE
+      #ifndef NOWIINETWORKING
+      {session remove_sink $this remote_player_left}
+      #endif
+      #endif)
+   (set_up_buttons
+      {if_else
+         {<
+            {session num_players}
+            {gamemode get min_players}}
+         {do
+            {$this disable lose_restart.btn}
+            {if
+               {exists lose_diff.btn}
+               {$this disable lose_diff.btn}}
+            {$this disable lose_selsong.btn}
+            {$this
+               set_focus
+               [quit_button]}}
+         {do
+            {$this enable lose_restart.btn}
+            {if
+               {exists lose_diff.btn}
+               {$this enable lose_diff.btn}}
+            {$this enable lose_selsong.btn}}})
+   #ifndef HX_EE
+   #ifndef NOWIINETWORKING
+   (REMOTE_PLAYER_LEFT_MSG
+      {$this set_up_buttons})
+   #endif
+   #endif
+   (SELECT_MSG
+      {switch
+         $component
+         (lose_restart.btn
+            {game send_restart_game_net_msg}
+            {game_restart})
+         (lose_diff.btn
+            {[quit_confirm_screen]
+               set
+               quitting
+               FALSE}
+            {$this confirm_goto meta_loading_ready_screen})
+         (lose_selsong.btn
+            {[quit_confirm_screen]
+               set
+               quitting
+               FALSE}
+            {$this confirm_goto meta_loading_continue_screen})
+         {if_else
+            {==
+               $component
+               [quit_button]}
+            {do
+               {[quit_confirm_screen]
+                  set
+                  quitting
+                  TRUE}
+               {$this confirm_goto meta_loading_main_screen}}
+            {if
+               {&&
+                  {exists menu_item_3.btn}
+                  {== $component menu_item_3.btn}}
+               {[quit_confirm_screen]
+                  set
+                  quitting
+                  TRUE}
+               {$this confirm_goto meta_loading_practice_screen}}}})
+   (confirm_goto
+      ($destination)
+      {net_sync disable}
+      {[quit_confirm_screen]
+         set
+         return_screen
+         {ui current_screen}}
+      {[quit_confirm_screen]
+         set
+         confirm_screen
+         $destination}
+      {ui
+         goto_screen
+         [quit_confirm_screen]}))
+{new
+   UIPanel
+   lose
+   (file lose.milo)
+   (quit_confirm_screen lose_confirm_quit_screen)
+   LOSE_PANEL_HANDLERS}
+#define LOSE_SCREEN_HANDLERS
+((helpbar
+      {if_else
+         {is_leader_local}
+         ((confirm helpbar_select))
+         ()}))
+{new
+   BandScreen
+   lose_screen
+   (panels lose)
+   (focus lose)
+   LOSE_SCREEN_HANDLERS}
+#define COMMON_LOSE_QUIT_CONFIRM
+((focus dialog_panel)
+   (confirm_screen '')
+   (return_screen '')
+   (quitting FALSE)
+   (helpbar
+      {if_else
+         {is_leader_local}
+         ((confirm helpbar_select))
+         ((cancel helpbar_back))})
+   (enter
+      {input_mgr set_limit kLimitSessionLeader}
+      {dialog_panel
+         set_yesno
+         {localize confirm_quit}
+         no.btn}
+      {$this set_up_buttons}
+      #ifndef HX_EE
+      #ifndef NOWIINETWORKING
+      {session
+         add_sink
+         $this
+         (remote_player_left)}
+      #endif
+      #endif)
+   (exit
+      #ifndef HX_EE
+      #ifndef NOWIINETWORKING
+      {session remove_sink $this remote_player_left}
+      #endif
+      #endif
+      {unless
+         [quitting]
+         {net_sync enable}})
+   #ifndef HX_EE
+   #ifndef NOWIINETWORKING
+   (REMOTE_PLAYER_LEFT_MSG
+      {$this set_up_buttons})
+   #endif
+   #endif
+   QUIT_DIALOG_SET_UP_BUTTONS
+   (SELECT_MSG
+      {switch
+         $component
+         (yes.btn
+            {if_else
+               [quitting]
+               {ui
+                  goto_screen
+                  [confirm_screen]}
+               {ui
+                  sync_screen
+                  [confirm_screen]
+                  1}})
+         (no.btn
+            {ui
+               goto_screen
+               [return_screen]}
+            {net_sync enable})}))
+{new
+   BandScreen
+   lose_confirm_quit_screen
+   (panels lose dialog_panel)
+   COMMON_LOSE_QUIT_CONFIRM}

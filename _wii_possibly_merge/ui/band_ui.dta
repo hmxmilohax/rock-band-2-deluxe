@@ -1,0 +1,526 @@
+#define COMMON_ERROR_HANDLERS
+(COMMON_DIALOG_PANEL_HANDLERS
+   (helpbar
+      ((confirm helpbar_select))))
+(events
+   (error_message
+      COMMON_ERROR_HANDLERS
+      (allow_override TRUE)
+      (init
+         ($token)
+         {$this
+            set_ok
+            {localize $token}})
+      (SELECT_DONE_MSG
+         {band_ui dismiss_event}))
+   (disband
+      COMMON_ERROR_HANDLERS
+      (allow_override TRUE)
+      (init
+         ($error_reason)
+         {do
+            ($disband_error
+               {switch
+                  $error_reason
+                  (kLoneHeadToHead error_lone_h2h)
+                  (kNoLeader error_no_leader)
+                  (kKicked error_kicked)
+                  (kAbandoned
+                     {band_ui get last_disband_error})
+                  (kQuickplayMMNoLeader error_no_leader)})
+            #ifndef HX_OG
+            {if
+               {&&
+                  {== $error_reason kLoneHeadToHead}
+                  {platform_mgr is_connected}
+                  {game is_playing}}
+               {process_comeback_achievement TRUE}
+               {gamecfg
+                  foreach_local_user
+                  $user
+                  {achievements
+                     submit
+                     {$user get_user_num}
+                     ach_skill_versus_victory}}
+               {if
+                  {gamemode get ranked}
+                  {set $disband_error error_lone_h2h_win}}}
+            #endif
+            {$this
+               set_ok
+               {localize $disband_error}}
+            {band_ui set last_disband_error $disband_error}
+            {if
+               {!= $error_reason kQuickplayMMNoLeader}
+               {if_else
+                  {&&
+                     {gamecfg is_joining_allowed}
+                     {gamemode get is_tour}
+                     {{tour band}
+                        is_finalized}
+                     {!= $error_reason kAbandoned}
+                     {!
+                        {net_sync is_enabled}}}
+                  {if_else
+                     {'||'
+                        {==
+                           {ui current_screen}
+                           tour_waiting_screen}
+                        {==
+                           {ui current_screen}
+                           botb_news_feed_screen}
+                        {==
+                           {ui transition_screen}
+                           tour_waiting_screen}
+                        {==
+                           {ui transition_screen}
+                           botb_news_feed_screen}}
+                     {net_sync disable_and_goto meta_loading_uisink_default_screen}
+                     {session disconnect TRUE}}
+                  {if
+                     {&&
+                        {!
+                           {net_sync disable_and_goto meta_loading_uisink_default_screen}}
+                        {== $error_reason kKicked}}
+                     {session disconnect FALSE}}}}})
+      (SELECT_DONE_MSG
+         {band_ui dismiss_event}))
+   (storage_changed
+      COMMON_ERROR_HANDLERS
+      (allow_override TRUE)
+      (init
+         {$this
+            set_ok
+            {localize error_storage_devices_changed}}
+         {net_sync disable_and_goto meta_loading_uisink_default_screen})
+      (SELECT_DONE_MSG
+         {band_ui dismiss_event}))
+   (data_error
+      COMMON_ERROR_HANDLERS
+      (allow_override TRUE)
+      (init
+         ($corrupt $info_str)
+         {$this
+            set_ok
+            {if_else
+               $corrupt
+               {sprintf
+                  {localize error_corrupt_song_data}
+                  $info_str}
+               {localize error_lost_song_data}}}
+         {net_sync disable_and_goto meta_loading_uisink_default_screen})
+      (SELECT_DONE_MSG
+         {band_ui dismiss_event}))
+   (lost_connection
+      COMMON_ERROR_HANDLERS
+      (allow_override TRUE)
+      (init
+         ($reason)
+         {$this
+            set_ok
+            {localize
+               {switch
+                  $reason
+                  (kLostConnection error_lost_connection)
+                  (kLostServer error_lost_server)
+                  (kEthernetUnplugged error_ethernet_unplugged)}}}
+         #ifdef HX_WII
+         {if
+            {== $reason kLostServer}
+            {do
+               ($result
+                  {platform_mgr last_dwc_error})
+               {if
+                  {> $result 0}
+                  {$this
+                     set_ok
+                     {get_dwc_error_string $result}}}}}
+         #endif
+         {handle
+            (input_mgr session_busy)}
+         {net_sync disable_and_goto meta_loading_uisink_lost_connection_screen})
+      (SELECT_DONE_MSG
+         {band_ui dismiss_event}))
+   (botb_error
+      COMMON_ERROR_HANDLERS
+      (allow_override TRUE)
+      (init
+         {$this
+            set_ok
+            {localize error_lost_server}}
+         {if_else
+            {session is_local}
+            #ifdef HX_WII
+            {net_sync disable_and_goto meta_loading_uisink_lost_connection_screen}
+            #else
+            {net_sync disable_and_goto meta_loading_return_to_tour_hub_screen}
+            #endif
+            {net_sync disable_and_goto meta_loading_uisink_default_screen}})
+      (SELECT_DONE_MSG
+         {band_ui dismiss_event}))
+   (leaderboard_error
+      COMMON_ERROR_HANDLERS
+      (allow_override TRUE)
+      (init
+         {$this
+            set_ok
+            {localize error_lost_leaderboards}}
+         {net_sync disable_and_goto meta_loading_leaderboard_error_screen})
+      (SELECT_DONE_MSG
+         {band_ui dismiss_event}))
+   (sign_out
+      COMMON_ERROR_HANDLERS
+      (allow_override FALSE)
+      (init
+         ($reason)
+         {$this
+            set_ok
+            {localize
+               {switch
+                  $reason
+                  (kLocalUserSignedOut error_local_user_signed_out)
+                  (kBandOwnerSignedOut error_band_owner_signed_out)
+                  (kProfileOwnerSignedOut error_profile_owner_signed_out)}}}
+         {net_sync disable_and_goto meta_loading_signout_screen})
+      (SELECT_DONE_MSG
+         {band_ui dismiss_event}))
+   (disk_error
+      COMMON_ERROR_HANDLERS
+      #ifndef HX_WII
+      (allow_override TRUE)
+      #else
+      (allow_override FALSE)
+      #endif
+      (init
+         {$this
+            set_ok
+            {localize error_disk}}
+         #ifdef HX_WII
+         {if
+            {exists song_sync_panel}
+            {song_sync_panel disk_error TRUE}}
+         #endif
+         #ifdef HX_WII
+         {net_sync disable_and_goto meta_loading_main_screen}
+         #else
+         {net_sync disable_and_goto meta_loading_uisink_lost_connection_screen}
+         #endif)
+      (SELECT_DONE_MSG
+         #ifdef HX_WII
+         {if
+            {exists song_sync_panel}
+            {song_sync_panel disk_error FALSE}}
+         #endif
+         {band_ui dismiss_event}))
+   (invite_accepted
+      COMMON_ERROR_HANDLERS
+      (allow_override TRUE)
+      (init
+         ($expired $pad_num)
+         {if_else
+            {!
+               {modifier_mgr is_feature_enabled modifier_online_feature}}
+            {do
+               {band_ui dismiss_event}
+               {passive_messages_panel
+                  queue_message
+                  {localize error_cannot_accept_invite}}}
+            {if_else
+               $expired
+               {do
+                  {band_ui dismiss_event}
+                  {passive_messages_panel
+                     queue_message
+                     {localize error_invite_expired}}
+                  {accepting_invite_panel set is_expired TRUE}
+                  {mm_accepting_invite_panel set is_expired TRUE}}
+               {do
+                  #ifndef HX_PS3
+                  #ifndef HX_WII
+                  {community_panel set invited_user_pad $pad_num}
+                  #endif
+                  #endif
+                  {finding_panel set_joining_pads_from_session}
+                  {net_sync disable_and_goto meta_loading_invite_screen}
+                  {band_ui hide_event}}}})
+      (SELECT_DONE_MSG
+         {band_ui dismiss_event}))
+   (pad_lost
+      COMMON_ERROR_HANDLERS
+      (allow_override TRUE)
+      (init
+         ($player_name $port $controller_sym)
+         {$this
+            set_custom
+            #ifndef HX_WII
+            {if_else
+               {== $controller_sym none}
+               {sprintf
+                  {localize error_pad_lost_none}
+                  $player_name
+                  {'+' $port 1}}
+               {sprintf
+                  {localize error_pad_lost}
+                  $player_name
+                  {localize $controller_sym}
+                  {'+' $port 1}}}
+            #else
+            {if_else
+               {== $controller_sym none}
+               {sprintf
+                  {localize error_pad_lost_none_wii}
+                  $player_name}
+               {if_else
+                  {== $controller_sym vocals}
+                  {sprintf
+                     {localize error_pad_lost_vocals_wii}
+                     $player_name}
+                  {sprintf
+                     {localize error_pad_lost_wii}
+                     $player_name
+                     {localize $controller_sym}}}}
+            #endif
+            {localize continue}
+            {localize error_return_to_main}
+            opt1.btn})
+      (SELECT_MSG
+         {switch
+            $component
+            (opt2.btn
+               {handle
+                  (ui on_controllers_quit)}
+               {net_sync disable_and_goto meta_loading_quit_early_screen})})
+      (SELECT_DONE_MSG
+         {band_ui dismiss_event}
+         {helpbar update_icons})
+      (input_limit_changed
+         {unless
+            {!
+               {input_mgr check_controllers}}
+            {band_ui dismiss_event}
+            {helpbar update_icons}}))
+   //
+   DC
+   -
+   modified
+   this
+   to
+   stop
+   a
+   hang
+   bug
+   #ifdef HX_OG
+   (mic_lost
+      COMMON_ERROR_HANDLERS
+      (allow_override TRUE)
+      (init
+         {do
+            {$this
+               set_custom
+               {localize mics_changed_desc}
+               {localize continue}
+               {localize error_return_to_main}
+               opt1.btn}})
+      (SELECT_MSG
+         {switch
+            $component
+            (opt2.btn
+               {net_sync disable_and_goto meta_loading_quit_early_screen})})
+      (SELECT_DONE_MSG
+         {band_ui dismiss_event}))
+   #endif
+   (saveload_pad_lost
+      COMMON_ERROR_HANDLERS
+      (allow_override TRUE)
+      (init
+         ($player_name $port $controller_sym)
+         {$this
+            set_custom
+            #ifndef HX_WII
+            {if_else
+               {== $controller_sym none}
+               {sprintf
+                  {localize error_saveload_pad_lost_none}
+                  $player_name
+                  {'+' $port 1}}
+               {sprintf
+                  {localize error_saveload_pad_lost}
+                  $player_name
+                  {localize $controller_sym}
+                  {'+' $port 1}}}
+            #else
+            {if_else
+               {== $controller_sym none}
+               {sprintf
+                  {localize error_saveload_pad_lost_none_wii}
+                  $player_name}
+               {if_else
+                  {== $controler_sym vocals}
+                  {sprintf
+                     {localize error_saveload_pad_lost_vocals_wii}
+                     $player_name}
+                  {sprintf
+                     {localize error_saveload_pad_lost_wii}
+                     $player_name
+                     {localize $controller_sym}}}}
+            #endif
+            {localize continue}
+            {localize mc_button_disable_autosave}
+            opt1.btn})
+      (SELECT_DONE_MSG
+         {band_ui dismiss_event}
+         {helpbar update_icons}
+         {switch
+            $component
+            (opt1.btn
+               {save_screen on_pad_lost_dismissed})
+            (opt2.btn
+               {save_screen on_pad_lost_disable_autosave})}))
+   (matchmaking_pad_lost
+      COMMON_ERROR_HANDLERS
+      (allow_override TRUE)
+      (init
+         ($player_name $port $controller_sym)
+         {$this
+            set_custom
+            #ifndef HX_WII
+            {if_else
+               {== $controller_sym none}
+               {sprintf
+                  {localize error_matchmaking_pad_lost_none}
+                  $player_name
+                  {'+' $port 1}}
+               {sprintf
+                  {localize error_matchmaking_pad_lost}
+                  $player_name
+                  {localize $controller_sym}
+                  {'+' $port 1}}}
+            #else
+            {if_else
+               {== $controller_sym none}
+               {sprintf
+                  {localize error_matchmaking_pad_lost_none_wii}
+                  $player_name}
+               {if_else
+                  {== $controller_sym vocals}
+                  {sprintf
+                     {localize error_matchmaking_pad_lost_vocals_wii}
+                     $player_name}
+                  {sprintf
+                     {localize error_matchmaking_pad_lost_wii}
+                     $player_name
+                     {localize $controller_sym}}}}
+            #endif
+            {localize continue}
+            {localize error_abandon_session}
+            opt1.btn})
+      (SELECT_DONE_MSG
+         {band_ui dismiss_event}
+         {helpbar update_icons}
+         {if
+            {== $component opt2.btn}
+            {matchmaking_screen abandon_session}}))
+   (remote_exit
+      COMMON_ERROR_HANDLERS
+      (allow_override TRUE)
+      (enter
+         {synth play button_back})
+      (init
+         {$this
+            set_yesno
+            {localize error_confirm_remote_exit}
+            no.btn})
+      (SELECT_MSG
+         {if
+            {== $component yes.btn}
+            {net_sync disable_and_goto meta_loading_quit_early_screen}})
+      (SELECT_DONE_MSG
+         {band_ui dismiss_event})
+      (input_limit_changed
+         {unless
+            {input_mgr allow_remote_exit}
+            {band_ui dismiss_event}}))
+   (store_load_failed
+      COMMON_ERROR_HANDLERS
+      (allow_override FALSE)
+      (init
+         ($error)
+         {$this
+            set_ok
+            {localize
+               {switch
+                  $error
+                  (kStoreErrorNoContent store_error_no_content)
+                  #ifdef HX_WII
+                  (kStoreErrorCacheNoSpace store_cfgneedblocks)
+                  (kStoreErrorCacheRemoved store_cfgneedindoes)
+                  (kStoreErrorEcommerce store_genericerror)
+                  (kStoreErrorNoEula store_noeula)
+                  #else
+                  (kStoreErrorCacheNoSpace store_error_cache_no_space)
+                  (kStoreErrorCacheRemoved store_error_cache_removed)
+                  #endif
+                  (kStoreErrorLiveServer store_error_live_server)
+                  (kStoreErrorStoreServer store_error_store_server)
+                  (kStoreErrorSignedOut store_error_signed_out)}}}
+         #ifdef HX_WII
+         {if
+            {== $error kStoreErrorEcommerce}
+            {$this
+               set_ok
+               {sprintf
+                  {localize store_genericerror}
+                  {platform_mgr commerce_error_code}}}}
+         #endif
+         {net_sync disable_and_goto meta_loading_uisink_default_screen})
+      (SELECT_DONE_MSG
+         {band_ui dismiss_event}))
+   #ifdef HX_WII
+   (wii_dlc_failed
+      COMMON_ERROR_HANDLERS
+      (allow_override FALSE)
+      (init
+         ($data)
+         {do
+            ($error
+               {content_mgr get_last_result})
+            {switch
+               $error
+               (kFailNoSDCard
+                  {$this
+                     set_ok
+                     {localize dlc_backup_nosdcard}})
+               (kRestoreCorrupt
+                  {$this
+                     set_ok
+                     {sprintf
+                        {localize dlc_restore_corrupt}
+                        $data}})
+               (kRestoreOutOfDate
+                  {$this
+                     set_ok
+                     {sprintf
+                        {localize dlc_restore_outofdate}
+                        $data
+                        $data}})
+               (kRestoreNoLicense
+                  {$this
+                     set_ok
+                     {sprintf
+                        {localize dlc_restore_nolicense}
+                        $data
+                        $data}})
+               (kFailSDIncompatible
+                  {$this
+                     set_ok
+                     {localize dlc_restore_incompatible}})
+               (kDLCFailed
+                  {$this
+                     set_ok
+                     {sprintf
+                        {localize dlc_restore_failed}
+                        $data}})}}
+         {net_sync disable_and_goto meta_loading_main_screen})
+      (SELECT_DONE_MSG
+         {band_ui dismiss_event}))
+   #endif)

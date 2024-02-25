@@ -8,12 +8,15 @@
     #endif
     (focus sel_section.lst)
     (enter
-        {sel_section.lst set_data (os_trkpreset os_trkbhvr os_angle #ifndef HX_EE os_clr #endif)}
+        {sel_section.lst set_data (#ifdef HX_WII os_sus #else os_trkpreset #endif os_trkbhvr os_angle #ifndef HX_EE os_clr #endif)}
         {title.lbl set_localized {localize os_trkset}}
         {full_selection.mesh set_showing FALSE})
     (exit)
     (SELECT_MSG
     {switch {$component selected_sym}
+         (os_sus
+            {os_change_screen overshell_sustains}
+         )
          (os_trkpreset
             #ifdef HX_EE
             {os_change_screen overshell_tex}
@@ -268,7 +271,11 @@
          #ifdef HX_EE {== $button kPad_Tri} #else {== $action kAction_Cancel} #endif
          {do
          {synth play button_toggle}
+         #ifdef HX_WII
+         {os_back_screen overshell_track}
+         #else
          {os_back_screen overshell_tex}
+         #endif
          TRUE}
          kDataUnhandled})
     (TRANSITION_COMPLETE_MSG
@@ -281,17 +288,23 @@
 ;
 #define TRACK_BEHAVIOR_DATA
 ((
+   #ifndef HX_WII
    os_hwbhvr
+   #endif
    #ifndef HX_EE
    os_strkbhvr
    os_warnbhvr
+   #ifndef HX_WII
    {switch $fctype
       (ring os_fc_ring)
       (glow os_fc_glow)
       (both os_fc_both)
    }
    #endif
+   #endif
+   #ifndef HX_WII
    {if_else $smasherbracket os_smasherbracket1 os_smasherbracket0}
+   #endif
 ))
 {new
     UIPanel
@@ -433,7 +446,9 @@
 #define STRK_BEHAVIOR_DATA
 ((
    {if_else $legacybass os_legacybass1 os_legacybass0}
+   #ifndef HX_WII
    {if_else $hwstrk os_hwstrk1 os_hwstrk0}
+   #endif
 ))
 {new
     UIPanel
@@ -490,7 +505,9 @@
 #define WARN_BEHAVIOR_DATA
 ((
    {if_else $nohwwarn os_hwwarn0 os_hwwarn1}
+   #ifndef HX_WII
    {if_else $railwarn os_railwarn1 os_railwarn0}
+   #endif
 ))
 {new
     UIPanel
@@ -515,6 +532,7 @@
     {switch {$component selected_sym}
          ((os_hwwarn0 os_hwwarn1)
             {set $nohwwarn {! $nohwwarn}}
+            #ifndef HX_WII
             {if_else $nohwwarn
                {do
                   {if {== $highwaygtr "_1_none"}
@@ -561,6 +579,7 @@
                   }
                }
             }
+            #endif
             {set $warnpos {sel_section.lst selected_sym}}
             {$this lst_reset}
          )

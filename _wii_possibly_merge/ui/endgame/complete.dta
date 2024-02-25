@@ -1,0 +1,140 @@
+{new
+   UIPanel
+   complete_panel
+   (file complete.milo)
+   #ifdef HX_WII
+   (allow_home_menu TRUE)
+   #endif
+   (enter
+      {platform_mgr set_notify_ui_location kOSNotifyBottomCenter}
+      {$this set_focus 0.btn}
+      #ifndef HX_EE
+      #ifndef NOWIINETWORKING
+      {session
+         add_sink
+         $this
+         (remote_player_left)}
+      #endif
+      #endif
+      {$this set_up_buttons})
+   (exit
+      {platform_mgr set_notify_ui_location kOSNotifyTopRight}
+      #ifndef HX_EE
+      #ifndef NOWIINETWORKING
+      {session remove_sink $this remote_player_left}
+      #endif
+      #endif)
+   (set_up_buttons
+      {0.btn set text_token comp_selsong}
+      {if_else
+         {>
+            {meta_performer num_songs}
+            1}
+         {do
+            {1.btn set text_token comp_quit}
+            {$this disable 2.btn}
+            {2.btn set text_token ''}
+            {2.btn set_showing FALSE}}
+         {do
+            {1.btn set text_token comp_restart}
+            {2.btn set text_token comp_quit}}}
+      {if
+         {<
+            {session num_players}
+            {gamemode get min_players}}
+         {$this disable_by_token comp_restart}
+         {$this disable_by_token comp_selsong}
+         {$this set_focus_by_token comp_quit}})
+   (disable_by_token
+      ($token)
+      {$this
+         iterate
+         BandButton
+         $b
+         {if
+            {==
+               {$b get text_token}
+               $token}
+            {$this disable $b}}})
+   (set_focus_by_token
+      ($token)
+      {$this
+         iterate
+         BandButton
+         $b
+         {if
+            {==
+               {$b get text_token}
+               $token}
+            {$this set_focus $b}}})
+   #ifndef HX_EE
+   #ifndef NOWIINETWORKING
+   (REMOTE_PLAYER_LEFT_MSG
+      {$this set_up_buttons})
+   #endif
+   #endif
+   (SELECT_MSG
+      {switch
+         {$component get text_token}
+         (comp_restart
+            {meta_performer restart}
+            {game send_restart_game_net_msg}
+            {game_restart})
+         (comp_selsong
+            {ui goto_screen meta_loading_continue_screen})
+         (comp_quit
+            {net_sync set_ui_state kNetUI_MetaLoading}
+            {ui goto_screen meta_loading_main_screen})})}
+{new
+   BandScreen
+   complete_screen
+   #ifdef HX_XBOX
+   (panels complete_panel)
+   #else
+   (panels endgame_background_panel complete_panel)
+   #endif
+   (focus complete_panel)
+   (helpbar
+      {if_else
+         {is_leader_local}
+         ((confirm helpbar_select))
+         ()})
+   #ifndef HX_XBOX
+   (enter
+      {endgame_background_panel hide_overlay})
+   #endif}
+{new
+   UIPanel
+   complete_ranked_panel
+   (file complete_ranked.milo)
+   (block_event
+      ($event)
+      {== $event disband})
+   (enter
+      {platform_mgr set_notify_ui_location kOSNotifyBottomCenter}
+      {$this set_focus comp_new_match.btn})
+   (exit
+      {platform_mgr set_notify_ui_location kOSNotifyTopRight})
+   (SELECT_MSG
+      {switch
+         $component
+         (comp_new_match.btn
+            {finding_screen set_joining_user $player}
+            {ui goto_screen meta_loading_new_match_screen})
+         (comp_quit.btn
+            {ui goto_screen meta_loading_main_screen})})}
+{new
+   BandScreen
+   complete_ranked_screen
+   #ifdef HX_XBOX
+   (panels complete_ranked_panel)
+   #else
+   (panels endgame_background_panel complete_ranked_panel)
+   #endif
+   (focus complete_ranked_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   #ifndef HX_XBOX
+   (enter
+      {endgame_background_panel hide_overlay})
+   #endif}

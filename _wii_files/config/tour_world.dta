@@ -1,0 +1,1705 @@
+(items
+   (tour_vehicle_van
+      (icon
+         "V"))
+   (tour_vehicle_bus
+      (icon
+         "B"))
+   (tour_staff1
+      (icon
+         "G"))
+   (tour_vehicle_jet
+      (icon
+         "J"))
+   (tour_staff2
+      (icon
+         "P"))
+   (tour_staff3
+      (icon
+         "P"))
+   (tour_staff_worldblock
+      (icon
+         "G"))
+   (tour_halloffame_complete
+      (icon
+         "H"))
+   (tour_bwt_complete
+      (icon
+         "X")))
+(item_achievements
+   (tour_vehicle_van ach_band_tour_vehicle_van)
+   (tour_vehicle_bus ach_band_tour_vehicle_bus)
+   (tour_vehicle_jet ach_band_tour_vehicle_jet)
+   (tour_staff_worldblock ach_band_tour_world))
+(botb_icon
+   "T")
+(win_item tour_halloffame_complete)
+(win_instruments
+   (guitar stratocaster03clear)
+   (bass precision01clear)
+   (drum ludclassicclear)
+   (vocals mic1_clear))
+(hardcore_item tour_bwt_complete)
+(buzz
+   (venue_diff
+      (small_club 5 5 6 7)
+      (big_club 7 7 8 9)
+      (theater 8 8 9 10)
+      (arena 8 9 10 11))
+   (stars 2 6)
+   (win_modifiers
+      (stars
+         ($num_stars)
+         {switch
+            $num_stars
+            (6 1.2)
+            (5 1.1)
+            (3 0.8)
+            (2 0.7)
+            1})
+      (event_replayed 0.7)
+      (staff
+         ($staff $stars)
+         {$staff buzz_modifier $stars}))
+   (lose_modifiers
+      (small_club 0.3)
+      (big_club 0.3)
+      (theater 0.3)
+      (arena 0.3))
+   (caps
+      (kDifficultyEasy
+         (cap 350)
+         (trickle 5))
+      (kDifficultyMedium
+         (cap 550)
+         (trickle 6))
+      (kDifficultyHard
+         (cap 1001)
+         (trickle 7))
+      (kDifficultyExpert
+         (cap 40000)))
+   (fans
+      (15 210)
+      (30 900)
+      (45 1600)
+      (60 3200)
+      (75 6400)
+      (90 12800)
+      (125 15010)
+      (250 100000)
+      (500 500000)
+      (1000 1000000)
+      (40000 999999999))
+   (buzz_achievement 1000))
+(region_achievements
+   (ach_band_tour_uk london)
+   (ach_band_tour_west_coast seattle sanfrancisco losangeles tijuana)
+   (ach_band_tour_midwest austin chicago)
+   (ach_band_tour_east_coast newyork boston montreal)
+   (ach_band_tour_western_europe dublin paris madrid amsterdam)
+   (ach_band_tour_eastern_europe stockholm istanbul berlin rome moscow))
+(moment_freq 2 3)
+#define PLACEHOLDER_MOMENT
+((money_per_star
+      ($stars $event_reward)
+      {if_else
+         {>= $stars 1}
+         {'*' $event_reward 1}
+         0}))
+#define BWT_BUZZ_VIDEO1
+((buzz_required 355))
+#define BWT_BUZZ_VIDEO2
+((buzz_required 80))
+#define BWT_BUZZ_VIDEO3
+((buzz_required 480))
+#define BWT_BUZZ_VIDEO4
+((buzz_required 970))
+#define BWT_BUZZ_HOTTOPIC
+((buzz_required 130))
+(moments
+   (tour_am_doubleornothingfourstar
+      (money_per_star
+         ($stars $event_reward)
+         {if_else
+            {>= $stars 4}
+            {'*' $event_reward 2}
+            0}))
+   (tour_am_quadrupleornothingfivestar
+      (money_per_star
+         ($stars $event_reward)
+         {if_else
+            {>= $stars 5}
+            {'*' $event_reward 4}
+            0}))
+   (tour_am_charity
+      (money_per_star
+         ($stars $event_reward)
+         0)
+      (buzz_change
+         ($avg_stars $buzz_change)
+         {if_else
+            {> $buzz_change 0}
+            {'*' $buzz_change 2}
+            $buzz_change}))
+   (tour_am_sellout
+      (min_vehicle 2)
+      (money_per_star
+         ($stars $event_reward)
+         {'*' $event_reward 3})
+      (buzz_change
+         ($avg_stars $buzz_change)
+         {if_else
+            {> $buzz_change 0}
+            {'*' $buzz_change 0.3}
+            $buzz_change}))
+   (tour_am_double_or_nothing_fans
+      (min_vehicle 2)
+      (buzz_change
+         ($avg_stars $buzz_change)
+         {if_else
+            {>= $avg_stars 4}
+            {'*' $buzz_change 2}
+            {if_else
+               {> $buzz_change 0}
+               {'*' $buzz_change -2}
+               {'*' $buzz_change 2}}}))
+   (tour_am_triple_or_nothing_fans
+      (min_vehicle 3)
+      (buzz_change
+         ($avg_stars $buzz_change)
+         {if_else
+            {>= $avg_stars 5}
+            {'*' $buzz_change 3}
+            {if_else
+               {> $buzz_change 0}
+               {'*' $buzz_change -3}
+               {'*' $buzz_change 3}}}))
+   (tour_am_video1
+      (money_per_star
+         ($stars $event_reward)
+         0)
+      (buzz_change
+         ($avg_stars $buzz_change)
+         {if_else
+            {> $buzz_change 0}
+            {'*' $buzz_change 2}
+            $buzz_change})
+      (opportunity
+         (songs whitewedding)
+         (venue video_01)
+         (buzz_venue small_club))
+      BWT_BUZZ_VIDEO1)
+   (tour_am_video2
+      (min_vehicle 2)
+      (money_per_star
+         ($stars $event_reward)
+         0)
+      (buzz_change
+         ($avg_stars $buzz_change)
+         {if_else
+            {> $buzz_change 0}
+            {'*' $buzz_change 2}
+            $buzz_change})
+      (opportunity
+         (songs wegotthebeat)
+         (venue video_02)
+         (buzz_venue small_club))
+      BWT_BUZZ_VIDEO2)
+   (tour_am_video3
+      (min_vehicle 3)
+      (money_per_star
+         ($stars $event_reward)
+         {'*' $event_reward 3})
+      (buzz_change
+         ($avg_stars $buzz_change)
+         0)
+      (opportunity
+         (songs spoonman)
+         (venue video_03)
+         (buzz_venue small_club))
+      BWT_BUZZ_VIDEO3)
+   (tour_am_video4
+      (min_vehicle 3)
+      (money_per_star
+         ($stars $event_reward)
+         {'*' $event_reward 3})
+      (buzz_change
+         ($avg_stars $buzz_change)
+         {if_else
+            {> $buzz_change 0}
+            {'*' $buzz_change 3}
+            $buzz_change})
+      (opportunity
+         (songs everlong)
+         (venue video_04)
+         (buzz_venue small_club))
+      BWT_BUZZ_VIDEO4)
+   (tour_am_hottopicselloutathon
+      (money_per_star
+         ($stars $event_reward)
+         {'*' $event_reward 2})
+      (buzz_change
+         ($avg_stars $buzz_change)
+         $buzz_change)
+      (min_vehicle 1)
+      (opportunity
+         (songs thatswhatyouget)
+         (venue small_club_14)
+         (buzz_venue small_club)
+         (sellout TRUE))
+      BWT_BUZZ_HOTTOPIC)
+   (tour_am_encore_mid
+      (min_vehicle 2)
+      (additional_song anywayyouwantit)
+      (buzz_change
+         ($avg_stars $buzz_change)
+         {if_else
+            {>= $avg_stars 2}
+            {'*' $buzz_change 2}
+            {if_else
+               {> $buzz_change 0}
+               {'*' $buzz_change -2}
+               {'*' $buzz_change 2}}}))
+   (tour_am_encore_hardgtr
+      (min_vehicle 3)
+      (additional_song carryonwaywardson)
+      (buzz_change
+         ($avg_stars $buzz_change)
+         {if_else
+            {>= $avg_stars 2}
+            {'*' $buzz_change 2}
+            {if_else
+               {> $buzz_change 0}
+               {'*' $buzz_change -2}
+               {'*' $buzz_change 2}}}))
+   (tour_am_encore_harddms
+      (min_vehicle 3)
+      (additional_song spoonman)
+      (buzz_change
+         ($avg_stars $buzz_change)
+         {if_else
+            {>= $avg_stars 2}
+            {'*' $buzz_change 2}
+            {if_else
+               {> $buzz_change 0}
+               {'*' $buzz_change -2}
+               {'*' $buzz_change 2}}}))
+   (tour_am_encore_hardband
+      (min_vehicle 3)
+      (additional_song everlong)
+      (buzz_change
+         ($avg_stars $buzz_change)
+         {if_else
+            {>= $avg_stars 2}
+            {'*' $buzz_change 2}
+            {if_else
+               {> $buzz_change 0}
+               {'*' $buzz_change -2}
+               {'*' $buzz_change 2}}}))
+   (tour_am_replace_harddms
+      (min_vehicle 2)
+      (replace_song lump)
+      (money_per_star
+         ($stars $event_reward)
+         {'*' $event_reward 2})
+      (buzz_change
+         ($avg_stars $buzz_change)
+         {if_else
+            {>= $avg_stars 2}
+            {'*' $buzz_change 2}
+            {if_else
+               {> $buzz_change 0}
+               {'*' $buzz_change -2}
+               {'*' $buzz_change 2}}}))
+   (tour_am_replace_harddms2
+      (min_vehicle 2)
+      (replace_song pinballwizard)
+      (money_per_star
+         ($stars $event_reward)
+         {'*' $event_reward 2})
+      (buzz_change
+         ($avg_stars $buzz_change)
+         {if_else
+            {>= $avg_stars 2}
+            {'*' $buzz_change 2}
+            {if_else
+               {> $buzz_change 0}
+               {'*' $buzz_change -2}
+               {'*' $buzz_change 2}}}))
+   (tour_am_replace_hardgtr
+      (min_vehicle 2)
+      (replace_song roundandround)
+      (money_per_star
+         ($stars $event_reward)
+         {'*' $event_reward 2})
+      (buzz_change
+         ($avg_stars $buzz_change)
+         {if_else
+            {>= $avg_stars 2}
+            {'*' $buzz_change 2}
+            {if_else
+               {> $buzz_change 0}
+               {'*' $buzz_change -2}
+               {'*' $buzz_change 2}}}))
+   (tour_am_replace_randomdms
+      (min_vehicle 2)
+      (replace_song chopsuey)
+      (buzz_change
+         ($avg_stars $buzz_change)
+         {if_else
+            {>= $avg_stars 2}
+            {'*' $buzz_change 2}
+            {if_else
+               {> $buzz_change 0}
+               {'*' $buzz_change -2}
+               {'*' $buzz_change 2}}}))
+   (tour_am_replace_randomgtr
+      (min_vehicle 2)
+      (replace_song alive)
+      (buzz_change
+         ($avg_stars $buzz_change)
+         {if_else
+            {>= $avg_stars 2}
+            {'*' $buzz_change 2}
+            {if_else
+               {> $buzz_change 0}
+               {'*' $buzz_change -2}
+               {'*' $buzz_change 2}}}))
+   (tour_am_replace_easyband
+      (min_vehicle 2)
+      (replace_song eyeofthetiger)
+      (money_per_star
+         ($stars $event_reward)
+         {'*' $event_reward 0.5})
+      (buzz_change
+         ($avg_stars $buzz_change)
+         {if_else
+            {>= $avg_stars 2}
+            {'*' $buzz_change 0.5}
+            {if_else
+               {> $buzz_change 0}
+               {'*' $buzz_change -0.5}
+               {'*' $buzz_change 0.5}}}))
+   (tour_am_replace_no_overdrive
+      (min_vehicle 2)
+      (disable_overdrive TRUE)
+      (money_per_star
+         ($stars $event_reward)
+         {'*' $event_reward 2})
+      (buzz_change
+         ($avg_stars $buzz_change)
+         {if_else
+            {>= $avg_stars 2}
+            {'*' $buzz_change 2}
+            {if_else
+               {> $buzz_change 0}
+               {'*' $buzz_change -2}
+               {'*' $buzz_change 2}}}))
+   (tour_am_replace_no_staff
+      (min_vehicle 3)
+      (disable_staff TRUE)
+      (money_per_star
+         ($stars $event_reward)
+         {'*' $event_reward 2})
+      (buzz_change
+         ($avg_stars $buzz_change)
+         {if_else
+            {>= $avg_stars 2}
+            {'*' $buzz_change 2}
+            {if_else
+               {> $buzz_change 0}
+               {'*' $buzz_change -2}
+               {'*' $buzz_change 2}}}))
+   (tour_am_replace_impossible
+      (min_vehicle 3)
+      (additional_song aceofspades)
+      (buzz_change
+         ($avg_stars $buzz_change)
+         {if_else
+            {>= $avg_stars 5}
+            {'*' $buzz_change 4}
+            {if_else
+               {> $buzz_change 0}
+               {'*' $buzz_change -4}
+               {'*' $buzz_change 4}}})))
+(vehicles tour_vehicle_van tour_vehicle_bus tour_vehicle_jet tour_staff_worldblock)
+(hints
+   (welcome
+      (screen tour_world_welcome_screen))
+   (first_event
+      (one_off TRUE)
+      (screen tour_world_firstgig_screen))
+   (new_venue
+      (one_off TRUE)
+      (screen tour_world_firstvenue_screen))
+   (new_item)
+   (item_available
+      (one_off TRUE)
+      (screen tour_world_item_available_screen))
+   (first_manager
+      (one_off TRUE)
+      (screen tour_world_firstmanager_screen))
+   (first_fans_lost
+      (one_off TRUE)
+      (screen tour_world_fanslost_screen))
+   (first_buzz_cap
+      (one_off TRUE)
+      (screen tour_world_buzzcap_screen))
+   (first_buzz_maxcap
+      (one_off TRUE)
+      (screen tour_world_buzzmaxcap_screen))
+   (lose_staff
+      (screen tour_world_lose_staff_screen))
+   (new_staff
+      (screen tour_world_new_staff_screen)))
+#define BWT_BUZZ_EASYBLOCK
+((buzz 110))
+#define BWT_BUZZ_EASYBLOCKMINORPLUS
+((buzz 210))
+#define BWT_BUZZ_EASYBLOCKPLUS
+((buzz 250))
+#define BWT_BUZZ_EASYBLOCKMEGAPLUS
+((buzz 325))
+#define BWT_BUZZ_MEDIUMBLOCK
+((buzz 355)
+   (min_difficulty kDifficultyMedium))
+#define BWT_BUZZ_MEDIUMBLOCKMINORPLUS
+((buzz 400)
+   (min_difficulty kDifficultyMedium))
+#define BWT_BUZZ_MEDIUMBLOCKPLUS
+((buzz 480)
+   (min_difficulty kDifficultyMedium))
+#define BWT_BUZZ_MEDIUMBLOCKMEGAPLUS
+((buzz 580)
+   (min_difficulty kDifficultyHard))
+#define PREREQ_UNLOCK_VAN
+((fame
+      (town 28)))
+#define PREREQ_UNLOCK_BUS
+((fame
+      (town 6)
+      (world 100)))
+#define PREREQ_UNLOCK_JET
+((fame
+      (town 12)
+      (world 240)))
+#define PREREQ_UNLOCK_ROADIES
+((fame
+      (town 15)
+      (world 284)))
+#define PREREQ_UNLOCK_TOURMANAGER
+((fame
+      (town 15)
+      (world 360)))
+#define PREREQ_UNLOCK_WORLDPROMOTER
+((fame
+      (town 15)
+      (world 420)))
+#define PREREQ_GENERIC_SMALL_CLUB
+((fame
+      (world 3))
+   (money_per_star 5))
+#define PREREQ_GENERIC_BIG_CLUB
+((fame
+      (town 9))
+   (money_per_star 25))
+#define PREREQ_GENERIC_LAST
+((fame
+      (town 30)
+      (world 100))
+   (money_per_star 100))
+#define RANDOM_EASY
+((random
+      (max_tier 2)))
+#define RANDOM_MEDIUM
+((random
+      (min_tier 3)
+      (max_tier 4)))
+#define RANDOM_HARD
+((random
+      (min_tier 5)
+      (max_tier 6)))
+#define RANDOM_EXPERT
+((random
+      (min_tier 7)))
+#define RANDOM_ALL
+((random))
+#define RANDOM_NOFIRSTNOLAST
+((random
+      (min_tier 2)
+      (max_tier 6)))
+(staff
+   (low_morefans
+      (prereqs
+         (stars 80)
+         (item tour_vehicle_van))
+      (modifiers
+         (buzz
+            ($stars)
+            1.07)))
+   (low_moremoney
+      (prereqs
+         (stars 80)
+         (item tour_vehicle_van))
+      (modifiers
+         (money
+            ($stars)
+            1.07)))
+   (region_eastcoast
+      (prereqs
+         (item tour_vehicle_bus)
+         (stars 150))
+      (modifiers
+         (buzz_required
+            0.8
+            (towns montreal boston newyork chicago))))
+   (region_westcoast
+      (prereqs
+         (item tour_vehicle_bus)
+         (stars 150))
+      (modifiers
+         (buzz_required
+            0.8
+            (towns seattle sanfrancisco losangeles tijuana austin))))
+   (region_westerneurope
+      (prereqs
+         (item tour_vehicle_bus)
+         (stars 150))
+      (modifiers
+         (buzz_required
+            0.8
+            (towns dublin london paris madrid))))
+   (region_easterneurope
+      (prereqs
+         (item tour_vehicle_bus)
+         (stars 150))
+      (modifiers
+         (buzz_required
+            0.8
+            (towns berlin rome stockholm amsterdam istanbul))))
+   (mid_morefanslessmoney
+      (prereqs
+         (stars 210)
+         (item tour_vehicle_bus))
+      (modifiers
+         (money
+            ($stars)
+            0.85)
+         (buzz
+            ($stars)
+            1.15)))
+   (mid_moremoneylessfans
+      (prereqs
+         (stars 210)
+         (item tour_vehicle_bus))
+      (modifiers
+         (money
+            ($stars)
+            1.15)
+         (buzz
+            ($stars)
+            0.85)))
+   (high_megagainmegaloss
+      (prereqs
+         (buzz 600)
+         (item tour_vehicle_jet))
+      (modifiers
+         (buzz
+            ($buzz_change)
+            1.5)))
+   (high_doubleornothingfans
+      (prereqs
+         (stars 350)
+         (item tour_vehicle_jet))
+      (modifiers
+         (buzz
+            ($avg_stars)
+            {if_else
+               {>= $avg_stars 4}
+               2
+               0})))
+   (high_doubleornothingmoney
+      (prereqs
+         (buzz 750)
+         (item tour_vehicle_jet))
+      (modifiers
+         (money
+            ($stars)
+            {if_else
+               {>= $stars 4}
+               2
+               0})))
+   (high_lessmoneylessfans
+      (prereqs
+         (item tour_vehicle_jet)
+         (stars 500))
+      (modifiers
+         (money
+            ($stars)
+            0.5)
+         (buzz_required 0.7)))
+   (high_morerockmoments
+      (prereqs
+         (item tour_vehicle_jet)
+         (buzz 500))
+      (modifiers
+         (moment_freq 1 2))))
+#define BWT_CHAR_UNLOCK01
+((char_unlock
+      (token char_unlock_hat)
+      (outfits
+         (male hair parkinglot_aviatorcap)
+         (female hair sideflip_tophat))))
+#define BWT_CHAR_UNLOCK02
+((char_unlock
+      (token char_unlock_mask)
+      (outfits
+         (male glasses malemask_hockey)
+         (female glasses femalemask_gasmaskstudded))))
+#define BWT_CHAR_UNLOCK03
+((char_unlock
+      (token char_unlock_pants)
+      (outfits
+         (male legs cottondresspants_pinstripe)
+         (female legs aztecleggings_hide))))
+#define BWT_CHAR_UNLOCK04
+((char_unlock
+      (token char_unlock_jacket)
+      (outfits
+         (male torso bedazzledversaillesjacket_sparkly)
+         (female torso triceratopsvest_worndenim))))
+#define BWT_CHAR_UNLOCK05
+((char_unlock
+      (token char_unlock_shoes)
+      (outfits
+         (male feet rinoboots_leather)
+         (female feet femalerinoboots_leather))))
+#define BWT_CHAR_UNLOCK06
+((char_unlock
+      (token char_unlock_jacket)
+      (outfits
+         (male torso spikedarmor_leather)
+         (female torso oilspillarmor_latex))))
+#define BWT_CHAR_UNLOCK07
+((char_unlock
+      (token char_unlock_pants)
+      (outfits
+         (male legs chainleggings_metal)
+         (female legs dragonslayerleggings_scales))))
+#define BWT_CHAR_UNLOCK08
+((char_unlock
+      (token char_unlock_ring)
+      (outfits
+         (male rings malerings_eyeball)
+         (female rings femalerings_jem))))
+#define BWT_CHAR_UNLOCKEXTRA01
+((char_unlock
+      (token char_unlock_tshirt)
+      (outfits
+         (male torso worntshirt_svees)
+         (female torso baseballtee_10k))))
+#define BWT_CHAR_UNLOCKEXTRA02
+((char_unlock
+      (token char_unlock_tshirt)
+      (outfits
+         (male torso tshirtdeath_dokkazord)
+         (female torso basictee_of))))
+#define BWT_CHAR_UNLOCKEXTRA03
+((char_unlock
+      (token char_unlock_tshirt)
+      (outfits
+         (male torso tshirtdeath_mtchiller)
+         (female torso boxytee_wingedserpent))))
+#define BWT_CHAR_UNLOCKEXTRA04
+((char_unlock
+      (token char_unlock_tshirt)
+      (outfits
+         (male torso tshirtdeath_dragon)
+         (female torso basictee_realsteel))))
+#define BWT_CHAR_UNLOCKEXTRA05
+((char_unlock
+      (token char_unlock_tshirt)
+      (outfits
+         (male torso worntshirt_octoballer)
+         (female torso boxytee_cateyes))))
+#define BWT_CHAR_UNLOCK_PEARL
+((char_unlock
+      (token char_unlock_sponsor_pearl)
+      (outfits
+         (male torso blankhoodie_pearlscript)
+         (male torso tshirtdeath_pearlwings)
+         (female torso basictee_pearlwings)
+         (female torso hoodedsweatshirt_pearlscript))
+      (instruments
+         (drum pearl))))
+#define BWT_CHAR_UNLOCK_ERNIEBALL
+((char_unlock
+      (token char_unlock_sponsor_ernieball)
+      (outfits
+         (male torso camotanktop_ernieball)
+         (male torso tshirtdeath_ernieballlogo)
+         (male torso blankhoodie_ernieballheart)
+         (female torso baseballtee_ernieball)
+         (female torso basictee_ernieballcrest)
+         (female torso basictee_ernieballheart))))
+#define BWT_CHAR_UNLOCK_ELECTROHARMONIX
+((char_unlock
+      (token char_unlock_sponsor_electroharmonix)
+      (outfits
+         (male torso tshirtdeath_EH)
+         (female torso basictee_EH))))
+#define BWT_CHAR_UNLOCK_ZILDJIAN
+((char_unlock
+      (token char_unlock_sponsor_zildjian)
+      (outfits
+         (male torso camotanktop_zildjian)
+         (female torso hoodedsweatshirt_zildjian))
+      (instruments
+         (drum generic))))
+#define BWT_CHAR_UNLOCK_SHURE
+((char_unlock
+      (token char_unlock_sponsor_shure)
+      (outfits)
+      (instruments
+         (mic ksm9wireless_resource))))
+#define BWT_CHAR_UNLOCK_LUDWIG
+((char_unlock
+      (token char_unlock_sponsor_ludwig)
+      (outfits
+         (male torso blankhoodie_ludwigsticks)
+         (male torso longsleeveshirt_ludwigfloral)
+         (male torso tshirtdeath_ludwig)
+         (male torso tshirtdeath_ludwigdragon)
+         (female torso baseballtee_ludwigdragon)
+         (female torso baseballtee_ludwigfloral)
+         (female torso basictee_ludwigsticks)
+         (female torso thintank_ludwig))
+      (instruments
+         (drum ludvista))))
+#define BWT_CHAR_UNLOCK_FENDER
+((char_unlock
+      (token char_unlock_sponsor_fender)
+      (outfits
+         (male torso longsleeveshirt_fenderpheonix)
+         (male torso tshirtdeath_fenderskull)
+         (male torso tshirtdeath_fenderstars)
+         (male torso wornlongsleeveshirt_fender)
+         (male torso worntshirt_fenderbirds)
+         (female torso baseballtee_fender)
+         (female torso baseballtee_fenderpheonix)
+         (female torso baseballtee_fenderstars)
+         (female torso basictee_fenderskull)
+         (female torso thermalundertee_fenderbirds))
+      (instruments
+         (guitar stratocaster05))))
+(tiers
+   (tier1_1
+      ((song1
+            (songs
+               (band 1))
+            (display_song TRUE)
+            (money_per_star 5))
+         (song2
+            (songs
+               (band 2))
+            (display_song TRUE)
+            (money_per_star 5))
+         (song7
+            (songs
+               (band 7))
+            (display_song TRUE)
+            (money_per_star 5))
+         (song10
+            (songs
+               (band 10))
+            (display_song TRUE)
+            (money_per_star 5))
+         (random_easy
+            (songs RANDOM_EASY RANDOM_EASY)
+            PREREQ_GENERIC_SMALL_CLUB))
+      ((song6
+            (songs
+               (band 6))
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (song11
+            (songs
+               (band 11))
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (song12
+            (songs
+               (band 12))
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (unlock_van
+            (songs RANDOM_EASY RANDOM_EASY today)
+            (money_per_star 25)
+            (award_item tour_vehicle_van)
+            PREREQ_UNLOCK_VAN
+            BWT_CHAR_UNLOCK01)
+         (random_easy
+            (songs RANDOM_EASY RANDOM_EASY RANDOM_EASY)
+            PREREQ_GENERIC_BIG_CLUB))
+      ((random_medium
+            (songs RANDOM_MEDIUM RANDOM_MEDIUM RANDOM_MEDIUM RANDOM_MEDIUM)
+            PREREQ_GENERIC_LAST)))
+   (tier1_2
+      ((song3
+            (songs
+               (band 3))
+            (display_song TRUE)
+            (money_per_star 5))
+         (song8
+            (songs
+               (band 8))
+            (display_song TRUE)
+            (money_per_star 5))
+         (song13
+            (songs
+               (band 13))
+            (display_song TRUE)
+            (money_per_star 5))
+         (random_easy
+            (songs RANDOM_EASY RANDOM_EASY)
+            PREREQ_GENERIC_SMALL_CLUB))
+      ((song17
+            (songs
+               (band 17))
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (song19
+            (songs
+               (band 19))
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (song22
+            (songs
+               (band 22))
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (unlock_bus
+            (songs RANDOM_EASY RANDOM_EASY livinonaprayer)
+            (money_per_star 25)
+            (award_item tour_vehicle_bus)
+            PREREQ_UNLOCK_BUS
+            BWT_CHAR_UNLOCK02)
+         (random_easy
+            (songs RANDOM_EASY RANDOM_EASY RANDOM_EASY)
+            PREREQ_GENERIC_BIG_CLUB))
+      ((random_medium
+            (songs RANDOM_MEDIUM RANDOM_MEDIUM RANDOM_MEDIUM RANDOM_MEDIUM)
+            PREREQ_GENERIC_LAST)))
+   (tier1_3
+      ((song5
+            (songs
+               (band 5))
+            (display_song TRUE)
+            (money_per_star 5))
+         (song9
+            (songs
+               (band 9))
+            (display_song TRUE)
+            (money_per_star 5))
+         (song15
+            (songs
+               (band 15))
+            (display_song TRUE)
+            (money_per_star 5))
+         (random_easy
+            (songs RANDOM_EASY RANDOM_EASY)
+            PREREQ_GENERIC_BIG_CLUB))
+      ((song18
+            (songs
+               (band 18))
+            BWT_BUZZ_EASYBLOCK
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (song20
+            (songs
+               (band 20))
+            BWT_BUZZ_EASYBLOCK
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (song23
+            (songs
+               (band 23))
+            BWT_BUZZ_EASYBLOCK
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (random_easy
+            (songs RANDOM_EASY RANDOM_EASY RANDOM_EASY)
+            PREREQ_GENERIC_BIG_CLUB))
+      ((random_medium
+            (songs RANDOM_MEDIUM RANDOM_MEDIUM RANDOM_MEDIUM RANDOM_MEDIUM)
+            PREREQ_GENERIC_LAST)))
+   (tier1_4
+      ((song4
+            (songs
+               (band 4))
+            BWT_BUZZ_EASYBLOCK
+            (display_song TRUE)
+            (money_per_star 5))
+         (song14
+            (songs
+               (band 14))
+            BWT_BUZZ_EASYBLOCK
+            (display_song TRUE)
+            (money_per_star 5))
+         (song16
+            (songs
+               (band 16))
+            BWT_BUZZ_EASYBLOCK
+            (display_song TRUE)
+            (money_per_star 5))
+         (random_easy
+            (songs RANDOM_EASY RANDOM_EASY)
+            PREREQ_GENERIC_BIG_CLUB))
+      ((song21
+            (songs
+               (band 21))
+            BWT_BUZZ_EASYBLOCK
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (song24
+            (songs
+               (band 24))
+            BWT_BUZZ_EASYBLOCK
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (song25
+            (songs
+               (band 25))
+            BWT_BUZZ_EASYBLOCK
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (random_easy
+            (songs RANDOM_EASY RANDOM_EASY RANDOM_EASY)
+            PREREQ_GENERIC_BIG_CLUB))
+      ((random_medium
+            (songs RANDOM_MEDIUM RANDOM_MEDIUM RANDOM_MEDIUM RANDOM_MEDIUM)
+            PREREQ_GENERIC_LAST)))
+   (tier2_1
+      ((song26
+            (songs
+               (band 26))
+            (display_song TRUE)
+            (money_per_star 5))
+         (song28
+            (songs
+               (band 28))
+            (display_song TRUE)
+            (money_per_star 5))
+         (song34
+            (songs
+               (band 34))
+            (display_song TRUE)
+            (money_per_star 5))
+         (random_medium
+            (songs RANDOM_MEDIUM RANDOM_MEDIUM)
+            PREREQ_GENERIC_SMALL_CLUB))
+      ((song38
+            (songs
+               (band 38))
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (song40
+            (songs
+               (band 40))
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (random_medium
+            (songs RANDOM_MEDIUM RANDOM_MEDIUM RANDOM_MEDIUM)
+            PREREQ_GENERIC_BIG_CLUB))
+      ((random_medium
+            (songs RANDOM_MEDIUM RANDOM_MEDIUM RANDOM_MEDIUM RANDOM_MEDIUM)
+            PREREQ_GENERIC_LAST)))
+   (tier2_2
+      ((song27
+            (songs
+               (band 27))
+            (display_song TRUE)
+            (money_per_star 5))
+         (song29
+            (songs
+               (band 29))
+            (display_song TRUE)
+            (money_per_star 5))
+         (song35
+            (songs
+               (band 35))
+            (display_song TRUE)
+            (money_per_star 5))
+         (random_medium
+            (songs RANDOM_MEDIUM RANDOM_MEDIUM)
+            PREREQ_GENERIC_SMALL_CLUB))
+      ((song39
+            (songs
+               (band 39))
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (song41
+            (songs
+               (band 41))
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (unlock_roadies
+            (songs RANDOM_MEDIUM RANDOM_MEDIUM alive)
+            (fame
+               (town 12)
+               (world 80))
+            (award_item tour_staff1)
+            (money_per_star 25)
+            BWT_CHAR_UNLOCK03)
+         (random_medium
+            (songs RANDOM_MEDIUM RANDOM_MEDIUM RANDOM_MEDIUM)
+            PREREQ_GENERIC_BIG_CLUB))
+      ((random_hard
+            (songs RANDOM_HARD RANDOM_HARD RANDOM_HARD RANDOM_HARD)
+            PREREQ_GENERIC_LAST)))
+   (tier2_3
+      ((song30
+            (songs
+               (band 30))
+            BWT_BUZZ_EASYBLOCK
+            (item tour_staff1)
+            (display_song TRUE)
+            (money_per_star 5))
+         (song32
+            (songs
+               (band 32))
+            BWT_BUZZ_EASYBLOCK
+            (item tour_staff1)
+            (display_song TRUE)
+            (money_per_star 5))
+         (song36
+            (songs
+               (band 36))
+            BWT_BUZZ_EASYBLOCK
+            (item tour_staff1)
+            (display_song TRUE)
+            (money_per_star 5))
+         (random_medium
+            (songs RANDOM_MEDIUM RANDOM_MEDIUM)
+            PREREQ_GENERIC_SMALL_CLUB))
+      ((song42
+            (songs
+               (band 42))
+            (item tour_staff1)
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (song44
+            (songs
+               (band 44))
+            (item tour_staff1)
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (random_medium
+            (songs RANDOM_MEDIUM RANDOM_MEDIUM RANDOM_MEDIUM)
+            PREREQ_GENERIC_BIG_CLUB))
+      ((unlock_jet
+            (songs RANDOM_MEDIUM RANDOM_MEDIUM pinballwizard)
+            BWT_BUZZ_EASYBLOCK
+            (money_per_star 120)
+            (item tour_staff1)
+            (award_item tour_vehicle_jet)
+            PREREQ_UNLOCK_JET
+            BWT_CHAR_UNLOCK04)
+         (random_medium
+            (songs RANDOM_MEDIUM RANDOM_MEDIUM RANDOM_MEDIUM RANDOM_MEDIUM)
+            PREREQ_GENERIC_LAST)))
+   (tier2_4
+      ((song31
+            (songs
+               (band 31))
+            BWT_BUZZ_EASYBLOCK
+            (display_song TRUE)
+            (money_per_star 5))
+         (song33
+            (songs
+               (band 33))
+            BWT_BUZZ_EASYBLOCK
+            (display_song TRUE)
+            (money_per_star 5))
+         (song37
+            (songs
+               (band 37))
+            BWT_BUZZ_EASYBLOCK
+            (display_song TRUE)
+            (money_per_star 5))
+         (random_medium
+            (songs RANDOM_MEDIUM RANDOM_MEDIUM)
+            PREREQ_GENERIC_SMALL_CLUB))
+      ((song43
+            (songs
+               (band 43))
+            BWT_BUZZ_EASYBLOCKPLUS
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (song45
+            (songs
+               (band 45))
+            BWT_BUZZ_EASYBLOCKPLUS
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (random_medium
+            (songs RANDOM_MEDIUM RANDOM_MEDIUM RANDOM_MEDIUM)
+            PREREQ_GENERIC_BIG_CLUB))
+      ((random_hard
+            (songs RANDOM_HARD RANDOM_HARD RANDOM_HARD RANDOM_HARD)
+            PREREQ_GENERIC_LAST)))
+   (tier3_1
+      ((song46
+            (songs
+               (band 46))
+            (display_song TRUE)
+            (money_per_star 5))
+         (song49
+            (songs
+               (band 49))
+            (display_song TRUE)
+            (money_per_star 5))
+         (random_hard
+            (songs RANDOM_HARD RANDOM_HARD)
+            PREREQ_GENERIC_SMALL_CLUB))
+      ((song55
+            (songs
+               (band 55))
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (random_hard
+            (songs RANDOM_HARD RANDOM_HARD RANDOM_HARD)
+            PREREQ_GENERIC_BIG_CLUB))
+      ((rockaidmini
+            (songs any RANDOM_HARD any)
+            (fame
+               (town 30)
+               (world 280))
+            (money_per_star 0)
+            BWT_BUZZ_EASYBLOCKPLUS
+            BWT_CHAR_UNLOCKEXTRA01)
+         (random_all
+            (songs RANDOM_ALL RANDOM_ALL RANDOM_ALL RANDOM_ALL)
+            PREREQ_GENERIC_LAST)))
+   (tier3_2
+      ((song48
+            (songs
+               (band 48))
+            (display_song TRUE)
+            (money_per_star 5))
+         (song51
+            (songs
+               (band 51))
+            (display_song TRUE)
+            (money_per_star 5))
+         (random_hard
+            (songs RANDOM_HARD RANDOM_HARD)
+            PREREQ_GENERIC_SMALL_CLUB))
+      ((song56
+            (songs
+               (band 56))
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (unlock_promoter
+            (songs RANDOM_MEDIUM RANDOM_MEDIUM RANDOM_HARD letthereberock)
+            BWT_BUZZ_EASYBLOCKMINORPLUS
+            PREREQ_UNLOCK_ROADIES
+            (award_item tour_staff2)
+            (money_per_star 25)
+            BWT_CHAR_UNLOCK05)
+         (random_hard
+            (songs RANDOM_HARD RANDOM_HARD RANDOM_HARD)
+            PREREQ_GENERIC_BIG_CLUB))
+      ((random_all
+            (songs RANDOM_ALL RANDOM_ALL RANDOM_ALL)
+            PREREQ_GENERIC_BIG_CLUB)))
+   (tier3_3
+      ((song52
+            (songs
+               (band 52))
+            (item tour_staff2)
+            (display_song TRUE)
+            (money_per_star 5))
+         (song58
+            (songs
+               (band 58))
+            (item tour_staff2)
+            (display_song TRUE)
+            (money_per_star 5))
+         (random_hard
+            (songs RANDOM_HARD RANDOM_HARD)
+            PREREQ_GENERIC_SMALL_CLUB))
+      ((song63
+            (songs
+               (band 63))
+            BWT_BUZZ_MEDIUMBLOCK
+            (item tour_staff2)
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (random_hard
+            (songs RANDOM_HARD RANDOM_HARD RANDOM_HARD)
+            PREREQ_GENERIC_BIG_CLUB))
+      ((anyfivemara
+            (songs any any any any any)
+            BWT_BUZZ_MEDIUMBLOCK
+            (item tour_staff2)
+            (fame
+               (town 30)
+               (world 280))
+            (money_per_star 25)
+            BWT_CHAR_UNLOCKEXTRA02)
+         (random_all
+            (songs RANDOM_ALL RANDOM_ALL RANDOM_ALL RANDOM_ALL)
+            PREREQ_GENERIC_LAST)))
+   (tier3_4
+      ((song61
+            (songs
+               (band 61))
+            (item tour_staff2)
+            BWT_BUZZ_MEDIUMBLOCKPLUS
+            (display_song TRUE)
+            (money_per_star 5))
+         (song66
+            (songs
+               (band 66))
+            (item tour_staff2)
+            (display_song TRUE)
+            (money_per_star 5))
+         (random_hard
+            (songs RANDOM_HARD RANDOM_HARD)
+            PREREQ_GENERIC_SMALL_CLUB))
+      ((song68
+            (songs
+               (band 68))
+            (item tour_staff2)
+            BWT_BUZZ_MEDIUMBLOCKPLUS
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (random_hard
+            (songs RANDOM_HARD RANDOM_HARD RANDOM_HARD)
+            PREREQ_GENERIC_BIG_CLUB))
+      ((random_all
+            (songs RANDOM_ALL RANDOM_ALL RANDOM_ALL RANDOM_ALL)
+            PREREQ_GENERIC_LAST)))
+   (tier3_5
+      ((song47
+            (songs
+               (band 47))
+            (item tour_staff3)
+            (display_song TRUE)
+            (money_per_star 5))
+         (song50
+            (songs
+               (band 50))
+            (item tour_staff3)
+            (display_song TRUE)
+            (money_per_star 5))
+         (random_hard
+            (songs RANDOM_HARD RANDOM_HARD)
+            PREREQ_GENERIC_SMALL_CLUB))
+      ((song57
+            (songs
+               (band 57))
+            (item tour_staff3)
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (random_hard
+            (songs RANDOM_HARD RANDOM_HARD RANDOM_HARD)
+            PREREQ_GENERIC_BIG_CLUB))
+      ((rockaid
+            (songs any any any any any)
+            (item tour_staff3)
+            (money_per_star 0)
+            (fame
+               (world 150)
+               (town 12))
+            BWT_BUZZ_MEDIUMBLOCK
+            BWT_CHAR_UNLOCKEXTRA03)
+         (random_all
+            (songs RANDOM_ALL RANDOM_ALL RANDOM_ALL RANDOM_ALL)
+            PREREQ_GENERIC_LAST)))
+   (tier3_6
+      ((song53
+            (songs
+               (band 53))
+            (item tour_staff2)
+            (display_song TRUE)
+            (money_per_star 5))
+         (song59
+            (songs
+               (band 59))
+            (item tour_staff2)
+            (display_song TRUE)
+            (money_per_star 5))
+         (random_hard
+            (songs RANDOM_HARD RANDOM_HARD)
+            PREREQ_GENERIC_SMALL_CLUB))
+      ((song64
+            (songs
+               (band 64))
+            (item tour_staff2)
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (unlock_security
+            (songs RANDOM_HARD RANDOM_HARD RANDOM_HARD everlong)
+            PREREQ_UNLOCK_TOURMANAGER
+            (item tour_staff2)
+            (award_item tour_staff3)
+            (money_per_star 25)
+            BWT_BUZZ_EASYBLOCKPLUS
+            BWT_CHAR_UNLOCK06)
+         (random_hard
+            (songs RANDOM_HARD RANDOM_HARD RANDOM_HARD)
+            PREREQ_GENERIC_BIG_CLUB))
+      ((random_all
+            (songs RANDOM_ALL RANDOM_ALL RANDOM_ALL RANDOM_ALL)
+            PREREQ_GENERIC_LAST)))
+   (tier3_7
+      ((song54
+            (songs
+               (band 54))
+            (item tour_staff3)
+            (display_song TRUE)
+            (money_per_star 5))
+         (song60
+            (songs
+               (band 60))
+            (item tour_staff3)
+            (display_song TRUE)
+            (money_per_star 5))
+         (random_hard
+            (songs RANDOM_HARD RANDOM_HARD)
+            PREREQ_GENERIC_SMALL_CLUB))
+      ((song65
+            (songs
+               (band 65))
+            BWT_BUZZ_MEDIUMBLOCK
+            (item tour_staff3)
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (random_hard
+            (songs RANDOM_HARD RANDOM_HARD RANDOM_HARD)
+            PREREQ_GENERIC_BIG_CLUB))
+      ((unlock_tourmanager
+            (songs RANDOM_HARD RANDOM_HARD RANDOM_HARD RANDOM_HARD carryonwaywardson)
+            BWT_BUZZ_MEDIUMBLOCK
+            PREREQ_UNLOCK_WORLDPROMOTER
+            (award_item tour_staff_worldblock)
+            (item tour_staff3)
+            (money_per_star 25)
+            BWT_CHAR_UNLOCK07)
+         (random_all
+            (songs RANDOM_ALL RANDOM_ALL RANDOM_ALL RANDOM_ALL)
+            PREREQ_GENERIC_LAST)))
+   (tier3_8
+      ((song62
+            (songs
+               (band 62))
+            (item tour_staff3)
+            BWT_BUZZ_MEDIUMBLOCKPLUS
+            (display_song TRUE)
+            (money_per_star 5))
+         (song67
+            (songs
+               (band 67))
+            (item tour_staff3)
+            BWT_BUZZ_MEDIUMBLOCKPLUS
+            (display_song TRUE)
+            (money_per_star 5))
+         (random_hard
+            (songs RANDOM_HARD RANDOM_HARD)
+            PREREQ_GENERIC_SMALL_CLUB))
+      ((song69
+            (songs
+               (band 69))
+            (item tour_staff3)
+            BWT_BUZZ_MEDIUMBLOCKPLUS
+            (display_song TRUE)
+            PREREQ_GENERIC_BIG_CLUB)
+         (random_hard
+            (songs RANDOM_HARD RANDOM_HARD RANDOM_HARD)
+            PREREQ_GENERIC_BIG_CLUB))
+      ((random_all
+            (songs RANDOM_ALL RANDOM_ALL RANDOM_ALL)
+            PREREQ_GENERIC_LAST))))
+(towns
+   (seattle
+      (order 0)
+      (continent us)
+      (unlocks
+         (played
+            (male tshirtdeath_seattlemarket)
+            (female basictee_seattlemarket))
+         (completed
+            (male worntshirt_seattleumbrellas)
+            (female thermalundertee_seattleumbrellas)))
+      (venues
+         #include ../tour/seattle.dta))
+   (sanfrancisco
+      (order 1)
+      (continent us)
+      (unlocks
+         (played
+            (male wornlongsleeveshirt_sanfrantrolley)
+            (female choppedtee_sanfrantrolley))
+         (completed
+            (male tshirtdeath_haight)
+            (female basictee_haight)))
+      (venues
+         #include ../tour/sanfrancisco.dta))
+   (losangeles
+      (order 2)
+      (continent us)
+      (unlocks
+         (played
+            (male longsleeveshirt_lahighway)
+            (female baseballtee_lahighway))
+         (completed
+            (male worntshirt_surfteam)
+            (female tanktop_lasurfteam)))
+      (venues
+         #include ../tour/losangeles.dta))
+   (austin
+      (order 4)
+      (continent us)
+      (unlocks
+         (played
+            (male tshirtdeath_austinbullets)
+            (female basictee_austinbullets))
+         (completed
+            (male tshirtdeath_austinbolo)
+            (female basictee_austinbolo)))
+      (venues
+         #include ../tour/austin.dta))
+   (tijuana
+      (order 3)
+      (unlocks
+         (played
+            (male worntshirt_tijuanamuertos)
+            (female basictee_tijuanamuertos))
+         (completed
+            (male tshirtdeath_tijuanaflag)
+            (female basictee_tijuanaflag)))
+      (venues
+         #include ../tour/tijuana.dta))
+   (chicago
+      (order 5)
+      (continent us)
+      (unlocks
+         (played
+            (male wifebeater_chicagoloop)
+            (female basictee_chicagoloop))
+         (completed
+            (male wornlongsleeveshirt_chicagonight)
+            (female baseballtee_chicagonight)))
+      (venues
+         #include ../tour/chicago.dta))
+   (newyork
+      (order 6)
+      (continent us)
+      (unlocks
+         (played
+            (male tshirtdeath_bigapple)
+            (female basictee_bigapple))
+         (completed
+            (male tshirtdeath_freaks)
+            (female basictee_freaks)))
+      (venues
+         #include ../tour/newyork.dta))
+   (boston
+      (order 7)
+      (continent us)
+      (unlocks
+         (played
+            (male wifebeater_bostonmass)
+            (female tanktop_bostonmass))
+         (completed
+            (male tshirtdeath_bostonbigdig)
+            (female basictee_bostonbigdig)))
+      (venues
+         #include ../tour/boston.dta))
+   (montreal
+      (order 8)
+      (continent us)
+      (unlocks
+         (played
+            (male tshirtdeath_montrealleaf)
+            (female tanktop_montrealleaf))
+         (completed
+            (male wornlongsleeveshirt_montrealfrench)
+            (female baseballtee_montrealfrench)))
+      (venues
+         #include ../tour/montreal.dta))
+   (rio
+      (order 9)
+      (unlocks
+         (played
+            (male wifebeater_riowax)
+            (female basictee_riowax))
+         (completed
+            (male worntshirt_riorainforest)
+            (female boxytee_riorainforest)))
+      (venues
+         #include ../tour/rio.dta))
+   (reykjavik
+      (order 10)
+      (unlocks
+         (played
+            (male longsleeveshirt_reykjavikship)
+            (female basictee_reykjavikship))
+         (completed
+            (male tshirtdeath_reykjavikhekla)
+            (female thermalundertee_reykjavikhekla)))
+      (venues
+         #include ../tour/reykjavik.dta))
+   (dublin
+      (order 11)
+      (continent europe)
+      (unlocks
+         (played
+            (male tshirtdeath_dublinmap)
+            (female baseballtee_dublinmap))
+         (completed
+            (male worntshirt_dublinup)
+            (female thermalundertee_dublinup)))
+      (venues
+         #include ../tour/dublin.dta))
+   (london
+      (order 12)
+      (continent europe)
+      (unlocks
+         (played
+            (male longsleeveshirt_londonbigben)
+            (female baseballtee_londonbigben))
+         (completed
+            (male tshirtdeath_nwobhm)
+            (female basictee_nwobhm)))
+      (venues
+         #include ../tour/london.dta))
+   (madrid
+      (order 13)
+      (continent europe)
+      (unlocks
+         (played
+            (male tshirtdeath_madridsun)
+            (female basictee_madridsun))
+         (completed
+            (male worntshirt_madridcrest)
+            (female baseballtee_madridcrest)))
+      (venues
+         #include ../tour/madrid.dta))
+   (paris
+      (order 14)
+      (continent europe)
+      (unlocks
+         (played
+            (male tshirtdeath_parisian)
+            (female basictee_parisian))
+         (completed
+            (male tshirtdeath_louvre)
+            (female basictee_louvre)))
+      (venues
+         #include ../tour/paris.dta))
+   (rome
+      (order 15)
+      (continent europe)
+      (unlocks
+         (played
+            (male wornlongsleeveshirt_romewolf)
+            (female baseballtee_romewolf))
+         (completed
+            (male tshirtdeath_romedagger)
+            (female basictee_romedagger)))
+      (venues
+         #include ../tour/rome.dta))
+   (amsterdam
+      (order 16)
+      (continent europe)
+      (unlocks
+         (played
+            (male tshirtdeath_redlight)
+            (female basictee_redlight))
+         (completed
+            (male tshirtdeath_hamsterdam)
+            (female basictee_hamsterdam)))
+      (venues
+         #include ../tour/amsterdam.dta))
+   (stockholm
+      (order 17)
+      (continent europe)
+      (unlocks
+         (played
+            (male tshirtdeath_stockholmdeath)
+            (female basictee_stockholmdeath))
+         (completed
+            (male tshirtdeath_sverige)
+            (female basictee_sverige)))
+      (venues
+         #include ../tour/stockholm.dta))
+   (berlin
+      (order 18)
+      (continent europe)
+      (unlocks
+         (played
+            (male tshirtdeath_boarlin)
+            (female basictee_boarlin))
+         (completed
+            (male tshirtdeath_berlinleder)
+            (female basictee_berlinleder)))
+      (venues
+         #include ../tour/berlin.dta))
+   (istanbul
+      (order 19)
+      (unlocks
+         (played
+            (male tshirtdeath_istanbuleye)
+            (female choppedtee_istanbuleye))
+         (completed
+            (male wifebeater_istanbulmosque)
+            (female basictee_istanbulmosque)))
+      (venues
+         #include ../tour/istanbul.dta))
+   (moscow
+      (order 20)
+      (unlocks
+         (played
+            (male blankhoodie_moscowsputnik)
+            (female hoodedsweatshirt_moscowsputnik))
+         (completed
+            (male tshirtdeath_matroishka)
+            (female basictee_matroishka)))
+      (venues
+         #include ../tour/moscow.dta))
+   (shanghai
+      (order 21)
+      (unlocks
+         (played
+            (male worntshirt_shanghaicity)
+            (female basictee_shanghaicity))
+         (completed
+            (male tshirtdeath_shanghaiwall)
+            (female basictee_shanghaiwall)))
+      (venues
+         #include ../tour/shanghai.dta))
+   (tokyo
+      (order 22)
+      (unlocks
+         (played
+            (male tshirtdeath_tokyokoto)
+            (female basictee_tokyokoto))
+         (completed
+            (male tshirtdeath_tokyozilla)
+            (female basictee_tokyozilla)))
+      (venues
+         #include ../tour/tokyo.dta))
+   (sydney
+      (order 23)
+      (unlocks
+         (played
+            (male shortlongtee_sydneykangaroo)
+            (female baseballtee_sydneykangaroo))
+         (completed
+            (male worntshirt_sydneyplatypus)
+            (female choppedtee_sydneyplatypus)))
+      (venues
+         #include ../tour/sydney.dta)))

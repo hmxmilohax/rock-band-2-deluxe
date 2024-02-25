@@ -1,7 +1,7 @@
 ; track callbacks (used for FC indicator, and setting up streaks and highway)
 
 ; Bass
-(new Object fc_bass_callback ;remove FC groove on bass miss/pass
+{new Object fc_bass_callback ;remove FC groove on bass miss/pass
    (hit
       {if {! $bass_firstnote} {set $bass_firstnote TRUE}}
       {if {! $bass_milosong} {set $bass_milosong TRUE} {set [num_gems_hit] 0} {set [num_gems_miss] 0} {set [num_gems_pass] 0} {set [num_gems_combo] 0}}
@@ -16,7 +16,9 @@
          {$this check_missed}
          {{{get_bass_panel} find streak_meter} star_deploy_stop}
          {{{{get_bass_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
+         #ifndef HX_WII
          {bass stop_deploy}
+         #endif
          {if {== $hwalpha rb3}
             {{{get_bass_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
          }
@@ -33,14 +35,18 @@
       {if {== $hwalpha rb3}
          {{{get_bass_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
       }
+      #ifndef HX_WII
       {bass stop_deploy}
+      #endif
    )
    (check_fc
       {$this check_missed}
       {if {== {'+' [num_gems_pass] [num_gems_miss]} 0}
          {if {|| {== $fctype glow} {== $fctype both}}
             {{{get_bass_panel} find streak_meter} star_deploy}
+            #ifndef HX_WII
             {bass deploy}
+            #endif
          }
       }
    )
@@ -51,7 +57,9 @@
          {if {== $hwalpha rb3}
             {{{get_bass_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
          }
+         #ifndef HX_WII
          {bass stop_deploy}
+         #endif
       }
       {if_else {== $highwaybass "_1_none"}
          {do
@@ -89,7 +97,7 @@
       {{{get_bass_panel} find surface.mat} set emissive_map {{get_track_panel} find background.tex}}
    )
    (do_customhw_warn_on
-      {if {= {{{{get_track_panel} find crowd_meter} find bass.tnm} frame} 0.32}
+      {if {== {{{{get_track_panel} find crowd_meter} find bass.tnm} frame} 0.32}
          {unless $nohwwarn
             {{{get_bass_panel} find warning_track_emissive.anim} animate}
             {{{get_bass_panel} find surface.mat} set emissive_map {{get_track_panel} find background.tex}}
@@ -119,7 +127,7 @@
                   {{{get_bass_panel} find warning_track_emissive.anim} stop_animation}
                   {{{get_bass_panel} find warning_track_emissive.anim} set_frame 0.0}
                }
-               {if {= {{{{get_track_panel} find crowd_meter} find bass.tnm} frame} 0.32}
+               {if {== {{{{get_track_panel} find crowd_meter} find bass.tnm} frame} 0.32}
                   {{{get_bass_panel} find indv_player_warning.trig} trigger}
                   {{{get_bass_panel} find warning_track_emissive.anim} animate}
                }
@@ -159,10 +167,10 @@
    (num_gems_combo 0)
    (num_gems_miss 0)
    (num_gems_pass 0)
-)
+}
 
 ; Guitar
-(new Object fc_guitar_callback ;remove FC groove on guitar miss/pass
+{new Object fc_guitar_callback ;remove FC groove on guitar miss/pass
    (hit
       {if {! $guitar_firstnote} {set $guitar_firstnote TRUE}}
       {if {! $guitar_milosong} {set $guitar_milosong TRUE} {set [num_gems_hit] 0} {set [num_gems_miss] 0} {set [num_gems_pass] 0} {set [num_gems_combo] 0}}
@@ -180,7 +188,9 @@
          {if {== $hwalpha rb3}
             {{{get_guitar_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
          }
+         #ifndef HX_WII
          {guitar stop_deploy}
+         #endif
       }
    )
    (pass
@@ -194,14 +204,18 @@
       {if {== $hwalpha rb3}
          {{{get_guitar_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
       }
+      #ifndef HX_WII
       {guitar stop_deploy}
+      #endif
    )
    (check_fc
       {$this check_missed}
       {if {== {'+' [num_gems_pass] [num_gems_miss]} 0}
          {if {|| {== $fctype glow} {== $fctype both}}
             {{{get_guitar_panel} find streak_meter} star_deploy}
+            #ifndef HX_WII
             {guitar deploy}
+            #endif
          }
       }
    )
@@ -209,7 +223,9 @@
       {if {> {'+' [num_gems_miss] [num_gems_pass]} 0}
          {{{get_guitar_panel} find streak_meter} star_deploy_stop}
          {{{{get_guitar_panel} find streak_meter} find glass.mat} set diffuse_tex {{get_track_panel} find multiplier_cap_glass_vox.tex}}
+         #ifndef HX_WII
          {guitar stop_deploy}
+         #endif
          {if {== $hwalpha rb3}
             {{{get_guitar_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
          }
@@ -249,7 +265,7 @@
       {{{get_guitar_panel} find warning_track_emissive.anim} set_frame 15.0}
    )
    (do_customhw_warn_on
-      {if {= {{{{get_track_panel} find crowd_meter} find guitar.tnm} frame} 0.32}
+      {if {== {{{{get_track_panel} find crowd_meter} find guitar.tnm} frame} 0.32}
          {unless $nohwwarn
             {{{get_guitar_panel} find warning_track_emissive.anim} animate}
          }
@@ -280,7 +296,7 @@
                   {{{get_guitar_panel} find warning_track_emissive.anim} stop_animation}
                   {{{get_guitar_panel} find warning_track_emissive.anim} set_frame 0.0}
                }
-               {if {= {{{{get_track_panel} find crowd_meter} find guitar.tnm} frame} 0.32}
+               {if {== {{{{get_track_panel} find crowd_meter} find guitar.tnm} frame} 0.32}
                   {{{get_guitar_panel} find indv_player_warning.trig} trigger}
                   {{{get_guitar_panel} find warning_track_emissive.anim} animate}
                }
@@ -320,10 +336,10 @@
    (num_gems_combo 0)
    (num_gems_miss 0)
    (num_gems_pass 0)
-)
+}
 
 ; Drums
-(new Object fc_drum_callback ;remove FC groove on drum miss/pass
+{new Object fc_drum_callback ;remove FC groove on drum miss/pass
    (hit
       {if {! $drum_firstnote} {set $drum_firstnote TRUE}}
       {if {! $drum_milosong} {set $drum_milosong TRUE} {set [num_gems_hit] 0} {set [num_gems_miss] 0} {set [num_gems_pass] 0} {set [num_gems_combo] 0}}
@@ -341,7 +357,9 @@
          {if {== $hwalpha rb3}
             {{{get_drum_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
          }
+         #ifndef HX_WII
          {drum stop_deploy}
+         #endif
       }
    )
    (pass
@@ -355,14 +373,18 @@
       {if {== $hwalpha rb3}
          {{{get_drum_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
       }
+      #ifndef HX_WII
       {drum stop_deploy}
+      #endif
    )
    (check_fc
       {$this check_missed}
       {if {== {'+' [num_gems_pass] [num_gems_miss]} 0}
          {if {|| {== $fctype glow} {== $fctype both}}
             {{{get_drum_panel} find streak_meter} star_deploy}
+            #ifndef HX_WII
             {drum deploy}
+            #endif
          }
       }
    )
@@ -373,7 +395,9 @@
          {if {== $hwalpha rb3}
             {{{get_drum_panel} find track_clipping.mat} set diffuse_tex {{get_track_panel} find rb3clip.tex}}
          }
+         #ifndef HX_WII
          {drum stop_deploy}
+         #endif
       }
       {if_else {== $highwaydrum "_1_none"}
          {do
@@ -411,7 +435,7 @@
       {{{get_drum_panel} find surface.mat} set emissive_map {{get_track_panel} find black.tex}}
    )
    (do_customhw_warn_on
-      {if {= {{{{get_track_panel} find crowd_meter} find drum.tnm} frame} 0.32}
+      {if {== {{{{get_track_panel} find crowd_meter} find drum.tnm} frame} 0.32}
          {unless $nohwwarn
             {{{get_drum_panel} find warning_track_emissive.anim} animate}
             {{{get_drum_panel} find surface.mat} set emissive_map {{get_track_panel} find black.tex}}
@@ -444,7 +468,7 @@
                   {{{get_drum_panel} find warning_track_emissive.anim} stop_animation}
                   {{{get_drum_panel} find warning_track_emissive.anim} set_frame 0.0}
                }
-               {if {= {{{{get_track_panel} find crowd_meter} find drum.tnm} frame} 0.32}
+               {if {== {{{{get_track_panel} find crowd_meter} find drum.tnm} frame} 0.32}
                   {{{get_drum_panel} find indv_player_warning.trig} trigger}
                   {{{get_drum_panel} find warning_track_emissive.anim} animate}
                }
@@ -484,7 +508,7 @@
    (num_gems_combo 0)
    (num_gems_miss 0)
    (num_gems_pass 0)
-)
+}
 
 #include dx_h2h_callback.dta ;for head to head gamemodes (score duel, tug of war)
 ; Vocals wen

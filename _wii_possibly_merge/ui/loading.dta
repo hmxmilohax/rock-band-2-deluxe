@@ -1,0 +1,497 @@
+#ifndef _SHIP
+#ifndef WII_OUTPUTONLY
+{new
+   BandScreen
+   loading_multi_screen
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {ui goto_screen loading_multi_content_screen})}
+{new
+   UIPanel
+   loading_multi_content_panel
+   (load
+      {content_mgr start_refresh})
+   (is_loaded
+      {content_mgr refresh_done})}
+{new
+   BandScreen
+   loading_multi_content_screen
+   (panels loading_multi_content_panel)
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {tour create_test_event}
+      {ui goto_screen loading_screen})}
+{new
+   UIPanel
+   loading_mem_chars
+   (load
+      {game
+         load_all_chars
+         (world TRUE)})
+   (is_loaded
+      {char_cache loaded})}
+{new
+   BandScreen
+   loading_mem_screen
+   (panels loading_mem_chars)
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {heap_report}
+      {ui goto_screen loading_screen})}
+#endif
+#endif
+{new
+   UIPanel
+   loading_panel
+   (file
+      "loading.milo")
+   (next_screen '')
+   (load
+      {gamecfg set_active_roster TRUE}
+      {if
+         {== $first_screen loading_screen}
+         {content_mgr start_refresh}})
+   (is_loaded
+      {content_mgr refresh_done})
+   (enter
+      #ifndef NOWIINETWORKING
+      #ifndef HX_EE
+      {botb_details_panel invalidate_cache}
+      #endif
+      #endif
+      {song_offer_provider set_setlist_mode FALSE}
+      {if
+         {tour band}
+         {{tour band}
+            reset_iron_bladder}}
+      {seed_random_context
+         {gamecfg get net_random_seed}}
+      {set
+         [next_screen]
+         {cond
+            ($force_loading_tip loading_tip_screen)
+            ($force_loading_image loading_image_screen)
+            ({!=
+                  {tour loading_screen}
+                  ''}
+               loading_image_screen)
+            ({&&
+                  {gamemode get show_loading_images}
+                  {==
+                     {mod
+                        {gamecfg get net_random_seed}
+                        2}
+                     0}}
+               loading_image_screen)
+            (TRUE loading_tip_screen)}}
+      {if_else
+         {==
+            [next_screen]
+            loading_tip_screen}
+         {do
+            {Plane01.mesh set_showing TRUE}
+            {tip.lbl set_showing TRUE}
+            {tip.lbl
+               set_localized
+               {localize
+                  {if_else
+                     $force_loading_tip
+                     $force_loading_tip
+                     {if_else
+                        {gamemode get use_static_tip}
+                        {gamemode get the_static_tip}
+                        {random_context
+                           {elem
+                              {find $syscfg tips}
+                              1}}}}}}}
+         {do
+            {Plane01.mesh set_showing FALSE}
+            {tip.lbl set_showing FALSE}}}
+      #ifndef HX_OG
+      {if
+         {'||'
+            {==
+               {band_ui current_event}
+               pad_lost}
+            {==
+               {band_ui current_event}
+               remote_exit}}
+         {band_ui dismiss_event}}
+      #else
+      {if
+         {'||'
+            {==
+               {band_ui current_event}
+               pad_lost}
+            {==
+               {band_ui current_event}
+               mic_lost}
+            {==
+               {band_ui current_event}
+               remote_exit}}
+         {band_ui dismiss_event}}
+      #endif
+      {do
+         ($first_guitar
+            "")
+         ($first_bass
+            "")
+         ($first_drum
+            "")
+         ($first_vocals
+            "")
+         {foreach_int
+            $i
+            0
+            {user_mgr get_max_users}
+            {do
+               ($user
+                  {user_mgr get_user_from_slot $i})
+               ($track
+                  {if_else
+                     $user
+                     {$user get_track_sym}
+                     none})
+               ($object
+                  {sprintf
+                     "load_icon_%i"
+                     $i})
+               ($var
+                  {sprintf
+                     "first_%s"
+                     $track})
+               ($flip FALSE)
+               ($object_to_flip $object)
+               {cond
+                  ({== $track guitar}
+                     {if_else
+                        {==
+                           $first_guitar
+                           ""}
+                        {set $first_guitar $object}
+                        {set $flip TRUE}})
+                  ({== $track bass}
+                     {if_else
+                        {==
+                           $first_bass
+                           ""}
+                        {set $first_bass $object}
+                        {do
+                           {set $flip TRUE}
+                           {set $object_to_flip $first_bass}}})
+                  ({== $track drum}
+                     {if_else
+                        {==
+                           $first_drum
+                           ""}
+                        {set $first_drum $object}
+                        {set $flip TRUE}})
+                  ({== $track vocals}
+                     {if_else
+                        {==
+                           $first_vocals
+                           ""}
+                        {set $first_vocals $object}
+                        {do
+                           {set $flip TRUE}
+                           {set $object_to_flip $first_vocals}}})}
+               {if
+                  $flip
+                  {do
+                     ($sx 1.0)
+                     ($sy 1.0)
+                     ($sz 1.0)
+                     #ifdef HX_OG
+                     ($anim
+                        {sprintf
+                           "%s.mnm"
+                           $track})
+                     #else
+                     ($anim
+                        {sprintf
+                           "%s.anim"
+                           $track})
+                     #endif
+                     {$object_to_flip get_local_scale $sx $sy $sz}
+                     {$object_to_flip
+                        set_local_scale
+                        {'*' $sx -1.0}
+                        $sy
+                        $sz}
+                     {{$object_to_flip find $anim}
+                        animate
+                        (delay 0.4)
+                        (loop)}
+                     {if
+                        {==
+                           $track
+                           "drum"}
+                        {{$object_to_flip
+                              find
+                              "drum.anim"}
+                           animate
+                           (delay 0.4)
+                           (loop)}}}}}}})
+   (block_event
+      ($event)
+      {!= $event content_file_read_failed})}
+{new
+   BandScreen
+   loading_screen
+   (panels loading_panel)
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {net_sync set_ui_state kNetUI_Loading}
+      {input_mgr set_limit kLimitSession}
+      #ifdef HX_WII
+      {if_else
+         {'||'
+            {==
+               {gamemode get game_mode}
+               drum_trainer_beats}
+            {==
+               {gamemode get game_mode}
+               drum_trainer_fills}
+            {==
+               {gamemode get game_mode}
+               drum_trainer_freestyle}}
+         {ui goto_screen real_loading_screen}
+         {ui goto_screen preloading_screen}}
+      #else
+      {ui goto_screen real_loading_screen}
+      #endif
+      {helpbar
+         set_config
+         ((min_height 0))})}
+{new
+   PreloadPanel
+   preload_panel
+   (content_name
+      "")
+   (corrupt FALSE)
+   (enter
+      #ifdef IGNORE_PRELOAD_OK
+      {ui goto_screen real_loading_screen}
+      #else
+      {if_else
+         [preload_ok]
+         {ui goto_screen real_loading_screen}
+         {band_ui
+            content_file_read_failed
+            [content_name]
+            [corrupt]}}
+      #endif)}
+{new
+   BandScreen
+   preloading_screen
+   (panels loading_panel preload_panel)
+   (focus preload_panel)
+   (helpbar
+      ((min_height 0)))}
+{new
+   BandScreen
+   real_loading_screen
+   (panels loading_panel)
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {song_mgr
+         add_recent_song
+         {meta_performer song}}
+      {if
+         {meta_performer has_sync_permission}
+         {meta_performer advance_song_select_user}}
+      {ui
+         goto_screen
+         {loading_panel get next_screen}})}
+{new
+   UIPanel
+   char_loading_panel
+   (load
+      {if
+         {gamemode get load_chars}
+         {game
+            load_all_chars
+            (world TRUE)}})
+   (is_loaded
+      {if_else
+         {gamemode get load_chars}
+         {char_cache loaded}
+         TRUE})}
+{new
+   UIPanel
+   char_loaded_panel
+   (load
+      {if
+         {gamemode get load_chars}
+         {char_cache set_loading_screen_mode}})
+   (is_loaded
+      {if_else
+         {gamemode get load_chars}
+         {char_cache loading_screen_configure_done}
+         TRUE})}
+{new
+   BandScreen
+   loading_tip_screen
+   (panels loading_panel char_loading_panel)
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {synth stop_all_sfx}
+      {ui goto_screen loading_tip_screen_2})}
+{new
+   BandScreen
+   loading_tip_screen_2
+   (panels loading_panel char_loaded_panel)
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {ui
+         goto_screen
+         {gamemode get game_screen}})}
+{new
+   BandScreen
+   loading_image_screen
+   (panels loading_panel char_loading_panel)
+   (helpbar
+      ((min_height 0)))
+   (enter
+      {synth stop_all_sfx}
+      {ui goto_screen loading_photo_screen})}
+{new
+   LoadingPanel
+   loading_photo
+   (file
+      {cond
+         ({&&
+               $force_loading_image
+               {! $force_loading_image_random}}
+            $force_loading_image)
+         ({!=
+               {tour loading_screen}
+               ''}
+            {tour loading_screen})
+         ({gamemode get load_chars}
+            {if_else
+               {gamemode is_band_arrangement}
+               {random_context
+                  {elem
+                     {find $syscfg loading_screens}
+                     1}}
+               {switch
+                  {{session_mgr get_leader_user}
+                     get_track_sym}
+                  (guitar loading/ls_h2h_guitar.milo)
+                  (bass loading/ls_h2h_bass.milo)
+                  (drum loading/ls_h2h_drum.milo)
+                  (vocals loading/ls_h2h_vocals.milo)}})
+         ""}
+      kLoadStayBack)
+   (enter
+      {cond
+         ({gamemode is_h2h_arrangement}
+            {do
+               ($mode
+                  {if_else
+                     {gamemode get separate_parts}
+                     tug_of_war
+                     score_duel})
+               {mode0.lbl set text_token $mode}
+               {mode1.lbl set text_token $mode}}
+            {foreach_int
+               $slot
+               kGameH2hSlot0
+               kGameH2hNumSlots
+               {do
+                  ($user
+                     {user_mgr get_user_from_slot $slot})
+                  {{sprintf
+                        "char%i.lbl"
+                        $slot}
+                     set_localized
+                     {$user intro_name}}}})
+         ({&&
+               {tour band}
+               {tour event}
+               {{tour event}
+                  is_battle}}
+            {do
+               ($band
+                  {tour band})
+               {band_name.lbl
+                  set_localized
+                  {$band band_name}}
+               #ifndef HX_OG
+               {band_logo.rndtex
+                  set
+                  draw
+                  {$band logo_patch}}
+               #endif
+               #ifdef HX_WII
+               {band_logo.tex
+                  set_bitmap
+                  {$band get_band_logo}}
+               #endif
+               {if_else
+                  {meta_performer is_battle_brand_new}
+                  {do
+                     {rival_name.lbl
+                        set_localized
+                        "-"}
+                     {rival_logo.mesh set_showing FALSE}}
+                  {do
+                     {rival_name.lbl
+                        set_localized
+                        {$band get_botb_rival_band_name}}
+                     #ifndef HX_OG
+                     {rival_logo.rndtex
+                        set
+                        draw
+                        {$band get_botb_rival_band_icon}}
+                     {rival_logo.mesh set_showing TRUE}
+                     #endif
+                     #ifdef HX_WII
+                     {rival_logo.tex
+                        set_bitmap
+                        {$band get_botb_rival_band_icon_path}}
+                     {rival_logo.mesh set_showing TRUE}
+                     #endif}}})})}
+{new
+   BandScreen
+   loading_photo_screen
+   (panels loading_photo char_loaded_panel loading_panel)
+   (helpbar
+      ((min_height 0)))
+   (delay_frames -1)
+   (show_event FALSE)
+   (enter
+      {set
+         [delay_frames]
+         3})
+   (poll
+      {--
+         [delay_frames]}
+      {if
+         {==
+            [delay_frames]
+            0}
+         {set
+            [delay_frames]
+            -1}
+         {game
+            load_all_chars
+            (world TRUE)}
+         {do
+            ($ld
+               {loading_photo loaded_dir})
+            {if
+               $ld
+               {handle
+                  ($ld restore_clips)}}}
+         {ui
+            goto_screen
+            {gamemode get game_screen}}})}

@@ -68,11 +68,12 @@
 ))
 
 #ifndef _SHIP
+#ifndef WII_OUTPUTONLY
 (test_event
 	(songs
 		(random)
 		(random)
 		(random))
 	(money_per_star 100))
-
+#endif
 #endif 
