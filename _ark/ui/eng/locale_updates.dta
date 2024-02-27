@@ -233,7 +233,9 @@
 #ifdef HX_PS3
 (community_no_server_warning "Couldn't connect to the game servers.\n\nYou won't be able to access the online leaderboards.  Continue anyway?")
 #else
+#ifndef HX_WII
 (community_no_server_warning "Couldn't connect to the game servers.\n\nYou won't be able to access the Xbox LIVE leaderboards.  Continue anyway?")
+#endif
 #endif
 (motd_no_rock_central "Attempting to connect to the game servers...")
 (motd_online_disabled "Cannot connect to the game servers while modifiers are enabled.")
@@ -263,8 +265,10 @@
 (error_cheating
    "Sorry, you have a modifier activated that disables online play. You cannot access any online features until the modifier is disabled.")
 #else
+#ifndef HX_WII
 (error_cheating
    "Sorry, you have a modifier activated that disables Xbox LIVE play. You cannot access any Xbox LIVE features until the modifier is disabled.")
+#endif
 #endif
 (attract_press_start
    " ")
