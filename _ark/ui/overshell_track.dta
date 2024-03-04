@@ -8,7 +8,7 @@
     #endif
     (focus sel_section.lst)
     (enter
-        {sel_section.lst set_data (#ifdef HX_WII os_sus #else os_trkpreset #endif os_trkbhvr os_angle #ifndef HX_EE os_clr #endif)}
+        {sel_section.lst set_data (os_trkpreset os_trkbhvr os_angle #ifndef HX_EE os_clr #endif)}
         {title.lbl set_localized {localize os_trkset}}
         {full_selection.mesh set_showing FALSE})
     (exit)
@@ -18,7 +18,7 @@
             {os_change_screen overshell_sustains}
          )
          (os_trkpreset
-            #ifdef HX_EE
+            #ifdef HX_OG
             {os_change_screen overshell_tex}
             #else
             {os_change_screen overshell_trkpreset}

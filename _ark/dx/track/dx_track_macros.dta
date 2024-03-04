@@ -1,6 +1,34 @@
 #define DX_TEXTURE_CORRECTOR
 (
    {unless $texrunonce
+      #ifdef HX_OG
+         {if {== $gem "rb2"} {set $gem "none"} {set $gemcustomtexture FALSE}}
+         {if {== $smasher "rb2_ps2"} {set $smasher "none"} {set $smashercustomtexture FALSE}}
+         #ifdef HX_WII
+         {if {== $smasher "rb2dx"} {set $smasher "none"} {set $smashercustomtexture FALSE}}
+         #endif
+         {if {== $lanestex "rb2"} {set $lanestex "none"} {set $lanescustomtexture FALSE}}
+         {if {== $streakgtr "rb2"} {set $streakgtr "none"} {set $streakcustomtexture FALSE}}
+         {if {== $streakbass "rb2"} {set $streakbass "none"} {set $streakcustomtexture FALSE}}
+         {if {== $streakdrum "rb2"} {set $streakdrum "none"} {set $streakcustomtexture FALSE}}
+         {if {== $spotlightgtr "rb2_guitar"} {set $spotlightgtr "none"} {set $spotlightgtrcustomtexture FALSE}}
+         {if {== $spotlightbass "rb2_bass"} {set $spotlightbass "none"} {set $spotlightbasscustomtexture FALSE}}
+         {if {== $spotlightdrum "rb2_drums"} {set $spotlightdrum "none"} {set $spotlightdrumscustomtexture FALSE}}
+         {if {== $multiring "rb2"} {set $multiring "none"} {set $multiringcustomtexture FALSE}}
+         {if {== $odbar "rb2"} {set $odbar "none"} {set $odbarcustomtexture FALSE}}
+         {if {== $rails "rb2"} {set $rails "none"} {set $railscustomtexture FALSE}}
+         {if {== $flames "rb2"} {set $flames "none"} {set $flamescustomtexture FALSE}}
+         {if {== $crowdmetertex "rb2"} {set $crowdmetertex "none"} {set $crowdmetercustomtexture FALSE}}
+         {if {== $scoretex "rb2"} {set $scoretex "none"} {set $scorecustomtexture FALSE}}
+         {if {== $solobox "rb2"} {set $solobox "none"} {set $soloboxcustomtexture FALSE}}
+         {if {== $stars "rb2"} {set $stars "none"} {set $starscustomtexture FALSE}}
+         {if {== $font "rb2"} {set $font "none"} {set $fontcustomtexture FALSE}}
+         {if {== $bretex "rb2"} {set $bretex "none"} {set $brecustomtexture FALSE}}
+         {if {== $voxarrow "rb2"} {set $voxarrow "none"} {set $voxarrowcustomtexture FALSE}}
+         {if {== $voxnotes "rb2"} {set $voxnotes "none"} {set $voxnotescustomtexture FALSE}}
+         {if {== $voxod "rb2"} {set $voxod "none"} {set $voxodcustomtexture FALSE}}
+         {if {== $voxhw "rb2"} {set $voxhw "none"} {set $voxhwcustomtexture FALSE}}
+      #else
       {if_else $dx_queue_stock_track
          {do
             {if {== $gem "rb2"} {set $gem "none"} {set $gemcustomtexture FALSE}}
@@ -55,6 +83,7 @@
             }
          }
       }
+      #endif
    }
 )
 
@@ -74,7 +103,9 @@
       #ifdef HX_EE
       {{$this find smasher_wii.tex} set_bitmap "track/rails/rails_warning_rb2.png"}
       #else
+      #ifndef HX_WII
       {{$this find smasher_plate_orange_nomip.tex} set_bitmap "track/rails/rails_warning_rb2.png"}
+      #endif
       {if_else $dx_queue_stock_track
          {{$this find all_icons.tex} set_bitmap "track/multiplier_ring/multiplier_cap_fc_rb2.png"}
          {{$this find all_icons.tex} set_bitmap "track/multiplier_ring/multiplier_cap_fc_rb2dx.png"}
@@ -98,6 +129,7 @@
             {{{get_track_0_panel} find track_clipping.mesh} get_local_scale $clipx $clipy $clipz}
             {set $h2hclipscale TRUE}
          }
+         #ifndef HX_WII ; wii doesn't have track_clipping.mesh
          {if_else {== $hwalpha rb3}
             {do
                {{{get_track_0_panel} find track_clipping.mat} set diffuse_tex {$this find rb3clip.tex}}
@@ -116,6 +148,7 @@
          {{{get_track_1_panel} find track_clipping.mat} set intensify {== $hwalpha rb3}}
          {{{get_track_0_panel} find track_clipping.mesh} set_showing {!= $hwalpha rb1}}
          {{{get_track_1_panel} find track_clipping.mesh} set_showing {!= $hwalpha rb1}}
+         #endif
          {if_else {== {{game get_participant_config 0} get_track_sym} drum}
             {do
                {{{get_track_0_panel} find smasher_plate_drum} iterate Mesh $m {$m set_showing {! $smasherbracket}}}
@@ -144,6 +177,7 @@
                }
             }
          }
+         #ifndef HX_WII ; wii doesn't have track_clipping.mesh
          {if_else {== $hwalpha rb3}
             {beatmatch foreach_active_player $player
                {switch {$player instrument}
@@ -184,6 +218,7 @@
          {{{get_guitar_panel} find track_clipping.mesh} set_showing {!= $hwalpha rb1}}
          {{{get_bass_panel} find track_clipping.mesh} set_showing {!= $hwalpha rb1}}
          {{{get_drum_panel} find track_clipping.mesh} set_showing {!= $hwalpha rb1}}
+         #endif
          {{{get_drum_panel} find smasher_plate_drum} iterate Mesh $m {$m set_showing {! $smasherbracket}}}
          {{{get_guitar_panel} find smasher_plate_guitar} iterate Mesh $m {$m set_showing {! $smasherbracket}}}
          {{{get_bass_panel} find smasher_plate_guitar} iterate Mesh $m {$m set_showing {! $smasherbracket}}}
@@ -197,7 +232,7 @@
       {{$this find black.tex} iterate_refs $ref {$ref set intensify {== $hwalpha off}}}      
    }
 
-   #ifndef HX_EE
+   #ifndef HX_OG
    {if $highwaycustomtexture
       {{$this find track_reflect_warning.tex} set_bitmap {sprint "track_new/highways/" $highwaygtr ".png"}}
       {{$this find background.tex} set_bitmap {sprint "track_new/highways/" $highwaybass ".png"}}
@@ -213,20 +248,24 @@
    }
    #endif
 
+   #ifndef HX_WII
    {if $voxhwcustomtexture 
       {{$this find vocal_bg.tex} set_bitmap {sprint "track/voxhw/vocal_bg_" $voxhw ".png"}}
    }
+   #endif
 
+   #ifndef HX_WII
    {if $brecustomtexture
       {{$this find blossom.tex} set_bitmap {sprint "track_new/bre/blossom_" $bretex ".png"}}
       {{$this find bre_black_wing.tex} set_bitmap {sprint "track_new/bre/bre_black_wing_" $bretex ".png"}}
       {{$this find bre_shield.tex} set_bitmap {sprint "track_new/bre/bre_shield_" $bretex ".png"}}
    }
+   #endif
 
    {if $gemcustomtexture
-      #ifdef HX_EE
-      {{$this find prism_gems.tex} set_bitmap {sprint "track_ps2/gems/prism_gems_" $gem ".png"}}
-      {{$this find prism_gems_lod.tex} set_bitmap {sprint "track_ps2/gems/prism_gems_lod_" $gem ".png"}}
+      #ifdef HX_OG
+      {{$this find prism_gems.tex} set_bitmap {sprint "track_og/gems/prism_gems_" $gem ".png"}}
+      {{$this find prism_gems_lod.tex} set_bitmap {sprint "track_og/gems/prism_gems_lod_" $gem ".png"}}
       #else
       {{$this find prism_gems.tex} set_bitmap {sprint "track/gems/prism_gems_" $gem ".png"}}
       {{$this find prism_gem_emissive.tex} set_bitmap {sprint "track/gems/prism_gem_emissive_" $gem ".png"}}
@@ -240,10 +279,10 @@
    }
 
    {if $smashercustomtexture
-      #ifdef HX_EE
-      {{$this find smasher_color_ps2.tex} set_bitmap {sprint "track_ps2/smashers/smasher_color_" $smasher ".png"}}
-      {{$this find smasher_ps2.tex} set_bitmap {sprint "track_ps2/smashers/smasher_" $smasher ".png"}}
-      {{$this find square_smasher_bright.tex} set_bitmap {sprint "track_ps2/smashers/square_smasher_bright_" $smasher ".png"}}
+      #ifdef HX_OG
+      {{$this find smasher_color_ps2.tex} set_bitmap {sprint "track_og/smashers/smasher_color_" $smasher ".png"}}
+      {{$this find smasher_ps2.tex} set_bitmap {sprint "track_og/smashers/smasher_" $smasher ".png"}}
+      {{$this find square_smasher_bright.tex} set_bitmap {sprint "track_og/smashers/square_smasher_bright_" $smasher ".png"}}
       {{$this find smasher_color_ps2.tex} iterate_refs $ref {$ref set alpha_cut true}}
       {{$this find smasher_ps2.tex} iterate_refs $ref {$ref set alpha_cut true}}
       {{$this find square_smasher_bright.tex} iterate_refs $ref {$ref set alpha_cut true}}
@@ -270,12 +309,13 @@
       #endif
    }
 
+   #ifndef HX_WII
    {if $flamescustomtexture
       {{$this find radial_shockwave.tex} set_bitmap {sprint "track_new/flames/radial_shockwave_" $flames ".png"}}
       {{$this find radial_shockwave_subtract.tex} set_bitmap {sprint "track_new/flames/radial_shockwave_subtract_" $flames ".png"}}
       {{$this find radial_shockwave.tex} iterate_refs $ref {$ref set blend {if_else {|| {== $flames fnfestival} {== $flames fnfestival_beta}} 2 3}}}
       {{$this find shockwave.tex} set_bitmap {sprint "track_new/flames/shockwave_" $flames ".png"}}
-      #ifndef HX_EE
+      #ifndef HX_OG
       {{$this find flare_orange_kick_smasher.tex} set_bitmap {sprint "track_new/flames/flare_orange_kick_smasher_" $flames ".png"}}
       #endif
       {{$this find flare_light_can_star.tex} set_bitmap {sprint "track_new/flames/flare_light_can_star_" $flames ".png"}}
@@ -285,8 +325,9 @@
       {{$this find spark.tex} set_bitmap {sprint "track_new/flames/sparks_" $flames ".png"}}
       {{$this find sparks.tex} set_bitmap {sprint "track_new/flames/sparks_" $flames ".png"}}
    }
+   #endif
 
-   #ifndef HX_EE
+   #ifndef HX_OG
    {if $lanescustomtexture
       {{$this find gem_mash_green_emmisive.tex} set_bitmap {sprint "track/lanes/gem_mash_green_" $lanestex ".png"}}
       {{$this find gem_mash_red_emmisive.tex} set_bitmap {sprint "track/lanes/gem_mash_red_" $lanestex ".png"}}
@@ -296,10 +337,12 @@
    }
    #endif
    
+   #ifndef HX_WII
    {if $voxarrowcustomtexture
       {{$this find pitch_arrow_split.tex} set_bitmap {sprint "track/voxarrow/pitch_arrow_split_" $voxarrow ".png"}}
       {{$this find pitch_arrow_effect.tex} set_bitmap {sprint "track/voxarrow/pitch_arrow_effect_" $voxarrow ".png"}}
    }
+   #endif
    
    {if $voxnotescustomtexture
       {{$this find 3d_tube_pitched.tex} set_bitmap {sprint "track/voxnotes/3d_tube_pitched_" $voxnotes ".png"}}
@@ -314,43 +357,54 @@
       {{$this find freestyle_nowbar_FX.tex} set_bitmap {sprint "track/voxod/vox_now_bar_effect_" $voxod ".png"}}
    }
 
+   #ifndef HX_WII
    {if $crowdmetercustomtexture
       {{$this find meter_star.tex} set_bitmap {sprint "track/crowd_meter/meter_star_" $crowdmetertex ".png"}}
       {{$this find new_tube.tex} set_bitmap {sprint "track/crowd_meter/new_tube_" $crowdmetertex ".png"}}
    }
+   #endif
 
+   #ifndef HX_WII
    {if $scorecustomtexture
       {{$this find indv_player_meter_circle.tex} set_bitmap {sprint "track/score/indv_player_meter_circle_" $scoretex ".png"}}
       {{$this find indv_player_meter_glass.tex} set_bitmap {sprint "track/score/indv_player_meter_glass_" $scoretex ".png"}}
       {{$this find indv_player_meter_glow.tex} set_bitmap {sprint "track/score/indv_player_meter_glow_" $scoretex ".png"}}
       {{$this find indv_player_meter.png} set_bitmap {sprint "track/score/indv_player_meter_" $scoretex ".png"}}
    }
+   #endif
 
+   #ifndef HX_WII
    {if $soloboxcustomtexture
       {{$this find vox_slider_bkgrnd.tex} set_bitmap {sprint "track/solo_box/" $solobox ".png"}}
    }
+   #endif
 
+   #ifndef HX_WII
    {if $starscustomtexture
       {{$this find star_sheet.tex} set_bitmap {sprint "track/stars/star_power_" $stars ".png"}}
       {{$this find score_meter_wipe.tex} set_bitmap {sprint "track/stars/score_meter_wipe_" $stars ".png"}}
-      #ifdef HX_EE
+      #ifdef HX_OG
       {{$this find score_meter_wipe.tex} iterate_refs $ref {$ref set color {pack_color 1.0 1.0 1.0}}}
       #endif
    }
+   #endif
 
-   #ifndef HX_EE
+   #ifndef HX_OG
    {if $fontcustomtexture
       {{$this find chalet_numbers_mono.tex} set_bitmap {sprint "track/font/" $font ".png"}}
    }
    #endif
 
+   #ifndef HX_WII
    {if $odbarcustomtexture
       {{$this find rb2_player_meter_background.tex} set_bitmap {sprint "track/overdrive_bar/player_meter_background_" $odbar ".png"}}
       {{$this find player_meter_long.tex} set_bitmap {sprint "track/overdrive_bar/player_meter_long_" $odbar ".png"}}
       {{$this find rising_sun_fx_small.tex} set_bitmap {sprint "track/overdrive_bar/rising_sun_fx_small_" $odbar ".png"}}
       {{$this find indv_player_meter_bar.tex} set_bitmap {sprint "track/overdrive_bar/indv_player_meter_bar_" $odbar ".png"}}
    }
+   #endif
 
+   #ifndef HX_WII
    {if $multiringcustomtexture
       {{$this find multiplier_cap_glass_vox.tex} set_bitmap {sprint "track/multiplier_ring/multiplier_cap_glass_vox_" $multiring ".png"}}
       {{$this find all_icons.tex} set_bitmap {sprint "track/multiplier_ring/multiplier_cap_fc_" $multiring ".png"}}
@@ -358,14 +412,17 @@
       {{$this find all_icons.tex} iterate_refs $ref {$ref set intensify {&& {!= $multiring rb2} {!= $multiring rb2dx}}}}
       {{$this find multiplier_meter_glow.tex} set_bitmap {sprint "track/multiplier_ring/multiplier_meter_glow_" $multiring ".png"}}
       {{$this find multiplier_meter.tex} set_bitmap {sprint "track/multiplier_ring/multiplier_meter_" $multiring ".png"}}
+      #ifndef HX_WII
       {{$this find multiplier_meter_solid..tex} set_bitmap {sprint "track/multiplier_ring/multiplier_meter_solid_" $multiring ".png"}}
+      #endif
    }
+   #endif
 
    {if $streakcustomtexture
       {unless {== $streakbass none}
          {{$this find bass_superstreak_pattern.tex} set_bitmap {sprint "track_new/streak/" $streakbass ".png"}}
       }
-      #ifndef HX_EE ; streak is currently unavailable for g/d on ps2
+      #ifndef HX_OG ; streak is currently unavailable for g/d on ps2
       {if_else {&& {!= $streakbass none} {== $streakgtr none}}
          {do
             {set $streakgtr "rb2"}
@@ -407,11 +464,15 @@
 
    {if $railscustomtexture
       {{$this find rails.tex} set_bitmap {sprint "track/rails/rails_" $rails ".png"}}
+      #ifndef HX_WII
       {{$this find beat_marker.tex} set_bitmap {sprint "track/rails/beat_marker_" $rails ".png"}}
+      #endif
       #ifdef HX_EE
       {{$this find smasher_wii.tex} set_bitmap {sprint "track/rails/rails_warning_" $rails ".png"}}
       #else
+      #ifndef HX_WII
       {{$this find smasher_plate_orange_nomip.tex} set_bitmap {sprint "track/rails/rails_warning_" $rails ".png"}}
+      #endif
       #endif
       {set $railsset TRUE}
    }
@@ -421,21 +482,25 @@
       #ifdef HX_EE
       {{$this find smasher_wii.tex} iterate_refs $ref {$ref set intensify {!= $rails "rb2"}}}
       #else
+      #ifndef HX_WII
       {{$this find smasher_plate_orange_nomip.tex} iterate_refs $ref {$ref set intensify {!= $rails "rb2"}}}
+      #endif
       #endif
       {if {== $rails none}
          {{$this find rails.tex} iterate_refs $ref {$ref set intensify FALSE}}
          #ifdef HX_EE
          {{$this find smasher_wii.tex} iterate_refs $ref {$ref set intensify FALSE}}
          #else
+         #ifndef HX_WII
          {{$this find smasher_plate_orange_nomip.tex} iterate_refs $ref {$ref set intensify FALSE}}
+         #endif
          #endif
       }
    }
 
    {if $spotlightgtrcustomtexture
-      #ifdef HX_EE
-      {{$this find spotlight_guitar_track.tex} set_bitmap {sprint "track_ps2/spotlight/" $spotlightgtr ".png"}}
+      #ifdef HX_OG
+      {{$this find spotlight_guitar_track.tex} set_bitmap {sprint "track_og/spotlight/" $spotlightgtr ".png"}}
       #else
       {{$this find spotlight_guitar_track.tex} set_bitmap {sprint "track_new/spotlight/" $spotlightgtr ".png"}}
       ;{{$this find spotlight_guitar_track.tex} iterate_refs $ref {$ref set color {pack_color 1 0 0}}}
@@ -452,8 +517,8 @@
    }
    
    {if $spotlightbasscustomtexture
-      #ifdef HX_EE
-      {{$this find spotlight_bass_track.tex} set_bitmap {sprint "track_ps2/spotlight/" $spotlightbass ".png"}}
+      #ifdef HX_OG
+      {{$this find spotlight_bass_track.tex} set_bitmap {sprint "track_og/spotlight/" $spotlightbass ".png"}}
       #else
       {{$this find spotlight_bass_track.tex} set_bitmap {sprint "track_new/spotlight/" $spotlightbass ".png"}}
       ;{{$this find spotlight_bass_track.tex} iterate_refs $ref {$ref set color {pack_color 1 0 0}}}
@@ -470,8 +535,8 @@
    }
    
    {if $spotlightdrumcustomtexture
-      #ifdef HX_EE
-      {{$this find spotlight_drums_track.tex} set_bitmap {sprint "track_ps2/spotlight/" $spotlightdrum ".png"}}
+      #ifdef HX_OG
+      {{$this find spotlight_drums_track.tex} set_bitmap {sprint "track_og/spotlight/" $spotlightdrum ".png"}}
       #else
       {{$this find spotlight_drums_track.tex} set_bitmap {sprint "track_new/spotlight/" $spotlightdrum ".png"}}
       ;{{$this find spotlight_drums_track.tex} iterate_refs $ref {$ref set color {pack_color 1 0 0}}}
