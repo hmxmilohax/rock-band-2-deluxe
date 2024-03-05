@@ -33,7 +33,11 @@
 {set $gem "rb2dx"}
 
 ;strikeline texture
+#ifdef HX_WII ; wii transparency is broken atm, so the rb2dx smashers don't exist
+{set $smasher "rb2"} ; set it to rb2 "HD" texture instead
+#else
 {set $smasher "rb2dx"}
+#endif
 
 ;lanes texture
 {set $lanestex "rb2"}

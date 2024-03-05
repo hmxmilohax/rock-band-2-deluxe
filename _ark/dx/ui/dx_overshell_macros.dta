@@ -678,6 +678,7 @@
    {all.grp set_local_rot $osxrot $osyrot {- $oszrot 85.5}}
    {$task sleep 0.005}
    {all.grp set_local_rot $osxrot $osyrot {- $oszrot 90}}
+   {all.grp set_showing FALSE}
    {$task sleep 0.005}
 )
 
@@ -731,11 +732,13 @@
    {all.grp set_local_rot $osxrot $osyrot {+ $oszrot 85.5}}
    {$task sleep 0.005}
    {all.grp set_local_rot $osxrot $osyrot {+ $oszrot 90}}
+   {all.grp set_showing FALSE}
    {$task sleep 0.005}
 )
 
 #define OS_BACK_NEXT_ANIM
 (
+   {{$os_next_panel find all.grp} set_showing TRUE}
    {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot {- $oszrot 90}}
    {$task sleep 0.005}
    {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot {- $oszrot 85.5}}
