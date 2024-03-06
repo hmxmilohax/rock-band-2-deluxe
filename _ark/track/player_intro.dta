@@ -69,23 +69,23 @@
             {if_else {gamemode get is_h2h_arrangement}
                {do 
                   {{{get_track_0_panel} find indv_player_warning_off.trig} trigger}
-                  {{{get_track_0_panel} find warning_track_emissive.anim} animate}
+                  ;{{{get_track_0_panel} find warning_track_emissive.anim} animate}
                   {{{get_track_1_panel} find indv_player_warning_off.trig} trigger}
-                  {{{get_track_1_panel} find warning_track_emissive.anim} animate}
+                  ;{{{get_track_1_panel} find warning_track_emissive.anim} animate}
                }
                {beatmatch foreach_active_player $player 
                   {switch {$player instrument}
                      (bass
                         {{{{get_track_panel} find bass} find indv_player_warning_off.trig} trigger}
-                        {{{{get_track_panel} find bass} find warning_track_emissive.anim} animate}
+                        ;{{{{get_track_panel} find bass} find warning_track_emissive.anim} animate}
                      )
                      (guitar
                         {{{{get_track_panel} find guitar} find indv_player_warning_off.trig} trigger}
-                        {{{{get_track_panel} find guitar} find warning_track_emissive.anim} animate}
+                        ;{{{{get_track_panel} find guitar} find warning_track_emissive.anim} animate}
                      )
                      (drum
                         {{{{get_track_panel} find drum} find indv_player_warning_off.trig} trigger}
-                        {{{{get_track_panel} find drum} find warning_track_emissive.anim} animate}
+                        ;{{{{get_track_panel} find drum} find warning_track_emissive.anim} animate}
                      )
                   }
                }
