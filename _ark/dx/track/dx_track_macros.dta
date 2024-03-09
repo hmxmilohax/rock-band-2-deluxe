@@ -283,9 +283,9 @@
       {{$this find smasher_color_ps2.tex} set_bitmap {sprint "track_og/smashers/smasher_color_" $smasher ".png"}}
       {{$this find smasher_ps2.tex} set_bitmap {sprint "track_og/smashers/smasher_" $smasher ".png"}}
       {{$this find square_smasher_bright.tex} set_bitmap {sprint "track_og/smashers/square_smasher_bright_" $smasher ".png"}}
-      {{$this find smasher_color_ps2.tex} iterate_refs $ref {$ref set alpha_cut true}}
-      {{$this find smasher_ps2.tex} iterate_refs $ref {$ref set alpha_cut true}}
-      {{$this find square_smasher_bright.tex} iterate_refs $ref {$ref set alpha_cut true}}
+      {{$this find smasher_color_ps2.tex} iterate_refs $ref {$ref set alpha_cut TRUE}}
+      {{$this find smasher_ps2.tex} iterate_refs $ref {$ref set alpha_cut TRUE}}
+      {{$this find square_smasher_bright.tex} iterate_refs $ref {$ref set alpha_cut TRUE}}
       #else
       {{$this find black_smasher_blue_nomip.tex} set_bitmap {sprint "track_new/smashers/black_smasher_blue_" $smasher ".png"}}
       {{$this find black_smasher_green_nomip.tex} set_bitmap {sprint "track_new/smashers/black_smasher_green_" $smasher ".png"}}
