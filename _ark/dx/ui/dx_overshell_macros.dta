@@ -282,6 +282,61 @@
    {set $fctype ring}
 )
 
+#define SET_RB4_TRUE_TEXTURE_PRESET
+(
+   {set $sustains "rb2"}
+   {set $nogemdividers TRUE}
+   {set $voxhwcustomtexture TRUE}
+   {set $voxhw rb3}
+   {set $gemcustomtexture TRUE}
+   {set $gem rb4}
+   {set $smashercustomtexture TRUE}
+   {set $smasher rb4}
+   {set $smasherbracket TRUE}
+   {set $voxarrowcustomtexture TRUE}
+   {set $voxarrow rb2dx}
+   {set $voxnotescustomtexture TRUE}
+   {set $voxnotes rb2dx}
+   {set $voxodcustomtexture TRUE}
+   {set $voxod rb2}
+   {set $scorecustomtexture TRUE}
+   {set $scoretex rb4}
+   {set $soloboxcustomtexture TRUE}
+   {set $solobox rb4}
+   {set $starscustomtexture TRUE}
+   {set $stars rb4}
+   {set $fontcustomtexture TRUE}
+   {set $font rb4}
+   {set $odbarcustomtexture TRUE}
+   {set $odbar rb4}
+   {set $railscustomtexture TRUE}
+   {set $rails rb4}
+   {set $flamescustomtexture TRUE}
+   {set $flames rb4}
+   {set $multiringcustomtexture TRUE}
+   {set $multiring rb4}
+   {set $highwaycustomtexture TRUE}
+   {set $highwaygtr _rb4_true}
+   {set $highwaybass _rb4_true}
+   {set $highwaydrum _rb4_true}
+   {set $streakcustomtexture TRUE}
+   {set $streakgtr rb4_true}
+   {set $streakbass rb4_true}
+   {set $streakdrum rb4_true}
+   {set $spotlightgtrcustomtexture TRUE}
+   {set $spotlightgtr rb4_true}
+   {set $spotlightbasscustomtexture TRUE}
+   {set $spotlightbass rb4_true}
+   {set $spotlightdrumcustomtexture TRUE}
+   {set $spotlightdrum rb4_true}
+   {set $hwalpha_needs_reset TRUE}
+   {set $hwalpha off}
+   {set $hwstrk TRUE}
+   {set $nohwwarn TRUE}
+   {set $railwarn TRUE}
+   {set $fctype ring}
+)
+
 #define SET_FNFESTIVAL_TEXTURE_PRESET
 (
    {set $sustains "rb2"}
