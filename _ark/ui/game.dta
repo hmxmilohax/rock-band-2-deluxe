@@ -175,7 +175,7 @@
       {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE} {set $track_0_milosong FALSE} {set $track_1_milosong FALSE}
       {set $bass_groove_active FALSE} {set $drum_groove_active FALSE} {set $guitar_groove_active FALSE} {set $track_0_groove_active FALSE} {set $track_1_groove_active FALSE}
       {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE} {set $track_0_firstnote FALSE} {set $track_1_firstnote FALSE}
-      #ifndef HX_OG
+      #ifndef MHX_OG
       {stagekit_reset}
       #endif
       {beatmatch
@@ -264,7 +264,7 @@
                   pause_screen
                   {ui current_screen}}
                {'||'
-                  #ifdef HX_OG
+                  #ifdef MHX_OG
                   {gamemode get is_jukebox}
                   #else
                   {gamemode get allow_any_controller_to_pause_in_game}
@@ -410,7 +410,7 @@
             {$this set_showing TRUE}}}})
    (unload
       #ifndef HX_PC
-      #ifndef HX_OG
+      #ifndef MHX_OG
       {rnd suspend}
       {{{{gamemode get track_panel} find mtv_overlay} find fade.anim} set_frame 0}
       #endif
@@ -465,7 +465,7 @@
          FALSE}
       {net_sync set_ui_state kNetUI_Pause}
       {ui push_screen pause_mics_screen}
-      #ifdef HX_OG
+      #ifdef MHX_OG
       {band_ui trigger_event mic_lost}
       #endif)
    (pause_for_mic_check
@@ -631,7 +631,7 @@ DX_FPS_SETUP
             {profile_mgr update_mic_gain $player_num}}}
       {handle
          ($this my_enter)}
-      #ifdef HX_OG
+      #ifdef MHX_OG
       {if_else
          {gamemode get is_jukebox}
          {input_mgr set_limit kLimitNone}
@@ -652,7 +652,7 @@ DX_FPS_SETUP
       {platform_mgr remove_sink $this wii_controller_overflow}
       #endif
       {synth stop_playback_all_mics}
-      #ifndef HX_OG
+      #ifndef MHX_OG
       {if
          {'||'
             {==
@@ -824,7 +824,7 @@ DX_FPS_SETUP
          $ret})
    #endif
    (TRANSITION_COMPLETE_MSG
-      #ifndef HX_OG
+      #ifndef MHX_OG
       {if
          {'||'
             {==

@@ -1,4 +1,10 @@
 ;#define STORE_ENABLED (1) ;show music store on main menu
+#ifdef HX_WII
+#define MHX_OG (1) ; macro for "last-gen" platforms (ps2/wii)
+#endif
+#ifdef HX_EE
+#define MHX_OG (1) ; macro for "last-gen" platforms (ps2/wii)
+#endif
 #define GEMCOLOR_SET
 (green red yellow blue orange)
 #define NORMALGEM_SET

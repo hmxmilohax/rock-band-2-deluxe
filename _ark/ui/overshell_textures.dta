@@ -8,7 +8,7 @@
     #endif
     (focus sel_section.lst)
     (enter
-        {sel_section.lst set_data (#ifndef HX_OG os_hw #endif os_strk os_spotlight os_gems os_smashers #ifndef HX_WII os_flames #endif os_sus #ifndef HX_OG os_lanes os_font #endif #ifndef HX_WII os_score os_solobox os_stars os_crowd_meter os_bre os_rails os_odbar os_multi_ring #endif os_voxtrk)}
+        {sel_section.lst set_data (#ifndef MHX_OG os_hw #endif #ifndef HX_EE os_strk #endif os_spotlight os_gems os_smashers #ifndef HX_WII os_flames #endif os_sus #ifndef MHX_OG os_lanes os_font #endif #ifndef HX_WII os_score os_solobox os_stars os_crowd_meter os_bre os_rails os_odbar os_multi_ring #endif os_voxtrk)}
         {title.lbl set_localized {localize os_tex1}}
         {full_selection.mesh set_showing FALSE}
         {set $os_in_transition FALSE}
@@ -99,7 +99,7 @@
          (os_strk
             {set $os_in_transition TRUE}
             {set $dx_tracked_texture_loader streak}
-            #ifdef HX_OG
+            #ifdef MHX_OG
             {set $dx_tracked_instrument bass}
             {os_change_screen overshell_texload}
             #else
@@ -138,7 +138,7 @@
          {do
          {synth play button_toggle}
          {set $os_in_transition TRUE}
-         #ifdef HX_OG
+         #ifdef MHX_OG
          {os_back_screen overshell_track}
          #else
          {os_back_screen overshell_trkpreset}
@@ -334,7 +334,7 @@
       {full_selection.mesh set_showing FALSE}
       {switch $dx_tracked_texture_loader
          (gems
-            {sel_section.lst set_data #ifdef HX_OG (#include ../track_og/gems/gems.dta) #else (#include ../track/gems/gems.dta) #endif}
+            {sel_section.lst set_data #ifdef MHX_OG (#include ../track_og/gems/gems.dta) #else (#include ../track/gems/gems.dta) #endif}
             {title.lbl set_localized {localize os_gems}}
             #ifdef HX_WII
             {anchor_corner02.tex set_bitmap {sprint "track_og/gems/prism_gems_" $gem ".png"}}
@@ -343,7 +343,7 @@
             #endif
          )
          (smashers
-            {sel_section.lst set_data #ifdef HX_OG (#include ../track_og/smashers/smashers.dta) #else (#include ../track_new/smashers/smashers.dta) #endif}
+            {sel_section.lst set_data #ifdef MHX_OG (#include ../track_og/smashers/smashers.dta) #else (#include ../track_new/smashers/smashers.dta) #endif}
             {title.lbl set_localized {localize os_smashers}}
             #ifdef HX_WII
             {anchor_corner02.tex set_bitmap {sprint "track_og/smashers/smasher_color_" $smasher ".png"}}
@@ -426,7 +426,7 @@
                )
                (bass
                   {anchor_corner02.tex set_bitmap {sprint "track_new/streak/" $streakbass ".png"}}
-                  #ifdef HX_OG
+                  #ifdef MHX_OG
                   {title.lbl set_localized {localize os_strk}}
                   #else
                   {title.lbl set_localized {localize os_spotlightbass}}
@@ -443,7 +443,7 @@
             }
          )
          (spotlight
-            {sel_section.lst set_data #ifdef HX_OG (#include ../track_og/spotlight/spotlight.dta) #else (#include ../track_new/spotlight/spotlight.dta) #endif}
+            {sel_section.lst set_data #ifdef MHX_OG (#include ../track_og/spotlight/spotlight.dta) #else (#include ../track_new/spotlight/spotlight.dta) #endif}
             {switch $dx_tracked_instrument
                (guitar
                   #ifdef HX_WII
@@ -748,7 +748,7 @@
          {synth play button_toggle}
          {if_else {|| {== $dx_tracked_texture_loader voxarrow} {== $dx_tracked_texture_loader voxhw} {== $dx_tracked_texture_loader voxnotes} {== $dx_tracked_texture_loader voxod}}
             {os_back_screen overshell_voxtrk}
-            {if_else {|| {== $dx_tracked_texture_loader highway} {== $dx_tracked_texture_loader spotlight} #ifndef HX_OG {== $dx_tracked_texture_loader streak} #endif}
+            {if_else {|| {== $dx_tracked_texture_loader highway} {== $dx_tracked_texture_loader spotlight} #ifndef MHX_OG {== $dx_tracked_texture_loader streak} #endif}
                {os_back_screen overshell_instrument_sel}
                {os_back_screen overshell_tex}
             }

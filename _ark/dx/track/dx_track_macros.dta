@@ -1,7 +1,7 @@
 #define DX_TEXTURE_CORRECTOR
 (
    {unless $texrunonce
-      #ifdef HX_OG
+      #ifdef MHX_OG
          {if {== $gem "rb2"} {set $gem "none"} {set $gemcustomtexture FALSE}}
          {if {== $smasher "rb2_ps2"} {set $smasher "none"} {set $smashercustomtexture FALSE}}
          #ifdef HX_WII
@@ -232,7 +232,7 @@
       {{$this find black.tex} iterate_refs $ref {$ref set intensify {== $hwalpha off}}}      
    }
 
-   #ifndef HX_OG
+   #ifndef MHX_OG
    {if $highwaycustomtexture
       {{$this find track_reflect_warning.tex} set_bitmap {sprint "track_new/highways/" $highwaygtr ".png"}}
       {{$this find background.tex} set_bitmap {sprint "track_new/highways/" $highwaybass ".png"}}
@@ -263,7 +263,7 @@
    #endif
 
    {if $gemcustomtexture
-      #ifdef HX_OG
+      #ifdef MHX_OG
       {{$this find prism_gems.tex} set_bitmap {sprint "track_og/gems/prism_gems_" $gem ".png"}}
       {{$this find prism_gems_lod.tex} set_bitmap {sprint "track_og/gems/prism_gems_lod_" $gem ".png"}}
       #else
@@ -279,7 +279,7 @@
    }
 
    {if $smashercustomtexture
-      #ifdef HX_OG
+      #ifdef MHX_OG
       {{$this find smasher_color_ps2.tex} set_bitmap {sprint "track_og/smashers/smasher_color_" $smasher ".png"}}
       {{$this find smasher_ps2.tex} set_bitmap {sprint "track_og/smashers/smasher_" $smasher ".png"}}
       {{$this find square_smasher_bright.tex} set_bitmap {sprint "track_og/smashers/square_smasher_bright_" $smasher ".png"}}
@@ -315,7 +315,7 @@
       {{$this find radial_shockwave_subtract.tex} set_bitmap {sprint "track_new/flames/radial_shockwave_subtract_" $flames ".png"}}
       {{$this find radial_shockwave.tex} iterate_refs $ref {$ref set blend {if_else {|| {== $flames fnfestival} {== $flames fnfestival_beta}} 2 3}}}
       {{$this find shockwave.tex} set_bitmap {sprint "track_new/flames/shockwave_" $flames ".png"}}
-      #ifndef HX_OG
+      #ifndef MHX_OG
       {{$this find flare_orange_kick_smasher.tex} set_bitmap {sprint "track_new/flames/flare_orange_kick_smasher_" $flames ".png"}}
       #endif
       {{$this find flare_light_can_star.tex} set_bitmap {sprint "track_new/flames/flare_light_can_star_" $flames ".png"}}
@@ -327,7 +327,7 @@
    }
    #endif
 
-   #ifndef HX_OG
+   #ifndef MHX_OG
    {if $lanescustomtexture
       {{$this find gem_mash_green_emmisive.tex} set_bitmap {sprint "track/lanes/gem_mash_green_" $lanestex ".png"}}
       {{$this find gem_mash_red_emmisive.tex} set_bitmap {sprint "track/lanes/gem_mash_red_" $lanestex ".png"}}
@@ -383,13 +383,13 @@
    {if $starscustomtexture
       {{$this find star_sheet.tex} set_bitmap {sprint "track/stars/star_power_" $stars ".png"}}
       {{$this find score_meter_wipe.tex} set_bitmap {sprint "track/stars/score_meter_wipe_" $stars ".png"}}
-      #ifdef HX_OG
+      #ifdef MHX_OG
       {{$this find score_meter_wipe.tex} iterate_refs $ref {$ref set color {pack_color 1.0 1.0 1.0}}}
       #endif
    }
    #endif
 
-   #ifndef HX_OG
+   #ifndef MHX_OG
    {if $fontcustomtexture
       {{$this find chalet_numbers_mono.tex} set_bitmap {sprint "track/font/" $font ".png"}}
    }
@@ -418,11 +418,12 @@
    }
    #endif
 
+   #ifndef HX_EE ;TODO: figure out why streak texture causes crashes on ps2
    {if $streakcustomtexture
       {unless {== $streakbass none}
          {{$this find bass_superstreak_pattern.tex} set_bitmap {sprint "track_new/streak/" $streakbass ".png"}}
       }
-      #ifndef HX_OG ; streak is currently unavailable for g/d on ps2
+      #ifndef MHX_OG ; per-instrument streak is currently unavailable on wii
       {if_else {&& {!= $streakbass none} {== $streakgtr none}}
          {do
             {set $streakgtr "rb2"}
@@ -461,6 +462,7 @@
       }
       #endif
    }
+   #endif
 
    {if $railscustomtexture
       {{$this find rails.tex} set_bitmap {sprint "track/rails/rails_" $rails ".png"}}
@@ -499,7 +501,7 @@
    }
 
    {if $spotlightgtrcustomtexture
-      #ifdef HX_OG
+      #ifdef MHX_OG
       {{$this find spotlight_guitar_track.tex} set_bitmap {sprint "track_og/spotlight/" $spotlightgtr ".png"}}
       #else
       {{$this find spotlight_guitar_track.tex} set_bitmap {sprint "track_new/spotlight/" $spotlightgtr ".png"}}
@@ -517,7 +519,7 @@
    }
    
    {if $spotlightbasscustomtexture
-      #ifdef HX_OG
+      #ifdef MHX_OG
       {{$this find spotlight_bass_track.tex} set_bitmap {sprint "track_og/spotlight/" $spotlightbass ".png"}}
       #else
       {{$this find spotlight_bass_track.tex} set_bitmap {sprint "track_new/spotlight/" $spotlightbass ".png"}}
@@ -535,7 +537,7 @@
    }
    
    {if $spotlightdrumcustomtexture
-      #ifdef HX_OG
+      #ifdef MHX_OG
       {{$this find spotlight_drums_track.tex} set_bitmap {sprint "track_og/spotlight/" $spotlightdrum ".png"}}
       #else
       {{$this find spotlight_drums_track.tex} set_bitmap {sprint "track_new/spotlight/" $spotlightdrum ".png"}}

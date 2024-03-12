@@ -2206,7 +2206,7 @@
       {if
          {== $mp.val $mp.note}
          {$this add_message pick_new_shot}})}
-#ifndef HX_OG
+#ifndef MHX_OG
 {if
    {stagekit_present}
    {new

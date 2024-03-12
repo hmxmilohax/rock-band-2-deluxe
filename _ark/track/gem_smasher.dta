@@ -204,7 +204,7 @@
                      set
                      start_alpha
                      {$part get start_alpha_high}}
-                  #ifndef HX_OG
+                  #ifndef MHX_OG
                   {$launcher set use_mid_color TRUE}
                   {$launcher
                      set

@@ -38,7 +38,7 @@
          )
          (os_trkpreset
             {set $os_in_transition TRUE}
-            #ifdef HX_OG
+            #ifdef MHX_OG
             {os_change_screen overshell_tex}
             #else
             {os_change_screen overshell_trkpreset}

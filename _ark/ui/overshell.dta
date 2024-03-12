@@ -1,6 +1,6 @@
 #define OS_MAIN_DATA
-({if_else $debug_mode (os_ace os_mod #ifndef HX_OG os_sys #endif os_spd os_trkset #ifndef HX_EE os_cam #endif)
-    (os_mod #ifndef HX_OG os_sys #endif os_spd os_trkset #ifndef HX_EE os_cam #endif)}
+({if_else $debug_mode (os_ace os_mod #ifndef MHX_OG os_sys #endif os_spd os_trkset #ifndef HX_EE os_cam #endif)
+    (os_mod #ifndef MHX_OG os_sys #endif os_spd os_trkset #ifndef HX_EE os_cam #endif)}
 )
 {new
     UIPanel

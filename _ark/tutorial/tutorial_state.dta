@@ -388,7 +388,7 @@
                      TRUE}
                   {{gamemode get main_panel}
                      pause}
-                  #ifndef HX_OG
+                  #ifndef MHX_OG
                   {stagekit_pause TRUE}
                   #endif}}
             {set
@@ -441,7 +441,7 @@
                      FALSE}
                   {{gamemode get main_panel}
                      unpause}
-                  #ifndef HX_OG
+                  #ifndef MHX_OG
                   {stagekit_pause FALSE}
                   #endif}
                {do
