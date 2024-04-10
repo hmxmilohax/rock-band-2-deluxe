@@ -52,3 +52,24 @@ dependencies/windows/arkhelper.exe
 dependencies/windows/dtab.exe
 dependencies/windows/superfreq.exe
 user_scripts/rpcs3_directory.txt
+
+
+#funny files that should never be committed
+.DS_Store
+*.pyc
+*.tmp
+*.ninja
+.ninja_log
+
+#input for wii files for build
+platform/wii
+
+#ninja build dirs
+obj
+out
+
+#generated files by additional game scripts
+scripts/dx_config.ini
+
+#reference script unused by dx
+_ark/dx/reference
