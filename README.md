@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="dependencies/images/header.gif" width="100%" alt="Header GIF">
+<img src="dependencies/images/header.png" width="100%" alt="Header GIF">
 
 # Downloads and install instructions have been moved to our [website](https://rb2deluxe.neocities.org/)!
 

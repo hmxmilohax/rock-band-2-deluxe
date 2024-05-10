@@ -139,7 +139,7 @@
             [alpha_threshold]}})
    (enter
    {set $splashed 0}
-   ANIMATED_LOGO_ENTER
+   ;ANIMATED_LOGO_ENTER
       {set
          [alpha_threshold_fading]
          FALSE}

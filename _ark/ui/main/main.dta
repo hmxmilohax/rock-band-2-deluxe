@@ -160,7 +160,7 @@
       #endif
       {set $iamingamenow FALSE}
    {set $splashed 1}
-   ANIMATED_LOGO_ENTER
+   ;ANIMATED_LOGO_ENTER
       {set $leaderspeed $speedmod}
       {$this update_motd}
       {community_panel update_button_status}
@@ -693,7 +693,7 @@
       "attract_overlay.milo")
    (enter
       {set $splashed 1}
-      ANIMATED_LOGO_ENTER
+      ;ANIMATED_LOGO_ENTER
    )
    (exit
       {if {exists logo_task_populate} ;check if the above task is running
