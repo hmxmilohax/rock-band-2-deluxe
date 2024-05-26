@@ -1420,6 +1420,12 @@
    "Use this if you are playing on an e-kit")
 (mod_mididrum_obtain
    "(bug, should be available by default)")
+(mod_synced_track_speeds
+   "Sync Difficulty Speeds")
+(mod_synced_track_speeds_desc
+   "All tracks will run at Expert speed regardless of difficulty")
+(mod_synced_track_speeds_obtain
+   "(bug, should be available by default)")
 (choke_solo 
    "Awesome Choke!")
 ;; Instrument UI

@@ -414,6 +414,11 @@
             {modifier_mgr activate_modifier mod_flashbang}
          }
       }
+      {if {== {elem $entry 0} {basename mod_synced_track_speeds}}
+         {if {== {elem {find $entry mod_synced_track_speeds} 1} 1}
+            {modifier_mgr activate_modifier mod_synced_track_speeds}
+         }
+      }
       {if {== {elem $entry 0} {basename debug_mode}}
          {set $debug_mode
             {elem {find $entry debug_mode} 1}

@@ -7,6 +7,7 @@
       (deactivate
          {profile_mgr set_doublespeed_mode FALSE})
       #endif unlocked)
+   (mod_synced_track_speeds unlocked)
    #ifndef HX_EE
    (mod_choose_venue (disables (modifier_online_feature)) (activate {modifier_mgr deactivate_modifier mod_blackvenue}) unlocked)
    #endif
