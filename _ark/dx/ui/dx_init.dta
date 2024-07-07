@@ -414,6 +414,14 @@
             {modifier_mgr activate_modifier mod_flashbang}
          }
       }
+      #ifdef HX_PS3
+      {if {== {elem $entry 0} {basename mod_novsync}}
+         {if {== {elem {find $entry mod_novsync} 1} 1}
+            {modifier_mgr activate_modifier mod_novsync}
+            {rnd set_sync 0}
+         }
+      }
+      #endif
       {if {== {elem $entry 0} {basename debug_mode}}
          {set $debug_mode
             {elem {find $entry debug_mode} 1}

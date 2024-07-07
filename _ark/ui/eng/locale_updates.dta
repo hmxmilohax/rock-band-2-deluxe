@@ -1324,6 +1324,12 @@
    "Ooooooooooooh. Ahhhhhhhhhhhh.")
 (mod_flashbang_obtain 
    "(bug, should be available by default)")
+(mod_novsync
+   "Disable Vsync")
+(mod_novsync_desc
+   "Allow unlimited FPS, only use on RPCS3!")
+(mod_novsync_obtain 
+   "(bug, should be available by default)")
 (mod_auto_play 
    "Autoplay")
 (mod_auto_play_desc 
@@ -1575,7 +1581,7 @@
 (prefab_taylor_grace "Taylor Grace")
 (prefab_cameron "Cameron")
 (prefab_chimarky "ChiMarky")
-(prefab_corn "CornRGH")
+(prefab_corn "ItzSlicedcorn")
 
 ;rb1 patches
 (patch_talbot
