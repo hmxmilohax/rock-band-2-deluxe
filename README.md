@@ -2,24 +2,24 @@
 
 <img src="dependencies/images/header.png" width="100%" alt="Header GIF">
 
-# Downloads and install instructions have been moved to our [website](https://rb2deluxe.neocities.org/)!
+# Downloads and install instructions have been moved to our [website](https://rb2dx.milohax.org/)!
 
 <br/> <br/>
 
 # Welcome to the *Rock Band 2 Deluxe* repository!
 
-### Below are instructions for building the game yourself.<br/>[Please visit our website if you're looking for downloads](https://rb2deluxe.neocities.org/).
+### Below are instructions for building the game yourself.<br/>[Please visit our website if you're looking for downloads](https://rb2dx.milohax.org/).
 
 <br/> <br/>
 
-# 📥 [Downloads](https://rb2deluxe.neocities.org/)
+# 📥 [Downloads](https://rb2dx.milohax.org/)
 
 </div>
 <br/> <br/>
 
 # 🔨 Building (NOT standard download and install)
 
-## NOTE: This is for *building the game*, for developers and contributors. <br/> If you're looking for downloads, [please visit our website](https://rb2deluxe.neocities.org/).
+## NOTE: This is for *building the game*, for developers and contributors. <br/> If you're looking for downloads, [please visit our website](https://rb2dx.milohax.org/).
 
 ### Installing Python (Required)
 
