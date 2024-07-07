@@ -1,0 +1,77 @@
+#ifdef UI_INIT_DTA
+#else
+#define UI_INIT_DTA
+(1)
+#include global.dta
+#include cheats_funcs.dta
+#include game.dta
+#include meta.dta
+#include meta_loading.dta
+#include splash/splash.dta
+#include fx_panel.dta
+#include main/main.dta
+#include main/main_dialogs.dta
+#include network_connect.dta
+#include loading.dta
+#include matchmaking/matchmaking.dta
+#include pause.dta
+#ifdef HX_EE
+#include naming_screen.dta
+#endif
+#ifdef HX_WII
+#include naming_screen.dta
+#endif
+#include endgame/endgame.dta
+#ifdef HX_EE
+#include highscore.dta
+#endif
+#include endgame/lose.dta
+#include song_select.dta
+#include tour_challenge/tour_challenge.dta
+#include tour_world/tour_world.dta
+#include tour/tour_band_sel.dta
+#include tour/tour.dta
+#ifndef NOWIINETWORKING
+#ifndef HX_EE
+#include botb/details.dta
+#include botb/newsfeed.dta
+#endif
+#endif
+#include seldiff.dta
+#include seltrack.dta
+#include options/options.dta
+#include calibration/calibration.dta
+#include options/options_audio.dta
+#include options/options_gameplay.dta
+#include options/options_vocal.dta
+#ifndef HX_OG
+#include options/options_console.dta
+#endif
+#include practice/training.dta
+#include shop/shop.dta
+#include shop/charcreator.dta
+#include saveload.dta
+#include leaderboards/leaderboards.dta
+#include matchmaking/invite_friends.dta
+#include net_delegator.dta
+#ifdef HX_WII
+#ifndef NOWIINETWORKING
+#include matchmaking/userdata.dta
+#include matchmaking/messaging.dta
+#endif
+#include dlc_wii.dta
+#endif
+#ifndef HX_EE
+#include store/store.dta
+#endif
+#include jukebox.dta
+#include modifiers_screen.dta
+#ifndef _SHIP
+#ifndef WII_OUTPUTONLY
+#include framerate/frame_rate.dta
+#endif
+#endif
+{platform_mgr set_notify_ui_location kOSNotifyBottomCenter}
+{set $saveload_skip_upload FALSE}
+#endif
+#include ../dx/ui/dx_init.dta

@@ -1,0 +1,42 @@
+(small_club
+   small_club_02
+   (any
+      (songs any any)
+      (fame
+         (world 3))
+      (money_per_star 5)))
+(big_club
+   big_club_10
+   (dwmara
+      (songs goyourownway mountainsong anywayyouwantit uncontrollableurge)
+      (fame
+         (town 10))
+      (money_per_star 25)
+      (sellout TRUE))
+   (any
+      (songs any any any)
+      (fame
+         (town 10))
+      (money_per_star 25)))
+(arena
+   arena_07
+   (rockmara
+      (songs whitewedding livinonaprayer alexchilton anywayyouwantit shacklersrevenge letthereberock masterexploder)
+      (fame
+         (town 30)
+         (world 200))
+      (money_per_star 120)
+      BWT_BUZZ_MEDIUMBLOCKMEGAPLUS
+      (char_unlock
+         (token char_unlock_cityshirts_rockband1)
+         (outfits
+            (male torso wifebeater_berlinboot)
+            (female torso basictee_berlinboot)
+            (male torso tshirtdeath_berlinwall)
+            (female torso thermalundertee_berlinwall))))
+   (any
+      (songs any any any any)
+      (fame
+         (town 30)
+         (world 200))
+      (money_per_star 120)))

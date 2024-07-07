@@ -1,0 +1,4989 @@
+#include ..\config\macros.dta
+#define BAND_SPIN_TYPE
+((resource_file
+      "resource\\list_spin.milo")
+   (vertical FALSE)
+   (element
+      (slot
+         (object
+            text
+            "spin.lbl")
+         (colors
+            (normal
+               (normal 0.5 0.5 0.5)
+               (focused 1 1 0)
+               (disabled 0.3 0.3 0.3)
+               (selecting 0.5 0.5 0.5)
+               (selected 1 1 0))
+            (highlight
+               (normal 0.5 0.5 0.5)
+               (focused 1 1 0)
+               (disabled 0.5 0.5 0)
+               (selecting 0.5 0.5 0.5)
+               (selected 1 1 1)))
+         (dummy
+            "null")))
+   (back_arrow
+      "back.mesh")
+   (next_arrow
+      "next.mesh")
+   (highlight
+      ""))
+#define PATCH_LIST_TYPE
+((vertical TRUE)
+   (back_arrow
+      "back.mesh")
+   (next_arrow
+      "next.mesh")
+   (highlight
+      "highlight.mesh"
+      (colors
+         (selecting 0.8 0.8 0)
+         (normal 0.8 0.8 0.8)
+         (disabled 0.3 0.3 0.3)))
+   (element
+      (no_patch
+         (object
+            mesh
+            "no_patch.mesh")
+         (colors
+            (normal
+               (normal 0.6 0.6 0.6)
+               (focused 1 1 1)
+               (disabled 1 1 1)
+               (selecting 1 1 1)
+               (selected 1 1 1))
+            (highlight
+               (normal 0.6 0.6 0.6)
+               (focused 1 1 1)
+               (disabled 1 1 1)
+               (selecting 1 1 1)
+               (selected 1 1 1)))
+         (dummy
+            "no_patch.mat"))
+      (patch
+         (object
+            mesh
+            "patch.mesh")
+         (colors
+            (normal
+               (normal 0.6 0.6 0.6)
+               (focused 1 1 1)
+               (disabled 1 1 1)
+               (selecting 1 1 1)
+               (selected 1 1 1))
+            (highlight
+               (normal 0.6 0.6 0.6)
+               (focused 1 1 1)
+               (disabled 1 1 1)
+               (selecting 1 1 1)
+               (selected 1 1 1)))
+         (dummy
+            "empty.mat"))
+      (patch_name
+         (object
+            text
+            "patch.lbl")
+         (colors
+            (normal
+               (normal 0.6 0.6 0.6)
+               (focused 0.8 0.8 0.8)
+               (disabled 0.8 0.8 0.8)
+               (selecting 0.8 0.8 0.8)
+               (selected 0.8 0.8 0.8))
+            (highlight
+               (normal 0.6 0.6 0.6)
+               (focused 0.8 0.8 0.8)
+               (disabled 0.8 0.8 0.8)
+               (selecting 0.8 0.8 0.8)
+               (selected 0.8 0.8 0.8)))
+         (dummy
+            "new patch"))))
+#define LIST_TYPES
+((spin BAND_SPIN_TYPE)
+   (rocker_maker
+      (resource_file
+         "resource/list_spin_rocker_maker.milo")
+      (vertical FALSE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         ""
+         (colors
+            (selecting 0.75 0.75 0.75)
+            (normal 0 0 0)
+            (disabled 0.3 0.3 0.3)))
+      (element
+         (section
+            (object
+               text
+               "rocker_maker.lbl")
+            (colors
+               (normal
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.84 0.84 0)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.84 0.84 0)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0))
+               (disabled
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5)))
+            (dummy
+               "rocker maker"))))
+   (practice_section
+      (resource_file
+         "resource/list_practice_section.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh")
+      (element
+         (section
+            (object
+               text
+               "section.lbl")
+            (colors
+               (normal
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0))
+               (disabled
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5)))
+            (dummy
+               "section?"))))
+   (song
+      (resource_file
+         "resource/list_song.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh"
+         (colors
+            (selecting 0.75 0.75 0.75)
+            (normal 0.9 0.9 0.9)
+            (disabled 0.3 0.3 0.3)))
+      (element
+         (song
+            (object
+               text
+               "list.lbl")
+            (colors
+               (normal
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0))
+               (highlight
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0))
+               (disabled
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5)))
+            (dummy
+               "song name"))
+         (heading
+            (object
+               text
+               "heading.lbl")
+            (colors
+               (normal
+                  (normal 0.5 0.35 0)
+                  (focused 0.5 0.35 0)
+                  (disabled 0.5 0.35 0)
+                  (selecting 0.5 0.35 0))
+               (highlight
+                  (normal 0.5 0.35 0)
+                  (focused 0.5 0.35 0)
+                  (disabled 0.5 0.35 0)
+                  (selecting 0.5 0.35 0))
+               (disabled
+                  (normal 0.5 0.35 0)
+                  (focused 0.5 0.35 0)
+                  (disabled 0.5 0.35 0)
+                  (selecting 0.5 0.35 0)))
+            (dummy
+               "HEADING"))
+         (download
+            (object
+               mesh
+               "download.mesh")
+            (colors
+               (normal
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (highlight
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (disabled
+                  (normal 0.6 0 0)
+                  (focused 0.6 0 0)
+                  (disabled 0.6 0 0)
+                  (selecting 0.6 0 0)))
+            (dummy
+               "download.mat"))
+         (details
+            (object
+               text
+               "details.lbl")
+            (colors
+               (normal
+                  (normal 0.3 0.3 0.3)
+                  (focused 0.3 0.3 0.3)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.3 0.3 0.3))
+               (highlight
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0))
+               (disabled
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5)))
+            (dummy
+               "As made famous by me"))
+         (bonus
+            (object
+               mesh
+               "unlocked.mesh")
+            (colors
+               (normal
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (highlight
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (disabled
+                  (normal 0.6 0 0)
+                  (focused 0.6 0 0)
+                  (disabled 0.6 0 0)
+                  (selecting 0.6 0 0)))
+            (dummy
+               "unlocked.mat"))))
+   (song_select
+      (resource_file
+         "resource/list_song_select_browser.milo")
+      (vertical TRUE)
+      (enter_anim
+         "song_list_top_BONE_ON.tnm")
+      (anim_fps 10)
+      (anim_delay_frac 3.0e-2)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh"
+         (colors
+            (selecting 1 1 1)
+            (normal 0.9 0.9 0.9)
+            (disabled 0.5 0.5 0.5)
+            (unfocused 0.5 0.5 0.5)))
+      (element
+         (group_bg
+            (object
+               mesh
+               "group.mesh")
+            (colors
+               (normal
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (highlight
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (disabled
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1)))
+            (dummy ''))
+         (album_bg
+            (object
+               mesh
+               "album.mesh")
+            (colors
+               (normal
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (highlight
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (disabled
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1)))
+            (dummy ''))
+         (song_bg
+            (object
+               mesh
+               "song.mesh")
+            (colors
+               (normal
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (highlight
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (disabled
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1)))
+            (dummy
+               "song.mat"))
+         (download
+            (object
+               mesh
+               "download.mesh")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5)))
+            (dummy ''))
+         (rb1_icon
+            (object
+               text
+               "rb1_icon.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5)))
+            (dummy ''))
+         (rb2_icon
+            (object
+               text
+               "rb2_icon.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5)))
+            (dummy ''))
+         (group
+            (object
+               text
+               "group.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0))
+               (disabled
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy ''))
+         (famousby
+            (object
+               text
+               "famousby.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0))
+               (disabled
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy ''))
+         (famousby_group
+            (object
+               text
+               "famousby_group.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0))
+               (disabled
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy ''))
+         (album
+            (object
+               text
+               "album.lbl")
+            (colors
+               (normal
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0 0 0)
+                  (selecting 0 0 0))
+               (highlight
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0 0 0)
+                  (selecting 0 0 0))
+               (disabled
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0 0 0)
+                  (selecting 0 0 0)))
+            (dummy ''))
+         (song
+            (object
+               text
+               "song.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0))
+               (disabled
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5)))
+            (dummy ''))
+         (score
+            (object
+               text
+               "score.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0))
+               (disabled
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5)))
+            (dummy ''))
+         (song_count
+            (object
+               text
+               "song_count.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0))
+               (disabled
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy ''))))
+   (song_select_setlist
+      (resource_file
+         "resource/list_song_select_setlist.milo")
+      (vertical TRUE)
+      (back_arrow
+         "")
+      (next_arrow
+         "")
+      (highlight
+         ""
+         (colors
+            (selecting 0.3 0.3 0.3)
+            (normal 0.3 0.3 0.3)
+            (disabled 0.3 0.3 0.3)))
+      (element
+         (song
+            (object
+               text
+               "song.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 1 1 1))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "song name placeholder"))))
+   (store_browser
+      (resource_file
+         "resource/list_store_browser.milo")
+      (vertical TRUE)
+      (enter_anim
+         "song_list_top_BONE_ON.tnm")
+      (exit_anim
+         "song_list_top_BONE_OFF.tnm")
+      (anim_fps 10)
+      (anim_delay_frac 3.0e-2)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh"
+         (colors
+            (selecting 0.75 0.75 0.75)
+            (normal 1 1 1)
+            (disabled 0.3 0.3 0.3)
+            (unfocused 0.5 0.5 0.5)))
+      (element
+         (group_bg
+            (object
+               mesh
+               "group.mesh")
+            (colors
+               (normal
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (highlight
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (disabled
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1)))
+            (dummy
+               "group.mat"))
+         (group
+            (object
+               text
+               "group.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "Group Heading"))
+         (famousby
+            (object
+               text
+               "famousby.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "As Made Famous By"))
+         (famousby_group
+            (object
+               text
+               "famousby_group.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "Group Heading"))
+         (album_bg
+            (object
+               mesh
+               "album.mesh")
+            (colors
+               (normal
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (highlight
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (disabled
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1)))
+            (dummy
+               "group.mat"))
+         (album
+            (object
+               text
+               "album.lbl")
+            (colors
+               (normal
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0 0 0)
+                  (selecting 0 0 0))
+               (highlight
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0 0 0)
+                  (selecting 0 0 0))
+               (disabled
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0 0 0)
+                  (selecting 0 0 0)))
+            (dummy
+               "Album Name"))
+         (song_bg
+            (object
+               mesh
+               "song.mesh")
+            (colors
+               (normal
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (highlight
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (disabled
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1)))
+            (dummy
+               "song.mat"))
+         (song
+            (object
+               text
+               "song.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0))
+               (disabled
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5)))
+            (dummy
+               "Song Name"))
+         (cost
+            (object
+               text
+               "cost.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.6 0 0)
+                  (focused 0.6 0 0)
+                  (disabled 0.6 0 0)
+                  (selecting 0.6 0 0)))
+            (dummy
+               "$1.25"))
+         (new
+            (object
+               text
+               "new.lbl")
+            (colors
+               (normal
+                  (normal 0.84 0.84 0)
+                  (focused 0.84 0.84 0)
+                  (disabled 0.84 0.84 0)
+                  (selecting 0.84 0.84 0))
+               (highlight
+                  (normal 0.84 0.84 0)
+                  (focused 0.84 0.84 0)
+                  (disabled 0.84 0.84 0)
+                  (selecting 0.84 0.84 0))
+               (disabled
+                  (normal 0.84 0.84 0)
+                  (focused 0.84 0.84 0)
+                  (disabled 0.84 0.84 0)
+                  (selecting 0.84 0.84 0)))
+            (dummy
+               "new"))
+         (purchased
+            (object
+               text
+               "purchased.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0 0 0)
+                  (selecting 0 0 0))
+               (disabled
+                  (normal 0.6 0 0)
+                  (focused 0.6 0 0)
+                  (disabled 0.6 0 0)
+                  (selecting 0.6 0 0)))
+            (dummy
+               "Purchased"))))
+   (store_filter
+      (resource_file
+         "resource/list_store_filter.milo")
+      (vertical TRUE)
+      (back_arrow
+         "")
+      (next_arrow
+         "")
+      (highlight
+         "highlight.mesh"
+         (colors
+            (selecting 1 1 1)
+            (normal 0.75 0.75 0.75)
+            (disabled 0.3 0.3 0.3)))
+      (enter_anim
+         "song_list_top_BONE.tnm")
+      (exit_anim
+         "song_list_bot_BONE.tnm")
+      (anim_fps 10)
+      (anim_delay_frac 3.0e-2)
+      (element
+         (bg
+            (object
+               mesh
+               "bg.mesh")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0))
+               (disabled
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5)))
+            (dummy
+               "bg.mat"))
+         (filter
+            (object
+               text
+               "filter.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0))
+               (disabled
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5)))
+            (dummy
+               "Filter Name"))))
+   (store_shortcut
+      (resource_file
+         "resource/list_store_shortcut.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh"
+         (colors
+            (selecting 0.75 0.75 0.75)
+            (normal 1 1 1)
+            (disabled 0.3 0.3 0.3)))
+      (element
+         (shortcut
+            (object
+               text
+               "shortcut.lbl")
+            (colors
+               (normal
+                  (normal 0 0 0)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0))
+               (disabled
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5)))
+            (dummy
+               "Shortcut"))))
+   (store_info
+      (resource_file
+         "resource/list_store_info.milo")
+      (vertical TRUE)
+      (back_arrow
+         "")
+      (next_arrow
+         "")
+      (highlight
+         "highlight.mesh"
+         (colors
+            (selecting 0.75 0.75 0.75)
+            (normal 0.8 0.8 0.8)
+            (disabled 0 0 0)))
+      (enter_anim
+         "song_list_top_BONE.tnm")
+      (exit_anim
+         "song_list_bot_BONE.tnm")
+      (anim_fps 175)
+      (anim_delay_frac 3.0e-2)
+      (element
+         (filter
+            (object
+               text
+               "filter.lbl")
+            (colors
+               (normal
+                  (normal 0.65 0.65 0.65)
+                  (focused 0.65 0.65 0.65)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.65 0.65 0.65))
+               (highlight
+                  (normal 0.65 0.65 0.65)
+                  (focused 0 0 0)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0))
+               (disabled
+                  (normal 0.8 0.8 0.8)
+                  (focused 0 0 0)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0)))
+            (dummy
+               "Button Name"))))
+   (store_song
+      (resource_file
+         "resource/list_store_song.milo")
+      (vertical TRUE)
+      (back_arrow
+         "")
+      (next_arrow
+         "")
+      (highlight
+         "")
+      (element
+         (track
+            (object
+               text
+               "track.lbl")
+            (colors
+               (normal
+                  (normal 0.65 0.65 0.65)
+                  (focused 0.65 0.65 0.65)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.65 0.65 0.65)
+                  (focused 0.65 0.65 0.65)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0))
+               (disabled
+                  (normal 0.8 0.8 0.8)
+                  (focused 0 0 0)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0)))
+            (dummy
+               "99."))
+         (song
+            (object
+               text
+               "song.lbl")
+            (colors
+               (normal
+                  (normal 0.65 0.65 0.65)
+                  (focused 0.65 0.65 0.65)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.65 0.65 0.65)
+                  (focused 0.65 0.65 0.65)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.8 0.8 0.8)
+                  (focused 0 0 0)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0)))
+            (dummy
+               "Song Name"))))
+   (main_submenu
+      (resource_file
+         "resource/list_main_submenu.milo")
+      (vertical TRUE)
+      (back_arrow
+         "")
+      (next_arrow
+         "")
+      (highlight
+         "highlight.mesh"
+         (colors
+            (selecting 1 1 1)
+            (normal 0.75 0.75 0.75)
+            (disabled 0.3 0.3 0.3)))
+      (enter_anim
+         "song_list_top_BONE_ON.tnm")
+      (exit_anim
+         "song_list_bot_BONE.tnm")
+      (anim_fps 10)
+      (anim_delay_frac 3.0e-2)
+      (element
+         (bg
+            (object
+               mesh
+               "main_submenu_bg1.mesh")
+            (colors
+               (normal
+                  (normal 0.55 0.25 8.0e-2)
+                  (focused 0.55 0.25 8.0e-2)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.7 0.5 0.1))
+               (highlight
+                  (normal 0.8 0.8 0.3)
+                  (focused 1 1 0.1)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 1 1 0.1))
+               (disabled
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5)))
+            (dummy
+               "highlight.mat"))
+         (submenu
+            (object
+               text
+               "submenu.lbl")
+            (colors
+               (normal
+                  (normal 0.4 0.2 2.0e-2)
+                  (focused 0.4 0.2 2.0e-2)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0))
+               (disabled
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5)))
+            (dummy
+               "SUBMENU NAME"))))
+   (venue
+      (resource_file
+         "resource/list_venue.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh")
+      (element
+         (venue
+            (object
+               text
+               "list.lbl")
+            (colors
+               (normal
+                  (normal 0.7 0.7 0.7)
+                  (focused 0.7 0.7 0.7)
+                  (disabled 0.7 0.7 0.7)
+                  (selecting 0.7 0.7 0.7))
+               (highlight
+                  (normal 0.9 0.9 0.9)
+                  (focused 0.9 0.9 0.9)
+                  (disabled 0.9 0.9 0.9)
+                  (selecting 0.9 0.9 0.9))
+               (disabled
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0 0 0)
+                  (selecting 0 0 0)))
+            (dummy
+               "venue"))))
+   (call_manager
+      (resource_file
+         "resource/list_call_manager.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh")
+      (element
+         (venue
+            (object
+               text
+               "list.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.84 0.84 0))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.84 0.84 0))
+               (disabled
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.84 0.84 0)))
+            (dummy
+               "staff name here"))))
+   (choose_finish
+      (resource_file
+         "resource/list_choosefinish.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh")
+      (element
+         (venue
+            (object
+               text
+               "list.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.84 0.84 0))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.84 0.84 0))
+               (disabled
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.84 0.84 0)))
+            (dummy
+               "staff name here"))))
+   (challenge_tier
+      (resource_file
+         "resource/list_challenge_tier.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh")
+      (element
+         (tier_name
+            (object
+               text
+               "tier.lbl")
+            (colors
+               (normal
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.6 0.6 0.6)
+                  (disabled 0.6 0.6 0.6)
+                  (selecting 0.6 0.6 0.6))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 1 0.5 0)))
+            (dummy
+               "Tier Name Challenges"))
+         (available
+            (object
+               text
+               "available.lbl")
+            (colors
+               (normal
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.6 0.6 0.6)
+                  (disabled 0.6 0.6 0.6)
+                  (selecting 0.6 0.6 0.6))
+               (highlight
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.6 0.6 0.6)
+                  (disabled 0.6 0.6 0.6)
+                  (selecting 0.6 0.6 0.6)))
+            (dummy
+               "X of X available"))
+         (album
+            (object
+               mesh
+               "album.mesh")
+            (colors
+               (normal
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1)
+                  (selected 1 1 1))
+               (highlight
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1)
+                  (selected 1 1 1)))
+            (dummy
+               "locked.mat"))
+         (newburst
+            (object
+               mesh
+               "newburst.mesh")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.0)
+                  (focused 0.8 0.8 0.0)
+                  (disabled 0.8 0.8 0.0)
+                  (selecting 0.8 0.8 0.0))
+               (highlight
+                  (normal 0.8 0.8 0.0)
+                  (focused 0.8 0.8 0.0)
+                  (disabled 0.8 0.8 0.0)
+                  (selecting 0.8 0.8 0.0)))
+            (dummy
+               "newburst.mat"))
+         (new
+            (object
+               text
+               "new.lbl")
+            (colors
+               (normal
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0 0 0)
+                  (selecting 0 0 0)
+                  (selected 0 0 0))
+               (highlight
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0 0 0)
+                  (selecting 0 0 0)
+                  (selected 0 0 0)))
+            (dummy
+               "NEW"))))
+   (challenge
+      (resource_file
+         "resource/list_challenge.milo")
+      (vertical FALSE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh"
+         (draw_first TRUE))
+      (element_anim
+         "new.tnm")
+      (anim_fps 120)
+      (anim_delay_frac 1)
+      (element
+         (album
+            (object
+               mesh
+               "album.mesh")
+            (colors
+               (normal
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1)
+                  (selected 1 1 1))
+               (highlight
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1)
+                  (selected 1 1 1)))
+            (dummy
+               "locked.mat"))
+         (name
+            (object
+               text
+               "challenge.lbl")
+            (colors
+               (normal
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.6 0.6 0.6)
+                  (disabled 0.6 0.6 0.6)
+                  (selecting 0.6 0.6 0.6)
+                  (selected 0.6 0.6 0.6))
+               (highlight
+                  (normal 0.6 0.6 0.6)
+                  (focused 1 1 0)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.6 0.6 0.6)
+                  (selected 0 0 0))
+               (disabled
+                  (normal 0.3 0.3 0.3)
+                  (focused 0.3 0.3 0.3)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.3 0.3 0.3)
+                  (selected 0.3 0.3 0.3)))
+            (dummy
+               "Name"))
+         (newburst
+            (object
+               mesh
+               "newburst.mesh")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.0)
+                  (focused 0.8 0.8 0.0)
+                  (disabled 0.8 0.8 0.0)
+                  (selecting 0.8 0.8 0.0))
+               (highlight
+                  (normal 0.8 0.8 0.0)
+                  (focused 0.8 0.8 0.0)
+                  (disabled 0.8 0.8 0.0)
+                  (selecting 0.8 0.8 0.0)))
+            (dummy
+               "newburst.mat"))
+         (icon
+            (object
+               text
+               "icon.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8)
+                  (selected 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8)
+                  (selected 0.8 0.8 0.8)))
+            (dummy
+               "T"))
+         (in_progress
+            (object
+               text
+               "in_progress.lbl")
+            (colors
+               (normal
+                  (normal 1 1 0)
+                  (focused 1 1 0)
+                  (disabled 1 1 0)
+                  (selecting 1 1 0)
+                  (selected 1 1 0))
+               (highlight
+                  (normal 1 1 0)
+                  (focused 1 1 0)
+                  (disabled 1 1 0)
+                  (selecting 1 1 0)
+                  (selected 1 1 0)))
+            (dummy
+               "IN PROGRESS"))
+         (new
+            (object
+               text
+               "new.lbl")
+            (colors
+               (normal
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0 0 0)
+                  (selecting 0 0 0)
+                  (selected 0 0 0))
+               (highlight
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0 0 0)
+                  (selecting 0 0 0)
+                  (selected 0 0 0))
+               (disabled
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0 0 0)
+                  (selecting 0 0 0)
+                  (selected 0 0 0)))
+            (dummy
+               "NEW"))
+         (playerdiff
+            (object
+               PlayerDiffIcon
+               "diff_players.pdiff"))))
+   (challenge_song
+      (resource_file
+         "resource/list_challenge_song.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh")
+      (element
+         (track
+            (object
+               text
+               "track.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "99."))
+         (song
+            (object
+               text
+               "song.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "Song Name"))
+         (artist
+            (object
+               text
+               "artist.lbl")
+            (colors
+               (normal
+                  (normal 0.75 0.75 0.75)
+                  (focused 0.75 0.75 0.75)
+                  (disabled 0.75 0.75 0.75)
+                  (selecting 0.75 0.75 0.75))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "By Artist"))
+         (score
+            (object
+               text
+               "score.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "100,000,000"))
+         (completed
+            (object
+               text
+               "completed.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "O"))))
+   (rock_shop
+      (resource_file
+         "resource/list_rockshop.milo")
+      (vertical FALSE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh"
+         (colors
+            (selecting 1.0 1.0 1.0)
+            (normal 0.75 0.75 0.75)
+            (disabled 0.3 0.3 0.3)))
+      (element))
+   (profile_lineup
+      (resource_file
+         "resource/list_profile_lineup.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh")
+      (element
+         (icon
+            (object
+               text
+               "icon.lbl")
+            (colors
+               (normal
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.6 0.6 0.6)
+                  (disabled 0.6 0.6 0.6)
+                  (selecting 0.6 0.6 0.6)
+                  (selected 0.6 0.6 0.6))
+               (highlight
+                  (normal 0.75 0.75 0.75)
+                  (focused 0.75 0.75 0.75)
+                  (disabled 0.75 0.75 0.75)
+                  (selecting 0.75 0.75 0.75)
+                  (selected 0.75 0.75 0.75))
+               (disabled
+                  (normal 0.4 0.4 0.4)
+                  (focused 0.4 0.4 0.4)
+                  (disabled 0.4 0.4 0.4)
+                  (selecting 0.4 0.4 0.4)
+                  (selected 0.4 0.4 0.4)))
+            (dummy
+               "G"))
+         (black_bar
+            (object
+               mesh
+               "black_bar.mesh")
+            (colors
+               (normal
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0 0 0)
+                  (selecting 0 0 0)
+                  (selected 0 0 0))
+               (highlight
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0 0 0)
+                  (selecting 0 0 0)
+                  (selected 0 0 0))
+               (disabled
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0 0 0)
+                  (selecting 0 0 0)
+                  (selected 0 0 0)))
+            (dummy
+               "black_bar.mat"))
+         (status
+            (object
+               text
+               "status.lbl")
+            (colors
+               (normal
+                  (normal 0.75 0.75 0.75)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.75 0.75 0.75)
+                  (selected 1 1 1))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.75 0.75 0.75)
+                  (selected 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.5 0.5 0.5)
+                  (focused 1 0.5 0)
+                  (disabled 1 0.5 0)
+                  (selecting 1 0.5 0)
+                  (selected 1 0.5 0)))
+            (dummy
+               "Member"))
+         (char_name
+            (object
+               text
+               "char_name.lbl")
+            (colors
+               (normal
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.6 0.6 0.6)
+                  (disabled 0.6 0.6 0.6)
+                  (selecting 0.6 0.6 0.6)
+                  (selected 0.6 0.6 0.6))
+               (highlight
+                  (normal 0.75 0.75 0.75)
+                  (focused 0.75 0.75 0.75)
+                  (disabled 0.75 0.75 0.75)
+                  (selecting 0.75 0.75 0.75)
+                  (selected 0.75 0.75 0.75))
+               (disabled
+                  (normal 0.4 0.4 0.4)
+                  (focused 0.4 0.4 0.4)
+                  (disabled 0.4 0.4 0.4)
+                  (selecting 0.4 0.4 0.4)
+                  (selected 0.4 0.4 0.4)))
+            (dummy
+               "Character Name"))
+         (user_name
+            (object
+               text
+               "user_name.lbl")
+            (colors
+               (normal
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.6 0.6 0.6)
+                  (disabled 0.6 0.6 0.6)
+                  (selecting 0.6 0.6 0.6)
+                  (selected 0.6 0.6 0.6))
+               (highlight
+                  (normal 0.75 0.75 0.75)
+                  (focused 0.75 0.75 0.75)
+                  (disabled 0.75 0.75 0.75)
+                  (selecting 0.75 0.75 0.75)
+                  (selected 0.75 0.75 0.75))
+               (disabled
+                  (normal 0.4 0.4 0.4)
+                  (focused 0.4 0.4 0.4)
+                  (disabled 0.4 0.4 0.4)
+                  (selecting 0.4 0.4 0.4)
+                  (selected 0.4 0.4 0.4)))
+            (dummy
+               "User Name"))))
+   (profile_stand_in
+      (resource_file
+         "resource/list_profile_standin.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh")
+      (element
+         (icon
+            (object
+               text
+               "icon.lbl")
+            (colors
+               (normal
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.6 0.6 0.6)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.6 0.6 0.6)
+                  (selected 0.6 0.6 0.6))
+               (highlight
+                  (normal 0.75 0.75 0.75)
+                  (focused 0.75 0.75 0.75)
+                  (disabled 0.75 0.75 0.75)
+                  (selecting 0.75 0.75 0.75)
+                  (selected 0.75 0.75 0.75))
+               (disabled
+                  (normal 0.4 0.4 0.4)
+                  (focused 0.4 0.4 0.4)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.4 0.4 0.4)
+                  (selected 0.4 0.4 0.4)))
+            (dummy
+               "G"))
+         (char_name
+            (object
+               text
+               "char_name.lbl")
+            (colors
+               (normal
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.6 0.6 0.6)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.6 0.6 0.6)
+                  (selected 0.6 0.6 0.6))
+               (highlight
+                  (normal 0.75 0.75 0.75)
+                  (focused 0.75 0.75 0.75)
+                  (disabled 0.75 0.75 0.75)
+                  (selecting 0.75 0.75 0.75)
+                  (selected 0.75 0.75 0.75))
+               (disabled
+                  (normal 0.4 0.4 0.4)
+                  (focused 0.4 0.4 0.4)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.4 0.4 0.4)
+                  (selected 0.4 0.4 0.4)))
+            (dummy
+               "Character Name"))))
+   (event_song
+      LIST_EDITOR
+      (resource_file
+         "resource/list_event_song.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh")
+      (element
+         (song
+            (object
+               text
+               "song.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.15 0.15 0.15)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "Song Name"))))
+   (event
+      (resource_file
+         "resource/list_event.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh")
+      (element
+         (event
+            (object
+               text
+               "event.lbl")
+            (colors
+               (normal
+                  (normal 0.9 0.9 0.9)
+                  (focused 0.9 0.9 0.9)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.9 0.9 0.9))
+               (highlight
+                  (normal 0.9 0.9 0.9)
+                  (focused 0.9 0.9 0.9)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0 0 0)))
+            (dummy
+               "Event Name"))
+         (stars
+            (object
+               text
+               "star.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "*"))
+         (fame
+            (object
+               text
+               "fame.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "99/99"))
+         (new
+            (object
+               text
+               "new.lbl")
+            (colors
+               (normal
+                  (normal 0.84 0.84 0)
+                  (focused 0.84 0.84 0)
+                  (disabled 0.84 0.84 0)
+                  (selecting 0.84 0.84 0))
+               (highlight
+                  (normal 0.84 0.84 0)
+                  (focused 0.84 0.84 0)
+                  (disabled 0.84 0.84 0)
+                  (selecting 0.84 0.84 0)))
+            (dummy
+               "NEW"))
+         (songs
+            (object
+               text
+               "songs.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               ""))
+         (playerdiff
+            (object
+               PlayerDiffIcon
+               "playerdiff.pdiff"))
+         (item
+            (object
+               text
+               "item.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "P"))))
+   (shop
+      (resource_file
+         "..\\..\\..\\system\\run\\ui\\list.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh")
+      (element
+         (text
+            (object
+               text
+               "list.lbl")
+            (colors
+               (normal
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "text"))))
+   (credits
+      (resource_file
+         "resource/list_credits.milo")
+      (vertical TRUE)
+      (back_arrow
+         "")
+      (next_arrow
+         "")
+      (highlight
+         "")
+      (element
+         (heading
+            (object
+               text
+               "heading.lbl")
+            (colors
+               (normal
+                  (normal 0.7 0.7 0.7)
+                  (focused 0.7 0.7 0.7)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.5 0.5 0)
+                  (focused 0.7 0.7 0.7)
+                  (disabled 0.5 0.5 0)
+                  (selecting 1 0 0)))
+            (dummy
+               "Heading"))
+         (slot_heading
+            (object
+               text
+               "heading2.lbl")
+            (colors
+               (normal
+                  (normal 0.7 0.7 0.7)
+                  (focused 0.7 0.7 0.7)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.7 0.7 0.7))
+               (highlight
+                  (normal 0.5 0.5 0)
+                  (focused 0.7 0.7 0.7)
+                  (disabled 0.5 0.5 0)
+                  (selecting 1 0 0)))
+            (dummy
+               "Heading2"))
+         (slot_left
+            (object
+               text
+               "left.lbl")
+            (colors
+               (normal
+                  (normal 0 0 0)
+                  (focused 0.7 0.7 0.7)
+                  (disabled 0 0 0)
+                  (selecting 0.7 0.7 0.7))
+               (highlight
+                  (normal 0.5 0.5 0)
+                  (focused 0.7 0.7 0.7)
+                  (disabled 0.5 0.5 0)
+                  (selecting 1 0 0)))
+            (dummy
+               "Left"))
+         (slot_right
+            (object
+               text
+               "right.lbl")
+            (colors
+               (normal
+                  (normal 0 0 0)
+                  (focused 0.6 0.6 0.6)
+                  (disabled 0 0 0)
+                  (selecting 0.6 0.6 0.6))
+               (highlight
+                  (normal 0.5 0.5 0)
+                  (focused 0.6 0.6 0.6)
+                  (disabled 0.5 0.5 0)
+                  (selecting 1 0 0)))
+            (dummy
+               "Right"))
+         (slot_centered
+            (object
+               text
+               "center.lbl")
+            (colors
+               (normal
+                  (normal 0 0 0)
+                  (focused 0.7 0.7 0.7)
+                  (disabled 0 0 0)
+                  (selecting 0.7 0.7 0.7))
+               (highlight
+                  (normal 0.5 0.5 0)
+                  (focused 0.7 0.7 0.7)
+                  (disabled 0.5 0.5 0)
+                  (selecting 1 0 0)))
+            (dummy
+               "Centered"))
+         (image
+            (object
+               mesh
+               "image.mesh")
+            (colors
+               (normal
+                  (normal 0.55 0.55 0.55)
+                  (focused 0.55 0.55 0.55)
+                  (disabled 0.55 0.55 0.55)
+                  (selecting 0.55 0.55 0.55))
+               (highlight
+                  (normal 0.55 0.55 0.55)
+                  (focused 0.55 0.55 0.55)
+                  (disabled 0.55 0.55 0.55)
+                  (selecting 0.55 0.55 0.55)))
+            (dummy
+               "image"))))
+   (requirements
+      (resource_file
+         "resource/list_requirements.milo")
+      (vertical TRUE)
+      (back_arrow
+         "")
+      (next_arrow
+         "")
+      (highlight
+         "")
+      (element_anim
+         "error.tnm")
+      (anim_fps 30)
+      (element
+         (icon
+            (object
+               text
+               "item.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "P"))
+         (instrument
+            (object
+               text
+               "instrument.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.9 0.9 0.9)
+                  (focused 0.9 0.9 0.9)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "G"))
+         (description
+            (object
+               text
+               "event.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.6 0.1 0.1)
+                  (focused 0.6 0.1 0.1)
+                  (disabled 0.6 0.1 0.1)
+                  (selecting 0.6 0.1 0.1)))
+            (dummy
+               "579,888 more fans"))))
+   (tour_world_requirements
+      (resource_file
+         "resource/list_tour_world_requirements.milo")
+      (vertical TRUE)
+      (back_arrow
+         "")
+      (next_arrow
+         "")
+      (highlight
+         "")
+      (element_anim
+         "error.tnm")
+      (anim_fps 30)
+      (element
+         (icon
+            (object
+               text
+               "item.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "P"))
+         (instrument
+            (object
+               text
+               "instrument.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "G"))
+         (description
+            (object
+               text
+               "event.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.6 0.1 0.1)
+                  (focused 0.6 0.1 0.1)
+                  (disabled 0.6 0.1 0.1)
+                  (selecting 0.6 0.1 0.1)))
+            (dummy
+               "579,888 more fans"))))
+   (challenge_requirements
+      (resource_file
+         "resource/list_challenge_requirements.milo")
+      (vertical TRUE)
+      (back_arrow
+         "")
+      (next_arrow
+         "")
+      (highlight
+         "")
+      (element_anim
+         "error.tnm")
+      (anim_fps 30)
+      (element
+         (icon
+            (object
+               text
+               "item.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "P"))
+         (instrument
+            (object
+               text
+               "instrument.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "G"))
+         (description
+            (object
+               text
+               "event.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.6 0.1 0.1)
+                  (focused 0.6 0.1 0.1)
+                  (disabled 0.6 0.1 0.1)
+                  (selecting 0.6 0.1 0.1)))
+            (dummy
+               "Tour Manager"))))
+   (outfit_category BAND_SPIN_TYPE)
+   (part BAND_SPIN_TYPE)
+   (leaderboards
+      (resource_file
+         "resource/list_leaderboards.milo")
+      (vertical TRUE)
+      (enter_anim
+         "song_list_top_BONE_ON.tnm")
+      (anim_fps 10)
+      (anim_delay_frac 3.0e-2)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh"
+         (colors
+            (selecting 0.75 0.75 0.75)
+            (normal 1 1 1)
+            (disabled 0.3 0.3 0.3)
+            (unfocused 0.5 0.5 0.5)))
+      (song_bg
+         (object
+            mesh
+            "song.mesh")
+         (colors
+            (normal
+               (normal 1 1 1)
+               (focused 1 1 1)
+               (disabled 1 1 1)
+               (selecting 1 1 1))
+            (highlight
+               (normal 1 1 1)
+               (focused 1 1 1)
+               (disabled 1 1 1)
+               (selecting 1 1 1))
+            (disabled
+               (normal 1 1 1)
+               (focused 1 1 1)
+               (disabled 1 1 1)
+               (selecting 1 1 1)))
+         (dummy
+            "song.mat"))
+      (element
+         (rank
+            (object
+               text
+               "rank.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0))
+               (disabled
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5)))
+            (dummy
+               "9,999,999"))
+         (name
+            (object
+               text
+               "name.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0))
+               (disabled
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5)))
+            (dummy
+               "This is my user name"))
+         (score
+            (object
+               text
+               "score.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0 0 0)
+                  (focused 0 0 0)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0))
+               (disabled
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5)))
+            (dummy
+               "99,999,999"))))
+   (town
+      (resource_file
+         "resource/list_town.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh")
+      (element
+         (town
+            (object
+               text
+               "town.lbl")
+            (colors
+               (normal
+                  (normal 0.9 0.9 0.9)
+                  (focused 0.9 0.9 0.9)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.9 0.9 0.9))
+               (highlight
+                  (normal 0.9 0.9 0.9)
+                  (focused 0.9 0.9 0.9)
+                  (disabled 0.15 0.15 0.15)
+                  (selecting 0 0 0)))
+            (dummy
+               "SAN FRANCISCO"))
+         (new
+            (object
+               text
+               "new.lbl")
+            (colors
+               (normal
+                  (normal 0.84 0.84 0)
+                  (focused 0.84 0.84 0)
+                  (disabled 0.84 0.84 0)
+                  (selecting 0.84 0.84 0))
+               (highlight
+                  (normal 0.84 0.84 0)
+                  (focused 0.84 0.84 0)
+                  (disabled 0.84 0.84 0)
+                  (selecting 0.84 0.84 0)))
+            (dummy
+               "NEW"))
+         (playerdiff
+            (object
+               PlayerDiffIcon
+               "playerdiff.pdiff"))
+         (item
+            (object
+               text
+               "item.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "P"))))
+   (town_venue
+      (resource_file
+         "resource/list_town_venue.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh")
+      (element
+         (town
+            (object
+               text
+               "town.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0 0 0)))
+            (dummy
+               "ALICE'S FREE LOVE CAFE"))
+         (new
+            (object
+               text
+               "new.lbl")
+            (colors
+               (normal
+                  (normal 0.84 0.84 0)
+                  (focused 0.84 0.84 0)
+                  (disabled 0.84 0.84 0)
+                  (selecting 0.84 0.84 0))
+               (highlight
+                  (normal 0.84 0.84 0)
+                  (focused 0.84 0.84 0)
+                  (disabled 0.84 0.84 0)
+                  (selecting 0.84 0.84 0)))
+            (dummy
+               "NEW"))
+         (playerdiff
+            (object
+               PlayerDiffIcon
+               "playerdiff.pdiff"))
+         (item
+            (object
+               text
+               "item.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "P"))))
+   (modifier
+      (resource_file
+         "resource/list_modifiers.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh")
+      (element
+         (entermodifier
+            (object
+               text
+               "entermodifier.lbl")
+            (colors
+               (normal
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.5 0.5 0.5))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 1 0.5 0)))
+            (dummy
+               "Enter Modifier Combo"))
+         (name
+            (object
+               text
+               "name.lbl")
+            (colors
+               (normal
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.75 0.75 0.75)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.5 0.5 0.5))
+               (highlight
+                  (normal 0.9 0.9 0.9)
+                  (focused 0.9 0.9 0.9)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 1 0.5 0)))
+            (dummy
+               "NO FAIL MODE"))
+         (description
+            (object
+               text
+               "description.lbl")
+            (colors
+               (normal
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.75 0.75 0.75)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.5 0.5 0.5))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 1 0.5 0)))
+            (dummy
+               "PLAYERS CAN'T FAIL OUT"))
+         (check_bg
+            (object
+               mesh
+               "check_bg.mesh")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1)))
+            (dummy
+               "check_bg.mat"))
+         (active
+            (object
+               text
+               "active.lbl")
+            (colors
+               (normal
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 1 0.5 0)))
+            (dummy
+               "X"))
+         (locked
+            (object
+               text
+               "locked.lbl")
+            (colors
+               (normal
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "L"))))
+   (gamertag
+      (resource_file
+         "resource/list_gamertag.milo")
+      (vertical TRUE)
+      (back_arrow
+         "")
+      (next_arrow
+         "")
+      (highlight
+         "")
+      (element
+         (name
+            (object
+               text
+               "name.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "GamerBob"))
+         #ifndef HX_EE
+         (pad
+            (object
+               text
+               "pad.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "1"))
+         #endif))
+   (band_chooser
+      (resource_file
+         "resource/list_band_chooser.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh")
+      (element
+         (start
+            (object
+               text
+               "start.lbl")
+            (colors
+               (normal
+                  (normal 0.9 0.9 0.9)
+                  (focused 0.9 0.9 0.9)
+                  (disabled 0.9 0.9 0.9)
+                  (selecting 0.9 0.9 0.9))
+               (highlight
+                  (normal 0.9 0.9 0.9)
+                  (focused 0.9 0.9 0.9)
+                  (disabled 0.9 0.9 0.9)
+                  (selecting 0 0 0))
+               (disabled
+                  (normal 0.3 0.3 0.3)
+                  (focused 0.3 0.3 0.3)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.3 0.3 0.3)))
+            (dummy
+               "[Start a Band]"))
+         (start_desc
+            (object
+               text
+               "start_desc.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.3 0.3 0.3)
+                  (focused 0.3 0.3 0.3)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.3 0.3 0.3)))
+            (dummy
+               "text description"))
+         (padnum
+            (object
+               text
+               "padnum.lbl")
+            (colors
+               (normal
+                  (normal 0.0 1.0 0.0)
+                  (focused 0.0 1.0 0.0)
+                  (disabled 0.0 1.0 0.0)
+                  (selecting 0.0 1.0 0.0))
+               (highlight
+                  (normal 0.0 1.0 0.0)
+                  (focused 0.0 1.0 0.0)
+                  (disabled 0.0 1.0 0.0)
+                  (selecting 0.0 1.0 0.0))
+               (disabled
+                  (normal 0.0 1.0 0.0)
+                  (focused 0.0 1.0 0.0)
+                  (disabled 0.0 1.0 0.0)
+                  (selecting 0.0 1.0 0.0)))
+            (dummy
+               "1"))
+         (instrument
+            (object
+               text
+               "instrument.lbl")
+            (colors
+               (normal
+                  (normal 0.0 0.9 0.0)
+                  (focused 0.0 0.9 0.0)
+                  (disabled 0.0 0.9 0.0)
+                  (selecting 0.0 0.9 0.0))
+               (highlight
+                  (normal 0.0 0.9 0.0)
+                  (focused 0.0 0.9 0.0)
+                  (disabled 0.0 0.9 0.0)
+                  (selecting 0.0 0.9 0.0))
+               (disabled
+                  (normal 0.0 0.9 0.0)
+                  (focused 0.0 0.9 0.0)
+                  (disabled 0.0 0.9 0.0)
+                  (selecting 0.0 0.9 0.0)))
+            (dummy
+               "D"))
+         (gamertag
+            (object
+               text
+               "gamertag.lbl")
+            (colors
+               (normal
+                  (normal 0 0.4 0)
+                  (focused 0 0.4 0)
+                  (disabled 0 0.4 0)
+                  (selecting 0 0.4 0))
+               (highlight
+                  (normal 0 0.4 0)
+                  (focused 0 0.4 0)
+                  (disabled 0 0.4 0)
+                  (selecting 0 0.4 0))
+               (disabled
+                  (normal 0 0.3 0)
+                  (focused 0 0.3 0)
+                  (disabled 0 0.3 0)
+                  (selecting 0 0.3 0)))
+            (dummy
+               "GamerTag"))
+         (instruction
+            (object
+               text
+               "instruction.lbl")
+            (colors
+               (normal
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5))
+               (highlight
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0 0 0))
+               (disabled
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5)))
+            (dummy
+               "View Bands"))
+         (instruction_desc
+            (object
+               text
+               "start_desc.lbl")
+            (colors
+               (normal
+                  (normal 0.9 0.9 0.9)
+                  (focused 0.9 0.9 0.9)
+                  (disabled 0.9 0.9 0.9)
+                  (selecting 0.9 0.9 0.9))
+               (highlight
+                  (normal 0.9 0.9 0.9)
+                  (focused 0.9 0.9 0.9)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.9 0.9 0.9))
+               (disabled
+                  (normal 0.3 0.3 0.3)
+                  (focused 0.3 0.3 0.3)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.3 0.3 0.3)))
+            (dummy
+               "instruction description"))
+         (name
+            (object
+               text
+               "name.lbl")
+            (colors
+               (normal
+                  (normal 0.45 0.45 0.45)
+                  (focused 0.45 0.45 0.45)
+                  (disabled 0.45 0.45 0.45)
+                  (selecting 0.45 0.45 0.45))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0 0 0))
+               (disabled
+                  (normal 0.3 0.3 0.3)
+                  (focused 0.3 0.3 0.3)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.3 0.3 0.3)))
+            (dummy
+               "The Band of New Awesome"))
+         (owner_name
+            (object
+               text
+               "owner_name.lbl")
+            (colors
+               (normal
+                  (normal 0.45 0.45 0.45)
+                  (focused 0.45 0.45 0.45)
+                  (disabled 0.45 0.45 0.45)
+                  (selecting 0.45 0.45 0.45))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 1.0 1.0 0.6))
+               (disabled
+                  (normal 0.3 0.3 0.3)
+                  (focused 0.3 0.3 0.3)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.3 0.3 0.3)))
+            (dummy
+               "hmxBandOwner"))
+         (owner_online
+            (object
+               text
+               "owner_online.lbl")
+            (colors
+               (normal
+                  (normal 0.45 0.45 0.45)
+                  (focused 0.45 0.45 0.45)
+                  (disabled 0.45 0.45 0.45)
+                  (selecting 0.45 0.45 0.45))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 1.0 1.0 0.6))
+               (disabled
+                  (normal 0.3 0.3 0.3)
+                  (focused 0.3 0.3 0.3)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.3 0.3 0.3)))
+            (dummy
+               "o"))
+         (rating_stars
+            (object
+               text
+               "rating_stars.lbl")
+            (colors
+               (normal
+                  (normal 0.45 0.45 0.45)
+                  (focused 0.45 0.45 0.45)
+                  (disabled 0.45 0.45 0.45)
+                  (selecting 0.45 0.45 0.45))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.3 0.3 0.3)
+                  (focused 0.3 0.3 0.3)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.3 0.3 0.3)))
+            (dummy
+               "*"))
+         (rating
+            (object
+               PlayerDiffIcon
+               "rating.pdiff"))
+         (logo
+            (object
+               mesh
+               "logo.mesh")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (disabled
+                  (normal 0.6 0 0)
+                  (focused 0.6 0 0)
+                  (disabled 0.6 0 0)
+                  (selecting 0.6 0 0)))
+            (dummy
+               "empty.mat"))))
+   (band_list_kick_invite
+      (resource_file
+         "resource/list_band_kick_invite.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh")
+      (element
+         (name
+            (object
+               text
+               "name.lbl")
+            (colors
+               (normal
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 1.0 1.0 0.6))
+               (disabled
+                  (normal 0.3 0.3 0.3)
+                  (focused 0.3 0.3 0.3)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.3 0.3 0.3)))
+            (dummy
+               "kick_invite"))
+         (check
+            (object
+               mesh
+               "check.mesh")
+            (colors
+               (normal
+                  (normal 1 0.5 0)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (highlight
+                  (normal 1 0.5 0)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (disabled
+                  (normal 0.6 0 0)
+                  (focused 0.6 0 0)
+                  (disabled 0.6 0 0)
+                  (selecting 0.6 0 0)))
+            (dummy
+               "unchecked.mat"))))
+   (gamertag_owner_chooser
+      (resource_file
+         "resource/list_gamertag_owner_chooser.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh")
+      (element
+         (name
+            (object
+               text
+               "name.lbl")
+            (colors
+               (normal
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.5 0.5 0.5))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.9 0.9 0.9)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.3 0.3 0.3)
+                  (focused 0.3 0.3 0.3)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.3 0.3 0.3)))
+            (dummy
+               "gamer_tag_12345"))
+         (pad
+            (object
+               text
+               "pad.lbl")
+            (colors
+               (normal
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.5 0.5 0.5))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.9 0.9 0.9)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.3 0.3 0.3)
+                  (focused 0.3 0.3 0.3)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.3 0.3 0.3)))
+            (dummy
+               "1"))
+         (count
+            (object
+               text
+               "count.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.9 0.9 0.9)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5)))
+            (dummy
+               "13"))
+         (max
+            (object
+               text
+               "max.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.9 0.9 0.9)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5)))
+            (dummy
+               "24"))
+         (slash
+            (object
+               text
+               "slash.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.9 0.9 0.9)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5)))
+            (dummy
+               "/"))))
+   (char_chooser
+      (resource_file
+         "resource/list_char_chooser.milo")
+      (vertical TRUE)
+      (back_arrow
+         "")
+      (next_arrow
+         "")
+      (highlight
+         "")
+      (element
+         (name
+            (object
+               text
+               "name.lbl")
+            (colors
+               (normal
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 128 128 0)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 1 1 1))
+               (disabled
+                  (normal 0.2 0.2 0.2)
+                  (focused 0.2 0.2 0.2)
+                  (disabled 0.2 0.2 0.2)
+                  (selecting 0.2 0.2 0.2)))
+            (dummy
+               "Marcus"))
+         (instrument
+            (object
+               text
+               "instrument.lbl")
+            (colors
+               (normal
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.2 0.2 0.2)
+                  (focused 0.2 0.2 0.2)
+                  (disabled 0.2 0.2 0.2)
+                  (selecting 0.2 0.2 0.2)))
+            (dummy
+               "G"))))
+   (options_char_chooser
+      (resource_file
+         "resource/list_options_char_chooser.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh")
+      (element
+         (name
+            (object
+               text
+               "name.lbl")
+            (colors
+               (normal
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.84 0.84 0)
+                  (disabled 0.2 0.2 0.2)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.3 0.3 0.3)
+                  (focused 0.3 0.3 0.3)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.3 0.3 0.3)))
+            (dummy
+               "Marcus"))))
+   (char_chooser_band_data
+      (resource_file
+         "resource/list_char_chooser_band_data.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh")
+      (element
+         (name
+            (object
+               text
+               "name.lbl")
+            (colors
+               (normal
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5))
+               (highlight
+                  (normal 0.78 0.78 0)
+                  (focused 0.78 0.78 0)
+                  (disabled 0.78 0.78 0)
+                  (selecting 1 0.5 0))
+               (disabled
+                  (normal 0.2 0.2 0.2)
+                  (focused 0.2 0.2 0.2)
+                  (disabled 0.2 0.2 0.2)
+                  (selecting 0.2 0.2 0.2)))
+            (dummy
+               "WWWWWWWWLongBandNameWWWWWWW"))))
+   (char_chooser_remove
+      (resource_file
+         "resource/list_char_chooser_remove.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "")
+      (element
+         (name
+            (object
+               text
+               "name.lbl")
+            (colors
+               (normal
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 1 0.5 0))
+               (disabled
+                  (normal 0.2 0.2 0.2)
+                  (focused 0.2 0.2 0.2)
+                  (disabled 0.2 0.2 0.2)
+                  (selecting 0.2 0.2 0.2)))
+            (dummy
+               "Marcus"))))
+   (standin_char_chooser
+      (resource_file
+         "resource/list_standin_char_chooser.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh")
+      (element
+         (character
+            (object
+               text
+               "character.lbl")
+            (colors
+               (normal
+                  (normal 0.65 0.65 0.65)
+                  (focused 0.65 0.65 0.65)
+                  (disabled 0.65 0.65 0.65)
+                  (selecting 0.65 0.65 0.65))
+               (highlight
+                  (normal 0.9 0.9 0.9)
+                  (focused 0.9 0.9 0.9)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.65 0.65 0.65)
+                  (focused 0.65 0.65 0.65)
+                  (disabled 0.65 0.65 0.65)
+                  (selecting 0.65 0.65 0.65)))
+            (dummy
+               "WWWWWWWWLongBandNameWWWWWWW"))
+         (option
+            (object
+               text
+               "option.lbl")
+            (colors
+               (normal
+                  (normal 0.65 0.65 0.65)
+                  (focused 0.65 0.65 0.65)
+                  (disabled 0.65 0.65 0.65)
+                  (selecting 0.65 0.65 0.65))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.3 0.3 0.3)
+                  (focused 0.3 0.3 0.3)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.3 0.3 0.3)))
+            (dummy
+               "(Create New)"))
+         (heading
+            (object
+               text
+               "heading.lbl")
+            (colors
+               (normal
+                  (normal 0 0.6 0)
+                  (focused 0 0.6 0)
+                  (disabled 0 0.6 0)
+                  (selecting 0 0.6 0))
+               (highlight
+                  (normal 0 0.6 0)
+                  (focused 0 0.6 0)
+                  (disabled 0 0.6 0)
+                  (selecting 0 0.6 0))
+               (disabled
+                  (normal 0 0.6 0)
+                  (focused 0 0.6 0)
+                  (disabled 0 0.6 0)
+                  (selecting 0 0.6 0)))
+            (dummy
+               "MY CHARACTERS"))))
+   (band_char_chooser
+      (resource_file
+         "resource/list_band_char_chooser.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh")
+      (element
+         (character
+            (object
+               text
+               "character.lbl")
+            (colors
+               (normal
+                  (normal 0.9 0.9 0.9)
+                  (focused 0.9 0.9 0.9)
+                  (disabled 0.9 0.9 0.9)
+                  (selecting 0.9 0.9 0.9))
+               (highlight
+                  (normal 0.9 0.9 0.9)
+                  (focused 0.9 0.9 0.9)
+                  (disabled 0.9 0.9 0.9)
+                  (selecting 0.9 0.9 0.9))
+               (disabled
+                  (normal 0.3 0.3 0.3)
+                  (focused 0.3 0.3 0.3)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.3 0.3 0.3)))
+            (dummy
+               "WWWWWWWWLongBandNameWWWWWWW"))
+         (option
+            (object
+               text
+               "option.lbl")
+            (colors
+               (normal
+                  (normal 0.75 0.75 0.75)
+                  (focused 0.75 0.75 0.75)
+                  (disabled 0.75 0.75 0.75)
+                  (selecting 0.75 0.75 0.75))
+               (highlight
+                  (normal 0.9 0.9 0.9)
+                  (focused 0.9 0.9 0.9)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 1 1 1))
+               (disabled
+                  (normal 0.3 0.3 0.3)
+                  (focused 0.3 0.3 0.3)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.3 0.3 0.3)))
+            (dummy
+               "(Create New)"))
+         (heading
+            (object
+               text
+               "heading.lbl")
+            (colors
+               (normal
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.6 0.6 0.6)
+                  (disabled 0.6 0.6 0.6)
+                  (selecting 0.6 0.6 0.6))
+               (highlight
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.6 0.6 0.6)
+                  (disabled 0.6 0.6 0.6)
+                  (selecting 0.6 0.6 0.6))
+               (disabled
+                  (normal 0.3 0.3 0.3)
+                  (focused 0.3 0.3 0.3)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.3 0.3 0.3)))
+            (dummy
+               "MY CHARACTERS"))))
+   (sticker_small
+      (resource_file
+         "resource/list_sticker_small.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh")
+      (element
+         (mesh
+            (object
+               mesh
+               "sticker.mesh")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.3 0.3 0.3)
+                  (focused 0.3 0.3 0.3)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.3 0.3 0.3)))
+            (dummy
+               "sticker.mat"))
+         (text
+            (object
+               text
+               "sticker.lbl")
+            (colors
+               (normal
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.3 0.3 0.3)
+                  (focused 0.3 0.3 0.3)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.3 0.3 0.3)))
+            (dummy
+               "sticker name"))))
+   (sticker
+      (resource_file
+         "resource/list_sticker.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh")
+      (element
+         (mesh
+            (object
+               mesh
+               "sticker.mesh")
+            (colors
+               (normal
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "sticker.mat"))
+         (text
+            (object
+               text
+               "sticker.lbl")
+            (colors
+               (normal
+                  (normal 0.5 0.5 0.5)
+                  (focused 0.5 0.5 0.5)
+                  (disabled 0.5 0.5 0.5)
+                  (selecting 0.5 0.5 0.5))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "sticker name"))))
+   (patch
+      (resource_file
+         "resource/list_patch.milo")
+      PATCH_LIST_TYPE)
+   (patch_arm
+      (resource_file
+         "resource/list_patch_arm.milo")
+      PATCH_LIST_TYPE)
+   (botb_rules
+      (resource_file
+         "resource/list_botb_rules.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "")
+      (element
+         (name
+            (object
+               text
+               "name.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.6 0.1 0.1)
+                  (focused 0.6 0.1 0.1)
+                  (disabled 0.6 0.1 0.1)
+                  (selecting 0.6 0.1 0.1)))
+            (dummy
+               "rules and conditions"))
+         (icon
+            (object
+               text
+               "icon.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.6 0.1 0.1)
+                  (focused 0.6 0.1 0.1)
+                  (disabled 0.6 0.1 0.1)
+                  (selecting 0.6 0.1 0.1)))
+            (dummy
+               "!"))))
+   (botb_news
+      (resource_file
+         "resource/list_botb_news.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh")
+      (element
+         (headline
+            (object
+               text
+               "headline.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.6 0.1 0.1)
+                  (focused 0.6 0.1 0.1)
+                  (disabled 0.6 0.1 0.1)
+                  (selecting 0.6 0.1 0.1)))
+            (dummy
+               "Entertainment Weekly Battle is now open!"))
+         (body
+            (object
+               text
+               "body.lbl")
+            (colors
+               (normal
+                  (normal 0.7 0.7 0.7)
+                  (focused 0.9 0.9 0.9)
+                  (disabled 0.9 0.9 0.9)
+                  (selecting 0.9 0.9 0.9))
+               (highlight
+                  (normal 0.7 0.7 0.7)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.6 0.1 0.1)
+                  (focused 0.6 0.1 0.1)
+                  (disabled 0.6 0.1 0.1)
+                  (selecting 0.6 0.1 0.1)))
+            (dummy
+               "16 Bands have already posted a score in this battle"))
+         (icon
+            (object
+               mesh
+               "album_art.mesh")
+            (colors
+               (normal
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (highlight
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (disabled
+                  (normal 0.2 0.2 0.2)
+                  (focused 0.2 0.2 0.2)
+                  (disabled 0.2 0.2 0.2)
+                  (selecting 0.2 0.2 0.2)))
+            (dummy
+               "album_art.mat"))
+         (album_trim
+            (object
+               mesh
+               "album_trim.mesh")
+            (colors
+               (normal
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (highlight
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (disabled
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1)))
+            (dummy
+               "album_trim.mat"))))
+   (bands
+      (resource_file
+         "resource/list_bands.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "")
+      (element
+         (name
+            (object
+               text
+               "name.lbl")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "WWWWWWWWWWWWWWWWWWWW"))))
+   (top_songs
+      (resource_file
+         "resource/list_top_songs.milo")
+      (vertical TRUE)
+      (back_arrow
+         "")
+      (next_arrow
+         "")
+      (highlight
+         "")
+      (element
+         (name
+            (object
+               text
+               "name.lbl")
+            (colors
+               (normal
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "This is the song name"))
+         (score
+            (object
+               text
+               "score.lbl")
+            (colors
+               (normal
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "99,999,999"))))
+   (botb_history
+      (resource_file
+         "resource/list_botb_history.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh")
+      (element
+         (name
+            (object
+               text
+               "name.lbl")
+            (colors
+               (normal
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "This is the song name"))
+         (score
+            (object
+               text
+               "score.lbl")
+            (colors
+               (normal
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "99,999,999"))
+         (icon
+            (object
+               mesh
+               "album_art.mesh")
+            (colors
+               (normal
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (highlight
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (disabled
+                  (normal 0.2 0.2 0.2)
+                  (focused 0.2 0.2 0.2)
+                  (disabled 0.2 0.2 0.2)
+                  (selecting 0.2 0.2 0.2)))
+            (dummy
+               "album_art.mat"))
+         (album_trim
+            (object
+               mesh
+               "album_trim.mesh")
+            (colors
+               (normal
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (highlight
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (disabled
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1)))
+            (dummy
+               "album_trim.mat"))))
+   (botb_scores
+      (resource_file
+         "resource/botb_score.milo")
+      (vertical TRUE)
+      (back_arrow
+         "")
+      (next_arrow
+         "")
+      (highlight
+         "highlight.mesh")
+      (element
+         (rank
+            (object
+               text
+               "rank.lbl")
+            (colors
+               (normal
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "#100"))
+         (name
+            (object
+               text
+               "name.lbl")
+            (colors
+               (normal
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "Bloody Freaking Bastardz"))
+         (score
+            (object
+               text
+               "score.lbl")
+            (colors
+               (normal
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "99,999,999"))
+         (star
+            (object
+               text
+               "star.lbl")
+            (colors
+               (normal
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.6 0.6 0.6)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.8 0.8 0.8)))
+            (dummy
+               "*"))))
+   (botb_setlist
+      (resource_file
+         "resource/botb_setlist.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "highlight.mesh")
+      (element
+         (item_number
+            (object
+               text
+               "item_number.lbl")
+            (colors
+               (normal
+                  (normal 0.65 0.65 0.65)
+                  (focused 0.65 0.65 0.65)
+                  (disabled 0.65 0.65 0.65)
+                  (selecting 0.65 0.65 0.65))
+               (highlight
+                  (normal 0.65 0.65 0.65)
+                  (focused 0.65 0.65 0.65)
+                  (disabled 0.65 0.65 0.65)
+                  (selecting 0.65 0.65 0.65))
+               (disabled
+                  (normal 0.3 0.3 0.3)
+                  (focused 0.3 0.3 0.3)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.3 0.3 0.3)))
+            (dummy
+               "Song 1 of 12"))
+         (song_name
+            (object
+               text
+               "song_name.lbl")
+            (colors
+               (normal
+                  (normal 0.9 0.9 0.9)
+                  (focused 0.9 0.9 0.9)
+                  (disabled 0.9 0.9 0.9)
+                  (selecting 0.9 0.9 0.9))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.3 0.3 0.3)
+                  (focused 0.3 0.3 0.3)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.3 0.3 0.3)))
+            (dummy
+               "The Name of the Song"))
+         (border
+            (object
+               mesh
+               "border.mesh")
+            (colors
+               (normal
+                  (normal 0.7 0.7 0.7)
+                  (focused 1 1 0)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.7 0.7 0.7)
+                  (focused 0.84 0.84 0)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.6 0 0)
+                  (focused 0.6 0 0)
+                  (disabled 0.6 0 0)
+                  (selecting 0.6 0 0)))
+            (dummy
+               "border.mat"))
+         (album_art
+            (object
+               mesh
+               "album_art.mesh")
+            (colors
+               (normal
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (highlight
+                  (normal 1 1 1)
+                  (focused 1 1 1)
+                  (disabled 1 1 1)
+                  (selecting 1 1 1))
+               (disabled
+                  (normal 0.6 0 0)
+                  (focused 0.6 0 0)
+                  (disabled 0.6 0 0)
+                  (selecting 0.6 0 0)))
+            (dummy
+               "download.mat"))
+         (band_name
+            (object
+               text
+               "band_name.lbl")
+            (colors
+               (normal
+                  (normal 0.65 0.65 0.65)
+                  (focused 0.65 0.65 0.65)
+                  (disabled 0.65 0.65 0.65)
+                  (selecting 0.65 0.65 0.65))
+               (highlight
+                  (normal 0.65 0.65 0.65)
+                  (focused 0.65 0.65 0.65)
+                  (disabled 0.65 0.65 0.65)
+                  (selecting 0.65 0.65 0.65))
+               (disabled
+                  (normal 0.3 0.3 0.3)
+                  (focused 0.3 0.3 0.3)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.3 0.3 0.3)))
+            (dummy
+               "The Name of the Band"))))
+   (band_logo
+      (resource_file
+         "resource/list_band_logo.milo")
+      (vertical TRUE)
+      (back_arrow
+         "back.mesh")
+      (next_arrow
+         "next.mesh")
+      (highlight
+         "")
+      (element
+         (mesh
+            (object
+               mesh
+               "sticker.mesh")
+            (colors
+               (normal
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (highlight
+                  (normal 0.8 0.8 0.8)
+                  (focused 0.8 0.8 0.8)
+                  (disabled 0.8 0.8 0.8)
+                  (selecting 0.8 0.8 0.8))
+               (disabled
+                  (normal 0.3 0.3 0.3)
+                  (focused 0.3 0.3 0.3)
+                  (disabled 0.3 0.3 0.3)
+                  (selecting 0.3 0.3 0.3)))
+            (dummy
+               "sticker.mat")))))
+(BandList
+   (allowed_dirs PanelDir)
+   (types LIST_TYPES))
+(UIList
+   (allowed_dirs)
+   (types LIST_TYPES))
+(UILabel
+   (allowed_dirs))
+(BandLabel
+   (allowed_dirs RndDir WorldDir)
+   (init
+      {$this set_type default})
+   (types
+      (default
+         (resource_file
+            "resource/fakir_regular.milo")
+         (texts
+            (text
+               "fakir_regular.txt"))
+         (size_range 15 50))
+      (screen_title
+         (resource_file
+            "resource/avantgarde.milo")
+         (texts
+            (text
+               "avantgarde.txt")))
+      (screen_title_fade
+         (resource_file
+            "resource/avantgarde_fade.milo")
+         (texts
+            (text
+               "avantgarde_fade.txt")))
+      (itc_avantgarde
+         (resource_file
+            "resource/ITC_avante_garde_pro_BK.milo")
+         (texts
+            (text
+               "itcAvantGarde.txt")))
+      (itc_avantgarde_white
+         (resource_file
+            "resource/ITC_avante_garde_pro_Fw.milo")
+         (texts
+            (text
+               "itcAvantGarde.txt")))
+      (itc_avant_garde_zdecal
+         (resource_file
+            "resource/avantgarde_zdecal.milo")
+         (texts
+            (text
+               "avantgarde_zdecal.txt")))
+      (itc_avantgarde_distressed
+         (resource_file
+            "resource/ITC_avante_garde_distressed.milo")
+         (texts
+            (text
+               "itcAvantGarde.txt")))
+      (itc_avantgarde_distressed_zon
+         (resource_file
+            "resource/itcAvantGarde_distressed_zon.milo")
+         (texts
+            (text
+               "itcAvantGarde_distressed_zon.txt")))
+      (itc_avantgarde_fade
+         (resource_file
+            "resource/itc_avante_garde_pro_bk_fade.milo")
+         (texts
+            (text
+               "itcAvantGarde_fade.txt")))
+      (battery
+         park
+         (resource_file
+            "resource/batterypark.milo")
+         (texts
+            (text
+               "batterypark.txt")))
+      (bodoni
+         (resource_file
+            "resource/bodoni.milo")
+         (texts
+            (text
+               "bodoni.txt")))
+      (shop_title
+         (resource_file
+            "resource/font_bipolar_decorative.milo")
+         (texts
+            (text
+               "bipolar_decorative.txt")))
+      (bipolar
+         (resource_file
+            "resource/font_bipolar.milo")
+         (texts
+            (text
+               "bipolar.txt")))
+      (bipolar_fade
+         (resource_file
+            "resource/font_bipolar_fade.milo")
+         (texts
+            (text
+               "bipolar_fade.txt")))
+      (bipolar_zon
+         (resource_file
+            "resource/font_bipolar_zon.milo")
+         (texts
+            (text
+               "bipolar_zon.txt")))
+      (bipolar_decorative
+         (resource_file
+            "resource/font_bipolar_decorative.milo")
+         (texts
+            (text
+               "bipolar_decorative.txt")))
+      (cinnamonroll
+         (resource_file
+            "resource/cinnamonroll.milo")
+         (texts
+            (text
+               "cinnamonroll.txt")))
+      (gamertag
+         (resource_file
+            "resource/font_bipolar.milo")
+         (texts
+            (text
+               "bipolar.txt")))
+      (rhode_medium_condensed
+         (resource_file
+            "resource/font_rhode_medium_condensed.milo")
+         (texts
+            (text
+               "rhode_medium_condensed.txt")))
+      (stoclet
+         (resource_file
+            "resource/font_stoclet.milo")
+         (texts
+            (text
+               "stoclet.txt")))
+      (text_block
+         (resource_file
+            "resource/fakir_regular.milo")
+         (texts
+            (text
+               "fakir_regular.txt")))
+      (numbers
+         (resource_file
+            "resource/chalet1970numbers.milo")
+         (texts
+            (text
+               "chalet1970numbers.txt"))
+         (set_num_fmt
+            ($num)
+            {$this
+               set_localized
+               {fmt_score $num}}))
+      (monospaced_numbers
+         (resource_file
+            "resource/chalet_numbers_mono.milo")
+         (texts
+            (text
+               "chalet_numbers_mono.txt")))
+      (instrument_icons
+         (resource_file
+            "resource/instrument_icons.milo")
+         (texts
+            (text
+               "instrument_icons.txt")))
+      (instrument_icons_small
+         (resource_file
+            "resource/instrument_icons_small.milo")
+         (texts
+            (text
+               "instrument_icons.txt")))
+      (icon_botb_requirements
+         (resource_file
+            "resource/icons_botb_requirements.milo")
+         (texts
+            (text
+               "instrument_icons.txt")))
+      (instrument_icons_zon
+         (resource_file
+            "resource/instrument_icons_zon.milo")
+         (texts
+            (text
+               "instrument_icons_zon.txt")))
+      (instrument_icons_fade
+         (resource_file
+            "resource/instrument_icons_fade.milo")
+         (texts
+            (text
+               "instrument_icons_fade.txt")))
+      (icons_tour
+         #ifndef HX_WII
+         (resource_file
+            "resource/icons_tour.milo")
+         #else
+         (resource_file
+            "resource/icons_tour_wii.milo")
+         #endif
+         (texts
+            (text
+               "icons_tour.txt")))
+      (checkmarks
+         (resource_file
+            "resource/checkmarks.milo")
+         (texts
+            (text
+               "checkmarks.txt")))
+      (ingame
+         (resource_file
+            "resource/chalet1970numbers_ingame.milo")
+         (texts
+            (text
+               "chalet1970numbers_ingame.txt")))
+      (button_icon
+         #ifndef HX_WII
+         #ifndef HX_EE
+         (resource_file
+            "resource/buttons.milo")
+         #else
+         (resource_file
+            "resource/buttons_ps2.milo")
+         #endif
+         #else
+         (resource_file
+            "resource/buttons_wii.milo")
+         #endif
+         (texts
+            (text
+               "buttons.txt")))
+      (button_envon
+         #ifndef HX_WII
+         #ifndef HX_EE
+         (resource_file
+            "resource/buttons_envon.milo")
+         #else
+         (resource_file
+            "resource/buttons_envon_ps2.milo")
+         #endif
+         #else
+         (resource_file
+            "resource/buttons_envon_wii.milo")
+         #endif
+         (texts
+            (text
+               "buttons_envon.txt")))
+      (instrument_icons_in_game
+         (resource_file
+            "resource/instrument_icons_in_game.milo")
+         (texts
+            (text
+               "instrument_icons_in_game.txt")))
+      (tutorial_part
+         (resource_file
+            "resource/chalet_trace.milo")
+         (texts
+            (text
+               "chalet_trace.txt")))
+      (tutorial_info
+         (resource_file
+            "resource/chalet_trace_fill.milo")
+         (texts
+            (text
+               "chalet_trace_fill.txt")))
+      (tutorial_score
+         (resource_file
+            "resource/chalet_dropshadow.milo")
+         (texts
+            (text
+               "chalet_dropshadow.txt")))
+      (chalet_trace
+         (resource_file
+            "resource/chalet_trace.milo")
+         (texts
+            (text
+               "chalet_trace.txt")))
+      (chalet_trace_fill
+         (resource_file
+            "resource/chalet_trace_fill.milo")
+         (texts
+            (text
+               "chalet_trace_fill.txt")))
+      (chalet_dropshadow
+         (resource_file
+            "resource/chalet_dropshadow.milo")
+         (texts
+            (text
+               "chalet_dropshadow.txt")))
+      (chalet_reverse_dropshadow
+         (resource_file
+            "resource/chalet_reverse_dropshadow.milo")
+         (texts
+            (text
+               "chalet_reverse_dropshadow.txt")))
+      (chalet1970numbers
+         (resource_file
+            "resource/chalet1970numbers.milo")
+         (texts
+            (text
+               "chalet1970numbers.txt")))
+      (fakir_regular
+         (resource_file
+            "resource/fakir_regular.milo")
+         (texts
+            (text
+               "fakir_regular.txt")))
+      (vhs
+         (resource_file
+            "resource/vhs.milo")
+         (texts
+            (text
+               "vhs.txt")))
+      (venue_font
+         (resource_file
+            "resource/venue_font.milo")
+         (texts
+            (text
+               "venue_font.txt")))
+      (baroque
+         (resource_file
+            "resource/baroque.milo")
+         (texts
+            (text
+               "baroque.txt")))
+      (baroque_zon
+         (resource_file
+            "resource/baroque_arena_11.milo")
+         (texts
+            (text
+               "baroque.txt")))
+      (glow
+         (resource_file
+            "resource/glow.milo")
+         (texts
+            (text
+               "glow.txt")))
+      (courier_new
+         (resource_file
+            "resource/courier_new.milo")
+         (texts
+            (text
+               "courier_new.txt")))
+      (convection_symbol
+         (resource_file
+            "resource/convection_symbol.milo")
+         (texts
+            (text
+               "money.txt")))))
+(UIButton
+   (allowed_dirs))
+#define BAND_BUTTON_MAIN_SUBMENU
+(#ifndef HX_OG
+   (enter_anim
+      "enter_anim.tnm")
+   #else
+   (enter_anim
+      "enter_anim.grp")
+   #endif
+   (exit_anim
+      "exit_anim.tnm")
+   (focus_anim_loop
+      "loop.anim")
+   (text_env
+      "Environ.env")
+   (texts
+      (text
+         "ITC Avant Garde Pro Bk.txt"
+         (normal
+            "ITC Avant Garde Pro Bk.font")
+         (focused
+            "ITC Avant Garde Pro Bk.font")
+         (disabled
+            "ITC Avant Garde Pro Bk.font")
+         (selecting
+            "ITC Avant Garde Pro Bk.font")))
+   (meshes
+      ("highlight.mesh"
+         (normal
+            "normal.mat")
+         (focused
+            "highlight.mat")
+         (disabled
+            "disabled.mat")
+         (selecting
+            "normal.mat"))))
+(BandButton
+   (allowed_dirs PanelDir)
+   (init
+      {$this set_type default})
+   (editor
+      (text_mesh
+         object
+         (class Mesh)
+         (dir_prop resource_dir)))
+   (types
+      (default
+         (resource_file
+            "resource/ITC_avante_garde_pro_BK.milo")
+         (texts
+            (text
+               "itcAvantGarde.txt")))
+      (main
+         (resource_file
+            "resource/button_main.milo")
+         (selecting_anim
+            "selecting.tnm")
+         (texts
+            (text
+               "null.txt"
+               (normal
+                  "null.font")
+               (focused
+                  "null.font")
+               (disabled
+                  "null.font")
+               (selecting
+                  "null.font")))
+         (meshes
+            ("border.mesh"
+               (normal
+                  "metal.mat")
+               (focused
+                  "metal_focused.mat")
+               (disabled
+                  "metal.mat")
+               (selecting
+                  "metal.mat"))
+            ("inlay.mesh"
+               (normal
+                  "button_normal.mat")
+               (focused
+                  "button_focused.mat")
+               (disabled
+                  "button_disabled.mat")
+               (selecting
+                  "button_focused.mat"))))
+      (main_submenu
+         (resource_file
+            "resource/button_submenu.milo")
+         BAND_BUTTON_MAIN_SUBMENU)
+      (main_submenu_nozbuffer
+         (resource_file
+            "resource/button_submenu_nozbuffer.milo")
+         BAND_BUTTON_MAIN_SUBMENU)
+      (tab
+         (resource_file
+            "resource/botb_tabs.milo")
+         (texts
+            (text
+               "chalet1980.txt"
+               (normal
+                  "chalet1980.font")
+               (focused
+                  "chalet1980.font")
+               (disabled
+                  "chalet1980.font")
+               (selecting
+                  "chalet1980.font")
+               (selected
+                  "chalet1980.font")))
+         (meshes
+            ("tab.mesh"
+               (normal
+                  "tab_normal.mat")
+               (focused
+                  "tab_focused.mat")
+               (disabled
+                  "tab_disabled.mat")
+               (selecting
+                  "tab_selecting.mat")
+               (selected
+                  "tab_selected.mat"))
+            ("ornate_trim_label.mesh"
+               (normal
+                  "ornate_trim.mat")
+               (focused
+                  "ornate_trim_focused.mat")
+               (disabled
+                  "ornate_trim_disabled.mat")
+               (selecting
+                  "ornate_trim_selecting.mat")
+               (selected
+                  "ornate_trim_selected.mat"))))
+      (band_lineup
+         (resource_file
+            "resource/button_band_lineup.milo")
+         (selecting_anim
+            "selecting.tnm")
+         (texts
+            (text
+               "null.txt"
+               (normal
+                  "null.font")
+               (focused
+                  "null.font")
+               (disabled
+                  "null.font")
+               (selecting
+                  "null.font")))
+         (meshes
+            ("button.mesh"
+               (normal
+                  "button_normal.mat")
+               (focused
+                  "button_focused.mat")
+               (disabled
+                  "button_disabled.mat")
+               (selecting
+                  "button_focused.mat"))))
+      (backdrop
+         (resource_file
+            "resource/button_backdrop.milo")
+         (texts
+            (text
+               "fakir_regular.txt"))
+         (meshes
+            ("backdrop.mesh"
+               (normal
+                  "backdrop.mat")
+               (focused
+                  "backdrop.mat")
+               (disabled
+                  "backdrop.mat")
+               (selecting
+                  "backdrop.mat"))))
+      (button
+         (resource_file
+            "resource/ITC_avante_garde_pro_BK.milo")
+         (texts
+            (text
+               "itcAvantGarde.txt")))
+      (avant_emboss
+         (resource_file
+            "resource/ITC_avante_garde_pro_Bk_emboss.milo")
+         (texts
+            (text
+               "itc avant garde pro bk_emboss.txt")))
+      (battery
+         park
+         (resource_file
+            "resource/batterypark.milo")
+         (texts
+            (text
+               "batterypark.txt")))
+      (screen_title
+         (resource_file
+            "resource/avantgarde.milo")
+         (texts
+            (text
+               "avantgarde.txt")))
+      (instrument_icons
+         (resource_file
+            "resource/instrument_icons.milo")
+         (texts
+            (text
+               "instrument_icons.txt")))
+      (icon
+         (resource_file
+            "resource/icons_tour.milo")
+         (texts
+            (text
+               "icons_tour.txt")))
+      (chalet_trace
+         (resource_file
+            "resource/chalet_trace.milo")
+         (texts
+            (text
+               "chalet_trace.txt")))
+      (chalet_trace_fill
+         (resource_file
+            "resource/chalet_trace_fill.milo")
+         (texts
+            (text
+               "chalet_trace_fill.txt")))
+      (chalet_dropshadow
+         (resource_file
+            "resource/chalet_dropshadow.milo")
+         (texts
+            (text
+               "chalet_dropshadow.txt")))
+      (chalet_reverse_dropshadow
+         (resource_file
+            "resource/chalet_reverse_dropshadow.milo")
+         (texts
+            (text
+               "chalet_reverse_dropshadow.txt")))
+      (chalet1970numbers
+         (resource_file
+            "resource/chalet1970numbers.milo")
+         (texts
+            (text
+               "chalet1970numbers.txt")))
+      (chalet1980
+         (resource_file
+            "resource/chalet1980.milo")
+         (texts
+            (text
+               "chalet1980.txt")))
+      (fakir_regular
+         (resource_file
+            "resource/fakir_regular.milo")
+         (texts
+            (text
+               "fakir_regular.txt")))
+      (vhs
+         (resource_file
+            "resource/vhs.milo")
+         (texts
+            (text
+               "vhs.txt")))
+      (itc_avant_garde
+         (resource_file
+            "resource/ITC_avante_garde_pro_BK.milo")
+         (texts
+            (text
+               "itcAvantGarde.txt")))
+      (itc_avant_garde_zdecal
+         (resource_file
+            "resource/avantgarde_zdecal.milo")
+         (texts
+            (text
+               "avantgarde_zdecal.txt")))
+      (itc_avant_garde_distressed
+         (resource_file
+            "resource/ITC_avante_garde_distressed.milo")
+         (texts
+            (text
+               "itcAvantGarde.txt")))
+      (itc_avant_garde_distressed_zon
+         (resource_file
+            "resource/itcAvantGarde_distressed_zon.milo")
+         (texts
+            (text
+               "itcAvantGarde_distressed_zon.txt")))))
+(BandHighlight
+   (types
+      (default
+         (resource_file
+            "resource/highlight.milo")
+         (anim_duration 0.1))
+      (main_highlight
+         (resource_file
+            "resource/main_highlight.milo")
+         (anim_duration 0.0)
+         (text_edge
+            "right.mesh")
+         (mirror_mats
+            "left.mat"
+            "right.mat"))))
+(PlayerDiffIcon
+   (allowed_dirs RndDir)
+   (init
+      {$this set_type default})
+   (types
+      (default
+         (resource_file
+            "resource/challenge_diff_icons.milo")
+         (player_meshes
+            "01.mesh"
+            "02.mesh"
+            "03.mesh"
+            "04.mesh")
+         (player_mat
+            "player.mat")
+         (no_player_mat
+            "player_none.mat")
+         (diff_labels
+            "easy.lbl"
+            "medium.lbl"
+            "hard.lbl"
+            "expert.lbl"))))
+(BandSwatch
+   (types
+      (default
+         (resource_file
+            "resource/swatch.milo"))
+      (skin
+         (resource_file
+            "resource/swatch_skin.milo")
+         (vertical FALSE)
+         (element
+            (color
+               (object
+                  mesh
+                  "color.mesh")
+               (colors
+                  (normal 0.3 0.3 0.3)
+                  (focused 1 1 1)
+                  (disabled 0.1 0.1 0.1)
+                  (selecting 1 1 1)
+                  (selected 1 1 0))))
+         (back_arrow
+            "back.mesh")
+         (next_arrow
+            "next.mesh")
+         (highlight
+            "highlight.mesh"))))
+(UIPicture
+   (types
+      (picture_albumart
+         (tex_file
+            "image/blank_album_art_keep.png"))))
+(UIProxy
+   (types
+      (char
+         (file
+            "../char/male/male_guitar.milo"
+            FALSE)
+         (sync_on_move TRUE)
+         (sync_dir
+            {{$this proxy_dir}
+               sync_waypoint})
+         (share FALSE))))
+(UISlider
+   (init
+      {$this set_type audio})
+   (types
+      (audio
+         (resource_file
+            "resource/slider_audio.milo")
+         (vertical FALSE)
+         (meshes
+            ("pod.mesh"
+               (normal
+                  "slider_pod_normal.mat")
+               (focused
+                  "slider_pod_focused.mat")
+               (disabled
+                  "slider_pod_disabled.mat")
+               (selected
+                  "slider_pod_selected.mat"))
+            ("slider.mesh"
+               (normal
+                  "slider_normal.mat")
+               (focused
+                  "slider_focused.mat")
+               (disabled
+                  "slider_disabled.mat")
+               (selected
+                  "slider_selected.mat"))))))
+(PanelDir
+   (types
+      (shell
+         (editor SHELL_EDITOR)
+         SHELL_TYPE)
+      (world_map
+         (editor
+            SHELL_EDITOR
+            (focal_distance
+               float
+               (help
+                  "focal distance"))
+            (blur_depth
+               float
+               (help
+                  "blur depth"))
+            (min_blur
+               float
+               (help
+                  "min blur"))
+            (max_blur
+               float
+               (help
+                  "max blur")))
+         SHELL_TYPE
+         (focal_distance 1)
+         (blur_depth 1)
+         (min_blur 0)
+         (max_blur 1))
+      (loading_panel
+         (change_proxies
+            {if
+               {exists game}
+               {foreach_int
+                  $i
+                  0
+                  {user_mgr get_max_users}
+                  {do
+                     ($user
+                        {user_mgr get_user_from_slot $i})
+                     ($track
+                        {if_else
+                           $user
+                           {$user get_track_sym}
+                           none})
+                     ($object
+                        {sprintf
+                           "load_icon_%i"
+                           $i})
+                     {cond
+                        ({== $track guitar}
+                           {$object
+                              override_proxy
+                              "load_icon_guitar.milo"})
+                        ({== $track bass}
+                           {$object
+                              override_proxy
+                              "load_icon_bass.milo"})
+                        ({== $track drum}
+                           {$object
+                              override_proxy
+                              "load_icon_drum.milo"})
+                        ({== $track vocals}
+                           {$object
+                              override_proxy
+                              "load_icon_vox.milo"})
+                        ({== $track none}
+                           {$object
+                              override_proxy
+                              ""})
+                        (TRUE
+                           {notify
+                              "Unknown track type: '"
+                              $track
+                              "' for player #"
+                              $i
+                              "!\n"})}}}}))))
+(TexMovie
+   (types
+      (shell
+         (change_file
+            {if_else
+               {exists game}
+               {random_elem
+                  #ifndef HX_EE
+                  ("videos/shell1.bik"
+                     "videos/shell2.bik"
+                     "videos/shell3.bik")
+                  #else
+                  ("videos/shell1.pss"
+                     "videos/shell2.pss"
+                     "videos/shell3.pss")
+                  #endif}
+               kDataUnhandled}))))

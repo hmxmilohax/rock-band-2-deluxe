@@ -1,0 +1,856 @@
+{new
+   UIPanel
+   practice_lower3rd_panel
+   (file
+      "practice_lower3rd.milo")}
+{new
+   SessionPanel
+   practice_mode_panel
+   (enter
+      {gamecfg set practice_mode TRUE})
+   (exit
+      {gamecfg set practice_mode FALSE})}
+{new
+   PracticeBackgroundPanel
+   practice_background_panel
+   (file
+      "practice_background.milo")
+   (select_background
+      {do
+         ($player_num
+            {session_mgr get_leader_num})
+         ($pcfg
+            {session_mgr get_leader_user})
+         {drum_trainer.mesh set_showing FALSE}
+         {vocal_trainer.mesh set_showing FALSE}
+         {guitar_trainer.mesh set_showing FALSE}
+         {switch
+            {$pcfg get_controller_type}
+            (kControllerVocals
+               {vocal_trainer.mesh set_showing TRUE})
+            (kControllerDrum
+               {drum_trainer.mesh set_showing TRUE})
+            (kControllerGuitar
+               {guitar_trainer.mesh set_showing TRUE})}})}
+{new
+   PreloadPanel
+   practice_preload_panel
+   (content_name
+      "")
+   (corrupt FALSE)
+   (enter
+      {if_else
+         [preload_ok]
+         {ui goto_screen practice_pre_sel_section_screen}
+         {band_ui
+            content_file_read_failed
+            [content_name]
+            [corrupt]}})}
+{new
+   BandScreen
+   practice_preloading_screen
+   (panels meta practice_preload_panel)
+   (focus practice_preload_panel)
+   (helpbar
+      ((min_height 0)))}
+{new
+   UIPanel
+   practice_sel_movie_mask_panel
+   (file
+      "practice_sel_movie_mask.milo")}
+{new
+   BandScreen
+   practice_pre_sel_section_screen
+   (panels meta movie_panel practice_sel_movie_mask_panel)
+   (enter
+      {switch
+         {{session_mgr get_leader_user}
+            get_controller_type}
+         (kControllerVocals
+            {practice_panel set_in_vocal_mode TRUE})
+         (kControllerDrum
+            {practice_panel set_in_vocal_mode FALSE})
+         (kControllerGuitar
+            {practice_panel set_in_vocal_mode FALSE})}
+      {if_else
+         {practice_panel in_vocal_mode}
+         {do
+            {gamecfg set_section 0 -1}
+            {gamecfg set_section 1 -1}
+            {practice_section_provider set_start_section -1}
+            {practice_section_provider init_sections}
+            {gamecfg set practice_speed 0}
+            {ui goto_screen practice_loading_screen}}
+         {do
+            {ui goto_screen practice_sel_section_screen}}})}
+{new
+   MultiSelectListPanel
+   practice_sel_section_panel
+   (file practice_sel_section.milo)
+   (focus sel_section.lst)
+   (enter
+      {gamecfg set_section 0 -1}
+      {gamecfg set_section 1 -1}
+      {sel_section.lst set_provider practice_section_provider}
+      {set
+         [section]
+         0}
+      {platform_mgr disable_xmp}
+      {title.lbl
+         set_localized
+         {localize practice_select_start}}
+      {$this play_preview})
+   (exit
+      #ifdef HX_EE
+      {meta music_stop_stream}
+      #else
+      {song_preview ''}
+      #endif
+      {platform_mgr enable_xmp})
+   (SELECT_MSG
+      {do
+         ($idx
+            {-
+               {sel_section.lst selected_pos}
+               1})
+         {synth play button_select}
+         {if_else
+            [section]
+            {do
+               {gamecfg set_section 1 $idx}
+               {ui goto_screen practice_sel_speed_screen}}
+            {if_else
+               {== $idx -1}
+               {do
+                  {gamecfg set_section 0 -1}
+                  {gamecfg set_section 1 -1}
+                  {ui goto_screen practice_sel_speed_screen}}
+               {do
+                  {gamecfg set_section 0 $idx}
+                  {title.lbl
+                     set_localized
+                     {localize practice_select_end}}
+                  {set
+                     [section]
+                     1}
+                  {practice_section_provider set_start_section $idx}}}}})
+   (SCROLL_MSG
+      #ifndef HX_EE
+      {$this play_preview}
+      #endif)
+   (BUTTON_DOWN_MSG
+      {cond
+         ({&&
+               {== $action kAction_Cancel}
+               {==
+                  [section]
+                  0}}
+            {synth play button_back}
+            {ui goto_screen qp_seldiff_screen}
+            TRUE)
+         ({&&
+               {== $action kAction_Cancel}
+               {==
+                  [section]
+                  1}}
+            {synth play button_back}
+            {set
+               [section]
+               0}
+            {practice_section_provider set_start_section -1}
+            {title.lbl
+               set_localized
+               {localize practice_select_start}}
+            {$this un_choose}
+            TRUE)
+         (TRUE kDataUnhandled)}
+      kDataUnhandled)
+   (play_preview
+      #ifdef HX_EE
+      {meta
+         music_start_stream
+         {song_mgr
+            song_preview_clip
+            {meta_performer song}}}
+      #else
+      {set
+         $sec
+         {-
+            {sel_section.lst selected_pos}
+            1}}
+      {set
+         $start
+         {practice_section_provider get_section_start_ms $sec}}
+      {set
+         $end
+         {practice_section_provider get_section_end_ms $sec}}
+      {set
+         $start
+         {- $start 500.0}}
+      {if
+         {< $start 0.0}
+         {set $start 0.0}}
+      {song_preview
+         {meta_performer song}
+         $start
+         $end}
+      #endif)
+   (section 0)}
+{new
+   BandScreen
+   practice_sel_section_screen
+   (panels meta movie_panel postsong_sfx_panel practice_sel_section_panel practice_mode_panel practice_lower3rd_panel)
+   (focus practice_sel_section_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (TRANSITION_COMPLETE_MSG
+      {input_mgr check_controllers})}
+{new
+   UIPanel
+   sel_speed_panel
+   (file sel_speed.milo)
+   #ifdef HX_EE
+   (focus speed1.btn)
+   #else
+   (focus speed0.btn)
+   #endif
+   (enter
+      {session
+         add_sink
+         $this
+         (start_loading)}
+      #ifdef HX_EE
+      {$this disable speed0.btn}
+      {$this disable speed3.btn}
+      {$this disable speed4.btn}
+      {$this disable speed5.btn}
+      {speed0.btn set_showing FALSE}
+      {speed3.btn set_showing FALSE}
+      {speed4.btn set_showing FALSE}
+      {speed5.btn set_showing FALSE}
+      {speed1.btn set text_token practice_speed_0}
+      {speed2.btn set text_token practice_speed_3}
+      #endif)
+   (exit
+      {session remove_sink $this start_loading})
+   (SELECT_MSG
+      {switch
+         $component
+         #ifdef HX_EE
+         (speed1.btn
+            {gamecfg set practice_speed 0})
+         (speed2.btn
+            {gamecfg set practice_speed 1})
+         #else
+         (speed0.btn
+            {gamecfg set practice_speed 0})
+         (speed1.btn
+            {gamecfg set practice_speed 1})
+         (speed2.btn
+            {gamecfg set practice_speed 2})
+         (speed3.btn
+            {gamecfg set practice_speed 3})
+         (speed4.btn
+            {gamecfg set practice_speed 4})
+         (speed5.btn
+            {gamecfg set practice_speed 5})
+         #endif}
+      {{session_mgr get_leader_user}
+         set_ready
+         TRUE})
+   (start_loading
+      {gamecfg set_active_roster TRUE}
+      {ui goto_screen practice_loading_screen})}
+{new
+   BandScreen
+   practice_sel_speed_screen
+   (panels meta movie_panel postsong_sfx_panel sel_speed_panel practice_mode_panel practice_lower3rd_panel)
+   (focus sel_speed_panel)
+   (back practice_sel_section_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}
+{new
+   BandScreen
+   practice_loading_screen
+   (panels loading_panel practice_mode_panel)
+   (allow_back FALSE)
+   (animate_transition FALSE)
+   (helpbar
+      ((min_height 0)))
+   (TRANSITION_COMPLETE_MSG
+      {ui
+         goto_screen
+         {gamemode get game_screen}})
+   (exit)}
+{new
+   Object
+   percentage_callback
+   (hit
+      {$this update_percentage})
+   (miss
+      {$this update_percentage})
+   (pass
+      {$this update_percentage})
+   (update_percentage
+      {set
+         $slot
+         {gamecfg
+            get_slot_num_from_player_num
+            {session_mgr get_leader_num}}}
+      {set
+         [percent]
+         {{beatmatch active_player 0}
+            percent_hit_gems_practice
+            $slot
+            [startMs]
+            [endMs]}}
+      {if
+         {>
+            [percent]
+            100.0}
+         {set
+            [percent]
+            100.0}}
+      {practice_panel
+         set_hit_percent
+         [percent]})
+   (reset
+      ($startMs $endMs)
+      {set
+         [startMs]
+         $startMs}
+      {set
+         [endMs]
+         $endMs}
+      {set
+         [percent]
+         0.0}
+      {set
+         [total]
+         0.0}
+      {set_elem
+         [rating_count]
+         0
+         0.0}
+      {set_elem
+         [rating_count]
+         1
+         0.0}
+      {set_elem
+         [rating_count]
+         2
+         0.0}
+      {set_elem
+         [rating_count]
+         3
+         0.0}
+      {set_elem
+         [rating_count]
+         4
+         0.0})
+   (phrase_rating
+      ($rating)
+      {set
+         $val
+         {elem
+            [rating_count]
+            $rating}}
+      {'+=' $val 1.0}
+      {set_elem
+         [rating_count]
+         $rating
+         $val}
+      {'+='
+         [total]
+         1.0})
+   (percent 0.0)
+   (startMs 0.0)
+   (endMs 0.0)
+   (total 0.0)
+   (rating_count
+      (0.0 0.0 0.0 0.0 0.0))}
+{new
+   Object
+   countoff_callback
+   (beat
+      {if
+         {'||'
+            [enabled]
+            {gamecfg get practice_speed}}
+         {synth play click}
+         {'++'
+            [count]}
+         {if
+            {>
+               [count]
+               3}
+            {set
+               [enabled]
+               FALSE}}})
+   (reset
+      {set
+         [enabled]
+         TRUE}
+      {set
+         [count]
+         0})
+   (enabled TRUE)
+   (count 0)}
+{new
+   PracticePanel
+   practice_panel
+   (file practice_panel.milo)
+   (enter
+      {synth stop_all_sfx}
+      {events_parser
+         add_sink
+         $this
+         (section)}
+      {game
+         add_sink
+         $this
+         (game_won)}
+      {coop_track_panel reset}
+      {{beatmatch active_player 0}
+         set_crowd_rating_active
+         FALSE}
+      {$this update}
+      {{beatmatch active_player 0}
+         add_sink
+         percentage_callback
+         (hit miss pass phrase_rating)}
+      {$world
+         add_sink
+         countoff_callback
+         (beat)}
+      {do
+         ($real_speed
+            {gamecfg get practice_speed})
+         {gamecfg set practice_speed 0}
+         {$this update_speed $real_speed}
+         #ifdef HX_EE
+         {gamecfg set practice_speed $real_speed}
+         {set
+            $modifier
+            {elem
+               [speed_modifier]
+               $real_speed}}
+         {beatmatch set_music_speed $modifier}
+         #endif}
+      {gamecfg
+         get_section_bounds
+         {gamecfg get_section 0}
+         $start_ms
+         $end_ms}
+      {gamecfg
+         get_section_bounds
+         {gamecfg get_section 1}
+         $start_ms2
+         $end_ms2}
+      {percentage_callback reset $start_ms $end_ms2}
+      {countoff_callback reset}
+      {game add_sink $this}
+      {if_else
+         {$this in_vocal_mode}
+         {do
+            {hide_speed.trig trigger}}
+         {do
+            {show_speed.trig trigger}}}
+      {if
+         [update_best_percent]
+         {set
+            [best_percent]
+            -1.0}
+         {$this set_best_percent 0.0}}
+      {set
+         [update_best_percent]
+         TRUE}
+      {practice_game_screen set jump_delay 130}
+      {practice_background_panel select_background}
+      {$this jump_to_start})
+   (jump_to_start
+      {if
+         {!
+            {$this in_vocal_mode}}
+         {section.lbl set_localized ''}
+         {set
+            $player
+            {beatmatch active_player 0}}
+         {set
+            $track
+            {$player track}}
+         {$track practice_reset}
+         {gamecfg
+            get_section_bounds
+            {gamecfg get_section 0}
+            $start_ms
+            $end_ms}
+         {gamecfg
+            get_section_bounds
+            {gamecfg get_section 1}
+            $start_ms2
+            $end_ms2}
+         {percentage_callback reset $start_ms $end_ms2}
+         {countoff_callback reset}
+         {$this set_hit_percent 0.0}
+         {set $begin_ms $start_ms}
+         {-=
+            $start_ms
+            {'*'
+               4.0
+               {beatmatch ms_per_beat}}}
+         {if
+            {<= $start_ms 0.0}
+            {set $start_ms 0.0}}
+         {practice_game_screen set already_ended FALSE}
+         {{coop_track_panel find ending_bonus}
+            reset}
+         {{coop_track_panel find ending_bonus.tnm}
+            set_frame
+            0}
+         {beatmatch jump $start_ms}
+         #ifdef HX_EE
+         {set
+            $p_speed
+            {gamecfg get practice_speed}}
+         {beatmatch
+            set_music_speed
+            {elem
+               [speed_modifier]
+               $p_speed}}
+         #endif})
+   (BUTTON_DOWN_MSG
+      {if
+         {!
+            {$this in_vocal_mode}}
+         {if
+            {== $action kAction_Right}
+            {$this inc_speed}}
+         {if
+            {== $action kAction_Left}
+            {$this dec_speed}}})
+   (inc_speed
+      {set
+         $p_speed
+         {gamecfg get practice_speed}}
+      {if
+         {> $p_speed 0}
+         {-- $p_speed}
+         {$this update_speed $p_speed}})
+   (dec_speed
+      {set
+         $p_speed
+         {gamecfg get practice_speed}}
+      #ifdef HX_EE
+      {if
+         {< $p_speed 1}
+         {'++' $p_speed}
+         {$this update_speed $p_speed}}
+      #else
+      {if
+         {< $p_speed 5}
+         {'++' $p_speed}
+         {$this update_speed $p_speed}}
+      #endif)
+   (update_speed
+      ($p_speed)
+      {do
+         ($modifier
+            {elem
+               [speed_modifier]
+               $p_speed})
+         ($old_speed
+            {gamecfg get practice_speed})
+         {beatmatch set_music_speed $modifier}
+         {'*=' $modifier 100.0}
+         {practice_panel set_speed_percent $modifier}
+         {gamecfg set practice_speed $p_speed}
+         {if_else
+            {== 0 $p_speed}
+            {do
+               {synth stop practice_hum.cue}}
+            {do
+               {if
+                  {== 0 $old_speed}
+                  {synth play practice_hum.cue}}}}})
+   (update
+      {if
+         {!
+            [keep_section_text]}
+         {section.lbl set_localized ''}}
+      {set
+         [keep_section_text]
+         FALSE})
+   (exit
+      {events_parser remove_sink $this}
+      {game remove_sink $this}
+      {{beatmatch active_player 0}
+         remove_sink
+         percentage_callback}
+      {$world remove_sink countoff_callback beat}
+      {{beatmatch active_player 0}
+         remove_sink
+         percentage_callback}
+      {synth stop practice_hum.cue})
+   (midi_parser
+      ($msg)
+      {$this $msg})
+   (section
+      ($sec)
+      {set
+         $text
+         {localize $sec FALSE}}
+      {if
+         {== $text ''}
+         {set $text $sec}}
+      {section.lbl
+         set_localized
+         {if_else
+            {==
+               $text
+               [ignore_section]}
+            ''
+            $text}})
+   (set_hit_percent
+      ($percentage)
+      {hit_percent.lbl
+         set_localized
+         {sprintf
+            {localize eg_percent_format}
+            {int $percentage}}})
+   (set_speed_percent
+      ($percentage)
+      {speed_percent.lbl
+         set_localized
+         {sprintf
+            {localize eg_percent_format}
+            {int $percentage}}}
+      {set
+         $ratio
+         {/ 100.0 $percentage}}
+      {practice_panel set_pitch_shift_ratio $ratio})
+   (set_best_percent
+      ($percentage)
+      {if
+         {>
+            $percentage
+            [best_percent]}
+         {set
+            [best_percent]
+            $percentage}
+         {best_percent.lbl
+            set_localized
+            {sprintf
+               {localize eg_percent_format}
+               {int $percentage}}}})
+   (pause
+      {beatmatch set_time_paused TRUE}
+      {game set_paused TRUE}
+      {synth pause_all_sfx TRUE})
+   (unpause
+      {beatmatch set_time_paused FALSE}
+      {game set_paused FALSE}
+      {synth pause_all_sfx FALSE})
+   (keep_section_text FALSE)
+   (ignore_section '')
+   #ifdef HX_EE
+   (speed_modifier
+      (1.0 0.7))
+   #else
+   (speed_modifier
+      (1.0 0.9 0.8 0.7 0.6 0.5))
+   #endif
+   (best_percent 0.0)
+   (update_best_percent TRUE)}
+#define PRACTICE_PANELS
+(game sync_audio_net_panel practice_background_panel practice_panel coop_track_panel)
+{new
+   BandScreen
+   practice_game_screen
+   (panels practice_mode_panel PRACTICE_PANELS)
+   (allow_back FALSE)
+   (animate_transition FALSE)
+   (in_game TRUE)
+   (focus practice_panel)
+   GAME_SCREEN_HANDLERS
+   (BUTTON_DOWN_MSG
+      {do
+         ($track_sym
+            {{game get_player_config $player_num}
+               get_track_sym})
+         ($my_player
+            {beatmatch player $player_num})
+         {if
+            {&&
+               {== $action kAction_Start}
+               {!= none $track_sym}
+               {!
+                  {game is_game_over}}
+               {==
+                  {session state}
+                  kNetInGame}
+               $my_player
+               {$my_player can_pause}}
+            {practice_panel pause}
+            {input_mgr
+               set_user
+               {user_mgr get_band_user $player_num}}
+            {net_sync disable}
+            {ui
+               push_screen
+               {gamemode get pause_screen}}}}
+      kDataUnhandled)
+   (poll
+      {if_else
+         {&&
+            {==
+               {ui current_screen}
+               $this}
+            {!
+               {beatmatch is_waiting}}}
+         {do
+            {coop_track_panel set_showing TRUE}
+            {{beatmatch active_player 0}
+               set_crowd_rating
+               0.66}
+            {set
+               $sec0
+               {gamecfg get_section 0}}
+            {gamecfg get_section_bounds_tick $sec0 $start0 $end0}
+            {set
+               $sec
+               {gamecfg get_section 1}}
+            {gamecfg get_section_bounds_tick $sec $start $end}
+            {set
+               $curr
+               {taskmgr total_tick}}
+            {set
+               $loop_point
+               {'+' $end 2000.0}}
+            {if
+               {>
+                  [jump_delay]
+                  0}
+               {--
+                  [jump_delay]}}
+            {if
+               {<=
+                  [jump_delay]
+                  0}
+               {if_else
+                  {> $curr $loop_point}
+                  {do
+                     {coop_track_panel set_showing FALSE}
+                     {practice_panel
+                        set_best_percent
+                        {percentage_callback get percent}}
+                     {practice_panel jump_to_start}
+                     {practice_panel
+                        fade_song_in
+                        {/
+                           {'*'
+                              4.0
+                              {beatmatch ms_per_beat}}
+                           1000.0}}
+                     {set
+                        [jump_delay]
+                        10}
+                     {set
+                        [already_ended]
+                        FALSE}}
+                  {do
+                     {if
+                        {> $curr $end}
+                        {if_else
+                           {practice_panel in_vocal_mode}
+                           {ui push_screen practice_vocal_end_screen}
+                           {$this end_play}}}}}}}
+         {do
+            {coop_track_panel set_showing FALSE}}})
+   (end_play
+      {if
+         {!
+            [already_ended]}
+         {set
+            $player
+            {beatmatch active_player 0}}
+         {set
+            $track
+            {$player track}}
+         {$track practice_track_out}
+         {practice_panel fade_song_out 1.5}
+         {set
+            [already_ended]
+            TRUE}})
+   (jump_delay 10)
+   (first_poll TRUE)
+   (already_ended FALSE)}
+{new
+   UIPanel
+   practice_vocal_end_panel
+   (file practice_vocal_end.milo)
+   (enter
+      {{{get_track_panel}
+            find
+            vocals}
+         set_enable_vocals_options
+         FALSE}
+      {$this set_focus restart.btn}
+      {foreach_int
+         $idx
+         0
+         5
+         {set
+            $frac
+            {/
+               {elem
+                  {percentage_callback get rating_count}
+                  $idx}
+               {percentage_callback get total}}}
+         {{elem
+               [labels]
+               $idx}
+            set_localized
+            {sprintf
+               {localize vox_practice_percent}
+               {localize
+                  {elem
+                     [label_text]
+                     $idx}}
+               {'*' $frac 100.0}}}}
+      {practice_panel pause}
+      {practice_panel stop_mics})
+   (exit
+      {{{get_track_panel}
+            find
+            vocals}
+         set_enable_vocals_options
+         TRUE}
+      {practice_panel unpause})
+   (labels
+      (01messy.lbl 02weak.lbl 03okay.lbl 04strong.lbl 05awesome.lbl))
+   (label_text
+      ("vox_rating_0"
+         "vox_rating_1"
+         "vox_rating_2"
+         "vox_rating_3"
+         "vox_rating_4"))}
+{new
+   BandScreen
+   practice_vocal_end_screen
+   (panels practice_vocal_end_panel)
+   (focus practice_vocal_end_panel)
+   (helpbar
+      ((confirm helpbar_select)))
+   (allow_back FALSE)
+   (animate_transition FALSE)
+   (SELECT_MSG
+      {switch
+         $component
+         (restart.btn
+            {gamemode on_pause_restart})
+         (quit.btn
+            {ui goto_screen meta_loading_quit_early_screen})}
+      kDataUnhandled)}

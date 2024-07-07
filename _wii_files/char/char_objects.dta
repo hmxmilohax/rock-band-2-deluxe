@@ -1,0 +1,3365 @@
+#include ..\config\macros.dta
+#include char_face_exp.dta
+(CharClip
+   (editor
+      (flags
+         bitfield
+         (list
+            {if_else
+               {==
+                  {{$this dir}
+                     get_type}
+                  ''}
+               ()
+               {{$this dir}
+                  clip_flags}})
+         (help
+            "Band Clip Flags"))))
+(CharClipGroup
+   (editor
+      (flags
+         bitfield
+         (list
+            (CHAR_CLIP_GROUP_FLAGS))
+         (help
+            "generated flags concerning the clips inside")
+         (read_only TRUE))))
+#define IK_BLEND_TIME
+(0.5)
+(CharClipSamples
+   (init
+      {if
+         {$this dir}
+         {switch
+            {{$this dir}
+               get_type}
+            (musician
+               {$this set_type musician}
+               {$this set blend_width 1}
+               {$this set beat_align kPlayBeatAlign1}
+               {do
+                  ($flags
+                     {'|' kH2hLookingLeft kH2hLookingRight kUseInCoop})
+                  {if
+                     {find_elem
+                        ("male_guitar"
+                           "female_guitar")
+                        {{$this dir}
+                           name}}
+                     {'|='
+                        $flags
+                        {'|' kValidBass kValidGuitar}}}
+                  {set
+                     [flags]
+                     $flags}})
+            (guitarist_strum
+               {$this set flags kPlayAndAttitudeFlags})
+            (crowd
+               {$this set_type crowd}
+               {$this set blend_width 1}
+               {$this set beat_align kPlayBeatAlign1})
+            (viseme
+               {$this
+                  set
+                  relative
+                  {{$this dir}
+                     find
+                     Base}}
+               {$this set blend_width 0.1}
+               {$this set beat_align kPlayRealTime}
+               {$this set default_loop kPlayLoop}
+               {$this set flags 0})
+            (shell
+               {$this set_type shell}
+               {$this set beat_align kPlayRealTime}
+               {$this set blend_width 1}
+               {$this
+                  set
+                  flags
+                  {'|' kLeftArm kRightArm kLeftLeg kRightLeg kDisableLipSync kIgnoreAccent kValidBass kValidGuitar kLookAtCam}})
+            (drummer_play
+               {$this set flags kPlayAttitudeTempoFlags})
+            (snake
+               {$this set_type snake}
+               {$this set beat_align kPlayRealTime}
+               {$this set blend_width 1})}})
+   (allow_null_type
+      {if_else
+         {$this dir}
+         {!=
+            {{$this dir}
+               get_type}
+            musician}
+         1})
+   (types
+      (shell
+         (editor
+            (viseme_group
+               symbol
+               (list
+                  (CHARVISEMEGROUPS))
+               (help
+                  "facial mood group for this animation"))
+            (drum_singlestick
+               bool
+               (help
+                  "if drummer shows the separate sticks")))
+         (viseme_group normal)
+         (drum_singlestick FALSE)
+         (enter
+            {if
+               [viseme_group]
+               {$clip.dude
+                  change_face_group
+                  [viseme_group]}}
+            {do
+               ($ss
+                  [drum_singlestick])
+               {with
+                  $clip.dude
+                  {if
+                     {$this exists sticks.grp}
+                     {sticks.grp
+                        set
+                        draw_only
+                        {if_else $ss singlestick.grp doublestick.grp}}}}})
+         (event_handlers
+            (CHARVISEMEGROUPS)))
+      (musician
+         (editor
+            (viseme_group
+               symbol
+               (list
+                  (CHARVISEMEGROUPS))
+               (help
+                  "facial mood group for this animation")))
+         (viseme_group normal)
+         (enter
+            {if
+               [viseme_group]
+               {$clip.dude
+                  change_face_group
+                  [viseme_group]}}
+            {if
+               {==
+                  {$clip.dude get_type}
+                  vocal}
+               {$clip.dude
+                  set_instrument
+                  {cond
+                     ({has_substr
+                           {$this name}
+                           tambourine}
+                        tambourine)
+                     ({has_substr
+                           {$this name}
+                           cowbell}
+                        cowbell)
+                     ({has_substr
+                           {$this name}
+                           clap}
+                        clap)
+                     ({&
+                           [flags]
+                           kMicStandAll}
+                        mic_stand)
+                     mic}}})
+         (exit
+            {with
+               $clip.dude
+               {if
+                  {exists left_hand.weight}
+                  {left_hand.weight set beats_per_weight 0}}
+               {if
+                  {exists right_hand.weight}
+                  {right_hand.weight set beats_per_weight 0}}
+               {if
+                  {exists look_at_camera.weight}
+                  {look_at_camera.weight set beats_per_weight 0}}
+               {if
+                  {exists mic.ikhand}
+                  {if
+                     {<
+                        {mic.ikhand
+                           size
+                           (targets)}
+                        2}
+                     {while
+                        {mic.ikhand
+                           size
+                           (targets)}
+                        {mic.ikhand
+                           remove
+                           (targets 0)}}
+                     {set
+                        $rhand
+                        {find_obj $this bone_mic_R-hand.mesh}}
+                     {if
+                        $rhand
+                        {mic.ikhand
+                           insert
+                           (targets 0)
+                           $rhand}}
+                     {set
+                        $lhand
+                        {find_obj $this bone_mic_L-hand.mesh}}
+                     {if
+                        $lhand
+                        {mic.ikhand
+                           insert
+                           (targets 1)
+                           $lhand}}}}})
+         (event_handlers
+            ('' freeze set_leftarm_true set_rightarm_true set_leftarm_false set_rightarm_false sfx_gtr_smash sfx_mic_drop anim_mic_drop lookat_cam_start lookat_cam_stop CHARVISEMEGROUPS))
+         CHAR_FACE_FUNCTIONS
+         (freeze)
+         (lookat_cam_start
+            {'|='
+               [flags]
+               kLookAtCam}
+            {$this set_beats_per_weight look_at_camera.weight})
+         (lookat_cam_stop
+            {&=
+               [flags]
+               {'~' kLookAtCam}}
+            {$this set_beats_per_weight look_at_camera.weight})
+         (set_leftarm_true
+            {'|='
+               [flags]
+               kLeftArm}
+            {$this set_beats_per_weight left_hand.weight})
+         (set_rightarm_true
+            {'|='
+               [flags]
+               kRightArm}
+            {$this set_beats_per_weight right_hand.weight})
+         (set_leftarm_false
+            {&=
+               [flags]
+               {'~' kLeftArm}}
+            {$this set_beats_per_weight left_hand.weight})
+         (set_rightarm_false
+            {&=
+               [flags]
+               {'~' kRightArm}}
+            {$this set_beats_per_weight right_hand.weight})
+         (set_beats_per_weight
+            ($setter)
+            {do
+               ($weight
+                  {find_obj $clip.dude $setter})
+               {if
+                  $weight
+                  {$weight set beats_per_weight IK_BLEND_TIME}}})
+         (sfx_gtr_smash
+            {synth play gtr_smash.cue})
+         (sfx_mic_drop
+            {synth play mic_drop.cue})
+         (anim_mic_drop
+            {if
+               {exists mic.ikhand}
+               {while
+                  {>
+                     {mic.ikhand
+                        size
+                        (targets)}
+                     1}
+                  {mic.ikhand
+                     remove
+                     (targets 1)}}}))
+      (drummer_play
+         (exit
+            {with
+               $clip.dude
+               {if
+                  {exists left_hand.weight}
+                  {left_hand.weight set beats_per_weight 0}}
+               {if
+                  {exists right_hand.weight}
+                  {right_hand.weight set beats_per_weight 0}}})
+         (event_handlers
+            ('' set_leftarm_true set_rightarm_true set_leftarm_false set_rightarm_false))
+         (set_leftarm_true
+            {'|='
+               [flags]
+               kLeftArm}
+            {$this set_beats_per_weight left_hand.weight})
+         (set_rightarm_true
+            {'|='
+               [flags]
+               kRightArm}
+            {$this set_beats_per_weight right_hand.weight})
+         (set_leftarm_false
+            {&=
+               [flags]
+               {'~' kLeftArm}}
+            {$this set_beats_per_weight left_hand.weight})
+         (set_rightarm_false
+            {&=
+               [flags]
+               {'~' kRightArm}}
+            {$this set_beats_per_weight right_hand.weight})
+         (set_beats_per_weight
+            ($setter)
+            {do
+               ($weight
+                  {find_obj $clip.dude $setter})
+               {if
+                  $weight
+                  {$weight set beats_per_weight IK_BLEND_TIME}}}))
+      (snake)
+      (crowd
+         (hand clap)
+         (editor
+            (hand
+               symbol
+               (list
+                  (clap fist horns lighters))
+               (help
+                  "what the hands should look like")))
+         (enter
+            {do
+               ($hand
+                  [hand])
+               {with
+                  $clip.dude
+                  {hands.grp
+                     set
+                     draw_only
+                     {switch
+                        $hand
+                        (clap clap.grp)
+                        (fist fist.grp)
+                        (horns horns.grp)
+                        (lighters lighter.grp)}}}}))))
+(CharClipSet
+   (editor
+      (filter_flags
+         bitfield
+         (list
+            {if_else
+               {==
+                  {$this get_type}
+                  ''}
+               ()
+               {$this clip_flags}})
+         (help
+            "Flags for filtering preview clip")))
+   (types
+      (viseme
+         (version 2)
+         (clip_flags
+            ("kExpressionFirst"))
+         (compression
+            (tolerance 5.0e-2)
+            (bones
+               (bone_L-brow1.mesh)
+               (bone_L-brow2.mesh)
+               (bone_L-brow3.mesh)
+               (bone_L-cheek.mesh)
+               (bone_L-cheek2.mesh)
+               (bone_L-crease.mesh)
+               (bone_L-eyelid-low.mesh)
+               (bone_L-lid.mesh
+                  (offset 1 0 0))
+               (bone_L-lipcorner.mesh)
+               (bone_L-nose.mesh)
+               (bone_R-brow1.mesh)
+               (bone_R-brow2.mesh)
+               (bone_R-brow3.mesh)
+               (bone_R-cheek.mesh)
+               (bone_R-cheek2.mesh)
+               (bone_R-crease.mesh)
+               (bone_R-eyelid-low.mesh)
+               (bone_R-lid.mesh
+                  (offset 1 0 0))
+               (bone_R-lipcorner.mesh)
+               (bone_R-nose.mesh)
+               (bone_brow-low.mesh)
+               (bone_brow-mid.mesh)
+               (bone_chin.mesh)
+               (bone_forehead.mesh)
+               (bone_head.mesh)
+               (bone_jaw.mesh)
+               (bone_liptop_left.mesh)
+               (bone_liptop_mid.mesh)
+               (bone_liptop_right.mesh)
+               (bone_lowlip_left.mesh)
+               (bone_lowlip_mid.mesh)
+               (bone_lowlip_right.mesh)
+               (bone_neck.mesh)
+               (bone_nose.mesh)
+               (bone_tongue1.mesh)
+               (bone_tongue2.mesh)
+               (bone_tongue3.mesh)
+               (bone_tongue4.mesh
+                  (offset 1 0 0))
+               (bone_lowlip_left.mesh)
+               (bone_lowlip_right.mesh)
+               (bone_lowlip_mid.mesh))))
+      (musician
+         (version 6)
+         (clip_flags
+            ("kLeftArm"
+               "kRightArm"
+               "kLeftLeg"
+               "kRightLeg"
+               "kAnimateEyes"
+               "kDisableLipSync"
+               "kMicStandLeftHand"
+               "kMicStandRightHand"
+               "kTempoSlow"
+               "kTempoMedium"
+               "kTempoFast"
+               "kGenreRocker"
+               "kGenreDramatic"
+               "kGenreBanger"
+               "kGenreSpazz"
+               "kPlayIdleRealtime"
+               "kPlayIdle"
+               "kPlayIdleIntense"
+               "kPlayMellow"
+               "kPlayNormal"
+               "kPlayIntense"
+               "kPlaySolo"
+               "kPlayDirectedCut"
+               "kValidGuitar"
+               "kValidBass"
+               "kIgnoreAccent"
+               "kLookAtCam"
+               "kH2hLookingLeft"
+               "kH2hLookingRight"
+               "kUseInCoop"))
+         (bone_weights
+            (bone_pos_guitar.mesh 0))
+         (compression
+            (tolerance 0.4)
+            (bones
+               (bone_R-ankle.mesh
+                  (weight 0.85))
+               (bone_L-ankle.mesh
+                  (weight 0.85))
+               (bone_R-hand.mesh)
+               (bone_L-hand.mesh)
+               (bone_R-hand_R-hip.mesh)
+               (bone_L-hand_L-hip.mesh)
+               (bone_R-hand_mouth.mesh)
+               (bone_L-hand_mouth.mesh)
+               (bone_L-index03.mesh)
+               (bone_L-middlefinger03.mesh)
+               (bone_L-ringfinger03.mesh)
+               (bone_L-pinky03.mesh)
+               (bone_L-thumb03.mesh)
+               (bone_R-index03.mesh)
+               (bone_R-middlefinger03.mesh)
+               (bone_R-ringfinger03.mesh)
+               (bone_R-pinky03.mesh)
+               (bone_R-thumb03.mesh)
+               (bone_head.mesh
+                  (weight 1.5)
+                  (offset 3 6 0))
+               (bone_head.mesh
+                  (weight 1.5)
+                  (offset -2 6 0))))
+         (criteria
+            ((match
+                  {'||'
+                     {==
+                        {$a_clip get beat_align}
+                        kPlayRealTime}
+                     {==
+                        {$b_clip get beat_align}
+                        kPlayRealTime}})
+               (cancel))
+            ((match
+                  {do
+                     ($shared_flags
+                        {&
+                           {$a_clip get flags}
+                           {$b_clip get flags}})
+                     {&&
+                        {& $shared_flags kTempoAll}
+                        {& $shared_flags kPlayDirectedCut}
+                        {& $shared_flags kGenreAll}
+                        {$a_clip shares_groups $b_clip}}})
+               (restrict
+                  {&&
+                     {< $b_start 1}
+                     {< $a_end 2}})
+               (beat_align 1))
+            ((cancel))))
+      (guitarist_strum
+         (version 1)
+         (clip_flags
+            ("kGenreRocker"
+               "kGenreDramatic"
+               "kGenreBanger"
+               "kGenreSpazz"
+               "kPlayIdleRealtime"
+               "kPlayIdle"
+               "kPlayIdleIntense"
+               "kPlayMellow"
+               "kPlayNormal"
+               "kPlayIntense"
+               "kPlaySolo")))
+      (drummer_play
+         (version 1)
+         (clip_flags
+            ("kLeftArm"
+               "kRightArm"
+               "kGenreRocker"
+               "kGenreDramatic"
+               "kGenreBanger"
+               "kGenreSpazz"
+               "kPlayIdleRealtime"
+               "kPlayIdle"
+               "kPlayIdleIntense"
+               "kPlayMellow"
+               "kPlayNormal"
+               "kPlayIntense"
+               "kPlaySolo"
+               "kTempoSlow"
+               "kTempoMedium"
+               "kTempoFast")))
+      (snake
+         (version 1)
+         (clip_flags
+            ()))
+      (crowd
+         (version 2)
+         (clip_flags
+            ("kTempoSlow"
+               "kTempoMedium"
+               "kTempoFast"))
+         (compression
+            (tolerance 0.4)
+            (bones
+               (bone_R-ankle.mesh
+                  (weight 0.85))
+               (bone_L-ankle.mesh
+                  (weight 0.85))
+               (bone_R-hand.mesh)
+               (bone_L-hand.mesh)
+               (bone_head.mesh
+                  (weight 1.5)
+                  (offset 3 6 0))
+               (bone_head.mesh
+                  (weight 1.5)
+                  (offset -2 6 0))))
+         (criteria
+            ((match
+                  {do
+                     ($shared_flags
+                        {&
+                           {$a_clip get flags}
+                           {$b_clip get flags}})
+                     {&&
+                        {& $shared_flags kTempoAll}
+                        {$a_clip shares_groups $b_clip}}})
+               (beat_align 1)
+               (restrict
+                  {&&
+                     {< $b_start 1}
+                     {< $a_end 2}}))
+            ((cancel)))
+         (load_tempo
+            ($tempo)
+            {clips.outfit load_tempo $tempo}))
+      (shell
+         (version 2)
+         (clip_flags
+            ("kLeftArm"
+               "kRightArm"
+               "kLeftLeg"
+               "kRightLeg"
+               "kAnimateEyes"
+               "kDisableLipSync"
+               "kGenreRocker"
+               "kGenreDramatic"
+               "kGenreBanger"
+               "kGenreSpazz"
+               "kValidGuitar"
+               "kValidBass"
+               "kIgnoreAccent"
+               "kLookAtCam"))
+         (bone_weights
+            (bone_pos_guitar.mesh 0))
+         (compression
+            (tolerance 0.24)
+            (bones
+               (bone_R-ankle.mesh
+                  (weight 0.85))
+               (bone_L-ankle.mesh
+                  (weight 0.85))
+               (bone_R-knee.mesh
+                  (weight 0.85))
+               (bone_L-knee.mesh
+                  (weight 0.85))
+               (bone_R-hand.mesh)
+               (bone_L-hand.mesh)
+               (bone_R-hand_R-hip.mesh)
+               (bone_L-hand_L-hip.mesh)
+               (bone_R-hand_mouth.mesh)
+               (bone_L-hand_mouth.mesh)
+               (bone_L-index03.mesh)
+               (bone_L-middlefinger03.mesh)
+               (bone_L-ringfinger03.mesh)
+               (bone_L-pinky03.mesh)
+               (bone_L-thumb03.mesh)
+               (bone_R-index03.mesh)
+               (bone_R-middlefinger03.mesh)
+               (bone_R-ringfinger03.mesh)
+               (bone_R-pinky03.mesh)
+               (bone_R-thumb03.mesh)
+               (bone_head.mesh
+                  (weight 1.5)
+                  (offset 3 6 0))
+               (bone_head.mesh
+                  (weight 1.5)
+                  (offset -2 6 0))))
+         (criteria
+            ((match
+                  {'||'
+                     {==
+                        {$a_clip get beat_align}
+                        kPlayRealTime}
+                     {==
+                        {$b_clip get beat_align}
+                        kPlayRealTime}})
+               (cancel))
+            ((match
+                  {do
+                     ($shared_flags
+                        {&
+                           {$a_clip get flags}
+                           {$b_clip get flags}})
+                     {&&
+                        {& $shared_flags kGenreAll}
+                        {$a_clip shares_groups $b_clip}}})
+               (restrict
+                  {&&
+                     {< $b_start 1}
+                     {< $a_end 2}})
+               (beat_align 1))
+            ((cancel))))))
+(CharCollide
+   (editor
+      (flags
+         bitfield
+         (list
+            (CHAR_HAIR_FLAGS))
+         (help
+            "Which collision volumes to hook up to this strand for collision"))))
+(CharMeshHide
+   (editor
+      (flags
+         bitfield
+         (list
+            (CHAR_HIDE_FLAGS))
+         (help
+            "Which flags this CharMeshHide has"))
+      (hides
+         (array
+            (struct
+               (draw
+                  object
+                  (class Draw)
+                  (help
+                     "object to hide"))
+               (flags
+                  bitfield
+                  (list
+                     (CHAR_HIDE_FLAGS))
+                  (help
+                     "If any flags match, hides draw")))))))
+(CharCuff
+   (editor
+      (category
+         symbol
+         (list
+            (feet legs torso wrist glasses))
+         (help
+            "The outfit category to cuff against"))))
+(CharGuitarString
+   (types
+      (open_strums
+         (parser guitar_string_open)
+         (enter
+            {if
+               [parser]
+               {handle
+                  ([parser]
+                     add_sink
+                     $this)}})
+         (exit
+            {if
+               [parser]
+               {handle
+                  ([parser]
+                     remove_sink
+                     $this)}})
+         (open
+            {$this set_open TRUE})
+         (closed
+            {$this set_open FALSE}))))
+(CharLookAt
+   (types
+      (drum_head
+         (enter
+            {set
+               [weight]
+               {switch
+                  {{$this dir}
+                     get
+                     clip_mode}
+                  ((kClipModeMeta kClipModeLoadingScreen)
+                     0)
+                  0.8}}))))
+(CharWeightSetter
+   (editor
+      (flags
+         bitfield
+         (list
+            ("kLeftArm"
+               "kRightArm"
+               "kLeftLeg"
+               "kRightLeg"
+               "kMicStandLeftHand"
+               "kMicStandRightHand"
+               "kAnimateEyes"
+               "kIgnoreAccent"
+               "kDisableLipSync"
+               "kLookAtCam"))
+         (help
+            "Which Band clip flags to look for")))
+   (types
+      (singalong
+         (parser guitar_singalong_parser)
+         (editor
+            (parser
+               string
+               (help
+                  "name of singalong parser")))
+         (enter
+            {set
+               [base_weight]
+               0}
+            {handle
+               ([parser]
+                  add_sink
+                  $this)})
+         (exit
+            {set
+               [base_weight]
+               0}
+            {handle
+               ([parser]
+                  remove_sink
+                  $this)}))
+      (guitar_lookat
+         (parser guitar_streak_parser)
+         (parser2 guitar_singalong_streak_parser)
+         (singalong FALSE)
+         (enter
+            {if
+               [parser]
+               {handle
+                  ([parser]
+                     add_sink
+                     $this)}
+               {set
+                  [base_weight]
+                  0}}
+            {if
+               [parser2]
+               {handle
+                  ([parser2]
+                     add_sink
+                     $this)}})
+         (exit
+            {if
+               [parser]
+               {handle
+                  ([parser]
+                     remove_sink
+                     $this)}}
+            {if
+               [parser2]
+               {handle
+                  ([parser2]
+                     remove_sink
+                     $this)}})
+         (lookat_in
+            {if_else
+               [singalong]
+               {set
+                  [base_weight]
+                  0}
+               {set
+                  [base_weight]
+                  1}})
+         (lookat_out
+            {set
+               [base_weight]
+               0}))
+      (drummer_play
+         (lhand_weight 1)
+         (rhand_weight 1)
+         (enter
+            {set
+               [base_weight]
+               1}
+            {handle
+               (drums_left_hand add_sink $this)}
+            {handle
+               (drums_right_hand add_sink $this)})
+         (exit
+            {set
+               [base_weight]
+               1}
+            {handle
+               (drums_left_hand remove_sink $this)}
+            {handle
+               (drums_right_hand remove_sink $this)})
+         (get_hand_weight
+            ($group)
+            {switch
+               $group
+               (hihat_fast 0.8)
+               (snare_fast 0.5)
+               (cymbal_r_grab 0.0)
+               (cymbal_l_grab 0.0)
+               (cymbal_l_crash 0.5)
+               (cymbal_l_crash_big 0.2)
+               (cymbal_r_crash 0.5)
+               (cymbal_l_crash_fast 0.5)
+               (floortom 0.5)
+               (floortom_fast 0.5)
+               (cymbal_l_side 0.2)
+               (cymbal_l_side_fast 0.1)
+               (cymbal_r_side 0.2)
+               (cymbal_r_side_fast 0.1)
+               (ride 0.65)
+               (ride_fast 0.45)
+               (ride_side_l 0.25)
+               (ride_side_r 0.25)
+               (cymbal_l 0.5)
+               (cymbal_r 0.5)
+               (tom_l 0.75)
+               (tom_r 0.75)
+               (tom_r_fast 0.5)
+               (tom_l_fast 0.5)
+               1})
+         (drum_lhand
+            ($group $length)
+            {set
+               [lhand_weight]
+               {$this get_hand_weight $group}}
+            {set
+               [base_weight]
+               {'*'
+                  [lhand_weight]
+                  [rhand_weight]}})
+         (drum_rhand
+            ($group $length)
+            {set
+               [rhand_weight]
+               {$this get_hand_weight $group}}
+            {set
+               [base_weight]
+               {'*'
+                  [lhand_weight]
+                  [rhand_weight]}}))))
+#define LIPDRIVER_COMMON
+((change_song
+      {with_file_path_root
+         "."
+         {$this set_blink_song}})
+   (set_blink_song
+      {$this
+         load_song
+         "char/blinktrack.milo"
+         TRUE}
+      {set
+         [loop]
+         TRUE}
+      {set
+         [song_offset]
+         {random_float 0 1000}}))
+(CharIKHand
+   (types
+      (guitar_left_hand
+         (enter
+            {if
+               {==
+                  {{$this dir}
+                     get
+                     clip_mode}
+                  kClipModeLoadingScreen}
+               {do
+                  {while
+                     {$this
+                        size
+                        (targets)}
+                     {$this
+                        remove
+                        (targets 0)}}
+                  {$this
+                     insert
+                     (targets 0)
+                     {find_obj
+                        {$this dir}
+                        bone_L-hand_L-hip.mesh}}
+                  {$this
+                     insert
+                     (targets 1)
+                     {find_obj
+                        {$this dir}
+                        bone_L-hand_mouth.mesh}}}}))))
+(CharLipSyncDriver
+   (types
+      (vocal LIPDRIVER_COMMON)
+      (nonvocal
+         (enter
+            {set
+               [song_owner]
+               {if_else
+                  {&&
+                     {exists game}
+                     {game is_up}}
+                  {find_obj $world player_vocals0 song.lipdrv}
+                  ''}})
+         LIPDRIVER_COMMON
+         (exit
+            {set
+               [song_owner]
+               ''}))))
+#include instruments.dta
+#define OUTFIT_LOADER_COMMON
+((change_outfit
+      ($async $loading)
+      {if
+         $loading
+         {cond
+            #ifndef _SHIP
+            #ifndef WII_OUTPUTONLY
+            ($char.no_clothes
+               {$this select_all -1})
+            ({&&
+                  {exists game}
+                  {gamemode get is_framerate_test}}
+               {$this select_all -1})
+            #endif
+            #endif
+            ({exists char_cache}
+               {do
+                  ($char_data
+                     {char_cache
+                        find_char_data
+                        {$this dir}})
+                  ($instrument
+                     {char_cache
+                        find_controller_sym
+                        {$this dir}})
+                  #ifndef _SHIP
+                  #ifndef WII_OUTPUTONLY
+                  {unless
+                     $char_data
+                     {fail
+                        "no char_data"}}
+                  #endif
+                  #endif
+                  {$this
+                     set_prefab
+                     {find
+                        {$char_data get_char_data}
+                        outfit}}
+                  {$this select_instrument $char_data $instrument}})
+            ($venue_test
+               {$this select_all -1})
+            ($edit_mode
+               {do
+                  ($pd
+                     {{$this dir}
+                        proxy_dir})
+                  {if
+                     {&&
+                        $pd
+                        {==
+                           {$pd get_type}
+                           chars}}
+                     {$this select_all -1}}})}})
+   (create_path
+      ($outfit $cat)
+      {cond
+         ({&&
+               {== $cat drum}
+               {!
+                  {has_substr
+                     $outfit
+                     "drums_"}}}
+            {sprint
+               $outfit
+               "_"
+               {cond
+                  ({&&
+                        {exists meta}
+                        {meta is_up}}
+                     small_club)
+                  ({exists game}
+                     {do
+                        ($venue
+                           {game get_venue_dir})
+                        {cond
+                           ({'||'
+                                 {== $venue blank}
+                                 {&&
+                                    {gamemode get is_h2h_arrangement}
+                                    {==
+                                       {{session_mgr get_leader_user}
+                                          get_track_sym}
+                                       drum}}}
+                              small_club)
+                           ({== $venue video}
+                              big_club)
+                           $venue}})
+                  ($world
+                     {do
+                        ($wp
+                           {path_name $world})
+                        {cond
+                           ({has_substr $wp arena}
+                              arena)
+                           ({has_substr $wp big_club}
+                              big_club)
+                           ({has_substr $wp small_club}
+                              small_club)
+                           ({has_substr $wp theater}
+                              theater)
+                           ({has_substr $wp video}
+                              big_club)
+                           small_club}})
+                  small_club}})
+         ({&&
+               {'||'
+                  {== $cat guitar}
+                  {== $cat bass}}
+               {!
+                  {has_substr
+                     $outfit
+                     "_"}}}
+            {sprint
+               $outfit
+               "_"
+               {if_else
+                  {exists game}
+                  {{char_cache
+                        find_char_data
+                        {$this dir}}
+                     selected_variant
+                     $cat
+                     $outfit}
+                  {elem
+                     {find $syscfg objects OutfitLoader types male category $cat outfits $outfit default_variant}
+                     1}}})
+         (TRUE kDataUnhandled)})
+   (select_instrument
+      ($char_data $instrument)
+      {switch
+         $instrument
+         (vocals
+            {$this
+               select
+               mic
+               {$char_data selected_outfit mic}}
+            {$this select drum none}
+            {$this select guitar none}
+            {$this select bass none})
+         (drum
+            {$this wipe_instruments})
+         (guitar
+            {$this select mic none}
+            {$this select drum none}
+            {$this
+               select
+               guitar
+               {$char_data selected_outfit guitar}}
+            {$this select bass none})})
+   (wipe_instruments
+      {foreach
+         $inst
+         (INSTRUMENTS)
+         {$this
+            select
+            {elem $inst 0}
+            none}}))
+(OutfitLoader
+   #include outfitloader.dta)
+#define VOCALIST_SCRIPT
+((hide
+      {!=
+         {$this get_type}
+         vocal}))
+#define CHAR_COMMON
+((playing TRUE)
+   (cur_play 0)
+   (editor
+      (toggle_gender
+         script
+         (script
+            {$this do_toggle_gender})
+         (help
+            "toggles the genre of the character"))
+      (neutral
+         script
+         (help
+            "Sets h=.5 w=.5")
+         (script
+            {set
+               [height]
+               0.5}
+            {set
+               [weight]
+               0.5}
+            {$this deform})
+         (refresh height weight))
+      (tall_and_fat
+         script
+         (help
+            "Sets h=1 w=1")
+         (script
+            {set
+               [height]
+               1}
+            {set
+               [weight]
+               1}
+            {$this deform})
+         (refresh height weight))
+      (short_and_fat
+         script
+         (help
+            "Sets h=0 w=1")
+         (script
+            {set
+               [height]
+               0}
+            {set
+               [weight]
+               1}
+            {$this deform})
+         (refresh height weight))
+      (tall_and_skinny
+         script
+         (help
+            "Sets h=1 w=0")
+         (script
+            {set
+               [height]
+               1}
+            {set
+               [weight]
+               0}
+            {$this deform})
+         (refresh height weight))
+      (short_and_skinny
+         script
+         (help
+            "Sets h=0 w=0")
+         (script
+            {set
+               [height]
+               0}
+            {set
+               [weight]
+               0}
+            {$this deform})
+         (refresh height weight))
+      (face_expression_test_group
+         symbol
+         (list
+            (CHARVISEMEGROUPS))
+         (help
+            "test group"))
+      (face_expression_test
+         script
+         (script
+            {set
+               $clipset
+               {expression.drv get clips_ptr}}
+            {set
+               $grp
+               {$clipset
+                  find
+                  [face_expression_test_group]}}
+            {expression.drv
+               play_group
+               {$grp name}}))
+      (sit_and_play
+         script
+         (help
+            "Makes the drummer sit down by changing group to sit")
+         (script
+            {$this set_play kPlayIdleRealtime}
+            {$this change_group sit})
+         (hide
+            {!=
+               {$this get_type}
+               drum}))
+      (strum_and_fret
+         script
+         (help
+            "Makes the character strum and fret so the arms aren't all wacky")
+         (script
+            {if
+               {exists strum.dmidi}
+               {strum.dmidi play 0 kPlayGraphLoop}}
+            {if
+               {exists fret.dmidi}
+               {fret.dmidi play 0 kPlayGraphLoop}})
+         (hide
+            {!=
+               {$this get_type}
+               guitar}))
+      (become_bass
+         script
+         (script
+            {$this exit}
+            {$this world_configure bass}
+            {$this enter}
+            {if
+               {exists strum.dmidi}
+               {strum.dmidi play 0 kPlayGraphLoop}}
+            {if
+               {exists fret.dmidi}
+               {fret.dmidi play 0 kPlayGraphLoop}})
+         (help
+            "become a bassist")
+         (hide
+            {!=
+               {$this get_type}
+               guitar}))
+      (become_guitar
+         script
+         (script
+            {$this exit}
+            {$this world_configure guitar}
+            {$this enter}
+            {if
+               {exists strum.dmidi}
+               {strum.dmidi play 0 kPlayGraphLoop}}
+            {if
+               {exists fret.dmidi}
+               {fret.dmidi play 0 kPlayGraphLoop}})
+         (help
+            "become a guitarist")
+         (hide
+            {!=
+               {$this get_type}
+               guitar}))
+      (fret_hi
+         script
+         (script
+            {handle
+               (fret.ikmidi set cur_spot spot_neck_fret20.mesh)})
+         (hide
+            {!=
+               {$this get_type}
+               guitar})
+         (help
+            "set the fret hand high on the neck"))
+      (fret_med_hi
+         script
+         (script
+            {handle
+               (fret.ikmidi set cur_spot spot_neck_fret15.mesh)})
+         (hide
+            {!=
+               {$this get_type}
+               guitar})
+         (help
+            "set the fret hand med-high on the neck"))
+      (fret_med
+         script
+         (script
+            {handle
+               (fret.ikmidi set cur_spot spot_neck_fret10.mesh)})
+         (hide
+            {!=
+               {$this get_type}
+               guitar})
+         (help
+            "set the fret hand med on the neck"))
+      (fret_med_low
+         script
+         (script
+            {handle
+               (fret.ikmidi set cur_spot spot_neck_fret05.mesh)})
+         (hide
+            {!=
+               {$this get_type}
+               guitar})
+         (help
+            "set the fret hand med-low on the neck"))
+      (fret_low
+         script
+         (script
+            {handle
+               (fret.ikmidi set cur_spot spot_neck_fret01.mesh)})
+         (hide
+            {!=
+               {$this get_type}
+               guitar})
+         (help
+            "set the fret hand low on the neck"))
+      (clap
+         script
+         (script
+            {$this set_instrument clap})
+         (help
+            "vocalists holds nothing to clap")
+         VOCALIST_SCRIPT)
+      (cowbell
+         script
+         (script
+            {$this set_instrument cowbell})
+         (help
+            "vocalists holds the cowbell")
+         VOCALIST_SCRIPT)
+      (mic
+         script
+         (script
+            {$this set_instrument mic})
+         (help
+            "vocalists holds the mic")
+         VOCALIST_SCRIPT)
+      (mic_stand
+         script
+         (script
+            {$this set_instrument mic_stand})
+         (help
+            "vocalists holds the mic stand")
+         VOCALIST_SCRIPT)
+      (tambourine
+         script
+         (script
+            {$this set_instrument tambourine})
+         (help
+            "vocalists holds the tambourine")
+         VOCALIST_SCRIPT))
+   (face_expression_test_group normal)
+   (change_char_config
+      {unless
+         $toggling_gender
+         {if
+            {exists char_cache}
+            {do
+               ($char_data
+                  {char_cache find_char_data $this})
+               #ifndef _SHIP
+               #ifndef WII_OUTPUTONLY
+               {unless
+                  $char_data
+                  {notify
+                     "no char_data"}}
+               #endif
+               #endif
+               {if
+                  $char_data
+                  {$char_data configure_char $this}}
+               {handle
+                  (ui change_char_config)}}}})
+   (configure_outfit_color
+      ($category)
+      {if
+         {exists char_cache}
+         {do
+            ($char_data
+               {char_cache find_char_data $this})
+            {if
+               $char_data
+               {$char_data configure_outfit_color $this $category}}}})
+   (idle_realtime
+      {$this change_play kPlayIdleRealtime})
+   (idle
+      {$this change_play kPlayIdle})
+   (idle_intense
+      {$this change_play kPlayIdle})
+   (mellow
+      {$this change_play kPlayMellow})
+   (play
+      {$this change_play kPlayNormal})
+   (intense
+      {$this change_play kPlayIntense})
+   (play_solo
+      {$this change_play kPlaySolo})
+   (change_play
+      ($mode)
+      {set
+         [cur_play]
+         $mode}
+      {unless
+         [playing]
+         {switch
+            $mode
+            ((kPlayIntense kPlaySolo)
+               {set $mode kPlayIdle})
+            ((kPlayMellow kPlayNormal)
+               {set $mode kPlayIdle})}}
+      {$this set_play $mode})
+   (tambourine_start
+      {$this group_override tambourine})
+   (tambourine_end
+      {$this group_override ''})
+   (cowbell_start
+      {$this group_override cowbell})
+   (cowbell_end
+      {$this group_override ''})
+   (clap_start
+      {$this group_override clap})
+   (clap_end
+      {$this group_override ''})
+   (game_over
+      {handle
+         ([parser]
+            remove_sink
+            $this)}
+      {$this group_override ''}
+      {$this
+         iterate
+         CharIKMidi
+         $midi
+         {handle
+            ($midi game_over)}}
+      {$this
+         iterate
+         CharDriverMidi
+         $midi
+         {handle
+            ($midi game_over)}})
+   (game_won_finale
+      {set
+         [clip_mode]
+         kClipModeFinale}
+      {$this load_clips TRUE})
+   (playing_final_cam
+      {$this idle_realtime})
+   (game_outro
+      {if
+         {exists game}
+         {{$this dir}
+            remove_sink
+            $this}})
+   (load_song_clips
+      {set
+         [tempo]
+         {song_mgr
+            anim_tempo
+            {meta_performer song}}}
+      {set
+         [clip_mode]
+         kClipModeWorld}
+      {$this load_lip_sync}
+      {$this load_clips TRUE})
+   (sync_objects
+      {char_mesh_hide $this}
+      {do
+         ($visemes
+            {if_else
+               {$this exists visemes}
+               {$this find visemes}
+               {do
+                  ($vis '')
+                  {with_file_path_root
+                     "."
+                     {set
+                        $vis
+                        {load_objects
+                           "char/male/anim/male_viseme_head_1.milo"}}}
+                  {$vis delete_loader}
+                  $vis}})
+         {handle
+            (song.lipdrv set clips $visemes)}
+         {handle
+            (face.faceservo set clips $visemes)}
+         {handle
+            (expression.drv set_clips $visemes)}
+         {handle
+            (face_accent.dmidi set_clips $visemes)}})
+   (pre_meta_configure
+      {song.lipdrv
+         set
+         song
+         ""}
+      {OutfitLoader.outfit wipe_instruments}
+      {OutfitLoader.outfit start_load TRUE}
+      {$this clear_group}
+      {$this clear_dircuts}
+      {set
+         [clip_mode]
+         kClipModeNone}
+      {$this load_clips TRUE})
+   (meta_configure
+      {song.lipdrv set_blink_song}
+      {do
+         ($char_data
+            {char_cache find_char_data $this})
+         ($instrument
+            {char_cache find_controller_sym $this})
+         {OutfitLoader.outfit select_instrument $char_data $instrument}
+         {OutfitLoader.outfit start_load TRUE}}
+      {set
+         [clip_mode]
+         kClipModeMeta}
+      {$this load_clips TRUE})
+   (load_realtime_clips
+      {$this clear_group}
+      {set
+         [clip_mode]
+         kClipModeRealtime}
+      {$this load_clips TRUE})
+   (loading_screen_configure
+      {song.lipdrv
+         set
+         song
+         ""}
+      {set
+         [clip_mode]
+         kClipModeLoadingScreen}
+      {OutfitLoader.outfit select mic none}
+      {OutfitLoader.outfit select guitar none}
+      {OutfitLoader.outfit select bass none}
+      {OutfitLoader.outfit select drum none}
+      {OutfitLoader.outfit start_load TRUE})
+   (do_toggle_gender
+      {set $toggling_gender TRUE}
+      {do
+         ($g
+            {if_else
+               {==
+                  [gender]
+                  female}
+               male
+               female})
+         {$this clear_dircuts}
+         {$this
+            set
+            proxy_file
+            {sprint
+               "char/"
+               $g
+               "/"
+               $g
+               "_"
+               {$this get_type}
+               ".milo"}}
+         {if
+            $world
+            {$world clothe_character $this}}
+         {set $toggling_gender FALSE}
+         {$this enter}})
+   (get_matching_dude
+      {if_else
+         {exists char_cache}
+         {char_cache get_matching_dude $this}
+         ''}))
+#define CHAR_ENTER_COMMON
+({set
+      $is_proxy
+      {&&
+         {!
+            {exists game}}
+         {$this is_proxy}}}
+   {set
+      [playing]
+      TRUE}
+   {set
+      [cur_play]
+      0}
+   {if_else
+      {exists game}
+      {if
+         {game is_up}
+         {handle
+            ([parser]
+               add_sink
+               $this)}
+         {{$this dir}
+            add_sink
+            $this
+            (game_over game_outro game_won_finale playing_final_cam)}
+         {if
+            {exists char_cache}
+            {do
+               ($player
+                  {game
+                     get_player
+                     {char_cache find_index $this}})
+               {if
+                  $player
+                  {do
+                     {$player
+                        add_sink
+                        $this
+                        (hit miss pass disable_player enable_player)}
+                     {if
+                        {gamemode get is_h2h_arrangement}
+                        {$this
+                           set_h2h_location
+                           {gamecfg
+                              get_slot_num_from_player_num
+                              {char_cache find_index $this}}}}}}}}
+         {$this
+            set_h2h_mode
+            {gamemode get is_h2h_arrangement}}
+         {if
+            {gamemode get separate_parts}
+            {do
+               ($desired_name
+                  {switch
+                     $game.play_mode
+                     (h2h_drum drum)
+                     (h2h_guitar guitar)
+                     (h2h_bass bass)
+                     (h2h_vocals vocal)
+                     ''})
+               {if
+                  {&&
+                     $desired_name
+                     {has_substr
+                        {$this name}
+                        $desired_name}}
+                  {if_else
+                     {==
+                        {game get_player_num_from_slot_num 0}
+                        {char_cache find_index $this}}
+                     {slot0_enable add_sink $this}
+                     {slot1_enable add_sink $this}}
+                  {$this disable_player}}}}
+         {$this set_play kPlayIdleRealtime}
+         {$this
+            change_group
+            [start_group]}}
+      {do
+         {cond
+            ({'||' $char_test $venue_test $is_proxy}
+               {set
+                  [weight]
+                  0.5}
+               {set
+                  [height]
+                  0.5}
+               {$this deform})
+            {$this
+               iterate
+               CharIKScale
+               $s
+               {$s set scale 1}}
+            {$this
+               iterate
+               CharForeTwist
+               $s
+               {$s set length_scale 0.38}}}}})
+(CharDriver
+   (types
+      (main)
+      (expression)
+      (drum_add)
+      (snake
+         (enter
+            {$this play_group default kPlayGraphLoop}))))
+(CharDriverMidi
+   (types
+      (musician
+         (editor
+            (parser
+               symbol
+               (help
+                  "Name of the midi parser to hook into")))
+         (enter
+            {if
+               {!
+                  {exists
+                     [parser]}}
+               {do
+                  ($scene
+                     {{$this dir}
+                        dir})
+                  {unless
+                     {==
+                        {$scene get_type}
+                        shell}
+                     {if
+                        {'||'
+                           $venue_test
+                           $char_test
+                           {&&
+                              $edit_mode
+                              {!=
+                                 $scene
+                                 {$this dir}}}}
+                        {$this play 0 kPlayGraphLoop}}}}})
+         (game_over
+            {handle
+               ([parser]
+                  remove_sink
+                  $this)})
+         (drum_lhand
+            ($group $length)
+            {$this drum_hit $group $length})
+         (drum_rhand
+            ($group $length)
+            {$this drum_hit $group $length})
+         (strum
+            ($group $length)
+            {do
+               ($flags
+                  {&
+                     {{$this dir}
+                        get_play_flags}
+                     kPlayAndAttitudeFlags})
+               ($group
+                  {[clips_ptr]
+                     find
+                     $group})
+               ($clip
+                  {$group find_clip $flags})
+               {unless
+                  $clip
+                  {print
+                     "NOTIFY: "
+                     {path_name $group}
+                     " could not find clip with flags "
+                     $flags
+                     ", trying 0\n"}
+                  {set
+                     $clip
+                     {$group get_clip}}}
+               {if_else
+                  $clip
+                  {do
+                     {if
+                        {==
+                           {$clip get beat_align}
+                           kPlayRealTime}
+                        {set
+                           $length
+                           {$mp.parser beat_to_sec_length $length}}}
+                     {$this midi_parser $clip $length}}
+                  {print
+                     "NOTIFY: "
+                     {path_name $group}
+                     " could find no clip\n"}}})
+         (drum_hit
+            ($group $length)
+            {do
+               ($flags
+                  {&
+                     {{$this dir}
+                        get_play_flags}
+                     kPlayAttitudeTempoFlags})
+               ($group
+                  {[clips_ptr]
+                     find
+                     $group})
+               ($clip
+                  {$group find_clip $flags})
+               {unless
+                  $clip
+                  {print
+                     "NOTIFY: "
+                     {path_name $group}
+                     " could not find clip with flags "
+                     $flags
+                     ", trying 0\n"}
+                  {set
+                     $clip
+                     {$group get_clip}}}
+               {if_else
+                  $clip
+                  {do
+                     {if
+                        {==
+                           {$clip get beat_align}
+                           kPlayRealTime}
+                        {set
+                           $length
+                           {$mp.parser beat_to_sec_length $length}}}
+                     {$this midi_parser $clip $length}}
+                  {print
+                     "NOTIFY: "
+                     {path_name $group}
+                     " could find no clip\n"}}}))))
+(CharHair
+   (editor
+      (strands
+         (array
+            (struct
+               (hookup_flags
+                  bitfield
+                  (list
+                     (CHAR_HAIR_FLAGS))
+                  (help
+                     "Which collision volumes to hook up to this strand for collision")))))))
+(CharIKMidi
+   (types
+      (musician
+         (parser guitar_fret_pos)
+         (editor
+            (parser
+               symbol
+               (help
+                  "Name of the midi parser to hook into")))
+         (enter
+            {if
+               {exists
+                  [parser]}
+               {[parser]
+                  add_sink
+                  $this}})
+         (exit
+            {handle
+               ([parser]
+                  remove_sink
+                  $this)})
+         (game_over
+            {handle
+               ([parser]
+                  remove_sink
+                  $this)}))))
+#define GUITAR_THINGS
+((face_accent.dmidi fret.dmidi strum.dmidi fret.ikmidi string_hi.dmidi string_low.dmidi guitar.lookat))
+#define DRUM_THINGS
+((hihat.dmidi kick.dmidi left_crash.dmidi left_foot.dmidi left_hand.dmidi ride.dmidi right_crash.dmidi right_foot.dmidi right_hand.dmidi))
+(CompositeCharacter
+   (editor
+      (prefab_name
+         symbol
+         (help
+            "Prefab to load")
+         (list
+            {$this list_prefabs})
+         (no_test))
+      (load_prefab
+         script
+         (script
+            {do
+               ($inst
+                  {$this load_prefab})
+               {if_else
+                  {==
+                     [clip_mode]
+                     kClipModeLoadingScreen}
+                  {$this hide_all_instruments}
+                  {do
+                     {if
+                        {== $inst drum}
+                        {OutfitLoader.outfit select mic none}
+                        {OutfitLoader.outfit select guitar none}
+                        {OutfitLoader.outfit select bass none}}
+                     {if
+                        {== $inst guitar}
+                        {OutfitLoader.outfit select mic none}
+                        {OutfitLoader.outfit select drum none}
+                        {OutfitLoader.outfit select bass none}}
+                     {if
+                        {== $inst vocals}
+                        {OutfitLoader.outfit select drum none}
+                        {OutfitLoader.outfit select guitar none}
+                        {OutfitLoader.outfit select bass none}}}}
+               {OutfitLoader.outfit start_load FALSE}
+               {if
+                  {exists milo}
+                  {milo update_open_editor $this}}})
+         (help
+            "Loads prefab character specified by prefab_name")))
+   #ifndef HX_OG
+   (tattoos
+      (patch_chest chest torso_skin_proxy)
+      (patch_left_arm arm torso_skin_proxy)
+      (patch_right_arm arm torso_skin_proxy)
+      (patch_facepaint general head_skin_proxy))
+   (patch
+      (sets
+         (general 10)
+         (chest 5)
+         (arm 5))
+      (stickers
+         (patch_sailor
+            ../patchcreator/stickers_sailor_jerry.milo
+            preview_sailor_jerry.tex
+            (sets chest arm))
+         (patch_newyork
+            ../patchcreator/tattoos_york_adorned.milo
+            preview_york_adorned.tex
+            (sets chest arm))
+         (patch_corbins
+            ../patchcreator/tattoos_temple_tattoo.milo
+            preview_temple_tattoo.tex
+            (sets chest arm))
+         (patch_slifers
+            ../patchcreator/tattoos_paul_slifer.milo
+            preview_paul_slifer.tex
+            (sets chest arm))
+         (patch_suerte
+            ../patchcreator/stickers_adam_suerte.milo
+            preview_adam_suerte.tex
+            (sets chest arm))
+         (patch_anchor
+            ../patchcreator/tattoos_anchor_steam_tattoo_gallery.milo
+            preview_Anchor_Steam_Tattoo_Gallery.tex
+            (sets chest arm))
+         (patch_flyrite
+            ../patchcreator/tattoos_flyrite_studios.milo
+            preview_flyrite_studios.tex
+            (sets chest arm))
+         (patch_demuth
+            ../patchcreator/stickers_aaron_demuth.milo
+            preview_aaron_demuth.tex
+            (sets general chest arm))
+         (patch_carriuolo
+            ../patchcreator/stickers_adam_carriuolo.milo
+            preview_adam_carriuolo.tex
+            (sets general chest arm))
+         (patch_matheson
+            ../patchcreator/stickers_dare_matheson.milo
+            preview_dare_matheson.tex
+            (sets general chest arm))
+         (patch_battilana
+            ../patchcreator/stickers_david_battilana.milo
+            preview_david_battilana.tex
+            (sets general chest arm))
+         (patch_bogdhan
+            ../patchcreator/stickers_david_bogdhan.milo
+            preview_david_bogdhan.tex
+            (sets general chest arm))
+         (patch_goodrich
+            ../patchcreator/stickers_david_goodrich.milo
+            preview_david_goodrich.tex
+            (sets general chest arm))
+         (patch_min
+            ../patchcreator/stickers_eliot_min.milo
+            preview_eliot_min.tex
+            (sets general chest arm))
+         (patch_clapp
+            ../patchcreator/stickers_elliot_clapp.milo
+            preview_elliot_clapp.tex
+            (sets general chest arm))
+         (patch_young
+            ../patchcreator/stickers_erin_young.milo
+            preview_erin_young.tex
+            (sets general chest arm))
+         (patch_mcgill
+            ../patchcreator/stickers_fish_mcgill.milo
+            preview_fish_mcgill.tex
+            (sets general chest arm))
+         (patch_dee
+            ../patchcreator/stickers_john_dee.milo
+            preview_john_dee.tex
+            (sets general chest arm))
+         (patch_roan
+            ../patchcreator/stickers_kerry_roan.milo
+            preview_kerry_roan.tex
+            (sets general chest arm))
+         (patch_davis
+            ../patchcreator/stickers_kurt_davis.milo
+            preview_kurt_davis.tex
+            (sets general chest arm))
+         (patch_sundaramurthy
+            ../patchcreator/stickers_mallika_sundaramurthy.milo
+            preview_mallika_sundaramurthy.tex
+            (sets general chest arm))
+         (patch_gilpin
+            ../patchcreator/stickers_matt_gilpin.milo
+            preview_matt_gilpin.tex
+            (sets general chest arm))
+         (patch_perlot
+            ../patchcreator/stickers_matt_perlot.milo
+            preview_matt_perlot.tex
+            (sets general chest arm))
+         (patch_georgeson
+            ../patchcreator/stickers_michael_georgeson.milo
+            preview_michael_georgeson.tex
+            (sets general chest arm))
+         (patch_fletcher
+            ../patchcreator/stickers_mitch_fletcher.milo
+            preview_mitch_fletcher.tex
+            (sets general chest arm))
+         (patch_berkley
+            ../patchcreator/stickers_noah_berkley.milo
+            preview_noah_berkley.tex
+            (sets general chest arm))
+         (patch_macdonald
+            ../patchcreator/stickers_peter_macdonald.milo
+            preview_peter_macdonald.tex
+            (sets general chest arm))
+         (patch_murakami
+            ../patchcreator/stickers_reiko_murakami.milo
+            preview_reiko_murakami.tex
+            (sets general chest arm))
+         (patch_lesser
+            ../patchcreator/stickers_ryan_lesser.milo
+            preview_ryan_lesser.tex
+            (sets general chest arm))
+         (patch_sinclair
+            ../patchcreator/stickers_scott_sinclair.milo
+            preview_scott_sinclair.tex
+            (sets general chest arm))
+         (patch_witt
+            ../patchcreator/stickers_shawn_witt.milo
+            preview_shawn_witt.tex
+            (sets general chest arm))
+         (patch_kimura
+            ../patchcreator/stickers_steven_kimura.milo
+            preview_steven_kimura.tex
+            (sets general chest arm))
+         (patch_zylicz
+            ../patchcreator/stickers_tim_zylicz.milo
+            preview_tim_zylicz.tex
+            (sets general chest arm))
+         (patch_gradient
+            ../patchcreator/stickers_generic_shapes_gradient.milo
+            preview_stickers_generic_shapes_gradient.tex
+            (sets general chest arm))
+         (patch_outlines
+            ../patchcreator/stickers_generic_shapes_outlines.milo
+            preview_stickers_generic_shapes_outlines.tex
+            (sets general chest arm))
+         (patch_solids
+            ../patchcreator/stickers_generic_shapes_solid.milo
+            preview_stickers_generic_shapes_solid.tex
+            (sets general chest arm))
+         (patch_animals
+            ../patchcreator/stickers_generic_stickers_animals.milo
+            preview_generic_stickers_animals.tex
+            (sets general chest arm))
+         (patch_decorative
+            ../patchcreator/stickers_generic_stickers_decorative.milo
+            preview_generic_stickers_decorative.tex
+            (sets general chest arm))
+         (patch_luckycharms
+            ../patchcreator/stickers_generic_stickers_lucky_charms.milo
+            preview_generic_stickers_lucky_charms.tex
+            (sets general chest arm))
+         (patch_plants
+            ../patchcreator/stickers_generic_stickers_plants.milo
+            preview_generic_stickers_plants.tex
+            (sets general chest arm))
+         (patch_skineffects
+            ../patchcreator/stickers_skineffects.milo
+            preview_skin_effects.tex
+            (sets general chest arm))
+         (patch_specialeffects
+            ../patchcreator/stickers_generic_stickers_special_effects.milo
+            preview_generic_stickers_special_effects.tex
+            (sets general chest arm))
+         (patch_avant
+            ../patchcreator/stickers_letters_avant_garde.milo
+            preview_letters_avant_garde.tex
+            (sets general chest arm))
+         (patch_bodoni
+            ../patchcreator/stickers_letters_bodoni.milo
+            preview_letters_bodoni.tex
+            (sets general chest arm))
+         (patch_sailor_gothic
+            ../patchcreator/stickers_letters_sailor.milo
+            preview_letters_sailor.tex
+            (sets general chest arm)))
+      (patch_layer ../patchcreator/og/patch_warpmesh.milo))
+   #else
+   (tattoos)
+   #endif
+   (types
+      (guitar
+         (start_group stand)
+         (parser guitarist_parser)
+         (instrument guitar)
+         (enable_player
+            {foreach
+               $thing
+               GUITAR_THINGS
+               {handle
+                  ({$thing get parser}
+                     add_sink
+                     $thing)}}
+            {set
+               [playing]
+               TRUE}
+            {$this
+               change_play
+               [cur_play]})
+         (disable_player
+            {foreach
+               $thing
+               GUITAR_THINGS
+               {handle
+                  ({$thing get parser}
+                     remove_sink
+                     $thing)}}
+            {set
+               [playing]
+               FALSE}
+            {$this
+               change_play
+               [cur_play]})
+         (enter
+            CHAR_ENTER_COMMON
+            {$this
+               set_guitar_flags
+               {if_else
+                  {has_substr
+                     {$this name}
+                     "bass"}
+                  kValidBass
+                  kValidGuitar}}
+            {left_hand.weight set beats_per_weight 0}
+            {right_hand.weight set beats_per_weight 0}
+            {left_hand.weight set weight 0}
+            {right_hand.weight set weight 0}
+            {if
+               {exists fret_add.drv}
+               {fret_add.drv play open}}
+            {if_else
+               {==
+                  [clip_mode]
+                  kClipModeMeta}
+               {do
+                  {string01.string set target spot_nut01.mesh}
+                  {string02.string set target spot_nut02.mesh}
+                  {string03.string set target spot_nut03.mesh}
+                  {string04.string set target spot_nut04.mesh}
+                  {string05.string set target spot_nut05.mesh}
+                  {string06.string set target spot_nut06.mesh}}
+               {do
+                  {string01.string set target bone_tip_fret.mesh}
+                  {string02.string set target bone_tip_fret.mesh}
+                  {string03.string set target bone_tip_fret.mesh}
+                  {string04.string set target bone_tip_fret.mesh}
+                  {string05.string set target bone_tip_fret.mesh}
+                  {string06.string set target bone_tip_fret.mesh}}})
+         (world_configure
+            ($t)
+            {do
+               ($char_data
+                  {if_else
+                     {exists char_cache}
+                     {char_cache find_char_data $this}
+                     0})
+               {if_else
+                  {== $t guitar}
+                  {do
+                     {OutfitLoader.outfit
+                        select
+                        guitar
+                        {if_else
+                           $char_data
+                           {$char_data selected_outfit $t}
+                           {$this valid_instrument $t}}}
+                     {OutfitLoader.outfit select bass none}
+                     {string01.string set parser guitar_string_open}
+                     {string02.string set parser guitar_string_open}
+                     {string03.string set parser guitar_string_open}
+                     {string04.string set parser guitar_string_open}
+                     {string05.string set parser guitar_string_open}
+                     {string06.string set parser guitar_string_open}
+                     {guitar.lookat set parser guitar_streak_parser}
+                     {$this set_guitar_flags kValidGuitar}
+                     {set
+                        [parser]
+                        guitarist_parser}
+                     {fret.dmidi set parser guitar_fret}
+                     {fret.dmidi set_inactive_clip_name open}
+                     {strum.dmidi set parser guitar_strum}
+                     {strum.dmidi set_inactive_clip_name strum_open}
+                     {face_accent.dmidi set parser guitar_face_accent}
+                     {fret.ikmidi set parser guitar_fret_pos}
+                     {singalong.weight set parser guitar_singalong_parser}
+                     {string_hi.dmidi set parser guitar_string_hi}
+                     {string_low.dmidi set parser guitar_string_low}
+                     {handle
+                        (zBassOffset.drv enter)}}
+                  {do
+                     {OutfitLoader.outfit
+                        select
+                        bass
+                        {if_else
+                           $char_data
+                           {$char_data selected_outfit $t}
+                           {$this valid_instrument $t}}}
+                     {OutfitLoader.outfit select guitar none}
+                     {string01.string set parser ''}
+                     {string02.string set parser ''}
+                     {string03.string set parser ''}
+                     {string04.string set parser ''}
+                     {string05.string set parser ''}
+                     {string06.string set parser ''}
+                     {guitar.lookat set parser ''}
+                     {$this set_guitar_flags kValidBass}
+                     {set
+                        [parser]
+                        bassist_parser}
+                     {fret.dmidi set parser bass_fret}
+                     {fret.dmidi set_inactive_clip_name open}
+                     {strum.dmidi set parser bass_strum}
+                     {strum.dmidi set_inactive_clip_name strum_open}
+                     {face_accent.dmidi set parser bass_face_accent}
+                     {fret.ikmidi set parser bass_fret_pos}
+                     {singalong.weight set parser bass_singalong_parser}
+                     {handle
+                        (zBassOffset.drv play offset)}
+                     {string_hi.dmidi set parser bass_string_hi}
+                     {string_low.dmidi set parser bass_string_low}}}}
+            {OutfitLoader.outfit select mic none}
+            {OutfitLoader.outfit select drum none}
+            {OutfitLoader.outfit start_load TRUE})
+         (load_lip_sync
+            {song.lipdrv set_blink_song})
+         CHAR_COMMON)
+      (drum
+         (clip_flags 0)
+         (start_group sit)
+         (parser drummer_parser)
+         (enter
+            CHAR_ENTER_COMMON
+            {if
+               {$this exists drumset.grp}
+               {if
+                  $world
+                  {if
+                     {$world exists drumset.env}
+                     {drumset.grp
+                        set
+                        environ
+                        {$world find drumset.env}}}
+                  {right_hand.dmidi play ready}
+                  {left_hand.dmidi play ready}}
+               {drumset.grp
+                  set_showing
+                  {!
+                     {'||'
+                        {==
+                           [clip_mode]
+                           kClipModeMeta}
+                        {==
+                           [clip_mode]
+                           kClipModeLoadingScreen}}}}
+               {if
+                  {$this exists drum_translucent.grp}
+                  {drum_translucent.grp
+                     set_showing
+                     {!
+                        {'||'
+                           {==
+                              [clip_mode]
+                              kClipModeMeta}
+                           {==
+                              [clip_mode]
+                              kClipModeLoadingScreen}}}}}}
+            {if
+               {$this exists sticks.grp}
+               {sticks.grp
+                  set
+                  draw_only
+                  {if_else
+                     {==
+                        [clip_mode]
+                        kClipModeMeta}
+                     doublestick.grp
+                     singlestick.grp}}
+               {if
+                  {==
+                     [clip_mode]
+                     kClipModeLoadingScreen}
+                  {sticks.grp set_showing 0}}})
+         (prep_win_sequence
+            {if
+               {$this exists sticks.grp}
+               {sticks.grp set draw_only mallet.grp}})
+         (enable_player
+            {foreach
+               $thing
+               DRUM_THINGS
+               {{$thing get parser}
+                  add_sink
+                  $thing}}
+            {set
+               [playing]
+               TRUE}
+            {$this
+               change_play
+               [cur_play]})
+         (disable_player
+            {foreach
+               $thing
+               DRUM_THINGS
+               {{$thing get parser}
+                  remove_sink
+                  $thing}}
+            {set
+               [playing]
+               FALSE}
+            {$this
+               change_play
+               [cur_play]})
+         (world_configure
+            ($t)
+            {OutfitLoader.outfit
+               select
+               drum
+               {{char_cache find_char_data $this}
+                  selected_outfit
+                  drum}}
+            {if
+               {$this exists sticks.grp}
+               {sticks.grp set_showing 1}}
+            {OutfitLoader.outfit select mic none}
+            {OutfitLoader.outfit select guitar none}
+            {OutfitLoader.outfit select bass none}
+            {OutfitLoader.outfit start_load TRUE})
+         (load_lip_sync
+            {song.lipdrv set_blink_song})
+         CHAR_COMMON)
+      (vocal
+         (clip_flags 0)
+         (start_group stand)
+         (parser vocal_parser)
+         (enable_player
+            {set
+               [playing]
+               TRUE}
+            {$this
+               change_play
+               [cur_play]})
+         (disable_player
+            {set
+               [playing]
+               FALSE}
+            {$this
+               change_play
+               [cur_play]})
+         (set_instrument
+            ($inst)
+            {hands.grp
+               set
+               draw_only
+               {switch
+                  $inst
+                  (cowbell cowbell.grp)
+                  (tambourine tambourine.grp)
+                  ((mic mic_stand)
+                     mic.grp)
+                  (clap empty.grp)}}
+            {mic_trans.grp
+               set_showing
+               {find_elem
+                  (mic mic_stand)
+                  $inst}}
+            {mic_stand.grp
+               set_showing
+               {== $inst mic_stand}})
+         (enter
+            CHAR_ENTER_COMMON
+            {unless
+               {&& $edit_mode $cache_mode}
+               {$this set_instrument mic}})
+         (load_lip_sync
+            {do
+               ($song
+                  {meta_performer song})
+               ($songpath
+                  {if_else
+                     $song
+                     {sprint
+                        {song_mgr
+                           song_file_path
+                           $song
+                           ".milo"}}
+                     ""})
+               {song.lipdrv load_song $songpath TRUE}
+               {song.lipdrv
+                  set
+                  song_offset
+                  {- WORLD_OFFSET_SEC}}})
+         (world_configure
+            ($t)
+            {OutfitLoader.outfit
+               select
+               mic
+               {{char_cache find_char_data $this}
+                  selected_outfit
+                  mic}}
+            {OutfitLoader.outfit select guitar none}
+            {OutfitLoader.outfit select bass none}
+            {OutfitLoader.outfit select drum none}
+            {OutfitLoader.outfit start_load TRUE})
+         CHAR_COMMON)))
+#define CharPart_None
+(1)
+#define CharPart_FullBody
+(2)
+#define CharPart_Hair
+(4)
+#define CharPart_Head
+(8)
+#define CharPart_Torso
+(16)
+#define CharPart_Hands
+(32)
+#define CharPart_Pants
+(64)
+#define CharPart_Shoes
+(128)
+#define CharPart_LeftLowerArm
+(256)
+#define CharPart_RightLowerArm
+(512)
+#define CharPart_Neck
+(1024)
+(Character
+   (types
+      (eq
+         (enter
+            {if
+               {exists main.drv}
+               {main.drv play still}}))
+      (light_target
+         (editor
+            (base_anim
+               symbol
+               (list
+                  {$this get_clip_names}))
+            (base_amplitude
+               float
+               (range 0 1)
+               (help
+                  "physical scale of animation loop"))
+            (base_speed
+               float
+               (help
+                  "speed multiplier"))
+            (base_phase
+               float
+               (range 0 1)
+               (help
+                  "0 to 1, 0.5 would start the loop half way through"))
+            (add_anim
+               symbol
+               (list
+                  {$this get_clip_names}))
+            (add_amplitude
+               float
+               (range 0 1)
+               (help
+                  "physical scale of animation loop"))
+            (add_speed
+               float
+               (help
+                  "speed multiplier"))
+            (add_phase
+               float
+               (range 0 1)
+               (help
+                  "0 to 1, 0.5 would start the loop half way through"))
+            (test
+               script
+               (script
+                  {$this test_anim})))
+         (base_anim '')
+         (base_amplitude 1)
+         (base_speed 1)
+         (base_phase 0)
+         (add_anim '')
+         (add_amplitude 0.5)
+         (add_speed 1)
+         (add_phase 0)
+         (get_clip_names
+            {set
+               $clips
+               {main.drv get clips_ptr}}
+            {set
+               $clipnames
+               {array 0}}
+            {$clips
+               iterate
+               CharClip
+               $i
+               {insert_elem
+                  $clipnames
+                  0
+                  {$i name}}}
+            $clipnames)
+         (test_anim
+            {$this
+               play_anim
+               [base_anim]
+               [base_amplitude]
+               [base_speed]
+               [base_phase]
+               [add_anim]
+               [add_amplitude]
+               [add_speed]
+               [add_phase]})
+         (play_anim
+            ($base_anim $base_amp $base_speed $base_phase $add_anim $add_amp $add_speed $add_phase)
+            {base_pos.drv set weight $base_amp}
+            {target_pos.drv set weight $add_amp}
+            {main.drv set beat_scale $base_speed}
+            {base_pos.drv set beat_scale $base_speed}
+            {base_rot.drv set beat_scale $add_speed}
+            {target_pos.drv set beat_scale $add_speed}
+            {base_pos_still.drv
+               play
+               still
+               {'|' kPlayNoBlend kPlayGraphLoop}}
+            {target_pos_still.drv
+               play
+               still
+               {'|' kPlayNoBlend kPlayGraphLoop}}
+            {main.drv
+               play
+               $base_anim
+               {'|' kPlayNoBlend kPlayGraphLoop}}
+            {base_pos.drv
+               play
+               $base_anim
+               {'|' kPlayNoBlend kPlayGraphLoop}}
+            {base_rot.drv
+               play
+               $add_anim
+               {'|' kPlayNoBlend kPlayGraphLoop}}
+            {target_pos.drv
+               play
+               $add_anim
+               {'|' kPlayNoBlend kPlayGraphLoop}}
+            {set
+               $clip
+               {main.drv first_clip}}
+            {set
+               $offset
+               {'*'
+                  {$clip get length}
+                  $base_phase}}
+            {main.drv offset $offset $offset}
+            {set
+               $clip
+               {base_pos.drv first_clip}}
+            {set
+               $offset
+               {'*'
+                  {$clip get length}
+                  $base_phase}}
+            {base_pos.drv offset $offset $offset}
+            {set
+               $clip
+               {base_rot.drv first_clip}}
+            {set
+               $offset
+               {'*'
+                  {$clip get length}
+                  $add_phase}}
+            {base_rot.drv offset $offset $offset}
+            {set
+               $clip
+               {target_pos.drv first_clip}}
+            {set
+               $offset
+               {'*'
+                  {$clip get length}
+                  $add_phase}}
+            {target_pos.drv offset $offset $offset}))
+      (clothing_obj
+         (editor
+            (mat1
+               (indent
+                  (target
+                     object
+                     (class Mat)
+                     (post_sync
+                        {$this update}))
+                  (diffuse_tex
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update}))
+                  (two_color
+                     bool
+                     (post_sync
+                        {$this update}))
+                  (two_color_mask
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update}))
+                  (custom_diffuse_tex
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update}))
+                  (emissive_map
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update}))
+                  (environ_map
+                     object
+                     (class CubeTex)
+                     (post_sync
+                        {$this update}))
+                  (normal_map
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update}))
+                  (specular_map
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update})
+                     (refresh specular_rgb))
+                  (specular_power
+                     float
+                     (post_sync
+                        {$this update}))
+                  (specular_rgb
+                     color
+                     (post_sync
+                        {$this update}))
+                  (fleck_shaded
+                     bool
+                     (post_sync
+                        {$this update}))
+                  (substrate_depth
+                     float
+                     (post_sync
+                        {$this update}))
+                  (substrate_color
+                     color
+                     (post_sync
+                        {$this update}))
+                  (fleck_shaded_mask
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update}))
+                  (norm_detail_map
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update}))
+                  (norm_detail_strength
+                     float
+                     (post_sync
+                        {$this update}))
+                  (norm_detail_tiling
+                     float
+                     (post_sync
+                        {$this update}))))
+            (mat2
+               (indent
+                  (target2
+                     object
+                     (class Mat)
+                     (post_sync
+                        {$this update}))
+                  (diffuse_tex2
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update}))
+                  (two_color2
+                     bool
+                     (post_sync
+                        {$this update}))
+                  (two_color_mask2
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update}))
+                  (custom_diffuse_tex2
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update}))
+                  (emissive_map2
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update}))
+                  (environ_map2
+                     object
+                     (class CubeTex)
+                     (post_sync
+                        {$this update}))
+                  (normal_map2
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update}))
+                  (specular_map2
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update})
+                     (refresh specular_rgb2))
+                  (specular_power2
+                     float
+                     (post_sync
+                        {$this update}))
+                  (specular_rgb2
+                     color
+                     (post_sync
+                        {$this update}))
+                  (fleck_shaded2
+                     bool
+                     (post_sync
+                        {$this update}))
+                  (substrate_depth2
+                     float
+                     (post_sync
+                        {$this update}))
+                  (substrate_color2
+                     color
+                     (post_sync
+                        {$this update}))
+                  (fleck_shaded_mask2
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update}))
+                  (norm_detail_map2
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update}))
+                  (norm_detail_strength2
+                     float
+                     (post_sync
+                        {$this update}))
+                  (norm_detail_tiling2
+                     float
+                     (post_sync
+                        {$this update}))))
+            (mat3
+               (indent
+                  (target3
+                     object
+                     (class Mat)
+                     (post_sync
+                        {$this update}))
+                  (diffuse_tex3
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update}))
+                  (two_color3
+                     bool
+                     (post_sync
+                        {$this update}))
+                  (two_color_mask3
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update}))
+                  (custom_diffuse_tex3
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update}))
+                  (emissive_map3
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update}))
+                  (environ_map3
+                     object
+                     (class CubeTex)
+                     (post_sync
+                        {$this update}))
+                  (normal_map3
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update}))
+                  (specular_map3
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update})
+                     (refresh specular_rgb2))
+                  (specular_power3
+                     float
+                     (post_sync
+                        {$this update}))
+                  (specular_rgb3
+                     color
+                     (post_sync
+                        {$this update}))
+                  (fleck_shaded3
+                     bool
+                     (post_sync
+                        {$this update}))
+                  (substrate_depth3
+                     float
+                     (post_sync
+                        {$this update}))
+                  (substrate_color3
+                     color
+                     (post_sync
+                        {$this update}))
+                  (fleck_shaded_mask3
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update}))))
+            (mat4
+               (indent
+                  (target4
+                     object
+                     (class Mat)
+                     (post_sync
+                        {$this update}))
+                  (diffuse_tex4
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update}))
+                  (two_color4
+                     bool
+                     (post_sync
+                        {$this update}))
+                  (two_color_mask4
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update}))
+                  (custom_diffuse_tex4
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update}))
+                  (emissive_map4
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update}))
+                  (environ_map4
+                     object
+                     (class CubeTex)
+                     (post_sync
+                        {$this update}))
+                  (normal_map4
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update}))
+                  (specular_map4
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update})
+                     (refresh specular_rgb2))
+                  (specular_power4
+                     float
+                     (post_sync
+                        {$this update}))
+                  (specular_rgb4
+                     color
+                     (post_sync
+                        {$this update}))
+                  (fleck_shaded4
+                     bool
+                     (post_sync
+                        {$this update}))
+                  (substrate_depth4
+                     float
+                     (post_sync
+                        {$this update}))
+                  (substrate_color4
+                     color
+                     (post_sync
+                        {$this update}))
+                  (fleck_shaded_mask4
+                     object
+                     (class Tex)
+                     (post_sync
+                        {$this update}))))
+            (init_anim
+               object
+               (class Anim)
+               (help
+                  "Animation to run on initialization.")))
+         (target
+            "")
+         (diffuse_tex
+            "")
+         (custom_diffuse_tex
+            "")
+         (emissive_map
+            "")
+         (environ_map
+            "")
+         (normal_map
+            "")
+         (specular_map
+            "")
+         (specular_power 30)
+         (specular_rgb 0)
+         (two_color 1)
+         (target2
+            "")
+         (diffuse_tex2
+            "")
+         (custom_diffuse_tex2
+            "")
+         (emissive_map2
+            "")
+         (environ_map2
+            "")
+         (normal_map2
+            "")
+         (specular_map2
+            "")
+         (specular_power2 30)
+         (target3
+            "")
+         (diffuse_tex3
+            "")
+         (custom_diffuse_tex3
+            "")
+         (emissive_map3
+            "")
+         (environ_map3
+            "")
+         (normal_map3
+            "")
+         (specular_map3
+            "")
+         (specular_power3 30)
+         (specular_rgb2 0)
+         (specular_rgb3 0)
+         (two_color2 1)
+         (two_color3 1)
+         (two_color_mask
+            "")
+         (two_color_mask2
+            "")
+         (two_color_mask3
+            "")
+         (spec_map_cache
+            "")
+         (spec_map_cache2
+            "")
+         (spec_map_cache3
+            "")
+         (fleck_shaded 0)
+         (fleck_shaded2 0)
+         (fleck_shaded3 0)
+         (target4
+            "")
+         (diffuse_tex4
+            "")
+         (custom_diffuse_tex4
+            "")
+         (emissive_map4
+            "")
+         (environ_map4
+            "")
+         (normal_map4
+            "")
+         (specular_map4
+            "")
+         (specular_power4 30)
+         (specular_rgb4 0)
+         (two_color4 1)
+         (two_color_mask4
+            "")
+         (spec_map_cache4
+            "")
+         (fleck_shaded4 0)
+         (substrate_depth 1)
+         (substrate_color 1)
+         (fleck_shaded_mask
+            "")
+         (substrate_depth2 1)
+         (substrate_color2 1)
+         (fleck_shaded_mask2
+            "")
+         (substrate_depth3 1)
+         (substrate_color3 1)
+         (fleck_shaded_mask3
+            "")
+         (substrate_depth4 1)
+         (substrate_color4 1)
+         (fleck_shaded_mask4
+            "")
+         (norm_detail_map
+            "")
+         (norm_detail_strength 10.0)
+         (norm_detail_tiling 10.0)
+         (norm_detail_map2
+            "")
+         (norm_detail_strength2 10.0)
+         (norm_detail_tiling2 10.0)
+         (init_anim
+            "")
+         (enter
+            {if
+               $edit_mode
+               {set
+                  [spec_map_cache]
+                  [specular_map]}
+               {set
+                  [spec_map_cache2]
+                  [specular_map2]}
+               {set
+                  [spec_map_cache3]
+                  [specular_map3]}
+               {set
+                  [spec_map_cache4]
+                  [specular_map4]}}
+            {$this update})
+         (update
+            {if
+               $edit_mode
+               {if
+                  {&&
+                     {!
+                        [spec_map_cache]}
+                     [specular_map]}
+                  {set
+                     [specular_rgb]
+                     {pack_color 1 1 1}}}
+               {if
+                  {&&
+                     {!
+                        [spec_map_cache2]}
+                     [specular_map2]}
+                  {set
+                     [specular_rgb2]
+                     {pack_color 1 1 1}}}
+               {if
+                  {&&
+                     {!
+                        [spec_map_cache3]}
+                     [specular_map3]}
+                  {set
+                     [specular_rgb3]
+                     {pack_color 1 1 1}}}
+               {if
+                  {&&
+                     {!
+                        [spec_map_cache4]}
+                     [specular_map4]}
+                  {set
+                     [specular_rgb4]
+                     {pack_color 1 1 1}}}
+               {set
+                  [spec_map_cache]
+                  [specular_map]}
+               {set
+                  [spec_map_cache2]
+                  [specular_map2]}
+               {set
+                  [spec_map_cache3]
+                  [specular_map3]}
+               {set
+                  [spec_map_cache4]
+                  [specular_map4]}}
+            {if
+               [target]
+               {[target]
+                  set
+                  diffuse_tex
+                  [diffuse_tex]}
+               {[target]
+                  set
+                  custom_diffuse_map
+                  [custom_diffuse_tex]}
+               {[target]
+                  set
+                  emissive_map
+                  [emissive_map]}
+               {[target]
+                  set
+                  environ_map
+                  [environ_map]}
+               {[target]
+                  set
+                  normal_map
+                  [normal_map]}
+               {[target]
+                  set
+                  specular_map
+                  [specular_map]}
+               {[target]
+                  set
+                  two_color_mask
+                  [two_color_mask]}
+               {[target]
+                  set
+                  specular_power
+                  [specular_power]}
+               {[target]
+                  set
+                  specular_rgb
+                  [specular_rgb]}
+               {[target]
+                  set
+                  two_color
+                  [two_color]}
+               {[target]
+                  set
+                  fleck_shaded
+                  [fleck_shaded]}
+               {[target]
+                  set
+                  substrate_depth
+                  [substrate_depth]}
+               {[target]
+                  set
+                  substrate_color
+                  [substrate_color]}
+               {[target]
+                  set
+                  fleck_shaded_mask
+                  [fleck_shaded_mask]}
+               {[target]
+                  set
+                  norm_detail_map
+                  [norm_detail_map]}
+               {[target]
+                  set
+                  norm_detail_strength
+                  [norm_detail_strength]}
+               {[target]
+                  set
+                  norm_detail_tiling
+                  [norm_detail_tiling]}}
+            {if
+               [target2]
+               {[target2]
+                  set
+                  diffuse_tex
+                  [diffuse_tex2]}
+               {[target2]
+                  set
+                  custom_diffuse_map
+                  [custom_diffuse_tex2]}
+               {[target2]
+                  set
+                  emissive_map
+                  [emissive_map2]}
+               {[target2]
+                  set
+                  environ_map
+                  [environ_map2]}
+               {[target2]
+                  set
+                  normal_map
+                  [normal_map2]}
+               {[target2]
+                  set
+                  specular_map
+                  [specular_map2]}
+               {[target2]
+                  set
+                  two_color_mask
+                  [two_color_mask2]}
+               {[target2]
+                  set
+                  specular_power
+                  [specular_power2]}
+               {[target2]
+                  set
+                  specular_rgb
+                  [specular_rgb2]}
+               {[target2]
+                  set
+                  two_color
+                  [two_color2]}
+               {[target2]
+                  set
+                  fleck_shaded
+                  [fleck_shaded2]}
+               {[target2]
+                  set
+                  substrate_depth
+                  [substrate_depth2]}
+               {[target2]
+                  set
+                  substrate_color
+                  [substrate_color2]}
+               {[target2]
+                  set
+                  fleck_shaded_mask
+                  [fleck_shaded_mask2]}
+               {[target2]
+                  set
+                  norm_detail_map
+                  [norm_detail_map2]}
+               {[target2]
+                  set
+                  norm_detail_strength
+                  [norm_detail_strength2]}
+               {[target2]
+                  set
+                  norm_detail_tiling
+                  [norm_detail_tiling2]}}
+            {if
+               [target3]
+               {[target3]
+                  set
+                  diffuse_tex
+                  [diffuse_tex3]}
+               {[target3]
+                  set
+                  custom_diffuse_map
+                  [custom_diffuse_tex3]}
+               {[target3]
+                  set
+                  emissive_map
+                  [emissive_map3]}
+               {[target3]
+                  set
+                  environ_map
+                  [environ_map3]}
+               {[target3]
+                  set
+                  normal_map
+                  [normal_map3]}
+               {[target3]
+                  set
+                  specular_map
+                  [specular_map3]}
+               {[target3]
+                  set
+                  two_color_mask
+                  [two_color_mask3]}
+               {[target3]
+                  set
+                  specular_power
+                  [specular_power3]}
+               {[target3]
+                  set
+                  specular_rgb
+                  [specular_rgb3]}
+               {[target3]
+                  set
+                  two_color
+                  [two_color3]}
+               {[target3]
+                  set
+                  fleck_shaded
+                  [fleck_shaded3]}
+               {[target3]
+                  set
+                  substrate_depth
+                  [substrate_depth3]}
+               {[target3]
+                  set
+                  substrate_color
+                  [substrate_color3]}
+               {[target3]
+                  set
+                  fleck_shaded_mask
+                  [fleck_shaded_mask3]}}
+            {if
+               [target4]
+               {[target4]
+                  set
+                  diffuse_tex
+                  [diffuse_tex4]}
+               {[target4]
+                  set
+                  custom_diffuse_map
+                  [custom_diffuse_tex4]}
+               {[target4]
+                  set
+                  emissive_map
+                  [emissive_map4]}
+               {[target4]
+                  set
+                  environ_map
+                  [environ_map4]}
+               {[target4]
+                  set
+                  normal_map
+                  [normal_map4]}
+               {[target4]
+                  set
+                  specular_map
+                  [specular_map4]}
+               {[target4]
+                  set
+                  two_color_mask
+                  [two_color_mask4]}
+               {[target4]
+                  set
+                  specular_power
+                  [specular_power4]}
+               {[target4]
+                  set
+                  specular_rgb
+                  [specular_rgb4]}
+               {[target4]
+                  set
+                  two_color
+                  [two_color4]}
+               {[target4]
+                  set
+                  fleck_shaded
+                  [fleck_shaded4]}
+               {[target4]
+                  set
+                  substrate_depth
+                  [substrate_depth4]}
+               {[target4]
+                  set
+                  substrate_color
+                  [substrate_color4]}
+               {[target4]
+                  set
+                  fleck_shaded_mask
+                  [fleck_shaded_mask4]}}
+            {if
+               {!=
+                  [init_anim]
+                  ""}
+               {[init_anim]
+                  animate}}))
+      (crowd
+         (editor
+            (load_slow
+               script
+               (script
+                  {$this load_tempo kTempoSlow})
+               (help
+                  "load slow clips"))
+            (load_medium
+               script
+               (script
+                  {$this load_tempo kTempoMedium})
+               (help
+                  "load medium clips"))
+            (load_fast
+               script
+               (script
+                  {$this load_tempo kTempoFast})
+               (help
+                  "load fast clips")))
+         (load_song_clips
+            {$this
+               load_tempo
+               {song_mgr
+                  anim_tempo
+                  {meta_performer song}}})
+         (load_tempo
+            ($tempo)
+            {male_base load_tempo $tempo}
+            {female_base load_tempo $tempo}))))
+#ifndef HX_OG
+(PatchRenderer
+   (allowed_dirs RndDir)
+   (test_patch
+      "test_patch.milo"))
+#endif

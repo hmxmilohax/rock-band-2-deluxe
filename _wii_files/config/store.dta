@@ -1,0 +1,423 @@
+#ifdef HX_XBOX
+(netcache_init
+   "netcache"
+   store_cache_name
+   512
+   204800
+   "Quazal"
+   1161889836
+   (servers
+      (live
+         (server
+            "")
+         (port 1000)
+         (root
+            "/hmx/live/"))
+      (prelive
+         (server
+            "")
+         (port 1000)
+         (root
+            "/hmx/live/"))
+      (test
+         (server
+            "")
+         (port 1000)
+         (root
+            "/hmx/test/")))
+   #ifdef _SHIP
+   (default_server prelive)
+   #else
+   (default_server live)
+   #endif)
+#else
+#ifdef HX_PS3
+(netcache_init
+   "netcache"
+   title_name
+   512
+   204800
+   ""
+   0
+   (servers
+      (live
+         (server
+            "ps3-meta.rockband.com")
+         (port 443)
+         (root
+            "/")
+         (verify_ssl TRUE))
+      (prelive
+         (server
+            "qa.ps3-meta.rockband.com")
+         (port 443)
+         (root
+            "/")
+         (verify_ssl FALSE))
+      (test
+         (server
+            "qa.ps3-meta.rockband.com")
+         (port 443)
+         (root
+            "/")
+         (verify_ssl FALSE)))
+   #ifdef _SHIP
+   (default_server live)
+   #else
+   (default_server live)
+   #endif)
+#else
+#ifdef HX_WII
+(netcache_init
+   "netcache"
+   title_name
+   512
+   204800
+   ""
+   0
+   (servers
+      (live
+         (server
+            "ps3-meta.rockband.com")
+         (port 443)
+         (root
+            "/")
+         (assetpath
+            "")
+         (key_path
+            "base64_1.bin")
+         (key_path2
+            "base64_2.bin")
+         (verify_ssl TRUE))
+      (prelive
+         (server
+            "qa.ps3-meta.rockband.com")
+         (port 443)
+         (root
+            "/")
+         (assetpath
+            "")
+         (key_path
+            "base64_1.bin")
+         (key_path2
+            "base64_2.bin")
+         (verify_ssl FALSE))
+      (test
+         (server
+            "qa.ps3-meta.rockband.com")
+         (port 443)
+         (root
+            "/")
+         (assetpath
+            "")
+         (key_path
+            "base64_1.bin")
+         (key_path2
+            "base64_2.bin")
+         (verify_ssl FALSE)))
+   #ifdef _SHIP
+   (default_server live)
+   #else
+   (default_server test)
+   #endif)
+(titles
+   "sZAE"
+   "sZBE"
+   "sZCE"
+   "sZDE"
+   "sZEE"
+   "sZFE"
+   "sZGE"
+   "sZHE"
+   "sZIE"
+   "sZJE"
+   "sZKE"
+   "sZLE"
+   "sZME"
+   "sZNE"
+   "sZOE"
+   "sZPE"
+   "sZQE"
+   "sZRE"
+   "sZSE"
+   "sZTE"
+   "sZUE"
+   "sZVE"
+   "sZWE"
+   "sZXE"
+   "sZYE"
+   "sZZE")
+#else
+(netcache_init
+   "netcache"
+   ''
+   512
+   204800
+   ""
+   0
+   (servers
+      (test
+         (server
+            "")
+         (port 0)
+         (root
+            "test/remote_metadata")))
+   (default_server test))
+#endif
+#endif
+#endif
+#define STORE_MAX_EASY_TIER
+(1)
+#define STORE_MAX_MEDIUM_TIER
+(6)
+#define STORE_PART_SYMBOLS
+(band guitar drum vocals bass)
+#define STORE_ALPHA_SYMBOLS
+(store_nonalpha_group A B C D E F G H I J K L M N O P Q R S T U V W X Y Z)
+(filters
+   (new_releases
+      (include
+         ($offer $selected_filter)
+         {&&
+            {$offer is_new_release}
+            {'||'
+               {!=
+                  {$offer offer_type}
+                  song}
+               {&&
+                  {!
+                     {store_panel find_pack $offer}}
+                  {!
+                     {store_panel find_album $offer}}}}})
+      (sorts by_artist_new_release)
+      (allow_shortcut FALSE)
+      (show_new_release FALSE))
+   (all_artists
+      (include
+         ($offer $selected_filter)
+         {==
+            {$offer offer_type}
+            song})
+      (sorts by_difficulty by_song by_artist by_genre by_year)
+      (allow_shortcut TRUE)
+      (sort_difficulty_part band)
+      (show_new_release TRUE))
+   #ifndef HX_WII
+   (all_song_packs
+      (include
+         ($offer $selected_filter)
+         {==
+            {$offer offer_type}
+            pack})
+      (sorts by_pack)
+      (allow_shortcut TRUE)
+      (show_new_release TRUE))
+   (all_albums
+      (include
+         ($offer $selected_filter)
+         {==
+            {$offer offer_type}
+            album})
+      (sorts by_artist_album)
+      (allow_shortcut TRUE)
+      (show_new_release TRUE))
+   #endif)
+(sorts
+   (by_artist_new_release
+      (cmp_song_to_song
+         ($lhs $rhs)
+         {$this
+            cmp
+            $lhs
+            $rhs
+            (kSTArtist)
+            (kSTName)})
+      (cmp_song_to_album
+         ($lhs $rhs)
+         {$this
+            cmp
+            $lhs
+            $rhs
+            (kSTArtist)
+            (kSTLeftSide)})
+      (cmp_song_to_pack
+         ($lhs $rhs)
+         {if_else
+            {$rhs has_data artist}
+            {$this
+               cmp
+               $lhs
+               $rhs
+               (kSTArtist)
+               (kSTLeftSide)}
+            -1})
+      (cmp_album_to_album
+         ($lhs $rhs)
+         {$this
+            cmp
+            $lhs
+            $rhs
+            (kSTArtist)
+            (kSTYearReleased FALSE)
+            (kSTName)})
+      (cmp_album_to_pack
+         ($lhs $rhs)
+         {if_else
+            {$rhs has_data artist}
+            {$this
+               cmp
+               $lhs
+               $rhs
+               (kSTArtist)
+               (kSTLeftSide)}
+            -1})
+      (cmp_pack_to_pack
+         ($lhs $rhs)
+         {if_else
+            {$lhs has_data artist}
+            {if_else
+               {$rhs has_data artist}
+               {$this
+                  cmp
+                  $lhs
+                  $rhs
+                  (kSTArtist)
+                  (kSTPackName)}
+               -1}
+            {if_else
+               {$rhs has_data artist}
+               1
+               {$this
+                  cmp
+                  $lhs
+                  $rhs
+                  (kSTPackName)}}})
+      (browser_group
+         ($offer)
+         {if_else
+            {$offer has_data artist}
+            {$offer
+               get_data
+               (artist)}
+            store_various_artists})
+      (browser_cover
+         ($offer)
+         {$offer is_cover}))
+   (by_artist
+      (cmp_song_to_song
+         ($lhs $rhs)
+         {$this
+            cmp
+            $lhs
+            $rhs
+            (kSTArtist)
+            (kSTName)})
+      (browser_group
+         ($offer)
+         {$offer
+            get_data
+            (artist)})
+      (shortcut_groups STORE_ALPHA_SYMBOLS)
+      (shortcut_group
+         ($offer)
+         {$offer first_char artist TRUE})
+      (browser_cover
+         ($offer)
+         {$offer is_cover}))
+   (by_song
+      (cmp_song_to_song
+         ($lhs $rhs)
+         {$this
+            cmp
+            $lhs
+            $rhs
+            (kSTName)})
+      (browser_group
+         ($offer)
+         {$offer first_char name FALSE})
+      (shortcut_groups STORE_ALPHA_SYMBOLS))
+   (by_artist_album
+      (cmp_album_to_album
+         ($lhs $rhs)
+         {$this
+            cmp
+            $lhs
+            $rhs
+            (kSTArtist)
+            (kSTYearReleased FALSE)
+            (kSTName)})
+      (browser_group
+         ($offer)
+         {$offer
+            get_data
+            (artist)})
+      (browser_cover
+         ($offer)
+         {$offer is_cover}))
+   (by_pack
+      (cmp_pack_to_pack
+         ($lhs $rhs)
+         {$this
+            cmp
+            $lhs
+            $rhs
+            (kSTPackName)})
+      (browser_group
+         ($offer)
+         {$offer first_char name TRUE})
+      (shortcut_groups STORE_ALPHA_SYMBOLS))
+   (by_difficulty
+      (cmp_song_to_song
+         ($lhs $rhs)
+         {$this
+            cmp
+            $lhs
+            $rhs
+            (kSTRank $cmp.rank_part)
+            (kSTArtist)
+            (kSTName)})
+      (cmp_init
+         {set
+            $cmp.rank_part
+            {store_panel sort_difficulty_part}})
+      (browser_group
+         ($offer)
+         {do
+            ($part
+               {store_panel sort_difficulty_part})
+            ($tier
+               {song_mgr
+                  rank_tier
+                  {$offer
+                     get_data
+                     (rank $part)}
+                  $part})
+            {song_mgr rank_tier_token $tier}}))
+   (by_genre
+      (cmp_song_to_song
+         ($lhs $rhs)
+         {$this
+            cmp
+            $lhs
+            $rhs
+            (kSTGenre)
+            (kSTArtist)
+            (kSTName)})
+      (browser_group
+         ($offer)
+         {$offer genre}))
+   (by_year
+      (cmp_song_to_song
+         ($lhs $rhs)
+         {$this
+            cmp
+            $lhs
+            $rhs
+            (kSTYearReleased TRUE)
+            (kSTArtist)
+            (kSTName)})
+      (browser_group
+         ($offer)
+         {sprint
+            {$offer year_released}})
+      (sub by_artist)))

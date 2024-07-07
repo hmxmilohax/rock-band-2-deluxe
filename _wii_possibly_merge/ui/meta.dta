@@ -1,0 +1,739 @@
+{new
+   MetaPanel
+   meta
+   (file meta_panel.milo)
+   (playing_post_set FALSE)
+   (is_crowd_playing FALSE)
+   #ifdef HX_WII
+   (allow_home_menu TRUE)
+   #endif
+   (unload
+      {char_cache cache_clear}
+      {char_cache cache_enable FALSE})
+   (finish_load
+      {char_cache cache_enable TRUE}
+      {char_cache cache_update})
+   (enter
+      {platform_mgr enable_xmp}
+      {set
+         [playing_post_set]
+         FALSE})
+   (exit
+      {set
+         [is_crowd_playing]
+         FALSE})
+   (music_start
+      {if
+         {&&
+            {$this is_up}
+            {!
+               {postsong_sfx_panel get active}}}
+         {{$this meta_music}
+            start}
+         {unless
+            [is_crowd_playing]
+            {synth play shell_crowd.cue}
+            {set
+               [is_crowd_playing]
+               TRUE}}
+         {platform_mgr enable_xmp}})
+   (music_stop
+      {{$this meta_music}
+         stop}
+      {synth stop shell_crowd.cue}
+      {set
+         [is_crowd_playing]
+         FALSE})
+   #ifdef HX_EE
+   (music_start_stream
+      ($stream_file_name)
+      {{$this meta_music}
+         start_stream
+         $stream_file_name})
+   (music_stop_stream
+      {{$this meta_music}
+         stop_stream})
+   #endif
+   (play_postset_loop
+      ($play)
+      {if_else
+         $play
+         {unless
+            [playing_post_set]
+            {synth play shell_crowd_muffled.cue}}
+         {synth stop shell_crowd_muffled.cue}}
+      {set
+         [playing_post_set]
+         $play})}
+{new
+   UIPanel
+   postsong_sfx_panel
+   (active FALSE)
+   #ifdef HX_WII
+   (allow_home_menu TRUE)
+   #endif
+   (load
+      {set
+         [active]
+         TRUE})
+   (enter
+      {set
+         [active]
+         TRUE}
+      {meta music_stop}
+      {synth play shell_crowd_muffled.cue})
+   (exit
+      {set
+         [active]
+         FALSE}
+      {synth stop shell_crowd_muffled.cue})}
+#define COMMON_DIALOG_PANEL_HANDLERS
+((set_custom
+      ($msg $opt1 $opt2 $focus)
+      {dialog_title.lbl set_showing FALSE}
+      {msg.lbl set_localized $msg}
+      {opt1.btn set_localized $opt1}
+      {opt2.btn set_localized $opt2}
+      {opt1.btn set_showing TRUE}
+      {opt2.btn set_showing TRUE}
+      {yes.btn set_showing FALSE}
+      {no.btn set_showing FALSE}
+      {ok.btn set_showing FALSE}
+      {set
+         [helpbar_state]
+         ((confirm helpbar_select))}
+      {$this set_focus $focus})
+   (set_yesno
+      ($msg $focus)
+      {dialog_title.lbl set_showing FALSE}
+      {msg.lbl set_localized $msg}
+      {opt1.btn set_showing FALSE}
+      {opt2.btn set_showing FALSE}
+      {yes.btn set_showing TRUE}
+      {no.btn set_showing TRUE}
+      {ok.btn set_showing FALSE}
+      {set
+         [helpbar_state]
+         ((confirm helpbar_select))}
+      {$this set_focus $focus})
+   (set_ok
+      ($msg)
+      {dialog_title.lbl set_showing FALSE}
+      {msg.lbl set_localized $msg}
+      {opt1.btn set_showing FALSE}
+      {opt2.btn set_showing FALSE}
+      {yes.btn set_showing FALSE}
+      {no.btn set_showing FALSE}
+      {ok.btn set_showing TRUE}
+      {set
+         [helpbar_state]
+         ((confirm helpbar_confirm))}
+      {$this set_focus ok.btn})
+   (set_msg
+      ($msg)
+      {dialog_title.lbl set_showing FALSE}
+      {msg.lbl set_localized $msg}
+      {msg.lbl set_showing TRUE}
+      {opt1.btn set_showing FALSE}
+      {opt2.btn set_showing FALSE}
+      {yes.btn set_showing FALSE}
+      {no.btn set_showing FALSE}
+      {ok.btn set_showing FALSE}
+      {set
+         [helpbar_state]
+         ((confirm helpbar_confirm))}
+      {$this set_focus msg.lbl})
+   (set_title
+      ($msg)
+      {dialog_title.lbl set_showing TRUE}
+      {dialog_title.lbl set_localized $msg}))
+#define DIALOG_PANEL_HANDLERS
+(COMMON_DIALOG_PANEL_HANDLERS
+   (TRANSITION_COMPLETE_MSG
+      {helpbar
+         set_config
+         [helpbar_state]}))
+{new
+   UIPanel
+   dialog_panel
+   DIALOG_PANEL_HANDLERS
+   (file
+      "dialog.milo")}
+{new
+   EventDialogPanel
+   event_dialog_panel
+   (file
+      "event_dialog.milo")}
+#ifdef HX_WII
+{new
+   UIPanel
+   overflow_dialog_panel
+   DIALOG_PANEL_HANDLERS
+   (file
+      "dialog.milo")
+   (old_helpbar
+      ())
+   (setup_overflow
+      {$this
+         set_msg
+         {localize controller_overflow}})
+   (enter)
+   (exit)}
+{new
+   UIPanel
+   network_error_dialog
+   DIALOG_PANEL_HANDLERS
+   (file
+      "dialog.milo")
+   (enter
+      {$this
+         set_ok
+         {switch
+            {wifierror_msg get_error_code}
+            (0
+               {localize nintendo_wifi_error_000000})
+            (1
+               {localize nintendo_wifi_error_000001})
+            (2
+               {localize nintendo_wifi_error_000002})
+            (3
+               {localize nintendo_wifi_error_000003})
+            (4
+               {localize nintendo_wifi_error_000004})
+            (5
+               {localize nintendo_wifi_error_000005})
+            (6
+               {localize nintendo_wifi_error_000006})
+            (7
+               {localize nintendo_wifi_error_000007})
+            (8
+               {localize nintendo_wifi_error_000008})
+            (9
+               {localize nintendo_wifi_error_000009})
+            (10
+               {localize nintendo_wifi_error_000010})
+            (11
+               {localize nintendo_wifi_error_000011})
+            (12
+               {localize nintendo_wifi_error_000012})
+            (13
+               {localize nintendo_wifi_error_000013})
+            (14
+               {localize nintendo_wifi_error_000014})
+            (15
+               {localize nintendo_wifi_error_000015})
+            (16
+               {localize nintendo_wifi_error_000016})
+            (17
+               {localize nintendo_wifi_error_000017})
+            (18
+               {localize nintendo_wifi_error_000018})
+            (19
+               {localize nintendo_wifi_error_000019})
+            (20
+               {localize nintendo_wifi_error_000020})
+            (21
+               {localize nintendo_wifi_error_000021})
+            (22
+               {localize nintendo_wifi_error_000022})
+            (23
+               {localize nintendo_wifi_error_000023})
+            (24
+               {localize nintendo_wifi_error_000024})
+            (25
+               {localize nintendo_wifi_error_000025})
+            (26
+               {localize nintendo_wifi_error_000026})
+            (27
+               {localize nintendo_wifi_error_000027})
+            (28
+               {localize nintendo_wifi_error_000028})
+            (29
+               {localize nintendo_wifi_error_000029})
+            (1000
+               {localize nintendo_wifi_error_001000})
+            (1001
+               {localize nintendo_wifi_error_001001})
+            (1002
+               {localize nintendo_wifi_error_001002})
+            (1003
+               {localize nintendo_wifi_error_001003})
+            (1004
+               {localize nintendo_wifi_error_001004})
+            (1005
+               {localize nintendo_wifi_error_001005})
+            (1006
+               {localize nintendo_wifi_error_001006})
+            (1007
+               {localize nintendo_wifi_error_001007})
+            (1008
+               {localize nintendo_wifi_error_001008})
+            (1009
+               {localize nintendo_wifi_error_001009})
+            (1010
+               {localize nintendo_wifi_error_001010})
+            (1011
+               {localize nintendo_wifi_error_001011})
+            (1012
+               {localize nintendo_wifi_error_001012})
+            (1013
+               {localize nintendo_wifi_error_001013})
+            (1014
+               {localize nintendo_wifi_error_001014})
+            (1015
+               {localize nintendo_wifi_error_001015})
+            (1016
+               {localize nintendo_wifi_error_001016})
+            (1017
+               {localize nintendo_wifi_error_001017})
+            (1018
+               {localize nintendo_wifi_error_001018})
+            (1019
+               {localize nintendo_wifi_error_001019})
+            (1020
+               {localize nintendo_wifi_error_001020})
+            (1021
+               {localize nintendo_wifi_error_001021})
+            (1022
+               {localize nintendo_wifi_error_001022})
+            (20100
+               {localize nintendo_wifi_error_020100})
+            (20101
+               {localize nintendo_wifi_error_020101})
+            (20102
+               {localize nintendo_wifi_error_020102})
+            (20103
+               {localize nintendo_wifi_error_020103})
+            (20104
+               {localize nintendo_wifi_error_020104})
+            (20105
+               {localize nintendo_wifi_error_020105})
+            (20106
+               {localize nintendo_wifi_error_020106})
+            (20107
+               {localize nintendo_wifi_error_020107})
+            (20108
+               {localize nintendo_wifi_error_020108})
+            (20109
+               {localize nintendo_wifi_error_020109})
+            (20110
+               {localize nintendo_wifi_error_020110})
+            (31001
+               {localize nintendo_wifi_error_031001})
+            (31009
+               {localize nintendo_wifi_error_031009})
+            (31020
+               {localize nintendo_wifi_error_031020})
+            (31030
+               {localize nintendo_wifi_error_031030})
+            (31101
+               {localize nintendo_wifi_error_031101})
+            (31102
+               {localize nintendo_wifi_error_031102})
+            (31103
+               {localize nintendo_wifi_error_031103})
+            (31104
+               {localize nintendo_wifi_error_031104})
+            (31105
+               {localize nintendo_wifi_error_031105})
+            (31106
+               {localize nintendo_wifi_error_031106})
+            (31107
+               {localize nintendo_wifi_error_031107})
+            (31108
+               {localize nintendo_wifi_error_031108})
+            (31109
+               {localize nintendo_wifi_error_031109})
+            (31110
+               {localize nintendo_wifi_error_031110})
+            (32001
+               {localize nintendo_wifi_error_032001})
+            (32002
+               {localize nintendo_wifi_error_032002})
+            (32003
+               {localize nintendo_wifi_error_032003})
+            (32004
+               {localize nintendo_wifi_error_032004})
+            (33001
+               {localize nintendo_wifi_error_033001})
+            (33010
+               {localize nintendo_wifi_error_033010})
+            (33020
+               {localize nintendo_wifi_error_033020})
+            (33030
+               {localize nintendo_wifi_error_033030})
+            (33100
+               {localize nintendo_wifi_error_033100})
+            (33101
+               {localize nintendo_wifi_error_033101})
+            {localize nintendo_wifi_error_NOTLISTED}}})
+   (exit)
+   (SELECT_MSG
+      {switch
+         $component
+         (ok.btn
+            {wifierror_msg confirmerror})})}
+#endif
+#ifndef HX_EE
+{new
+   NetworkBusyPanel
+   network_busy_panel
+   (file
+      "network_busy.milo")
+   (min_duration 1000)}
+#else
+{new
+   UIPanel
+   network_busy_panel
+   (enter
+      {set
+         [in_transition]
+         FALSE})
+   (fade_in)
+   (fade_out
+      {set
+         [in_transition]
+         TRUE})
+   (is_faded_out TRUE)
+   (choose_movie)
+   (set_busy)}
+#endif
+#ifndef NOWIINETWORKING
+#ifndef HX_EE
+{new
+   ContentLoadingPanel
+   content_loading_panel
+   (file content_loading.milo)}
+#endif
+#endif
+{new
+   PassiveMessagesPanel
+   passive_messages_panel
+   (file
+      "passive_messages.milo")
+   (msg_duration 6000)}
+{new
+   HelpBarPanel
+   helpbar
+   (switch_frames 240)
+   (fade_anim_speed 5)
+   (file
+      "helpbar.milo")}
+{new
+   UIPanel
+   movie_panel
+   #ifndef HX_EE
+   (file
+      "movie.milo")
+   #else
+   (file
+      "movie_ps2.milo")
+   #endif
+   #ifdef HX_WII
+   (allow_home_menu TRUE)
+   #endif}
+#ifndef _SHIP
+{new
+   UIPanel
+   helpbar_test_panel
+   (confirm_state 3)
+   (cancel_state 3)
+   (option_state 3)
+   (start_state 3)
+   (view_state 3)
+   (up_state 3)
+   (right_state 3)
+   (left_state 3)
+   (down_state 3)
+   (update
+      {do
+         ($config
+            {array 0})
+         {if_else
+            {==
+               [confirm_state]
+               1}
+            {push_back
+               $config
+               (confirm helpbar_select)}
+            {if
+               {==
+                  [confirm_state]
+                  2}
+               {push_back
+                  $config
+                  (confirm helpbar_chosediff)}}}
+         {if_else
+            {==
+               [cancel_state]
+               1}
+            {push_back
+               $config
+               (cancel helpbar_select)}
+            {if
+               {==
+                  [cancel_state]
+                  2}
+               {push_back
+                  $config
+                  (cancel helpbar_chosediff)}}}
+         {if_else
+            {==
+               [option_state]
+               1}
+            {push_back
+               $config
+               (option helpbar_select)}
+            {if
+               {==
+                  [option_state]
+                  2}
+               {push_back
+                  $config
+                  (option helpbar_chosediff)}}}
+         {if_else
+            {==
+               [start_state]
+               1}
+            {push_back
+               $config
+               (state_confirm helpbar_select)}
+            {if
+               {==
+                  [start_state]
+                  2}
+               {push_back
+                  $config
+                  (state_confirm helpbar_chosediff)}}}
+         {if_else
+            {==
+               [view_state]
+               1}
+            {push_back
+               $config
+               (view_modify helpbar_select)}
+            {if
+               {==
+                  [view_state]
+                  2}
+               {push_back
+                  $config
+                  (view_modify helpbar_chosediff)}}}
+         {if_else
+            {==
+               [up_state]
+               1}
+            {push_back
+               $config
+               (option2 helpbar_select)}
+            {if
+               {==
+                  [up_state]
+                  2}
+               {push_back
+                  $config
+                  (option2 helpbar_chosediff)}}}
+         {if_else
+            {==
+               [down_state]
+               1}
+            {push_back
+               $config
+               (option1 helpbar_select)}
+            {if
+               {==
+                  [down_state]
+                  2}
+               {push_back
+                  $config
+                  (option1 helpbar_chosediff)}}}
+         {if_else
+            {==
+               [left_state]
+               1}
+            {push_back
+               $config
+               (waiting helpbar_select)}
+            {if
+               {==
+                  [left_state]
+                  2}
+               {push_back
+                  $config
+                  (waiting helpbar_chosediff)}}}
+         {helpbar set_config $config}})
+   (BUTTON_DOWN_MSG
+      {do
+         {switch
+            $action
+            ((kAction_Confirm)
+               {if_else
+                  {==
+                     [confirm_state]
+                     1}
+                  {set
+                     [confirm_state]
+                     2}
+                  {if_else
+                     {==
+                        [confirm_state]
+                        2}
+                     {set
+                        [confirm_state]
+                        3}
+                     {set
+                        [confirm_state]
+                        1}}})
+            ((kAction_Cancel)
+               {if_else
+                  {==
+                     [cancel_state]
+                     1}
+                  {set
+                     [cancel_state]
+                     2}
+                  {if_else
+                     {==
+                        [cancel_state]
+                        2}
+                     {set
+                        [cancel_state]
+                        3}
+                     {set
+                        [cancel_state]
+                        1}}})
+            ((kAction_Option)
+               {if_else
+                  {==
+                     [option_state]
+                     1}
+                  {set
+                     [option_state]
+                     2}
+                  {if_else
+                     {==
+                        [option_state]
+                        2}
+                     {set
+                        [option_state]
+                        3}
+                     {set
+                        [option_state]
+                        1}}})
+            ((kAction_Start)
+               {if_else
+                  {==
+                     [start_state]
+                     1}
+                  {set
+                     [start_state]
+                     2}
+                  {if_else
+                     {==
+                        [start_state]
+                        2}
+                     {set
+                        [start_state]
+                        3}
+                     {set
+                        [start_state]
+                        1}}})
+            ((kAction_ViewModify)
+               {if_else
+                  {==
+                     [view_state]
+                     1}
+                  {set
+                     [view_state]
+                     2}
+                  {if_else
+                     {==
+                        [view_state]
+                        2}
+                     {set
+                        [view_state]
+                        3}
+                     {set
+                        [view_state]
+                        1}}})
+            ((kAction_Up)
+               {if_else
+                  {==
+                     [up_state]
+                     1}
+                  {set
+                     [up_state]
+                     2}
+                  {if_else
+                     {==
+                        [up_state]
+                        2}
+                     {set
+                        [up_state]
+                        3}
+                     {set
+                        [up_state]
+                        1}}})
+            ((kAction_Right)
+               {if_else
+                  {==
+                     [right_state]
+                     1}
+                  {set
+                     [right_state]
+                     2}
+                  {if_else
+                     {==
+                        [right_state]
+                        2}
+                     {set
+                        [right_state]
+                        3}
+                     {set
+                        [right_state]
+                        1}}})
+            ((kAction_Down)
+               {if_else
+                  {==
+                     [down_state]
+                     1}
+                  {set
+                     [down_state]
+                     2}
+                  {if_else
+                     {==
+                        [down_state]
+                        2}
+                     {set
+                        [down_state]
+                        3}
+                     {set
+                        [down_state]
+                        1}}})
+            ((kAction_Left)
+               {if_else
+                  {==
+                     [left_state]
+                     1}
+                  {set
+                     [left_state]
+                     2}
+                  {if_else
+                     {==
+                        [left_state]
+                        2}
+                     {set
+                        [left_state]
+                        3}
+                     {set
+                        [left_state]
+                        1}}})
+            TRUE}
+         {$this update}})}
+{new
+   BandScreen
+   helpbar_test_screen
+   (panels meta helpbar_test_panel)
+   (focus helpbar_test_panel)
+   (back tour_hub_screen)}
+#endif

@@ -233,7 +233,9 @@
 #ifdef HX_PS3
 (community_no_server_warning "Couldn't connect to the game servers.\n\nYou won't be able to access the online leaderboards.  Continue anyway?")
 #else
+#ifndef HX_WII
 (community_no_server_warning "Couldn't connect to the game servers.\n\nYou won't be able to access the Xbox LIVE leaderboards.  Continue anyway?")
+#endif
 #endif
 (motd_no_rock_central "Attempting to connect to the game servers...")
 (motd_online_disabled "Cannot connect to the game servers while modifiers are enabled.")
@@ -263,8 +265,10 @@
 (error_cheating
    "Sorry, you have a modifier activated that disables online play. You cannot access any online features until the modifier is disabled.")
 #else
+#ifndef HX_WII
 (error_cheating
    "Sorry, you have a modifier activated that disables Xbox LIVE play. You cannot access any Xbox LIVE features until the modifier is disabled.")
+#endif
 #endif
 (attract_press_start
    " ")
@@ -276,6 +280,8 @@
    "Nice")
 (mc_auto_warning
    "Pressing the SELECT button twice will open 'Deluxe Settings', allowing you to fully customize the game to your liking.\n\nRB2DX is a free mod by MiloHax;\nif you paid for this mod, you were scammed!")
+(mc_auto_warning_wii
+   "Pressing the - button twice will open 'Deluxe Settings', allowing you to fully customize the game to your liking.\n\nRB2DX is a free mod by MiloHax;\nif you paid for this mod, you were scammed!")
 (dx_settings_loaded
    "Deluxe Settings successfully loaded!")
 #ifdef HX_XBOX
@@ -1139,6 +1145,7 @@
 (os_rb2prst_reset "Rock Band 2")
 (os_rb3prst "Rock Band 3")
 (os_rb4prst "Rock Band 4")
+(os_rb4truprst "RB4 (True Port)")
 (os_fnfestivalprst "Fortnite Festival")
 (os_lrbprst "LEGO Rock Band")
 (os_tbrbprst "Beatles Rock Band")
@@ -1316,6 +1323,12 @@
 (mod_flashbang_desc 
    "Ooooooooooooh. Ahhhhhhhhhhhh.")
 (mod_flashbang_obtain 
+   "(bug, should be available by default)")
+(mod_novsync
+   "Disable Vsync")
+(mod_novsync_desc
+   "Allow unlimited FPS, only use on RPCS3!")
+(mod_novsync_obtain 
    "(bug, should be available by default)")
 (mod_auto_play 
    "Autoplay")
@@ -1568,6 +1581,7 @@
 (prefab_taylor_grace "Taylor Grace")
 (prefab_cameron "Cameron")
 (prefab_chimarky "ChiMarky")
+(prefab_corn "ItzSlicedcorn")
 
 ;rb1 patches
 (patch_talbot

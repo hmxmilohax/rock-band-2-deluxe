@@ -4,8 +4,9 @@
    (file
       "drum_trainer_menu.milo")
    (focus beats.btn)
-   (enter
-      {set $iamingamenow FALSE})
+   #ifdef HX_WII
+   (allow_home_menu TRUE)
+   #endif
    (SELECT_MSG
       {if_else
          {player_on_instrument $player_num kControllerDrum}
@@ -83,6 +84,7 @@
             [player_num]}}
       {ui goto_screen drum_trainer_loading_screen})
    (enter
+      {set $iamingamenow FALSE}
       {session clear})
    (TRANSITION_COMPLETE_MSG
       {if
@@ -110,9 +112,17 @@
    drum_trainer_content_loading_panel
    (load
       {content_mgr start_refresh}
-      {content_loading_panel allowed_to_show TRUE})
+      #ifndef NOWIINETWORKING
+      #ifndef HX_EE
+      {content_loading_panel allowed_to_show TRUE}
+      #endif
+      #endif)
+   #ifndef NOWIINETWORKING
+   #ifndef HX_EE
    (finish_load
       {content_loading_panel allowed_to_show FALSE})
+   #endif
+   #endif
    (is_loaded
       {content_mgr refresh_done})}
 {new

@@ -434,7 +434,24 @@
                   object
                   (class Environ)
                   (help
-                     "environment override for this target during this shot")))))
+                     "environment override for this target during this shot"))
+               #ifdef HX_WII
+               (lod_override
+                  bool
+                  (help
+                     "Force target to least-detailed LOD"))
+               (outfit_hides
+                  bitfield
+                  (list
+                     {if_else
+                        {$this
+                           has
+                           (outfit_list)}
+                        {$this outfit_list}
+                        ()})
+                  (help
+                     "Hide specified character outfits"))
+               #endif)))
       (triggers
          (array
             (struct
@@ -473,6 +490,12 @@
          int
          (help
             "30fps maximum duration for this shot, 0 is infinite"))
+      #ifdef HX_WII
+      (fps_override
+         bool
+         (help
+            "Force world to render at 20Hz when 3 or more gem tracks are in play (Wii only)"))
+      #endif
       (store
          script
          (script
@@ -511,6 +534,22 @@
                "kValidDramatic"
                "kValidRocker"
                "kValidSpazz"))
+         #ifdef HX_WII
+         (outfit_list
+            ("kOutfitHideHair"
+               "kOutfitHideHeads"
+               "kOutfitHideFaceHair"
+               "kOutfitHideGlasses"
+               "kOutfitHideTorso"
+               "kOutfitHideHands"
+               "kOutfitHideLegs"
+               "kOutfitHideFeet"
+               "kOutfitHideWrist"
+               "kOutfitHideBass"
+               "kOutfitHideGuitar"
+               "kOutfitHideMic"
+               "kOutfitHideDrum"))
+         #endif
          (worst FALSE)
          (editor
             (bass_focus
@@ -742,6 +781,7 @@
             {$char reset_hair})
          (update_overlay
             #ifndef _SHIP
+            #ifndef WII_OUTPUTONLY
             {rnd
                reflect
                camera
@@ -791,10 +831,13 @@
                         " postprocess: "
                         [postprocess]}}
                   "\n"}}
+            #endif
             #endif)
          (start_shot
             #ifndef _SHIP
+            #ifndef WII_OUTPUTONLY
             {$this update_overlay}
+            #endif
             #endif
             {if
                [play_anim]
@@ -1278,6 +1321,7 @@
                   [abs_regulate])})
          (start_shot
             #ifndef _SHIP
+            #ifndef WII_OUTPUTONLY
             {rnd
                reflect
                camera
@@ -1287,6 +1331,7 @@
                   " category:"
                   [category]
                   "\n"}}
+            #endif
             #endif)
          (stop_shot
             {foreach_int
@@ -4446,3 +4491,90 @@
          object
          (class BandList)))
    (types))
+#ifdef HX_WII
+(ScoreboardDir
+   (description
+      "In-game scoreboard")
+   (superclasses RndDir)
+   (types)
+   (editor
+      (reset
+         script
+         (script
+            {$this reset}))
+      (test_score
+         float
+         (post_sync
+            {$this
+               set_score
+               [test_score]})
+         (help
+            "Current score."))
+      (test_stars
+         float
+         (post_sync
+            {$this
+               set_num_stars
+               [test_stars]}))
+      (test_opponent_score
+         float
+         (post_sync
+            {$this
+               set_opponent_score
+               [test_opponent_score]})
+         (help
+            "BotB opponent's total score."))
+      (sound
+         bool
+         "Play a sound when the stars change")
+      (config
+         symbol
+         (list
+            (normal botb botb_star))
+         (post_sync
+            {$this
+               set_config
+               [config]}))
+      (stars
+         (array
+            object
+            (class RndDir)))))
+(BandPowerMeterDir
+   (description
+      "Overdrive power meter")
+   (superclasses RndDir)
+   (types)
+   (editor
+      (initialize
+         script
+         (script
+            {$this reset}
+            {$this set_showing TRUE}))
+      (test_energy
+         float
+         (post_sync
+            {$this
+               set_energy
+               [test_energy]
+               [state]
+               guitar}))
+      (energy_added
+         script
+         (script
+            {$this energy_added}))
+      (energy_ready
+         script
+         (script
+            {$this energy_ready guitar}))
+      (stop
+         script
+         (script
+            {$this stop_deploy}))
+      (disable_overdrive
+         script
+         (script
+            {$this set_no_overdrive}))
+      (vocal_meter
+         bool
+         (read_only TRUE))))
+#endif

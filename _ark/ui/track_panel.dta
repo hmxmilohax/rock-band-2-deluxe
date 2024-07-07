@@ -74,10 +74,14 @@
       #ifdef HX_EE
       ../track/trackpanel.milo
       #else
+      #ifdef HX_WII
+      ../track/trackpanel.milo
+      #else
       {if_else $dx_queue_stock_track
          ../track/trackpanel.milo
          ../track/trackpanelcustom.milo
       }
+      #endif
       #endif
    )
    TRACK_PANEL_HANDLERS}
@@ -91,10 +95,15 @@
                get_track_sym}
             vocals}
          ../track/trackpanel_h2h_vocals.milo
+
+      #ifdef HX_WII
+      ../track/trackpanel_h2h.milo
+      #else
    {if_else $dx_queue_stock_track
       ../track/trackpanel_h2h.milo
       ../track/trackcustomh2h.milo
    }
+   #endif
    })
    TRACK_PANEL_HANDLERS}
 {new

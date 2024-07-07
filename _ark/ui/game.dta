@@ -175,7 +175,9 @@
       {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE} {set $track_0_milosong FALSE} {set $track_1_milosong FALSE}
       {set $bass_groove_active FALSE} {set $drum_groove_active FALSE} {set $guitar_groove_active FALSE} {set $track_0_groove_active FALSE} {set $track_1_groove_active FALSE}
       {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE} {set $track_0_firstnote FALSE} {set $track_1_firstnote FALSE}
+      #ifndef MHX_OG
       {stagekit_reset}
+      #endif
       {beatmatch
          foreach_active_player
          $p
@@ -262,7 +264,11 @@
                   pause_screen
                   {ui current_screen}}
                {'||'
+                  #ifdef MHX_OG
+                  {gamemode get is_jukebox}
+                  #else
                   {gamemode get allow_any_controller_to_pause_in_game}
+                  #endif
                   {&&
                      {gamecfg is_player_participating $user_num}
                      {beatmatch player $user_num}
@@ -283,8 +289,10 @@
             {ui
                push_screen
                {gamemode get pause_screen}}}})
+   #ifndef HX_WII
    (on_end_demo
       kDataUnhandled)
+   #endif
 }
 {new
    UIPanel
@@ -402,9 +410,11 @@
             {$this set_showing TRUE}}}})
    (unload
       #ifndef HX_PC
+      #ifndef MHX_OG
       {rnd suspend}
+      {{{{gamemode get track_panel} find mtv_overlay} find fade.anim} set_frame 0}
       #endif
-	  {{{{gamemode get track_panel} find mtv_overlay} find fade.anim} set_frame 0}
+      #endif
       {preload_panel clear_cache}
       {char_cache reclaim_characters}
       {game unload_crowd_audio}
@@ -454,7 +464,10 @@
          [delayed_mic_check]
          FALSE}
       {net_sync set_ui_state kNetUI_Pause}
-      {ui push_screen pause_mics_screen})
+      {ui push_screen pause_mics_screen}
+      #ifdef MHX_OG
+      {band_ui trigger_event mic_lost}
+      #endif)
    (pause_for_mic_check
       {$this pause_for_mic_check_helper FALSE})
    (pause_for_mic_check_mid_game
@@ -532,8 +545,8 @@
 ;                kDataUnhandled}}})
    (milo_setup
 ;send to network leaders song speed
-      {if {is_leader_local} {session send_msg_to_all {` (set $speedmod {, $leaderspeed}) kNetReliable}}}
-	  {if {is_leader_local} {set $speedmod $leaderspeed}}
+      {if {is_leader_local} {session send_msg_to_all {` (set $speedmod {, $leaderspeed}) kNetReliable} kNetReliable}}
+	   {if {is_leader_local} {set $speedmod $leaderspeed}}
 ;send to network leaders static fills modifier
 	  ;{if {is_leader_local} {session send_msg_to_all {` (set $netstaticfills {, $leaderstaticfills}) kNetReliable}}}
 	  ;{session send_msg_to_all {` (set $tempstaticfills $leaderstaticfills) kNetReliable}}
@@ -561,7 +574,7 @@
 ;setup for venue fps
 DX_FPS_SETUP
 ;set all players to autoplay if the modifier is active
-      {if {modifier_mgr is_modifier_active mod_auto_play}  {do {beatmatch foreach_active_player $player {$player set_auto_play enable}}}}
+      {if {modifier_mgr is_modifier_active mod_auto_play}  {do {beatmatch foreach_active_player $player {$player set_auto_play TRUE}}}}
 ;set for static drums
       {unless {modifier_mgr is_modifier_active mod_staticfills} {gamemode set allow_drum_fills FALSE}}
 ;set for freestyle drums
@@ -590,6 +603,16 @@ DX_FPS_SETUP
          add_sink
          $this
          (ui_changed)}
+      #ifdef HX_WII
+      {platform_mgr
+         add_sink
+         $this
+         (wii_disc_error)}
+      {platform_mgr
+         add_sink
+         $this
+         (wii_controller_overflow)}
+      #endif
       {if
          {game get multi_event}
          {if
@@ -608,33 +631,217 @@ DX_FPS_SETUP
             {profile_mgr update_mic_gain $player_num}}}
       {handle
          ($this my_enter)}
+      #ifdef MHX_OG
+      {if_else
+         {gamemode get is_jukebox}
+         {input_mgr set_limit kLimitNone}
+         {input_mgr set_limit kLimitSession}}
+      #else
       {input_mgr
          set_limit
          {gamemode get game_input_limit_type}}
+      #endif
       {$this milo_setup})   
    (exit
       {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE} {set $track_0_milosong FALSE} {set $track_1_groove_active FALSE}
       {set $bass_groove_active FALSE} {set $drum_groove_active FALSE} {set $guitar_groove_active FALSE} {set $track_0_groove_active FALSE} {set $track_1_groove_active FALSE}
       {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE} {set $track_0_firstnote FALSE} {set $track_1_firstnote FALSE}
       {platform_mgr remove_sink $this ui_changed}
+      #ifdef HX_WII
+      {platform_mgr remove_sink $this wii_disc_error}
+      {platform_mgr remove_sink $this wii_controller_overflow}
+      #endif
       {synth stop_playback_all_mics}
+      #ifndef MHX_OG
       {if
          {'||'
             {==
                {band_ui current_event}
                pad_lost}}
          {band_ui dismiss_event}}
+      #else
+      {if
+         {'||'
+            {==
+               {band_ui current_event}
+               pad_lost}
+            {==
+               {band_ui current_event}
+               mic_lost}}
+         {band_ui dismiss_event}}
+      #endif
       {input_mgr check_controllers}
 	  {$this milo_exit})
    (UI_CHANGED_MSG
       {$this on_guide_change})
+   #ifdef HX_WII
+   (wii_disc_error
+      {do
+         ($pausing_user_num -1)
+         {game
+            foreach_local_player
+            $p
+            {set
+               $user_num
+               {$p player_num}}
+            {if
+               {&&
+                  {gamecfg is_player_participating $user_num}
+                  {beatmatch player $user_num}
+                  {{beatmatch player $user_num}
+                     can_pause}
+                  {== $pausing_user_num -1}}
+               {set $pausing_user_num $user_num}}}
+         {if
+            {&&
+               {!
+                  {ui in_transition}}
+               {!=
+                  pause_screen
+                  {ui current_screen}}
+               {!
+                  {game is_game_over}}
+               {==
+                  {session state}
+                  kNetInGame}
+               {!=
+                  {gamemode get pause_screen}
+                  ''}
+               {!
+                  {{pause_screen focus_panel}
+                     is_up}}
+               {!= $pausing_user_num -1}
+               {!=
+                  {band_ui current_event}
+                  pad_lost}
+               {!=
+                  {band_ui current_event}
+                  mic_lost}}
+            {input_mgr
+               set_user
+               {user_mgr get_band_user $pausing_user_num}}
+            {net_sync set_ui_state kNetUI_Pause}
+            {ui
+               push_screen
+               {gamemode get pause_screen}}
+            {game set_paused TRUE}}})
+   (wii_controller_overflow
+      {do
+         ($pausing_user_num -1)
+         {game
+            foreach_local_player
+            $p
+            {set
+               $user_num
+               {$p player_num}}
+            {if
+               {&&
+                  {gamecfg is_player_participating $user_num}
+                  {beatmatch player $user_num}
+                  {{beatmatch player $user_num}
+                     can_pause}
+                  {== $pausing_user_num -1}}
+               {set $pausing_user_num $user_num}}}
+         {if
+            {&&
+               {!
+                  {ui in_transition}}
+               {!=
+                  pause_screen
+                  {ui current_screen}}
+               {!
+                  {game is_game_over}}
+               {==
+                  {session state}
+                  kNetInGame}
+               {!=
+                  {gamemode get pause_screen}
+                  ''}
+               {!
+                  {{pause_screen focus_panel}
+                     is_up}}
+               {!= $pausing_user_num -1}
+               {!=
+                  {band_ui current_event}
+                  pad_lost}
+               {!=
+                  {band_ui current_event}
+                  mic_lost}}
+            {input_mgr
+               set_user
+               {user_mgr get_band_user $pausing_user_num}}
+            {net_sync set_ui_state kNetUI_Pause}
+            {ui
+               push_screen
+               {gamemode get pause_screen}}
+            {game set_paused TRUE}}})
+   (player_missing_mic
+      {do
+         ($ret FALSE)
+         ($player_num)
+         ($user)
+         ($existing_mic FALSE)
+         ($mic_num 0)
+         {game
+            foreach_local_player
+            $p
+            {set
+               $player_num
+               {$p player_num}}
+            {set
+               $user
+               {user_mgr get_band_user $player_num}}
+            {if
+               {&&
+                  {!= $player_num -1}
+                  {$user is_participating}
+                  {==
+                     {$user get_track_sym}
+                     vocals}
+                  #ifndef _SHIP
+                  {==
+                     {user_mgr
+                        debug_get_controller_type_override
+                        {$user get_pad_num}}
+                     kControllerNone}
+                  #endif
+                  {!
+                     {synth
+                        is_mic_connected
+                        #ifndef HX_EE
+                        {joypad_get_players_padnum $player_num}
+                        #else
+                        {if_else
+                           {! $existing_mic}
+                           {do
+                              {set $existing_mic TRUE}
+                              $mic_num}
+                           {do
+                              {set $mic_num 1}
+                              $mic_num}}
+                        #endif}}}
+               {set $ret TRUE}}}
+         $ret})
+   #endif
    (TRANSITION_COMPLETE_MSG
+      #ifndef MHX_OG
       {if
          {'||'
             {==
                {band_ui current_event}
                pad_lost}}
          {band_ui dismiss_event}}
+      #else
+      {if
+         {'||'
+            {==
+               {band_ui current_event}
+               pad_lost}
+            {==
+               {band_ui current_event}
+               mic_lost}}
+         {band_ui dismiss_event}}
+      #endif
       {if
          $game_unpause_on_enter
          {game set_paused FALSE}

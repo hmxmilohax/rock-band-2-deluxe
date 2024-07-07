@@ -3,6 +3,9 @@
    tutorials_lesson_menu_panel
    (file
       {gamemode get lesson_menu_assets})
+   #ifdef HX_WII
+   (allow_home_menu TRUE)
+   #endif
    (goto_lesson
       ($num)
       {tutorials_state_panel set_lesson $num}

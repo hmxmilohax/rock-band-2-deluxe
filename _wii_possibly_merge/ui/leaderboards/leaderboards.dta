@@ -1,0 +1,812 @@
+#ifndef NOWIINETWORKING
+#ifndef HX_EE
+{new
+   HeldButtonPanel
+   leaderboards_panel
+   (file
+      "leaderboards.milo")
+   (focus leaderboard.lst)
+   (held_buttons
+      (kAction_Option 0.2)
+      #ifdef HX_WII
+      (kAction_Option1 0.2)
+      #endif)
+   (shortcut_mode none)
+   (read_done TRUE)
+   (limits_array
+      ())
+   (set_limits
+      ($a)
+      {set
+         [limits_array]
+         $a})
+   (enter
+      {leaderboards
+         set_page_size
+         {leaderboard.lst num_display}}
+      {$this
+         update_warning
+         ""}
+      {$this
+         update_unranked
+         ""}
+      {leaderboards
+         set_limits
+         [limits_array]}
+      {set
+         [read_done]
+         TRUE}
+      {leaderboards enumerate}
+      {$this update_titles}
+      {$this
+         update_filter
+         {leaderboards get_filter}}
+      {champ_name.lbl set_showing FALSE}
+      {champ_score.lbl set_showing FALSE}
+      {leaderboard.lst set_showing FALSE}
+      {$this shortcut_exit}
+      {rank_number_1.lbl set_showing FALSE}
+      {number_one.mesh set_showing FALSE})
+   (update_titles
+      {event.lbl
+         set_localized
+         ""}
+      {song.lbl
+         set_localized
+         ""}
+      {type.lbl
+         set_localized
+         ""}
+      {switch
+         {leaderboards get_type}
+         (kPlayerSong
+            {if_else
+               {==
+                  {leaderboards get_song_sym}
+                  career}
+               {song.lbl
+                  set_localized
+                  {localize career}}
+               {song.lbl
+                  set_localized
+                  {song_mgr
+                     song_name
+                     {leaderboards get_song_sym}}}}
+            {event.lbl
+               set_localized
+               {localize player_song}}
+            {type.lbl
+               set_localized
+               {leaderboards get_track_type_char}}
+            {instrument_type.grp set_showing TRUE}
+            {band_logo.grp set_showing FALSE})
+         (kScoreDuel
+            {event.lbl
+               set_localized
+               {localize h2h_pro}}
+            {type.lbl
+               set_localized
+               {leaderboards get_track_type_char}}
+            {instrument_type.grp set_showing TRUE}
+            {band_logo.grp set_showing FALSE})
+         (kTugOfWar
+            {event.lbl
+               set_localized
+               {localize h2h_normal}}
+            {type.lbl
+               set_localized
+               {leaderboards get_track_type_char}}
+            {instrument_type.grp set_showing TRUE}
+            {band_logo.grp set_showing FALSE})
+         (kBandSong
+            {if_else
+               {==
+                  {leaderboards get_song_sym}
+                  career}
+               {song.lbl
+                  set_localized
+                  {localize career}}
+               {song.lbl
+                  set_localized
+                  {song_mgr
+                     song_name
+                     {leaderboards get_song_sym}}}}
+            {event.lbl
+               set_localized
+               {localize band_song}}
+            {instrument_type.grp set_showing FALSE}
+            {band_logo.grp set_showing TRUE}
+            {band_logo.pic
+               set
+               tex_file
+               "ui/textures/generic_band_logo_keep.png"})
+         (kBandFans
+            {event.lbl
+               set_localized
+               {localize band_fans}}
+            {instrument_type.grp set_showing FALSE}
+            {band_logo.grp set_showing TRUE}
+            {band_logo.pic
+               set
+               tex_file
+               "ui/textures/generic_band_logo_keep.png"})})
+   (update_filter
+      ($type)
+      {switch
+         $type
+         (kByAll
+            {filter_title.lbl
+               set_localized
+               {localize filter_gamer}})
+         (kByFriends
+            {filter_title.lbl
+               set_localized
+               {localize filter_friends}})
+         (kByLocal
+            {filter_title.lbl
+               set_localized
+               {localize filter_local}})})
+   (update_leaderboard
+      {do
+         ($num_data
+            {{leaderboards get_provider}
+               num_data})
+         {leaderboard.lst set_provider leaderboards}
+         {$this enable leaderboard.lst}
+         {leaderboard.lst set_showing $num_data}
+         {do
+            ($user_pos
+               {leaderboards get_user_pos})
+            {if
+               {> $user_pos 0}
+               {leaderboard.lst set_selected $user_pos}}}
+         {champ_name.lbl
+            set_localized
+            {leaderboards get_champ_text name}}
+         {champ_name.lbl set_showing TRUE}
+         {champ_score.lbl
+            set_localized
+            {leaderboards get_champ_text score}}
+         {champ_score.lbl set_showing TRUE}
+         {rank_number_1.lbl set_showing $num_data}
+         {number_one.mesh set_showing $num_data}
+         {$this update_helpbar}})
+   (update_warning
+      ($msg)
+      {warning.lbl set_localized $msg}
+      {warning.lbl set_showing TRUE})
+   (update_unranked
+      ($msg)
+      {unranked.lbl set_localized $msg}
+      {unranked.lbl set_showing TRUE})
+   (exit
+      {$this shortcut_exit}
+      {network_busy_panel set_busy FALSE}
+      {leaderboards cancel_enumerate}
+      {leaderboard.lst set_showing FALSE}
+      {shortcut.lst set_showing FALSE}
+      {shortcut.lst set_provider shortcut.lst}
+      {leaderboards destroy}
+      {set
+         [read_done]
+         FALSE})
+   (SCROLL_MSG
+      {if
+         {== $component leaderboard.lst}
+         {leaderboards
+            set_user_pos
+            {leaderboard.lst selected_pos}}})
+   (BUTTON_DOWN_MSG
+      {if_else
+         {&&
+            [read_done]
+            {==
+               [shortcut_mode]
+               none}}
+         {cond
+            ({== $action kAction_ViewModify}
+               {leaderboards rotate_filter})
+            ({&&
+                  {== $action kAction_Down}
+                  {==
+                     {leaderboard.lst selected_pos}
+                     {-
+                        {leaderboard.lst num_display}
+                        1}}}
+               {leaderboards request_new_page TRUE}
+               {$this poll})
+            ({&&
+                  {== $action kAction_Up}
+                  {==
+                     {leaderboard.lst selected_pos}
+                     0}}
+               {leaderboards request_new_page FALSE}
+               {$this poll})
+            #ifndef HX_WII
+            ({&&
+                  {== $action kAction_Option}
+                  {leaderboards enum_complete}}
+               {leaderboards
+                  next_landmark
+                  {leaderboard.lst selected_pos}}
+               {$this poll})
+            #else
+            ({&&
+                  {'||'
+                     {== $action kAction_Option}
+                     {== $action kAction_Option1}}
+                  {leaderboards enum_complete}}
+               {leaderboards
+                  next_landmark
+                  {leaderboard.lst selected_pos}}
+               {$this poll})
+            #endif
+            ({== $action kAction_Confirm}
+               {if_else
+                  {leaderboards can_rows_be_selected}
+                  kDataUnhandled
+                  TRUE})
+            ({== $action kAction_Cancel}
+               {leaderboard.lst set_showing FALSE}
+               kDataUnhandled)
+            (TRUE kDataUnhandled)}
+         {if_else
+            {&&
+               {!=
+                  [shortcut_mode]
+                  none}
+               {== $action kAction_Cancel}}
+            {$this shortcut_exit}
+            kDataUnhandled}})
+   (BUTTON_UP_MSG
+      {switch
+         [shortcut_mode]
+         (none kDataUnhandled)
+         (friends
+            #ifndef HX_WII
+            {if
+               {&&
+                  [read_done]
+                  {== $action kAction_Option}}
+               {$this on_select shortcut.lst}}
+            #else
+            {if
+               {&&
+                  [read_done]
+                  {'||'
+                     {== $action kAction_Option}
+                     {== $action kAction_Option1}}}
+               {$this on_select shortcut.lst}}
+            #endif)})
+   (SELECT_MSG
+      {if
+         [read_done]
+         {$this on_select $component}})
+   (on_select
+      ($component)
+      {switch
+         $component
+         (shortcut.lst
+            {leaderboards
+               enumerate_landmark
+               {shortcut.lst selected_pos}}
+            {$this shortcut_exit})
+         (leaderboard.lst
+            {do
+               ($result
+                  {leaderboards
+                     select_row
+                     {leaderboard.lst selected_pos}
+                     $player_num})
+               {if
+                  {!= $result ''}
+                  {lb_signin_screen set error_msg $result}
+                  {ui push_screen lb_signin_screen}}})}
+      {$this poll})
+   (poll
+      {if
+         {&&
+            [read_done]
+            {!
+               {leaderboards enum_complete}}}
+         {$this show_async_read}}
+      {if
+         {&&
+            {!
+               [read_done]}
+            {leaderboards enum_complete}}
+         {$this hide_async_read}
+         {leaderboard.lst set_dirty}})
+   (on_button_held
+      ($user_num $user $raw_button $action $pad_num)
+      {$this
+         shortcut_enter
+         #ifndef HX_WII
+         {if_else
+            {== $action kAction_Option}
+            friends
+            filters}
+         #else
+         {if_else
+            {'||'
+               {== $action kAction_Option}
+               {== $action kAction_Option1}}
+            friends
+            filters}
+         #endif})
+   (show_async_read
+      {set
+         [read_done]
+         FALSE}
+      {network_busy_panel set_busy TRUE})
+   (hide_async_read
+      {set
+         [read_done]
+         TRUE}
+      {network_busy_panel set_busy FALSE})
+   (shortcut_enter
+      ($mode)
+      {if
+         {&&
+            {==
+               none
+               [shortcut_mode]}
+            {!
+               {input_mgr network_busy}}
+            {{leaderboards get_shortcut_provider}
+               num_data}}
+         {set
+            [shortcut_mode]
+            $mode}
+         {shortcut.lst
+            set_provider
+            {leaderboards get_shortcut_provider}}
+         {shortcut.lst
+            set_selected
+            {leaderboards
+               get_current_shortcut
+               {leaderboard.lst selected_pos}}}
+         {shortcut.mesh set_showing TRUE}
+         {$this set_focus shortcut.lst}
+         {$this disable leaderboard.lst}})
+   (shortcut_exit
+      {$this enable leaderboard.lst}
+      {shortcut.mesh set_showing FALSE}
+      {$this set_focus leaderboard.lst}
+      {set
+         [shortcut_mode]
+         none})
+   (update_helpbar
+      {helpbar
+         set_config
+         {switch
+            {leaderboards get_type}
+            #ifdef HX_PS3
+            (kPlayerSong
+               ((cancel helpbar_back)
+                  (view_modify leaderboard_changefilter)))
+            (kScoreDuel
+               ((cancel helpbar_back)
+                  (view_modify leaderboard_changefilter)))
+            (kTugOfWar
+               ((cancel helpbar_back)
+                  (view_modify leaderboard_changefilter)
+                  (option leaderboard_next_friend leaderboard_friend_hold)))
+            #endif
+            #ifdef HX_WII
+            (kPlayerSong
+               ((cancel helpbar_back)
+                  (view_modify leaderboard_changefilter)))
+            (kScoreDuel
+               ((cancel helpbar_back)
+                  (view_modify leaderboard_changefilter)))
+            (kTugOfWar
+               ((cancel helpbar_back)
+                  (view_modify leaderboard_changefilter)
+                  (option leaderboard_next_friend leaderboard_friend_hold)))
+            #else
+            (kPlayerSong
+               ((cancel helpbar_back)
+                  (view_modify leaderboard_changefilter)
+                  (confirm leader_hb_viewgamercard)))
+            (kScoreDuel
+               ((cancel helpbar_back)
+                  (view_modify leaderboard_changefilter)
+                  (confirm leader_hb_viewgamercard)))
+            (kTugOfWar
+               ((cancel helpbar_back)
+                  (view_modify leaderboard_changefilter)
+                  (confirm leader_hb_viewgamercard)))
+            #endif
+            (kBandSong
+               ((cancel helpbar_back)
+                  (view_modify leaderboard_changefilter)
+                  (confirm
+                     {if_else
+                        {&&
+                           {!=
+                              career
+                              {leaderboards get_song_sym}}
+                           {==
+                              kByLocal
+                              {leaderboards get_filter}}}
+                        ''
+                        leader_hb_viewband})))
+            (kBandFans
+               ((cancel helpbar_back)
+                  (view_modify leaderboard_changefilter)
+                  (confirm leader_hb_viewband)))}}
+      {if_else
+         {==
+            0
+            {leaderboards num_data}}
+         {do
+            {helpbar confirm ''}
+            {helpbar option ''}}
+         {helpbar option leaderboard_next_friend leaderboard_friend_hold}}
+      {if
+         {leaderboards get_offline}
+         {helpbar view_modify ''}})
+   (JOYPAD_CONNECT_MSG
+      {if
+         {! $connected}
+         {$this shortcut_exit}})}
+{new
+   UIPanel
+   leaderboards_netwatcher_panel
+   (file
+      "")
+   (return_screen main_community_screen)
+   (return_screen_in_progress main_community_screen)
+   (block_event
+      ($event)
+      {'||'
+         {== $event disband}
+         {&&
+            {== $event lost_connection}
+            {$this deal_with_lost_connection}}})
+   (enter
+      {platform_mgr
+         add_sink
+         $this
+         (connection_status_changed)}
+      {server
+         add_sink
+         $this
+         (server_status_changed)})
+   (exit
+      {platform_mgr remove_sink $this connection_status_changed}
+      {server remove_sink $this server_status_changed})
+   (deal_with_lost_connection
+      {&&
+         {gamemode get local_network}
+         {!
+            {gamemode get leave_if_connection_lost}}})
+   (connection_status_changed
+      ($connected)
+      {if
+         {&&
+            {$this deal_with_lost_connection}
+            {!
+               {leaderboards get_offline}}
+            {! $connected}}
+         {set
+            [return_screen_in_progress]
+            [return_screen]}
+         #ifdef HX_WII
+         {band_ui
+            trigger_event
+            lost_connection
+            (dummy init kLostConnection)}
+         #else
+         {band_ui trigger_event leaderboard_error}
+         #endif})
+   (server_status_changed
+      ($connected)
+      {if
+         {&&
+            {!
+               {leaderboards get_offline}}
+            {! $connected}}
+         {set
+            [return_screen_in_progress]
+            [return_screen]}
+         #ifdef HX_WII
+         {band_ui
+            trigger_event
+            lost_connection
+            (dummy init kLostServer)}
+         #else
+         {band_ui trigger_event leaderboard_error}
+         #endif})}
+#define LEADERBOARDS_SCREEN_HANDLERS
+((focus leaderboards_panel)
+   (back
+      {do
+         {switch
+            {leaderboards get_type}
+            (kPlayerSong
+               {song_offer_provider set is_leaderboards TRUE}
+               {gamemode get lb_song_select_screen})
+            (kBandSong
+               {song_offer_provider set is_leaderboards TRUE}
+               {gamemode get lb_song_select_screen})
+            (kScoreDuel
+               {gamemode get leaderboards_seltrack_screen})
+            (kTugOfWar
+               {gamemode get leaderboards_seltrack_screen})
+            {gamemode get community_screen}}})
+   (update_filter
+      ($type)
+      {leaderboards_panel update_filter $type})
+   (TRANSITION_COMPLETE_MSG
+      {leaderboards_panel update_helpbar})
+   (BUTTON_DOWN_MSG
+      {do
+         ($list
+            {leaderboards_panel find leaderboard.lst})
+         {if_else
+            {&&
+               {$list is_scrolling}
+               {'||'
+                  {== $action kAction_Down}
+                  {== $action kAction_Up}}}
+            TRUE
+            kDataUnhandled}}))
+{new
+   BandScreen
+   leaderboards_screen
+   (panels meta postsong_sfx_panel movie_panel leaderboards_panel tour_lower3rd_panel leaderboards_netwatcher_panel)
+   LEADERBOARDS_SCREEN_HANDLERS}
+{new
+   BandScreen
+   tour_leaderboards_screen
+   (panels meta practice_space_panel leaderboards_panel tour_lower3rd_panel leaderboards_netwatcher_panel)
+   LEADERBOARDS_SCREEN_HANDLERS}
+{new
+   BandScreen
+   lb_signin_screen
+   (panels dialog_panel)
+   (focus dialog_panel)
+   (error_msg '')
+   (enter
+      {dialog_panel
+         set_ok
+         {localize
+            [error_msg]}})
+   (SELECT_MSG
+      {ui pop_screen})}
+{new
+   BandScreen
+   lb_song_select_screen
+   (panels meta lb_song_select_content_loading_panel postsong_sfx_panel leaderboards_netwatcher_panel movie_panel song_select_details_panel song_select_panel tour_lower3rd_panel)
+   COMMON_SONG_SELECT_SCREEN}
+{new
+   BandScreen
+   tour_lb_song_select_screen
+   (panels meta practice_space_panel leaderboards_netwatcher_panel song_select_details_panel song_select_panel tour_lower3rd_panel)
+   COMMON_SONG_SELECT_SCREEN}
+{new
+   UIPanel
+   leaderboards_seltrack_panel
+   (file
+      "leaderboards_seltrack.milo")
+   (focus guitar.btn)
+   (SELECT_MSG
+      {leaderboards
+         set_track_type
+         {switch
+            $component
+            (guitar.btn kTrackGuitar)
+            (bass.btn kTrackBass)
+            (drums.btn kTrackDrum)
+            (vocals.btn kTrackVocals)}}
+      {if_else
+         {==
+            {leaderboards get_type}
+            kPlayerSong}
+         {do
+            {song_offer_provider set is_leaderboards TRUE}
+            {ui
+               goto_screen
+               {gamemode get lb_song_select_screen}}}
+         {ui
+            goto_screen
+            {gamemode get leaderboards_screen}}})}
+#define LEADERBOARDS_SELTRACK_HANDLERS
+((focus leaderboards_seltrack_panel)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (back
+      {gamemode get community_screen}))
+{new
+   BandScreen
+   leaderboards_seltrack_screen
+   (panels meta postsong_sfx_panel movie_panel leaderboards_seltrack_panel tour_lower3rd_panel leaderboards_netwatcher_panel)
+   LEADERBOARDS_SELTRACK_HANDLERS}
+{new
+   BandScreen
+   tour_leaderboards_seltrack_screen
+   (panels meta practice_space_panel leaderboards_seltrack_panel tour_lower3rd_panel leaderboards_netwatcher_panel)
+   LEADERBOARDS_SELTRACK_HANDLERS}
+{new
+   UIPanel
+   community_leaderboard_panel
+   #ifdef HX_PS3
+   (file
+      "leaderboard_menu_ps3.milo")
+   #endif
+   #ifdef HX_WII
+   (file
+      "leaderboard_menu_ps3.milo")
+   #else
+   (file
+      "leaderboard_menu.milo")
+   #endif
+   (focus solo.btn)
+   (enter
+      #ifdef HX_XBOX
+      {if_else
+         {leaderboards get_offline}
+         {do
+            {$this disable h2h_ranked.btn}
+            {$this disable h2h_pro_ranked.btn}}
+         {do
+            {$this enable h2h_ranked.btn}
+            {$this enable h2h_pro_ranked.btn}}}
+      #endif
+      {leaderboards clear_type})
+   (SELECT_MSG
+      {leaderboards set_player_num $player_num}
+      {switch
+         $component
+         (solo.btn
+            {leaderboards set_type kPlayerSong}
+            {ui
+               goto_screen
+               {gamemode get leaderboards_seltrack_screen}})
+         (band_fans.btn
+            {leaderboards set_type kBandFans}
+            {leaderboards set_band_from_tour}
+            {ui
+               goto_screen
+               {gamemode get leaderboards_screen}})
+         (band_song.btn
+            {leaderboards set_type kBandSong}
+            {leaderboards set_band_from_tour}
+            {song_offer_provider set is_leaderboards TRUE}
+            {ui
+               goto_screen
+               {gamemode get lb_song_select_screen}})
+         (h2h_ranked.btn
+            {leaderboards set_type kTugOfWar}
+            {ui
+               goto_screen
+               {gamemode get leaderboards_seltrack_screen}})
+         (h2h_pro_ranked.btn
+            {leaderboards set_type kScoreDuel}
+            {ui
+               goto_screen
+               {gamemode get leaderboards_seltrack_screen}})})}
+{new
+   BandScreen
+   community_leaderboard_screen
+   (panels meta community_leaderboard_panel leaderboards_netwatcher_panel)
+   (focus community_leaderboard_panel)
+   (back main_community_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))}
+{new
+   UIPanel
+   main_leaderboard_panel
+   MAIN_SUBSCREEN_PANEL_HANDLER
+   (enter
+      {main_panel update_leaderboard_buttons}
+      {leaderboards clear_type})
+   (SELECT_MSG
+      {leaderboards set_player_num $player_num}
+      {switch
+         $component
+         (lb_solo.btn
+            {leaderboards set_type kPlayerSong}
+            {main_panel push_focus}
+            {ui
+               goto_screen
+               {gamemode get leaderboards_seltrack_screen}})
+         (lb_fans.btn
+            {leaderboards set_type kBandFans}
+            {leaderboards set_band_from_tour}
+            {main_panel push_focus}
+            {ui
+               goto_screen
+               {gamemode get leaderboards_screen}})
+         (lb_songs.btn
+            {leaderboards set_type kBandSong}
+            {leaderboards set_band_from_tour}
+            {song_offer_provider set is_leaderboards TRUE}
+            {main_panel push_focus}
+            {ui
+               goto_screen
+               {gamemode get lb_song_select_screen}})
+         (lb_tow.btn
+            {leaderboards set_type kTugOfWar}
+            {main_panel push_focus}
+            {ui
+               goto_screen
+               {gamemode get leaderboards_seltrack_screen}})
+         (lb_scoreduel.btn
+            {leaderboards set_type kScoreDuel}
+            {main_panel push_focus}
+            {ui
+               goto_screen
+               {gamemode get leaderboards_seltrack_screen}})})}
+{new
+   BandScreen
+   main_leaderboard_screen
+   (panels meta main_panel main_leaderboard_panel leaderboards_netwatcher_panel)
+   (focus main_leaderboard_panel)
+   (back main_community_screen)
+   MAIN_SCREEN_HANDLERS}
+{new
+   BandScreen
+   tour_hub_community_screen
+   (panels meta practice_space_panel community_leaderboard_panel leaderboards_netwatcher_panel tour_lower3rd_panel)
+   (show_char
+      ($player_num)
+      FALSE)
+   (focus community_leaderboard_panel)
+   (back tour_hub_screen)
+   (helpbar
+      ((cancel helpbar_back)
+         (confirm helpbar_select)))
+   (enter
+      {practice_space_panel
+         select_cam
+         "leaderboards"})
+   (exit
+      {if
+         {gamemode get is_tour}
+         {tour_profile_panel
+            set_band_data
+            {tour band}}})}
+{new
+   BandScreen
+   tour_leaderboard_offline_screen
+   (panels dialog_panel)
+   (enter
+      {dialog_panel
+         set_ok
+         {cond
+            ({platform_mgr is_connected}
+               {localize leaderboards_not_available_rock_central})
+            (TRUE
+               {localize leaderboards_not_available_connection})}})
+   (SELECT_MSG
+      {ui pop_screen tour_hub_community_screen})}
+#define LEADERBOARDS_BAND_PROFILE_HANDLERS
+((focus tour_profile_panel)
+   (back
+      {gamemode get leaderboards_screen})
+   (enter
+      {with
+         tour_profile_panel
+         {enter.grp
+            set_frame
+            {enter.grp end_frame}}}
+      {leaderboards_panel set_showing FALSE})
+   (exit
+      {leaderboards_panel set_showing TRUE}))
+{new
+   BandScreen
+   leaderboards_band_profile_screen
+   (panels meta postsong_sfx_panel movie_panel leaderboards_panel tour_profile_panel tour_lower3rd_panel leaderboards_netwatcher_panel)
+   LEADERBOARDS_BAND_PROFILE_HANDLERS}
+{new
+   BandScreen
+   tour_leaderboards_band_profile_screen
+   (panels meta practice_space_panel leaderboards_panel tour_profile_panel tour_lower3rd_panel leaderboards_netwatcher_panel)
+   LEADERBOARDS_BAND_PROFILE_HANDLERS}
+#endif
+#endif

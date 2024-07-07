@@ -10,21 +10,46 @@
     (enter
         {sel_section.lst set_data (os_trkpreset os_trkbhvr os_angle #ifndef HX_EE os_clr #endif)}
         {title.lbl set_localized {localize os_trkset}}
-        {full_selection.mesh set_showing FALSE})
+        {full_selection.mesh set_showing FALSE}
+        {set $os_in_transition FALSE}
+    )
+    (poll
+         {if {== {ui current_screen} overshell_track_screen}
+            {if_else $os_in_transition
+                {thread_task kTaskUISeconds
+                    (script
+                        {$task sleep 1.0}
+                        {if_else {== {ui current_screen} overshell_track_screen}
+                           {{overshell_track_panel find all.grp} set_local_rot $osxrot $osyrot $oszrot}
+                           {{overshell_track_panel find all.grp} set_local_rot $osxrot $osyrot {- $oszrot 90}}
+                        }
+                    )
+                }
+                {{overshell_track_panel find all.grp} set_local_rot $osxrot $osyrot $oszrot}
+            }
+         }
+    )
     (exit)
     (SELECT_MSG
     {switch {$component selected_sym}
+         (os_sus
+            {set $os_in_transition TRUE}
+            {os_change_screen overshell_sustains}
+         )
          (os_trkpreset
-            #ifdef HX_EE
+            {set $os_in_transition TRUE}
+            #ifdef MHX_OG
             {os_change_screen overshell_tex}
             #else
             {os_change_screen overshell_trkpreset}
             #endif
          )
          (os_trkbhvr
+            {set $os_in_transition TRUE}
             {os_change_screen overshell_trkbhvr}
          )
          (os_angle
+            {set $os_in_transition TRUE}
             {os_change_screen overshell_angle}
          )
          (os_clr
@@ -42,6 +67,7 @@
          #ifdef HX_EE {== $button kPad_Tri} #else {== $action kAction_Cancel} #endif
          {do
          {synth play button_toggle}
+         {set $os_in_transition TRUE}
          {os_back_screen overshell_main}
          TRUE}
          kDataUnhandled})
@@ -62,15 +88,34 @@
     #endif
     (focus sel_section.lst)
     (enter
-        {sel_section.lst set_data (os_tex os_rb2dxprst os_rb2prst os_rb1prst os_rb3prst os_rb4prst os_fnfestivalprst os_lrbprst os_tbrbprst)}
+        {sel_section.lst set_data (os_tex os_rb2dxprst os_rb2prst os_rb1prst os_rb3prst os_rb4truprst os_rb4prst os_fnfestivalprst os_lrbprst os_tbrbprst)}
         {title.lbl set_localized {localize os_trkpreset}}
-        {full_selection.mesh set_showing FALSE})
+        {full_selection.mesh set_showing FALSE}
+        {set $os_in_transition FALSE}
+    )
+    (poll
+        {if {== {ui current_screen} overshell_trkpreset_screen}
+            {if_else $os_in_transition
+                {thread_task kTaskUISeconds
+                    (script
+                        {$task sleep 1.0}
+                        {if_else {== {ui current_screen} overshell_trkpreset_screen}
+                           {{overshell_trkpreset_panel find all.grp} set_local_rot $osxrot $osyrot $oszrot}
+                           {{overshell_trkpreset_panel find all.grp} set_local_rot $osxrot $osyrot {- $oszrot 90}}
+                        }
+                    )
+                }
+                {{overshell_trkpreset_panel find all.grp} set_local_rot $osxrot $osyrot $oszrot}
+            }
+        }
+    )
     (exit
          DX_TEXTURE_CORRECTOR
     )
     (SELECT_MSG
     {switch {$component selected_sym}
          (os_tex
+            {set $os_in_transition TRUE}
             {os_change_screen overshell_tex}
          )
          (os_rb2prst
@@ -180,6 +225,18 @@
             }
             SET_RB4_TRACK_ANGLE
          )
+         (os_rb4truprst
+            {if_else $texrunonce
+               {do 
+                  SET_RB4_TRUE_TEXTURE_PRESET
+               }
+               {do 
+                  {set $dx_queue_stock_track FALSE}
+                  SET_RB4_TRUE_TEXTURE_PRESET
+               }
+            }
+            SET_RB4_TRACK_ANGLE
+         )
          (os_fnfestivalprst
             {if_else $texrunonce
                {do 
@@ -227,6 +284,7 @@
          #ifdef HX_EE {== $button kPad_Tri} #else {== $action kAction_Cancel} #endif
          {do
          {synth play button_toggle}
+         {set $os_in_transition TRUE}
          {os_back_screen overshell_track}
          TRUE}
          kDataUnhandled})
@@ -250,7 +308,9 @@
     (enter
         {sel_section.lst set_data (_1_none rb2 rb3)}
         {title.lbl set_localized {localize os_sus}}
-        {full_selection.mesh set_showing FALSE})
+        {full_selection.mesh set_showing FALSE}
+        {set $os_in_transition FALSE}
+    )
     (exit)
     (SELECT_MSG
     {set $sustains {$component selected_sym}}
@@ -281,17 +341,23 @@
 ;
 #define TRACK_BEHAVIOR_DATA
 ((
+   #ifndef HX_WII
    os_hwbhvr
+   #endif
    #ifndef HX_EE
    os_strkbhvr
    os_warnbhvr
+   #ifndef HX_WII
    {switch $fctype
       (ring os_fc_ring)
       (glow os_fc_glow)
       (both os_fc_both)
    }
    #endif
+   #endif
+   #ifndef HX_WII
    {if_else $smasherbracket os_smasherbracket1 os_smasherbracket0}
+   #endif
 ))
 {new
     UIPanel
@@ -305,12 +371,31 @@
     (enter
         {$this lst_reset}
         {title.lbl set_localized {localize os_trkbhvr}}
-        {full_selection.mesh set_showing FALSE})
+        {full_selection.mesh set_showing FALSE}
+        {set $os_in_transition FALSE}
+    )
     (lst_reset
       {sel_section.lst set_data TRACK_BEHAVIOR_DATA}
-         {if $hwpos
-      {sel_section.lst set_selected $hwpos}
-    })
+      {if $hwpos
+         {sel_section.lst set_selected $hwpos}
+      }
+    )
+    (poll
+        {if {== {ui current_screen} overshell_trkbhvr_screen}
+            {if_else $os_in_transition
+                {thread_task kTaskUISeconds
+                    (script
+                        {$task sleep 1.0}
+                        {if_else {== {ui current_screen} overshell_trkbhvr_screen}
+                           {{overshell_trkbhvr_panel find all.grp} set_local_rot $osxrot $osyrot $oszrot}
+                           {{overshell_trkbhvr_panel find all.grp} set_local_rot $osxrot $osyrot {- $oszrot 90}}
+                        }
+                    )
+                }
+                {{overshell_trkbhvr_panel find all.grp} set_local_rot $osxrot $osyrot $oszrot}
+            }
+        }
+    )
     (exit)
     (SELECT_MSG
     {switch {$component selected_sym}
@@ -320,12 +405,15 @@
             {$this lst_reset}
          )
          (os_hwbhvr
+            {set $os_in_transition TRUE}
             {os_change_screen overshell_hwbhvr}
          )
          (os_strkbhvr
+            {set $os_in_transition TRUE}
             {os_change_screen overshell_strkbhvr}
          )
          (os_warnbhvr
+            {set $os_in_transition TRUE}
             {os_change_screen overshell_warnbhvr}
          )
          ((os_fc_ring os_fc_glow os_fc_both)
@@ -349,6 +437,7 @@
          #ifdef HX_EE {== $button kPad_Tri} #else {== $action kAction_Cancel} #endif
          {do
          {synth play button_toggle}
+         {set $os_in_transition TRUE}
          {os_back_screen overshell_track}
          TRUE}
          kDataUnhandled})
@@ -382,7 +471,9 @@
     (enter
         {$this lst_reset}
         {title.lbl set_localized {localize os_hwbhvr}}
-        {full_selection.mesh set_showing FALSE})
+        {full_selection.mesh set_showing FALSE}
+        {set $os_in_transition FALSE}
+    )
     (lst_reset
       {sel_section.lst set_data HW_BEHAVIOR_DATA}
          {if $hwpos
@@ -433,7 +524,9 @@
 #define STRK_BEHAVIOR_DATA
 ((
    {if_else $legacybass os_legacybass1 os_legacybass0}
+   #ifndef HX_WII
    {if_else $hwstrk os_hwstrk1 os_hwstrk0}
+   #endif
 ))
 {new
     UIPanel
@@ -447,7 +540,9 @@
     (enter
         {$this lst_reset}
         {title.lbl set_localized {localize os_strkbhvr}}
-        {full_selection.mesh set_showing FALSE})
+        {full_selection.mesh set_showing FALSE}
+        {set $os_in_transition FALSE}
+    )
     (lst_reset
       {sel_section.lst set_data STRK_BEHAVIOR_DATA}
          {if $strkpos
@@ -490,7 +585,9 @@
 #define WARN_BEHAVIOR_DATA
 ((
    {if_else $nohwwarn os_hwwarn0 os_hwwarn1}
+   #ifndef HX_WII
    {if_else $railwarn os_railwarn1 os_railwarn0}
+   #endif
 ))
 {new
     UIPanel
@@ -504,7 +601,9 @@
     (enter
         {$this lst_reset}
         {title.lbl set_localized {localize os_warnbhvr}}
-        {full_selection.mesh set_showing FALSE})
+        {full_selection.mesh set_showing FALSE}
+        {set $os_in_transition FALSE}
+    )
     (lst_reset
       {sel_section.lst set_data WARN_BEHAVIOR_DATA}
          {if $warnpos
@@ -515,6 +614,7 @@
     {switch {$component selected_sym}
          ((os_hwwarn0 os_hwwarn1)
             {set $nohwwarn {! $nohwwarn}}
+            #ifndef HX_WII
             {if_else $nohwwarn
                {do
                   {if {== $highwaygtr "_1_none"}
@@ -561,6 +661,7 @@
                   }
                }
             }
+            #endif
             {set $warnpos {sel_section.lst selected_sym}}
             {$this lst_reset}
          )
@@ -603,7 +704,9 @@
         {sel_section.lst set_data
             (rb2 rb3 rb4 fnfestival rr)}
         {title.lbl set_localized {localize os_angle}}
-        {full_selection.mesh set_showing FALSE})
+        {full_selection.mesh set_showing FALSE}
+        {set $os_in_transition FALSE}
+    )
     (exit)
     (SELECT_MSG
       {switch {$component selected_sym}

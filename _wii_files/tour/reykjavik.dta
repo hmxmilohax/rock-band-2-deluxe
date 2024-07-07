@@ -1,0 +1,39 @@
+(theater
+   theater_08
+   (song72
+      (songs
+         (band 72))
+      (display_song TRUE)
+      (item tour_staff_worldblock)
+      (fame
+         (world 100))
+      (money_per_star 120))
+   (song79
+      (songs
+         (band 79))
+      (display_song TRUE)
+      (item tour_staff_worldblock)
+      (fame
+         (world 100))
+      (money_per_star 120))
+   (metalmara
+      (songs aceofspades peacesells colonyofbirchmen soulsofblack battery painkiller)
+      (fame
+         (world 200))
+      (item tour_staff_worldblock)
+      (money_per_star 80)
+      BWT_BUZZ_EASYBLOCKPLUS
+      (char_unlock
+         (token char_unlock_cityshirts_rockband1)
+         (outfits
+            (male torso tshirtdeath_viking)
+            (female torso thermalundertee_reykjavikviking)
+            (male torso wornlongsleeveshirt_elfcrossing)
+            (female torso baseballtee_reykjavikelf))))
+   (anymara
+      (songs any any any any any any any any)
+      (fame
+         (town 30)
+         (world 100))
+      (money_per_star 80)
+      BWT_CHAR_UNLOCKEXTRA05))

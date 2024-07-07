@@ -15,6 +15,7 @@
 
 ;sets default song speed 1.15 is 115%, 1.30 is 130% and so on.
 {set $speedmod 1.0}
+{set $leaderspeed $speedmod}
 
 ;set default venue fps.
 {set $emulatefps 24}
@@ -32,7 +33,11 @@
 {set $gem "rb2dx"}
 
 ;strikeline texture
+#ifdef HX_WII ; wii transparency is broken atm, so the rb2dx smashers don't exist
+{set $smasher "rb2"} ; set it to rb2 "HD" texture instead
+#else
 {set $smasher "rb2dx"}
+#endif
 
 ;lanes texture
 {set $lanestex "rb2"}
@@ -167,6 +172,7 @@
 ;{modifier_mgr activate_modifier mod_auto_play}
 
 #ifndef HX_EE ; cant read dx.dta on ps2 (yet)
+#ifndef HX_WII ; also wii
 #define INIT_DTA_READER
 (
    {set $dxsettings {read_file #ifdef HX_XBOX "GAME:/dx.dta" #endif #ifdef HX_PS3 "GD:/dev_hdd0/game/BLUS30147/USRDIR/dx.dta" #endif}}
@@ -408,6 +414,14 @@
             {modifier_mgr activate_modifier mod_flashbang}
          }
       }
+      #ifdef HX_PS3
+      {if {== {elem $entry 0} {basename mod_novsync}}
+         {if {== {elem {find $entry mod_novsync} 1} 1}
+            {modifier_mgr activate_modifier mod_novsync}
+            {rnd set_sync 0}
+         }
+      }
+      #endif
       {if {== {elem $entry 0} {basename debug_mode}}
          {set $debug_mode
             {elem {find $entry debug_mode} 1}
@@ -423,6 +437,7 @@
 )
 ;{unless {file_exists dx.dta} INIT_DTA_WRITER}
 INIT_DTA_READER
+#endif
 #endif
 DX_TEXTURE_CORRECTOR
 DX_DO_CUSTOM_TEXTURE_HANDLER

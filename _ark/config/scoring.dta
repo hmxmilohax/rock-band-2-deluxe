@@ -134,6 +134,11 @@
    (tambourine_crowd_failure 0.0 0.0 0.0 0.0)
    (tambourine_energy_rise_threshold 6.0e-2)
    (tambourine_energy_drop_threshold 2.0e-2)
+   #ifdef HX_WII
+   (tambourine_acceleration_minimum 180)
+   (tambourine_acceleration_rise_threshold 60)
+   (tambourine_acceleration_drop_threshold 20)
+   #endif
    (tambourine_window_ticks 120)
    (tambourine_ms_offset 24)
    (tambourine_ms_offset_usb 24))
@@ -147,7 +152,7 @@
          (80 20 solid_solo)
          (90 30 great_solo)
          (95 50 awesome_solo)
-         (99 50 choke_solo)
+         (98 50 choke_solo)
          (100 100 perfect_solo))
       (reward 1.0)
       (penalty 1.0))
@@ -382,3 +387,7 @@
    #include star_thresholds.dta
    (symbols
       ('*' '**' '***' '****' '*****' '66666' '66666')))
+#ifdef HX_WII
+(endgame_wii
+   (swing_delay 250.0))
+#endif

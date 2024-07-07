@@ -66,9 +66,9 @@
                {if
                   {exists artist.lbl}
 				  {if_else {modifier_mgr is_modifier_active mod_fakejuke}
-				    {artist.lbl set_localized {sprint $artist_text ", " $year_text "\n" $album_text}}
+				    {artist.lbl set_localized {sprint $artist_text #ifndef HX_WII ", " $year_text "\n" $album_text #endif}}
 				  {if_else {modifier_mgr is_modifier_active mod_auto_play}
-				    {artist.lbl set_localized {sprint $artist_text "\nAUTOPLAY " "\nAuthor: " $author_text}}
+				    {artist.lbl set_localized {sprint $artist_text "\nAUTOPLAY " #ifndef HX_WII "\nAuthor: " $author_text #endif}}
 				  {if_else {modifier_mgr is_modifier_active mod_songtitlestats}
 				    {artist.lbl set_localized {sprint $artist_text ", " $year_text "\n" $album_text ", Track " $album_track_number_text "\nAuthor: " $author_text}}
                     {artist.lbl set_localized $artist_text}}}}}

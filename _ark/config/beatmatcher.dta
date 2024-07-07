@@ -15,7 +15,7 @@
          ($world halfbeat)})
    (beat
    DX_COUNTDOWN_TRACKER
-   {unless {> {gamecfg get practice_speed} 0} {if {is_leader_local} {session send_msg_to_all {` (beatmatch set_music_speed {, $speedmod}) kNetReliable}}}}
+   {unless {> {gamecfg get practice_speed} 0} {if {is_leader_local} {session send_msg_to_all {` (beatmatch set_music_speed {, $speedmod}) kNetReliable} kNetReliable}}}
    {unless {> {gamecfg get practice_speed} 0} {beatmatch set_music_speed $speedmod}}
       {if_else
          $world
@@ -165,6 +165,62 @@
             (0 2 3)
             (0 2 3)))
       #else
+      #ifdef HX_WII
+      (drums2
+         ((0)
+            (1)
+            (2 3)
+            (2 3)
+            (2 3)))
+      (drums2easy
+         ((0)
+            (1 2 3)
+            (1 2 3)
+            (1 2 3)
+            (1 2 3)))
+      (drums2easynokick
+         ((0)
+            (1 2 3)
+            (0 1 2 3)
+            (0 1 2 3)
+            (0 1 2 3)))
+      (drums2easysnareonly
+         ((0)
+            (0 1 2 3)
+            (0 2 3)
+            (0 2 3)
+            (0 2 3)))
+      (drums2d
+         ((0)
+            (2 3)
+            (1)
+            (2 3)
+            (2 3)))
+      (drums3
+         ((0)
+            (1)
+            (2 3)
+            (2 3)
+            (2 3)))
+      (drums3d
+         ((0)
+            (2 3)
+            (1)
+            (2 3)
+            (2 3)))
+      (drums3easy
+         ((0)
+            (1 2 3)
+            (1 2 3)
+            (1 2 3)
+            (1 2 3)))
+      (drums3easynokick
+         ((0)
+            (1 2 3)
+            (0 1 2 3)
+            (0 1 2 3)
+            (0 1 2 3)))
+      #else
       (drums2
          ((0)
             (1 2)
@@ -219,6 +275,7 @@
             (0 1 4 5)
             (0 1 4 5)
             (0 1 4 5)))
+      #endif
       #endif
       (drums4
          ((0)

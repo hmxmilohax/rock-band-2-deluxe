@@ -1,0 +1,113 @@
+#ifndef HX_OG
+{new
+   UIPanel
+   options_console_panel
+   #ifdef HX_PS3
+   (file
+      "options_console_ps3.milo")
+   #else
+   (file
+      "options_console.milo")
+   #endif
+   (focus doubly.btn)
+   (enter
+      {memcardmgr
+         add_sink
+         $this
+         (save_load_all_complete_msg)}
+      {$this update_all})
+   (exit
+      {memcardmgr remove_sink $this save_load_all_complete_msg})
+   (save_load_all_complete_msg
+      {$this update_all})
+   (TRANSITION_COMPLETE_MSG
+      {$this
+         update_helpbar
+         {$this focus_name}})
+   (FOCUS_MSG
+      {$this update_helpbar $new_focus})
+   (update_helpbar
+      ($new_focus)
+      {switch
+         $new_focus
+         ((doubly.btn
+               bass_boost.btn
+               overscan.btn
+               #ifdef HX_PS3
+               mono.btn
+               #endif)
+            {helpbar
+               set_config
+               ((cancel helpbar_back)
+                  (confirm helpbar_toggleoption))})
+         (adjust_audio.btn
+            {helpbar
+               set_config
+               ((cancel helpbar_back)
+                  (confirm helpbar_select))})
+         FAIL})
+   (SELECT_MSG
+      {switch
+         $component
+         (doubly.btn
+            {profile_mgr
+               set_dolby
+               {!
+                  {profile_mgr get_dolby}}}
+            {$this update_from_profile doubly_check.mesh})
+         (bass_boost.btn
+            {profile_mgr
+               set_bass_boost
+               {!
+                  {profile_mgr get_bass_boost}}}
+            {$this update_from_profile bass_check.mesh})
+         (overscan.btn
+            {profile_mgr
+               set_overscan
+               {!
+                  {profile_mgr get_overscan}}}
+            {$this update_from_profile overscan_check.mesh})
+         (adjust_audio.btn
+            {ui goto_screen options_audio_screen})
+         #ifdef HX_PS3
+         (mono.btn
+            {do
+               {profile_mgr
+                  set_mono
+                  {!
+                     {profile_mgr get_mono}}}
+               {$this update_from_profile mono_check.mesh}})
+         #endif})
+   (update_all
+      {$this update_from_profile overscan_check.mesh}
+      {$this update_from_profile bass_check.mesh}
+      {$this update_from_profile doubly_check.mesh}
+      #ifdef HX_PS3
+      {$this update_from_profile mono_check.mesh}
+      #endif)
+   (update_from_profile
+      ($check)
+      {$check
+         set_showing
+         {switch
+            $check
+            (bass_check.mesh
+               {profile_mgr get_bass_boost})
+            (doubly_check.mesh
+               {profile_mgr get_dolby})
+            (overscan_check.mesh
+               {profile_mgr get_overscan})
+            #ifdef HX_PS3
+            (mono_check.mesh
+               {profile_mgr get_mono})
+            #endif}})}
+{new
+   BandScreen
+   options_console_screen
+   (panels meta movie_panel options_background_panel options_console_panel)
+   (focus options_console_panel)
+   (back options_screen)
+   (helpbar
+      ((cancel helpbar_cancel)
+         (confirm helpbar_confirmsetting)))}
+#endif
