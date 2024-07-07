@@ -139,6 +139,7 @@
             [alpha_threshold]}})
    (enter
    {set $splashed 0}
+      {profile_mgr set_overscan TRUE}
    ;ANIMATED_LOGO_ENTER
       {set
          [alpha_threshold_fading]
