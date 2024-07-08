@@ -1,43 +1,104 @@
 (features modifier_saving_feature modifier_achievements_feature modifier_online_feature)
 (modifiers
-   (mod_nofail unlocked)
-   (mod_doublespeed #ifdef HX_EE 
+   (mod_nofail 
+      unlocked)
+   (mod_doublespeed
+      #ifdef HX_EE 
       (activate
          {profile_mgr set_doublespeed_mode TRUE})
       (deactivate
          {profile_mgr set_doublespeed_mode FALSE})
-      #endif unlocked)
+      #endif
+      unlocked)
    #ifndef HX_EE
-   (mod_choose_venue (disables (modifier_online_feature)) (activate {modifier_mgr deactivate_modifier mod_blackvenue}) unlocked)
+   (mod_choose_venue
+      (disables (modifier_online_feature))
+      (activate {modifier_mgr deactivate_modifier mod_blackvenue})
+      unlocked)
    #endif
-   (mod_nohud (activate {modifier_mgr deactivate_modifier mod_blackvenue}) (deactivate {modifier_mgr deactivate_modifier mod_fakejuke}) unlocked)
-   (mod_unlockall (disables (modifier_saving_feature modifier_achievements_feature)) (activate {profile_mgr unlock_all_songs}) (deactivate {profile_mgr relock_songs}) unlocked)
+   (mod_nohud
+      (activate {modifier_mgr deactivate_modifier mod_blackvenue})
+      (deactivate {modifier_mgr deactivate_modifier mod_fakejuke})
+      unlocked)
+   (mod_unlockall
+      (disables (modifier_saving_feature modifier_achievements_feature))
+      (activate {profile_mgr unlock_all_songs})
+      (deactivate {profile_mgr relock_songs})
+      unlocked)
    #ifndef HX_EE
-   (mod_newvenuesonly unlocked)
-   (mod_demomode (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature)) unlocked)
+   (mod_newvenuesonly
+      unlocked)
+   (mod_demomode
+      (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature))
+      unlocked)
    #endif
-   (mod_awesome unlocked)
-   (mod_blackvenue (activate {set $blackvenue TRUE} {modifier_mgr deactivate_modifier mod_nohud} #ifndef HX_EE {modifier_mgr deactivate_modifier mod_choose_venue} #endif {set $crowdsfx FALSE}) (deactivate {set $blackvenue FALSE} {set $crowdsfx TRUE}) unlocked)
-   (mod_songtitle unlocked)
+   (mod_awesome
+      unlocked)
+   (mod_blackvenue
+      (activate {set $blackvenue TRUE} {modifier_mgr deactivate_modifier mod_nohud} #ifndef HX_EE {modifier_mgr deactivate_modifier mod_choose_venue} #endif {set $crowdsfx FALSE})
+      (deactivate {set $blackvenue FALSE} {set $crowdsfx TRUE})
+      unlocked)
+   (mod_songtitle
+      unlocked)
    #ifndef MHX_OG
-   (mod_songtitlestats unlocked)
+   (mod_songtitlestats
+      unlocked)
    #endif
-   (mod_staticfills (activate {modifier_mgr deactivate_modifier mod_freestyledrums}) unlocked)
-   (mod_freestyledrums (activate {modifier_mgr deactivate_modifier mod_staticfills}) (disables (modifier_achievements_feature modifier_online_feature)) unlocked)
-   (mod_mididrum unlocked)
-   (mod_padguitar (activate {modifier_mgr deactivate_modifier mod_paddrum}) unlocked) ;updated padguitar to disable paddrum
-   (mod_paddrum (activate {modifier_mgr deactivate_modifier mod_padguitar}) unlocked) ;paddrum disables padguitar
-   ;(mod_selectdeploy unlocked) ;select button to activate OD for drums and vox (look into fixing later)
-   (mod_noquickrestart unlocked)
-   ;(mod_forceguitar unlocked) ;commented out for 1.04, will probably explore further later
+   (mod_staticfills
+      (activate {modifier_mgr deactivate_modifier mod_freestyledrums})
+      unlocked)
+   (mod_freestyledrums
+      (activate {modifier_mgr deactivate_modifier mod_staticfills})
+      (disables (modifier_achievements_feature modifier_online_feature))
+      unlocked)
+   (mod_mididrum
+      unlocked)
+   (mod_padguitar
+      (activate {modifier_mgr deactivate_modifier mod_paddrum})
+      unlocked) ;updated padguitar to disable paddrum
+   (mod_paddrum
+      (activate {modifier_mgr deactivate_modifier mod_padguitar}) ;paddrum disables padguitar
+      unlocked)
+   ;(mod_selectdeploy  ;select button to activate OD for drums and vox (look into fixing later)
+   ;   unlocked)
+   (mod_noquickrestart
+      unlocked)
+   ;(mod_forceguitar ;commented out for 1.04, will probably explore further later
+   ;   unlocked)
    #ifndef HX_EE 
-   (mod_vocalgender unlocked)
-   (mod_noflames (activate {modifier_mgr deactivate_modifier mod_flashbang}) unlocked) ; maybe rework this to use textures? -LX
-   (mod_flashbang (activate {modifier_mgr deactivate_modifier mod_noflames}) unlocked)
+   (mod_vocalgender
+      unlocked)
+   (mod_noflames
+      (activate {modifier_mgr deactivate_modifier mod_flashbang})
+      unlocked) ; maybe rework this to use textures? -LX
+   (mod_flashbang
+      (activate {modifier_mgr deactivate_modifier mod_noflames})
+      unlocked)
    #endif
+   ;(mod_precision
+   ;   (activate {modifier_mgr deactivate_modifier mod_calibration} {modifier_mgr deactivate_modifier mod_chmode} {if $iamingamenow {modifier_mgr deactivate_modifier mod_precision}})
+   ;   unlocked)
+   (mod_calibration
+      (activate {modifier_mgr deactivate_modifier mod_precision} {modifier_mgr deactivate_modifier mod_chmode} {if $iamingamenow {modifier_mgr deactivate_modifier mod_calibration}})
+      unlocked)
+   ;(mod_chmode
+   ;   (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature))
+   ;   (activate {modifier_mgr deactivate_modifier mod_precision} {modifier_mgr deactivate_modifier mod_calibration} {if $iamingamenow {modifier_mgr deactivate_modifier mod_chmode}})
+   ;   unlocked)
    #ifdef HX_PS3
-   (mod_novsync (activate {rnd set_sync 0}) (deactivate {rnd set_sync 1}) unlocked)
+   (mod_novsync
+      (activate {rnd set_sync 0})
+      (deactivate {rnd set_sync 1})
+      unlocked)
    #endif
-   (mod_auto_play (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature)) (deactivate {modifier_mgr deactivate_modifier mod_fakejuke}) (activate {modifier_mgr deactivate_modifier mod_staticfills}) unlocked)
-   (mod_fakejuke (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature)) (activate {modifier_mgr activate_modifier mod_auto_play} {modifier_mgr activate_modifier mod_nohud} {modifier_mgr activate_modifier mod_choose_venue} {modifier_mgr activate_modifier mod_vocalgender}) (deactivate {modifier_mgr deactivate_modifier mod_auto_play} {modifier_mgr deactivate_modifier mod_choose_venue} {modifier_mgr deactivate_modifier mod_vocalgender} {modifier_mgr deactivate_modifier mod_nohud}) unlocked)
-   )
+   (mod_auto_play
+      (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature))
+      (deactivate {modifier_mgr deactivate_modifier mod_fakejuke})
+      (activate {modifier_mgr deactivate_modifier mod_staticfills})
+      unlocked)
+   (mod_fakejuke
+      (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature))
+      (activate {modifier_mgr activate_modifier mod_auto_play} {modifier_mgr activate_modifier mod_nohud} {modifier_mgr activate_modifier mod_choose_venue} {modifier_mgr activate_modifier mod_vocalgender})
+      (deactivate {modifier_mgr deactivate_modifier mod_auto_play} {modifier_mgr deactivate_modifier mod_choose_venue} {modifier_mgr deactivate_modifier mod_vocalgender} {modifier_mgr deactivate_modifier mod_nohud})
+      unlocked)
+)

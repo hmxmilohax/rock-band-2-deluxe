@@ -1324,6 +1324,24 @@
    "Ooooooooooooh. Ahhhhhhhhhhhh.")
 (mod_flashbang_obtain 
    "(bug, should be available by default)")
+(mod_precision 
+   "Precision Mode")
+(mod_precision_desc 
+   "Shrinks the hit window, forcing you to lock in!")
+(mod_precision_obtain 
+   "(bug, should be available by default)")
+(mod_calibration 
+   "Calibration Mode")
+(mod_calibration_desc 
+   "Drastically shrinks the hit window to assist with calibration")
+(mod_calibration_obtain 
+   "(bug, should be available by default)")
+(mod_chmode 
+   "Drunk Mode")
+(mod_chmode_desc 
+   "Drastically increases the hit window, just for funsies")
+(mod_chmode_obtain 
+   "(bug, should be available by default)")
 (mod_novsync
    "Disable Vsync")
 (mod_novsync_desc
