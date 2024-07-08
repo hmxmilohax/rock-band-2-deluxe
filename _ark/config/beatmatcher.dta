@@ -39,10 +39,19 @@
          ($world start)}))
 (watcher
    (can_switch_tracks FALSE)
-   (slop 
-      {if_else {<= $speedmod 1.0}
-         100
-         {* 100 $speedmod}
+   (slop
+      {if_else {modifier_mgr is_modifier_active mod_precision}
+         50 ;precision mode, gh3/ch style
+         {if_else {modifier_mgr is_modifier_active mod_calibration}
+         15 ;really strict window, great for calibrating
+            {if_else {modifier_mgr is_modifier_active mod_chmode}
+            750 ;whale pussy mode
+               {if_else {<= $speedmod 1.0}
+                  100 ;if 100% or less, use stock 100ms window (which is proportional)
+                  {* 100 $speedmod} ;if speedup, compensate for song speed in the note window
+               }
+            }
+         }
       }
    )
    (cheat_error 0)
