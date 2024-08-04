@@ -314,8 +314,7 @@
     (exit)
     (SELECT_MSG
     {set $sustains {$component selected_sym}}
-    {ui goto_screen overshell_tex_screen}
-    {ui pop_screen}
+    {os_back_screen overshell_tex}
     )
     (update_helpbar
             {helpbar
