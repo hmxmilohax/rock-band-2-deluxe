@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python 3.9
         uses: actions/setup-python@v4
         with:
@@ -38,7 +38,7 @@ jobs:
           find . -name "*.zbm" -type f -delete
       
       - name: Upload result
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: RB2DX-Xbox
           path: _build/xbox
@@ -47,7 +47,7 @@ jobs:
     runs-on: windows-2019
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python 3.9
         uses: actions/setup-python@v4
         with:
@@ -89,11 +89,11 @@ jobs:
 
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           lfs: 'true'
       - name: checkoutLFS
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - run: git lfs pull
       - name: Set up Python 3.9
         uses: actions/setup-python@v4
@@ -134,7 +134,7 @@ jobs:
           find . -name "*.zbm" -type f -delete
       
       - name: Upload result
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: RB2DXCE-PS2
           path: _build/ps2
@@ -143,7 +143,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python 3.9
         uses: actions/setup-python@v4
         with:
@@ -195,7 +195,7 @@ jobs:
           rm -rf ./_ark
       
       - name: Upload result
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: RB2DX-PS2
           path: _build/ps2
@@ -204,7 +204,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python 3.9
         uses: actions/setup-python@v4
         with:
@@ -239,9 +239,12 @@ jobs:
       - name: Build ARK
         run: |
           dependencies/linux/arkhelper patchcreator -a ./_ark -o ./_build/wii_riivolution/rb2dx _build/wii_riivolution/rb2dx/main_wii.hdr _build/wii/DATA/sys/main.dol
+      - name: Move generated Wii files to proper folder
+        run: |
           mv -f _build/wii_riivolution/rb2dx/gen/main_wii.hdr _build/wii_riivolution/rb2dx/main_wii.hdr
           mv -f _build/wii_riivolution/rb2dx/gen/main_wii_2.ark _build/wii_riivolution/rb2dx/main_wii_2.ark
           rmdir _build/wii_riivolution/rb2dx/gen
+          rm _build/wii_riivolution/rb2dx/main.dol
           rm _build/wii_riivolution/rb2dx/main_wii_0.ark
           rm _build/wii_riivolution/rb2dx/main_wii_1.ark
       - name: Remove Excess files
@@ -250,7 +253,7 @@ jobs:
           find . -name "*.zbm" -type f -delete
       
       - name: Upload result
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: RB2DX-Wii-Riivolution
           path: _build/wii_riivolution
