@@ -242,8 +242,8 @@ jobs:
           mv -f _build/wii_riivolution/rb2dx/gen/main_wii.hdr _build/wii_riivolution/rb2dx/main_wii.hdr
           mv -f _build/wii_riivolution/rb2dx/gen/main_wii_2.ark _build/wii_riivolution/rb2dx/main_wii_2.ark
           rmdir _build/wii_riivolution/rb2dx/gen
-          del _build/wii_riivolution/rb2dx/main_wii_0.ark
-          del _build/wii_riivolution/rb2dx/main_wii_1.ark
+          rm _build/wii_riivolution/rb2dx/main_wii_0.ark
+          rm _build/wii_riivolution/rb2dx/main_wii_1.ark
       - name: Remove Excess files
         run: |
           find . -name "*.txt" -type f -delete
