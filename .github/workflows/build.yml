@@ -238,7 +238,7 @@ jobs:
           rsync -a ./_wii_files/* ./_ark
       - name: Build ARK
         run: |
-          dependencies/linux/arkhelper patchcreator -a ./_ark -o ./_build/wii_riivolution/rb2dx _build/wii_riivolution/rb2dx/main_wii.hdr
+          dependencies/linux/arkhelper patchcreator -a ./_ark -o ./_build/wii_riivolution/rb2dx _build/wii_riivolution/rb2dx/main_wii.hdr _build/wii/DATA/sys/main.dol
           mv -f _build/wii_riivolution/rb2dx/gen/main_wii.hdr _build/wii_riivolution/rb2dx/main_wii.hdr
           mv -f _build/wii_riivolution/rb2dx/gen/main_wii_2.ark _build/wii_riivolution/rb2dx/main_wii_2.ark
           rmdir _build/wii_riivolution/rb2dx/gen
