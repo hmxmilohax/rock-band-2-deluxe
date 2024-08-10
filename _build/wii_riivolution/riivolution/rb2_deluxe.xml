@@ -1,0 +1,18 @@
+<wiidisc version="1">
+    <id game="SZAE" />
+    <options>
+        <section name="Rock Band 2 Deluxe">
+            <option name="Enable Rock Band 2 Deluxe">
+                <choice name="Enabled" default="1">
+                    <patch id="rb2dx" />
+                </choice>
+            </option>
+        </section>
+    </options>
+    <patch id="rb2dx">
+        <file disc="/gen/main_wii.hdr" external="/rb2dx/main_wii.hdr" create="true"></file>
+        <file disc="/gen/main_wii_2.ark" external="/rb2dx/main_wii_2.ark" create="true"></file>
+        <memory offset="0x8051A5B8" value="60000000" original="4BFFFF71" />
+        <memory offset="0x8051A648" value="60000000" original="4BFFFEE1" />
+    </patch>
+</wiidisc>
