@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python 3.9
         uses: actions/setup-python@v4
         with:
@@ -38,7 +38,7 @@ jobs:
           find . -name "*.zbm" -type f -delete
       
       - name: Upload result
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: RB2DX-Xbox
           path: _build/xbox
@@ -47,7 +47,7 @@ jobs:
     runs-on: windows-2019
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python 3.9
         uses: actions/setup-python@v4
         with:
@@ -79,7 +79,7 @@ jobs:
           dependencies/ta_pkg_repacker_tools/make_package_npdrm_retail.exe --k-licensee 0x00000000000000000000000000000000 --drm-type Local --package-version $packageversion --content-type GameData --content-id ($content + $sha_short) dependencies/ta_pkg_repacker_tools/package.conf _build/ps3
 
       - name: Upload result
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: RB2DX-PS3
           path: '*.pkg'
@@ -89,11 +89,11 @@ jobs:
 
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           lfs: 'true'
       - name: checkoutLFS
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - run: git lfs pull
       - name: Set up Python 3.9
         uses: actions/setup-python@v4
@@ -134,7 +134,7 @@ jobs:
           find . -name "*.zbm" -type f -delete
       
       - name: Upload result
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: RB2DXCE-PS2
           path: _build/ps2
@@ -143,7 +143,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python 3.9
         uses: actions/setup-python@v4
         with:
@@ -195,7 +195,7 @@ jobs:
           rm -rf ./_ark
       
       - name: Upload result
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: RB2DX-PS2
           path: _build/ps2
