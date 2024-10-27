@@ -77,21 +77,41 @@
       (browser_group
          ($offer)
          {$offer genre}))
-;   (by_decade
-;      (cmp_song_to_song
-;         ($lhs $rhs)
-;         {$this
-;            cmp
-;            $lhs
-;            $rhs
-;            (kSTDecade)
-;            (kSTArtist)
-;            (kSTName)})
-;      (browser_group
-;         ($offer)
-;         {sprint
-;            {$offer decade}})
-;      (sub by_artist))
+  (by_decade
+     (cmp_song_to_song
+        ($lhs $rhs)
+        {if_else
+            {$lhs has_data decade}
+            {if_else
+               {$rhs has_data decade}
+               {$this
+                  cmp
+                  $lhs
+                  $rhs
+                  (kSTDecade)
+                  (kSTArtist)
+                  (kSTName)}
+               -1}
+            {if_else
+               {$rhs has_data decade}
+               1
+               {$this
+                  cmp
+                  $lhs
+                  $rhs
+                  (kSTDecade)
+                  (kSTArtist)
+                  (kSTName)}}
+        }
+   )
+     (browser_group
+        ($offer)
+        {if_else {$offer has_data decade}
+           {sprint {$offer decade}}
+           "Unknown"
+        }
+      )
+     (sub by_artist))
    (by_origin
       (cmp_song_to_song
          ($lhs $rhs)
@@ -131,4 +151,5 @@
                {sprintf
                   {localize song_select_stars}
                   $stars}}}))
-#endif)
+#endif
+)
