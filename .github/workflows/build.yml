@@ -179,6 +179,9 @@ jobs:
           rm -rf ./_ark/songs/kidsinamerica
           rm -rf ./_ark/songs/mountainsong
           rm -rf ./_ark/songs/shacklersrevenge
+          rm -rf ./_ark/songs/songs.dta
+          rm -rf ./_ark/songs/songs_customs.dta
+          mv ./_ark/songs/songs_full.dta ./_ark/songs/songs.dta
       - name: Download/Copy RB2 Songs
         run: |
           chmod +x dependencies/linux/gdrive
