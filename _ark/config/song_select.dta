@@ -77,41 +77,46 @@
       (browser_group
          ($offer)
          {$offer genre}))
-  (by_decade
-     (cmp_song_to_song
-        ($lhs $rhs)
-        {if_else
-            {$lhs has_data decade}
-            {if_else
-               {$rhs has_data decade}
-               {$this
-                  cmp
-                  $lhs
-                  $rhs
-                  (kSTDecade)
-                  (kSTArtist)
-                  (kSTName)}
-               -1}
-            {if_else
-               {$rhs has_data decade}
-               1
-               {$this
-                  cmp
-                  $lhs
-                  $rhs
-                  (kSTDecade)
-                  (kSTArtist)
-                  (kSTName)}}
-        }
-   )
-     (browser_group
-        ($offer)
-        {if_else {$offer has_data decade}
-           {sprint {$offer decade}}
-           "Unknown"
-        }
+   (by_decade
+      (cmp_song_to_song
+         ($lhs $rhs)
+         {if_else {&& {$lhs has_data decade} {$rhs has_data decade}}
+            {$this
+               cmp
+               $lhs
+               $rhs
+               (kSTDecade)
+               (kSTArtist)
+               (kSTName)
+            }
+            {do
+               {if_else {&& {$lhs has_data decade} {! {$rhs has_data decade}}}
+                  -1
+                  {if_else {&& {! {$lhs has_data decade}} {$rhs has_data decade}}
+                     1
+                     {if {&& {! {$lhs has_data decade}} {! {$rhs has_data decade}}}
+                        {$this
+                           cmp
+                           $lhs
+                           $rhs
+                           (kSTArtist)
+                           (kSTName)
+                        }
+                     }
+                  }
+               }
+            }
+         }
       )
-     (sub by_artist))
+      (browser_group
+         ($offer)
+         {if_else {$offer has_data decade}
+            {sprint {$offer decade}}
+            "Unknown"
+         }
+      )
+      (sub by_artist)
+   )
    (by_origin
       (cmp_song_to_song
          ($lhs $rhs)
