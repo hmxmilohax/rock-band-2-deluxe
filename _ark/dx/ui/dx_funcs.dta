@@ -49,29 +49,19 @@
 }
 
 ; rewritten compare function for sorting by source
-{func dx_icon_already_compared ($lhs $rhs $icon_compared)
+{func dx_icon_already_compared ($lhs $rhs $icon $icon_compared)
    {cond
-      ({&& {! {== {$lhs get_icon} $icon_compared}} {! {== {$rhs get_icon} $icon_compared}}} ; ignore
-         ; {$this
-         ;    cmp
-         ;    $lhs
-         ;    $rhs
-         ;    (kSTName)
-         ; }
+      ({&& {== {$lhs get_icon} $icon} {! {== {$rhs get_icon} $icon}}}
+         {if_else {== {$rhs get_icon} $icon_compared}
+            1
+            -1 ; bring what we already sorted to the top (left side)
+         }
       )
-      ({&& {== {$lhs get_icon} $icon_compared} {! {== {$rhs get_icon} $icon_compared}}}
-         -1 ; bring what we already sorted to the top (left side)
-      )
-      ({&& {! {== {$lhs get_icon} $icon_compared}} {== {$rhs get_icon} $icon_compared}}
-         1 ; bring what we already sorted to the top (right side)
-      )
-      ({&& {== {$lhs get_icon} $icon_compared} {== {$rhs get_icon} $icon_compared}} ; ignore
-         ; {$this
-         ;    cmp
-         ;    $lhs
-         ;    $rhs
-         ;    (kSTName)
-         ; }
+      ({&& {! {== {$lhs get_icon} $icon}} {== {$rhs get_icon} $icon}}
+         {if_else {== {$lhs get_icon} $icon_compared}
+            -1
+            1 ; bring what we already sorted to the top (right side)
+         }
       )
    }
 }
@@ -79,7 +69,7 @@
 
 {func dx_icon_compare ($lhs $rhs $icon $already_compared)
    {foreach $icon_compared $already_compared
-      {dx_icon_already_compared $lhs $rhs $icon_compared} ;ordering fix
+      {dx_icon_already_compared $lhs $rhs $icon $icon_compared} ;ordering fix
    }
    {cond
       ({&& {! {== {$lhs get_icon} $icon}} {! {== {$rhs get_icon} $icon}}} ; ignore

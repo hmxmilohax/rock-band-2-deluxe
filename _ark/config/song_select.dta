@@ -124,8 +124,76 @@
          ;    $rhs
          ;    (kSTOrigin)
          ;    (kSTName)}
-         {dx_icon_compare $lhs $rhs rb2_icon ()}
-         {dx_icon_compare $lhs $rhs rb1_icon (rb2_icon)}
+         {cond
+            ({&& {== {$lhs get_icon} rb2_icon} {! {== {$rhs get_icon} rb2_icon}}}
+               -1 ; bring what we already sorted to the top (left side)
+            )
+            ({&& {! {== {$lhs get_icon} rb2_icon}} {== {$rhs get_icon} rb2_icon}}
+               1 ; bring what we already sorted to the top (right side)
+            )
+            ({&& {== {$lhs get_icon} rb1_icon} {! {== {$rhs get_icon} rb1_icon}}}
+               {if_else {== {$rhs get_icon} rb2_icon}
+                  1
+                  -1 ; bring what we already sorted to the top (left side)
+               }
+            )
+            ({&& {! {== {$lhs get_icon} rb1_icon}} {== {$rhs get_icon} rb1_icon}}
+               {if_else {== {$lhs get_icon} rb2_icon}
+                  -1
+                  1 ; bring what we already sorted to the top (right side)
+               }
+            )
+            ({&& {== {$lhs get_icon} ugc_icon} {! {== {$rhs get_icon} ugc_icon}}}
+               {if_else {== {$rhs get_icon} rb2_icon}
+                  1
+                  {if_else {== {$rhs get_icon} rb1_icon}
+                     1
+                     -1 ; bring what we already sorted to the top (left side)
+                  }
+               }
+            )
+            ({&& {! {== {$lhs get_icon} ugc_icon}} {== {$rhs get_icon} ugc_icon}}
+               {if_else {== {$lhs get_icon} rb2_icon}
+                  -1
+                  {if_else {== {$lhs get_icon} rb1_icon}
+                    -1
+                     1 ; bring what we already sorted to the top (right side)
+                  }
+               }
+            )
+            ({&& {== {$lhs get_icon} rb2_icon} {== {$rhs get_icon} rb2_icon}} ; ignore
+               {$this
+                  cmp
+                  $lhs
+                  $rhs
+                  (kSTName)
+               }
+            )
+            ({&& {== {$lhs get_icon} rb1_icon} {== {$rhs get_icon} rb1_icon}} ; ignore
+               {$this
+                  cmp
+                  $lhs
+                  $rhs
+                  (kSTName)
+               }
+            )
+            ({&& {== {$lhs get_icon} ugc_icon} {== {$rhs get_icon} ugc_icon}} ; ignore
+               {$this
+                  cmp
+                  $lhs
+                  $rhs
+                  (kSTName)
+               }
+            )
+            ({&& {! {== {$lhs get_icon} rb2_icon}} {! {== {$rhs get_icon} rb2_icon}} {! {== {$lhs get_icon} rb1_icon}} {! {== {$rhs get_icon} rb1_icon}} {! {== {$lhs get_icon} ugc_icon}} {! {== {$rhs get_icon} ugc_icon}}}
+               {$this
+                  cmp
+                  $lhs
+                  $rhs
+                  (kSTName)
+               }
+            )
+         }
          ;{dx_icon_compare $lhs $rhs downloaded}
          ;{dx_icon_compare $lhs $rhs ugc_icon}
       )
@@ -135,7 +203,10 @@
             {sprint {$offer get_icon}}
             {if_else {== {$offer get_icon} rb1_icon}
                {sprint {$offer get_icon}}
-               downloaded
+               {if_else {== {$offer get_icon} ugc_icon}
+                  {sprint {$offer get_icon}}
+                  downloaded
+               }
             }
          }
       )
