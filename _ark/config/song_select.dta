@@ -89,19 +89,17 @@
                (kSTArtist)
                (kSTName)
             }
-            {do
-               {if_else {&& {$lhs has_data decade} {! {$rhs has_data decade}}}
-                  -1
-                  {if_else {&& {! {$lhs has_data decade}} {$rhs has_data decade}}
-                     1
-                     {if {&& {! {$lhs has_data decade}} {! {$rhs has_data decade}}}
-                        {$this
-                           cmp
-                           $lhs
-                           $rhs
-                           (kSTArtist)
-                           (kSTName)
-                        }
+            {if_else {&& {$lhs has_data decade} {! {$rhs has_data decade}}}
+               -1
+               {if_else {&& {! {$lhs has_data decade}} {$rhs has_data decade}}
+                  1
+                  {if {&& {! {$lhs has_data decade}} {! {$rhs has_data decade}}}
+                     {$this
+                        cmp
+                        $lhs
+                        $rhs
+                        (kSTArtist)
+                        (kSTName)
                      }
                   }
                }
@@ -120,16 +118,28 @@
    (by_origin
       (cmp_song_to_song
          ($lhs $rhs)
-         {$this
-            cmp
-            $lhs
-            $rhs
-            (kSTOrigin)
-            (kSTName)})
+         ; {$this
+         ;    cmp
+         ;    $lhs
+         ;    $rhs
+         ;    (kSTOrigin)
+         ;    (kSTName)}
+         {dx_icon_compare $lhs $rhs rb2_icon ()}
+         {dx_icon_compare $lhs $rhs rb1_icon (rb2_icon)}
+         ;{dx_icon_compare $lhs $rhs downloaded}
+         ;{dx_icon_compare $lhs $rhs ugc_icon}
+      )
       (browser_group
          ($offer)
-         {sprint
-            {$offer get_icon}}))
+         {if_else {== {$offer get_icon} rb2_icon}
+            {sprint {$offer get_icon}}
+            {if_else {== {$offer get_icon} rb1_icon}
+               {sprint {$offer get_icon}}
+               downloaded
+            }
+         }
+      )
+   )
 #ifndef HX_WII
    (by_stars
       (cmp_song_to_song

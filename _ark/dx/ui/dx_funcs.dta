@@ -47,3 +47,62 @@
       )
    }
 }
+
+; rewritten compare function for sorting by source
+{func dx_icon_already_compared ($lhs $rhs $icon_compared)
+   {cond
+      ({&& {! {== {$lhs get_icon} $icon_compared}} {! {== {$rhs get_icon} $icon_compared}}} ; ignore
+         ; {$this
+         ;    cmp
+         ;    $lhs
+         ;    $rhs
+         ;    (kSTName)
+         ; }
+      )
+      ({&& {== {$lhs get_icon} $icon_compared} {! {== {$rhs get_icon} $icon_compared}}}
+         -1 ; bring what we already sorted to the top (left side)
+      )
+      ({&& {! {== {$lhs get_icon} $icon_compared}} {== {$rhs get_icon} $icon_compared}}
+         1 ; bring what we already sorted to the top (right side)
+      )
+      ({&& {== {$lhs get_icon} $icon_compared} {== {$rhs get_icon} $icon_compared}} ; ignore
+         ; {$this
+         ;    cmp
+         ;    $lhs
+         ;    $rhs
+         ;    (kSTName)
+         ; }
+      )
+   }
+}
+
+
+{func dx_icon_compare ($lhs $rhs $icon $already_compared)
+   {foreach $icon_compared $already_compared
+      {dx_icon_already_compared $lhs $rhs $icon_compared} ;ordering fix
+   }
+   {cond
+      ({&& {! {== {$lhs get_icon} $icon}} {! {== {$rhs get_icon} $icon}}} ; ignore
+         ; {$this
+         ;    cmp
+         ;    $lhs
+         ;    $rhs
+         ;    (kSTName)
+         ; }
+      )
+      ({&& {== {$lhs get_icon} $icon} {! {== {$rhs get_icon} $icon}}}
+         -1 ; bring what we want to sort to the top (left side)
+      )
+      ({&& {! {== {$lhs get_icon} $icon}} {== {$rhs get_icon} $icon}}
+         1 ; bring what we want to sort to the top (right side)
+      )
+      ({&& {== {$lhs get_icon} $icon} {== {$rhs get_icon} $icon}} ; sort matches by song game
+         {$this
+            cmp
+            $lhs
+            $rhs
+            (kSTName)
+         }
+      )
+   }
+}
