@@ -125,42 +125,116 @@
          ;    (kSTOrigin)
          ;    (kSTName)}
          {cond
+            ; ({&& {$lhs has_data game_origin} {! {$rhs has_data game_origin}}}
+            ;    {if_else {== {$lhs get_data (game_origin)} rb3}
+            ;       -1 ; bring what we want to sort to the top (left side)
+            ;       0
+            ;    }
+            ; )
+            ; ({&& {! {$lhs has_data game_origin}} {$rhs has_data game_origin}}
+            ;    {if_else {== {$rhs get_data (game_origin)} rb3}
+            ;       1 ; bring what we want to sort to the top (right side)
+            ;       0
+            ;    }
+            ; )
             ({&& {== {$lhs get_icon} rb2_icon} {! {== {$rhs get_icon} rb2_icon}}}
-               -1 ; bring what we already sorted to the top (left side)
+               {if_else {$rhs has_data game_origin}
+                  {if_else {== {$rhs get_data (game_origin)} rb3}
+                  1 ; bring what we already sorted to the top (right side)
+                  -1 ; bring what we want to sort to the top (left side)
+                  }
+                  -1
+               }
             )
             ({&& {! {== {$lhs get_icon} rb2_icon}} {== {$rhs get_icon} rb2_icon}}
-               1 ; bring what we already sorted to the top (right side)
+               {if_else {$lhs has_data game_origin}
+                  {if_else {== {$lhs get_data (game_origin)} rb3}
+                     -1 ; bring what we already sorted to the top (left side)
+                     1 ; bring what we want to sort to the top (right side)
+                  }
+                  1
+               }
             )
             ({&& {== {$lhs get_icon} rb1_icon} {! {== {$rhs get_icon} rb1_icon}}}
-               {if_else {== {$rhs get_icon} rb2_icon}
-                  1
-                  -1 ; bring what we already sorted to the top (left side)
+               {if_else {$rhs has_data game_origin}
+                  {if_else {== {$rhs get_data (game_origin)} rb3}
+                     1 ; bring what we already sorted to the top (right side)
+                     {if_else {== {$rhs get_icon} rb2_icon}
+                        1 ; bring what we already sorted to the top (right side)
+                        -1 ; bring what we want to sort to the top (left side)
+                     }
+                  }
+                  {if_else {== {$rhs get_icon} rb2_icon}
+                     1 ; bring what we already sorted to the top (right side)
+                     -1 ; bring what we want to sort to the top (left side)
+                  }
                }
             )
             ({&& {! {== {$lhs get_icon} rb1_icon}} {== {$rhs get_icon} rb1_icon}}
-               {if_else {== {$lhs get_icon} rb2_icon}
-                  -1
-                  1 ; bring what we already sorted to the top (right side)
+               {if_else {$lhs has_data game_origin}
+                  {if_else {== {$lhs get_data (game_origin)} rb3}
+                     -1 ; bring what we already sorted to the top (left side)
+                     {if_else {== {$lhs get_icon} rb2_icon}
+                        -1 ; bring what we already sorted to the top (left side)
+                        1 ; bring what we want to sort to the top (right side)
+                     }
+                  }
+                  {if_else {== {$lhs get_icon} rb2_icon}
+                     -1 ; bring what we already sorted to the top (left side)
+                     1 ; bring what we want to sort to the top (right side)
+                  }
                }
             )
             ({&& {== {$lhs get_icon} ugc_icon} {! {== {$rhs get_icon} ugc_icon}}}
-               {if_else {== {$rhs get_icon} rb2_icon}
-                  1
-                  {if_else {== {$rhs get_icon} rb1_icon}
-                     1
-                     -1 ; bring what we already sorted to the top (left side)
+               {if_else {$rhs has_data game_origin}
+                  {if_else {== {$rhs get_data (game_origin)} rb3}
+                     1 ; bring what we already sorted to the top (right side)
+                     {if_else {== {$rhs get_icon} rb2_icon}
+                        1 ; bring what we already sorted to the top (right side)
+                        {if_else {== {$rhs get_icon} rb1_icon}
+                           1 ; bring what we already sorted to the top (right side)
+                           -1 ; bring what we want to sort to the top (left side)
+                        }
+                     }
+                  }
+                  {if_else {== {$rhs get_icon} rb2_icon}
+                     1 ; bring what we already sorted to the top (right side)
+                     {if_else {== {$rhs get_icon} rb1_icon}
+                        1 ; bring what we already sorted to the top (right side)
+                        -1 ; bring what we want to sort to the top (left side)
+                     }
                   }
                }
             )
             ({&& {! {== {$lhs get_icon} ugc_icon}} {== {$rhs get_icon} ugc_icon}}
-               {if_else {== {$lhs get_icon} rb2_icon}
-                  -1
-                  {if_else {== {$lhs get_icon} rb1_icon}
-                    -1
-                     1 ; bring what we already sorted to the top (right side)
+               {if_else {$lhs has_data game_origin}
+                  {if_else {== {$lhs get_data (game_origin)} rb3}
+                     -1 ; bring what we already sorted to the top (left side)
+                     {if_else {== {$lhs get_icon} rb2_icon}
+                        -1
+                        {if_else {== {$lhs get_icon} rb1_icon}
+                          -1 ; bring what we already sorted to the top (left side)
+                           1 ; bring what we want to sort to the top (right side)
+                        }
+                     }
+                  }
+                  {if_else {== {$lhs get_icon} rb2_icon}
+                     -1
+                     {if_else {== {$lhs get_icon} rb1_icon}
+                       -1 ; bring what we already sorted to the top (left side)
+                        1 ; bring what we want to sort to the top (right side)
+                     }
                   }
                }
             )
+            ; ({&& {if {$lhs has_data game_origin} {== {$lhs get_data (game_origin)} rb3}} {if {$rhs has_data game_origin} {== {$rhs get_data (game_origin)} rb3}}} ; ignore
+            ;    {$this
+            ;       cmp
+            ;       $lhs
+            ;       $rhs
+            ;       (kSTName)
+            ;    }
+            ; )
             ({&& {== {$lhs get_icon} rb2_icon} {== {$rhs get_icon} rb2_icon}} ; ignore
                {$this
                   cmp
@@ -199,13 +273,28 @@
       )
       (browser_group
          ($offer)
-         {if_else {== {$offer get_icon} rb2_icon}
-            {sprint {$offer get_icon}}
-            {if_else {== {$offer get_icon} rb1_icon}
-               {sprint {$offer get_icon}}
-               {if_else {== {$offer get_icon} ugc_icon}
+         {if_else {$offer has_data game_origin} 
+            {if_else {== {$offer get_data (game_origin)} rb3}
+               rb3
+               {if_else {== {$offer get_icon} rb2_icon}
                   {sprint {$offer get_icon}}
-                  downloaded
+                  {if_else {== {$offer get_icon} rb1_icon}
+                     {sprint {$offer get_icon}}
+                     {if_else {== {$offer get_icon} ugc_icon}
+                        {sprint {$offer get_icon}}
+                        downloaded
+                     }
+                  }
+               }
+            }
+            {if_else {== {$offer get_icon} rb2_icon}
+               {sprint {$offer get_icon}}
+               {if_else {== {$offer get_icon} rb1_icon}
+                  {sprint {$offer get_icon}}
+                  {if_else {== {$offer get_icon} ugc_icon}
+                     {sprint {$offer get_icon}}
+                     downloaded
+                  }
                }
             }
          }
