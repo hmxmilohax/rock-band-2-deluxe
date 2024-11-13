@@ -276,27 +276,9 @@
          {if_else {$offer has_data game_origin} 
             {if_else {== {$offer get_data (game_origin)} rb3}
                rb3
-               {if_else {== {$offer get_icon} rb2_icon}
-                  {sprint {$offer get_icon}}
-                  {if_else {== {$offer get_icon} rb1_icon}
-                     {sprint {$offer get_icon}}
-                     {if_else {== {$offer get_icon} ugc_icon}
-                        {sprint {$offer get_icon}}
-                        downloaded
-                     }
-                  }
-               }
-            }
-            {if_else {== {$offer get_icon} rb2_icon}
                {sprint {$offer get_icon}}
-               {if_else {== {$offer get_icon} rb1_icon}
-                  {sprint {$offer get_icon}}
-                  {if_else {== {$offer get_icon} ugc_icon}
-                     {sprint {$offer get_icon}}
-                     downloaded
-                  }
-               }
             }
+            {sprint {$offer get_icon}}
          }
       )
    )
