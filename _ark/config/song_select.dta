@@ -1,3 +1,30 @@
+#define SORT_BY_ORIGIN
+(
+   {set $testarray {array ({$lhs get_data (game_origin)} {$rhs get_data (game_origin)})}}
+   {sort $testarray} ;sort origin alphabetically
+   {if_else {== {elem $testarray 0} {$lhs get_data (game_origin)}}
+      -1 ; left side is earlier alphabetically
+      1 ; right side is earlier alphabetically
+   }
+)
+#define SORT_BY_LEFT_ORIGIN
+(
+   {set $testarray {array ({$lhs get_data (game_origin)} {$rhs get_icon})}}
+   {sort $testarray} ;sort origin alphabetically
+   {if_else {== {elem $testarray 0} {$lhs get_data (game_origin)}}
+      -1 ; left side is earlier alphabetically
+      1 ; right side is earlier alphabetically
+   }
+)
+#define SORT_BY_RIGHT_ORIGIN
+(
+   {set $testarray {array ({$lhs get_icon} {$rhs get_data (game_origin)})}}
+   {sort $testarray} ;sort origin alphabetically
+   {if_else {== {elem $testarray 0} {$lhs get_icon}}
+      -1 ; left side is earlier alphabetically
+      1 ; right side is earlier alphabetically
+   }
+)
 #define SONG_SELECT_ALPHA_SYMBOLS
 (store_nonalpha_group A B C D E F G H I J K L M N O P Q R S T U V W X Y Z)
 (song_select_gap 30.0)
@@ -89,19 +116,17 @@
                (kSTArtist)
                (kSTName)
             }
-            {do
-               {if_else {&& {$lhs has_data decade} {! {$rhs has_data decade}}}
-                  -1
-                  {if_else {&& {! {$lhs has_data decade}} {$rhs has_data decade}}
-                     1
-                     {if {&& {! {$lhs has_data decade}} {! {$rhs has_data decade}}}
-                        {$this
-                           cmp
-                           $lhs
-                           $rhs
-                           (kSTArtist)
-                           (kSTName)
-                        }
+            {if_else {&& {$lhs has_data decade} {! {$rhs has_data decade}}}
+               -1
+               {if_else {&& {! {$lhs has_data decade}} {$rhs has_data decade}}
+                  1
+                  {if {&& {! {$lhs has_data decade}} {! {$rhs has_data decade}}}
+                     {$this
+                        cmp
+                        $lhs
+                        $rhs
+                        (kSTArtist)
+                        (kSTName)
                      }
                   }
                }
@@ -119,17 +144,104 @@
    )
    (by_origin
       (cmp_song_to_song
-         ($lhs $rhs)
-         {$this
-            cmp
-            $lhs
-            $rhs
-            (kSTOrigin)
-            (kSTName)})
+         ($lhs $rhs $testarray)
+         {cond
+            ({&& {$lhs has_data game_origin} {$rhs has_data game_origin}}
+               {cond
+                  ({&& {! {== {$lhs get_data (game_origin)} rb2}} {! {== {$rhs get_data (game_origin)} rb2}} {! {== {$lhs get_data (game_origin)} {$rhs get_data (game_origin)}}}}
+                     SORT_BY_ORIGIN
+                  )
+                  ({&& {! {== {$lhs get_data (game_origin)} rb2}} {== {$rhs get_data (game_origin)} rb2}}
+                     SORT_BY_LEFT_ORIGIN
+                  )
+                  ({&& {== {$lhs get_data (game_origin)} rb2} {! {== {$rhs get_data (game_origin)} rb2}}}
+                     SORT_BY_RIGHT_ORIGIN
+                  )
+                  ({&& {== {$lhs get_data (game_origin)} rb2} {== {$rhs get_data (game_origin)} rb2}}
+                     {$this
+                        cmp
+                        $lhs
+                        $rhs
+                        (kSTOrigin)
+                        (kSTName)
+                     }
+                  )
+                  ({&& {! {== {$lhs get_data (game_origin)} rb2}} {! {== {$rhs get_data (game_origin)} rb2}} {== {$lhs get_data (game_origin)} {$rhs get_data (game_origin)}}}
+                     ; sort songs in origin alphabetically by title
+                     {$this
+                        cmp
+                        $lhs
+                        $rhs
+                        (kSTName)
+                     }
+                  )
+               }
+            )
+            ({&& {$lhs has_data game_origin} {! {$rhs has_data game_origin}}}
+               {if_else {== {$lhs get_data (game_origin)} rb2}
+                  {do
+                     {$this
+                        cmp
+                        $lhs
+                        $rhs
+                        (kSTOrigin)
+                        (kSTName)
+                     }
+                  }
+                  {do
+                     SORT_BY_LEFT_ORIGIN
+                  }
+               }
+            )
+            ({&& {! {$lhs has_data game_origin}} {$rhs has_data game_origin}}
+               {if_else {== {$rhs get_data (game_origin)} rb2}
+                  {do
+                     {$this
+                        cmp
+                        $lhs
+                        $rhs
+                        (kSTOrigin)
+                        (kSTName)
+                     }
+                  }
+                  {do
+                     SORT_BY_RIGHT_ORIGIN
+                  }
+               }
+            )
+            ({&& {! {$lhs has_data game_origin}} {! {$rhs has_data game_origin}}}
+               {if_else {== {$lhs get_icon} {$rhs get_icon}}
+                  ; sort songs in icon alphabetically by title
+                  {$this
+                     cmp
+                     $lhs
+                     $rhs
+                     (kSTName)
+                  }
+                  {do
+                     {$this
+                        cmp
+                        $lhs
+                        $rhs
+                        (kSTOrigin)
+                        (kSTName)
+                     }
+                  }
+               }
+            )
+         }
+      )
       (browser_group
          ($offer)
-         {sprint
-            {$offer get_icon}}))
+         {if_else {$offer has_data game_origin} 
+            {if_else {== {$offer get_data (game_origin)} rb2}
+               {sprint {$offer get_icon}}
+               {sprint {$offer get_data (game_origin)}}
+            }
+            {sprint {$offer get_icon}}
+         }
+      )
+   )
 #ifndef HX_WII
    (by_stars
       (cmp_song_to_song
