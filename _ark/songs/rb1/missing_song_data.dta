@@ -2601,3 +2601,8 @@
 	(genre metal))
 (thefinalcountdown
 	(genre glam))
+
+#merge ../../dx/song_updates/rb3_metadata.dta
+#merge ../../dx/song_updates/official_additional_metadata.dta
+#merge ../../dx/song_updates/unofficial_additional_metadata.dta
+#merge ../../dx/song_updates/metadata_updates.dta
