@@ -523,7 +523,11 @@
                                     {'*'
                                        100
                                        {{$pcfg player}
-                                          notes_hit_fraction}}}}}}}
+                                          notes_hit_fraction}}}
+                              }
+                           }
+                        }
+                     }
                      {if
                         {$pxy exists streak.lbl}
                         {{$pxy find streak.lbl}
@@ -539,6 +543,8 @@
                                     {localize endgame_phrase_streak}
                                     {{$pcfg player}
                                        longest_streak}})
+                              ({&& {== {{$pcfg player} instrument} drum} {modifier_mgr is_modifier_active mod_autokick}}
+                                 "Auto Kick")
                               (TRUE
                                  {sprintf
                                     {localize endgame_note_streak}
