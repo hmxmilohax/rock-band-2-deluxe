@@ -91,6 +91,11 @@
       (deactivate {rnd set_sync 1})
       unlocked)
    #endif
+   (mod_autokick
+      (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature))
+      (deactivate {if $iamingamenow {modifier_mgr activate_modifier mod_autokick}})
+      (activate {if $iamingamenow {modifier_mgr deactivate_modifier mod_autokick}})
+      unlocked)
    (mod_auto_play
       (disables (modifier_saving_feature modifier_achievements_feature modifier_online_feature))
       (deactivate {modifier_mgr deactivate_modifier mod_fakejuke})

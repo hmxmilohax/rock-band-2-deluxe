@@ -5,10 +5,6 @@
 ((enter
    DX_TRACK_TEXTURE_HANDLER
       {game add_sink $this}
-
-      #ifndef HX_EE ; why does this not work on ps2
-      DX_CALLBACK_SETUP
-      #endif
       DX_SET_TRACK_SPEED
       {$this
          set_showing
@@ -64,9 +60,15 @@
             {exists gamemode}
             {gamemode get play_track_intro_sfx}}
          {synth play track_beg.cue}
-		 {unless {> {gamecfg get practice_speed} 0} {beatmatch set_music_speed $speedmod}}
-		 {if {> {gamecfg get practice_speed} 0} {beatmatch set_music_speed $modifier}}}
-       #ifndef HX_EE DX_FC_SETUP #endif))
+		   {unless {> {gamecfg get practice_speed} 0} {beatmatch set_music_speed $speedmod}}
+		   {if {> {gamecfg get practice_speed} 0} {beatmatch set_music_speed $modifier}}}
+         {beatmatch set_kick_autoplay {modifier_mgr is_modifier_active mod_autokick}}
+         #ifndef HX_EE ; why does this not work on ps2
+         DX_CALLBACK_SETUP
+         DX_FC_SETUP
+         #endif
+   )
+)
 {new
    TrackPanel
    coop_track_panel
