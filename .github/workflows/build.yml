@@ -202,3 +202,61 @@ jobs:
         with:
           name: RB2DX-PS2
           path: _build/ps2
+
+  build_wii_riivolution:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Download Mackiloha
+        run: |
+          pip install requests
+          python dependencies/dev_scripts/download_mackiloha.py
+      - name: Set env
+        run: |
+          echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-7)" >> $GITHUB_ENV
+          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+          chmod +x dependencies/linux/arkhelper
+          chmod +x dependencies/linux/dtab
+          chmod +x dependencies/linux/superfreq
+          pip install gitpython
+          pip install mido
+          mkdir -p _build/wii_riivolution/rb2dx
+          cp _build/wii_rebuild_files/main_wii.hdr _build/wii_riivolution/rb2dx/main_wii.hdr
+          truncate -s 1985872287 _build/wii_riivolution/rb2dx/main_wii_0.ark
+          truncate -s 1178526447 _build/wii_riivolution/rb2dx/main_wii_1.ark
+      - name: Remove PS3/PS2/Xbox files
+        run: |
+          find . -name "*.*_ps3" -type f -delete
+          find . -name "*.*_ps2" -type f -delete
+          find . -name "*.*_xbox" -type f -delete
+      - name: Add Wii files to _ark
+        run: |
+          rsync -a ./_ark_wii/* ./_ark
+          rsync -a ./_wii_possibly_merge/* ./_ark
+          rsync -a ./_wii_files/* ./_ark
+      - name: Build ARK
+        run: |
+          dependencies/linux/arkhelper patchcreator -a ./_ark -o ./_build/wii_riivolution/rb2dx _build/wii_riivolution/rb2dx/main_wii.hdr _build/wii/DATA/sys/main.dol
+      - name: Move generated Wii files to proper folder
+        run: |
+          mv -f _build/wii_riivolution/rb2dx/gen/main_wii.hdr _build/wii_riivolution/rb2dx/main_wii.hdr
+          mv -f _build/wii_riivolution/rb2dx/gen/main_wii_2.ark _build/wii_riivolution/rb2dx/main_wii_2.ark
+          rmdir _build/wii_riivolution/rb2dx/gen
+          rm _build/wii_riivolution/rb2dx/main.dol
+          rm _build/wii_riivolution/rb2dx/main_wii_0.ark
+          rm _build/wii_riivolution/rb2dx/main_wii_1.ark
+      - name: Remove Excess files
+        run: |
+          find . -name "*.txt" -type f -delete
+          find . -name "*.zbm" -type f -delete
+      
+      - name: Upload result
+        uses: actions/upload-artifact@v4
+        with:
+          name: RB2DX-Wii-Riivolution
+          path: _build/wii_riivolution
