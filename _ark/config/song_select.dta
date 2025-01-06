@@ -144,7 +144,7 @@
    )
    (by_origin
       (cmp_song_to_song
-         ($lhs $rhs $testarray)
+         ($lhs $rhs)
          {cond
             ({&& {$lhs has_data game_origin} {$rhs has_data game_origin}}
                {cond
