@@ -94,12 +94,12 @@
 (big_club_15 big_club_16 big_club_17 big_club_18)
 #endif
 #define DX_FPS_SETUP
-(
-	{if {!= $emulatefps 24} {{$world iterate PostProc $p {$p set emulate_fps $emulatefps}}}
+( ; bruh wtf is all this
+	{{$world iterate PostProc $p {unless {== $p "photocopy.pp"} {$p set emulate_fps $emulatefps}}}}
 	{if {>= {$emulatefps 25} {$char iterate CharHair $hair {$hair reset 35}}
 	{$world iterate WorldDir $wd {$wd iterate BandCamShot $bcs
 	{foreach $property (shake_noisefreq shake_noiseamp) {$bcs set (keyframes $i $property) {'*' {$bcs get (keyframes $i $property)} 0.25}}}
-   {foreach $component (x y) {$bcs set (keyframes $i shake_maxangle $component) {'*' {$bcs get (keyframes $i shake_maxangle $component)} 0.25}}}}}}}}
+   {foreach $component (x y) {$bcs set (keyframes $i shake_maxangle $component) {'*' {$bcs get (keyframes $i shake_maxangle $component)} 0.25}}}}}}}
 )
 
 #include ../ui/dx_overshell_macros.dta
