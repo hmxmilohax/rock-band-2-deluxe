@@ -132,6 +132,7 @@
    options_gameplay_screen_with_bg
    (panels meta movie_panel options_background_panel options_gameplay_panel)
    (focus options_gameplay_panel)
+   (back options_screen)
    (helpbar
       ((cancel helpbar_back)
          (confirm helpbar_toggleoption)))}
