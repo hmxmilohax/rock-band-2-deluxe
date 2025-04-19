@@ -50,30 +50,31 @@
 		shellmusic_thehandthatfeeds
 		shellmusic_gowiththeflow
 		shellmusic_missqueen
-		dreamgenie
-		vbomb
-		lightupthenight
-		livingwell
-		swing_swing
-		word_up
-		suddenly_i_see
+		shellmusic_variation1
+		20thcentury
 		a_punk
 		buriedalive
-		herecomestheguns
-		loveandtonic
-		more
+		dreamgenie
 		eiham
 		flytrap
-		shellmusic_variation1
-		shellmusic_variation2
-		shellmusic_variation3
-		shellmusic_variation4
-		)
+		herecomestheguns
+		lightupthenight
+		livingwell
+		loveandtonic
+		more
+		simpleton
+		suddenly_i_see
+		swing_swing
+		vbomb
+		word_up
+	)
 	(background_sfx
 		(sequence meta_people)
 		(min_delay_sec 10)
-		(max_delay_sec 20))
-	(play_from_memory TRUE))
+		(max_delay_sec 20)
+	)
+	(play_from_memory FALSE) ; dx - stream metamusic from disk, vanilla true
+)
 (fx
 	(chain FALSE)
 	(core_0
