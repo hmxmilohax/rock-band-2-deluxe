@@ -1,0 +1,61 @@
+(heaps
+   #ifdef HX_EE
+      #ifdef _DEBUG
+      (main (size 50000000))
+      (rnd
+         (size 5000000)
+         (handle TRUE)
+      )
+      #else
+      (main (size 50000000))
+      (rnd
+         (size 2100000)
+         (handle TRUE)
+      )
+      #endif
+   #else
+      #ifdef HX_PS3
+      (main (size 174900000)) ;dx - 8mb higher than vanilla, because 2dx is also huge
+                              ;I couldn't figure out high mem, pls fix - LX
+      (local
+         (size 0)
+         (debug 0)
+      )
+      (server_login (size 100000))
+      #else
+         #ifdef HX_PC
+         (main (size 390900000))
+         (server_login (size 100000))
+         #else
+            #ifdef HX_WII
+            (main
+               (size 110000000)
+               (region 1)
+            )
+            (fast (size 17800000))
+            (server_login
+               (size 100000)
+               (region 1)
+            )
+            #else
+            (main (size 145000000)) ; dx - 5mb higher than vanilla to match 3dx's total mem allocation
+            (server_login (size 100000))
+            #endif
+         #endif
+      #endif
+   #endif
+)
+(pool
+   #ifndef HX_OG
+   (big_hunk 8000000)
+   #else
+      #ifdef HX_EE
+      (big_hunk 3100000)
+      #else
+      (big_hunk 5500000)
+      #endif
+   #endif
+   (small_hunk 50000)
+)
+(enable_tracking FALSE)
+(track_stl FALSE)
