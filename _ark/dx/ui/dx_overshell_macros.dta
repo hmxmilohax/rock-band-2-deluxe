@@ -702,10 +702,10 @@
          {$task sleep 0.005}
          {all.grp set_local_pos $osx $osy {+ $osz 450}}
          {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 450}}
-         {if_else {exists $modifier_exit}
-         {ui goto_screen $modifier_exit}
-         {ui goto_screen splash_screen}}
          {ui pop_screen}
+         {unless {exists {sprint $modifier_exit}}
+            {ui goto_screen splash_screen}
+         }
       )
    }
 )

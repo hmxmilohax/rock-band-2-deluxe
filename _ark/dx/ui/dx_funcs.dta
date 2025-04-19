@@ -42,7 +42,6 @@
       (script
          OS_BACK_CURRENT_ANIM
          OS_BACK_NEXT_ANIM
-         {ui goto_screen $os_next_screen}
          {ui pop_screen}
       )
    }
