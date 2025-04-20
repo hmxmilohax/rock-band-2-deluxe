@@ -28,10 +28,12 @@
 (kPad_L1)
 ((kPad_Select kPad_Select)
    {if OVERSHELL_ALLOWED_SCREENS
-      {do
-         {set $modifier_exit {ui current_screen}}
-         {synth play button_error}
-         {ui push_screen overshell_main_screen}}})
+      {set $os_animating FALSE}
+      {set $modifier_exit {ui current_screen}}
+      {synth play button_error}
+      {ui push_screen overshell_main_screen}
+   }
+)
 ((G_ORANGE G_ORANGE G_ORANGE G_ORANGE)
    {if {== {ui current_screen} overshell_main_screen}
       {set $debug_mode {! $debug_mode}}

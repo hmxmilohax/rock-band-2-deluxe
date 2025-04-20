@@ -583,130 +583,43 @@
 
 #define OS_OPEN_ANIM
 (
-   {thread_task kTaskUISeconds
-      (script
-         {all.grp set_local_pos $osx $osy {+ $osz 450}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 450}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 404}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 404}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 360}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 360}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 319}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 319}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 280}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 280}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 244}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 244}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 211}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 211}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 180}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 180}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 151}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 151}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 125}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 125}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 101}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 101}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 80}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 80}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 61}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 61}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 45}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 45}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 31}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 31}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 20}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 20}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 11}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 11}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 5}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 5}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy $osz}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y $osl3z}
-      )
-   }
+   {new TransAnim overshell_slide.tnm}
+   {overshell_slide.tnm set_trans all.grp}
+   {overshell_slide.tnm set_trans_spline TRUE}
+   {overshell_slide.tnm add_trans_key 0 0 450 0}
+   {overshell_slide.tnm add_trans_key 0 0 100 0.5}
+   {overshell_slide.tnm add_trans_key 0 0 0 1}
+   {all.grp add_object overshell_slide.tnm}
+   {overshell_slide.tnm set_frame 0}
+
+   {new TransAnim overshell_top_slide.tnm}
+   {overshell_top_slide.tnm set_trans {practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif}}
+   {overshell_top_slide.tnm set_trans_spline TRUE}
+   {overshell_top_slide.tnm add_trans_key 0 0 450 0}
+   {overshell_top_slide.tnm add_trans_key 0 0 100 0.5}
+   {overshell_top_slide.tnm add_trans_key 0 0 0 1}
+   {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} add_object overshell_top_slide.tnm}
+   {overshell_top_slide.tnm set_frame 0}
+
+   {overshell_slide.tnm animate (range 0 1) (period 0.4) (units kTaskUISeconds)}
+   {overshell_top_slide.tnm animate (range 0 1) (period 0.4) (units kTaskUISeconds)}
 )
 
 #define OS_CLOSE_ANIM
 (
-   {thread_task kTaskUISeconds
-      (script
-         {all.grp set_local_pos $osx $osy {+ $osz 5}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 5}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 11}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 11}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 20}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 20}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 31}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 31}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 45}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 45}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 61}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 61}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 80}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 80}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 101}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 101}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 125}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 125}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 151}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 151}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 180}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 180}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 211}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 211}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 244}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 244}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 280}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 280}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 319}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 319}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 360}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 360}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 404}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 404}}
-         {$task sleep 0.005}
-         {all.grp set_local_pos $osx $osy {+ $osz 450}}
-         {{practice_lower3rd_panel find #ifdef HX_EE tour_solo_lower3rd.grp #else practice_tour_solo_lower3rd.grp #endif} set_local_pos $osl3x $osl3y {+ $osl3z 450}}
-         {ui pop_screen}
-         {unless {exists {sprint $modifier_exit}}
-            {ui goto_screen splash_screen}
-         }
-      )
+   {unless $os_animating
+      {overshell_slide.tnm animate (range 1 0) (period 0.4) (units kTaskUISeconds)}
+      {overshell_top_slide.tnm animate (range 1 0) (period 0.4) (units kTaskUISeconds)}
+      {thread_task kTaskUISeconds
+         (script
+            {$task sleep 0.4}
+            {ui pop_screen}
+            {unless {exists {sprint $modifier_exit}}
+               {ui goto_screen splash_screen}
+            }
+         )
+      }
+      {set $os_animating TRUE}
    }
 )
 
