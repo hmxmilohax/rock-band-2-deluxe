@@ -8,26 +8,11 @@
     #endif
     (focus sel_section.lst)
     (enter
+        OS_COMMON_ANIMATIONS
         {sel_section.lst set_data (os_trkpreset os_trkbhvr os_angle #ifndef HX_EE os_clr #endif)}
         {title.lbl set_localized {localize os_trkset}}
         {full_selection.mesh set_showing FALSE}
         {set $os_in_transition FALSE}
-    )
-    (poll
-         {if {== {ui current_screen} overshell_track_screen}
-            {if_else $os_in_transition
-                {thread_task kTaskUISeconds
-                    (script
-                        {$task sleep 1.0}
-                        {if_else {== {ui current_screen} overshell_track_screen}
-                           {{overshell_track_panel find all.grp} set_local_rot $osxrot $osyrot $oszrot}
-                           {{overshell_track_panel find all.grp} set_local_rot $osxrot $osyrot {- $oszrot 90}}
-                        }
-                    )
-                }
-                {{overshell_track_panel find all.grp} set_local_rot $osxrot $osyrot $oszrot}
-            }
-         }
     )
     (exit)
     (SELECT_MSG
@@ -88,26 +73,11 @@
     #endif
     (focus sel_section.lst)
     (enter
+        OS_COMMON_ANIMATIONS
         {sel_section.lst set_data (os_tex os_rb2dxprst os_rb2prst os_rb1prst os_rb3prst os_rb4truprst os_rb4prst os_fnfestivalprst os_lrbprst os_tbrbprst)}
         {title.lbl set_localized {localize os_trkpreset}}
         {full_selection.mesh set_showing FALSE}
         {set $os_in_transition FALSE}
-    )
-    (poll
-        {if {== {ui current_screen} overshell_trkpreset_screen}
-            {if_else $os_in_transition
-                {thread_task kTaskUISeconds
-                    (script
-                        {$task sleep 1.0}
-                        {if_else {== {ui current_screen} overshell_trkpreset_screen}
-                           {{overshell_trkpreset_panel find all.grp} set_local_rot $osxrot $osyrot $oszrot}
-                           {{overshell_trkpreset_panel find all.grp} set_local_rot $osxrot $osyrot {- $oszrot 90}}
-                        }
-                    )
-                }
-                {{overshell_trkpreset_panel find all.grp} set_local_rot $osxrot $osyrot $oszrot}
-            }
-        }
     )
     (exit
          DX_TEXTURE_CORRECTOR
@@ -306,6 +276,7 @@
     #endif
     (focus sel_section.lst)
     (enter
+        OS_COMMON_ANIMATIONS
         {sel_section.lst set_data (_1_none rb2 rb3)}
         {title.lbl set_localized {localize os_sus}}
         {full_selection.mesh set_showing FALSE}
@@ -368,6 +339,7 @@
     #endif
     (focus sel_section.lst)
     (enter
+        OS_COMMON_ANIMATIONS
         {$this lst_reset}
         {title.lbl set_localized {localize os_trkbhvr}}
         {full_selection.mesh set_showing FALSE}
@@ -378,22 +350,6 @@
       {if $hwpos
          {sel_section.lst set_selected $hwpos}
       }
-    )
-    (poll
-        {if {== {ui current_screen} overshell_trkbhvr_screen}
-            {if_else $os_in_transition
-                {thread_task kTaskUISeconds
-                    (script
-                        {$task sleep 1.0}
-                        {if_else {== {ui current_screen} overshell_trkbhvr_screen}
-                           {{overshell_trkbhvr_panel find all.grp} set_local_rot $osxrot $osyrot $oszrot}
-                           {{overshell_trkbhvr_panel find all.grp} set_local_rot $osxrot $osyrot {- $oszrot 90}}
-                        }
-                    )
-                }
-                {{overshell_trkbhvr_panel find all.grp} set_local_rot $osxrot $osyrot $oszrot}
-            }
-        }
     )
     (exit)
     (SELECT_MSG
@@ -468,6 +424,7 @@
     #endif
     (focus sel_section.lst)
     (enter
+        OS_COMMON_ANIMATIONS
         {$this lst_reset}
         {title.lbl set_localized {localize os_hwbhvr}}
         {full_selection.mesh set_showing FALSE}
@@ -537,6 +494,7 @@
     #endif
     (focus sel_section.lst)
     (enter
+        OS_COMMON_ANIMATIONS
         {$this lst_reset}
         {title.lbl set_localized {localize os_strkbhvr}}
         {full_selection.mesh set_showing FALSE}
@@ -598,6 +556,7 @@
     #endif
     (focus sel_section.lst)
     (enter
+        OS_COMMON_ANIMATIONS
         {$this lst_reset}
         {title.lbl set_localized {localize os_warnbhvr}}
         {full_selection.mesh set_showing FALSE}
@@ -700,6 +659,7 @@
     #endif
     (focus sel_section.lst)
     (enter
+        OS_COMMON_ANIMATIONS
         {sel_section.lst set_data
             (rb2 rb3 rb4 fnfestival rr)}
         {title.lbl set_localized {localize os_angle}}

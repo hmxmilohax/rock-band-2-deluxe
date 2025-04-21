@@ -581,6 +581,25 @@
    {set $multioptimized FALSE}
 )
 
+#define OS_COMMON_ANIMATIONS
+(
+   {new TransAnim overshell_rot_right.tnm}
+   {overshell_rot_right.tnm set_trans all.grp}
+   {overshell_rot_right.tnm set_rot_slerp TRUE}
+   {overshell_rot_right.tnm add_rot_key 0 0 0 0}
+   {overshell_rot_right.tnm add_rot_key 0 0 -40 0.5}
+   {overshell_rot_right.tnm add_rot_key 0 0 -90 1}
+   {all.grp add_object overshell_rot_right.tnm}
+
+   {new TransAnim overshell_rot_left.tnm}
+   {overshell_rot_left.tnm set_trans all.grp}
+   {overshell_rot_left.tnm set_rot_slerp TRUE}
+   {overshell_rot_left.tnm add_rot_key 0 0 0 0}
+   {overshell_rot_left.tnm add_rot_key 0 0 40 0.5}
+   {overshell_rot_left.tnm add_rot_key 0 0 90 1}
+   {all.grp add_object overshell_rot_left.tnm}
+)
+
 #define OS_OPEN_ANIM
 (
    {new TransAnim overshell_slide.tnm}
@@ -608,6 +627,10 @@
 #define OS_CLOSE_ANIM
 (
    {unless $os_animating
+      {overshell_rot_left.tnm stop_animation}
+      {overshell_rot_right.tnm stop_animation}
+      {overshell_rot_left.tnm set_frame 0}
+      {overshell_rot_right.tnm set_frame 0}
       {overshell_slide.tnm animate (range 1 0) (period 0.4) (units kTaskUISeconds)}
       {overshell_top_slide.tnm animate (range 1 0) (period 0.4) (units kTaskUISeconds)}
       {thread_task kTaskUISeconds
@@ -625,111 +648,28 @@
 
 #define OS_CHANGE_CURRENT_ANIM
 (
-   {all.grp set_local_rot $osxrot $osyrot {- $oszrot 9}}
-   {$task sleep 0.005}
-   {all.grp set_local_rot $osxrot $osyrot {- $oszrot 18}}
-   {$task sleep 0.005}
-   {all.grp set_local_rot $osxrot $osyrot {- $oszrot 27}}
-   {$task sleep 0.005}
-   {all.grp set_local_rot $osxrot $osyrot {- $oszrot 36}}
-   {$task sleep 0.005}
-   {all.grp set_local_rot $osxrot $osyrot {- $oszrot 45}}
-   {$task sleep 0.005}
-   {all.grp set_local_rot $osxrot $osyrot {- $oszrot 54}}
-   {$task sleep 0.005}
-   {all.grp set_local_rot $osxrot $osyrot {- $oszrot 63}}
-   {$task sleep 0.005}
-   {all.grp set_local_rot $osxrot $osyrot {- $oszrot 72}}
-   {$task sleep 0.005}
-   {all.grp set_local_rot $osxrot $osyrot {- $oszrot 81}}
-   {$task sleep 0.005}
-   {all.grp set_local_rot $osxrot $osyrot {- $oszrot 85.5}}
-   {$task sleep 0.005}
-   {all.grp set_local_rot $osxrot $osyrot {- $oszrot 90}}
+   {overshell_rot_right.tnm animate (range 0 1) (period 0.15) (units kTaskUISeconds)}
+   {$task sleep 0.15}
    {all.grp set_showing FALSE}
-   {$task sleep 0.005}
 )
 
 #define OS_CHANGE_NEXT_ANIM
 (
-   {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot {+ $oszrot 90}}
-   {$task sleep 0.005}
-   {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot {+ $oszrot 85.5}}
-   {$task sleep 0.005}
-   {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot {+ $oszrot 81}}
-   {$task sleep 0.005}
-   {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot {+ $oszrot 72}}
-   {$task sleep 0.005}
-   {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot {+ $oszrot 63}}
-   {$task sleep 0.005}
-   {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot {+ $oszrot 54}}
-   {$task sleep 0.005}
-   {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot {+ $oszrot 45}}
-   {$task sleep 0.005}
-   {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot {+ $oszrot 36}}
-   {$task sleep 0.005}
-   {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot {+ $oszrot 27}}
-   {$task sleep 0.005}
-   {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot {+ $oszrot 18}}
-   {$task sleep 0.005}
-   {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot {+ $oszrot 9}}
-   {$task sleep 0.005}
-   {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot $oszrot}
+   {$task sleep 0.0001}
+   {{$os_next_panel find overshell_rot_left.tnm} set_frame 1}
+   {{$os_next_panel find overshell_rot_left.tnm} animate (range 1 0) (period 0.15) (units kTaskUISeconds)}
 )
 
 #define OS_BACK_CURRENT_ANIM
 (
-   {all.grp set_local_rot $osxrot $osyrot {+ $oszrot 9}}
-   {$task sleep 0.005}
-   {all.grp set_local_rot $osxrot $osyrot {+ $oszrot 18}}
-   {$task sleep 0.005}
-   {all.grp set_local_rot $osxrot $osyrot {+ $oszrot 27}}
-   {$task sleep 0.005}
-   {all.grp set_local_rot $osxrot $osyrot {+ $oszrot 36}}
-   {$task sleep 0.005}
-   {all.grp set_local_rot $osxrot $osyrot {+ $oszrot 45}}
-   {$task sleep 0.005}
-   {all.grp set_local_rot $osxrot $osyrot {+ $oszrot 54}}
-   {$task sleep 0.005}
-   {all.grp set_local_rot $osxrot $osyrot {+ $oszrot 63}}
-   {$task sleep 0.005}
-   {all.grp set_local_rot $osxrot $osyrot {+ $oszrot 72}}
-   {$task sleep 0.005}
-   {all.grp set_local_rot $osxrot $osyrot {+ $oszrot 81}}
-   {$task sleep 0.005}
-   {all.grp set_local_rot $osxrot $osyrot {+ $oszrot 85.5}}
-   {$task sleep 0.005}
-   {all.grp set_local_rot $osxrot $osyrot {+ $oszrot 90}}
-   {all.grp set_showing FALSE}
-   {$task sleep 0.005}
+   {overshell_rot_left.tnm animate (range 0 1) (period 0.15) (units kTaskUISeconds)}
+   {$task sleep 0.15}
 )
 
 #define OS_BACK_NEXT_ANIM
 (
    {{$os_next_panel find all.grp} set_showing TRUE}
-   {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot {- $oszrot 90}}
-   {$task sleep 0.005}
-   {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot {- $oszrot 85.5}}
-   {$task sleep 0.005}
-   {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot {- $oszrot 81}}
-   {$task sleep 0.005}
-   {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot {- $oszrot 72}}
-   {$task sleep 0.005}
-   {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot {- $oszrot 63}}
-   {$task sleep 0.005}
-   {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot {- $oszrot 54}}
-   {$task sleep 0.005}
-   {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot {- $oszrot 45}}
-   {$task sleep 0.005}
-   {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot {- $oszrot 36}}
-   {$task sleep 0.005}
-   {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot {- $oszrot 27}}
-   {$task sleep 0.005}
-   {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot {- $oszrot 18}}
-   {$task sleep 0.005}
-   {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot {- $oszrot 9}}
-   {$task sleep 0.005}
-   {{$os_next_panel find all.grp} set_local_rot $osxrot $osyrot $oszrot}
+   {{$os_next_panel find overshell_rot_right.tnm} animate (range 1 0) (period 0.15) (units kTaskUISeconds)}
 )
 
 #define OS_MOD_OPEN_ANIM

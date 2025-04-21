@@ -12,6 +12,7 @@
     #endif
     (focus sel_section.lst)
     (enter
+        OS_COMMON_ANIMATIONS
         {$this lst_reset}
         {title.lbl set_localized {localize os_dxsettings}}
         {full_selection.mesh set_showing FALSE}
@@ -26,23 +27,6 @@
         }
         OS_OPEN_ANIM
     )
-    (poll
-       {if {== {ui current_screen} overshell_main_screen}
-          {if_else $os_in_transition
-              {thread_task kTaskUISeconds
-                  (script
-                      {$task sleep 0.5}
-                      {if_else {== {ui current_screen} overshell_main_screen}
-                         {{overshell_main_panel find all.grp} set_local_rot $osxrot $osyrot $oszrot}
-                         {{overshell_main_panel find all.grp} set_local_rot $osxrot $osyrot {- $oszrot 90}}
-
-                      }
-                  )
-              }
-              {{overshell_main_panel find all.grp} set_local_rot $osxrot $osyrot $oszrot}
-          }
-       }
-    )
     (lst_reset
       {sel_section.lst set_data OS_MAIN_DATA})
     (exit)
@@ -52,7 +36,6 @@
             {run #ifdef HX_XBOX "GAME:/ace.dta" #else "GD:/dev_hdd0/game/BLUS30147/USRDIR/ace.dta" #endif}
          )
          (os_sys
-            {set $os_in_transition TRUE}
             {os_change_screen overshell_system}
          )
          (os_spd
@@ -63,11 +46,9 @@
             {ui push_screen modifiers_screen}
          )
          (os_trkset
-            {set $os_in_transition TRUE}
             {os_change_screen overshell_track}
          )
          (os_cam
-            {set $os_in_transition TRUE}
             {os_change_screen overshell_cam_sfx}
          )
       })
@@ -103,10 +84,10 @@
     #endif
     (focus sel_section.lst)
     (enter
+        OS_COMMON_ANIMATIONS
         {sel_section.lst set_data (os_console #ifndef HX_PS3 os_gameplay #endif os_data)}
         {title.lbl set_localized {localize os_sys}}
-        {full_selection.mesh set_showing FALSE}
-        {set $os_in_transition FALSE})
+        {full_selection.mesh set_showing FALSE})
     (exit)
     (SELECT_MSG
     {switch {$component selected_sym}
@@ -181,10 +162,10 @@
     #endif
     (focus sel_section.lst)
     (enter
+        OS_COMMON_ANIMATIONS
         {$this lst_reset}
         {title.lbl set_localized {localize os_cam}}
         {full_selection.mesh set_showing FALSE}
-        {set $os_in_transition TRUE}
     )
     (lst_reset
         {sel_section.lst set_data CAM_SFX_DATA}
