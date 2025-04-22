@@ -29,7 +29,7 @@
             {set $mod_first_entry TRUE}
         }
         {if $mod_os_entered
-            OS_MOD_OPEN_ANIM
+            OS_OPTIONS_OPEN_ANIM
         }
         )
     (exit

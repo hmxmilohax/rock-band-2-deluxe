@@ -20,7 +20,8 @@
          {set $gp_first_entry TRUE}
       }
       {if $mod_os_entered
-         OS_GP_OPEN_ANIM
+         {set $is_gp TRUE}
+         OS_OPTIONS_OPEN_ANIM
       }
       )
    (exit
@@ -90,8 +91,10 @@
          {do
             {if_else {== $action kAction_Cancel}
                {do
+                  {set $is_gp FALSE}
                   {synth play button_toggle}
-                  {ui pop_screen}}
+                  {ui pop_screen}
+               }
                kDataUnhandled}
          }
          {do

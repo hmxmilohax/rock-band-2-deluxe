@@ -23,7 +23,7 @@
          {set $console_first_entry TRUE}
       }
       {if $mod_os_entered
-            OS_CONSOLE_OPEN_ANIM
+            OS_OPTIONS_OPEN_ANIM
       }
       )
    (exit

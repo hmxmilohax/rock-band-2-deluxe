@@ -1177,7 +1177,8 @@
             {set $sd_first_entry TRUE}
          }
          {if $mod_os_entered
-            OS_SD_OPEN_ANIM
+            {set $is_savedata TRUE}
+            OS_OPTIONS_OPEN_ANIM
          }
          )
    (SELECT_MSG
@@ -1219,7 +1220,9 @@
          {if_else {== $action kAction_Cancel}
             {do
                {synth play button_toggle}
-               {ui pop_screen}}
+               {set $is_savedata FALSE}
+               {ui pop_screen}
+            }
                kDataUnhandled}}
          kDataUnhandled)}
 {new
