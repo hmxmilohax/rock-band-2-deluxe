@@ -311,19 +311,15 @@
 ;
 #define TRACK_BEHAVIOR_DATA
 ((
-   #ifndef HX_WII
    os_hwbhvr
-   #endif
    #ifndef HX_EE
    os_strkbhvr
    os_warnbhvr
-   #ifndef HX_WII
    {switch $fctype
       (ring os_fc_ring)
       (glow os_fc_glow)
       (both os_fc_both)
    }
-   #endif
    #endif
    #ifndef HX_WII
    {if_else $smasherbracket os_smasherbracket1 os_smasherbracket0}
@@ -407,12 +403,14 @@
 #define HW_BEHAVIOR_DATA
 ((
    {if_else $nogemdividers os_gemdiv0 os_gemdiv1}
-   {switch $hwalpha
-      (off os_hwalpha_off)
-      (rb3 os_hwalpha_rb3)
-      (rb2 os_hwalpha_rb2)
-      (rb1 os_hwalpha_rb1)
-   }
+   #ifndef HX_WII ; hw alpha doesnt work on wii
+      {switch $hwalpha
+         (off os_hwalpha_off)
+         (rb3 os_hwalpha_rb3)
+         (rb2 os_hwalpha_rb2)
+         (rb1 os_hwalpha_rb1)
+      }
+   #endif
 ))
 {new
     UIPanel

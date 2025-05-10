@@ -9,7 +9,7 @@
     (focus sel_section.lst)
     (enter
         OS_COMMON_ANIMATIONS
-        {sel_section.lst set_data (#ifndef MHX_OG os_hw #endif #ifndef HX_EE os_strk #endif os_spotlight os_gems os_smashers #ifndef HX_WII os_flames #endif os_sus #ifndef MHX_OG os_lanes os_font #endif #ifndef HX_WII os_score os_solobox os_stars os_crowd_meter os_bre os_rails os_odbar os_multi_ring #endif os_voxtrk)}
+        {sel_section.lst set_data (#ifndef MHX_OG os_hw #endif #ifndef HX_EE os_strk #endif os_spotlight os_gems os_smashers #ifndef HX_WII os_flames #endif os_sus #ifndef MHX_OG os_lanes os_font #endif os_score os_solobox os_stars os_crowd_meter os_bre #ifndef HX_WII os_rails #endif os_odbar os_multi_ring os_voxtrk)}
         {title.lbl set_localized {localize os_tex1}}
         {full_selection.mesh set_showing FALSE}
         {set $os_in_transition FALSE}
@@ -222,7 +222,7 @@
     (focus sel_section.lst)
     (enter
         OS_COMMON_ANIMATIONS
-        {sel_section.lst set_data (#ifndef HX_WII os_voxarrow os_voxhw #endif os_voxnotes os_voxod)}
+        {sel_section.lst set_data (os_voxarrow os_voxhw os_voxnotes os_voxod)}
         {title.lbl set_localized {localize os_voxtrk1}}
         {full_selection.mesh set_showing FALSE}
         {set $os_in_transition FALSE}

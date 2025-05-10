@@ -14,7 +14,7 @@ move "%~dp0..\custom_textures\bre\bre.dta" "%~dp0..\_ark\track_new\bre\bre.dta"
 FOR /F "tokens=*" %%G IN ('dir /b *.jpg') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\bre/%%G" "%~dp0..\custom_textures\bre\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.bmp') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\bre/%%G" "%~dp0..\custom_textures\bre\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.png') DO "%~dp0..\dependencies/windows/superfreq.exe" png2tex "%~dp0..\custom_textures\bre/%%G" "%~dp0..\_ark\track_new\bre\gen\%%~nG.png_xbox" --platform x360 --miloVersion 25
-FOR /F "tokens=*" %%G IN ('dir /b *.png') DO "%~dp0..\dependencies/windows/superfreq.exe" png2tex "%~dp0..\custom_textures\bre/%%G" "%~dp0..\_ark\track_new\bre\gen\%%~nG.png_wii" --platform wii
+FOR /F "tokens=*" %%G IN ('dir /b *.png') DO "%~dp0..\dependencies/windows/superfreq_wii.exe" png2tex "%~dp0..\custom_textures\bre/%%G" "%~dp0..\_ark\track_new\bre\gen\%%~nG.png_wii" --platform wii --miloVersion 25
 del sed* /a /s
 cd "%~dp0..\_ark/track_new/bre/gen"
 FOR /F "tokens=*" %%G IN ('dir /b *.png_xbox') DO python "%~dp0..\dependencies/swap_rb_art_bytes.py" "%~dp0..\_ark/track_new/bre/gen/%%G" "%~dp0..\_ark/track_new/bre/gen/%%~nG.png_ps3"

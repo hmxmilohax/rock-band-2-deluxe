@@ -15,7 +15,7 @@ del sed* /a /s
 FOR /F "tokens=*" %%G IN ('dir /b *.jpg') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\smashers_ps2/%%G" "%~dp0..\custom_textures\smashers_ps2\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.bmp') DO "%~dp0..\dependencies/magick/magick.exe" convert "%~dp0..\custom_textures\smashers_ps2/%%G" "%~dp0..\custom_textures\smashers_ps2\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.png') DO "%~dp0..\dependencies/windows/superfreq.exe" png2tex "%~dp0..\custom_textures\smashers_ps2/%%G" "%~dp0..\_tmp\%%~nG.bmp_ps2"
-FOR /F "tokens=*" %%G IN ('dir /b *.png') DO "%~dp0..\dependencies/windows/superfreq.exe" png2tex "%~dp0..\custom_textures\smashers_ps2/%%G" "%~dp0..\_ark\track_og\smashers\gen\%%~nG.png_wii" -p wii
+FOR /F "tokens=*" %%G IN ('dir /b *.png') DO "%~dp0..\dependencies/windows/superfreq_wii.exe" png2tex "%~dp0..\custom_textures\smashers_ps2/%%G" "%~dp0..\_ark\track_og\smashers\gen\%%~nG.png_wii" --platform wii --miloVersion 25
 cd "%~dp0..\_tmp"
 FOR /F "tokens=*" %%G IN ('dir /b *.bmp_ps2') DO "%~dp0..\dependencies/windows/superfreq.exe" tex2png "%~dp0..\_tmp/%%G" "%~dp0..\_tmp\%%~nG.png"
 FOR /F "tokens=*" %%G IN ('dir /b *.png') DO "%~dp0..\dependencies/windows/superfreq.exe" png2tex "%~dp0..\_tmp/%%G" "%~dp0..\_ark\track_og\smashers\gen\%%~nG.png_ps2"

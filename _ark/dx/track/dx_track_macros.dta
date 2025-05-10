@@ -92,10 +92,14 @@
 {unless {modifier_mgr is_modifier_active mod_nohud}
    
    {unless $texrunevery ;this runs every track load as these textures always reset
-      {new Tex transparent.tex}
-      {{$this find transparent.tex} set_bitmap "track/custom_track_textures/_no_highway.png"}
-      {new Tex rb3clip.tex}
-      {{$this find rb3clip.tex} set_bitmap "track/custom_track_textures/track_clipping_rb3.png"}
+      {unless {exists transparent.tex}
+         {new Tex transparent.tex}
+         {{$this find transparent.tex} set_bitmap "track/custom_track_textures/_no_highway.png"}
+      }
+      {unless {exists rb3clip.tex}
+         {new Tex rb3clip.tex}
+         {{$this find rb3clip.tex} set_bitmap "track/custom_track_textures/track_clipping_rb3.png"}
+      }
    }
 
    {unless $texrunonce
@@ -248,19 +252,15 @@
    }
    #endif
 
-   #ifndef HX_WII
    {if $voxhwcustomtexture 
       {{$this find vocal_bg.tex} set_bitmap {sprint "track/voxhw/vocal_bg_" $voxhw ".png"}}
    }
-   #endif
 
-   #ifndef HX_WII
    {if $brecustomtexture
       {{$this find blossom.tex} set_bitmap {sprint "track_new/bre/blossom_" $bretex ".png"}}
       {{$this find bre_black_wing.tex} set_bitmap {sprint "track_new/bre/bre_black_wing_" $bretex ".png"}}
       {{$this find bre_shield.tex} set_bitmap {sprint "track_new/bre/bre_shield_" $bretex ".png"}}
    }
-   #endif
 
    {if $gemcustomtexture
       #ifdef MHX_OG
@@ -337,12 +337,10 @@
    }
    #endif
    
-   #ifndef HX_WII
    {if $voxarrowcustomtexture
       {{$this find pitch_arrow_split.tex} set_bitmap {sprint "track/voxarrow/pitch_arrow_split_" $voxarrow ".png"}}
       {{$this find pitch_arrow_effect.tex} set_bitmap {sprint "track/voxarrow/pitch_arrow_effect_" $voxarrow ".png"}}
    }
-   #endif
    
    {if $voxnotescustomtexture
       {{$this find 3d_tube_pitched.tex} set_bitmap {sprint "track/voxnotes/3d_tube_pitched_" $voxnotes ".png"}}
@@ -357,29 +355,22 @@
       {{$this find freestyle_nowbar_FX.tex} set_bitmap {sprint "track/voxod/vox_now_bar_effect_" $voxod ".png"}}
    }
 
-   #ifndef HX_WII
    {if $crowdmetercustomtexture
       {{$this find meter_star.tex} set_bitmap {sprint "track/crowd_meter/meter_star_" $crowdmetertex ".png"}}
       {{$this find new_tube.tex} set_bitmap {sprint "track/crowd_meter/new_tube_" $crowdmetertex ".png"}}
    }
-   #endif
 
-   #ifndef HX_WII
    {if $scorecustomtexture
       {{$this find indv_player_meter_circle.tex} set_bitmap {sprint "track/score/indv_player_meter_circle_" $scoretex ".png"}}
       {{$this find indv_player_meter_glass.tex} set_bitmap {sprint "track/score/indv_player_meter_glass_" $scoretex ".png"}}
       {{$this find indv_player_meter_glow.tex} set_bitmap {sprint "track/score/indv_player_meter_glow_" $scoretex ".png"}}
       {{$this find indv_player_meter.png} set_bitmap {sprint "track/score/indv_player_meter_" $scoretex ".png"}}
    }
-   #endif
 
-   #ifndef HX_WII
    {if $soloboxcustomtexture
       {{$this find vox_slider_bkgrnd.tex} set_bitmap {sprint "track/solo_box/" $solobox ".png"}}
    }
-   #endif
 
-   #ifndef HX_WII
    {if $starscustomtexture
       {{$this find star_sheet.tex} set_bitmap {sprint "track/stars/star_power_" $stars ".png"}}
       {{$this find score_meter_wipe.tex} set_bitmap {sprint "track/stars/score_meter_wipe_" $stars ".png"}}
@@ -387,7 +378,6 @@
       {{$this find score_meter_wipe.tex} iterate_refs $ref {$ref set color {pack_color 1.0 1.0 1.0}}}
       #endif
    }
-   #endif
 
    #ifndef MHX_OG
    {if $fontcustomtexture
@@ -395,16 +385,13 @@
    }
    #endif
 
-   #ifndef HX_WII
    {if $odbarcustomtexture
       {{$this find rb2_player_meter_background.tex} set_bitmap {sprint "track/overdrive_bar/player_meter_background_" $odbar ".png"}}
       {{$this find player_meter_long.tex} set_bitmap {sprint "track/overdrive_bar/player_meter_long_" $odbar ".png"}}
       {{$this find rising_sun_fx_small.tex} set_bitmap {sprint "track/overdrive_bar/rising_sun_fx_small_" $odbar ".png"}}
       {{$this find indv_player_meter_bar.tex} set_bitmap {sprint "track/overdrive_bar/indv_player_meter_bar_" $odbar ".png"}}
    }
-   #endif
 
-   #ifndef HX_WII
    {if $multiringcustomtexture
       {{$this find multiplier_cap_glass_vox.tex} set_bitmap {sprint "track/multiplier_ring/multiplier_cap_glass_vox_" $multiring ".png"}}
       {{$this find all_icons.tex} set_bitmap {sprint "track/multiplier_ring/multiplier_cap_fc_" $multiring ".png"}}
@@ -416,7 +403,6 @@
       {{$this find multiplier_meter_solid..tex} set_bitmap {sprint "track/multiplier_ring/multiplier_meter_solid_" $multiring ".png"}}
       #endif
    }
-   #endif
 
    #ifndef HX_EE ;TODO: figure out why streak texture causes crashes on ps2
    {if $streakcustomtexture
