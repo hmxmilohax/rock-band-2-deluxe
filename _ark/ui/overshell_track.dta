@@ -321,9 +321,7 @@
       (both os_fc_both)
    }
    #endif
-   #ifndef HX_WII
    {if_else $smasherbracket os_smasherbracket1 os_smasherbracket0}
-   #endif
 ))
 {new
     UIPanel
