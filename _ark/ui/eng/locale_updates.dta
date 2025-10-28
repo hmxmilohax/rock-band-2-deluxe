@@ -1119,8 +1119,6 @@
 (os_gemdiv0 "Gem Dividers: OFF")
 (os_countdowns1 "Break Countdowns: ON")
 (os_countdowns0 "Break Countdowns: OFF")
-(os_syncspeeds1 "Sync Difficulty Speeds: ON")
-(os_syncspeeds0 "Sync Difficulty Speeds: OFF")
 (os_smasherbracket1 "Strikeline Bracket: OFF")
 (os_smasherbracket0 "Strikeline Bracket: ON")
 (os_hwalpha_rb3 "Highway Transparency: RB3")
@@ -1203,6 +1201,8 @@
 (h_band_hero "Band Hero")
 
 ;; Modifiers
+(mod_synced_track_speeds "Sync Difficulty Speeds")
+(mod_synced_track_speeds_desc "All tracks will run at Expert speed regardless of difficulty")
 (mod_awesome_desc "Let MiloHax know that you are really awesome!")
 #ifdef HX_XBOX
 (mod_selectdeploy "BACK Button to Deploy")
