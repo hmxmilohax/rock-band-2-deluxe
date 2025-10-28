@@ -798,7 +798,7 @@
          }
       }
    )
-   {{{gamemode get track_panel} loaded_dir} set view_time_easy {* {* {/ 2.4 $trackspeed} $tl} $speedmod}} ;implement track speed modifier
+   {{{gamemode get track_panel} loaded_dir} set view_time_easy {* {* {/ {if_else $syncspeeds 1.2 2.4} $trackspeed} $tl} $speedmod}} ;implement track speed modifier
    {{{gamemode get track_panel} loaded_dir} set view_time_expert {* {* {/ 1.2 $trackspeed} $tl} $speedmod}}
 }
 )
