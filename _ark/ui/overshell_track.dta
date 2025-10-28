@@ -320,6 +320,7 @@
       (glow os_fc_glow)
       (both os_fc_both)
    }
+   {if_else $dx_countdown_enabled os_countdowns1 os_countdowns0}
    #endif
    {if_else $smasherbracket os_smasherbracket1 os_smasherbracket0}
 ))
@@ -350,6 +351,11 @@
     {switch {$component selected_sym}
          ((os_smasherbracket0 os_smasherbracket1)
             {set $smasherbracket {! $smasherbracket}}
+            {set $hwpos {sel_section.lst selected_sym}}
+            {$this lst_reset}
+         )
+         ((os_countdowns0 os_countdowns1)
+            {set $dx_countdown_enabled {! $dx_countdown_enabled}}
             {set $hwpos {sel_section.lst selected_sym}}
             {$this lst_reset}
          )
