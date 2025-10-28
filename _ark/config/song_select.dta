@@ -79,7 +79,7 @@
             (kSTName)})
       (browser_group
          ($offer)
-         {$offer artist})
+         {tolower {$offer artist}})
       (browser_subgroup
          ($offer)
          {if_else
