@@ -103,7 +103,7 @@
 				{$world iterate PostProc $p
 				{$p set emulate_fps 1}}
             {world_panel set_showing FALSE}}
-      {if {&& {! $dx_postfx} $dx_noise}
+      {if $dx_noise
          {$world iterate PostProc $p
             {$p set noise_intensity 0.0}
          }
@@ -132,7 +132,7 @@
          {$p set emulate_fps 1}}
          {world_panel set_showing FALSE}
 	  }
-      {if {&& {! $dx_postfx} $dx_noise}
+      {if $dx_noise
          {$world iterate PostProc $p
             {$p set noise_intensity 0.0}
          }

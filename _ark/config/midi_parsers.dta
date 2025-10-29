@@ -1568,17 +1568,12 @@
    postproc_override_parser
    (override_postproc
       ($pp)
-      {cond
-         ($dx_postfx
+      {if_else $dx_postfx
             {set $camera.postproc_override ProFilm_a.pp}
-         )
-         ({&& $dx_postfx $dx_noise}
-            {rnd reset_postproc}
-         )
-         (TRUE
+         {do
             {set $camera.postproc_override $pp}
             {set $camera.postproc_blendtime $mp.length}
-         )
+         }
       }
    )
    (track_name VENUE)
