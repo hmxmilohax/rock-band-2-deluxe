@@ -15,17 +15,8 @@ def download_and_extract_ta_pkg_repacker(url, output_dir, num_retries=3, retry_d
     for i in range(num_retries):
         try:
             output_dir.mkdir(parents=True, exist_ok=True)
-            print("Downloading TrueAncestor_PKG_Repacker_v2.45.zip...")
-            
-            headers = {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
-            }
-            response = requests.get(url, headers=headers)
-            response.raise_for_status()
 
             ta_pkg_zip_path = output_dir / "TrueAncestor_PKG_Repacker_v2.45.zip"
-            with open(ta_pkg_zip_path, "wb") as f:
-                f.write(response.content)
 
             with zipfile.ZipFile(ta_pkg_zip_path, "r") as zip_ref:
                 zip_ref.extractall(output_dir)
