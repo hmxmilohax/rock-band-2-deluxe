@@ -146,6 +146,8 @@
 ;
 #define CAM_SFX_DATA
 ((
+   {if_else $dx_postfx os_postfx1 os_postfx0}
+   {if_else $dx_noise os_noise1 os_noise0}
    os_cycam
    os_gtrfx
    {if_else $whammyfx os_whammyfx1 os_whammyfx0}
@@ -181,6 +183,16 @@
          )
          (os_gtrfx
             {cycle_guitar_fx}
+         )
+         ((os_postfx1 os_postfx0)
+            {set $dx_postfx {! $dx_postfx}}
+            {set $camsfxpos {sel_section.lst selected_sym}}
+            {$this lst_reset}
+         )
+         ((os_noise1 os_noise0)
+            {set $dx_noise {! $dx_noise}}
+            {set $camsfxpos {sel_section.lst selected_sym}}
+            {$this lst_reset}
          )
          ((os_whammyfx1 os_whammyfx0)
             {set $whammyfx {! $whammyfx}}

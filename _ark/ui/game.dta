@@ -103,6 +103,11 @@
 				{$world iterate PostProc $p
 				{$p set emulate_fps 1}}
             {world_panel set_showing FALSE}}
+      {if {&& {! $dx_postfx} $dx_noise}
+         {$world iterate PostProc $p
+            {$p set noise_intensity 0.0}
+         }
+      }
 	 kDataUnhandled)
    (intro_end
       {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE} {set $track_0_milosong FALSE} {set $track_1_milosong FALSE}
@@ -127,6 +132,11 @@
          {$p set emulate_fps 1}}
          {world_panel set_showing FALSE}
 	  }
+      {if {&& {! $dx_postfx} $dx_noise}
+         {$world iterate PostProc $p
+            {$p set noise_intensity 0.0}
+         }
+      }
    kDataUnhandled)
    (intro_skip
       {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE} {set $track_0_milosong FALSE} {set $track_1_milosong FALSE}
