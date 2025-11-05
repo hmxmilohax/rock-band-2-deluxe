@@ -311,7 +311,6 @@
 ;
 #define TRACK_BEHAVIOR_DATA
 ((
-   {if_else $syncspeeds os_syncspeeds1 os_syncspeeds0}
    os_hwbhvr
    #ifndef HX_EE
    os_strkbhvr
@@ -357,11 +356,6 @@
          )
          ((os_countdowns0 os_countdowns1)
             {set $dx_countdown_enabled {! $dx_countdown_enabled}}
-            {set $hwpos {sel_section.lst selected_sym}}
-            {$this lst_reset}
-         )
-         ((os_syncspeeds1 os_syncspeeds0)
-            {set $syncspeeds {! $syncspeeds}}
             {set $hwpos {sel_section.lst selected_sym}}
             {$this lst_reset}
          )
