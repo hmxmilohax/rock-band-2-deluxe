@@ -1,0 +1,15 @@
+; add guitars
+{foreach $guitar
+   (
+      (
+         (redoctane
+            (cost 90)
+            (default_outfit redoctane_resource)
+         )
+         (redoctane_resource)
+      )
+   )
+   ; this is in macro a so it only needs to be added once
+   {push_back {find $syscfg objects OutfitLoader types male category guitar groups} {elem $guitar 0}}
+   {push_back {find $syscfg objects OutfitLoader types male category guitar outfits} {elem $guitar 1}}
+}
