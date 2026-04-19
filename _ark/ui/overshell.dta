@@ -148,6 +148,7 @@
 ((
    {if_else $dx_postfx os_postfx1 os_postfx0}
    {if_else $dx_noise os_noise1 os_noise0}
+   {if_else $dx_camshake os_camshake1 os_camshake0}
    os_cycam
    os_gtrfx
    {if_else $whammyfx os_whammyfx1 os_whammyfx0}
@@ -191,6 +192,11 @@
          )
          ((os_noise1 os_noise0)
             {set $dx_noise {! $dx_noise}}
+            {set $camsfxpos {sel_section.lst selected_sym}}
+            {$this lst_reset}
+         )
+         ((os_camshake1 os_camshake0)
+            {set $dx_camshake {! $dx_camshake}}
             {set $camsfxpos {sel_section.lst selected_sym}}
             {$this lst_reset}
          )

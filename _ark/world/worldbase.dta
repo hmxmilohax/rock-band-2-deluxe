@@ -480,6 +480,21 @@
          {fake_spot_vocals_preset.lit set_showing TRUE}}
       kDataUnhandled)
    (enter
+      {if $dx_camshake
+         {$this iterate WorldDir $wd
+            {$wd iterate BandCamShot $bcs
+               {do
+                  ($dx_num_keyframes {$bcs size (keyframes)})
+                  {foreach_int $i 0 $dx_num_keyframes
+                     {$bcs set (keyframes $i shake_noisefreq) 0}
+                     {$bcs set (keyframes $i shake_noiseamp) 0}
+                     {$bcs set (keyframes $i shake_maxangle x) 0}
+                     {$bcs set (keyframes $i shake_maxangle y) 0}
+                  }
+               }
+            }
+         }
+      }
       {set
          [excitement_level]
          kExcitementOkay}
