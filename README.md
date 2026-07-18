@@ -1,4 +1,4 @@
-<div align="center">
+(<div align="center">
 
 <img src="dependencies/images/header.png" width="100%" alt="Header GIF">
 
