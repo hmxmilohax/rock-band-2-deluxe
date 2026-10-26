@@ -111,5 +111,433 @@
    }
 )
 
+#define LOAD_DX_SETTINGS
+(
+   {set $trackspeed {$dxsettings get trackspeed}}
+   {set $tracklength {$dxsettings get tracklength}}
+   {set $speedmod {$dxsettings get speedmod}}
+   {set $emulatefps {$dxsettings get emulatefps}}
+   {set $fctype {$dxsettings get fctype}}
+   {set $slot1_color {$dxsettings get slot1_color}}
+   {set $slot2_color {$dxsettings get slot2_color}}
+   {set $slot3_color {$dxsettings get slot3_color}}
+   {set $slot4_color {$dxsettings get slot4_color}}
+   {set $slot5_color {$dxsettings get slot5_color}}
+   {set $gem {$dxsettings get gem}}
+   {set $smasher {$dxsettings get smasher}}
+   {set $lanestex {$dxsettings get lanestex}}
+   {set $nogemdividers {$dxsettings get nogemdividers}}
+   {set $highwaygtr {$dxsettings get highwaygtr}}
+   {set $highwaybass {$dxsettings get highwaybass}}
+   {set $highwaydrum {$dxsettings get highwaydrum}}
+   {set $streakgtr {$dxsettings get streakgtr}}
+   {set $streakbass {$dxsettings get streakbass}}
+   {set $streakdrum {$dxsettings get streakdrum}}
+   {set $spotlightgtr {$dxsettings get spotlightgtr}}
+   {set $spotlightbass {$dxsettings get spotlightbass}}
+   {set $spotlightdrum {$dxsettings get spotlightdrum}}
+   {set $multiring {$dxsettings get multiring}}
+   {set $odbar {$dxsettings get odbar}}
+   {set $rails {$dxsettings get rails}}
+   {set $flames {$dxsettings get flames}}
+   {set $crowdmetertex {$dxsettings get crowdmetertex}}
+   {set $scoretex {$dxsettings get scoretex}}
+   {set $solobox {$dxsettings get solobox}}
+   {set $stars {$dxsettings get stars}}
+   {set $font {$dxsettings get font}}
+   {set $bretex {$dxsettings get bretex}}
+   {set $voxarrow {$dxsettings get voxarrow}}
+   {set $voxnotes {$dxsettings get voxnotes}}
+   {set $voxod {$dxsettings get voxod}}
+   {set $voxhw {$dxsettings get voxhw}}
+   {set $anglepreset {$dxsettings get anglepreset}}
+   {set $sustains {$dxsettings get sustains}}
+   {set $hwalpha {$dxsettings get hwalpha}}
+   {set $legacybass {$dxsettings get legacybass}}
+   {set $hwstreak {$dxsettings get hwstreak}}
+   {set $nohwwarn {$dxsettings get nohwwarn}}
+   {set $railwarn {$dxsettings get railwarn}}
+   {set $whammyfx {$dxsettings get whammyfx}}
+   {set $crowdsfx {$dxsettings get crowdsfx}}
+   {set $trkmuting {$dxsettings get trkmuting}}
+   {if {$dxsettings get mod_nofail} {modifier_mgr activate_modifier mod_nofail}}
+   {if {$dxsettings get mod_doublespeed} {modifier_mgr activate_modifier mod_doublespeed}}
+   {if {$dxsettings get mod_synced_track_speeds} {modifier_mgr activate_modifier mod_synced_track_speeds}}
+   {if {$dxsettings get mod_choose_venue} {modifier_mgr activate_modifier mod_choose_venue}}
+   {if {$dxsettings get mod_nohud} {modifier_mgr activate_modifier mod_nohud}}
+   {if {$dxsettings get mod_unlockall} {modifier_mgr activate_modifier mod_unlockall}}
+   {if {$dxsettings get mod_newvenuesonly} {modifier_mgr activate_modifier mod_newvenuesonly}}
+   {if {$dxsettings get mod_demomode} {modifier_mgr activate_modifier mod_demomode}}
+   {if {$dxsettings get mod_awesome} {modifier_mgr activate_modifier mod_awesome}}
+   {if {$dxsettings get mod_blackvenue} {modifier_mgr activate_modifier mod_blackvenue}}
+   {if {$dxsettings get mod_songtitle} {modifier_mgr activate_modifier mod_songtitle}}
+   {if {$dxsettings get mod_songtitlestats} {modifier_mgr activate_modifier mod_songtitlestats}}
+   {if {$dxsettings get mod_staticfills} {modifier_mgr activate_modifier mod_staticfills}}
+   {if {$dxsettings get mod_mididrum} {modifier_mgr activate_modifier mod_mididrum}}
+   {if {$dxsettings get mod_padguitar} {modifier_mgr activate_modifier mod_padguitar}}
+   {if {$dxsettings get mod_paddrum} {modifier_mgr activate_modifier mod_paddrum}}
+   {if {$dxsettings get mod_noquickrestart} {modifier_mgr activate_modifier mod_noquickrestart}}
+   {if {$dxsettings get mod_vocalgender} {modifier_mgr activate_modifier mod_vocalgender}}
+   {if {$dxsettings get mod_noflames} {modifier_mgr activate_modifier mod_noflames}}
+   {if {$dxsettings get mod_flashbang} {modifier_mgr activate_modifier mod_flashbang}}
+   #ifdef HX_PS3
+   {if {$dxsettings get mod_novsync} {modifier_mgr activate_modifier mod_novsync}}
+   #endif
+   {if {$dxsettings get mod_autokick} {modifier_mgr activate_modifier mod_autokick}}
+   {if {$dxsettings get mod_fakejuke} {modifier_mgr activate_modifier mod_fakejuke}}
+   {set $dx_postfx {$dxsettings get dx_postfx}}
+   {set $dx_noise {$dxsettings get dx_noise}}
+   {set $dx_camshake {$dxsettings get dx_camshake}}
+   {set $dx_countdown_enabled {$dxsettings get dx_countdown_enabled}}
+   {set $smasherbracket {$dxsettings get smasherbracket}}
+)
+
+#define SAVE_DX_SETTINGS
+(
+   {new ObjectDir dxsettings}
+   {dxsettings set trackspeed $trackspeed}
+   {dxsettings set tracklength $tracklength}
+   {dxsettings set speedmod $speedmod}
+   {dxsettings set emulatefps $emulatefps}
+   {dxsettings set fctype $fctype}
+   {dxsettings set slot1_color $slot1_color}
+   {dxsettings set slot2_color $slot2_color}
+   {dxsettings set slot3_color $slot3_color}
+   {dxsettings set slot4_color $slot4_color}
+   {dxsettings set slot5_color $slot5_color}
+   {dxsettings set gem $gem}
+   {dxsettings set smasher $smasher}
+   {dxsettings set lanestex $lanestex}
+   {dxsettings set nogemdividers $nogemdividers}
+   {dxsettings set highwaygtr $highwaygtr}
+   {dxsettings set highwaybass $highwaybass}
+   {dxsettings set highwaydrum $highwaydrum}
+   {dxsettings set streakgtr $streakgtr}
+   {dxsettings set streakbass $streakbass}
+   {dxsettings set streakdrum $streakdrum}
+   {dxsettings set spotlightgtr $spotlightgtr}
+   {dxsettings set spotlightbass $spotlightbass}
+   {dxsettings set spotlightdrum $spotlightdrum}
+   {dxsettings set multiring $multiring}
+   {dxsettings set odbar $odbar}
+   {dxsettings set rails $rails}
+   {dxsettings set flames $flames}
+   {dxsettings set crowdmetertex $crowdmetertex}
+   {dxsettings set scoretex $scoretex}
+   {dxsettings set solobox $solobox}
+   {dxsettings set stars $stars}
+   {dxsettings set font $font}
+   {dxsettings set bretex $bretex}
+   {dxsettings set voxarrow $voxarrow}
+   {dxsettings set voxnotes $voxnotes}
+   {dxsettings set voxod $voxod}
+   {dxsettings set voxhw $voxhw}
+   {dxsettings set anglepreset $anglepreset}
+   {dxsettings set sustains $sustains}
+   {dxsettings set hwalpha $hwalpha}
+   {dxsettings set legacybass $legacybass}
+   {dxsettings set hwstreak $hwstreak}
+   {dxsettings set nohwwarn $nohwwarn}
+   {dxsettings set railwarn $railwarn}
+   {dxsettings set whammyfx $whammyfx}
+   {dxsettings set crowdsfx $crowdsfx}
+   {dxsettings set trkmuting $trkmuting}
+   {dxsettings set mod_nofail {modifier_mgr is_modifier_active mod_nofail}}
+   {dxsettings set mod_doublespeed {modifier_mgr is_modifier_active mod_doublespeed}}
+   {dxsettings set mod_synced_track_speeds {modifier_mgr is_modifier_active mod_synced_track_speeds}}
+   {dxsettings set mod_choose_venue {modifier_mgr is_modifier_active mod_choose_venue}}
+   {dxsettings set mod_nohud {modifier_mgr is_modifier_active mod_nohud}}
+   {dxsettings set mod_unlockall {modifier_mgr is_modifier_active mod_unlockall}}
+   {dxsettings set mod_newvenuesonly {modifier_mgr is_modifier_active mod_newvenuesonly}}
+   {dxsettings set mod_demomode {modifier_mgr is_modifier_active mod_demomode}}
+   {dxsettings set mod_awesome {modifier_mgr is_modifier_active mod_awesome}}
+   {dxsettings set mod_blackvenue {modifier_mgr is_modifier_active mod_blackvenue}}
+   {dxsettings set mod_songtitle {modifier_mgr is_modifier_active mod_songtitle}}
+   {dxsettings set mod_songtitlestats {modifier_mgr is_modifier_active mod_songtitlestats}}
+   {dxsettings set mod_staticfills {modifier_mgr is_modifier_active mod_staticfills}}
+   {dxsettings set mod_mididrum {modifier_mgr is_modifier_active mod_mididrum}}
+   {dxsettings set mod_padguitar {modifier_mgr is_modifier_active mod_padguitar}}
+   {dxsettings set mod_paddrum {modifier_mgr is_modifier_active mod_paddrum}}
+   {dxsettings set mod_noquickrestart {modifier_mgr is_modifier_active mod_noquickrestart}}
+   {dxsettings set mod_vocalgender {modifier_mgr is_modifier_active mod_vocalgender}}
+   {dxsettings set mod_noflames {modifier_mgr is_modifier_active mod_noflames}}
+   {dxsettings set mod_flashbang {modifier_mgr is_modifier_active mod_flashbang}}
+   #ifdef HX_PS3
+   {dxsettings set mod_novsync {modifier_mgr is_modifier_active mod_novsync}}
+   #endif
+   {dxsettings set mod_autokick {modifier_mgr is_modifier_active mod_autokick}}
+   {dxsettings set mod_fakejuke {modifier_mgr is_modifier_active mod_fakejuke}}
+   {dxsettings set dx_postfx $dx_postfx}
+   {dxsettings set dx_noise $dx_noise}
+   {dxsettings set dx_camshake $dx_camshake}
+   {dxsettings set dx_countdown_enabled $dx_countdown_enabled}
+   {dxsettings set smasherbracket $smasherbracket}
+   {dxsettings save_objects #ifdef HX_XBOX "GAME:/dx_settings.milo" #else "GD:/dev_hdd0/game/BLUS30147/USRDIR/dx_settings.milo" #endif}
+)
+
+#define INIT_DTA_READER ;for loading settings saved in the legacy dx.dta file (unused after milo settings is saved)
+(
+   {set $dxsettingsdta {read_file #ifdef HX_XBOX "GAME:/dx.dta" #else "GD:/dev_hdd0/game/BLUS30147/USRDIR/dx.dta" #endif}}
+   {foreach $entry $dxsettingsdta
+      {if {== {elem $entry 0} {basename gem_colors}}
+         {set $slot1_color
+            {elem {find $entry gem_colors} 1}
+         }
+         {set $slot2_color
+            {elem {find $entry gem_colors} 2}
+         }
+         {set $slot3_color
+            {elem {find $entry gem_colors} 3}
+         }
+         {set $slot4_color
+            {elem {find $entry gem_colors} 4}
+         }
+         {set $slot5_color
+            {elem {find $entry gem_colors} 5}
+         }
+      }
+      {if {== {elem $entry 0} {basename no_save_mode}}
+         {set $nosavemode
+            {elem {find $entry no_save_mode} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename track_speed}}
+         {set $trackspeed
+            {elem {find $entry track_speed} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename song_speed}}
+         {set $speedmod
+            {elem {find $entry song_speed} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename emulate_fps}}
+         {set $emulatefps
+            {elem {find $entry emulate_fps} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename gem_texture}}
+         {set $gem
+            {elem {find $entry gem_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename smasher_texture}}
+         {set $smasher
+            {elem {find $entry smasher_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename streak_texture}}
+         {set $streak
+            {elem {find $entry streak_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename spotlight_guitar_texture}}
+         {set $spotlightgtr
+            {elem {find $entry spotlight_guitar_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename spotlight_bass_texture}}
+         {set $spotlightbass
+            {elem {find $entry spotlight_bass_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename spotlight_drums_texture}}
+         {set $spotlightdrum
+            {elem {find $entry spotlight_drums_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename multiring_texture}}
+         {set $multiring
+            {elem {find $entry multiring_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename odbar_texture}}
+         {set $odbar
+            {elem {find $entry odbar_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename rails_texture}}
+         {set $rails
+            {elem {find $entry rails_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename flames_texture}}
+         {set $flames
+            {elem {find $entry flames_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename score_texture}}
+         {set $scoretex
+            {elem {find $entry score_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename voxarrow_texture}}
+         {set $voxarrow
+            {elem {find $entry voxarrow_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename voxnotes_texture}}
+         {set $voxnotes
+            {elem {find $entry voxnotes_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename voxod_texture}}
+         {set $voxod
+            {elem {find $entry voxod_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename voxhw_texture}}
+         {set $voxhw
+            {elem {find $entry voxhw_texture} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename angle_preset}}
+         {set $anglepreset
+            {elem {find $entry angle_preset} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_nofail}}
+         {if {== {elem {find $entry mod_nofail} 1} 1}
+            {modifier_mgr activate_modifier mod_nofail}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_doublespeed}}
+         {if {== {elem {find $entry mod_doublespeed} 1} 1}
+            {modifier_mgr activate_modifier mod_doublespeed}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_nohud}}
+         {if {== {elem {find $entry mod_nohud} 1} 1}
+            {modifier_mgr activate_modifier mod_nohud}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_newvenuesonly}}
+         {if {== {elem {find $entry mod_newvenuesonly} 1} 1}
+            {modifier_mgr activate_modifier mod_newvenuesonly}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_awesome}}
+         {if {== {elem {find $entry mod_awesome} 1} 1}
+            {modifier_mgr activate_modifier mod_awesome}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_blackvenue}}
+         {if {== {elem {find $entry mod_blackvenue} 1} 1}
+            {modifier_mgr activate_modifier mod_blackvenue}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_songtitle}}
+         {if {== {elem {find $entry mod_songtitle} 1} 1}
+            {modifier_mgr activate_modifier mod_songtitle}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_songtitlestats}}
+         {if {== {elem {find $entry mod_songtitlestats} 1} 1}
+            {modifier_mgr activate_modifier mod_songtitlestats}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_staticfills}}
+         {if {== {elem {find $entry mod_staticfills} 1} 1}
+            {modifier_mgr activate_modifier mod_staticfills}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_mididrum}}
+         {if {== {elem {find $entry mod_mididrum} 1} 1}
+            {modifier_mgr activate_modifier mod_mididrum}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_padguitar}}
+         {if {== {elem {find $entry mod_padguitar} 1} 1}
+            {modifier_mgr activate_modifier mod_padguitar}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_paddrum}}
+         {if {== {elem {find $entry mod_paddrum} 1} 1}
+            {modifier_mgr activate_modifier mod_paddrum}
+         }
+      }
+      ; {if {== {elem $entry 0} {basename mod_selectdeploy}}
+      ;    {if {== {elem {find $entry mod_selectdeploy} 1} 1}
+      ;       {modifier_mgr activate_modifier mod_selectdeploy}
+      ;    }
+      ; }
+      {if {== {elem $entry 0} {basename mod_noquickrestart}}
+         {if {== {elem {find $entry mod_noquickrestart} 1} 1}
+            {modifier_mgr activate_modifier mod_noquickrestart}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_vocalgender}}
+         {if {== {elem {find $entry mod_vocalgender} 1} 1}
+            {modifier_mgr activate_modifier mod_vocalgender}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_legacybass}}
+         {if {== {elem {find $entry mod_legacybass} 1} 1}
+            {set $legacybass TRUE}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_nosustain}}
+         {if {== {elem {find $entry mod_nosustain} 1} 1}
+            {set $sustains "_1_none"}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_rb3sustain}}
+         {if {== {elem {find $entry mod_rb3sustain} 1} 1}
+            {set $sustains "rb3"}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_nowhammyfx}}
+         {if {== {elem {find $entry mod_nowhammyfx} 1} 1}
+            {set $whammyfx FALSE}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_gemdivider}}
+         {if {== {elem {find $entry mod_gemdivider} 1} 1}
+            {set $gemdividers TRUE}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_nocrowd}}
+         {if {== {elem {find $entry mod_nocrowd} 1} 1}
+            {set $crowdsfx FALSE}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_nomuting}}
+         {if {== {elem {find $entry mod_nomuting} 1} 1}
+            {set $trkmuting FALSE}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_noflames}}
+         {if {== {elem {find $entry mod_noflames} 1} 1}
+            {modifier_mgr activate_modifier mod_noflames}
+         }
+      }
+      {if {== {elem $entry 0} {basename mod_flashbang}}
+         {if {== {elem {find $entry mod_flashbang} 1} 1}
+            {modifier_mgr activate_modifier mod_flashbang}
+         }
+      }
+      #ifdef HX_PS3
+      {if {== {elem $entry 0} {basename mod_novsync}}
+         {if {== {elem {find $entry mod_novsync} 1} 1}
+            {modifier_mgr activate_modifier mod_novsync}
+            {rnd set_sync 0}
+         }
+      }
+      #endif
+      {if {== {elem $entry 0} {basename debug_mode}}
+         {set $debug_mode
+            {elem {find $entry debug_mode} 1}
+         }
+      }
+      {if {== {elem $entry 0} {basename load_custom_settings}}
+         {set $loadcustomsettings
+            {elem {find $entry load_custom_settings} 1}
+         }
+      }
+   }
+   {set $dxsettingsdta 0}
+)
+
+
 #include ../ui/dx_overshell_macros.dta
 #include ../track/dx_track_macros.dta

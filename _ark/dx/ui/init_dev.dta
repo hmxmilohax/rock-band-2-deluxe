@@ -1,32 +1,19 @@
+{set $leaderspeed $speedmod}
+
 {switch $anglepreset
    ("rb2"
       {set $trackangle FALSE}
    )
    ("rb3"
-      {set $trackangle TRUE}
-      {set $track_pitch -40.5}
-      {set $track_fov 19}
-      {set $track_y_pos -100}
-      {set $track_z_pos 22}
-      {set $track_fade_start 70}
-      {set $track_fade_length 50}
+      SET_RB3_TRACK_ANGLE
    )
    ("rb4"
-      {set $trackangle TRUE}
-      {set $track_pitch -40.15}
-      {set $track_fov 21}
-      {set $track_y_pos -112}
-      {set $track_z_pos 26.25}
-      {set $track_fade_start 130}
-      {set $track_fade_length 15}
+      SET_RB4_TRACK_ANGLE
    )
    ("rr"
-      {set $trackangle TRUE}
-      {set $track_pitch -90}
-      {set $track_fov 19}
-      {set $track_y_pos -165}
-      {set $track_z_pos 36}
-      {set $track_fade_start 15}
-      {set $track_fade_length 45}
+      SET_RR_TRACK_ANGLE
+   )
+   ("fnfestival"
+      SET_FNFESTIVAL_TRACK_ANGLE
    )
 }

@@ -29,7 +29,9 @@
     )
     (lst_reset
       {sel_section.lst set_data OS_MAIN_DATA})
-    (exit)
+    (exit
+        SAVE_DX_SETTINGS
+    )
     (SELECT_MSG
     {switch {$component selected_sym}
          (os_ace

@@ -506,18 +506,20 @@
 #define SET_RR_TRACK_ANGLE
 (
    {set $trackangle TRUE}
-    {set $track_pitch -90}
-    {set $track_fov 19}
-    {set $track_y_pos -165}
-    {set $track_z_pos 36}
-    {set $track_fade_start 15}
-    {set $track_fade_length 45}
-    {set $multioptimized FALSE}
+   {set $anglepreset rr}
+   {set $track_pitch -90}
+   {set $track_fov 19}
+   {set $track_y_pos -165}
+   {set $track_z_pos 36}
+   {set $track_fade_start 15}
+   {set $track_fade_length 45}
+   {set $multioptimized FALSE}
 )
 
 #define SET_RB4_TRACK_ANGLE
 (
    {set $trackangle TRUE}
+   {set $anglepreset rb4}
    {set $track_pitch -40.15}
    {set $track_fov 21}
    {set $track_y_pos -112}
@@ -545,6 +547,7 @@
 #define SET_RB3_TRACK_ANGLE
 (
    {set $trackangle TRUE}
+   {set $anglepreset rb3}
    {set $track_pitch -40.5}
    {set $track_fov 19}
    {set $track_y_pos -100}
@@ -572,6 +575,7 @@
 #define SET_FNFESTIVAL_TRACK_ANGLE
 (
    {set $trackangle TRUE}
+   {set $anglepreset fnfestival}
    {set $track_pitch -43.5}
    {set $track_fov 19}
    {set $track_y_pos -87}
