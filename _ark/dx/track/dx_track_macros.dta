@@ -593,7 +593,7 @@
 
 {unless {== $smasher none} {set $smashercustomtexture TRUE}}
 
-{unless {== $lanestex none} set $lanescustomtexture TRUE}
+{unless {== $lanestex none} {set $lanescustomtexture TRUE}}
 
 {unless {== $highwaygtr _1_none} {set $highwaycustomtexture TRUE}}
 
