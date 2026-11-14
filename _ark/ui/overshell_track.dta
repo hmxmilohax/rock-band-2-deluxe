@@ -91,9 +91,11 @@
          (os_rb2prst
             {if_else $texrunonce
                {do
+                  {set $dx_queue_stock_track_restart TRUE}
                   SET_RB2_TEXTURE_PRESET
                }
                {do 
+                  {set $dx_queue_stock_track_restart TRUE}
                   {set $dx_queue_stock_track TRUE}
                   {if_else $iamingamenow
                      {do
@@ -127,9 +129,11 @@
          (os_rb2dxprst
             {if_else $texrunonce
                {do 
+                  {set $dx_queue_stock_track_restart FALSE}
                   SET_RB2DX_TEXTURE_PRESET
                }
                {do 
+                  {set $dx_queue_stock_track_restart FALSE}
                   {set $dx_queue_stock_track FALSE}
                   {if_else $iamingamenow
                      {do 
@@ -163,9 +167,11 @@
          (os_rb1prst
             {if_else $texrunonce
                {do 
+                  {set $dx_queue_stock_track_restart TRUE}
                   SET_RB1_TEXTURE_PRESET
                }
                {do
+                  {set $dx_queue_stock_track_restart TRUE}
                   {set $dx_queue_stock_track TRUE}
                   SET_RB1_TEXTURE_PRESET
                }
@@ -174,9 +180,11 @@
          (os_rb3prst
             {if_else $texrunonce
                {do 
+                  {set $dx_queue_stock_track_restart FALSE}
                   SET_RB3_TEXTURE_PRESET
                }
                {do 
+                  {set $dx_queue_stock_track_restart FALSE}
                   {set $dx_queue_stock_track FALSE}
                   SET_RB3_TEXTURE_PRESET
                }
@@ -186,9 +194,11 @@
          (os_rb4prst
             {if_else $texrunonce
                {do 
+                  {set $dx_queue_stock_track_restart FALSE}
                   SET_RB4_TEXTURE_PRESET
                }
                {do 
+                  {set $dx_queue_stock_track_restart FALSE}
                   {set $dx_queue_stock_track FALSE}
                   SET_RB4_TEXTURE_PRESET
                }
@@ -198,9 +208,11 @@
          (os_rb4truprst
             {if_else $texrunonce
                {do 
+                  {set $dx_queue_stock_track_restart FALSE}
                   SET_RB4_TRUE_TEXTURE_PRESET
                }
                {do 
+                  {set $dx_queue_stock_track_restart FALSE}
                   {set $dx_queue_stock_track FALSE}
                   SET_RB4_TRUE_TEXTURE_PRESET
                }
@@ -210,9 +222,11 @@
          (os_fnfestivalprst
             {if_else $texrunonce
                {do 
+                  {set $dx_queue_stock_track_restart FALSE}
                   SET_FNFESTIVAL_TEXTURE_PRESET
                }
                {do 
+                  {set $dx_queue_stock_track_restart FALSE}
                   {set $dx_queue_stock_track FALSE}
                   SET_FNFESTIVAL_TEXTURE_PRESET
                }
@@ -222,9 +236,11 @@
          (os_lrbprst
             {if_else $texrunonce
                {do 
+                  {set $dx_queue_stock_track_restart TRUE}
                   SET_LRB_TEXTURE_PRESET
                }
                {do 
+                  {set $dx_queue_stock_track_restart TRUE}
                   {set $dx_queue_stock_track TRUE}
                   SET_LRB_TEXTURE_PRESET
                }
@@ -233,9 +249,11 @@
          (os_tbrbprst
             {if_else $texrunonce
                {do 
+                  {set $dx_queue_stock_track_restart FALSE}
                   SET_TBRB_TEXTURE_PRESET
                }
                {do 
+                  {set $dx_queue_stock_track_restart FALSE}
                   {set $dx_queue_stock_track FALSE}
                   SET_TBRB_TEXTURE_PRESET
                }

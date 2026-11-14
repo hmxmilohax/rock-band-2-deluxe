@@ -123,6 +123,7 @@
    {set $slot3_color {$dxsettings get slot3_color}}
    {set $slot4_color {$dxsettings get slot4_color}}
    {set $slot5_color {$dxsettings get slot5_color}}
+   {set $dx_queue_stock_track {$dxsettings get dx_queue_stock_track}
    {set $gem {$dxsettings get gem}}
    {set $smasher {$dxsettings get smasher}}
    {set $lanestex {$dxsettings get lanestex}}
@@ -205,6 +206,7 @@
    {dxsettings set slot3_color $slot3_color}
    {dxsettings set slot4_color $slot4_color}
    {dxsettings set slot5_color $slot5_color}
+   {dxsettings set dx_queue_stock_track $dx_queue_stock_track_restart}
    {dxsettings set gem $gem}
    {dxsettings set smasher $smasher}
    {dxsettings set lanestex $lanestex}
