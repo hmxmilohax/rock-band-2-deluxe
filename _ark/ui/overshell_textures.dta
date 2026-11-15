@@ -467,6 +467,7 @@
          )
       }
         #ifndef HX_EE
+        {sit_gargoyle.mat set use_environ FALSE}
         {sit_gargoyle.mat set color {pack_color 1 1 1}}
         {sit_gargoyle.mat set prelit TRUE}
         {sit_gargoyle.mat set intensify FALSE}
