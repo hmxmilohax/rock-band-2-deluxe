@@ -131,6 +131,7 @@
    {set $highwaygtr {$dxsettings get highwaygtr}}
    {set $highwaybass {$dxsettings get highwaybass}}
    {set $highwaydrum {$dxsettings get highwaydrum}}
+   {set $hwstrk {$dxsettings get hwstrk}}
    {set $streakgtr {$dxsettings get streakgtr}}
    {set $streakbass {$dxsettings get streakbass}}
    {set $streakdrum {$dxsettings get streakdrum}}
@@ -214,6 +215,7 @@
    {dxsettings set highwaygtr $highwaygtr}
    {dxsettings set highwaybass $highwaybass}
    {dxsettings set highwaydrum $highwaydrum}
+   {dxsettings set hwstrk $hwstrk}
    {dxsettings set streakgtr $streakgtr}
    {dxsettings set streakbass $streakbass}
    {dxsettings set streakdrum $streakdrum}
