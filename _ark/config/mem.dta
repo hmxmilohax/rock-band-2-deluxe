@@ -38,7 +38,7 @@
                (region 1)
             )
             #else
-            (main (size 145000000)) ; dx - 5mb higher than vanilla to match 3dx's total mem allocation
+            (main (size 151000000)) ; dx - 11mb higher than vanilla to match 3dx's total mem allocation
             (server_login (size 100000))
             #endif
          #endif
@@ -47,7 +47,7 @@
 )
 (pool
    #ifndef HX_OG
-   (big_hunk 8000000)
+   (big_hunk 24000000) ;dx - default 8000000
    #else
       #ifdef HX_EE
       (big_hunk 3100000)
