@@ -889,13 +889,13 @@
                {!
                   {song.lst is_scrolling}}}
                {song.lst set_scroll_user $user}
-               {song.lst set_selected_simulate_scroll {- {song.lst selected_pos} 10}}) ; dx scroll the list down by 10 slots when pressing right dpad
+               {song.lst set_selected_simulate_scroll {+ {song.lst selected_pos} 10}}) ; dx scroll the list down by 10 slots when pressing right dpad
          ({&&
                {== $action kAction_Left}
                {!
                   {song.lst is_scrolling}}}
                {song.lst set_scroll_user $user}
-               {song.lst set_selected_simulate_scroll {+ {song.lst selected_pos} 10}}) ; dx scroll the list up by 10 slots when pressing left dpad
+               {song.lst set_selected_simulate_scroll {- {song.lst selected_pos} 10}}) ; dx scroll the list up by 10 slots when pressing left dpad
          ;removed due to crashing
          ;nvm
          (TRUE kDataUnhandled)})
