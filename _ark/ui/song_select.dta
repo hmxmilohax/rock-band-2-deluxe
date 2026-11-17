@@ -565,17 +565,11 @@
                      $action})}}})
    (BUTTON_UP_MSG
       {if_else
-         {'||'
-            {&&
-               {==
-                  groups
-                  [shortcut_mode]}
-               {== $action kAction_Option}}
-            {&&
-               {==
-                  sorts
-                  [shortcut_mode]}
-               {== $action kAction_ViewModify}}}
+         {&&
+            {==
+               groups
+               [shortcut_mode]}
+            {== $action kAction_Option}}
          {$this on_select}
          kDataUnhandled})
    (SELECT_MSG
@@ -806,11 +800,22 @@
                {== $action kAction_ViewModify}
                {!
                   {song.lst is_scrolling}}}
-            {song_offer_provider next_sort}
-            {$this sync_sort_method}
-            {song_offer_provider init_highlight}
-            {$this sync_song}
-            {$this refresh_selected_song})
+            {song_select_details_panel
+               shortcut_enter
+                  sorts}
+            {if
+               {&&
+                  {$this is_user_local}
+                  {!
+                     {song_offer_provider get is_leaderboards}}}
+               {session
+                  send_msg_to_all
+                  {'`'
+                     (song_select_details_panel
+                        shortcut_enter
+                              sorts)}
+                  kNetReliable}}
+            )
          ({== $action kAction_Cancel}
             {if_else
                {song_offer_provider get_setlist_mode}
