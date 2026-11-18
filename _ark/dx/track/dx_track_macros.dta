@@ -493,20 +493,29 @@
    
    {if $railsset
       {{$this find rails.tex} iterate_refs $ref {$ref set intensify {!= $rails "rb2"}}}
+      ;{{$this find rails.tex} iterate_refs $ref {$ref set use_environ FALSE}}
+      {{$this find rails.tex} iterate_refs $ref {$ref set tex_gen kTexGenNone}}
+      ;{{$this find rails.tex} iterate_refs $ref {$ref set tex_wrap kTexWrapMirror}}
       #ifdef HX_EE
       {{$this find smasher_wii.tex} iterate_refs $ref {$ref set intensify {!= $rails "rb2"}}}
       #else
       #ifndef HX_WII
       {{$this find smasher_plate_orange_nomip.tex} iterate_refs $ref {$ref set intensify {!= $rails "rb2"}}}
+      ;{{$this find smasher_plate_orange_nomip.tex} iterate_refs $ref {$ref set tex_wrap kTexBorderWhite}}
+      {{$this find smasher_plate_orange_nomip.tex} iterate_refs $ref {$ref set tex_gen kTexGenNone}}
       #endif
       #endif
       {if {== $rails none}
          {{$this find rails.tex} iterate_refs $ref {$ref set intensify FALSE}}
+         ;{{$this find rails.tex} iterate_refs $ref {$ref set tex_wrap kTexBorderWhite}}
+         {{$this find rails.tex} iterate_refs $ref {$ref set tex_gen kTexGenNone}}
          #ifdef HX_EE
          {{$this find smasher_wii.tex} iterate_refs $ref {$ref set intensify FALSE}}
          #else
          #ifndef HX_WII
          {{$this find smasher_plate_orange_nomip.tex} iterate_refs $ref {$ref set intensify FALSE}}
+         ;{{$this find smasher_plate_orange_nomip.tex} iterate_refs $ref {$ref set tex_wrap kTexBorderWhite}}
+         {{$this find smasher_plate_orange_nomip.tex} iterate_refs $ref {$ref set tex_gen kTexGenNone}}
          #endif
          #endif
       }
